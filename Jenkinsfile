@@ -36,8 +36,10 @@ pipeline {
     }
     post {
         always {
-            // slack(channels: ['#centurylink-dev'], alertPullRequests: false, alertFailures: true, includeChanges: true)
-            echo "Done"
+            slack(channels: ['#centurylink-alerts'], alertPullRequests: false, alertFailures: true, includeChanges: true)
+        }
+        failure {
+            slack(channels: ['#centurylink-dev'], alertPullRequests: false, alertFailures: true, includeChanges: false)
         }
     }
 }
