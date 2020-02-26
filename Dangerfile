@@ -1,4 +1,4 @@
-if bitbucket_cloud.pr_body.length < 5
+if bitbucket_server.pr_body.length < 5
     warn "Please provide a summary in the Pull Request description."
   end
   
