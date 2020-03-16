@@ -57,7 +57,11 @@ pipeline {
     }
     post {
         always {
-            slack(channels: ['#centurylink-alerts'], alertPullRequests: false, alertFailures: true, includeChanges: true)
+            script {
+                def slackMessage = slack.defaultMessage()
+                slackMessage += " - <https://build.intrepid.digital.accenture.com/job/Centurylink/job/centurylink-android/job/master/htmlreports/Documentation|Documentation>"
+                slack(channels: ['#centurylink-alerts'], alertPullRequests: false, alertFailures: true, includeChanges: true, message: slackMessage)
+            }
         }
         failure {
             slack(channels: ['#centurylink-dev'], alertPullRequests: false, alertFailures: true, includeChanges: false)
