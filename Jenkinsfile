@@ -59,7 +59,7 @@ pipeline {
         always {
             script {
                 def slackMessage = slack.defaultMessage()
-                slackMessage += " - <https://build.intrepid.digital.accenture.com/job/Centurylink/job/centurylink-android/job/master/htmlreports/Documentation|Documentation>"
+                slackMessage += " - <https://build.intrepid.digital.accenture.com/job/Centurylink/job/centurylink-android/job/master/Documentation|Documentation>"
                 slack(channels: ['#centurylink-alerts'], alertPullRequests: false, alertFailures: true, includeChanges: true, message: slackMessage)
             }
         }
