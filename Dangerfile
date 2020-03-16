@@ -4,7 +4,7 @@ if bitbucket_server.pr_body.length < 5
   
   android_lint.severity = "Error"
   android_lint.skip_gradle_task = true
-  Dir["*/build/reports/lint-results.xml"].each do |file|
+  Dir["app/build/reports/lint-results.xml"].each do |file|
     android_lint.report_file = file
     android_lint.lint
   end
