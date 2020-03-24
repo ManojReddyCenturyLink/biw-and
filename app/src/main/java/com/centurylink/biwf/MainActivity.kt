@@ -1,10 +1,11 @@
 package com.centurylink.biwf
 
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
+import com.centurylink.biwf.ui.activity.BaseActivity
 import com.centurylink.biwf.ui.main.MainFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -15,5 +16,4 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
         }
     }
-
 }
