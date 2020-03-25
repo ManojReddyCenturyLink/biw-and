@@ -2,7 +2,7 @@ package com.centurylink.biwf.di
 
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.MainActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.MainFragmentInjectorModule
 import dagger.BindsInstance
@@ -15,7 +15,7 @@ import javax.inject.Singleton
     modules = [
         (AndroidSupportInjectionModule::class),
         (BaseActivityInjectorModule::class),
-        (MainActivityInjectorModule::class),
+        (LoginActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (MainFragmentInjectorModule::class)
     ]

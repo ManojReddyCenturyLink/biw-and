@@ -1,11 +1,12 @@
 package com.centurylink.biwf.di.activityinjector
 
 import com.centurylink.biwf.base.BaseActivity
+import com.centurylink.biwf.screens.login.LoginActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class BaseActivityInjectorModule {
+abstract class LoginActivityInjectorModule {
     @ContributesAndroidInjector
-    abstract fun contributeBaseActivityInjector(): BaseActivity
+    abstract fun contributeLoginActivityInjector(): LoginActivity
 }

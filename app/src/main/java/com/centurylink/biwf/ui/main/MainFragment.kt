@@ -2,12 +2,12 @@ package com.centurylink.biwf.ui.main
 
 import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.centurylink.biwf.R
-import com.centurylink.biwf.ui.fragment.BaseFragment
+import com.centurylink.biwf.base.BaseFragment
+import com.centurylink.biwf.base.BaseViewModel
 import dagger.android.support.AndroidSupportInjection
 
 class MainFragment : BaseFragment() {
@@ -16,7 +16,7 @@ class MainFragment : BaseFragment() {
         fun newInstance() = MainFragment()
     }
 
-    private lateinit var viewModel: MainViewModel
+    private lateinit var viewModel: BaseViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class MainFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProviders.of(this).get(BaseViewModel::class.java)
         // TODO: Use the ViewModel
     }
 }

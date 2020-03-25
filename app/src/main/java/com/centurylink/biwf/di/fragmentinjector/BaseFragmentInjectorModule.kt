@@ -1,6 +1,6 @@
 package com.centurylink.biwf.di.fragmentinjector
 
-import com.centurylink.biwf.ui.fragment.BaseFragment
+import com.centurylink.biwf.base.BaseFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

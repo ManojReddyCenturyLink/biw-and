@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.login.LoginActivity"
+    >
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/login_horizontal_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".5"
+        />
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/grey"
+        app:layout_constraintBottom_toTopOf="@id/login_horizontal_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <ImageView
+        android:id="@+id/login_welcome_image"
+        android:layout_width="67dp"
+        android:layout_height="67dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/background_rounded_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:text="Welcome"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/large_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="@id/login_welcome_image"
+        app:layout_constraintStart_toStartOf="@id/login_welcome_image"
+        app:layout_constraintTop_toBottomOf="@id/login_welcome_image"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/login_cardview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        app:cardCornerRadius="12dp"
+        app:layout_constraintBottom_toBottomOf="@id/login_horizontal_guideline"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/login_horizontal_guideline"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <TextView
+                android:id="@+id/login_card_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:text="@string/login_card_title"
+                android:textColor="@android:color/black"
+                android:textSize="@dimen/medium_title_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/login_email_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:text="@string/email"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_card_title"
+                />
+
+            <EditText
+                android:id="@+id/login_email_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                android:background="@drawable/background_thin_border"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:inputType="textEmailAddress"
+                android:padding="@dimen/margin_spacing_tiny"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_email_label"
+                tools:text="espiiking@gmail.com"
+                />
+
+            <TextView
+                android:id="@+id/login_password_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginTop="@dimen/margin_spacing_really_small"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:text="@string/password"
+                android:textSize="14sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_email_input"
+                />
+
+            <EditText
+                android:id="@+id/login_password_input"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                android:background="@drawable/background_thin_border"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:inputType="textPassword"
+                android:padding="@dimen/margin_spacing_tiny"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_password_label"
+                tools:text="espiiking@gmail.com"
+                />
+
+            <Button
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                android:background="@drawable/background_rounded_button_background"
+                android:text="@string/log_in"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_password_input"
+                />
+
+            <TextView
+                android:id="@+id/login_remember_me_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:text="Remember Me"
+                android:textColor="@android:color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_button"
+                />
+
+            <CheckBox
+                android:id="@+id/login_remember_me_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_spacing_tiny"
+                android:elevation="@dimen/above_cardview_elevation"
+                app:layout_constraintBottom_toBottomOf="@id/login_remember_me_text"
+                app:layout_constraintEnd_toStartOf="@id/login_remember_me_text"
+                app:layout_constraintTop_toTopOf="@id/login_remember_me_text"
+                />
+
+            <TextView
+                android:id="@+id/login_forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:layout_marginBottom="@dimen/medium_margin_spacing"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:text="@string/forgot_password"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/login_remember_me_text"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/login_interest_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_large"
+        android:text="@string/interested_in_fiber"
+        android:textColor="@android:color/black"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_cardview"
+        />
+
+    <TextView
+        android:id="@+id/login_learn_more"
+        android:layout_width="0dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/background_thin_border"
+        android:gravity="center"
+        android:text="Learn More"
+        android:textColor="@color/grey_darker"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_interest_textview"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
