@@ -3,13 +3,13 @@ package com.centurylink.biwf.screens.login
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.utility.MyObservable
+import com.centurylink.biwf.utility.ObservableData
 
 class LoginViewModel(
     private val accountRepository: AccountRepository
 ) : BaseViewModel() {
 
-    val myState = MyObservable(LoginCoordinatorDestinations.LOGIN)
+    val myState = ObservableData(LoginCoordinatorDestinations.LOGIN)
 
     private var userEmail = ""
     private var userPassword = ""

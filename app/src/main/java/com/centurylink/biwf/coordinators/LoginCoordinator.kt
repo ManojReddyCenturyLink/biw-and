@@ -1,6 +1,6 @@
 package com.centurylink.biwf.coordinators
 
-import com.centurylink.biwf.utility.MyObservable
+import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,7 +10,7 @@ class LoginCoordinator @Inject constructor() {
     @Inject
     lateinit var navigator: Navigator
 
-    fun observeThis(screenState: MyObservable<LoginCoordinatorDestinations>) {
+    fun observeThis(screenState: ObservableData<LoginCoordinatorDestinations>) {
         screenState.observable.subscribe {
             navigateTo(it)
         }
