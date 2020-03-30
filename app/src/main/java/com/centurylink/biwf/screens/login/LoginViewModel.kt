@@ -1,8 +1,15 @@
 package com.centurylink.biwf.screens.login
 
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
+import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.utility.MyObservable
 
-class LoginViewModel : BaseViewModel() {
+class LoginViewModel(
+    private val accountRepository: AccountRepository
+) : BaseViewModel() {
+
+    val myState = MyObservable(LoginCoordinatorDestinations.LOGIN)
 
     private var userEmail = ""
     private var userPassword = ""
@@ -21,14 +28,21 @@ class LoginViewModel : BaseViewModel() {
     }
 
     fun onLoginClicked() {
-        //todo pass user's email and password to Account Repository
+        if (checkForValidFields()) {
+            accountRepository.login(email = userEmail, password = userPassword, rememberMeFlag = rememberMe)
+            myState.value = LoginCoordinatorDestinations.HOME
+        }
     }
 
     fun onForgotPasswordClicked() {
-        //todo navigate to forgot password
+        myState.value = LoginCoordinatorDestinations.FORGOT_PASSWORD
     }
 
     fun onLearnMoreClicked() {
-        //todo navigate to learn more page
+        myState.value = LoginCoordinatorDestinations.LEARN_MORE
+    }
+
+    private fun checkForValidFields(): Boolean {
+        return true
     }
 }

@@ -3,12 +3,17 @@ package com.centurylink.biwf.screens.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.lifecycle.ViewModelProviders
+import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
+import com.centurylink.biwf.coordinators.LoginCoordinator
 import com.centurylink.biwf.databinding.ActivityLoginBinding
+import com.centurylink.biwf.repos.AccountRepositoryImpl
+import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
 
+    @Inject
+    lateinit var loginCoordinator: LoginCoordinator
     private lateinit var binding: ActivityLoginBinding
     private lateinit var viewModel: LoginViewModel
 
@@ -16,16 +21,25 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
+
+        viewModel = LoginViewModel(AccountRepositoryImpl())
+        loginCoordinator.navigator.activity = this
+        loginCoordinator.observeThis(viewModel.myState)
 
         initTextChangeListeners()
         initOnClicks()
+    }
 
-        viewModel = ViewModelProviders.of(this).get(LoginViewModel::class.java)
+    override fun onDestroy() {
+        super.onDestroy()
+        loginCoordinator.navigator.activity = null
     }
 
     private fun initOnClicks() {
         binding.loginButton.setOnClickListener { viewModel.onLoginClicked() }
         binding.loginForgotPassword.setOnClickListener { viewModel.onForgotPasswordClicked() }
+        binding.loginLearnMore.setOnClickListener { viewModel.onLearnMoreClicked() }
         binding.loginRememberMeCheckbox.setOnCheckedChangeListener { _, boolean ->
             viewModel.onRememberMeCheckChanged(boolean)
         }
@@ -59,5 +73,4 @@ class LoginActivity : BaseActivity() {
             }
         })
     }
-
 }

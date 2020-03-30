@@ -13,15 +13,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".screens.login.LoginActivity"
-            android:screenOrientation="portrait">
+        <activity android:name=".screens.forgotpassword.ForgotPasswordActivity"></activity>
+        <activity android:name=".screens.home.HomeActivity"/>
+        <activity android:name=".screens.learnmore.LearnMoreActivity"/>
+        <activity
+            android:name=".screens.login.LoginActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"/>
     </application>
 
 </manifest>

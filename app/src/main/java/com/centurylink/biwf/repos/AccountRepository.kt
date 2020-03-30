@@ -1,15 +1,13 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
+interface AccountRepository {
 
-interface AccountRepository{
-
-    fun login(email: String, password: String) : Any
+    fun login(email: String, password: String, rememberMeFlag: Boolean): Any
 }
 
-class AccountRepositoryImpl():AccountRepository {
-    override fun login(email: String, password: String): Any {
-         Log.d("Findo","user email is : $email and password is : $password")
+class AccountRepositoryImpl() : AccountRepository {
+
+    override fun login(email: String, password: String, rememberMeFlag: Boolean): Any {
         return true
     }
 }
