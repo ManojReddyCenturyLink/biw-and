@@ -1,19 +1,23 @@
 package com.centurylink.biwf.screens.login
 
+import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.ObservableData
 
 class LoginViewModel(
     private val accountRepository: AccountRepository
 ) : BaseViewModel() {
 
+    private var userEmail: String? = null
+    private var userPassword: String? = null
+    private var rememberMe = false
+
     val myState = ObservableData(LoginCoordinatorDestinations.LOGIN)
 
-    private var userEmail = ""
-    private var userPassword = ""
-    private var rememberMe = false
+    val errorEvents: EventLiveData<String> = MutableLiveData()
 
     fun onEmailTextChanged(email: String) {
         userEmail = email
@@ -29,8 +33,10 @@ class LoginViewModel(
 
     fun onLoginClicked() {
         if (checkForValidFields()) {
-            accountRepository.login(email = userEmail, password = userPassword, rememberMeFlag = rememberMe)
+            accountRepository.login(email = userEmail!!, password = userPassword!!, rememberMeFlag = rememberMe)
             myState.value = LoginCoordinatorDestinations.HOME
+        } else {
+            errorEvents.emit("Please give Email and / or Password")
         }
     }
 
@@ -43,6 +49,6 @@ class LoginViewModel(
     }
 
     private fun checkForValidFields(): Boolean {
-        return true
+        return !(userEmail.isNullOrBlank() || userPassword.isNullOrBlank())
     }
 }

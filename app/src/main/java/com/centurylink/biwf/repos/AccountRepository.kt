@@ -7,7 +7,7 @@ interface AccountRepository {
 
 class AccountRepositoryImpl() : AccountRepository {
 
-    override fun login(email: String, password: String, rememberMeFlag: Boolean): Any {
+    override fun login(email: String, password: String, rememberMeFlag: Boolean): Boolean {
         return true
     }
 }

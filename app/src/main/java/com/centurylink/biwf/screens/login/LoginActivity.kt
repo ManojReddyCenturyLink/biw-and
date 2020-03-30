@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Toast
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
@@ -24,6 +25,10 @@ class LoginActivity : BaseActivity() {
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
 
         viewModel = LoginViewModel(AccountRepositoryImpl())
+        viewModel.apply {
+            errorEvents.handleEvent { displayToast(it) }
+        }
+
         loginCoordinator.navigator.activity = this
         loginCoordinator.observeThis(viewModel.myState)
 
@@ -34,6 +39,10 @@ class LoginActivity : BaseActivity() {
     override fun onDestroy() {
         super.onDestroy()
         loginCoordinator.navigator.activity = null
+    }
+
+    private fun displayToast(erroMessage: String) {
+        Toast.makeText(this, erroMessage, Toast.LENGTH_SHORT).show()
     }
 
     private fun initOnClicks() {
