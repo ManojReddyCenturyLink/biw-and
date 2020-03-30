@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">BiWF</string>
+
+    <string name="tittle_text_devices">Devices</string>
+    <string name="tittle_text_dashboard">Dashboard</string>
+    <string name="tittle_text_account">Account</string>
+    <string name="notification">Notification</string>
+
 </resources>

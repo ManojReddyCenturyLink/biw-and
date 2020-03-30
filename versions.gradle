@@ -1,0 +1,44 @@
+ext {
+    // Kotlin versions
+    kotlinVersion = '1.3.50'
+    androidxCoreVersion = '1.2.0'
+
+    //Build and App component dependencies
+    androidxAppCompatVersion = '1.1.0'
+    androidxMultidexVersion = '2.0.1'
+    androidxConstraintLayoutVersion = '1.1.3'
+    androidxLifecycleVersion = '2.2.0'
+    androidKtxVersion = '2.2.0'
+
+    //Dagger version
+    daggerVersion = '2.27'
+    assistedInjectVersion = '0.5.0'
+
+    //viewpager
+    viewpager2Version = "1.0.0"
+
+    //Google Material components version
+    materialComponentsVersion = '1.1.0-alpha09'
+    materialVersion = '1.1.0'
+
+    //Gson version
+    gsonVersion = '2.8.6'
+
+    //reactivex
+    rxBindingVersion = '3.0.0'
+
+    //parceler
+    parcelerVersion = '1.1.12'
+
+    //Networking dependencies
+    retroFit2Version = '2.7.2'
+
+    //timber
+    timberVersion = "4.7.1"
+
+    //Test Dependencies
+    jUnitVersion = '4.12'
+    testRunnerVersion = '1.1.1'
+    espressoCoreVersion = '3.2.0'
+
+}

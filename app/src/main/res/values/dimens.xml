@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="padding_0">0dp</dimen>
+    <dimen name="text_size_10">10sp</dimen>
+    <dimen name="spacing_12">12dp</dimen>
+    <dimen name="height_20">20dp</dimen>
+    <dimen name="spacing_16">16dp</dimen>
+    <dimen name="spacing_14_">-14dp</dimen>
+    <dimen name="height_28">28dp</dimen>
+    <dimen name="spacing_3">3dp</dimen>
+</resources>
