@@ -17,6 +17,9 @@ ext {
     //viewpager
     viewpager2Version = "1.0.0"
 
+    //cardview
+    cardviewVersion = '1.0.0'
+
     //Google Material components version
     materialComponentsVersion = '1.1.0-alpha09'
     materialVersion = '1.1.0'
@@ -25,7 +28,7 @@ ext {
     gsonVersion = '2.8.6'
 
     //reactivex
-    rxBindingVersion = '3.0.0'
+    rxJavaVersion = '3.0.0'
 
     //parceler
     parcelerVersion = '1.1.12'
@@ -40,5 +43,8 @@ ext {
     jUnitVersion = '4.12'
     testRunnerVersion = '1.1.1'
     espressoCoreVersion = '3.2.0'
-
+    kluentVersion = '1.56'
+    archCoreTestingVersion = '2.1.0'
+    mockKVersion = '1.9.3'
+    mockitoVersion = '2.1.0'
 }
