@@ -34,6 +34,5 @@ open class BIWFApp : MultiDexApplication(), HasAndroidInjector {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
-        Log.i("Debug", "attachBaseContext...")
     }
 }

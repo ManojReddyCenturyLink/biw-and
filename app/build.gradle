@@ -12,6 +12,10 @@ android {
     viewBinding {
         enabled = true
     }
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {

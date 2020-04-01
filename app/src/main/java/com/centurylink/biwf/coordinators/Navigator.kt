@@ -4,6 +4,7 @@ import android.app.Activity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
+import com.centurylink.biwf.screens.support.SupportActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,5 +23,9 @@ class Navigator @Inject constructor() {
 
     fun navigateToHomeScreen() {
         activity?.startActivity(HomeActivity.newIntent(activity!!))
+    }
+
+    fun navigateToSupport() {
+        activity?.startActivity(SupportActivity.newIntent(activity!!))
     }
 }
