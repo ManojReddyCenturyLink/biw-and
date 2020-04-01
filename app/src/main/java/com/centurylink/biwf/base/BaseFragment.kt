@@ -1,4 +1,4 @@
-package com.centurylink.biwf.ui.fragment
+package com.centurylink.biwf.base
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
