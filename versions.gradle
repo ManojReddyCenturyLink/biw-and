@@ -20,6 +20,15 @@ ext {
     //cardview
     cardviewVersion = '1.0.0'
 
+    //RecyclerView
+    recyclerViewVersion='1.1.0'
+
+    //okhttp interceptor
+    logginginterceptor = '4.4.0'
+
+    //life cycle ext version
+    lifecycleextversion='2.0.0'
+
     //Google Material components version
     materialComponentsVersion = '1.1.0-alpha09'
     materialVersion = '1.1.0'

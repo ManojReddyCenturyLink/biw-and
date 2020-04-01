@@ -46,7 +46,10 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleextversion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleextversion"
     implementation "androidx.multidex:multidex:$androidxMultidexVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
 
     // Cardview Dependency
     implementation "androidx.cardview:cardview:$cardviewVersion"
@@ -79,6 +82,8 @@ dependencies {
 
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retroFit2Version"
+    implementation "com.squareup.retrofit2:converter-gson:$retroFit2Version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logginginterceptor"
 
     //timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
