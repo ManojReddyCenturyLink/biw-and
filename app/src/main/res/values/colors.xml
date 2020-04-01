@@ -6,4 +6,10 @@
     <color name="white">@android:color/white</color>
     <color name="grey">#CCCCCC</color>
     <color name="grey_darker">#545454</color>
+    <color name="main_background">@color/white</color>
+
+    <color name="notification_unread_bg">#D3D3D3</color>
+    <color name="font_color_white">#ffff</color>
+
+
 </resources>

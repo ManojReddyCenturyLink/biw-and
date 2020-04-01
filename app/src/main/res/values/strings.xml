@@ -6,4 +6,5 @@
     <string name="log_in">Log In</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
+    <string name="notification_details">Notification Details</string>
 </resources>

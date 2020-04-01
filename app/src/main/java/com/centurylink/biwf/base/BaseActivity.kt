@@ -1,6 +1,8 @@
 package com.centurylink.biwf.base
 
 import android.os.Bundle
+import android.util.DisplayMetrics
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import com.centurylink.biwf.utility.LiveDataObserver
@@ -16,5 +18,21 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+    }
+
+     fun setHeightofActivity(){
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        val displayWidth = displayMetrics.widthPixels
+        val displayHeight = displayMetrics.heightPixels
+        val layoutParams = WindowManager.LayoutParams()
+        layoutParams.copyFrom(getWindow().getAttributes())
+
+        val dialogWindowWidth = (displayWidth * 1f).toInt()
+        // Set alert dialog height equal to screen height 90%
+        val dialogWindowHeight = (displayHeight * 0.98f).toInt()
+        layoutParams.width = dialogWindowWidth
+        layoutParams.height = dialogWindowHeight
+        getWindow().setAttributes(layoutParams)
     }
 }
