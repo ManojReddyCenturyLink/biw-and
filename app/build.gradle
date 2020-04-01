@@ -12,6 +12,10 @@ android {
     viewBinding {
         enabled = true
     }
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
@@ -28,10 +32,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    dataBinding {
-        enabled = true
-        enabledForTests = true
-    }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -54,6 +55,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:${viewpager2Version}"
     implementation "com.google.android.material:material:${materialComponentsVersion}"
     implementation "androidx.appcompat:appcompat:${androidxAppCompatVersion}"
+    implementation "androidx.recyclerview:recyclerview:${recyclerview}"
 
     // Cardview Dependency
     implementation "androidx.cardview:cardview:$cardviewVersion"

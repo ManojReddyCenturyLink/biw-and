@@ -2,8 +2,8 @@ package com.centurylink.biwf.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.ui.viewmodel.factory.DaggerViewModelFactory
-import com.centurylink.biwf.ui.viewmodel.MainViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -24,7 +24,7 @@ annotation class ViewModelKey(val value: KClass<out ViewModel>)
 abstract class ViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindMainViewModel(mainViewModel: MainViewModel): ViewModel
+    @ViewModelKey(HomeViewModel::class)
+    abstract fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
 
 }
