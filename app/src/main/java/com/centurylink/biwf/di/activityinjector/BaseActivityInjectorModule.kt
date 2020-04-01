@@ -1,6 +1,6 @@
 package com.centurylink.biwf.di.activityinjector
 
-import com.centurylink.biwf.ui.activity.BaseActivity
+import com.centurylink.biwf.base.BaseActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

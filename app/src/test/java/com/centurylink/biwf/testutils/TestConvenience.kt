@@ -1,0 +1,17 @@
+package com.centurylink.biwf.testutils
+
+import com.centurylink.biwf.utility.EventLiveData
+import org.amshove.kluent.shouldNotBeNull
+
+inline fun <T> T.assert(assertion: (T) -> Unit) {
+    assertion(this)
+}
+
+inline fun <T : Any> T?.nonNullAssert(assertion: (T) -> Unit) {
+    this.shouldNotBeNull()
+    assertion(this)
+}
+
+fun <T> EventLiveData<T>.event(): T? {
+    return value?.peekContent()
+}
