@@ -1,7 +1,6 @@
 package com.centurylink.biwf
 
 import android.content.Context
-import android.util.Log
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.centurylink.biwf.coordinators.Navigator
@@ -34,5 +33,8 @@ open class BIWFApp : MultiDexApplication(), HasAndroidInjector {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         MultiDex.install(this)
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 }
