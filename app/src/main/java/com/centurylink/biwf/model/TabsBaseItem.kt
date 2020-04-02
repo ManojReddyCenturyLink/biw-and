@@ -1,4 +1,4 @@
-package com.centurylink.biwf.ui.model
+package com.centurylink.biwf.model
 
 import androidx.annotation.StringRes
 
@@ -26,5 +26,4 @@ open class TabsBaseItem (val indextype: Int, @StringRes val titleRes: Int){
 
         return true
     }
-
 }

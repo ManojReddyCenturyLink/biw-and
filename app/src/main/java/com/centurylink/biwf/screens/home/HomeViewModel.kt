@@ -3,7 +3,7 @@ package com.centurylink.biwf.screens.home
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
-import com.centurylink.biwf.ui.model.TabsBaseItem
+import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
@@ -28,7 +28,6 @@ class HomeViewModel @Inject constructor(
         list.add(TabsBaseItem(indextype = TabsBaseItem.ACCOUNT, titleRes = R.string.tittle_text_account))
 
         return list
-
     }
 
     fun loadData() {
@@ -48,6 +47,4 @@ class HomeViewModel @Inject constructor(
     private fun loadAccountsData() {
         //Load data here
     }
-
-
 }

@@ -25,7 +25,6 @@ class HomeCoordinator @Inject constructor() {
     private fun navigateToHomeScreen() {
         // Do Nothing
     }
-
 }
 
 enum class HomeCoordinatorDestinations {

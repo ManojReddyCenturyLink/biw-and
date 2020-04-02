@@ -1,4 +1,4 @@
-package com.centurylink.biwf.ui.adapter
+package com.centurylink.biwf.screens.home
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,11 +12,13 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.databinding.LayoutAccountBinding
 import com.centurylink.biwf.databinding.LayoutDashboardBinding
 import com.centurylink.biwf.databinding.LayoutDevicesBinding
-import com.centurylink.biwf.ui.model.TabsBaseItem
+import com.centurylink.biwf.model.TabsBaseItem
 
 @Suppress("UNCHECKED_CAST")
 class TabsPagerRecyclerAdapter(private val mContext: Context) :
-    ListAdapter<TabsBaseItem, TabsPagerRecyclerAdapter.BaseViewHolder>(TabAdapterDiffUtil()) {
+    ListAdapter<TabsBaseItem, TabsPagerRecyclerAdapter.BaseViewHolder>(
+        TabAdapterDiffUtil()
+    ) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
 
@@ -30,11 +32,10 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
                     parent,
                     false
                 )
-
                 DevicesViewHolder(binding)
-
             }
             TabsBaseItem.DASHBOARD -> {
+
                 val binding = DataBindingUtil.inflate<LayoutDashboardBinding>(
                     LayoutInflater.from(parent.context),
                     R.layout.layout_dashboard,
@@ -42,10 +43,9 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
                     false
                 )
                 DashboardViewHolder(binding)
-
             }
-
             TabsBaseItem.ACCOUNT -> {
+
                 val binding = DataBindingUtil.inflate<LayoutAccountBinding>(
                     LayoutInflater.from(parent.context),
                     R.layout.layout_account,
@@ -53,23 +53,19 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
                     false
                 )
                 AccountViewHolder(binding)
-
             }
 
             else -> {
+
                 val binding = DataBindingUtil.inflate<LayoutDashboardBinding>(
                     LayoutInflater.from(parent.context),
                     R.layout.layout_dashboard,
                     parent,
                     false
                 )
-
                 DashboardViewHolder(binding)
-
             }
-
         }
-
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
@@ -79,26 +75,19 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
             TabsBaseItem.DEVICES -> {
                 holder as DevicesViewHolder
             }
-
             TabsBaseItem.DASHBOARD -> {
                 holder as DashboardViewHolder
-
             }
-
             TabsBaseItem.ACCOUNT -> {
-
                 holder as AccountViewHolder
             }
-
             else -> {
                 holder as DashboardViewHolder
             }
         }
-
     }
 
     override fun getItemViewType(position: Int): Int {
-
         val item = getItem(position)
         return item.indextype
     }
@@ -109,25 +98,21 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
 
     open inner class BaseViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
-
     inner class DevicesViewHolder(private val binding: LayoutDevicesBinding) : BaseViewHolder(binding.root),
         View.OnClickListener {
         override fun onClick(v: View?) {
-
         }
     }
 
     inner class DashboardViewHolder(private val binding: LayoutDashboardBinding) :
         BaseViewHolder(binding.root), View.OnClickListener {
         override fun onClick(v: View?) {
-
         }
     }
 
     inner class AccountViewHolder(private val binding: LayoutAccountBinding) : BaseViewHolder(binding.root),
         View.OnClickListener {
         override fun onClick(v: View?) {
-
         }
     }
 
@@ -139,7 +124,5 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
         override fun areContentsTheSame(oldItem: TabsBaseItem, newItem: TabsBaseItem): Boolean {
             TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
         }
-
-
     }
 }

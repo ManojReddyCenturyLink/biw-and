@@ -3,7 +3,7 @@ package com.centurylink.biwf.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
-import com.centurylink.biwf.ui.viewmodel.factory.DaggerViewModelFactory
+import com.centurylink.biwf.di.viewModelFactory.DaggerViewModelFactory
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -26,5 +26,4 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     abstract fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
-
 }
