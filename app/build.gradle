@@ -40,7 +40,7 @@ android {
         enabled = true
         enabledForTests = true
     }
-    
+
     testOptions {
         unitTests.returnDefaultValues = true
     }
@@ -54,6 +54,10 @@ dependencies {
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
     implementation "androidx.multidex:multidex:$androidxMultidexVersion"
+    implementation "androidx.viewpager2:viewpager2:${viewpager2Version}"
+    implementation "com.google.android.material:material:${materialComponentsVersion}"
+    implementation "androidx.appcompat:appcompat:${androidxAppCompatVersion}"
+    implementation "androidx.recyclerview:recyclerview:${recyclerview}"
 
     // Cardview Dependency
     implementation "androidx.cardview:cardview:$cardviewVersion"
