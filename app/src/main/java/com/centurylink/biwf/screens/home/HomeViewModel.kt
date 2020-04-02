@@ -13,5 +13,4 @@ class HomeViewModel(
     fun onSupportClicked() {
         myState.value = HomeCoordinatorDestinations.SUPPORT
     }
-
 }

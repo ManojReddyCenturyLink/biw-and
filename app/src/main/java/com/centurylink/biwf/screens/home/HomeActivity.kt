@@ -11,14 +11,13 @@ import javax.inject.Inject
 
 class HomeActivity : AppCompatActivity() {
 
+    companion object {
+        fun newIntent(context: Context) = Intent(context, HomeActivity::class.java)
+    }
     @Inject
     lateinit var homeCoordinator: HomeCoordinator
     private lateinit var binding: ActivityHomeBinding
     private lateinit var viewModel: HomeViewModel
-    companion object {
-
-        fun newIntent(context: Context) = Intent(context, HomeActivity::class.java)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +42,5 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initOnClicks() {
        binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
-
     }
 }

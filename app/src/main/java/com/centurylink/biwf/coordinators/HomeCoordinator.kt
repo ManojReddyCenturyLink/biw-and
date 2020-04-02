@@ -30,7 +30,6 @@ class HomeCoordinator @Inject constructor() {
     private fun navigateToSupport() {
         navigator.navigateToSupport()
     }
-
 }
 
 enum class HomeCoordinatorDestinations {

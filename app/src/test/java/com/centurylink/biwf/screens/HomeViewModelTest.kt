@@ -19,6 +19,6 @@ class HomeViewModelTest : ViewModelBaseTest() {
     @Test
     fun onSupportClicked_navigateToSupportScreen() {
         viewModel.onSupportClicked()
-        Assert.assertEquals("Launch Support Screen", HomeCoordinatorDestinations.SUPPORT, viewModel.myState.value)
+        Assert.assertEquals("Support Screen wasn't Launched", HomeCoordinatorDestinations.SUPPORT, viewModel.myState.value)
     }
 }
