@@ -49,7 +49,6 @@ class CustomWebFragment : BaseFragment() {
         }
         binding = FragmentWebviewBinding.inflate(layoutInflater)
         return binding.root
-        context
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

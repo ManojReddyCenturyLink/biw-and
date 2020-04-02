@@ -9,7 +9,7 @@ import com.centurylink.biwf.utility.LiveDataObserver
 import dagger.android.AndroidInjection
 
 /**
- * Base class for holding common functionalities that will be used across screens.
+ * Base class for holding common functionality that will be used across screens.
  */
 abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
 
