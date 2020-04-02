@@ -30,6 +30,10 @@ class HomeViewModel @Inject constructor(
         return list
     }
 
+    fun onSupportClicked() {
+        myState.value = HomeCoordinatorDestinations.SUPPORT
+    }
+
     fun loadData() {
         loadAccountsData()
         loadDevicesData()
@@ -48,3 +52,4 @@ class HomeViewModel @Inject constructor(
         //Load data here
     }
 }
+

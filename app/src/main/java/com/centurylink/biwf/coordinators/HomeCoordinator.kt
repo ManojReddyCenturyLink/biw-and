@@ -19,14 +19,19 @@ class HomeCoordinator @Inject constructor() {
     private fun navigateTo(destinations: HomeCoordinatorDestinations) {
         when (destinations) {
             HomeCoordinatorDestinations.HOME -> navigateToHomeScreen()
+            HomeCoordinatorDestinations.SUPPORT -> navigateToSupport()
         }
     }
 
     private fun navigateToHomeScreen() {
         // Do Nothing
     }
+
+    private fun navigateToSupport() {
+        navigator.navigateToSupport()
+    }
 }
 
 enum class HomeCoordinatorDestinations {
-    HOME
+    HOME, SUPPORT
 }

@@ -18,6 +18,7 @@ class HomeActivity : AppCompatActivity() {
     companion object {
         fun newIntent(context: Context) = Intent(context, HomeActivity::class.java)
     }
+
     @Inject
     lateinit var homeCoordinator: HomeCoordinator
     @Inject
@@ -32,7 +33,6 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
@@ -42,13 +42,20 @@ class HomeActivity : AppCompatActivity() {
         homeCoordinator.navigator.activity = this
         homeCoordinator.observeThis(viewModel.myState)
 
+        initOnClicks()
+    }
+
+    private fun initOnClicks() {
+        binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
+        homeCoordinator.navigator.activity = this
+        homeCoordinator.observeThis(viewModel.myState)
         setupTabsViewPager()
     }
 
     private fun setupTabsViewPager() {
 
-        binding.vpDashboard.adapter =adapter
-       //For future reference to load data and display on screen
+        binding.vpDashboard.adapter = adapter
+        //For future reference to load data and display on screen
         viewModel.loadData()
         adapter.submitList(viewModel.tabsHeaderList)
         TabLayoutMediator(binding.homeTabs, binding.vpDashboard,

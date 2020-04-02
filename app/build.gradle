@@ -48,7 +48,6 @@ android {
 
 dependencies {
     //Android Core libraries and
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"

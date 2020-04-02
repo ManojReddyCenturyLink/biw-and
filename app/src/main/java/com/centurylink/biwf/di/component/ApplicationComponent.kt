@@ -4,6 +4,7 @@ import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.SupportActivityInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
 import com.centurylink.biwf.di.module.ViewModelModule
@@ -18,9 +19,10 @@ import javax.inject.Singleton
         (AndroidSupportInjectionModule::class),
         (BaseActivityInjectorModule::class),
         (LoginActivityInjectorModule::class),
+        (HomeActivityInjectorModule::class),
+        (SupportActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DaggerViewModelFactoryModule::class),
-        (HomeActivityInjectorModule::class),
         (ViewModelModule::class)
     ]
 )
