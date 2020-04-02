@@ -45,11 +45,6 @@ class HomeActivity : AppCompatActivity() {
         setupTabsViewPager()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        homeCoordinator.navigator.activity = null
-    }
-
     private fun setupTabsViewPager() {
 
         binding.vpDashboard.adapter =adapter
