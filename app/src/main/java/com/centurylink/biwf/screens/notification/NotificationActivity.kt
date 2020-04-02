@@ -3,8 +3,6 @@ package com.centurylink.biwf.screens.notification
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +19,6 @@ import com.centurylink.biwf.screens.notification.adapter.NotificationItemClickLi
 import com.centurylink.biwf.screens.notification.viewmodel.NotificationViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
-
 import javax.inject.Inject
 
 
@@ -30,17 +27,23 @@ import javax.inject.Inject
  */
 class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
+    companion object {
+        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
+        const val KEY_READ_HEADER: String = "READ_HEADER"
+        fun newIntent(context: Context) = Intent(context, NotificationActivity::class.java)
+    }
+
     @Inject
     lateinit var notificationCoordinator: NotificationCoordinator
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private lateinit var binding: ActivityNotificationBinding
-
     private val notificationViewModel by lazy {
         ViewModelProvider(this, factory).get(NotificationViewModel::class.java)
     }
+
+    private lateinit var binding: ActivityNotificationBinding
 
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
 
@@ -51,7 +54,6 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setHeightofActivity()
-        notificationCoordinator.navigator.activity = this
         notificationViewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
         }
@@ -60,35 +62,9 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         getNotificationInformation()
     }
 
-    private fun initView() {
-        binding.notificationList.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val myDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
-        binding.notificationList.addItemDecoration(myDivider)
-        binding.ivCloseIcon.setOnClickListener { finish() }
-    }
-
-    private fun getNotificationInformation() {
-        notificationViewModel.getNotificationDetails().observe(this){
-            when {
-                it.status.isLoading() -> {
-
-                }
-                it.status.isSuccessful() -> {
-                    displaySortedNotification(notificationViewModel.displaySortedNotification(it.data!!.notificationlist))
-                }
-                it.status.isError() -> {
-                }
-            }
-        }
-    }
-
-    private fun displaySortedNotification(notificationList: MutableList<Notification>) {
-        //creating Mock Listitem for Each List Header
-        mergedNotificationList =notificationList
-        notificationAdapter = NotificationAdapter(mergedNotificationList,this)
-        binding.notificationList.adapter = notificationAdapter
-        notificationAdapter.notifyDataSetChanged()
+    override fun onResume() {
+        super.onResume()
+        notificationCoordinator.navigator.activity = this
     }
 
     override fun onNotificationItemClick(notificationItem: Notification) {
@@ -105,21 +81,40 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         notificationAdapter.updateList(mergedNotificationList)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        notificationCoordinator.navigator.activity = null
+    private fun initView() {
+        binding.notificationList.layoutManager =
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        val myDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
+        binding.notificationList.addItemDecoration(myDivider)
+        binding.ivCloseIcon.setOnClickListener { finish() }
+    }
+
+    private fun getNotificationInformation() {
+        notificationViewModel.getNotificationDetails().observe(this) {
+            when {
+                it.status.isLoading() -> {
+
+                }
+                it.status.isSuccessful() -> {
+                    displaySortedNotification(notificationViewModel.displaySortedNotification(it.data!!.notificationlist))
+                }
+                it.status.isError() -> {
+                }
+            }
+        }
+    }
+
+    private fun displaySortedNotification(notificationList: MutableList<Notification>) {
+        //creating Mock Listitem for Each List Header
+        mergedNotificationList = notificationList
+        notificationAdapter = NotificationAdapter(mergedNotificationList, this)
+        binding.notificationList.adapter = notificationAdapter
+        notificationAdapter.notifyDataSetChanged()
     }
 
     private fun displayToast(erroMessage: String) {
         Toast.makeText(this, erroMessage, Toast.LENGTH_SHORT).show()
-    }
-
-
-
-    companion object {
-        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
-        const  val KEY_READ_HEADER: String = "READ_HEADER"
-        fun newIntent(context: Context) = Intent(context, NotificationActivity::class.java)
     }
 }
 

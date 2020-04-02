@@ -17,12 +17,10 @@ class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository
 ) : BaseViewModel() {
 
-    private var mergedNotificationList: MutableList<Notification> = mutableListOf()
-
     val errorEvents: EventLiveData<String> = MutableLiveData()
 
-    val myState =
-        ObservableData(NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_LIST)
+    val myState = ObservableData(NotificationCoordinator.
+        NotificationCoordinatorDestinations.NOTIFICATION_LIST)
 
     private val unreadItem: Notification =
         Notification(NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -31,6 +29,9 @@ class NotificationViewModel @Inject constructor(
     private val readItem: Notification =
         Notification(NotificationActivity.KEY_READ_HEADER, "",
             "", "", false, "")
+
+    private var mergedNotificationList: MutableList<Notification> = mutableListOf()
+
     /**
      * Loading Notification details from server
      */

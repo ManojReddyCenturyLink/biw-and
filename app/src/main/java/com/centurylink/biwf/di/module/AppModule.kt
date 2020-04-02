@@ -5,7 +5,6 @@ import android.content.res.Resources
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.network.LiveDataCallAdapterFactoryForRetrofit
 import com.centurylink.biwf.network.api.ApiServices
-
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -35,7 +34,6 @@ class AppModule {
     @Provides
     @Singleton
     fun providesResources(application: BIWFApp): Resources = application.resources
-
 
     /**
      * Provides ApiServices client for Retrofit

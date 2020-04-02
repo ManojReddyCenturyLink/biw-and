@@ -10,5 +10,4 @@ data class Notification(
     @SerializedName("imageUrl") var imageUrl: String? = null,
     @SerializedName("isUnRead") var isUnRead: Boolean,
     @SerializedName("detialUrl") var detialUrl: String? = null
-
 ) : Serializable

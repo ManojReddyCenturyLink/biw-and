@@ -27,7 +27,6 @@
         </activity>
         <activity
         android:name=".screens.notification.NotificationActivity"
-        android:screenOrientation="portrait"
         android:theme="@style/TransparentActivity"/>
     </application>
 

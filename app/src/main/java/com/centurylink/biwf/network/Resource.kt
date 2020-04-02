@@ -30,6 +30,5 @@ data class Resource<ResultType>(
          */
         fun <ResultType> error(message: String?): Resource<ResultType> =
             Resource(Status.ERROR, errorMessage = message)
-
     }
 }

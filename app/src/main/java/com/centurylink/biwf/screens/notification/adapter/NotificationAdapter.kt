@@ -16,8 +16,7 @@ import com.centurylink.biwf.screens.notification.NotificationActivity
 class NotificationAdapter(
     private var notificationListItems: MutableList<Notification>,
     private val notificationItemClickListener: NotificationItemClickListener
-) :
-    RecyclerView.Adapter<CustomViewHolder>() {
+) : RecyclerView.Adapter<CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
         return ItemType.fromCode(viewType).buildView(parent, viewType, getUnReadItemCount())
@@ -27,18 +26,10 @@ class NotificationAdapter(
         return notificationListItems.size
     }
 
-    fun updateList(updatedList: MutableList<Notification>) {
-        notificationListItems = updatedList
-        notifyDataSetChanged()
-    }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val notificationItem: Notification = notificationListItems[position]
         holder.bind(notificationItem, notificationItemClickListener, getUnReadItemCount())
-    }
-
-    private fun getUnReadItemCount(): Int {
-        return notificationListItems.filter { it.isUnRead }.size
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -55,6 +46,15 @@ class NotificationAdapter(
             }
         }
     }
+
+    fun updateList(updatedList: MutableList<Notification>) {
+        notificationListItems = updatedList
+        notifyDataSetChanged()
+    }
+
+    private fun getUnReadItemCount(): Int {
+        return notificationListItems.filter { it.isUnRead }.size
+    }
 }
 
 sealed class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -68,14 +68,17 @@ sealed class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
  * Header View holder class responsible for displaying the header in the RecyclerView
  */
 class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
+    private val context: Context = view.context
+
     private var unReadNotificationCount: TextView = view.findViewById(R.id.notification_unread)
+
     private var markAllReadView: TextView = view.findViewById(R.id.notification_mark_as_read)
-    private val context:Context = view.context
+
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
     ) {
-        val unreadValue: String = context.getString(R.string.notification_screen_unread,5)
+        val unreadValue: String = context.getString(R.string.notification_screen_unread, 5)
         unReadNotificationCount.text = unreadValue
         markAllReadView.setOnClickListener {
             // your code to perform when the user clicks on the button
@@ -85,7 +88,9 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 }
 
 class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
+
     private var clearAllView: TextView = view.findViewById(R.id.notification_clear)
+
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
@@ -142,6 +147,7 @@ class ReadItemViewHolder(view: View) : CustomViewHolder(view) {
  * Enum class for identifying the type to be Header or Item
  */
 enum class ItemType(val code: Int) {
+
     HEADER_TYPE_UNREAD(0) {
         override fun buildView(
             parent: ViewGroup,
@@ -187,12 +193,12 @@ enum class ItemType(val code: Int) {
         }
     };
 
-    abstract fun buildView(parent: ViewGroup, viewType: Int, unreadItemCount: Int): CustomViewHolder
-
     companion object {
         // return the enum that matches the Int code
         fun fromCode(code: Int): ItemType = values().first { code == it.code }
     }
+
+    abstract fun buildView(parent: ViewGroup, viewType: Int, unreadItemCount: Int): CustomViewHolder
 }
 
 interface NotificationItemClickListener {
