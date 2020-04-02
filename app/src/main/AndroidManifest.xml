@@ -27,9 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.notification.NotificationDetailsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/TransparentActivity"/>
+            android:name=".screens.notification.NotificationDetailsActivity" />
     </application>
 
 </manifest>
