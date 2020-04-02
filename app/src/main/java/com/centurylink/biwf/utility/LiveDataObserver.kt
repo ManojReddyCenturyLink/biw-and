@@ -1,8 +1,11 @@
 package com.centurylink.biwf.utility
 
+import android.view.View
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.centurylink.biwf.widgets.OnlineStatusBar
+import com.google.android.material.tabs.TabLayout
 
 interface LiveDataObserver {
 
@@ -17,6 +20,14 @@ interface LiveDataObserver {
             liveDataValue.getContentIfNotHandled()?.let { event ->
                 observer(event)
             }
+        }
+    }
+
+    fun LiveData<Boolean>.bindToVisibility(upperTabBar: TabLayout, lowerTabBar: TabLayout, onlineStatusBar: OnlineStatusBar) {
+        observe {
+            upperTabBar.visibility = if (it) View.INVISIBLE else View.VISIBLE
+            lowerTabBar.visibility = if (it) View.VISIBLE else View.GONE
+            onlineStatusBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
         }
     }
 }
