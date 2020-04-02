@@ -36,7 +36,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onNotificonBellClicked() {
-        Log.i("Pravin","onNotificonBellClicked");
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
 

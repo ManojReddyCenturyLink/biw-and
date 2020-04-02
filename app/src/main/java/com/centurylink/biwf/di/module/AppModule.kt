@@ -3,7 +3,7 @@ package com.centurylink.biwf.di.module
 import android.content.Context
 import android.content.res.Resources
 import com.centurylink.biwf.BIWFApp
-import com.centurylink.biwf.network.LiveDataCallAdapterFactoryForRetrofit
+import com.centurylink.biwf.network.LiveDataCallAdapterFactory
 import com.centurylink.biwf.network.api.ApiServices
 import dagger.Module
 import dagger.Provides
@@ -39,11 +39,11 @@ class AppModule {
      */
     @Singleton
     @Provides
-    fun provideNewsService(): ApiServices {
+    fun provideRetrofitService(): ApiServices {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(LiveDataCallAdapterFactoryForRetrofit())
+            .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
             .create(ApiServices::class.java)
     }

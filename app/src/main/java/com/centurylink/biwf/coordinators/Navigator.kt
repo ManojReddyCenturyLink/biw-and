@@ -32,7 +32,6 @@ class Navigator @Inject constructor() {
     }
 
     fun navigateToNotificationList() {
-        Log.i("Pravin","navigateToNotificationList")
         activity?.startActivity(NotificationActivity.newIntent(activity!!))
     }
 }
