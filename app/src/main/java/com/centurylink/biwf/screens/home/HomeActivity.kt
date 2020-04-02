@@ -35,11 +35,6 @@ class HomeActivity : AppCompatActivity() {
         initOnClicks()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        homeCoordinator.navigator.activity = null
-    }
-
     private fun initOnClicks() {
        binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
