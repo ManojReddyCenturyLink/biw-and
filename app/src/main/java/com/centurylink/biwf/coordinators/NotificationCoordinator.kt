@@ -17,10 +17,7 @@ class NotificationCoordinator @Inject constructor() {
     }
 
     private fun navigateTo(destinations: NotificationCoordinatorDestinations) {
-        when (destinations) {
-            NotificationCoordinatorDestinations.NOTIFICATION_DETAILS->
-                navigator.navigateToNotificationDetails()
-        }
+
     }
 
     enum class NotificationCoordinatorDestinations {

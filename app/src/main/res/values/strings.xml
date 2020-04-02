@@ -6,12 +6,19 @@
     <string name="log_in">Log In</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
+    <string name="tittle_text_devices">Devices</string>
+    <string name="tittle_text_dashboard">Dashboard</string>
+    <string name="tittle_text_account">Account</string>
+    <string name="notification">Notification</string>
+    <string name="forgot_password_activity">Forgot Password Activity</string>
+    <string name="placeholder_text_1">1</string>
+
+    <string name="support">Support</string>
     
-     <!--Notification Screen -->
+    <!--Notification Screen -->
     <string name="notification_title">Notifications</string>
     <string name="notification_screen_unread">Unread(%d)</string>
     <string name="notification_screen_mark_all_read"><u>Mark All as read</u></string>
     <string name="notification_screen_history">Notification History</string>
     <string name="notification_screen_clearall"><u>Clear All</u></string>
-    
 </resources>

@@ -50,6 +50,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     private lateinit var notificationAdapter: NotificationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.TransparentActivity)
         super.onCreate(savedInstanceState)
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)

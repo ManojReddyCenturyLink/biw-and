@@ -1,7 +1,8 @@
 package com.centurylink.biwf.utility
 
 import com.centurylink.biwf.BIWFApp
-import com.centurylink.biwf.di.DaggerApplicationComponent
+import com.centurylink.biwf.di.component.DaggerApplicationComponent
+
 
 class InitUtility {
     companion object {
