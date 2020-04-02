@@ -47,8 +47,6 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initOnClicks() {
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
-        homeCoordinator.navigator.activity = this
-        homeCoordinator.observeThis(viewModel.myState)
         setupTabsViewPager()
     }
 
