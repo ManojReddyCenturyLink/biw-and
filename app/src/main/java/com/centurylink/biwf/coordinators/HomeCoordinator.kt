@@ -20,7 +20,8 @@ class HomeCoordinator @Inject constructor() {
         when (destinations) {
             HomeCoordinatorDestinations.HOME -> navigateToHomeScreen()
             HomeCoordinatorDestinations.SUPPORT -> navigateToSupport()
-            HomeCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNavigationDetails()
+            HomeCoordinatorDestinations.NOTIFICATION_LIST -> navigateToNotificationList()
+	    HomeCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNavigationDetails()
         }
     }
 
@@ -28,11 +29,14 @@ class HomeCoordinator @Inject constructor() {
         // Do Nothing
     }
 
+    private fun navigateToNotificationList() {
+        navigator.navigateToNotificationList()
+    }
+
     private fun navigateToSupport() {
         navigator.navigateToSupport()
     }
-
-    private fun navigateToNavigationDetails(){
+private fun navigateToNavigationDetails(){
         navigator.navigateToNotificationDetails()
     }
 }

@@ -7,11 +7,9 @@
     <dimen name="margin_spacing_really_small">12dp</dimen>
     <dimen name="margin_spacing_large">32dp</dimen>
 
-	<!--Notification  Sizing -->
     <dimen name="close_icon_size">36dp</dimen>
     <dimen name="notification_circle_size">60dp</dimen>
     <dimen name="notification_header_height">30dp</dimen>
-    
     <!--Font Sizing -->
     <dimen name="large_title_text_size">32sp</dimen>
     <dimen name="medium_title_text_size">24sp</dimen>

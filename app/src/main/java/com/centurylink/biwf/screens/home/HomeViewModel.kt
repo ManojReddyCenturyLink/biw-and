@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home
 
+import android.util.Log
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
@@ -34,10 +35,13 @@ class HomeViewModel @Inject constructor(
         myState.value = HomeCoordinatorDestinations.SUPPORT
     }
 
-    fun onNotificationClicked(){
+    fun onNotificonBellClicked() {
+        myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
+    }
+    
+	fun onNotificationClicked(){
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
     }
-
     fun loadData() {
         loadAccountsData()
         loadDevicesData()
