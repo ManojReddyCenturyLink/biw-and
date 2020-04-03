@@ -38,6 +38,7 @@ class Navigator @Inject constructor() {
     
      fun navigateToNotificationDetails() {
          val bundle  = NotificationCoordinator.NotificationCoordinatorDestinations.get()
-        activity?.startActivity(NotificationDetailsActivity.newIntent(activity!!,bundle))
+         activity?.startActivityForResult(NotificationDetailsActivity.newIntent(activity!!,bundle),
+             NotificationDetailsActivity.requesttodismiss)
     }
 }

@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.notification
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,6 +18,7 @@ class NotificationDetailsActivity : BaseActivity() {
     companion object {
          const val launchFromHome: String = "launchType"
          const val urlToLaunch: String = "launchurl"
+         const val requesttodismiss=1000
 
         fun newIntent(context: Context,bundle: Bundle): Intent {
 
@@ -48,7 +50,9 @@ class NotificationDetailsActivity : BaseActivity() {
             binding.notificationDetailsBackIcon.visibility= View.GONE
         }
         binding.notificationDetailsBackIcon.setOnClickListener { finish() }
-        binding.notificationDetailsCloseIcon.setOnClickListener { finish() }
+        binding.notificationDetailsCloseIcon.setOnClickListener {
+            setResult(Activity.RESULT_OK)
+            finish() }
     }
 
     private fun initFragment() {

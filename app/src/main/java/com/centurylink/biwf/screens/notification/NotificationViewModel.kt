@@ -49,9 +49,10 @@ class NotificationViewModel @Inject constructor(
             }
             notificationLiveData.value = mergedNotificationList
         }
+        navigatetoNotifcationDetails(notificationItem)
     }
 
-    fun navigatetoNotifcationDetails(notificationItem: Notification){
+    private fun navigatetoNotifcationDetails(notificationItem: Notification){
         var bundle= Bundle()
         bundle.putString(NotificationDetailsActivity.urlToLaunch,notificationItem.detialUrl)
         bundle.putBoolean(NotificationDetailsActivity.launchFromHome,true)
