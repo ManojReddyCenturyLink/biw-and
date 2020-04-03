@@ -1,12 +1,10 @@
-package com.centurylink.biwf.di.viewModelFactory
+package com.centurylink.biwf.utility
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import javax.inject.Inject
 import javax.inject.Provider
-import javax.inject.Singleton
 
-@Singleton
 @Suppress("UNCHECKED_CAST")
 class DaggerViewModelFactory @Inject constructor(private val viewModelsMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) :
         ViewModelProvider.Factory {

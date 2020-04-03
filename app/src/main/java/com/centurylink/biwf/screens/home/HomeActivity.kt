@@ -9,7 +9,8 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
-import com.centurylink.biwf.di.viewModelFactory.DaggerViewModelFactory
+import com.centurylink.biwf.utility.DaggerViewModelFactory
+
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
 
@@ -47,11 +48,11 @@ class HomeActivity : AppCompatActivity() {
 
     private fun initOnClicks() {
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
+        binding.iBtnNotification.setOnClickListener { viewModel.onNotificonBellClicked() }
         setupTabsViewPager()
     }
 
     private fun setupTabsViewPager() {
-
         binding.vpDashboard.adapter = adapter
         //For future reference to load data and display on screen
         viewModel.loadData()

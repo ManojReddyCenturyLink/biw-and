@@ -1,9 +1,11 @@
 package com.centurylink.biwf.coordinators
 
 import android.app.Activity
+import android.util.Log
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
+import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -27,5 +29,9 @@ class Navigator @Inject constructor() {
 
     fun navigateToSupport() {
         activity?.startActivity(SupportActivity.newIntent(activity!!))
+    }
+
+    fun navigateToNotificationList() {
+        activity?.startActivity(NotificationActivity.newIntent(activity!!))
     }
 }
