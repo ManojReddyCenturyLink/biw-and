@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.model.notification.Notification
@@ -64,11 +65,8 @@ sealed class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
     private val context: Context = view.context
-
     private var unReadNotificationCount: TextView = view.findViewById(R.id.notification_list_unread)
-
     private var markAllReadView: TextView = view.findViewById(R.id.notification_list_unread_mark_as_read)
-
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
@@ -109,13 +107,15 @@ class UnReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_unread_detail)
 
+    private var notificationItemBackground : CardView = view.findViewById(R.id.notification_list_unread_background)
+
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
     ) {
         notificationTitle.text = notificationItem.name
         notificationDetail.text = notificationItem.description
-        notificationDetail.setOnClickListener {
+        notificationItemBackground.setOnClickListener {
             // your code to perform when the user clicks on the button
             notificationItemClickListener.onNotificationItemClick(notificationItem)
         }
@@ -131,12 +131,18 @@ class ReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_titledetail)
 
+    private var notificationItemBackground :CardView = view.findViewById(R.id.notification_list_read_background)
+
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
     ) {
         notificationTitle.text = notificationItem.name
         notificationDetail.text = notificationItem.description
+        notificationItemBackground.setOnClickListener {
+            // your code to perform when the user clicks on the button
+            notificationItemClickListener.onNotificationItemClick(notificationItem)
+        }
     }
 }
 

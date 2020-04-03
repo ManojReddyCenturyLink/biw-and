@@ -81,8 +81,6 @@ class CustomWebFragment : BaseFragment() {
             webView.destroy()
     }
 
-    fun onBackPressed()=true
-
     private fun initWebViewProperties() {
         // Get the web view settings instance.
         val settings = webView.settings

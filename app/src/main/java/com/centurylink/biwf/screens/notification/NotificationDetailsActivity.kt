@@ -15,13 +15,14 @@ import com.centurylink.biwf.screens.common.CustomWebFragment
 class NotificationDetailsActivity : BaseActivity() {
 
     companion object {
-        private const val launchFromHome: String = "launchType"
-        private const val urlToLaunch: String = "launchurl"
+         const val launchFromHome: String = "launchType"
+         const val urlToLaunch: String = "launchurl"
 
-        fun newIntent(context: Context,launchFromPromo:Boolean,url:String): Intent {
+        fun newIntent(context: Context,bundle: Bundle): Intent {
+
             return Intent(context,NotificationDetailsActivity::class.java)
-                .putExtra(launchFromHome,launchFromPromo)
-                .putExtra(urlToLaunch,url)
+                .putExtra(launchFromHome,bundle.getBoolean(launchFromHome))
+                .putExtra(urlToLaunch,bundle.getString(urlToLaunch))
         }
     }
 

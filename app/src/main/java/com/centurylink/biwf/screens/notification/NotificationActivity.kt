@@ -70,7 +70,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     override fun onNotificationItemClick(notificationItem: Notification) {
         notificationViewModel.notificationItemClicked(notificationItem)
-        notificationViewModel.navigatetoNotifcationDetails()
+        notificationViewModel.navigatetoNotifcationDetails(notificationItem)
     }
 
     override fun clearAllReadNotification() {
@@ -79,6 +79,10 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     override fun markAllNotificationAsRead() {
         notificationViewModel.markNotificationasRead()
+    }
+
+    override fun onBackPressed() {
+        finish()
     }
 
     private fun initView() {

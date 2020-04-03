@@ -37,6 +37,7 @@ class Navigator @Inject constructor() {
     }
     
      fun navigateToNotificationDetails() {
-        activity?.startActivity(NotificationDetailsActivity.newIntent(activity!!,true,"https://www.centurylink.com/business.html"))
+         val bundle  = NotificationCoordinator.NotificationCoordinatorDestinations.get()
+        activity?.startActivity(NotificationDetailsActivity.newIntent(activity!!,bundle))
     }
 }

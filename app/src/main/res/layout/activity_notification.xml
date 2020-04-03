@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/medium_margin_spacing"
     android:paddingRight="@dimen/medium_margin_spacing"
+    android:paddingBottom="10dp"
     android:background="@drawable/activty_curved_bg">
     <TextView
         android:id="@+id/notification_list_titleview"
@@ -32,7 +33,8 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notification_list_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
+        android:paddingBottom="?attr/actionBarSize"
         app:layout_constraintTop_toBottomOf="@+id/notification_list_titleview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

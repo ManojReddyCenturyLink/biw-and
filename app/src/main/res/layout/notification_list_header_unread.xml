@@ -13,6 +13,7 @@
         android:textStyle="bold"
         android:textSize="@dimen/small_title_text_size"
         android:gravity="center_vertical"
+        android:textColor="@color/black"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/notification_screen_unread" />
     <TextView
@@ -22,6 +23,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:textSize="@dimen/extra_small_text_size"
+        android:textColor="@color/black"
         android:gravity="center_vertical"
         android:text="@string/notification_screen_mark_all_read" />
 </androidx.constraintlayout.widget.ConstraintLayout>

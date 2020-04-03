@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.notification
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
@@ -50,7 +51,11 @@ class NotificationViewModel @Inject constructor(
         }
     }
 
-    fun navigatetoNotifcationDetails(){
+    fun navigatetoNotifcationDetails(notificationItem: Notification){
+        var bundle= Bundle()
+        bundle.putString(NotificationDetailsActivity.urlToLaunch,notificationItem.detialUrl)
+        bundle.putBoolean(NotificationDetailsActivity.launchFromHome,true)
+        NotificationCoordinator.NotificationCoordinatorDestinations.set(bundle)
         myState.value =
             NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
     }
