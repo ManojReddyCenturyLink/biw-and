@@ -46,12 +46,6 @@ class NotificationAdapter(
         }
     }
 
-    fun updateList(updatedList: MutableList<Notification>) {
-        notificationListItems = updatedList
-        getUnReadItemCount()
-        notifyDataSetChanged()
-    }
-
     private fun getUnReadItemCount(): Int {
         return notificationListItems.filter { it.isUnRead }.size
     }
@@ -79,8 +73,11 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
     ) {
-        val unreadValue: String = context.getString(R.string.notification_screen_unread, 5)
-        unReadNotificationCount.text = unreadValue
+        if(unreadItemCount>0) {
+            val unreadValue: String =
+                context.getString(R.string.notification_screen_unread, unreadItemCount - 1)
+            unReadNotificationCount.text = unreadValue
+        }
         markAllReadView.setOnClickListener {
             // your code to perform when the user clicks on the button
             notificationItemClickListener.markAllNotificationAsRead()
