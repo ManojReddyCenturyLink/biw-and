@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -63,6 +64,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         notificationCoordinator.observeThis(notificationViewModel.myState)
         initView()
         getNotificationInformation()
+
     }
 
     override fun onResume() {
@@ -71,8 +73,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     override fun onNotificationItemClick(notificationItem: Notification) {
-        mergedNotificationList =notificationViewModel.notificationItemClicked(notificationItem)
-        notificationAdapter.updateList(mergedNotificationList)
+        notificationViewModel.notificationItemClicked(notificationItem)
         notificationViewModel.navigatetoNotiifcationDetails()
     }
 
@@ -81,8 +82,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     override fun markAllNotificationAsRead() {
-        mergedNotificationList = notificationViewModel.markNotificationasRead()
-        notificationAdapter.updateList(mergedNotificationList)
+        notificationViewModel.markNotificationasRead()
     }
 
     private fun initView() {
@@ -101,7 +101,8 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
                 }
                 it.status.isSuccessful() -> {
-                    displaySortedNotification(notificationViewModel.displaySortedNotification(it.data!!.notificationlist))
+                    notificationViewModel.displaySortedNotifications(it!!.data!!.notificationlist)
+                    displaySortedNotification()
                 }
                 it.status.isError() -> {
                     notificationViewModel.displayErrorDialog()
@@ -110,15 +111,15 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         }
     }
 
-    private fun  displayClearAllDialog(){
+    private fun displayClearAllDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage(R.string.notification_screen_warning)
             .setCancelable(true)
-            .setPositiveButton(R.string.dialog_yes, DialogInterface.OnClickListener {
-                    dialog, id -> performClearAll()
+            .setPositiveButton(R.string.dialog_yes, DialogInterface.OnClickListener { dialog, id ->
+                performClearAll()
             })
-            .setNegativeButton(R.string.dialog_no, DialogInterface.OnClickListener {
-                    dialog, id -> dialog.cancel()
+            .setNegativeButton(R.string.dialog_no, DialogInterface.OnClickListener { dialog, id ->
+                dialog.cancel()
             })
         // create dialog box
         val alert = dialogBuilder.create()
@@ -128,21 +129,24 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         alert.show()
     }
 
-    private fun performClearAll(){
-        mergedNotificationList = notificationViewModel.clearAllReadNotifications()
-        notificationAdapter.updateList(mergedNotificationList)
+    private fun performClearAll() {
+        notificationViewModel.clearAllReadNotifications()
     }
 
-    private fun displaySortedNotification(notificationList: MutableList<Notification>) {
-        //creating Mock Listitem for Each List Header
+    private fun displaySortedNotification() {
+        notificationViewModel.getNotificationMutableLiveData().observe(this, Observer {
+            prepareRecyclerView(it)
+        })
+    }
+
+    private fun prepareRecyclerView(notificationList:MutableList<Notification>){
         mergedNotificationList = notificationList
-        notificationAdapter = NotificationAdapter(mergedNotificationList, this)
+        notificationAdapter = NotificationAdapter(notificationList, this)
         binding.notificationListRecyclerview.adapter = notificationAdapter
-        notificationAdapter.notifyDataSetChanged()
     }
 
-    private fun displayToast(erroMessage: String) {
-        Toast.makeText(this, erroMessage, Toast.LENGTH_SHORT).show()
+    private fun displayToast(errorMessage: String) {
+        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 }
 

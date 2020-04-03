@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.notification
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
@@ -13,6 +12,7 @@ import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
+
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository
 ) : BaseViewModel() {
@@ -20,6 +20,8 @@ class NotificationViewModel @Inject constructor(
     val errorEvents: EventLiveData<String> = MutableLiveData()
 
     val displayClearAllEvent: EventLiveData<Unit> = MutableLiveData()
+
+    var notificationLiveData:MutableLiveData<MutableList<Notification>> = MutableLiveData()
 
     val myState = ObservableData(NotificationCoordinator.
         NotificationCoordinatorDestinations.NOTIFICATION_LIST)
@@ -42,7 +44,7 @@ class NotificationViewModel @Inject constructor(
 
     fun getNotificationDetails() = notificationListDetails
 
-    fun notificationItemClicked(notificationItem:Notification) :MutableList<Notification>{
+    fun notificationItemClicked(notificationItem:Notification){
         if(notificationItem.isUnRead) {
             mergedNotificationList.remove(notificationItem)
             notificationItem.isUnRead = false
@@ -53,8 +55,8 @@ class NotificationViewModel @Inject constructor(
             if (unreadNotificationList.size == 1) {
                 mergedNotificationList.remove(unreadItem)
             }
+            notificationLiveData.value = mergedNotificationList
         }
-         return mergedNotificationList
     }
 
     fun navigatetoNotiifcationDetails(){
@@ -62,15 +64,15 @@ class NotificationViewModel @Inject constructor(
             NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
-    fun markNotificationasRead(): MutableList<Notification> {
+    fun markNotificationasRead() {
         mergedNotificationList.forEach { it.isUnRead = false }
         mergedNotificationList.remove(unreadItem)
         mergedNotificationList.remove(readItem)
         mergedNotificationList.add(0, readItem)
-        return mergedNotificationList
+        notificationLiveData.value=mergedNotificationList
     }
 
-    fun displaySortedNotification(notificationList: List<Notification>): MutableList<Notification> {
+    fun displaySortedNotifications(notificationList: List<Notification>) {
         val unreadNotificationList = notificationList.asSequence()
             .filter { it.isUnRead }
             .toMutableList()
@@ -85,13 +87,13 @@ class NotificationViewModel @Inject constructor(
         }
         mergedNotificationList.addAll(unreadNotificationList)
         mergedNotificationList.addAll(unreadNotificationList.size, readNotificationList)
-        return mergedNotificationList
+        notificationLiveData.value = mergedNotificationList
     }
     
-    fun clearAllReadNotifications(): MutableList<Notification> {
+    fun clearAllReadNotifications() {
         mergedNotificationList = mergedNotificationList.filter { it.isUnRead }.toMutableList()
         mergedNotificationList.remove(readItem)
-        return mergedNotificationList
+        notificationLiveData.value = mergedNotificationList
     }
 
     fun displayClearAllDialogs(){
@@ -102,4 +104,7 @@ class NotificationViewModel @Inject constructor(
         errorEvents.emit("Server error!Try again later")
     }
 
+    fun getNotificationMutableLiveData(): MutableLiveData<MutableList<Notification>> {
+        return notificationLiveData
+    }
 }
