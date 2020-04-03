@@ -61,7 +61,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
 
     // Cardview Dependency
-    implementation "androidx.cardview:cardview:1.0.0"
+    implementation "androidx.cardview:cardview:$cardviewVersion"
 
     /* Dagger2 - default dependency */
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
