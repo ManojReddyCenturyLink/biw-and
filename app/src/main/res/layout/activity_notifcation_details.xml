@@ -7,7 +7,7 @@
     android:background="@drawable/activty_curved_bg">
 
     <ImageView
-        android:id="@+id/ivBackIcon"
+        android:id="@+id/notification_details_backIcon"
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
         android:layout_margin="24dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvNotificationHeader"
+        android:id="@+id/notification_details_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_margin_spacing"
@@ -25,11 +25,11 @@
         android:textColor="@android:color/black"
         android:textSize="@dimen/large_title_text_size"
         android:textStyle="bold"
-        app:layout_constraintLeft_toRightOf="@+id/ivBackIcon"
+        app:layout_constraintLeft_toRightOf="@+id/notification_details_backIcon"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/ivCloseIcon"
+        android:id="@+id/notification_details_closeIcon"
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
         android:layout_marginTop="@dimen/medium_margin_spacing"
@@ -39,11 +39,11 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
-        android:id="@+id/containerLayout"
+        android:id="@+id/notification_details_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNotificationHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/notification_details_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

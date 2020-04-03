@@ -29,13 +29,9 @@ class CustomWebFragment : BaseFragment() {
     }
 
     private lateinit var binding: FragmentWebviewBinding
-
     private lateinit var webView: WebView
-
     private lateinit var progressBar: ProgressBar
-
     private var url: String? = null
-
     private var reloadCount = 0
 
     override fun onCreateView(
@@ -56,8 +52,8 @@ class CustomWebFragment : BaseFragment() {
         savedInstanceState?.let {
             reloadCount = it.getInt(RELOAD_COUNT)
         }
-        webView = binding.detailswebView
-        progressBar =binding.progressBar
+        webView = binding.webviewContainer
+        progressBar =binding.webviewProgress
         initWebViewProperties()
     }
 
@@ -115,9 +111,8 @@ class CustomWebFragment : BaseFragment() {
                     progressBar.visibility = View.GONE
                 }
             }
-
-
         }
+
         webView.webViewClient=object :DefaultWebViewClient(){
             override fun onReceivedError(
                 view: WebView?,
@@ -145,6 +140,5 @@ class CustomWebFragment : BaseFragment() {
         fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
             handler?.proceed()
         }
-
     }
 }

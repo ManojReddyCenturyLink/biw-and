@@ -15,9 +15,7 @@ import com.centurylink.biwf.screens.common.CustomWebFragment
 class NotificationDetailsActivity : BaseActivity() {
 
     companion object {
-
         private const val launchFromHome: String = "launchType"
-
         private const val urlToLaunch: String = "launchurl"
 
         fun newIntent(context: Context,launchFromPromo:Boolean,url:String): Intent {
@@ -28,9 +26,7 @@ class NotificationDetailsActivity : BaseActivity() {
     }
 
     private val manager = supportFragmentManager;
-
     private lateinit var binding: ActivityNotifcationDetailsBinding
-
     private var url: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,12 +42,12 @@ class NotificationDetailsActivity : BaseActivity() {
     private fun initView() {
         val displayBackIcon = intent.getBooleanExtra(launchFromHome,false)
         if(displayBackIcon){
-            binding.ivBackIcon.visibility= View.VISIBLE
+            binding.notificationDetailsBackIcon.visibility= View.VISIBLE
         }else{
-            binding.ivBackIcon.visibility= View.GONE
+            binding.notificationDetailsBackIcon.visibility= View.GONE
         }
-        binding.ivBackIcon.setOnClickListener { finish() }
-        binding.ivCloseIcon.setOnClickListener { finish() }
+        binding.notificationDetailsBackIcon.setOnClickListener { finish() }
+        binding.notificationDetailsCloseIcon.setOnClickListener { finish() }
     }
 
     private fun initFragment() {
@@ -59,7 +55,7 @@ class NotificationDetailsActivity : BaseActivity() {
         val transaction = manager.beginTransaction()
         val fragment =
             CustomWebFragment.newInstance(url!!)
-        transaction.replace(R.id.containerLayout, fragment)
+        transaction.replace(R.id.notification_details_container, fragment)
         transaction.addToBackStack(null)
         transaction.commit()
     }
