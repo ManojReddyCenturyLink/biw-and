@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.notification
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
@@ -17,6 +18,8 @@ class NotificationViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
+
+    val displayClearAllEvent: EventLiveData<Unit> = MutableLiveData()
 
     val myState = ObservableData(NotificationCoordinator.
         NotificationCoordinatorDestinations.NOTIFICATION_LIST)
@@ -39,7 +42,22 @@ class NotificationViewModel @Inject constructor(
 
     fun getNotificationDetails() = notificationListDetails
 
-    fun notificationItemClicked() {
+    fun notificationItemClicked(notificationItem:Notification) :MutableList<Notification>{
+        if(notificationItem.isUnRead) {
+            mergedNotificationList.remove(notificationItem)
+            notificationItem.isUnRead = false
+            mergedNotificationList.add(mergedNotificationList.size, notificationItem)
+            val unreadNotificationList = mergedNotificationList.asSequence()
+                .filter { it.isUnRead }
+                .toMutableList()
+            if (unreadNotificationList.size == 1) {
+                mergedNotificationList.remove(unreadItem)
+            }
+        }
+         return mergedNotificationList
+    }
+
+    fun navigatetoNotiifcationDetails(){
         myState.value =
             NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
     }
@@ -75,4 +93,13 @@ class NotificationViewModel @Inject constructor(
         mergedNotificationList.remove(readItem)
         return mergedNotificationList
     }
+
+    fun displayClearAllDialogs(){
+        displayClearAllEvent.emit(Unit)
+    }
+
+    fun displayErrorDialog(){
+        errorEvents.emit("Server error!Try again later")
+    }
+
 }

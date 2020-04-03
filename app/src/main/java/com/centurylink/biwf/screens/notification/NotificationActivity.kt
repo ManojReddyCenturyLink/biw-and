@@ -58,6 +58,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         setHeightofActivity()
         notificationViewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
+            displayClearAllEvent.handleEvent { displayClearAllDialog() }
         }
         notificationCoordinator.observeThis(notificationViewModel.myState)
         initView()
@@ -70,11 +71,13 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     override fun onNotificationItemClick(notificationItem: Notification) {
-        notificationViewModel.notificationItemClicked()
+        mergedNotificationList =notificationViewModel.notificationItemClicked(notificationItem)
+        notificationAdapter.updateList(mergedNotificationList)
+        notificationViewModel.navigatetoNotiifcationDetails()
     }
 
     override fun clearAllReadNotification() {
-        displayClearAllDialog()
+        notificationViewModel.displayClearAllDialogs()
     }
 
     override fun markAllNotificationAsRead() {
@@ -101,7 +104,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
                     displaySortedNotification(notificationViewModel.displaySortedNotification(it.data!!.notificationlist))
                 }
                 it.status.isError() -> {
-
+                    notificationViewModel.displayErrorDialog()
                 }
             }
         }

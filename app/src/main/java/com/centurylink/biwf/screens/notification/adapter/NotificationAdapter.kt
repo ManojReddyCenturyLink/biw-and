@@ -26,7 +26,6 @@ class NotificationAdapter(
         return notificationListItems.size
     }
 
-
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val notificationItem: Notification = notificationListItems[position]
         holder.bind(notificationItem, notificationItemClickListener, getUnReadItemCount())
@@ -49,6 +48,7 @@ class NotificationAdapter(
 
     fun updateList(updatedList: MutableList<Notification>) {
         notificationListItems = updatedList
+        getUnReadItemCount()
         notifyDataSetChanged()
     }
 
