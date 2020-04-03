@@ -26,4 +26,8 @@
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
     <string name="dialog_notiifcation_title">Delete Notifications</string>
+    
+     <!--Notification Details Screen -->
+    <string name="notification_details">Notification Details</string>
+    <string name="webpage_error">Error in Loading Page</string>
 </resources>

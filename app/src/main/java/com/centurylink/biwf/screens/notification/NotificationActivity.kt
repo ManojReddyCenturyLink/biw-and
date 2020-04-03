@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.notification
 
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -70,7 +71,6 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     override fun onNotificationItemClick(notificationItem: Notification) {
         notificationViewModel.notificationItemClicked(notificationItem)
-        notificationViewModel.navigatetoNotiifcationDetails()
     }
 
     override fun clearAllReadNotification() {
@@ -79,6 +79,21 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     override fun markAllNotificationAsRead() {
         notificationViewModel.markNotificationasRead()
+    }
+
+    override fun onBackPressed() {
+        finish()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when(requestCode){
+            NotificationDetailsActivity.requesttodismiss->{
+                if(resultCode==Activity.RESULT_OK){
+                    finish()
+                }
+            }
+        }
     }
 
     private fun initView() {

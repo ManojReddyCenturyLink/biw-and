@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.notification
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
@@ -40,17 +41,27 @@ class NotificationViewModel @Inject constructor(
             mergedNotificationList.remove(notificationItem)
             notificationItem.isUnRead = false
             mergedNotificationList.add(mergedNotificationList.size, notificationItem)
+            val readNotificationList = mergedNotificationList.asSequence().filter {! it.isUnRead }.toMutableList()
+            if (readNotificationList.size == 1) {
+                mergedNotificationList.add(mergedNotificationList.size-1,readItem)
+            }
             val unreadNotificationList = mergedNotificationList.asSequence()
                 .filter { it.isUnRead }
                 .toMutableList()
             if (unreadNotificationList.size == 1) {
                 mergedNotificationList.remove(unreadItem)
             }
+
             notificationLiveData.value = mergedNotificationList
         }
+        navigatetoNotifcationDetails(notificationItem)
     }
 
-    fun navigatetoNotiifcationDetails(){
+    private fun navigatetoNotifcationDetails(notificationItem: Notification){
+        var bundle= Bundle()
+        bundle.putString(NotificationDetailsActivity.urlToLaunch,notificationItem.detialUrl)
+        bundle.putBoolean(NotificationDetailsActivity.launchFromHome,true)
+        NotificationCoordinator.NotificationCoordinatorDestinations.set(bundle)
         myState.value =
             NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
     }

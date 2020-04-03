@@ -21,6 +21,7 @@ import javax.inject.Singleton
         (BaseFragmentInjectorModule::class),
         (DaggerViewModelFactoryModule::class),
         (NotificationActivityInjectorModule::class),
+        (NotificationDetailsActivityInjectorModule::class),
         (AppModule::class)
     ]
 )

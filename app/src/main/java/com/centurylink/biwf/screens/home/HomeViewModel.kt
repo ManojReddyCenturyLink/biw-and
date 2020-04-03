@@ -38,7 +38,10 @@ class HomeViewModel @Inject constructor(
     fun onNotificonBellClicked() {
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
-
+    
+	fun onNotificationClicked(){
+        myState.value = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
+    }
     fun loadData() {
         loadAccountsData()
         loadDevicesData()
