@@ -41,12 +41,17 @@ class NotificationViewModel @Inject constructor(
             mergedNotificationList.remove(notificationItem)
             notificationItem.isUnRead = false
             mergedNotificationList.add(mergedNotificationList.size, notificationItem)
+            val readNotificationList = mergedNotificationList.asSequence().filter {! it.isUnRead }.toMutableList()
+            if (readNotificationList.size == 1) {
+                mergedNotificationList.add(mergedNotificationList.size-1,readItem)
+            }
             val unreadNotificationList = mergedNotificationList.asSequence()
                 .filter { it.isUnRead }
                 .toMutableList()
             if (unreadNotificationList.size == 1) {
                 mergedNotificationList.remove(unreadItem)
             }
+
             notificationLiveData.value = mergedNotificationList
         }
         navigatetoNotifcationDetails(notificationItem)
