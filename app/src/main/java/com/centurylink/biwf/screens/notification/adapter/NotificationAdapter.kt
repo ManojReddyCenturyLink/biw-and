@@ -68,11 +68,12 @@ sealed class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
  * Header View holder class responsible for displaying the header in the RecyclerView
  */
 class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
+
     private val context: Context = view.context
 
-    private var unReadNotificationCount: TextView = view.findViewById(R.id.notification_unread)
+    private var unReadNotificationCount: TextView = view.findViewById(R.id.notification_list_unread)
 
-    private var markAllReadView: TextView = view.findViewById(R.id.notification_mark_as_read)
+    private var markAllReadView: TextView = view.findViewById(R.id.notification_list_unread_mark_as_read)
 
     override fun bind(
         notificationItem: Notification,
@@ -89,7 +90,7 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
 class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
-    private var clearAllView: TextView = view.findViewById(R.id.notification_clear)
+    private var clearAllView: TextView = view.findViewById(R.id.notification_list_clearall)
 
     override fun bind(
         notificationItem: Notification,
@@ -107,9 +108,9 @@ class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
  */
 class UnReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
-    private var notificationTitle: TextView = view.findViewById(R.id.tvNotificationTitle)
+    private var notificationTitle: TextView = view.findViewById(R.id.notification_list_unread_title)
 
-    private var notificationDetail: TextView = view.findViewById(R.id.tvNotificationBody)
+    private var notificationDetail: TextView = view.findViewById(R.id.notification_list_unread_detail)
 
     override fun bind(
         notificationItem: Notification,
@@ -129,9 +130,9 @@ class UnReadItemViewHolder(view: View) : CustomViewHolder(view) {
  */
 class ReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
-    private var notificationTitle: TextView = view.findViewById(R.id.tvReadNotificationTitle)
+    private var notificationTitle: TextView = view.findViewById(R.id.notification_list_titleread)
 
-    private var notificationDetail: TextView = view.findViewById(R.id.tvReadNotificationBody)
+    private var notificationDetail: TextView = view.findViewById(R.id.notification_list_titledetail)
 
     override fun bind(
         notificationItem: Notification,

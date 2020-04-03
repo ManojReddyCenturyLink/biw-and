@@ -21,4 +21,9 @@
     <string name="notification_screen_mark_all_read"><u>Mark All as read</u></string>
     <string name="notification_screen_history">Notification History</string>
     <string name="notification_screen_clearall"><u>Clear All</u></string>
+    <string name="notification_screen_warning">Do you want to Clear all notification,
+        Once cleared you will not get back ?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_notiifcation_title">Delete Notifications</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.notification.viewmodel
+package com.centurylink.biwf.screens.notification
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +8,6 @@ import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.NotificationRepository
-import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject

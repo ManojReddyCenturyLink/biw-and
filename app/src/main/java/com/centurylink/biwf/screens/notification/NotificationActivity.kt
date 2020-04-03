@@ -1,9 +1,11 @@
 package com.centurylink.biwf.screens.notification
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,7 +18,6 @@ import com.centurylink.biwf.databinding.ActivityNotificationBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.screens.notification.adapter.NotificationAdapter
 import com.centurylink.biwf.screens.notification.adapter.NotificationItemClickListener
-import com.centurylink.biwf.screens.notification.viewmodel.NotificationViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
 import javax.inject.Inject
@@ -73,8 +74,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     override fun clearAllReadNotification() {
-        mergedNotificationList = notificationViewModel.clearAllReadNotifications()
-        notificationAdapter.updateList(mergedNotificationList)
+        displayClearAllDialog()
     }
 
     override fun markAllNotificationAsRead() {
@@ -83,12 +83,12 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun initView() {
-        binding.notificationList.layoutManager =
+        binding.notificationListRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val myDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
-        binding.notificationList.addItemDecoration(myDivider)
-        binding.ivCloseIcon.setOnClickListener { finish() }
+        binding.notificationListRecyclerview.addItemDecoration(myDivider)
+        binding.notificationListCloseicon.setOnClickListener { finish() }
     }
 
     private fun getNotificationInformation() {
@@ -107,11 +107,34 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         }
     }
 
+    private fun  displayClearAllDialog(){
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage(R.string.notification_screen_warning)
+            .setCancelable(true)
+            .setPositiveButton(R.string.dialog_yes, DialogInterface.OnClickListener {
+                    dialog, id -> performClearAll()
+            })
+            .setNegativeButton(R.string.dialog_no, DialogInterface.OnClickListener {
+                    dialog, id -> dialog.cancel()
+            })
+        // create dialog box
+        val alert = dialogBuilder.create()
+        // set title for alert dialog box
+        alert.setTitle(R.string.dialog_notiifcation_title)
+        // show alert dialog
+        alert.show()
+    }
+
+    private fun performClearAll(){
+        mergedNotificationList = notificationViewModel.clearAllReadNotifications()
+        notificationAdapter.updateList(mergedNotificationList)
+    }
+
     private fun displaySortedNotification(notificationList: MutableList<Notification>) {
         //creating Mock Listitem for Each List Header
         mergedNotificationList = notificationList
         notificationAdapter = NotificationAdapter(mergedNotificationList, this)
-        binding.notificationList.adapter = notificationAdapter
+        binding.notificationListRecyclerview.adapter = notificationAdapter
         notificationAdapter.notifyDataSetChanged()
     }
 

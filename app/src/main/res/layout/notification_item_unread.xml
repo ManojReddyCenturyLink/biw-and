@@ -11,17 +11,17 @@
         android:padding="@dimen/medium_margin_spacing"
         android:layout_height="wrap_content">
         <TextView
-            android:id="@+id/tvNotificationTitle"
+            android:id="@+id/notification_list_unread_title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@color/font_color_white"
             android:textSize="@dimen/medium_title_text_size"
             android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/ivCircle"
+            app:layout_constraintEnd_toStartOf="@+id/notification_list_unread_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
         <TextView
-            android:id="@+id/tvNotificationBody"
+            android:id="@+id/notification_list_unread_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:maxLines="2"
@@ -30,11 +30,11 @@
             android:paddingTop="8dp"
             android:textColor="@color/font_color_white"
             android:textSize="@dimen/extra_small_text_size"
-            app:layout_constraintEnd_toStartOf="@+id/ivCircle"
+            app:layout_constraintEnd_toStartOf="@+id/notification_list_unread_image"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvNotificationTitle" />
+            app:layout_constraintTop_toBottomOf="@+id/notification_list_unread_title" />
         <ImageView
-            android:id="@+id/ivCircle"
+            android:id="@+id/notification_list_unread_image"
             android:layout_width="@dimen/notification_circle_size"
             android:layout_height="@dimen/notification_circle_size"
             android:src="@drawable/badge_background"

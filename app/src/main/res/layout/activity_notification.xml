@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/medium_margin_spacing"
     android:background="@drawable/activty_curved_bg">
     <TextView
-        android:id="@+id/tvNotificationHeader"
+        android:id="@+id/notification_list_titleview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/notification_title"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/ivCloseIcon"
+        android:id="@+id/notification_list_closeicon"
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
         android:layout_marginTop="@dimen/medium_margin_spacing"
@@ -30,9 +30,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/notification_list"
+        android:id="@+id/notification_list_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvNotificationHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/notification_list_titleview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

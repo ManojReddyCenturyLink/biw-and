@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
         <TextView
-            android:id="@+id/tvReadNotificationTitle"
+            android:id="@+id/notification_list_titleread"
             android:textColor="@color/font_color_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -23,7 +23,7 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/tvReadNotificationBody"
+            android:id="@+id/notification_list_titledetail"
             android:textColor="@color/font_color_white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:paddingTop="8dp"
             android:text="Something super important here."
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvReadNotificationTitle"
+            app:layout_constraintTop_toBottomOf="@+id/notification_list_titleread"
             android:background="@android:color/transparent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
