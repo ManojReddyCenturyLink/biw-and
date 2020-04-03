@@ -37,7 +37,6 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     @Inject
     lateinit var notificationCoordinator: NotificationCoordinator
-
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
@@ -46,9 +45,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private lateinit var binding: ActivityNotificationBinding
-
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
-
     private lateinit var notificationAdapter: NotificationAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,7 +61,6 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         notificationCoordinator.observeThis(notificationViewModel.myState)
         initView()
         getNotificationInformation()
-
     }
 
     override fun onResume() {
@@ -101,7 +97,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
                 }
                 it.status.isSuccessful() -> {
-                    notificationViewModel.displaySortedNotifications(it!!.data!!.notificationlist)
+                    notificationViewModel.displaySortedNotifications(it.data!!.notificationlist)
                     displaySortedNotification()
                 }
                 it.status.isError() -> {
@@ -139,7 +135,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         })
     }
 
-    private fun prepareRecyclerView(notificationList:MutableList<Notification>){
+    private fun prepareRecyclerView(notificationList: MutableList<Notification>) {
         mergedNotificationList = notificationList
         notificationAdapter = NotificationAdapter(notificationList, this)
         binding.notificationListRecyclerview.adapter = notificationAdapter

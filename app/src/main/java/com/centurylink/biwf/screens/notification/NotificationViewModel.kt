@@ -18,27 +18,18 @@ class NotificationViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
-
     val displayClearAllEvent: EventLiveData<Unit> = MutableLiveData()
-
-    var notificationLiveData:MutableLiveData<MutableList<Notification>> = MutableLiveData()
-
     val myState = ObservableData(NotificationCoordinator.
         NotificationCoordinatorDestinations.NOTIFICATION_LIST)
-
+    private val notificationLiveData:MutableLiveData<MutableList<Notification>> = MutableLiveData()
     private val unreadItem: Notification =
         Notification(NotificationActivity.KEY_UNREAD_HEADER, "",
             "", "", true, "")
-
     private val readItem: Notification =
         Notification(NotificationActivity.KEY_READ_HEADER, "",
             "", "", false, "")
 
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
-
-    /**
-     * Loading Notification details from server
-     */
     private var notificationListDetails: LiveData<Resource<NotificationSource>> =
         notificationRepository.getNotificationDetails()
 

@@ -18,7 +18,6 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:textSize="@dimen/medium_title_text_size"
-            android:text="Notification"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
@@ -29,7 +28,6 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/extra_small_text_size"
             android:paddingTop="8dp"
-            android:text="Something super important here."
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/notification_list_titleread"
             android:background="@android:color/transparent"/>
