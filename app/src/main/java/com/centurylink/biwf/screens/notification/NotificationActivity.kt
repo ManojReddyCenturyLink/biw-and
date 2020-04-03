@@ -101,6 +101,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
                     displaySortedNotification(notificationViewModel.displaySortedNotification(it.data!!.notificationlist))
                 }
                 it.status.isError() -> {
+
                 }
             }
         }

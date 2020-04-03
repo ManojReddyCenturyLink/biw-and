@@ -7,6 +7,6 @@ import retrofit2.http.GET
 
 interface ApiServices {
 
-    @GET("bins/16b1p0")
+    @GET("notifications.json")
     fun getNotificationDetails(): LiveData<Resource<NotificationSource>>
 }
