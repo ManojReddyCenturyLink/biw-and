@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/notification_header_height"
+    android:background="@color/main_background">
+    <TextView
+        android:id="@+id/notification_list_read_title"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:textStyle="bold"
+        android:textSize="@dimen/small_title_text_size"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="@string/notification_screen_history" />
+    <TextView
+        android:id="@+id/notification_list_clearall"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="@dimen/extra_small_text_size"
+        android:textColor="@color/black"
+        android:gravity="center_vertical"
+        android:text="@string/notification_screen_clearall" />
+</androidx.constraintlayout.widget.ConstraintLayout>

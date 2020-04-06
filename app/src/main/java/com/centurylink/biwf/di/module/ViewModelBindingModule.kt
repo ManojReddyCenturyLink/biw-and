@@ -3,7 +3,8 @@ package com.centurylink.biwf.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
-import com.centurylink.biwf.di.viewModelFactory.DaggerViewModelFactory
+import com.centurylink.biwf.screens.notification.NotificationViewModel
+import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.screens.home.DashboardViewModel
 import dagger.Binds
 import dagger.MapKey
@@ -32,4 +33,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DashboardViewModel::class)
     abstract fun bindDashboardViewModel(dashboardViewModel: DashboardViewModel): ViewModel
+
+    /**
+     * Binding NotificationViewModel using this key "NotificationViewModel::class"
+     */
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationViewModel::class)
+    abstract fun bindNotificationViewModel(notificationViewModel: NotificationViewModel): ViewModel
 }

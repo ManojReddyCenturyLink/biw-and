@@ -9,4 +9,11 @@
     <color name="grey_card_bg">#979797</color>
     <color name="grey_light">#f0f0f0</color>
     <color name="black">#000000</color>
+    <color name="online_green">#15F732</color>
+    <color name="offline_red">#F44336</color>
+    <color name="light_grey">#F0F0F0</color>
+    <color name="main_background">@color/white</color>
+
+    <color name="notification_unread_bg">#D3D3D3</color>
+    <color name="font_color_white">#ffff</color>
 </resources>

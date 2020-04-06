@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.centurylink.biwf" >
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.centurylink.biwf"
+    >
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".BIWFApp"
         android:allowBackup="true"
@@ -11,20 +14,34 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         >
-        <activity android:name=".screens.forgotpassword.ForgotPasswordActivity" />
-        <activity android:name=".screens.home.HomeActivity"/>
-        <activity android:name=".screens.learnmore.LearnMoreActivity"/>
-        <activity android:name=".screens.support.SupportActivity"/>
-        <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>
         <activity
             android:name=".screens.login.LoginActivity"
             android:screenOrientation="portrait"
             >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name=".screens.forgotpassword.ForgotPasswordActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".screens.learnmore.LearnMoreActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".screens.home.HomeActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".screens.support.SupportActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity android:name=".screens.notification.NotificationActivity"/>
+        <activity android:name=".screens.notification.NotificationDetailsActivity"/>
+        <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>
     </application>
 </manifest>

@@ -55,6 +55,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
     implementation "androidx.multidex:multidex:$androidxMultidexVersion"
     implementation "androidx.viewpager2:viewpager2:${viewpager2Version}"
+
     implementation "com.google.android.material:material:${materialComponentsVersion}"
     implementation "androidx.appcompat:appcompat:${androidxAppCompatVersion}"
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
@@ -90,6 +91,8 @@ dependencies {
 
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retroFit2Version"
+    implementation "com.squareup.retrofit2:converter-gson:$retroFit2Version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$logginginterceptor"
 
     //timber
     implementation "com.jakewharton.timber:timber:$timberVersion"

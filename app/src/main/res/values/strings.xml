@@ -6,7 +6,6 @@
     <string name="log_in">Log In</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
-    <string name="change_installation_appointment"><u>Change  installation appointment</u></string>
     <string name="tittle_text_devices">Devices</string>
     <string name="tittle_text_dashboard">Dashboard</string>
     <string name="tittle_text_account">Account</string>
@@ -31,6 +30,9 @@
      <!--Notification Details Screen -->
     <string name="notification_details">Notification Details</string>
     <string name="webpage_error">Error in Loading Page</string>
+
+    <!--Dashboard Screen -->
+    <string name="change_installation_appointment"><u>Change  installation appointment</u></string>
     <string name="welcome_msg">You’ve signed up for Best in World Fiber.\n\n Keep track of your installation status here on your Best in World Fiber Dashboard!\n\n Next step is to wait for your technician on your scheduled installation date. Make sure the area where the modem will be installed is clear for the technician.</string>
     <string name="change_appointment">Change Appointment</string>
     <string name="fiber_installation_status">Fiber Installation Status</string>
