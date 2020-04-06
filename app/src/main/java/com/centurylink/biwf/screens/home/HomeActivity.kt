@@ -31,7 +31,7 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
+       // (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
 
         viewModel.apply {
             activeUserTabBarVisibility.bindToVisibility(
