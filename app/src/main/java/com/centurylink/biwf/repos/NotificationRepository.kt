@@ -10,7 +10,6 @@ import com.centurylink.biwf.network.api.ApiServices
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 class NotificationRepository @Inject constructor(
     private val apiServices: ApiServices

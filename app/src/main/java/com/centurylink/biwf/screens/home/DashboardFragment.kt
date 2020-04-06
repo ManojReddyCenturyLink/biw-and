@@ -10,7 +10,7 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DashboardCoordinator
 import com.centurylink.biwf.databinding.FragmentDashboardBinding
-import com.centurylink.biwf.di.viewModelFactory.DaggerViewModelFactory
+import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
 class DashboardFragment : BaseFragment(){

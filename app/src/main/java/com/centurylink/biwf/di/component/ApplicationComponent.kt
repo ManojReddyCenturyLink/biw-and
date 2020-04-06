@@ -1,10 +1,7 @@
 package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
-import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.SupportActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.*
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
 import com.centurylink.biwf.di.module.RepositoryModule
@@ -28,7 +25,7 @@ import javax.inject.Singleton
         (DaggerViewModelFactoryModule::class),
         (NotificationActivityInjectorModule::class),
         (NotificationDetailsActivityInjectorModule::class),
-        (AppModule::class)
+        (AppModule::class),
         (DashboardFragmentInjectorModule::class),
         (ViewModelModule::class),
         (RepositoryModule::class)
