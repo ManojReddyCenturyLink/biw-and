@@ -1,47 +1,69 @@
 package com.centurylink.biwf.screens
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import com.centurylink.biwf.ViewModelBaseTest
-import com.centurylink.biwf.network.api.ApiServices
+import com.centurylink.biwf.model.notification.Notification
+import com.centurylink.biwf.model.notification.NotificationSource
+import com.centurylink.biwf.network.Resource
+import com.centurylink.biwf.network.Status
+
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationViewModel
+import com.centurylink.biwf.testutils.event
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import org.amshove.kluent.shouldEqual
 import org.junit.Before
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import java.util.*
 
-class NotificationViewModelTest :ViewModelBaseTest(){
+
+class NotificationViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: NotificationViewModel
-
-    @Mock
-    lateinit var apiServices:  ApiServices
 
     @MockK
     lateinit var notificationRepository: NotificationRepository
 
+    val result = MediatorLiveData<Resource<NotificationSource>>()
 
+    private val notifcationList = mutableListOf(
+        Notification(
+            NotificationActivity.KEY_UNREAD_HEADER, "",
+            "", "", true, ""),
+        Notification("1", "", "", "", true, ""),
+        Notification("2", "", "", "", false, "")
+    )
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        System.out.println("Notification : "+notificationRepository)
-        every { notificationRepository.getNotificationDetails() } returns
+        var notificationSource: NotificationSource = NotificationSource()
+        notificationSource.notificationlist = notifcationList;
+        result.value = Resource(Status.SUCCESS,notificationSource,"");
+        every {(notificationRepository.getNotificationDetails())}.returns(result)
         viewModel = NotificationViewModel(notificationRepository)
-
-
-       when(notificationRepository.getNotificationDetails())
-
-        //this.viewModel.notificationLiveData.observeForever()
-        //System.out.println("NotificationViewModelTest Setup Completed "+apiServices)
     }
 
     @Test
-    fun onLoginClicked_withRequiredFields_navigateToHomeScreen() {
-       assert(true)
+    fun  onNotificationSuccess(){
+        var data : LiveData<Resource<NotificationSource>> = viewModel.getNotificationDetails()
+        viewModel.getNotificationMutableLiveData()
+        System.out.println("onNotification Success "+viewModel.getNotificationMutableLiveData())
+    }
+
+    @Test
+    fun ondisplayingClearAllDialog(){
+        viewModel.displayClearAllDialogs()
+        viewModel.displayClearAllEvent.event() shouldEqual(Unit)
+    }
+
+    @Test
+    fun displayErrorDialogonServerError(){
+        viewModel.displayErrorDialog()
+        viewModel.errorEvents.event()shouldEqual ("Server error!Try again later")
     }
 }
 
