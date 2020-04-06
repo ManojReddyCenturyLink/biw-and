@@ -14,7 +14,7 @@
         android:padding="16dp">
         <TextView
             android:id="@+id/notification_list_titleread"
-            android:textColor="@color/font_color_white"
+            android:textColor="@color/notification_read_title_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
@@ -24,7 +24,7 @@
 
         <TextView
             android:id="@+id/notification_list_titledetail"
-            android:textColor="@color/font_color_white"
+            android:textColor="@color/notification_read_title_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/extra_small_text_size"
