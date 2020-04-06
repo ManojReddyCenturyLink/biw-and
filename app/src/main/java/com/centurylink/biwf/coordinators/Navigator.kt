@@ -1,6 +1,7 @@
 package com.centurylink.biwf.coordinators
 
 import android.app.Activity
+import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
@@ -27,5 +28,9 @@ class Navigator @Inject constructor() {
 
     fun navigateToSupport() {
         activity?.startActivity(SupportActivity.newIntent(activity!!))
+    }
+
+    fun navigateToChangeAppointment() {
+        activity?.startActivity(ChangeAppointmentActivity.newIntent(activity!!))
     }
 }

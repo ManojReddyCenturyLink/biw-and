@@ -6,6 +6,8 @@ import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.SupportActivityInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
+import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
+import com.centurylink.biwf.di.module.RepositoryModule
 import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
 import com.centurylink.biwf.di.module.ViewModelModule
 import dagger.BindsInstance
@@ -23,7 +25,9 @@ import javax.inject.Singleton
         (SupportActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DaggerViewModelFactoryModule::class),
-        (ViewModelModule::class)
+        (DashboardFragmentInjectorModule::class),
+        (ViewModelModule::class),
+        (RepositoryModule::class)
     ]
 )
 interface ApplicationComponent {

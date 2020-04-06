@@ -6,6 +6,7 @@
     <string name="log_in">Log In</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
+    <string name="change_installation_appointment"><u>Change  installation appointment</u></string>
     <string name="tittle_text_devices">Devices</string>
     <string name="tittle_text_dashboard">Dashboard</string>
     <string name="tittle_text_account">Account</string>
@@ -14,4 +15,26 @@
     <string name="placeholder_text_1">1</string>
 
     <string name="support">Support</string>
+
+    <!--Notification Screen -->
+    <string name="notification_title">Notifications</string>
+    <string name="notification_screen_unread">Unread(%d)</string>
+    <string name="notification_screen_mark_all_read"><u>Mark All as read</u></string>
+    <string name="notification_screen_history">Notification History</string>
+    <string name="notification_screen_clearall"><u>Clear All</u></string>
+    <string name="notification_screen_warning">Do you want to Clear all notification,
+        Once cleared you will not get back ?</string>
+    <string name="dialog_yes">Yes</string>
+    <string name="dialog_no">No</string>
+    <string name="dialog_notiifcation_title">Delete Notifications</string>
+
+     <!--Notification Details Screen -->
+    <string name="notification_details">Notification Details</string>
+    <string name="webpage_error">Error in Loading Page</string>
+    <string name="welcome_msg">You’ve signed up for Best in World Fiber.\n\n Keep track of your installation status here on your Best in World Fiber Dashboard!\n\n Next step is to wait for your technician on your scheduled installation date. Make sure the area where the modem will be installed is clear for the technician.</string>
+    <string name="change_appointment">Change Appointment</string>
+    <string name="fiber_installation_status">Fiber Installation Status</string>
+    <string name="installation_scheduled">Installation scheduled</string>
+    <string name="text_time_details">Your appointment is between 8:00AM - 10:00AM</string>
+    <string name="congratulations">Congratulations!</string>
 </resources>

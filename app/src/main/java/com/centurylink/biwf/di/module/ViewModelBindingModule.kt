@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.di.viewModelFactory.DaggerViewModelFactory
+import com.centurylink.biwf.screens.home.DashboardViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -26,4 +27,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
     abstract fun bindHomeViewModel(homeViewModel: HomeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DashboardViewModel::class)
+    abstract fun bindDashboardViewModel(dashboardViewModel: DashboardViewModel): ViewModel
 }

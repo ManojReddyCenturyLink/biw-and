@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/margin_42"
+    app:cardCornerRadius="@dimen/margin_spacing_tiny">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cvFlightDetails"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margin_spacing_small"
+        android:background="@color/grey_light"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/status_title"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            android:text="@string/fiber_installation_status"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/text_size_16"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/activeProgress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/status_value"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/above_cardview_elevation"
+            android:text="@string/installation_scheduled"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintEnd_toStartOf="@+id/activeProgress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/status_title" />
+
+        <ProgressBar
+            android:id="@+id/activeProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="70dp"
+            android:layout_height="@dimen/margin_spacing_small"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_weight="1"
+            android:progress="40"
+            android:progressDrawable="@drawable/custom_progress_bar"
+            app:layout_constraintBottom_toBottomOf="@+id/status_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/status_title" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/status_value"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
+            app:cardCornerRadius="@dimen/margin_spacing_tiny">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/grey_card_bg"
+                android:padding="@dimen/margin_spacing_small"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/tvDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4/12/2020"
+                    android:textColor="@android:color/white"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_spacing_really_small"
+                    android:textColor="@color/grey_light"
+                    android:text="@string/text_time_details"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvDate" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/change_appointment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/height_20"
+            android:layout_marginBottom="@dimen/spacing_3"
+            android:text="@string/change_installation_appointment"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cvDateTime" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

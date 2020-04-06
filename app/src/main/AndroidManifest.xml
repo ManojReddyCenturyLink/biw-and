@@ -15,6 +15,7 @@
         <activity android:name=".screens.home.HomeActivity"/>
         <activity android:name=".screens.learnmore.LearnMoreActivity"/>
         <activity android:name=".screens.support.SupportActivity"/>
+        <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>
         <activity
             android:name=".screens.login.LoginActivity"
             android:screenOrientation="portrait"

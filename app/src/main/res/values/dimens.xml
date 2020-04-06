@@ -14,4 +14,7 @@
     <dimen name="spacing_14_">-14dp</dimen>
     <dimen name="height_28">28dp</dimen>
     <dimen name="spacing_3">3dp</dimen>
+    <dimen name="margin_42">42dp</dimen>
+    <dimen name="text_size_16">16sp</dimen>
+    <dimen name="text_size_12">12sp</dimen>
 </resources>
