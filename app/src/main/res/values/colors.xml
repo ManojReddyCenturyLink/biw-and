@@ -11,6 +11,7 @@
     <color name="offline_red">#F44336</color>
     <color name="light_grey">#F0F0F0</color>
     <color name="main_background">@color/white</color>
+    <color name="notification_read_title_color">#979797</color>
 
     <color name="notification_unread_bg">#D3D3D3</color>
     <color name="font_color_white">#ffff</color>
