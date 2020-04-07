@@ -39,7 +39,7 @@ class DashboardFragment : BaseFragment(){
 
     private fun initOnClicks() {
         binding.incStatus.changeAppointment.setOnClickListener{ viewModel.getChangeAppointment()}
-        binding.incWelcomeCard.btnCancel.setOnClickListener { hideWelcomeCard() }
+        binding.incWelcomeCard.cancelButton.setOnClickListener { hideWelcomeCard() }
     }
 
     private fun hideWelcomeCard(){

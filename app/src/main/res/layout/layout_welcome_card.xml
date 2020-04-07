@@ -23,7 +23,7 @@
             android:textStyle="bold"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_16"
-            app:layout_constraintEnd_toStartOf="@+id/btnCancel"
+            app:layout_constraintEnd_toStartOf="@+id/cancel_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,12 +35,12 @@
             android:textColor="@color/grey_light"
             android:text="@string/welcome_msg"
             android:textSize="@dimen/text_size_12"
-            app:layout_constraintEnd_toEndOf="@+id/btnCancel"
+            app:layout_constraintEnd_toEndOf="@+id/cancel_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/status_title" />
 
         <ImageView
-            android:id="@+id/btnCancel"
+            android:id="@+id/cancel_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_spacing_really_small"
