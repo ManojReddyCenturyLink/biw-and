@@ -48,6 +48,17 @@ class HomeActivity : BaseActivity() {
         initOnClicks()
     }
 
+    /**
+     * Comparing the number of entries currently in the back stack to handle Back Press
+     */
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     private fun initOnClicks() {
         binding.homeOnlineStatusBar.setOnClickListener { viewModel.onOnlineToolbarClick() }
         binding.iBtnNotification.setOnClickListener { viewModel.onNotificonBellClicked() }

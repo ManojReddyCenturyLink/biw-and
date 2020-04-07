@@ -4,7 +4,9 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +15,7 @@ import com.centurylink.biwf.databinding.LayoutAccountBinding
 import com.centurylink.biwf.databinding.LayoutDashboardBinding
 import com.centurylink.biwf.databinding.LayoutDevicesBinding
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 
 @Suppress("UNCHECKED_CAST")
 class TabsPagerRecyclerAdapter(private val mContext: Context) :
@@ -77,6 +80,7 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
             }
             TabsBaseItem.DASHBOARD -> {
                 holder as DashboardViewHolder
+                holder.setupFragment()
             }
             TabsBaseItem.ACCOUNT -> {
                 holder as AccountViewHolder
@@ -107,6 +111,13 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
     inner class DashboardViewHolder(private val binding: LayoutDashboardBinding) :
         BaseViewHolder(binding.root), View.OnClickListener {
         override fun onClick(v: View?) {
+        }
+
+        fun setupFragment() {
+            val activity = mContext as AppCompatActivity
+            val myFragment: Fragment = DashboardFragment()
+            activity.supportFragmentManager.beginTransaction()
+                .replace(R.id.container, myFragment).commit()
         }
     }
 
