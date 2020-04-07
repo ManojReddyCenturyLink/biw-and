@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.home
+package com.centurylink.biwf.screens.dashboard
 
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -10,7 +10,7 @@ class DashboardViewModel @Inject constructor(
     private val currentAppointmentRepository: CurrentAppointmentRepository
 ) : BaseViewModel() {
 
-    val myState = ObservableData(DashboardCoordinatorDestinations.HOME)
+    val myState = ObservableData(DashboardCoordinatorDestinations.APPOINTMENT_SCHEDULED)
     private var accountID: String? = null
 
     fun getChangeAppointment(){

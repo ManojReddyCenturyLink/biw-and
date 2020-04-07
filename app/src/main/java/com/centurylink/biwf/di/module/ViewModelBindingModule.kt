@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.screens.home.DashboardViewModel
+import com.centurylink.biwf.screens.dashboard.DashboardViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
