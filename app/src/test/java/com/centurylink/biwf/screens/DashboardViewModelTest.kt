@@ -3,7 +3,7 @@ package com.centurylink.biwf.screens
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.repos.CurrentAppointmentRepository
-import com.centurylink.biwf.screens.dashboard.DashboardViewModel
+import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert

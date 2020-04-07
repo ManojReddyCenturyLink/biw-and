@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.dashboard
+package com.centurylink.biwf.screens.home.dashboard
 
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations

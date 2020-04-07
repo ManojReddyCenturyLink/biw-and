@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.dashboard
+package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
 import android.view.LayoutInflater

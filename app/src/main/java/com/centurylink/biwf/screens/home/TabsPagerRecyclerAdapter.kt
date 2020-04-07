@@ -15,7 +15,7 @@ import com.centurylink.biwf.databinding.LayoutAccountBinding
 import com.centurylink.biwf.databinding.LayoutDashboardBinding
 import com.centurylink.biwf.databinding.LayoutDevicesBinding
 import com.centurylink.biwf.model.TabsBaseItem
-import com.centurylink.biwf.screens.dashboard.DashboardFragment
+import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 
 @Suppress("UNCHECKED_CAST")
 class TabsPagerRecyclerAdapter(private val mContext: Context) :
