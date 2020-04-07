@@ -15,6 +15,7 @@ import com.centurylink.biwf.databinding.LayoutAccountBinding
 import com.centurylink.biwf.databinding.LayoutDashboardBinding
 import com.centurylink.biwf.databinding.LayoutDevicesBinding
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.screens.dashboard.DashboardFragment
 
 @Suppress("UNCHECKED_CAST")
 class TabsPagerRecyclerAdapter(private val mContext: Context) :
@@ -116,8 +117,7 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
             val activity = mContext as AppCompatActivity
             val myFragment: Fragment = DashboardFragment()
             activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.container, myFragment).addToBackStack(null).commit()
-
+                .replace(R.id.container, myFragment).commit()
         }
     }
 
