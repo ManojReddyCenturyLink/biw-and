@@ -22,7 +22,7 @@ class LoginActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //(applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
+        (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
 
         viewModel = LoginViewModel(AccountRepositoryImpl())
         viewModel.apply {

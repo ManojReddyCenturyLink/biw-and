@@ -26,16 +26,6 @@ import org.mockito.MockitoAnnotations
 
 class NotificationViewModelTest : ViewModelBaseTest() {
 
-    private lateinit var viewModel: NotificationViewModel
-
-    @MockK
-    lateinit var notificationRepository: NotificationRepository
-
-    val result = MediatorLiveData<Resource<NotificationSource>>()
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
-
     private val notifiCationList = mutableListOf(
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -46,6 +36,15 @@ class NotificationViewModelTest : ViewModelBaseTest() {
         Notification("1", "", "", "", true, ""),
         Notification("2", "", "", "", false, "")
     )
+
+    @MockK
+    lateinit var notificationRepository: NotificationRepository
+
+    @get:Rule
+    val rule = InstantTaskExecutorRule()
+
+    private lateinit var viewModel: NotificationViewModel
+    val result = MediatorLiveData<Resource<NotificationSource>>()
 
     @Before
     fun setup() {
