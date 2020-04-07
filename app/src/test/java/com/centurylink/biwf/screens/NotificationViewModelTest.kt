@@ -50,8 +50,7 @@ class NotificationViewModelTest : ViewModelBaseTest() {
     @Test
     fun  onNotificationSuccess(){
         var data : LiveData<Resource<NotificationSource>> = viewModel.getNotificationDetails()
-        viewModel.getNotificationMutableLiveData()
-        System.out.println("onNotification Success "+viewModel.getNotificationMutableLiveData())
+        data.value!!.status shouldEqual(Status.SUCCESS)
     }
 
     @Test
