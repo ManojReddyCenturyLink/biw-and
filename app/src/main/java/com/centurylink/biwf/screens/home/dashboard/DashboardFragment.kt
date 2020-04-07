@@ -31,15 +31,14 @@ class DashboardFragment : BaseFragment(){
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
-        dashboardCoordinator.navigator.activity = activity
         dashboardCoordinator.observeThis(viewModel.myState)
         initOnClicks()
         return binding.root
     }
 
     private fun initOnClicks() {
-        binding.incStatus.changeAppointment.setOnClickListener{ viewModel.getChangeAppointment()}
-        binding.incWelcomeCard.cancelButton.setOnClickListener { hideWelcomeCard() }
+        binding.incStatus.appointmentChangeLink.setOnClickListener{ viewModel.getChangeAppointment()}
+        binding.incWelcomeCard.welcomeCardCancelButton.setOnClickListener { hideWelcomeCard() }
     }
 
     private fun hideWelcomeCard(){

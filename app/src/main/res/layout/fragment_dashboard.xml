@@ -7,7 +7,7 @@
 
         <include
             android:id="@+id/incStatus"
-            layout="@layout/layout_appointment_status"
+            layout="@layout/widget_appointment_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin_spacing"
@@ -17,7 +17,7 @@
 
         <include
             android:id="@+id/incWelcomeCard"
-            layout="@layout/layout_welcome_card"
+            layout="@layout/widget_welcome_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin_spacing"
