@@ -9,7 +9,7 @@
     app:cardCornerRadius="@dimen/margin_spacing_tiny">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/cvFlightDetails"
+        android:id="@+id/installation_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_spacing_small"
