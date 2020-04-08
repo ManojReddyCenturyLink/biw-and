@@ -39,4 +39,9 @@
     <string name="installation_scheduled">Installation scheduled</string>
     <string name="text_time_details">Your appointment is between 8:00AM - 10:00AM</string>
     <string name="congratulations">Congratulations!</string>
+
+    <!--FAQ Screen  -->
+    <string name="faq_title">Network Connection</string>
+    <string name="faq_subsection_helpful_videos">Helpful Videos</string>
+    <string name="frequently_asked_questions">Frequently asked questions</string>
 </resources>

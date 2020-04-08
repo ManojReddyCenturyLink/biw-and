@@ -6,6 +6,7 @@ import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
+import com.centurylink.biwf.screens.support.FAQViewModel
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -41,4 +42,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NotificationViewModel::class)
     abstract fun bindNotificationViewModel(notificationViewModel: NotificationViewModel): ViewModel
+
+    /**
+     * Binding FAQViewModel using this key "FAQViewModel::class"
+     */
+    @Binds
+    @IntoMap
+    @ViewModelKey(FAQViewModel::class)
+    abstract fun bindFAQViewModel(faqModel: FAQViewModel): ViewModel
 }

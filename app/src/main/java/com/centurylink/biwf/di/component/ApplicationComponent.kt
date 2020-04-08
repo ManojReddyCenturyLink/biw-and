@@ -29,6 +29,7 @@ import javax.inject.Singleton
         (AppModule::class),
         (DashboardFragmentInjectorModule::class),
         (CustomWebFragmentInjectorModule::class),
+        (FAQActivityInjectorModule::class),
         (RepositoryModule::class)
     ]
 )
