@@ -1,4 +1,6 @@
 def NAME = "Centurylink-android"
+def SLACK_ALWAYS_CHANNEL = ""
+def SLACK_FAIL_CHANNEL = ""
 
 pipeline {
     agent { label 'android' }
@@ -59,12 +61,12 @@ pipeline {
         always {
             script {
                 def slackMessage = slack.defaultMessage()
-                slackMessage += " - <https://build.intrepid.digital.accenture.com/job/Centurylink/job/centurylink-android/job/master/Documentation|Documentation>"
-                slack(channels: ['#centurylink-alerts'], alertPullRequests: false, alertFailures: true, includeChanges: true, message: slackMessage)
+                slackMessage += " - <${env.JENKINS_URL}/job/Centurylink/job/centurylink-android/job/master/Documentation|Documentation>"
+                slack(channels: [SLACK_ALWAYS_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: true, message: slackMessage)
             }
         }
         failure {
-            slack(channels: ['#centurylink-dev'], alertPullRequests: false, alertFailures: true, includeChanges: false)
+            slack(channels: [SLACK_FAIL_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: false)
         }
     }
 }
