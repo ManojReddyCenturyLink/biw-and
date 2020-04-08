@@ -42,5 +42,6 @@
             />
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>
+        <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>
     </application>
 </manifest>

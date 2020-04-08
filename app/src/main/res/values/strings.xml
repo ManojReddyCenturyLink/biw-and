@@ -14,7 +14,7 @@
     <string name="placeholder_text_1">1</string>
 
     <string name="support">Support</string>
-    
+
     <!--Notification Screen -->
     <string name="notification_title">Notifications</string>
     <string name="notification_screen_unread">Unread (%d)</string>
@@ -26,8 +26,17 @@
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
     <string name="dialog_notiifcation_title">Delete Notifications</string>
-    
+
      <!--Notification Details Screen -->
     <string name="notification_details">Notification Details</string>
     <string name="webpage_error">Error in Loading Page</string>
+
+    <!--Dashboard Screen -->
+    <string name="change_installation_appointment"><u>Change  installation appointment</u></string>
+    <string name="welcome_msg">You’ve signed up for Best in World Fiber.\n\n Keep track of your installation status here on your Best in World Fiber Dashboard!\n\n Next step is to wait for your technician on your scheduled installation date. Make sure the area where the modem will be installed is clear for the technician.</string>
+    <string name="change_appointment">Change Appointment</string>
+    <string name="fiber_installation_status">Fiber Installation Status</string>
+    <string name="installation_scheduled">Installation scheduled</string>
+    <string name="text_time_details">Your appointment is between 8:00AM - 10:00AM</string>
+    <string name="congratulations">Congratulations!</string>
 </resources>
