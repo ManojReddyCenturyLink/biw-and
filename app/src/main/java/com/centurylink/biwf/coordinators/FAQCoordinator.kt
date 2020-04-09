@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FAQCoordinator {
+class FAQCoordinator @Inject constructor() {
     @Inject
     lateinit var navigator: Navigator
 
@@ -18,12 +18,13 @@ class FAQCoordinator {
 
     private fun navigateTo(destinations: FAQCoordinatorDestinations) {
         when (destinations) {
-
+            FAQCoordinatorDestinations.PLAY_VIDEO_ACTIVITY->{}
+            FAQCoordinatorDestinations.FAQ_LIST->{}
         }
     }
 
     enum class FAQCoordinatorDestinations {
-        NOTIFICATION_DETAILS, NOTIFICATION_LIST;
+        PLAY_VIDEO_ACTIVITY, FAQ_LIST;
         companion object {
             lateinit var bundle: Bundle
             fun get(): Bundle = bundle

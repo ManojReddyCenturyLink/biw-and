@@ -18,5 +18,8 @@ class SupportActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySupportBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        binding.SupportText.setOnClickListener{
+            startActivity(FAQActivity.newIntent(this))
+        }
     }
 }

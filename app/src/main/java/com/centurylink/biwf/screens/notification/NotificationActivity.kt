@@ -156,9 +156,6 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         binding.notificationListRecyclerview.adapter = notificationAdapter
     }
 
-    private fun displayToast(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
-    }
 }
 
 

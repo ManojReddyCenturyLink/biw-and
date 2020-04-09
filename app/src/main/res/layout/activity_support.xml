@@ -14,6 +14,7 @@
         android:layout_marginTop="@dimen/above_cardview_elevation"
         android:background="@drawable/layout_bg">
     <TextView
+        android:id="@+id/SupportText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/support"
