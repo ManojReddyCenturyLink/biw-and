@@ -22,17 +22,19 @@ class FAQViewModel @Inject constructor(
     private val faqquestionsData:MutableLiveData<List<QuestionFAQ>> = MutableLiveData()
     private var faqListDetails: LiveData<Resource<FAQ>> =
         faqRepository.getFAQDetails()
+
     fun getFAQDetails() = faqListDetails
 
     fun sortQuestionsAndVideos(videolist: List<Videofaq>,questionList:List<QuestionFAQ>) {
         faqVideoData.value=videolist
         faqquestionsData.value =questionList
     }
+
     fun getVideoFAQLiveData(): MutableLiveData<List<Videofaq>> {
         return faqVideoData
     }
 
-    fun getQuestionFAQLiveData(): MutableLiveData<List<QuestionFAQ>> {
-        return faqquestionsData
+    fun getQuestionFAQLiveData(): MutableLiveData<List<Videofaq>> {
+        return faqVideoData
     }
 }

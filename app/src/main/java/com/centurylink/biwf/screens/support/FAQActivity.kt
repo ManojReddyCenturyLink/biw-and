@@ -14,7 +14,6 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.FAQCoordinator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
-import com.centurylink.biwf.databinding.ActivityNotificationBinding
 import com.centurylink.biwf.model.support.Videofaq
 import com.centurylink.biwf.screens.support.adapter.FAQVideoViewAdapter
 import com.centurylink.biwf.screens.support.adapter.VideoItemClickListener
@@ -106,16 +105,16 @@ class FAQActivity : BaseActivity(),VideoItemClickListener{
         myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
         binding.faqVideoList.addItemDecoration(myDivider)
 
-       /* binding.questionsListView.layoutManager =
+        binding.questionsListView.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val VericalDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         VericalDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
-        binding.questionsListView.addItemDecoration(myDivider)*/
+        binding.questionsListView.addItemDecoration(VericalDivider)
     }
 
     private fun displaySortedFAQ() {
         faqViewModel.getQuestionFAQLiveData().observe(this, Observer {
-           // prepareVideoRecyclerView(it)
+            prepareQuestionRecyclerView(it)
         })
         faqViewModel.getVideoFAQLiveData().observe(this, Observer {
             prepareVideoRecyclerView(it)

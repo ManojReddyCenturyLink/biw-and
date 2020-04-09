@@ -27,33 +27,23 @@
         android:id="@+id/faq_video_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/faq_video_title"  />
 
     <TextView
         android:id="@+id/faq_content_title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
         android:gravity="start"
         android:paddingTop="0dp"
         android:text="@string/frequently_asked_questions"
-        app:layout_constraintBottom_toTopOf="@+id/questions_list_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/faq_video_list" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/questions_list_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:paddingBottom="?attr/actionBarSize"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/faq_content_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>

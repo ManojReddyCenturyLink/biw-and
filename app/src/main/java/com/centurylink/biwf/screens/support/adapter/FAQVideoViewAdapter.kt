@@ -26,7 +26,7 @@ class FAQVideoViewAdapter (
     }
 
     override fun getItemViewType(position: Int): Int {
-        val videoItem: Videofaq = videoListItems[position]
+       // val videoItem: Videofaq = videoListItems[position]
         return videoListItems.size
     }
 
