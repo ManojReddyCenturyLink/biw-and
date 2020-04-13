@@ -52,11 +52,14 @@ class ExpandableContentAdapter (private val answerList: HashMap<String, String>)
         }
         val questionTextView = convertView!!.findViewById<TextView>(R.id.faq_header_group_title)
         val questionIcon = convertView!!.findViewById<ImageView>(R.id.faq_header_arrow)
+        val dividerView = convertView!!.findViewById<View>(R.id.faq_dividers_view)
          questionTextView.text = listTitle
         if(isExpanded) {
             questionIcon.setImageResource(R.drawable.ic_icon_down)
+            dividerView.visibility=View.INVISIBLE
         } else{
              questionIcon.setImageResource(R.drawable.ic_icon_right)
+            dividerView.visibility=View.VISIBLE
         }
         return convertView!!
     }
@@ -73,10 +76,7 @@ class ExpandableContentAdapter (private val answerList: HashMap<String, String>)
         return questionList[groupPosition]
     }
 
-    override fun areAllItemsEnabled(): Boolean {
-        return false
-    }
-    override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
-        return true
+    override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
+       return false
     }
 }

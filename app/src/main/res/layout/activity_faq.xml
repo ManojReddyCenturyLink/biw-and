@@ -76,24 +76,11 @@
                 android:id="@+id/questions_answers_list_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="@dimen/margin_spacing_small"
                 android:groupIndicator="@null"
                 android:visibility="visible"
                 android:listSelector="@android:color/transparent"
-                android:dividerHeight="1dp"
-                android:childDivider="@drawable/list_divider"
-                android:divider="@drawable/list_divider"
                 app:layout_constraintTop_toBottomOf="@+id/faq_divider_view" />
-
-            <View
-                android:id="@+id/faq_dividers_view"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:background="@color/light_grey"
-                android:layout_marginTop="@dimen/margin_spacing_small"
-                app:layout_constraintTop_toBottomOf="@+id/questions_answers_list_view"/>
 
             <TextView
                 android:id="@+id/faq_content_cant_find"
