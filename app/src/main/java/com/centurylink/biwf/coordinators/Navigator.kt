@@ -45,4 +45,8 @@ class Navigator @Inject constructor() {
          activity?.startActivityForResult(NotificationDetailsActivity.newIntent(activity!!,bundle),
              NotificationDetailsActivity.requesttodismiss)
     }
+
+    fun navigateToFaq() {}
+
+     fun navigateToLiveChat() {}
 }

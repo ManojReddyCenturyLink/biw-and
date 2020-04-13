@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,21 +7,81 @@
     android:background="@color/grey_darker"
     tools:context=".screens.support.SupportActivity">
 
+    <include
+        android:id="@+id/incHeader"
+        layout="@layout/widget_header_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/above_cardview_elevation"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:scrollbars="none"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/above_cardview_elevation"
-        android:background="@drawable/layout_bg">
-    <TextView
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/support"
-        android:textSize="@dimen/medium_title_text_size"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:padding="@dimen/medium_margin_spacing"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/faq_heading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/faq_topics"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_16"
+            android:layout_marginStart="@dimen/medium_margin_spacing"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        
+        <View
+            android:id="@+id/support_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cardview_elevation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/light_grey"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            app:layout_constraintTop_toBottomOf="@+id/faq_heading"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/support_faq_topics_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/support_view" />
+
+        <include
+            android:id="@+id/incTroubleshooting"
+            layout="@layout/widget_troubleshooting"
+            android:layout_marginStart="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/medium_margin_spacing"
+            android:layout_marginTop="@dimen/margin_spacing_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/support_faq_topics_recyclerview" />
+
+        <include
+            android:id="@+id/incContactUs"
+            layout="@layout/widget_contact_us_section"
+            android:layout_marginTop="@dimen/margin_spacing_large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/incTroubleshooting" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
