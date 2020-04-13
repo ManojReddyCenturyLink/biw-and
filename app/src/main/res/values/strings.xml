@@ -14,6 +14,7 @@
     <string name="placeholder_text_1">1</string>
 
     <string name="support">Support</string>
+    <string name="call_us"><u>Call Us at (123) 456-7890</u></string>
 
     <!--Notification Screen -->
     <string name="notification_title">Notifications</string>
@@ -27,7 +28,7 @@
     <string name="dialog_no">No</string>
     <string name="dialog_notiifcation_title">Delete Notifications</string>
 
-     <!--Notification Details Screen -->
+    <!--Notification Details Screen -->
     <string name="notification_details">Notification Details</string>
     <string name="webpage_error">Error in Loading Page</string>
 
@@ -39,4 +40,15 @@
     <string name="installation_scheduled">Installation scheduled</string>
     <string name="text_time_details">Your appointment is between 8:00AM - 10:00AM</string>
     <string name="congratulations">Congratulations!</string>
+    <string name="faq_topics">FAQ Topics</string>
+    <string name="troubleshooting">Troubleshooting</string>
+    <string name="visit_website">Visit Website</string>
+    <string name="restart_modem">Restart Modem</string>
+    <string name="if_you_are_experiencing_problems_with_your_network">If you are experiencing problems with your network</string>
+    <string name="run_speed_test">Run Speed Test</string>
+    <string name="last_speed_test">Last Speed Test: \u0020</string>
+    <string name="mbps_upload">Mbps Upload</string>
+    <string name="mbps_download">Mbps Download</string>
+    <string name="live_chat">Live Chat</string>
+    <string name="contact_us">Contact Us</string>
 </resources>
