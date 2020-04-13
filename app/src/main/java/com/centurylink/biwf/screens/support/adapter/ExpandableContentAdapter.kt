@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.support.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,7 @@ class ExpandableContentAdapter (private val answerList: HashMap<String, String>)
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): String?{
         val key = questionList.get(listPosition)
-        return this. answerList.get(key)
+        return this.answerList.get(key)
     }
 
     override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
@@ -67,7 +66,10 @@ class ExpandableContentAdapter (private val answerList: HashMap<String, String>)
         return questionList.get(groupPosition)
     }
 
-    override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
+    override fun areAllItemsEnabled(): Boolean {
         return false
+    }
+    override fun isChildSelectable(listPosition: Int, expandedListPosition: Int): Boolean {
+        return true
     }
 }

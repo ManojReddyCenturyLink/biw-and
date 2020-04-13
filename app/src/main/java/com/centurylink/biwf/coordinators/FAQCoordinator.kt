@@ -20,11 +20,13 @@ class FAQCoordinator @Inject constructor() {
         when (destinations) {
             FAQCoordinatorDestinations.PLAY_VIDEO_ACTIVITY->{}
             FAQCoordinatorDestinations.FAQ_LIST->{}
+            FAQCoordinatorDestinations.LIVE_CHAT->{}
+            FAQCoordinatorDestinations.CALL_BACK_SCHEDULE->{}
         }
     }
 
     enum class FAQCoordinatorDestinations {
-        PLAY_VIDEO_ACTIVITY, FAQ_LIST;
+        PLAY_VIDEO_ACTIVITY, FAQ_LIST,LIVE_CHAT,CALL_BACK_SCHEDULE;
         companion object {
             lateinit var bundle: Bundle
             fun get(): Bundle = bundle
