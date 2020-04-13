@@ -14,7 +14,9 @@
     <dimen name="large_title_text_size">32sp</dimen>
     <dimen name="medium_title_text_size">24sp</dimen>
     <dimen name="small_title_text_size">18sp</dimen>
+    <dimen name="small_text_size">16sp</dimen>
     <dimen name="extra_small_text_size">14sp</dimen>
+    <dimen name="xxs_text_size">12sp</dimen>
 
     <dimen name="padding_0">0dp</dimen>
     <dimen name="text_size_10">10sp</dimen>

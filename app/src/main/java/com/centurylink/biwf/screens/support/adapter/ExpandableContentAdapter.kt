@@ -15,8 +15,8 @@ class ExpandableContentAdapter (private val answerList: HashMap<String, String>)
     val questionList = ArrayList(answerList.keys)
 
     override fun getChild(listPosition: Int, expandedListPosition: Int): String?{
-        val key = questionList.get(listPosition)
-        return this.answerList.get(key)
+        val key = questionList[listPosition]
+        return this.answerList[key]
     }
 
     override fun getChildId(listPosition: Int, expandedListPosition: Int): Long {
@@ -70,7 +70,7 @@ class ExpandableContentAdapter (private val answerList: HashMap<String, String>)
     }
 
     override fun getGroup(groupPosition: Int): String {
-        return questionList.get(groupPosition)
+        return questionList[groupPosition]
     }
 
     override fun areAllItemsEnabled(): Boolean {

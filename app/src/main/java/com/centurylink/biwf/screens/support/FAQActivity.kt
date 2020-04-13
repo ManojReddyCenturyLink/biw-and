@@ -85,6 +85,7 @@ class FAQActivity : BaseActivity(),VideoItemClickListener{
         binding.activityHeaderView.subHeaderRightIcon.setOnClickListener {
             setResult(Activity.RESULT_OK)
             this.finish() }
+        binding.activitySupportView.supportCallUsLink.visibility=View.GONE
     }
     private fun getFAQInformation() {
         faqViewModel.getFAQDetails().observe(this) {
