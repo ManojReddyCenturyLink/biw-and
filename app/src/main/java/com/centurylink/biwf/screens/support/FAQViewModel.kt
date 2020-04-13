@@ -11,6 +11,7 @@ import com.centurylink.biwf.model.support.Videofaq
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.utility.EventLiveData
+import java.util.stream.Collectors
 import javax.inject.Inject
 
 class FAQViewModel @Inject constructor(
@@ -19,7 +20,8 @@ class FAQViewModel @Inject constructor(
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
     private val faqVideoData:MutableLiveData<List<Videofaq>> = MutableLiveData()
-    private val faqquestionsData:MutableLiveData<List<QuestionFAQ>> = MutableLiveData()
+    private val faqQuestionsData:MutableLiveData<HashMap<String,String>> = MutableLiveData()
+    private var questionMap: HashMap<String,String> = HashMap<String,String>()
     private var faqListDetails: LiveData<Resource<FAQ>> =
         faqRepository.getFAQDetails()
 
@@ -27,14 +29,16 @@ class FAQViewModel @Inject constructor(
 
     fun sortQuestionsAndVideos(videolist: List<Videofaq>,questionList:List<QuestionFAQ>) {
         faqVideoData.value=videolist
-        faqquestionsData.value =questionList
+        questionMap = questionList.associateTo(HashMap(),{it.name to it.description})
+        Log.i("Pravin","Question Map "+questionMap.size)
+        faqQuestionsData.value=questionMap
     }
 
     fun getVideoFAQLiveData(): MutableLiveData<List<Videofaq>> {
         return faqVideoData
     }
 
-    fun getQuestionFAQLiveData(): MutableLiveData<List<Videofaq>> {
-        return faqVideoData
+    fun getQuestionFAQLiveData(): MutableLiveData<HashMap<String,String>> {
+        return faqQuestionsData
     }
 }

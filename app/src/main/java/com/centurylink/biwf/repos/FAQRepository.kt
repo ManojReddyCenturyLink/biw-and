@@ -16,7 +16,6 @@ class FAQRepository @Inject constructor(
             LiveData<Resource<FAQ>> {
         return object : NetworkResource<FAQ>() {
             override fun createCall(): LiveData<Resource<FAQ>> {
-                Log.i("Pravin","FAQ Rpeositorit ")
                 return apiServices.getFAQDetails()
             }
         }.asLiveData()
