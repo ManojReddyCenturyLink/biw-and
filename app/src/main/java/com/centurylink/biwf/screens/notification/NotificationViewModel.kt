@@ -22,7 +22,7 @@ class NotificationViewModel @Inject constructor(
     val displayClearAllEvent: EventLiveData<Unit> = MutableLiveData()
     val myState = ObservableData(NotificationCoordinator.
         NotificationCoordinatorDestinations.NOTIFICATION_LIST)
-    private val notificationLiveData:MutableLiveData<MutableList<Notification>> = MutableLiveData()
+    val notificationLiveData:MutableLiveData<MutableList<Notification>> = MutableLiveData()
     private val unreadItem: Notification =
         Notification(NotificationActivity.KEY_UNREAD_HEADER, "",
             "", "", true, "")

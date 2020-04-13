@@ -8,10 +8,11 @@ import com.centurylink.biwf.utility.InitUtility
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
+import dagger.android.support.DaggerApplication
 import timber.log.Timber
 import javax.inject.Inject
 
-open class BIWFApp : MultiDexApplication(), HasAndroidInjector {
+open class BIWFApp : MultiDexApplication(),HasAndroidInjector {
 
     @Inject
     lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Any>
