@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.ImageView
 import android.widget.TextView
 import com.centurylink.biwf.R
 
@@ -50,7 +51,13 @@ class ExpandableContentAdapter (private val answerList: HashMap<String, String>)
             convertView = layoutInflater.inflate(R.layout.faq_header_questions, null)
         }
         val questionTextView = convertView!!.findViewById<TextView>(R.id.faq_header_group_title)
-        questionTextView.text = listTitle
+        val questionIcon = convertView!!.findViewById<ImageView>(R.id.faq_header_arrow)
+         questionTextView.text = listTitle
+        if(isExpanded) {
+            questionIcon.setImageResource(R.drawable.ic_icon_down)
+        } else{
+             questionIcon.setImageResource(R.drawable.ic_icon_right)
+        }
         return convertView!!
     }
 

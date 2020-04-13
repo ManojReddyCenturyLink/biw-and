@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/faq_header_arrow"
-        android:layout_width="@dimen/close_icon_size"
-        android:layout_height="@dimen/close_icon_size"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
         android:tint="@color/grey"
-        android:src="@drawable/ic_back"
+        android:layout_marginLeft="20dp"
+        android:src="@drawable/ic_icon_right"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -19,8 +20,6 @@
         android:id="@+id/faq_header_group_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:textColor="@android:color/black"
         android:textSize="@dimen/small_title_text_size"
         android:singleLine="true"
