@@ -24,13 +24,13 @@ import com.centurylink.biwf.utility.observe
 import javax.inject.Inject
 
 
-class FAQActivity : BaseActivity(),VideoItemClickListener{
+class FAQActivity : BaseActivity(), VideoItemClickListener {
 
     companion object {
         const val faqTitle: String = "FaqTitle"
-        const val requestToHome :Int= 1100;
+        const val requestToHome: Int = 1100;
 
-        fun newIntent(context: Context, bundle:Bundle) :Intent {
+        fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, FAQActivity::class.java).putExtra(
                 faqTitle, bundle.getString(faqTitle)
             )
@@ -48,7 +48,7 @@ class FAQActivity : BaseActivity(),VideoItemClickListener{
     }
     private lateinit var binding: ActivityFaqBinding
     private var videoList: List<Videofaq> = mutableListOf()
-    private var questionList: HashMap<String,String> = HashMap<String,String>()
+    private var questionList: HashMap<String, String> = HashMap<String, String>()
     private lateinit var videoAdapter: FAQVideoViewAdapter
     private lateinit var questionAdapter: ExpandableContentAdapter
 
@@ -78,22 +78,24 @@ class FAQActivity : BaseActivity(),VideoItemClickListener{
     override fun onVideoItemClicked(videoFAQ: Videofaq) {
     }
 
-    private fun initHeaders(){
-        var screenTitle :String= intent.getStringExtra(faqTitle)
-        binding.activityHeaderView.subHeaderTitle.text=screenTitle
+    private fun initHeaders() {
+        var screenTitle: String = intent.getStringExtra(faqTitle)
+        binding.activityHeaderView.subHeaderTitle.text = screenTitle
         binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
         binding.activityHeaderView.subHeaderRightIcon.setOnClickListener {
             setResult(Activity.RESULT_OK)
-            this.finish() }
-        binding.activitySupportView.supportCallUsLink.visibility=View.GONE
+            this.finish()
+        }
+        binding.activitySupportView.supportCallUsLink.visibility = View.GONE
     }
+
     private fun getFAQInformation() {
         faqViewModel.getFAQDetails().observe(this) {
             when {
                 it.status.isLoading() -> {
                 }
                 it.status.isSuccessful() -> {
-                    faqViewModel.sortQuestionsAndVideos(it.data!!.videolist,it.data!!.questionlist)
+                    faqViewModel.sortQuestionsAndVideos(it.data!!.videolist, it.data!!.questionlist)
                     displaySortedFAQ()
                 }
                 it.status.isError() -> {
@@ -103,20 +105,20 @@ class FAQActivity : BaseActivity(),VideoItemClickListener{
         }
     }
 
-    private fun prepareVideoRecyclerView( videolist: List<Videofaq>) {
+    private fun prepareVideoRecyclerView(videolist: List<Videofaq>) {
         videoList = videolist
         videoAdapter = FAQVideoViewAdapter(videoList, this)
         binding.faqVideoList.adapter = videoAdapter
     }
 
-    private fun prepareQuestionRecyclerView(questionlist: HashMap<String,String>) {
+    private fun prepareQuestionRecyclerView(questionlist: HashMap<String, String>) {
         questionList = questionlist
         questionAdapter = ExpandableContentAdapter(questionList)
         binding.questionsAnswersListView.setAdapter(questionAdapter)
     }
 
-    private fun initView(){
-        binding.activitySupportView.contactUsHeading.visibility= View.GONE
+    private fun initView() {
+        binding.activitySupportView.contactUsHeading.visibility = View.GONE
         binding.faqVideoList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         val myDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
@@ -128,8 +130,8 @@ class FAQActivity : BaseActivity(),VideoItemClickListener{
         faqViewModel.getQuestionFAQLiveData().observe(this, Observer {
             prepareQuestionRecyclerView(it)
         })
-        binding.faqVideoList.isNestedScrollingEnabled=false
-        binding.questionsAnswersListView.isNestedScrollingEnabled=false
+        binding.faqVideoList.isNestedScrollingEnabled = false
+        binding.questionsAnswersListView.isNestedScrollingEnabled = false
         faqViewModel.getVideoFAQLiveData().observe(this, Observer {
             prepareVideoRecyclerView(it)
         })

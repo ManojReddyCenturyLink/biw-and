@@ -3,16 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:paddingTop="10dp"
-    android:paddingBottom="10dp"
-    android:layout_height="wrap_content">
+    android:paddingBottom="10dp">
+
     <ImageView
         android:id="@+id/faq_header_arrow"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:tint="@color/grey"
         android:layout_marginLeft="20dp"
         android:src="@drawable/ic_icon_right"
+        android:tint="@color/grey"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,21 +21,22 @@
         android:id="@+id/faq_header_group_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/small_text_size"
-        android:singleLine="true"
         android:layout_marginStart="8dp"
         android:gravity="start"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/small_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/faq_header_arrow"
         app:layout_constraintLeft_toRightOf="@+id/faq_header_arrow"
-        app:layout_constraintTop_toTopOf="@+id/faq_header_arrow"
-        app:layout_constraintBottom_toBottomOf="@+id/faq_header_arrow" />
+        app:layout_constraintTop_toTopOf="@+id/faq_header_arrow" />
+
     <View
         android:id="@+id/faq_dividers_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/light_grey"
-        android:layout_marginTop="@dimen/margin_spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/faq_header_arrow"/>
+        app:layout_constraintTop_toBottomOf="@+id/faq_header_arrow" />
 </androidx.constraintlayout.widget.ConstraintLayout>

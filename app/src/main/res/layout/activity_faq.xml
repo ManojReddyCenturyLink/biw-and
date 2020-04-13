@@ -25,11 +25,11 @@
             android:paddingBottom="20dp">
 
             <TextView
-                android:layout_marginLeft="@dimen/medium_margin_spacing"
-                android:layout_marginRight="@dimen/medium_margin_spacing"
                 android:id="@+id/faq_video_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_margin_spacing"
+                android:layout_marginRight="@dimen/medium_margin_spacing"
                 android:layout_marginBottom="24dp"
                 android:gravity="center_vertical"
                 android:text="@string/faq_subsection_helpful_videos"
@@ -44,17 +44,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/medium_margin_spacing"
-                android:layout_marginRight="@dimen/medium_margin_spacing"
                 android:layout_marginTop="24dp"
+                android:layout_marginRight="@dimen/medium_margin_spacing"
                 app:layout_constraintTop_toBottomOf="@+id/faq_video_title" />
 
             <TextView
-                android:layout_marginLeft="@dimen/medium_margin_spacing"
-                android:layout_marginRight="@dimen/medium_margin_spacing"
                 android:id="@+id/faq_content_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_margin_spacing"
                 android:layout_marginTop="24dp"
+                android:layout_marginRight="@dimen/medium_margin_spacing"
                 android:gravity="start"
                 android:paddingTop="0dp"
                 android:text="@string/frequently_asked_questions"
@@ -62,15 +62,16 @@
                 android:textSize="@dimen/small_title_text_size"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@+id/faq_video_list" />
+
             <View
                 android:id="@+id/faq_divider_view"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@color/light_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                android:background="@color/light_grey"
-                android:layout_marginTop="@dimen/margin_spacing_small"
-                app:layout_constraintTop_toBottomOf="@+id/faq_content_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/faq_content_title" />
 
             <com.centurylink.biwf.screens.support.CustomExpandableListView
                 android:id="@+id/questions_answers_list_view"
@@ -78,8 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:groupIndicator="@null"
-                android:visibility="visible"
                 android:listSelector="@android:color/transparent"
+                android:visibility="visible"
                 app:layout_constraintTop_toBottomOf="@+id/faq_divider_view" />
 
             <TextView

@@ -18,15 +18,20 @@ class FAQCoordinator @Inject constructor() {
 
     private fun navigateTo(destinations: FAQCoordinatorDestinations) {
         when (destinations) {
-            FAQCoordinatorDestinations.PLAY_VIDEO_ACTIVITY->{}
-            FAQCoordinatorDestinations.FAQ_LIST->{}
-            FAQCoordinatorDestinations.LIVE_CHAT->{}
-            FAQCoordinatorDestinations.CALL_BACK_SCHEDULE->{}
+            FAQCoordinatorDestinations.PLAY_VIDEO_ACTIVITY -> {
+            }
+            FAQCoordinatorDestinations.FAQ_LIST -> {
+            }
+            FAQCoordinatorDestinations.LIVE_CHAT -> {
+            }
+            FAQCoordinatorDestinations.CALL_BACK_SCHEDULE -> {
+            }
         }
     }
 
     enum class FAQCoordinatorDestinations {
-        PLAY_VIDEO_ACTIVITY, FAQ_LIST,LIVE_CHAT,CALL_BACK_SCHEDULE;
+        PLAY_VIDEO_ACTIVITY, FAQ_LIST, LIVE_CHAT, CALL_BACK_SCHEDULE;
+
         companion object {
             lateinit var bundle: Bundle
             fun get(): Bundle = bundle
