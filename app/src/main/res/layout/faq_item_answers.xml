@@ -13,6 +13,7 @@
         android:layout_marginRight="@dimen/medium_margin_spacing"
         android:gravity="start"
         android:paddingBottom="10dp"
+        android:lineSpacingExtra="3dp"
         android:textColor="@color/blue"
         android:textSize="@dimen/xxs_text_size"
         app:layout_constraintStart_toStartOf="parent"
