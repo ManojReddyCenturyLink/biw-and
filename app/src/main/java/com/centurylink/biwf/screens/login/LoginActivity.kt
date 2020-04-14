@@ -8,7 +8,7 @@ import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
 import com.centurylink.biwf.databinding.ActivityLoginBinding
-import com.centurylink.biwf.repos.AccountRepositoryImpl
+import com.centurylink.biwf.repos.AccountRepository
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
@@ -24,7 +24,7 @@ class LoginActivity : BaseActivity() {
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
 
-        viewModel = LoginViewModel(AccountRepositoryImpl())
+        viewModel = LoginViewModel(AccountRepository())
         viewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
         }

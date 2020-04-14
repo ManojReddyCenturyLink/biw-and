@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BiWF</string>
     <string name="login_card_title">Log In to Your Account</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="email">Email:</string>
+    <string name="password">Password:</string>
     <string name="log_in">Log In</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
@@ -27,7 +27,7 @@
     <string name="dialog_no">No</string>
     <string name="dialog_notiifcation_title">Delete Notifications</string>
 
-     <!--Notification Details Screen -->
+    <!--Notification Details Screen -->
     <string name="notification_details">Notification Details</string>
     <string name="webpage_error">Error in Loading Page</string>
 
@@ -39,4 +39,24 @@
     <string name="installation_scheduled">Installation scheduled</string>
     <string name="text_time_details">Your appointment is between 8:00AM - 10:00AM</string>
     <string name="congratulations">Congratulations!</string>
+    <string name="edit"><u>edit</u></string>
+
+    <!--Account Screen -->
+    <string name="settings_preferences"><![CDATA[Settings & Preferences]]></string>
+    <string name="service_calls_description">I would like to receive emails about offers and marketing from CenturyLink at the email address provided</string>
+    <string name="marketing_emails_description">I would like to receive emails about offers and marketing from CenturyLink at the email address provided</string>
+    <string name="login_settings">Login settings</string>
+    <string name="biometric_label">Use face-ID login</string>
+    <string name="communication_preferences">Communication preferences</string>
+    <string name="service_calls_and_texts">Service calls and texts</string>
+    <string name="marketing_emails">Marketing emails</string>
+    <string name="marketing_calls_and_texts">Marketing calls and texts</string>
+    <string name="payment_information">Payment Information</string>
+    <string name="next_payment_date">Next Payment Date:</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="hidden_password">•••••••••</string>
+    <string name="billing_address">Billing address:</string>
+    <string name="cellphone">Cellphone:</string>
+    <string name="home_phone">Home phone:</string>
+    <string name="work_phone">Work phone:</string>
 </resources>

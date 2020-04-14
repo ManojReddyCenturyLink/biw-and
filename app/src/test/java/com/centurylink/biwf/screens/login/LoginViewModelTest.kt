@@ -1,8 +1,8 @@
-package com.centurylink.biwf.screens
+package com.centurylink.biwf.screens.login
 
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
-import com.centurylink.biwf.repos.AccountRepositoryImpl
+import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.screens.login.LoginViewModel
 import com.centurylink.biwf.testutils.event
 import io.mockk.every
@@ -17,7 +17,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     private lateinit var viewModel: LoginViewModel
 
     @MockK
-    private lateinit var mockAccountRepository: AccountRepositoryImpl
+    private lateinit var mockAccountRepository: AccountRepository
 
     @Before
     fun setup() {

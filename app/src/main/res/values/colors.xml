@@ -7,6 +7,7 @@
     <color name="grey">#CCCCCC</color>
     <color name="grey_darker">#545454</color>
     <color name="grey_card_bg">#979797</color>
+    <color name="line_break_color">#e5e5e5</color>
     <color name="grey_light">#f0f0f0</color>
     <color name="black">#000000</color>
     <color name="online_green">#15F732</color>
@@ -17,4 +18,6 @@
 
     <color name="notification_unread_bg">#D3D3D3</color>
     <color name="font_color_white">#ffff</color>
+    <color name="title_color_blue">#001e60</color>
+    <color name="main_background_color">#eeeeee</color>
 </resources>
