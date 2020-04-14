@@ -3,7 +3,7 @@ package com.centurylink.biwf.model.support
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-data class Videofaq (
+data class Videofaq(
     @SerializedName("id") var id: Int,
     @SerializedName("name") var name: String? = null,
     @SerializedName("description") var description: String? = null,

@@ -21,7 +21,7 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
         AndroidInjection.inject(this)
     }
 
-     fun setHeightofActivity(){
+    fun setHeightofActivity() {
         val displayMetrics = DisplayMetrics()
         windowManager.defaultDisplay.getMetrics(displayMetrics)
         val displayWidth = displayMetrics.widthPixels
@@ -36,7 +36,8 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
         layoutParams.height = dialogWindowHeight
         getWindow().setAttributes(layoutParams)
     }
-     fun displayToast(errorMessage: String) {
+
+    fun displayToast(errorMessage: String) {
         Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 }

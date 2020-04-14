@@ -5,10 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.centurylink.biwf.R
-import com.centurylink.biwf.coordinators.NotificationCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
-import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 
 class SupportActivity : AppCompatActivity() {
 

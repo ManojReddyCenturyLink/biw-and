@@ -58,15 +58,15 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
         parent: ViewGroup
     ): View {
         var convertView = convertView
-        val listTitle = getGroup(listPosition) as String
+        val listTitle = getGroup(listPosition)
         if (convertView == null) {
             val layoutInflater =
                 parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.faq_header_questions, null)
         }
         val questionTextView = convertView!!.findViewById<TextView>(R.id.faq_header_group_title)
-        val questionIcon = convertView!!.findViewById<ImageView>(R.id.faq_header_arrow)
-        val dividerView = convertView!!.findViewById<View>(R.id.faq_dividers_view)
+        val questionIcon = convertView.findViewById<ImageView>(R.id.faq_header_arrow)
+        val dividerView = convertView.findViewById<View>(R.id.faq_dividers_view)
         questionTextView.text = listTitle
         if (isExpanded) {
             questionIcon.setImageResource(R.drawable.ic_icon_down)
@@ -75,7 +75,7 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
             questionIcon.setImageResource(R.drawable.ic_icon_right)
             dividerView.visibility = View.VISIBLE
         }
-        return convertView!!
+        return convertView
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {

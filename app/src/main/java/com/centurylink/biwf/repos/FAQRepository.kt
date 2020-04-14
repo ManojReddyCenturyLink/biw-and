@@ -1,8 +1,6 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.support.FAQ
 import com.centurylink.biwf.network.NetworkResource
 import com.centurylink.biwf.network.Resource

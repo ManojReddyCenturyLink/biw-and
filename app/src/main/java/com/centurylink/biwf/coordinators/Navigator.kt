@@ -1,9 +1,6 @@
 package com.centurylink.biwf.coordinators
 
 import android.app.Activity
-import android.content.Intent
-import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
@@ -44,15 +41,11 @@ class Navigator @Inject constructor() {
         activity?.startActivity(NotificationActivity.newIntent(activity!!))
     }
 
-     fun navigateToNotificationDetails() {
-         val bundle  = NotificationCoordinator.NotificationCoordinatorDestinations.get()
-         activity?.startActivityForResult(NotificationDetailsActivity.newIntent(activity!!,bundle),
-             NotificationDetailsActivity.requesttodismiss)
-    }
-
-    fun navigateandPlayVideo(){
-        val intent = Intent(Intent.ACTION_VIEW)
-        //intent.setDataAndType(Uri.parse(videoPath), "video/mp4")
-        //startActivity(intent)
+    fun navigateToNotificationDetails() {
+        val bundle = NotificationCoordinator.NotificationCoordinatorDestinations.get()
+        activity?.startActivityForResult(
+            NotificationDetailsActivity.newIntent(activity!!, bundle),
+            NotificationDetailsActivity.requesttodismiss
+        )
     }
 }

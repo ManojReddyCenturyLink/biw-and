@@ -28,7 +28,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
 
     companion object {
         const val faqTitle: String = "FaqTitle"
-        const val requestToHome: Int = 1100;
+        const val requestToHome: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, FAQActivity::class.java).putExtra(
