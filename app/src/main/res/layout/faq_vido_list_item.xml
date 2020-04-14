@@ -15,7 +15,7 @@
         android:id="@+id/faq_video_desc"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="@color/blue_light"
         android:ellipsize="end"
         android:maxLines="2"
         app:layout_constraintTop_toBottomOf="@+id/faq_video_thumbnail"
@@ -26,6 +26,7 @@
         android:id="@+id/faq_video_duration"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:textColor="@color/blue_light"
         app:layout_constraintTop_toBottomOf="@+id/faq_video_thumbnail"
         app:layout_constraintEnd_toEndOf="@+id/faq_video_thumbnail"
         android:textSize="18sp"/>
