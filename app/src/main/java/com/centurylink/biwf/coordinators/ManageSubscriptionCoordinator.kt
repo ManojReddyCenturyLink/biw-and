@@ -3,8 +3,11 @@ package com.centurylink.biwf.coordinators
 import android.os.Bundle
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class ManageSubscriptionCoordinator @Inject constructor() {
+
     @Inject
     lateinit var navigator: Navigator
 

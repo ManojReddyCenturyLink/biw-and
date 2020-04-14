@@ -2,8 +2,11 @@ package com.centurylink.biwf.screens.subscription
 
 import android.app.Activity
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -36,6 +39,9 @@ class ManageSubscriptionActivity : BaseActivity() {
         setTheme(R.style.TransparentActivity)
         super.onCreate(savedInstanceState)
         binding = ActivityManageSubscriptionBinding.inflate(layoutInflater)
+        manageSubscriptionViewModel.apply {
+            cancelSubscriptionEvent.handleEvent { displayCancelSubscriptionDialog() }
+        }
         setContentView(binding.root)
         setHeightofActivity()
         initHeaders()
@@ -57,5 +63,22 @@ class ManageSubscriptionActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
+        binding.cancelSubscription.setOnClickListener{manageSubscriptionViewModel.onCancelSubscription()}
+    }
+
+    private fun displayCancelSubscriptionDialog() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage(R.string.cancel_subscription_confirm)
+            .setCancelable(true)
+            .setPositiveButton(R.string.dialog_yes, DialogInterface.OnClickListener { dialog, id ->
+                dialog.cancel()
+                binding.cancelSubscription.visibility= View.GONE
+            })
+        // create dialog box
+        val alert = dialogBuilder.create()
+        // set title for alert dialog box
+        alert.setTitle(R.string.cancel_subscription)
+        // show alert dialog
+        alert.show()
     }
 }

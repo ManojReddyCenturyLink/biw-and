@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
+import com.centurylink.biwf.screens.subscription.ManageSubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import dagger.Binds
@@ -54,4 +55,12 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FAQViewModel::class)
     abstract fun bindFAQViewModel(faqModel: FAQViewModel): ViewModel
+
+    /**
+     * Binding FAQViewModel using this key "FAQViewModel::class"
+     */
+    @Binds
+    @IntoMap
+    @ViewModelKey(ManageSubscriptionViewModel::class)
+    abstract fun bindManageSubscriptionViewModel(manageSubscriptionViewModel: ManageSubscriptionViewModel): ViewModel
 }
