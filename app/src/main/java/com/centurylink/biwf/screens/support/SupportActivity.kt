@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.centurylink.biwf.databinding.ActivitySupportBinding
+import com.centurylink.biwf.screens.subscription.ManageSubscriptionActivity
 
 class SupportActivity : AppCompatActivity() {
 
@@ -22,13 +23,14 @@ class SupportActivity : AppCompatActivity() {
         binding.SupportText.setOnClickListener {
             var bundle = Bundle()
             bundle.putString(FAQActivity.faqTitle, "Wifi Connection")
-            startActivityForResult(FAQActivity.newIntent(this, bundle), FAQActivity.requestToHome)
+            startActivityForResult(ManageSubscriptionActivity.newIntent(this, bundle), ManageSubscriptionActivity.requestToSubscription)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
+            ManageSubscriptionActivity.requestToSubscription,
             FAQActivity.requestToHome -> {
                 if (resultCode == Activity.RESULT_OK) {
                     finish()
