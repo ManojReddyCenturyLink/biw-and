@@ -33,9 +33,7 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center_vertical"
                 android:text="@string/faq_subsection_helpful_videos"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_title_text_size"
-                android:textStyle="bold"
+                style="@style/SubHeading"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -58,9 +56,7 @@
                 android:gravity="start"
                 android:paddingTop="0dp"
                 android:text="@string/frequently_asked_questions"
-                android:textColor="@color/black"
-                android:textSize="@dimen/small_title_text_size"
-                android:textStyle="bold"
+                style="@style/SubHeading"
                 app:layout_constraintTop_toBottomOf="@+id/faq_video_list" />
 
             <View
