@@ -5,37 +5,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/margin_spacing_small">
+
     <TextView
         android:id="@+id/contact_us_heading"
+        style="@style/SubHeading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/contact_us"
-        style="@style/SubHeading"
         android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:text="@string/contact_us"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incHeader"
         tools:ignore="UnknownId" />
+
     <View
         android:id="@+id/heading_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/light_grey"
-        android:layout_marginTop="@dimen/margin_spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/contact_us_heading"/>
+        app:layout_constraintTop_toBottomOf="@+id/contact_us_heading" />
+
     <TextView
         android:id="@+id/live_chat_textview"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        android:text="@string/live_chat"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
+        android:text="@string/live_chat"
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_16"
-        app:layout_constraintTop_toBottomOf="@+id/heading_view"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/heading_view" />
 
     <TextView
         android:id="@+id/live_chat_timing"
@@ -45,39 +48,42 @@
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_12"
         app:layout_constraintBottom_toBottomOf="@+id/live_chat_textview"
-        app:layout_constraintTop_toTopOf="@+id/live_chat_textview"
-        app:layout_constraintEnd_toStartOf="@+id/live_chat_navigate_website"/>
+        app:layout_constraintEnd_toStartOf="@+id/live_chat_navigate_website"
+        app:layout_constraintTop_toTopOf="@+id/live_chat_textview" />
+
     <ImageView
         android:id="@+id/live_chat_navigate_website"
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
-        android:tint="@color/blue"
-        android:scaleX="-1"
         android:padding="@dimen/margin_spacing_tiny"
+        android:scaleX="-1"
         android:src="@drawable/ic_back"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:tint="@color/blue"
         app:layout_constraintBottom_toBottomOf="@+id/live_chat_textview"
-        app:layout_constraintTop_toTopOf="@+id/live_chat_textview"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/live_chat_textview" />
+
     <View
         android:id="@+id/live_chat_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/light_grey"
-        android:layout_marginTop="@dimen/margin_spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/live_chat_textview"/>
+        app:layout_constraintTop_toBottomOf="@+id/live_chat_textview" />
+
     <TextView
         android:id="@+id/schedule_callback_textview"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        android:text="Schedule a Callback"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
+        android:text="@string/support_schedule_a_callback"
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_16"
-        app:layout_constraintTop_toBottomOf="@+id/live_chat_divider"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/live_chat_divider" />
 
     <TextView
         android:id="@+id/schedule_callback_timing"
@@ -87,39 +93,41 @@
         android:textColor="@color/blue"
         android:textSize="@dimen/text_size_12"
         app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
-        app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview"
-        app:layout_constraintEnd_toStartOf="@+id/schedule_callback_navigate"/>
+        app:layout_constraintEnd_toStartOf="@+id/schedule_callback_navigate"
+        app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview" />
+
     <ImageView
         android:id="@+id/schedule_callback_navigate"
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
-        android:tint="@color/blue"
-        android:scaleX="-1"
         android:padding="@dimen/margin_spacing_tiny"
+        android:scaleX="-1"
         android:src="@drawable/ic_back"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:tint="@color/blue"
         app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
-        app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview" />
+
     <View
         android:id="@+id/schedule_callback_divider"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/light_grey"
-        android:layout_marginTop="@dimen/margin_spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_textview"/>
+        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_textview" />
+
     <TextView
         android:id="@+id/support_call_us_link"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_margin_spacing"
         android:layout_marginBottom="@dimen/medium_margin_spacing"
-        android:textColor="@color/blue"
         android:text="@string/call_us"
+        android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/schedule_callback_divider"
-        />
+        app:layout_constraintTop_toBottomOf="@id/schedule_callback_divider" />
 </androidx.constraintlayout.widget.ConstraintLayout>
