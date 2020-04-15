@@ -14,6 +14,7 @@
     <string name="placeholder_text_1">1</string>
 
     <string name="support">Support</string>
+    <string name="call_us"><u>Call Us at (123) 456-7890</u></string>
 
     <!--Notification Screen -->
     <string name="notification_title">Notifications</string>
@@ -39,19 +40,26 @@
     <string name="installation_scheduled">Installation scheduled</string>
     <string name="text_time_details">Your appointment is between 8:00AM - 10:00AM</string>
     <string name="congratulations">Congratulations!</string>
-
+    <string name="faq_topics">FAQ Topics</string>
+    <string name="troubleshooting">Troubleshooting</string>
+    <string name="visit_website">Visit Website</string>
+    <string name="restart_modem">Restart Modem</string>
+    <string name="if_you_are_experiencing_problems_with_your_network">If you are experiencing problems with your network</string>
+    <string name="run_speed_test">Run Speed Test</string>
+    <string name="last_speed_test">Last Speed Test: \u0020</string>
+    <string name="mbps_upload">Mbps Upload</string>
+    <string name="mbps_download">Mbps Download</string>
+    <string name="live_chat">Live Chat</string>
+    <string name="contact_us">Contact Us</string>
+    
     <!--FAQ Screen  -->
     <string name="faq_title">Network Connection</string>
     <string name="faq_subsection_helpful_videos">Helpful Videos</string>
     <string name="frequently_asked_questions">Frequently asked questions</string>
     <string name="frequently_questions_cant_find">Can’t find the answer to your question? \n Try contacting us. We’d love to help!</string>
-    <string name="call_us">Frequently asked questions</string>
     <string name="support_live_chat">Live Chat</string>
     <string name="support_schedule_a_callback">Schedule a Callback</string>
-    <string name="live_chat">Live Chat</string>
-    <string name="contact_us">Contact Us</string>
 
-    <!--Manage Subscription  -->
     <string name="manage_subscription_title">Manage Subscription</string>
     <string name="cancel_subscription_sub_header">Cancel Subscription</string>
     <string name="manage_subscription_content">When canceling service on any day other than the last day of your current subscription, all monthly rates, fees, and taxes will apply in full and payments received for unused service will not be prorated, refunded, or credited. Your current subscription ends on %s.</string>

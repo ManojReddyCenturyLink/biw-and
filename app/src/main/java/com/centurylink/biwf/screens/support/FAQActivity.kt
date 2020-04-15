@@ -60,6 +60,12 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         setHeightofActivity()
         faqViewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
+            faqVideoData.observe(this@FAQActivity, Observer {
+                prepareVideoRecyclerView(it)
+            })
+            faqQuestionsData.observe(this@FAQActivity, Observer {
+                prepareQuestionRecyclerView(it)
+            })
         }
         initHeaders()
         initView()
@@ -123,17 +129,13 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         val myDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
         myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
+        binding.faqVideoList.isNestedScrollingEnabled = false
+        binding.questionsAnswersListView.isNestedScrollingEnabled = false
         binding.faqVideoList.addItemDecoration(myDivider)
     }
 
     private fun displaySortedFAQ() {
-        faqViewModel.getQuestionFAQLiveData().observe(this, Observer {
-            prepareQuestionRecyclerView(it)
-        })
-        binding.faqVideoList.isNestedScrollingEnabled = false
-        binding.questionsAnswersListView.isNestedScrollingEnabled = false
-        faqViewModel.getVideoFAQLiveData().observe(this, Observer {
-            prepareVideoRecyclerView(it)
-        })
+
+
     }
 }

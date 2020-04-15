@@ -12,7 +12,8 @@
         style="@style/SubHeading"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader"/>
     <View
         android:id="@+id/heading_view"
         android:layout_width="match_parent"
@@ -100,7 +101,7 @@
     <View
         android:id="@+id/schedule_callback_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/cardview_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/light_grey"

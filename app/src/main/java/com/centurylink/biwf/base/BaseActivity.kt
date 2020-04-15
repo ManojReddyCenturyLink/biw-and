@@ -27,14 +27,14 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
         val displayWidth = displayMetrics.widthPixels
         val displayHeight = displayMetrics.heightPixels
         val layoutParams = WindowManager.LayoutParams()
-        layoutParams.copyFrom(getWindow().getAttributes())
+        layoutParams.copyFrom(window.attributes)
 
         val dialogWindowWidth = (displayWidth * 1f).toInt()
         // Set alert dialog height equal to screen height 90%
         val dialogWindowHeight = (displayHeight * 0.98f).toInt()
         layoutParams.width = dialogWindowWidth
         layoutParams.height = dialogWindowHeight
-        getWindow().setAttributes(layoutParams)
+        window.attributes = layoutParams
     }
 
     fun displayToast(errorMessage: String) {

@@ -10,6 +10,7 @@ import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
 import com.centurylink.biwf.di.module.RepositoryModule
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.AndroidInjectionModule
 import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
@@ -25,6 +26,7 @@ import javax.inject.Singleton
         (DaggerViewModelFactoryModule::class),
         (NotificationActivityInjectorModule::class),
         (NotificationDetailsActivityInjectorModule::class),
+        (AndroidInjectionModule::class),
         (AppModule::class),
         (DashboardFragmentInjectorModule::class),
         (CustomWebFragmentInjectorModule::class),
@@ -38,6 +40,7 @@ interface ApplicationComponent {
     interface Builder {
         @BindsInstance
         fun applicationContext(app: BIWFApp): Builder
+
         fun build(): ApplicationComponent
     }
 

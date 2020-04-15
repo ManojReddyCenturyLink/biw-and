@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp">
@@ -11,30 +10,30 @@
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
         android:padding="8dp"
-        android:tint="@color/blue"
         android:src="@drawable/ic_back"
+        android:tint="@color/blue"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/sub_header_title"
+        style="@style/title_subHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/notification_details"
-       style="@style/title_subHeader"
         android:layout_marginStart="8dp"
+        android:text="@string/notification_details"
         android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="@+id/sub_header_leftIcon"
         app:layout_constraintLeft_toRightOf="@+id/sub_header_leftIcon"
-        app:layout_constraintTop_toTopOf="@+id/sub_header_leftIcon"
-        app:layout_constraintBottom_toBottomOf="@+id/sub_header_leftIcon" />
+        app:layout_constraintTop_toTopOf="@+id/sub_header_leftIcon" />
 
     <ImageView
         android:id="@+id/sub_header_rightIcon"
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
-        android:tint="@color/blue"
         android:src="@drawable/ic_close_icon"
+        android:tint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/sub_header_leftIcon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sub_header_leftIcon"
-        app:layout_constraintBottom_toBottomOf="@+id/sub_header_leftIcon" />
+        app:layout_constraintTop_toTopOf="@+id/sub_header_leftIcon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

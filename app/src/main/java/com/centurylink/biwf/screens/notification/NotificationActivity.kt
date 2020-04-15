@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -87,9 +86,9 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode){
-            NotificationDetailsActivity.requesttodismiss->{
-                if(resultCode==Activity.RESULT_OK){
+        when (requestCode) {
+            NotificationDetailsActivity.requestToDismiss -> {
+                if (resultCode == Activity.RESULT_OK) {
                     finish()
                 }
             }
