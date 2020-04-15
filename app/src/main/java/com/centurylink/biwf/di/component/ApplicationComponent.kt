@@ -5,10 +5,9 @@ import com.centurylink.biwf.di.activityinjector.*
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
-import com.centurylink.biwf.di.module.RepositoryModule
 import com.centurylink.biwf.di.module.AppModule
 import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
-import com.centurylink.biwf.di.module.ViewModelModule
+import com.centurylink.biwf.di.module.RepositoryModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -31,6 +30,7 @@ import javax.inject.Singleton
         (AppModule::class),
         (DashboardFragmentInjectorModule::class),
         (CustomWebFragmentInjectorModule::class),
+        (FAQActivityInjectorModule::class),
         (RepositoryModule::class)
     ]
 )

@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.support
 
+import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
@@ -13,7 +14,7 @@ import javax.inject.Inject
 
 class SupportViewModel @Inject constructor(supportRepository: SupportRepository) : BaseViewModel() {
 
-    private val faqLiveData:MutableLiveData<MutableList<FaqTopicsItem>> = MutableLiveData()
+    val faqLiveData: MutableLiveData<MutableList<FaqTopicsItem>> = MutableLiveData()
     private var faqListDetails: LiveData<Resource<FaqModel>> = supportRepository.getFAQDetails()
     val myState = ObservableData(SupportCoordinator.SupportCoordinatorDestinations.SUPPORT)
 
@@ -23,15 +24,19 @@ class SupportViewModel @Inject constructor(supportRepository: SupportRepository)
         faqLiveData.value = it as MutableList<FaqTopicsItem>
     }
 
-    fun getFaqResponse(): MutableLiveData<MutableList<FaqTopicsItem>> {
-        return faqLiveData
+    fun navigateToFAQList(faqtopicsItem: FaqTopicsItem) {
+        var bundle = Bundle()
+        bundle.putString(FAQActivity.faqTitle, faqtopicsItem.type)
+        SupportCoordinator.SupportCoordinatorDestinations.set(bundle)
+        myState.value =
+            SupportCoordinator.SupportCoordinatorDestinations.FAQ
     }
 
-    fun runSpeedTest(){}
+    fun runSpeedTest() {}
 
-    fun restartModem(){}
+    fun restartModem() {}
 
-    fun callUs(){}
+    fun callUs() {}
 }
 
 

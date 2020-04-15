@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activty_curved_bg">
+
+    <include
+        android:id="@+id/activity_header_view"
+        layout="@layout/widget_sub_header_component"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        android:paddingBottom="?attr/actionBarSize"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp">
+
+            <TextView
+                android:id="@+id/faq_video_title"
+                style="@style/SubHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_margin_spacing"
+                android:layout_marginRight="@dimen/medium_margin_spacing"
+                android:layout_marginBottom="24dp"
+                android:gravity="center_vertical"
+                android:text="@string/faq_subsection_helpful_videos"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/faq_video_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_margin_spacing"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="@dimen/medium_margin_spacing"
+                app:layout_constraintTop_toBottomOf="@+id/faq_video_title" />
+
+            <TextView
+                android:id="@+id/faq_content_title"
+                style="@style/SubHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/medium_margin_spacing"
+                android:layout_marginTop="24dp"
+                android:layout_marginRight="@dimen/medium_margin_spacing"
+                android:gravity="start"
+                android:paddingTop="0dp"
+                android:text="@string/frequently_asked_questions"
+                app:layout_constraintTop_toBottomOf="@+id/faq_video_list" />
+
+            <View
+                android:id="@+id/faq_divider_view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq_content_title" />
+
+            <com.centurylink.biwf.screens.support.CustomExpandableListView
+                android:id="@+id/questions_answers_list_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:groupIndicator="@null"
+                android:listSelector="@android:color/transparent"
+                android:visibility="visible"
+                app:layout_constraintTop_toBottomOf="@+id/faq_divider_view" />
+
+            <TextView
+                android:id="@+id/faq_content_cant_find"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:gravity="center_horizontal"
+                android:paddingTop="0dp"
+                android:text="@string/frequently_questions_cant_find"
+                android:textColor="@color/blue_light"
+                android:textSize="@dimen/small_title_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/questions_answers_list_view" />
+
+            <include
+                android:id="@+id/activity_support_view"
+                layout="@layout/widget_contact_us_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/faq_content_cant_find" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@ import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
+import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -40,13 +41,21 @@ class Navigator @Inject constructor() {
         activity?.startActivity(NotificationActivity.newIntent(activity!!))
     }
 
-     fun navigateToNotificationDetails() {
-         val bundle  = NotificationCoordinator.NotificationCoordinatorDestinations.get()
-         activity?.startActivityForResult(NotificationDetailsActivity.newIntent(activity!!,bundle),
-             NotificationDetailsActivity.requesttodismiss)
+    fun navigateToNotificationDetails() {
+        val bundle = NotificationCoordinator.NotificationCoordinatorDestinations.get()
+        activity?.startActivityForResult(
+            NotificationDetailsActivity.newIntent(activity!!, bundle),
+            NotificationDetailsActivity.requestToDismiss
+        )
     }
 
-    fun navigateToFaq() {}
+    fun navigateToFaq() {
+        val bundle = SupportCoordinator.SupportCoordinatorDestinations.get()
+        activity?.startActivityForResult(
+            FAQActivity.newIntent(activity!!, bundle),
+            FAQActivity.requestToHome
+        )
+    }
 
-     fun navigateToLiveChat() {}
+    fun navigateToLiveChat() {}
 }

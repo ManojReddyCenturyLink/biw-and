@@ -20,15 +20,20 @@ class NotificationViewModel @Inject constructor(
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
     val displayClearAllEvent: EventLiveData<Unit> = MutableLiveData()
-    val myState = ObservableData(NotificationCoordinator.
-        NotificationCoordinatorDestinations.NOTIFICATION_LIST)
-    val notificationLiveData:MutableLiveData<MutableList<Notification>> = MutableLiveData()
+    val myState = ObservableData(
+        NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_LIST
+    )
+    val notificationLiveData: MutableLiveData<MutableList<Notification>> = MutableLiveData()
     private val unreadItem: Notification =
-        Notification(NotificationActivity.KEY_UNREAD_HEADER, "",
-            "", "", true, "")
+        Notification(
+            NotificationActivity.KEY_UNREAD_HEADER, "",
+            "", "", true, ""
+        )
     private val readItem: Notification =
-        Notification(NotificationActivity.KEY_READ_HEADER, "",
-            "", "", false, "")
+        Notification(
+            NotificationActivity.KEY_READ_HEADER, "",
+            "", "", false, ""
+        )
 
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private var notificationListDetails: LiveData<Resource<NotificationSource>> =
@@ -36,14 +41,15 @@ class NotificationViewModel @Inject constructor(
 
     fun getNotificationDetails() = notificationListDetails
 
-    fun notificationItemClicked(notificationItem:Notification){
-        if(notificationItem.isUnRead) {
+    fun notificationItemClicked(notificationItem: Notification) {
+        if (notificationItem.isUnRead) {
             mergedNotificationList.remove(notificationItem)
             notificationItem.isUnRead = false
             mergedNotificationList.add(mergedNotificationList.size, notificationItem)
-            val readNotificationList = mergedNotificationList.asSequence().filter {! it.isUnRead }.toMutableList()
+            val readNotificationList =
+                mergedNotificationList.asSequence().filter { !it.isUnRead }.toMutableList()
             if (readNotificationList.size == 1) {
-                mergedNotificationList.add(mergedNotificationList.size-1,readItem)
+                mergedNotificationList.add(mergedNotificationList.size - 1, readItem)
             }
             val unreadNotificationList = mergedNotificationList.asSequence()
                 .filter { it.isUnRead }
@@ -57,10 +63,10 @@ class NotificationViewModel @Inject constructor(
         navigatetoNotifcationDetails(notificationItem)
     }
 
-    private fun navigatetoNotifcationDetails(notificationItem: Notification){
-        var bundle= Bundle()
-        bundle.putString(NotificationDetailsActivity.urlToLaunch,notificationItem.detialUrl)
-        bundle.putBoolean(NotificationDetailsActivity.launchFromHome,true)
+    private fun navigatetoNotifcationDetails(notificationItem: Notification) {
+        var bundle = Bundle()
+        bundle.putString(NotificationDetailsActivity.urlToLaunch, notificationItem.detialUrl)
+        bundle.putBoolean(NotificationDetailsActivity.launchFromHome, true)
         NotificationCoordinator.NotificationCoordinatorDestinations.set(bundle)
         myState.value =
             NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
@@ -71,7 +77,7 @@ class NotificationViewModel @Inject constructor(
         mergedNotificationList.remove(unreadItem)
         mergedNotificationList.remove(readItem)
         mergedNotificationList.add(0, readItem)
-        notificationLiveData.value=mergedNotificationList
+        notificationLiveData.value = mergedNotificationList
     }
 
     fun displaySortedNotifications(notificationList: List<Notification>) {
@@ -91,18 +97,18 @@ class NotificationViewModel @Inject constructor(
         mergedNotificationList.addAll(unreadNotificationList.size, readNotificationList)
         notificationLiveData.value = mergedNotificationList
     }
-    
+
     fun clearAllReadNotifications() {
         mergedNotificationList = mergedNotificationList.filter { it.isUnRead }.toMutableList()
         mergedNotificationList.remove(readItem)
         notificationLiveData.value = mergedNotificationList
     }
 
-    fun displayClearAllDialogs(){
+    fun displayClearAllDialogs() {
         displayClearAllEvent.emit(Unit)
     }
 
-    fun displayErrorDialog(){
+    fun displayErrorDialog() {
         errorEvents.emit("Server error!Try again later")
     }
 
