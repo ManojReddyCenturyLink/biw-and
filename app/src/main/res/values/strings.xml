@@ -54,8 +54,8 @@
     <!--Manage Subscription  -->
     <string name="manage_subscription_title">Manage Subscription</string>
     <string name="cancel_subscription_sub_header">Cancel Subscription</string>
-    <string name="manage_subscription_content">When canceling service on any day other than the last day of your current subscription, all monthly rates, fees, and taxes will apply in full and payments received for unused service will not be prorated, refunded, or credited. Your current subscription ends on [date].</string>
+    <string name="manage_subscription_content">When canceling service on any day other than the last day of your current subscription, all monthly rates, fees, and taxes will apply in full and payments received for unused service will not be prorated, refunded, or credited. Your current subscription ends on %s.</string>
     <string name="cancel_subscription"><u>Cancel Subscription</u></string>
-    <string name="cancel_subscription_confirm">Your Subscription is cancelled successfully</string>
+    <string name="cancel_subscription_confirm">Your Subscription has been cancelled successfully</string>
     <string name="cancel_subscription_ok">ok</string>
 </resources>

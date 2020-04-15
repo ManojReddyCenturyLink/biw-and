@@ -14,6 +14,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.ManageSubscriptionCoordinator
 import com.centurylink.biwf.databinding.ActivityManageSubscriptionBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import java.text.DateFormat
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
@@ -66,7 +67,6 @@ class ManageSubscriptionActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
-        getNextWeekDate()
         binding.cancelSubscription.setOnClickListener{manageSubscriptionViewModel.onCancelSubscription()}
     }
 
@@ -86,12 +86,4 @@ class ManageSubscriptionActivity : BaseActivity() {
         alert.show()
     }
 
-    fun getNextWeekDate(){
-        val cancelSubscriptionDate :Date = Calendar.getInstance().run {
-            add(Calendar.DATE, 7)
-            time
-        }
-        var formatter = DateTimeFormatter.ofPattern("dd-MMMM-yyyy")
-        //var formattedDate = cancelSubscriptionDate.format(formatter)
-    }
 }
