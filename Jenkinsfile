@@ -1,6 +1,6 @@
 def NAME = "Centurylink-android"
-def SLACK_ALWAYS_CHANNEL = ""
-def SLACK_FAIL_CHANNEL = ""
+def SLACK_ALWAYS_CHANNEL = "#centurylink-alerts"
+def SLACK_FAIL_CHANNEL = "#centurylink-dev"
 
 pipeline {
     agent { label 'android' }
