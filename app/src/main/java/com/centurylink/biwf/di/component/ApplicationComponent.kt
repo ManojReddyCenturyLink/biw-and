@@ -1,12 +1,7 @@
 package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
-import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.NotificationActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.NotificationDetailsActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.SupportActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.*
 import com.centurylink.biwf.di.fragmentinjector.AccountFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
@@ -37,6 +32,7 @@ import javax.inject.Singleton
         (DashboardFragmentInjectorModule::class),
         (AccountFragmentInjectorModule::class),
         (CustomWebFragmentInjectorModule::class),
+        (FAQActivityInjectorModule::class),
         (RepositoryModule::class)
     ]
 )

@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.AccountViewModel
-import com.centurylink.biwf.screens.notification.NotificationViewModel
-import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
+import com.centurylink.biwf.screens.notification.NotificationViewModel
+import com.centurylink.biwf.screens.support.FAQViewModel
+import com.centurylink.biwf.screens.support.SupportViewModel
+import com.centurylink.biwf.utility.DaggerViewModelFactory
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
@@ -19,7 +21,11 @@ abstract class DaggerViewModelFactoryModule {
     abstract fun bindDaggerViewModelFactory(viewModelFactory: DaggerViewModelFactory): ViewModelProvider.Factory
 }
 
-@Target(AnnotationTarget.FUNCTION, AnnotationTarget.PROPERTY_GETTER, AnnotationTarget.PROPERTY_SETTER)
+@Target(
+    AnnotationTarget.FUNCTION,
+    AnnotationTarget.PROPERTY_GETTER,
+    AnnotationTarget.PROPERTY_SETTER
+)
 @MapKey
 annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
@@ -35,6 +41,11 @@ abstract class ViewModelModule {
     @ViewModelKey(DashboardViewModel::class)
     abstract fun bindDashboardViewModel(dashboardViewModel: DashboardViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(SupportViewModel::class)
+    abstract fun bindSupportViewModel(supportViewModel: SupportViewModel): ViewModel
+
     /**
      * Binding NotificationViewModel using this key "NotificationViewModel::class"
      */
@@ -42,6 +53,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NotificationViewModel::class)
     abstract fun bindNotificationViewModel(notificationViewModel: NotificationViewModel): ViewModel
+
+    /**
+     * Binding FAQViewModel using this key "FAQViewModel::class"
+     */
+    @Binds
+    @IntoMap
+    @ViewModelKey(FAQViewModel::class)
+    abstract fun bindFAQViewModel(faqModel: FAQViewModel): ViewModel
 
     @Binds
     @IntoMap

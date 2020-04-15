@@ -41,10 +41,6 @@ class LoginActivity : BaseActivity() {
         loginCoordinator.navigator.activity = null
     }
 
-    private fun displayToast(erroMessage: String) {
-        Toast.makeText(this, erroMessage, Toast.LENGTH_SHORT).show()
-    }
-
     private fun initOnClicks() {
         binding.loginButton.setOnClickListener { viewModel.onLoginClicked() }
         binding.loginForgotPassword.setOnClickListener { viewModel.onForgotPasswordClicked() }
