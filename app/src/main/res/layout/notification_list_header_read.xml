@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/notification_header_height"
-    android:background="@color/main_background">
+    android:background="@color/white">
     <TextView
         android:id="@+id/notification_list_read_title"
         android:layout_width="wrap_content"
