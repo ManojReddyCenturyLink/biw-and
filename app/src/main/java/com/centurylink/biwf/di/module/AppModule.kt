@@ -5,6 +5,7 @@ import android.content.res.Resources
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.network.LiveDataCallAdapterFactory
 import com.centurylink.biwf.network.api.ApiServices
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -12,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module(includes = [ViewModelModule::class])
-class AppModule {
+open class AppModule {
 
     companion object {
         private const val BASE_URL = "https://bucketforapi.s3-eu-west-1.amazonaws.com/";
@@ -23,7 +24,7 @@ class AppModule {
      */
     @Singleton
     @Provides
-    fun provideContext(application: BIWFApp): Context {
+    open fun provideContext(application: BIWFApp): Context {
         return application.applicationContext
     }
 
@@ -32,14 +33,14 @@ class AppModule {
      */
     @Provides
     @Singleton
-    fun providesResources(application: BIWFApp): Resources = application.resources
+    open fun providesResources(application: BIWFApp): Resources = application.resources
 
     /**
      * Provides ApiServices client for Retrofit
      */
     @Singleton
     @Provides
-    fun provideRetrofitService(): ApiServices {
+    open fun provideRetrofitService(): ApiServices {
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
@@ -47,4 +48,8 @@ class AppModule {
             .build()
             .create(ApiServices::class.java)
     }
+
+    @Provides
+    @Singleton
+    open fun giveGSONInstance(): Gson = Gson()
 }

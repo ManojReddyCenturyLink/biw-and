@@ -21,7 +21,6 @@ class NotificationDetailsActivity : BaseActivity() {
         const val requestToDismiss = 1000
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
-
             return Intent(context, NotificationDetailsActivity::class.java)
                 .putExtra(launchFromHome, bundle.getBoolean(launchFromHome))
                 .putExtra(urlToLaunch, bundle.getString(urlToLaunch))

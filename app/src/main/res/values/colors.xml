@@ -15,10 +15,11 @@
     <color name="notification_read_title_color">#979797</color>
 
     <color name="notification_unread_bg">#D3D3D3</color>
-    <color name="font_color_white">#ffff</color>
 
     <color name="background_grey">#eeeeee</color>
     <color name="blue">#0047bb</color>
     <color name="blue_light">#0048bb</color>
     <color name="blue_dark">#001e60</color>
+
 </resources>
+
