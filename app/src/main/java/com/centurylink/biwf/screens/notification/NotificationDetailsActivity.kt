@@ -16,19 +16,19 @@ import com.centurylink.biwf.screens.common.CustomWebFragment
 class NotificationDetailsActivity : BaseActivity() {
 
     companion object {
-         const val launchFromHome: String = "launchType"
-         const val urlToLaunch: String = "launchurl"
-         const val requesttodismiss=1000
+        const val launchFromHome: String = "launchType"
+        const val urlToLaunch: String = "launchurl"
+        const val requestToDismiss = 1000
 
-        fun newIntent(context: Context,bundle: Bundle): Intent {
+        fun newIntent(context: Context, bundle: Bundle): Intent {
 
-            return Intent(context,NotificationDetailsActivity::class.java)
-                .putExtra(launchFromHome,bundle.getBoolean(launchFromHome))
-                .putExtra(urlToLaunch,bundle.getString(urlToLaunch))
+            return Intent(context, NotificationDetailsActivity::class.java)
+                .putExtra(launchFromHome, bundle.getBoolean(launchFromHome))
+                .putExtra(urlToLaunch, bundle.getString(urlToLaunch))
         }
     }
 
-    private val manager = supportFragmentManager;
+    private val manager = supportFragmentManager
     private lateinit var binding: ActivityNotifcationDetailsBinding
     private var url: String? = null
 
@@ -43,16 +43,17 @@ class NotificationDetailsActivity : BaseActivity() {
     }
 
     private fun initView() {
-        val displayBackIcon = intent.getBooleanExtra(launchFromHome,false)
-        if(displayBackIcon){
-            binding.notificationDetailsBackIcon.visibility= View.VISIBLE
-        }else{
-            binding.notificationDetailsBackIcon.visibility= View.GONE
+        val displayBackIcon = intent.getBooleanExtra(launchFromHome, false)
+        if (displayBackIcon) {
+            binding.notificationDetailsBackIcon.visibility = View.VISIBLE
+        } else {
+            binding.notificationDetailsBackIcon.visibility = View.GONE
         }
         binding.notificationDetailsBackIcon.setOnClickListener { finish() }
         binding.notificationDetailsCloseIcon.setOnClickListener {
             setResult(Activity.RESULT_OK)
-            finish() }
+            finish()
+        }
     }
 
     override fun onBackPressed() {

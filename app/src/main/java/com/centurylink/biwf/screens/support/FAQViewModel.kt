@@ -17,8 +17,8 @@ class FAQViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
-    private val faqVideoData: MutableLiveData<List<Videofaq>> = MutableLiveData()
-    private val faqQuestionsData: MutableLiveData<HashMap<String, String>> = MutableLiveData()
+    val faqVideoData: MutableLiveData<List<Videofaq>> = MutableLiveData()
+    val faqQuestionsData: MutableLiveData<HashMap<String, String>> = MutableLiveData()
     private var questionMap: HashMap<String, String> = HashMap<String, String>()
     private var faqListDetails: LiveData<Resource<FAQ>> =
         faqRepository.getFAQDetails()
@@ -29,13 +29,5 @@ class FAQViewModel @Inject constructor(
         faqVideoData.value = videolist
         questionMap = questionList.associateTo(HashMap(), { it.name to it.description })
         faqQuestionsData.value = questionMap
-    }
-
-    fun getVideoFAQLiveData(): MutableLiveData<List<Videofaq>> {
-        return faqVideoData
-    }
-
-    fun getQuestionFAQLiveData(): MutableLiveData<HashMap<String, String>> {
-        return faqQuestionsData
     }
 }

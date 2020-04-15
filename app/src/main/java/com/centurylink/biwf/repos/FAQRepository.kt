@@ -6,7 +6,9 @@ import com.centurylink.biwf.network.NetworkResource
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.network.api.ApiServices
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class FAQRepository @Inject constructor(
     private val apiServices: ApiServices
 ) {

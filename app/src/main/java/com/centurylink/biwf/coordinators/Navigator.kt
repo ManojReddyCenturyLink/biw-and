@@ -11,7 +11,6 @@ import com.centurylink.biwf.screens.support.SupportActivity
 import javax.inject.Inject
 import javax.inject.Singleton
 
-
 @Singleton
 class Navigator @Inject constructor() {
 
@@ -45,7 +44,7 @@ class Navigator @Inject constructor() {
         val bundle = NotificationCoordinator.NotificationCoordinatorDestinations.get()
         activity?.startActivityForResult(
             NotificationDetailsActivity.newIntent(activity!!, bundle),
-            NotificationDetailsActivity.requesttodismiss
+            NotificationDetailsActivity.requestToDismiss
         )
     }
 }
