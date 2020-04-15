@@ -7,6 +7,7 @@ import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
+import com.centurylink.biwf.screens.profile.ProfileActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import javax.inject.Inject
@@ -55,6 +56,10 @@ class Navigator @Inject constructor() {
             FAQActivity.newIntent(activity!!, bundle),
             FAQActivity.requestToHome
         )
+    }
+
+    fun navigateToProfileActivity() {
+        activity?.startActivity(ProfileActivity.newIntent(activity!!))
     }
 
     fun navigateToLiveChat() {}

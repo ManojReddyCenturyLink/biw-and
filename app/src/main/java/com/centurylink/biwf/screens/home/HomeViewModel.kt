@@ -58,6 +58,10 @@ class HomeViewModel @Inject constructor(
         activeUserTabBarVisibility.latestValue = !(activeUserTabBarVisibility.value)!!
     }
 
+    fun onProfileClickEvent(){
+        myState.value = HomeCoordinatorDestinations.PROFILE
+    }
+
     private fun initList(): MutableList<TabsBaseItem> {
         val list = mutableListOf<TabsBaseItem>()
 

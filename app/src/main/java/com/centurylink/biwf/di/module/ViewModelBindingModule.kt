@@ -3,6 +3,7 @@ package com.centurylink.biwf.di.module
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
+import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
@@ -60,4 +61,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FAQViewModel::class)
     abstract fun bindFAQViewModel(faqModel: FAQViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AccountViewModel::class)
+    abstract fun bindAccountViewModel(accountViewModel: AccountViewModel): ViewModel
 }
