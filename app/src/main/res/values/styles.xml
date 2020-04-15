@@ -29,5 +29,9 @@
         <item name="android:windowMinWidthMinor">99%</item>
         <item name="android:windowFullscreen">true</item>
     </style>
-   
+    <style name="SubHeading" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/blue_dark</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
