@@ -23,7 +23,7 @@ class SupportViewModel @Inject constructor(supportRepository: SupportRepository)
         faqLiveData.value = it as MutableList<FaqTopicsItem>
     }
 
-    fun getSupportFaqMutableLiveData(): MutableLiveData<MutableList<FaqTopicsItem>> {
+    fun getFaqResponse(): MutableLiveData<MutableList<FaqTopicsItem>> {
         return faqLiveData
     }
 

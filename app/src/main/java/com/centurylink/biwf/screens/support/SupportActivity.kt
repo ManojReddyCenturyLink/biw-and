@@ -92,7 +92,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun displayFaqList() {
-        supportViewModel.getSupportFaqMutableLiveData().observe(this, Observer {
+        supportViewModel.getFaqResponse().observe(this, Observer {
             prepareRecyclerView(it)
         })
     }
