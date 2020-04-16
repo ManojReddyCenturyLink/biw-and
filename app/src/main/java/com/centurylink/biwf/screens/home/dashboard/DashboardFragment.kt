@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
@@ -13,7 +14,9 @@ import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
-class DashboardFragment : BaseFragment(){
+class DashboardFragment : BaseFragment() {
+
+    override val liveDataLifecycleOwner: LifecycleOwner = this
 
     @Inject
     lateinit var dashboardCoordinator: DashboardCoordinator
@@ -22,7 +25,7 @@ class DashboardFragment : BaseFragment(){
     private val viewModel by lazy {
         ViewModelProvider(this, factory).get(DashboardViewModel::class.java)
     }
-    private lateinit var binding : FragmentDashboardBinding
+    private lateinit var binding: FragmentDashboardBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +40,11 @@ class DashboardFragment : BaseFragment(){
     }
 
     private fun initOnClicks() {
-        binding.incStatus.appointmentChangeLink.setOnClickListener{ viewModel.getChangeAppointment()}
+        binding.incStatus.appointmentChangeLink.setOnClickListener { viewModel.getChangeAppointment() }
         binding.incWelcomeCard.welcomeCardCancelButton.setOnClickListener { hideWelcomeCard() }
     }
 
-    private fun hideWelcomeCard(){
+    private fun hideWelcomeCard() {
         binding.incWelcomeCard.root.visibility = View.GONE
     }
 }

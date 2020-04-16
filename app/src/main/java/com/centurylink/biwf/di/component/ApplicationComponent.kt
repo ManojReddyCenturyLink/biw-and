@@ -2,6 +2,7 @@ package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.di.activityinjector.*
+import com.centurylink.biwf.di.fragmentinjector.AccountFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
@@ -29,6 +30,7 @@ import javax.inject.Singleton
         (AndroidInjectionModule::class),
         (AppModule::class),
         (DashboardFragmentInjectorModule::class),
+        (AccountFragmentInjectorModule::class),
         (CustomWebFragmentInjectorModule::class),
         (FAQActivityInjectorModule::class),
         (ManageSubscriptionActivityInjectorModule::class),

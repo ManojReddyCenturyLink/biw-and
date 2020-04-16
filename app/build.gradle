@@ -64,6 +64,8 @@ dependencies {
     implementation "androidx.cardview:cardview:$cardviewVersion"
 
     /* Dagger2 - default dependency */
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     /* Dagger2 - We are going to use dagger.android which includes

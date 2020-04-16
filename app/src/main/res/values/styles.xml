@@ -15,10 +15,11 @@
         <item name="textAllCaps">false</item>
         <item name="android:textSize">@dimen/font_size_h4</item>
     </style>
-      <style name="TransparentActivity" parent="AppTheme">
+
+    <style name="TransparentActivity" parent="AppTheme">
         <item name="android:background">@android:color/transparent</item>
-        <item name ="android:windowActionBar">false</item>
-        <item name ="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorBackgroundCacheHint">@null</item>
@@ -29,14 +30,20 @@
         <item name="android:windowMinWidthMinor">99%</item>
         <item name="android:windowFullscreen">true</item>
     </style>
+
     <style name="SubHeading" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/blue_dark</item>
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:textStyle">bold</item>
     </style>
+
     <style name="title_subHeader" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/blue_dark</item>
         <item name="android:textSize">@dimen/medium_title_text_size</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Theme.SwitchButtonTheme" parent="AppTheme">
+        <item name="colorAccent">@color/mint_green</item>
     </style>
 </resources>

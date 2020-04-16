@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens
+package com.centurylink.biwf.screens.home
 
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations

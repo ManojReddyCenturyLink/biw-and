@@ -6,9 +6,15 @@ import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.*
+import android.webkit.SslErrorHandler
+import android.webkit.WebChromeClient
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.lifecycle.LifecycleOwner
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.databinding.FragmentWebviewBinding
@@ -27,6 +33,8 @@ class CustomWebFragment : BaseFragment() {
             return fragment
         }
     }
+
+    override val liveDataLifecycleOwner: LifecycleOwner = this
 
     private lateinit var binding: FragmentWebviewBinding
     private lateinit var webView: WebView
@@ -53,7 +61,7 @@ class CustomWebFragment : BaseFragment() {
             reloadCount = it.getInt(RELOAD_COUNT)
         }
         webView = binding.webviewContainer
-        progressBar =binding.webviewProgress
+        progressBar = binding.webviewProgress
         initWebViewProperties()
     }
 
@@ -75,10 +83,10 @@ class CustomWebFragment : BaseFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         // Destroy the WebView completely.
-            // The WebView must be removed from the view hierarchy before calling destroy to prevent a memory leak.
-            (webView.parent as ViewGroup).removeView(webView)
-            webView.removeAllViews()
-            webView.destroy()
+        // The WebView must be removed from the view hierarchy before calling destroy to prevent a memory leak.
+        (webView.parent as ViewGroup).removeView(webView)
+        webView.removeAllViews()
+        webView.destroy()
     }
 
     private fun initWebViewProperties() {
@@ -111,7 +119,7 @@ class CustomWebFragment : BaseFragment() {
             }
         }
 
-        webView.webViewClient=object :DefaultWebViewClient(){
+        webView.webViewClient = object : DefaultWebViewClient() {
             override fun onReceivedError(
                 view: WebView?,
                 request: WebResourceRequest?,
