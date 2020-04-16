@@ -26,6 +26,7 @@ class ManageSubscriptionCoordinator @Inject constructor() {
 
     enum class SubscriptionCoordinatorDestinations {
         LAUNCH_DATE_ACTIVITY;
+
         companion object {
             lateinit var bundle: Bundle
             fun get(): Bundle = bundle

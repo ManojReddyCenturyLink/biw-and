@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.subscription
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
@@ -13,6 +14,8 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.ManageSubscriptionCoordinator
 import com.centurylink.biwf.databinding.ActivityManageSubscriptionBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import java.text.DateFormat
+import java.util.*
 import javax.inject.Inject
 
 class ManageSubscriptionActivity : BaseActivity() {
@@ -41,11 +44,14 @@ class ManageSubscriptionActivity : BaseActivity() {
         binding = ActivityManageSubscriptionBinding.inflate(layoutInflater)
         manageSubscriptionViewModel.apply {
             cancelSubscriptionEvent.handleEvent { displayCancelSubscriptionDialog() }
+            cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
         }
         setContentView(binding.root)
         setHeightofActivity()
         initHeaders()
+        manageSubscriptionViewModel.getCancellationValidity()
     }
+
     override fun onBackPressed() {
         finish()
     }
@@ -63,17 +69,19 @@ class ManageSubscriptionActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
-        binding.cancelSubscription.setOnClickListener{manageSubscriptionViewModel.onCancelSubscription()}
+        binding.cancelSubscription.setOnClickListener { manageSubscriptionViewModel.onCancelSubscription() }
     }
 
     private fun displayCancelSubscriptionDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage(R.string.cancel_subscription_confirm)
             .setCancelable(true)
-            .setNegativeButton(R.string.cancel_subscription_ok, DialogInterface.OnClickListener { dialog, id ->
-                dialog.cancel()
-                binding.cancelSubscription.visibility= View.GONE
-            })
+            .setNegativeButton(
+                R.string.cancel_subscription_ok,
+                DialogInterface.OnClickListener { dialog, id ->
+                    dialog.cancel()
+                    binding.cancelSubscription.visibility = View.GONE
+                })
         // create dialog box
         val alert = dialogBuilder.create()
         // set title for alert dialog box
@@ -82,4 +90,10 @@ class ManageSubscriptionActivity : BaseActivity() {
         alert.show()
     }
 
+    @SuppressLint("StringFormatInvalid")
+    private fun displayCancellationValidity(date: Date) {
+        val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(date)
+        binding.manageSubscriptionContent.text =
+            getString(R.string.manage_subscription_content, validityDate)
+    }
 }
