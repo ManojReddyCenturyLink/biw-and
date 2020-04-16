@@ -46,6 +46,8 @@
             />
 	    <activity android:name=".screens.profile.ProfileActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".screens.subscription.ManageSubscriptionActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>
         <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>

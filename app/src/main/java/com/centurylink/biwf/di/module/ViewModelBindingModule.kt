@@ -6,6 +6,7 @@ import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
+import com.centurylink.biwf.screens.subscription.ManageSubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -66,4 +67,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AccountViewModel::class)
     abstract fun bindAccountViewModel(accountViewModel: AccountViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ManageSubscriptionViewModel::class)
+    abstract fun bindManageSubscriptionViewModel(manageSubscriptionViewModel: ManageSubscriptionViewModel): ViewModel
 }

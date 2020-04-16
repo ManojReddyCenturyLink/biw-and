@@ -13,6 +13,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
 import com.centurylink.biwf.model.support.FaqTopicsItem
+import com.centurylink.biwf.screens.subscription.ManageSubscriptionActivity
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -66,7 +67,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            FAQActivity.requestToHome -> {
+            ManageSubscriptionActivity.REQUEST_TO_SUBSCRIPTION,
+            FAQActivity.REQUEST_TO_HOME -> {
                 if (resultCode == Activity.RESULT_OK) {
                     finish()
                 }
@@ -88,7 +90,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding.incTroubleshooting.root.run_speed_test_button.setOnClickListener { supportViewModel.runSpeedTest() }
         binding.incTroubleshooting.root.support_visit_website.setOnClickListener { }
 
-        binding.incContactUs.root.live_chat_textview.setOnClickListener { }
+        binding.incContactUs.root.live_chat_textview.setOnClickListener { supportViewModel.setManageSubscription() }
         binding.incContactUs.root.schedule_callback_textview.setOnClickListener { }
         binding.incContactUs.root.support_call_us_link.setOnClickListener { supportViewModel.callUs() }
     }

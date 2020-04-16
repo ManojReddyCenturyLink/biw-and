@@ -26,7 +26,7 @@ class SupportViewModel @Inject constructor(supportRepository: SupportRepository)
 
     fun navigateToFAQList(faqtopicsItem: FaqTopicsItem) {
         var bundle = Bundle()
-        bundle.putString(FAQActivity.faqTitle, faqtopicsItem.type)
+        bundle.putString(FAQActivity.FAQ_TITLE, faqtopicsItem.type)
         SupportCoordinator.SupportCoordinatorDestinations.set(bundle)
         myState.value =
             SupportCoordinator.SupportCoordinatorDestinations.FAQ
@@ -35,6 +35,16 @@ class SupportViewModel @Inject constructor(supportRepository: SupportRepository)
     fun runSpeedTest() {}
 
     fun restartModem() {}
+
+    fun liveChat() {
+        myState.value =
+            SupportCoordinator.SupportCoordinatorDestinations.LIVE_CHAT
+    }
+
+    fun setManageSubscription() {
+        myState.value =
+            SupportCoordinator.SupportCoordinatorDestinations.MANAGE_SUBSCRIPTION
+    }
 
     fun callUs() {}
 }

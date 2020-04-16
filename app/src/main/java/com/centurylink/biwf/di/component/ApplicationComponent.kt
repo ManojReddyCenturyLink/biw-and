@@ -33,6 +33,7 @@ import javax.inject.Singleton
         (AccountFragmentInjectorModule::class),
         (CustomWebFragmentInjectorModule::class),
         (FAQActivityInjectorModule::class),
+        (ManageSubscriptionActivityInjectorModule::class),
         (RepositoryModule::class)
     ]
 )

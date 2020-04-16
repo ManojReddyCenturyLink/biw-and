@@ -27,12 +27,12 @@ import javax.inject.Inject
 class FAQActivity : BaseActivity(), VideoItemClickListener {
 
     companion object {
-        const val faqTitle: String = "FaqTitle"
-        const val requestToHome: Int = 1100
+        const val FAQ_TITLE: String = "FaqTitle"
+        const val REQUEST_TO_HOME: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, FAQActivity::class.java).putExtra(
-                faqTitle, bundle.getString(faqTitle)
+                FAQ_TITLE, bundle.getString(FAQ_TITLE)
             )
         }
     }
@@ -85,7 +85,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
     }
 
     private fun initHeaders() {
-        var screenTitle: String = intent.getStringExtra(faqTitle)
+        var screenTitle: String = intent.getStringExtra(FAQ_TITLE)
         binding.activityHeaderView.subHeaderTitle.text = screenTitle
         binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
         binding.activityHeaderView.subHeaderRightIcon.setOnClickListener {
