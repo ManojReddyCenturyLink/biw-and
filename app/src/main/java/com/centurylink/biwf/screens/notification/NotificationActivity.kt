@@ -124,7 +124,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     private fun displayClearAllDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage(R.string.notification_screen_warning)
-            .setCancelable(false)
+            .setCancelable(true)
             .setPositiveButton(R.string.dialog_yes, DialogInterface.OnClickListener { dialog, id ->
                 performClearAll()
             })

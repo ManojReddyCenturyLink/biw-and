@@ -1,5 +1,4 @@
 package com.centurylink.biwf.coordinators
-
 import android.os.Bundle
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject

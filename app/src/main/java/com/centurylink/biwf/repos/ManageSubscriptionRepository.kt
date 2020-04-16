@@ -15,7 +15,7 @@ class ManageSubscriptionRepository @Inject constructor(
     }
 
     fun getSubscriptionValidity(): Date {
-        val cancelSubscriptionDate = Calendar.getInstance().apply {
+        Calendar.getInstance().apply {
             add(Calendar.DATE, 7)
             return time
         }
