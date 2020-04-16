@@ -21,7 +21,7 @@ import javax.inject.Inject
 class ManageSubscriptionActivity : BaseActivity() {
 
     companion object {
-        const val requestToSubscription: Int = 1101
+        const val REQUEST_TO_SUBSCRIPTION: Int = 1101
         fun newIntent(context: Context): Intent {
             return Intent(context, ManageSubscriptionActivity::class.java)
         }

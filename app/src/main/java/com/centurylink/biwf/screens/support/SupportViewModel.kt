@@ -26,7 +26,7 @@ class SupportViewModel @Inject constructor(supportRepository: SupportRepository)
 
     fun navigateToFAQList(faqtopicsItem: FaqTopicsItem) {
         var bundle = Bundle()
-        bundle.putString(FAQActivity.faqTitle, faqtopicsItem.type)
+        bundle.putString(FAQActivity.FAQ_TITLE, faqtopicsItem.type)
         SupportCoordinator.SupportCoordinatorDestinations.set(bundle)
         myState.value =
             SupportCoordinator.SupportCoordinatorDestinations.FAQ

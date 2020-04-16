@@ -67,8 +67,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            ManageSubscriptionActivity.requestToSubscription,
-            FAQActivity.requestToHome -> {
+            ManageSubscriptionActivity.REQUEST_TO_SUBSCRIPTION,
+            FAQActivity.REQUEST_TO_HOME -> {
                 if (resultCode == Activity.RESULT_OK) {
                     finish()
                 }

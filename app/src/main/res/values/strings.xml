@@ -81,6 +81,7 @@
     <string name="home_phone">Home phone:</string>
     <string name="work_phone">Work phone:</string>
 
+    <!--Manage Subscription Screen -->
     <string name="manage_subscription_title">Manage Subscription</string>
     <string name="cancel_subscription_sub_header">Cancel Subscription</string>
     <string name="manage_subscription_content" formatted="false">When canceling service on any day other than the last

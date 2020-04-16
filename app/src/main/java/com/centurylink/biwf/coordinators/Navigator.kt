@@ -55,7 +55,7 @@ class Navigator @Inject constructor() {
         val bundle = SupportCoordinator.SupportCoordinatorDestinations.get()
         activity?.startActivityForResult(
             FAQActivity.newIntent(activity!!, bundle),
-            FAQActivity.requestToHome
+            FAQActivity.REQUEST_TO_HOME
         )
     }
 
@@ -68,7 +68,7 @@ class Navigator @Inject constructor() {
     fun navigateToMangeSubscription() {
         activity?.startActivityForResult(
             ManageSubscriptionActivity.newIntent(activity!!),
-            ManageSubscriptionActivity.requestToSubscription
+            ManageSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
         )
     }
 }
