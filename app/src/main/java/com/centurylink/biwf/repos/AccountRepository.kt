@@ -23,7 +23,7 @@ class AccountRepository @Inject constructor(
                 state = "WA",
                 zipcode = "90703",
                 cellNumber = "(562) 416-1854",
-                homeNumber = "(562 865-7228",
+                homeNumber = "(562) 865-7228",
                 workNumber = "(562) 422-2144",
                 emailAddress = "email@something.com",
                 billingAddress = "1222 Bilington Way"
