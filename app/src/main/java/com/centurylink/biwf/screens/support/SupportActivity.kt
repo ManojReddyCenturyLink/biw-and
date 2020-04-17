@@ -83,8 +83,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun init() {
         binding.supportFaqTopicsRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        binding.incHeader.root.header_title.setText(R.string.support)
-        binding.incHeader.root.header_closeIcon.setOnClickListener { finish() }
+        binding.doneButtonSupport.setOnClickListener { finish() }
 
         binding.incTroubleshooting.root.restart_modem_button.setOnClickListener { supportViewModel.restartModem() }
         binding.incTroubleshooting.root.run_speed_test_button.setOnClickListener { supportViewModel.runSpeedTest() }
