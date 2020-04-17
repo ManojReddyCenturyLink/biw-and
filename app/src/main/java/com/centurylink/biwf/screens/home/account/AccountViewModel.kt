@@ -34,7 +34,7 @@ class AccountViewModel @Inject constructor(
     val subscriptionCard4Digits: LiveData<String> =
         MutableLiveData(subscriptionRepository.getSubscription().value?.subscriptionCardDigits)
     val subscriptionCardDisplayedText: LiveData<String> =
-        MutableLiveData(subscriptionCreditCardType.value + "********"+ subscriptionCard4Digits.value)
+        MutableLiveData(subscriptionCreditCardType.value + " ********"+ subscriptionCard4Digits.value)
     val biometricType: LiveData<String> = MutableLiveData()
     val biometricStatus: LiveData<Boolean> =
         MutableLiveData(communicationRepository.getPreferences().value?.biometricStatus)

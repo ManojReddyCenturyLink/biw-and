@@ -41,6 +41,7 @@
                 android:elevation="@dimen/above_cardview_elevation"
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                android:fontFamily="@font/arial_mt"
                 app:layout_constraintStart_toStartOf="@id/account_card_plan_name"
                 app:layout_constraintTop_toBottomOf="@id/account_card_plan_name"
                 tools:text="Speeds up to 940Mbps"
@@ -49,7 +50,7 @@
             <ImageView
                 android:id="@+id/account_card_top_card_line_break"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_height="2dp"
                 android:layout_marginTop="24dp"
                 android:elevation="@dimen/above_cardview_elevation"
                 android:src="@drawable/ic_real_dividing_line"
