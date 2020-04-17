@@ -150,7 +150,7 @@
             <ImageView
                 android:id="@+id/account_settings_title_line_break"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="2dp"
                 android:layout_marginTop="24dp"
                 android:elevation="@dimen/above_cardview_elevation"
                 android:src="@drawable/ic_real_dividing_line"
@@ -185,7 +185,7 @@
                 app:layout_constraintTop_toBottomOf="@id/account_login_settings_label"
                 />
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/account_biometric_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -199,7 +199,7 @@
             <ImageView
                 android:id="@+id/account_preferences_line_break"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="2dp"
                 android:layout_marginTop="24dp"
                 android:elevation="@dimen/above_cardview_elevation"
                 android:src="@drawable/ic_real_dividing_line"
@@ -234,7 +234,7 @@
                 app:layout_constraintTop_toBottomOf="@id/account_communication_preferences_label"
                 />
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/account_service_calls_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -270,7 +270,7 @@
                 app:layout_constraintTop_toBottomOf="@id/account_service_calls_description"
                 />
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/account_marketing_emails_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -306,7 +306,7 @@
                 app:layout_constraintTop_toBottomOf="@id/account_marketing_emails_description"
                 />
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/account_marketing_calls_switch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -328,8 +328,6 @@
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_marketing_calls_label"
                 />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
 </layout>

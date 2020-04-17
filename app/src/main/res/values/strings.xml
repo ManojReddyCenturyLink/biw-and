@@ -70,7 +70,7 @@
     <string name="login_settings">Login settings</string>
     <string name="biometric_label">Use face-ID to login</string>
     <string name="communication_preferences">Communication preferences</string>
-    <string name="service_calls_and_texts">Service calls and texts</string>
+    <string name="service_calls_and_texts">Services calls and texts</string>
     <string name="marketing_emails">Marketing emails</string>
     <string name="marketing_calls_and_texts">Marketing calls and texts</string>
     <string name="payment_information">Payment information</string>
