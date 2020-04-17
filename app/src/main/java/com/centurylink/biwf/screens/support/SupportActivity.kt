@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.support
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
 import com.centurylink.biwf.model.support.FaqTopicsItem
+import com.centurylink.biwf.screens.subscription.ManageSubscriptionActivity
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -43,6 +45,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivitySupportBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportViewModel.apply {
+            faqLiveData.observe(this@SupportActivity, Observer {
+                prepareRecyclerView(it)
+            })
+        }
         supportCoordinator.observeThis(supportViewModel.myState)
         init()
         getNotificationInformation()
@@ -53,8 +60,20 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         supportCoordinator.navigator.activity = this
     }
 
-    override fun onFaqItemClick(item: FaqTopicsItem) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun onFaqItemClick(itemFAQ: FaqTopicsItem) {
+        supportViewModel.navigateToFAQList(itemFAQ)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            ManageSubscriptionActivity.REQUEST_TO_SUBSCRIPTION,
+            FAQActivity.REQUEST_TO_HOME -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {
@@ -69,10 +88,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
         binding.incTroubleshooting.root.restart_modem_button.setOnClickListener { supportViewModel.restartModem() }
         binding.incTroubleshooting.root.run_speed_test_button.setOnClickListener { supportViewModel.runSpeedTest() }
-        binding.incTroubleshooting.root.support_visit_website.setOnClickListener {  }
+        binding.incTroubleshooting.root.support_visit_website.setOnClickListener { }
 
-        binding.incContactUs.root.live_chat_textview.setOnClickListener {  }
-        binding.incContactUs.root.schedule_callback_textview.setOnClickListener {  }
+        binding.incContactUs.root.live_chat_textview.setOnClickListener { supportViewModel.setManageSubscription() }
+        binding.incContactUs.root.schedule_callback_textview.setOnClickListener { }
         binding.incContactUs.root.support_call_us_link.setOnClickListener { supportViewModel.callUs() }
     }
 
@@ -83,7 +102,6 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 }
                 it.status.isSuccessful() -> {
                     supportViewModel.displaySortedNotifications(it.data!!.faqTopics)
-                    displayFaqList()
                 }
                 it.status.isError() -> {
                 }
@@ -91,14 +109,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         }
     }
 
-    private fun displayFaqList() {
-        supportViewModel.getFaqResponse().observe(this, Observer {
-            prepareRecyclerView(it)
-        })
-    }
-
     private fun prepareRecyclerView(list: MutableList<FaqTopicsItem>) {
-        adapter = SupportFAQAdapter(this,list)
+        adapter = SupportFAQAdapter(this, this, list)
         binding.supportFaqTopicsRecyclerview.adapter = adapter
     }
 }

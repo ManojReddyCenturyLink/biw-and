@@ -15,6 +15,7 @@ import com.centurylink.biwf.databinding.LayoutAccountBinding
 import com.centurylink.biwf.databinding.LayoutDashboardBinding
 import com.centurylink.biwf.databinding.LayoutDevicesBinding
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 
 @Suppress("UNCHECKED_CAST")
@@ -84,6 +85,7 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
             }
             TabsBaseItem.ACCOUNT -> {
                 holder as AccountViewHolder
+                holder.setupFragment()
             }
             else -> {
                 holder as DashboardViewHolder
@@ -121,9 +123,15 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
         }
     }
 
-    inner class AccountViewHolder(private val binding: LayoutAccountBinding) : BaseViewHolder(binding.root),
-        View.OnClickListener {
+    inner class AccountViewHolder(private val binding: LayoutAccountBinding) :
+        BaseViewHolder(binding.root), View.OnClickListener {
         override fun onClick(v: View?) {
+        }
+        fun setupFragment() {
+            val activity = mContext as AppCompatActivity
+            val myFragment: Fragment = AccountFragment()
+            activity.supportFragmentManager.beginTransaction()
+                .replace(R.id.account_container, myFragment).commit()
         }
     }
 

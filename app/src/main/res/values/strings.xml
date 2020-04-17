@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">BiWF</string>
     <string name="login_card_title">Log In to Your Account</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
+    <string name="email">Email:</string>
+    <string name="password">Password:</string>
     <string name="log_in">Log In</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
@@ -42,6 +42,7 @@
     <string name="congratulations">Congratulations!</string>
     <string name="faq_topics">FAQ Topics</string>
     <string name="troubleshooting">Troubleshooting</string>
+    <string name="edit"><u>edit</u></string>
     <string name="visit_website">Visit Website</string>
     <string name="restart_modem">Restart Modem</string>
     <string name="if_you_are_experiencing_problems_with_your_network">If you are experiencing problems with your network</string>
@@ -51,4 +52,45 @@
     <string name="mbps_download">Mbps Download</string>
     <string name="live_chat">Live Chat</string>
     <string name="contact_us">Contact Us</string>
+
+    <!--FAQ Screen  -->
+    <string name="faq_title">Network Connection</string>
+    <string name="faq_subsection_helpful_videos">Helpful videos</string>
+    <string name="frequently_asked_questions">Frequently asked questions</string>
+    <string name="frequently_questions_cant_find">Can’t find the answer to your question? \n Try contacting us. We’d love to help!</string>
+    <string name="support_live_chat">Live chat</string>
+    <string name="support_schedule_a_callback">Schedule a callback</string>
+
+
+    <!--Account Screen -->
+    <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
+    <string name="service_calls_description">I would like to receive calls and text messages about my CenturyLink services at the number provided</string>
+    <string name="marketing_emails_description">I would like to receive emails about offers and marketing from CenturyLink at the email address provided</string>
+    <string name="marketing_calls_description">I would like to receive calls and text messages about offers and marketing from CenturyLink at the number provided. I consent to the use of autodialers or artificial or prerecorded voice for the calls and text messages. </string>
+    <string name="login_settings">Login settings</string>
+    <string name="biometric_label">Use face-ID to login</string>
+    <string name="communication_preferences">Communication preferences</string>
+    <string name="service_calls_and_texts">Service calls and texts</string>
+    <string name="marketing_emails">Marketing emails</string>
+    <string name="marketing_calls_and_texts">Marketing calls and texts</string>
+    <string name="payment_information">Payment information</string>
+    <string name="next_payment_date">Next payment date:</string>
+    <string name="personal_info">Personal info</string>
+    <string name="hidden_password">•••••••••</string>
+    <string name="billing_address">Billing address:</string>
+    <string name="cellphone">Cell phone:</string>
+    <string name="home_phone">Home phone:</string>
+    <string name="work_phone">Work phone:</string>
+    <string name="service_address">Service address:</string>
+
+    <!--Manage Subscription Screen -->
+    <string name="manage_subscription_title">Manage Subscription</string>
+    <string name="cancel_subscription_sub_header">Cancel Subscription</string>
+    <string name="manage_subscription_content" formatted="false">When canceling service on any day other than the last
+        day of your current subscription, all monthly rates, fees, and taxes will apply in full and
+        payments received for unused service will not be prorated, refunded, or credited.
+        Your current subscription ends on %1$s </string>
+    <string name="cancel_subscription"><u>Cancel Subscription</u></string>
+    <string name="cancel_subscription_confirm">Your Subscription has been cancelled successfully</string>
+    <string name="cancel_subscription_ok">ok</string>
 </resources>

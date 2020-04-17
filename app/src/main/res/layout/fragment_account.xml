@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_background_color"
+            android:paddingBottom="100dp"
+            >
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/account_left_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_begin="24dp"
+                />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/account_right_guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_end="24dp"
+                />
+
+            <View
+                android:id="@+id/account_top_background"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/white"
+                app:layout_constraintBottom_toBottomOf="@id/account_top_spacer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/account_full_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32sp"
+                android:fontFamily="@font/arial_bold_mt"
+                android:textColor="@color/title_color_blue"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="DeAnthonee King"
+                />
+
+            <TextView
+                android:id="@+id/account_service_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/service_address"
+                android:textSize="16sp"
+                android:textColor="@color/text_label_color"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_full_name"
+                />
+
+            <TextView
+                android:id="@+id/account_street_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_service_label"
+                tools:text="3004 Parkington Place SE"
+                />
+
+            <TextView
+                android:id="@+id/account_city_state_and_zip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/account_top_background"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_street_address"
+                app:layout_constraintVertical_bias="0"
+                tools:text="Port Orchard, WA 98366"
+                />
+
+            <View
+                android:id="@+id/account_top_spacer"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_city_state_and_zip"
+                />
+
+            <include
+                android:id="@+id/account_subscription_card"
+                layout="@layout/widget_subscription_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_top_spacer"
+                />
+
+            <include
+                android:id="@+id/account_personal_info_card"
+                layout="@layout/widget_personal_info_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/account_subscription_card"
+                />
+
+            <TextView
+                android:id="@+id/account_settings_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:fontFamily="@font/arial_bold_mt"
+                android:text="@string/settings_preferences"
+                android:textColor="@color/title_color_blue"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_personal_info_card"
+                />
+
+            <ImageView
+                android:id="@+id/account_settings_title_line_break"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:src="@drawable/ic_real_dividing_line"
+                app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_settings_title"
+                />
+
+            <TextView
+                android:id="@+id/account_login_settings_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/arial_bold_mt"
+                android:text="@string/login_settings"
+                android:textColor="@color/title_color_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_settings_title_line_break"
+                />
+
+            <TextView
+                android:id="@+id/account_biometric_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/biometric_label"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_login_settings_label"
+                />
+
+            <Switch
+                android:id="@+id/account_biometric_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:switchMinWidth="40dp"
+                android:theme="@style/Theme.SwitchButtonTheme"
+                app:layout_constraintBottom_toBottomOf="@id/account_biometric_label"
+                app:layout_constraintEnd_toStartOf="@id/account_right_guideline"
+                app:layout_constraintTop_toTopOf="@id/account_biometric_label"
+                />
+
+            <ImageView
+                android:id="@+id/account_preferences_line_break"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:src="@drawable/ic_real_dividing_line"
+                app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_biometric_label"
+                />
+
+            <TextView
+                android:id="@+id/account_communication_preferences_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/arial_bold_mt"
+                android:text="@string/communication_preferences"
+                android:textColor="@color/title_color_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_preferences_line_break"
+                />
+
+            <TextView
+                android:id="@+id/account_service_calls_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/service_calls_and_texts"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_communication_preferences_label"
+                />
+
+            <Switch
+                android:id="@+id/account_service_calls_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.SwitchButtonTheme"
+                app:layout_constraintEnd_toStartOf="@id/account_right_guideline"
+                app:layout_constraintTop_toTopOf="@id/account_service_calls_label"
+                />
+
+            <TextView
+                android:id="@+id/account_service_calls_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/service_calls_description"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/account_service_calls_switch"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_service_calls_label"
+                />
+
+            <TextView
+                android:id="@+id/account_marketing_emails_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/marketing_emails"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_service_calls_description"
+                />
+
+            <Switch
+                android:id="@+id/account_marketing_emails_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.SwitchButtonTheme"
+                app:layout_constraintEnd_toStartOf="@id/account_right_guideline"
+                app:layout_constraintTop_toTopOf="@id/account_marketing_emails_label"
+                />
+
+            <TextView
+                android:id="@+id/account_marketing_emails_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/marketing_emails_description"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/account_marketing_emails_switch"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_marketing_emails_label"
+                />
+
+            <TextView
+                android:id="@+id/account_marketing_calls_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/marketing_calls_and_texts"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_marketing_emails_description"
+                />
+
+            <Switch
+                android:id="@+id/account_marketing_calls_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:theme="@style/Theme.SwitchButtonTheme"
+                app:layout_constraintEnd_toStartOf="@id/account_right_guideline"
+                app:layout_constraintTop_toTopOf="@id/account_marketing_calls_label"
+                />
+
+            <TextView
+                android:id="@+id/account_marketing_calls_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/marketing_calls_description"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/account_marketing_calls_switch"
+                app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+                app:layout_constraintTop_toBottomOf="@id/account_marketing_calls_label"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+</layout>

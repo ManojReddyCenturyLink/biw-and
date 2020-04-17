@@ -59,6 +59,10 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    fun onProfileClickEvent(){
+        viewModel.onProfileClickEvent()
+    }
+
     private fun initOnClicks() {
         binding.homeOnlineStatusBar.setOnClickListener { viewModel.onOnlineToolbarClick() }
         binding.iBtnNotification.setOnClickListener { viewModel.onNotificonBellClicked() }

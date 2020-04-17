@@ -1,6 +1,8 @@
 package com.centurylink.biwf.utility
 
 import android.view.View
+import android.widget.Switch
+import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -14,6 +16,7 @@ interface LiveDataObserver {
     fun <T> LiveData<T>.observe(observer: (T) -> Unit) {
         observe(liveDataLifecycleOwner, Observer { observer(it) })
     }
+
     // Handles the event and consumes it. If there are multiple observers, only the first observer will receive the event
     fun <T> EventLiveData<T>.handleEvent(observer: (T) -> Unit) {
         observe { liveDataValue ->
@@ -23,11 +26,27 @@ interface LiveDataObserver {
         }
     }
 
-    fun LiveData<Boolean>.bindToVisibility(upperTabBar: TabLayout, lowerTabBar: TabLayout, onlineStatusBar: OnlineStatusBar) {
+    fun LiveData<Boolean>.bindToVisibility(
+        upperTabBar: TabLayout,
+        lowerTabBar: TabLayout,
+        onlineStatusBar: OnlineStatusBar
+    ) {
         observe {
             upperTabBar.visibility = if (it) View.INVISIBLE else View.VISIBLE
             lowerTabBar.visibility = if (it) View.VISIBLE else View.GONE
             onlineStatusBar.visibility = if (it) View.VISIBLE else View.INVISIBLE
+        }
+    }
+
+    fun LiveData<Boolean>.bindToSwitch(switch: Switch) {
+        observe {
+            switch.isChecked = it
+        }
+    }
+
+    fun LiveData<String>.bindToTextView(textView: TextView) {
+        observe {
+            textView.text = it
         }
     }
 }
