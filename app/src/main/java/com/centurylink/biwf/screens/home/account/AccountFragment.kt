@@ -9,8 +9,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
-import com.centurylink.biwf.coordinators.HomeCoordinator
-import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -53,7 +51,7 @@ class AccountFragment : BaseFragment() {
             marketingEmailStatus.bindToSwitch(binding.accountMarketingEmailsSwitch)
             marketingCallsAndTextStatus.bindToSwitch(binding.accountMarketingCallsSwitch)
 
-            navigateToPersonalInfoEvent.handleEvent { (context as HomeActivity).onProfileClickEvent() }
+            navigateToSubscriptionActivityEvent.handleEvent { (context as HomeActivity).onProfileClickEvent() }
         }
 
         initSwitches()
@@ -78,8 +76,8 @@ class AccountFragment : BaseFragment() {
     }
 
     private fun initClicks() {
-        binding.accountPersonalInfoCard.personalInfoCardView.setOnClickListener {
-            viewModel.onPersonalInfoClick()
+        binding.accountSubscriptionCard.subscriptionCard.setOnClickListener {
+            viewModel.onSubscriptionCardClick()
         }
     }
 }
