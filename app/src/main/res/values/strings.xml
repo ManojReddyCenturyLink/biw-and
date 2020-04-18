@@ -14,7 +14,7 @@
     <string name="placeholder_text_1">1</string>
 
     <string name="support">Support</string>
-    <string name="call_us"><u>Call Us at (123) 456-7890</u></string>
+    <string name="call_us"><u>Call us at (123) 456-7890</u></string>
 
     <!--Notification Screen -->
     <string name="notification_title">Notifications</string>
@@ -40,18 +40,18 @@
     <string name="installation_scheduled">Installation scheduled</string>
     <string name="text_time_details">Your appointment is between 8:00AM - 10:00AM</string>
     <string name="congratulations">Congratulations!</string>
-    <string name="faq_topics">FAQ Topics</string>
+    <string name="faq_topics">FAQ topics</string>
     <string name="troubleshooting">Troubleshooting</string>
     <string name="edit"><u>edit</u></string>
-    <string name="visit_website">Visit Website</string>
-    <string name="restart_modem">Restart Modem</string>
+    <string name="visit_website">Visit website</string>
+    <string name="restart_modem">Restart modem</string>
     <string name="if_you_are_experiencing_problems_with_your_network">If you are experiencing problems with your network</string>
-    <string name="run_speed_test">Run Speed Test</string>
-    <string name="last_speed_test">Last Speed Test: \u0020</string>
-    <string name="mbps_upload">Mbps Upload</string>
-    <string name="mbps_download">Mbps Download</string>
-    <string name="live_chat">Live Chat</string>
-    <string name="contact_us">Contact Us</string>
+    <string name="run_speed_test">Run speed test</string>
+    <string name="last_speed_test">Last speed test: \u0020</string>
+    <string name="mbps_upload">Mbps \nupload</string>
+    <string name="mbps_download">Mbps \ndownload</string>
+    <string name="live_chat">Live chat</string>
+    <string name="contact_us">Contact us</string>
 
     <!--FAQ Screen  -->
     <string name="faq_title">Network Connection</string>
@@ -93,4 +93,6 @@
     <string name="cancel_subscription"><u>Cancel Subscription</u></string>
     <string name="cancel_subscription_confirm">Your Subscription has been cancelled successfully</string>
     <string name="cancel_subscription_ok">ok</string>
+    <string name="schedule_a_callback">Schedule a callback</string>
+    <string name="visit_website_text">Need more help? Visit our self-diagnostic tool on our website for additional options.</string>
 </resources>
