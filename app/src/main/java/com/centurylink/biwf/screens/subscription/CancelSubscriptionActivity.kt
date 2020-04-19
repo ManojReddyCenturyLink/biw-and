@@ -33,7 +33,7 @@ class CancelSubscriptionActivity : BaseActivity() {
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private val manageSubscriptionViewModel by lazy {
+    private val cancelSubscriptionModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionViewModel::class.java)
     }
     private lateinit var binding: ActivityCancelSubscriptionBinding
@@ -42,14 +42,14 @@ class CancelSubscriptionActivity : BaseActivity() {
         setTheme(R.style.TransparentActivity)
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionBinding.inflate(layoutInflater)
-        manageSubscriptionViewModel.apply {
+        cancelSubscriptionModel.apply {
             cancelSubscriptionEvent.handleEvent { displayCancelSubscriptionDialog() }
             cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
         }
         setContentView(binding.root)
         setHeightofActivity()
         initHeaders()
-        manageSubscriptionViewModel.getCancellationValidity()
+        cancelSubscriptionModel.getCancellationValidity()
     }
 
     override fun onBackPressed() {
@@ -69,7 +69,7 @@ class CancelSubscriptionActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
-        binding.cancelSubscription.setOnClickListener { manageSubscriptionViewModel.onCancelSubscription() }
+        binding.cancelSubscription.setOnClickListener { cancelSubscriptionModel.onCancelSubscription() }
     }
 
     private fun displayCancelSubscriptionDialog() {
@@ -93,7 +93,7 @@ class CancelSubscriptionActivity : BaseActivity() {
     @SuppressLint("StringFormatInvalid")
     private fun displayCancellationValidity(date: Date) {
         val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(date)
-        binding.manageSubscriptionContent.text =
+        binding.cancelSubscriptionContent.text =
             getString(R.string.manage_subscription_content, validityDate)
     }
 }

@@ -25,7 +25,7 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/manage_subscription_content"
+        android:id="@+id/cancel_subscription_content"
         android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -38,26 +38,38 @@
         tools:ignore="MissingConstraints" />
 
     <View
-        android:id="@+id/schedule_callback_divider"
+        android:id="@+id/cancel_subscription_top_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_elevation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/light_grey"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_textview"/>
-
-
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_content"/>
 
     <TextView
         android:id="@+id/cancel_subscription"
         style="@style/SubHeading"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
+        android:gravity="start"
         android:layout_marginTop="24dp"
         android:text="@string/continue_cancellation"
-        app:layout_constraintTop_toBottomOf="@+id/manage_subscription_content" />
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_top_divider"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/cancel_subscription_navigate"
+        android:layout_width="@dimen/close_icon_size"
+        android:layout_height="@dimen/close_icon_size"
+        android:tint="@color/blue"
+        android:scaleX="-1"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:layout_marginEnd="@dimen/margin_spacing_tiny"
+        android:src="@drawable/ic_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/cancel_subscription_top_divider"
+        app:layout_constraintTop_toTopOf="@+id/cancel_subscription_callback_divider"/>
 
     <View
         android:id="@+id/cancel_subscription_callback_divider"
