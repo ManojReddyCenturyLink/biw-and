@@ -46,7 +46,7 @@
             />
 	    <activity android:name=".screens.emptydesitination.ProfileActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".screens.subscription.ManageSubscriptionActivity"
+        <activity android:name=".screens.subscription.CancelSubscriptionActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>

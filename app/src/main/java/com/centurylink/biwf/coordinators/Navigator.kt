@@ -8,7 +8,7 @@ import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
-import com.centurylink.biwf.screens.subscription.ManageSubscriptionActivity
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import javax.inject.Inject
@@ -67,8 +67,8 @@ class Navigator @Inject constructor() {
 
     fun navigateToMangeSubscription() {
         activity?.startActivityForResult(
-            ManageSubscriptionActivity.newIntent(activity!!),
-            ManageSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
+            CancelSubscriptionActivity.newIntent(activity!!),
+            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
         )
     }
 }

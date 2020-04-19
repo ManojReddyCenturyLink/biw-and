@@ -11,37 +11,37 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
-import com.centurylink.biwf.coordinators.ManageSubscriptionCoordinator
-import com.centurylink.biwf.databinding.ActivityManageSubscriptionBinding
+import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
+import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
 
-class ManageSubscriptionActivity : BaseActivity() {
+class CancelSubscriptionActivity : BaseActivity() {
 
     companion object {
         const val REQUEST_TO_SUBSCRIPTION: Int = 1101
         fun newIntent(context: Context): Intent {
-            return Intent(context, ManageSubscriptionActivity::class.java)
+            return Intent(context, CancelSubscriptionActivity::class.java)
         }
     }
 
     @Inject
-    lateinit var manageSubscriptionCoordinator: ManageSubscriptionCoordinator
+    lateinit var cancelSubscriptionCoordinator: CancelSubscriptionCoordinator
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
     private val manageSubscriptionViewModel by lazy {
-        ViewModelProvider(this, factory).get(ManageSubscriptionViewModel::class.java)
+        ViewModelProvider(this, factory).get(CancelSubscriptionViewModel::class.java)
     }
-    private lateinit var binding: ActivityManageSubscriptionBinding
+    private lateinit var binding: ActivityCancelSubscriptionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.TransparentActivity)
         super.onCreate(savedInstanceState)
-        binding = ActivityManageSubscriptionBinding.inflate(layoutInflater)
+        binding = ActivityCancelSubscriptionBinding.inflate(layoutInflater)
         manageSubscriptionViewModel.apply {
             cancelSubscriptionEvent.handleEvent { displayCancelSubscriptionDialog() }
             cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
@@ -58,7 +58,7 @@ class ManageSubscriptionActivity : BaseActivity() {
 
     override fun onResume() {
         super.onResume()
-        manageSubscriptionCoordinator.navigator.activity = this
+        cancelSubscriptionCoordinator.navigator.activity = this
     }
 
     private fun initHeaders() {

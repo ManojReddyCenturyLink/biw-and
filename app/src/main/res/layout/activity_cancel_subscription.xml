@@ -37,6 +37,18 @@
         app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_header"
         tools:ignore="MissingConstraints" />
 
+    <View
+        android:id="@+id/schedule_callback_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cardview_elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/light_grey"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_textview"/>
+
+
+
     <TextView
         android:id="@+id/cancel_subscription"
         style="@style/SubHeading"
@@ -46,4 +58,14 @@
         android:layout_marginTop="24dp"
         android:text="@string/continue_cancellation"
         app:layout_constraintTop_toBottomOf="@+id/manage_subscription_content" />
+
+    <View
+        android:id="@+id/cancel_subscription_callback_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cardview_elevation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/light_grey"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
