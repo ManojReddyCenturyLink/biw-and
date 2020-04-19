@@ -10,13 +10,9 @@ import javax.inject.Inject
 class CancelSubscriptionViewModel @Inject constructor(
     private val cancelSubscriptionRepository:CancelSubscriptionRepository
 ) : BaseViewModel() {
-    val cancelSubscriptionEvent: EventLiveData<Unit> = MutableLiveData()
     val cancelSubscriptionDate: EventLiveData<Date> = MutableLiveData()
 
     fun onCancelSubscription() {
-      if(cancelSubscriptionRepository.cancelSubscription()){
-          cancelSubscriptionEvent.emit(Unit)
-      }
     }
 
     fun getCancellationValidity(){

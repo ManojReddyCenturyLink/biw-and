@@ -17,6 +17,7 @@
         android:fontFamily="@font/arial_bold_mt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_large"
         android:paddingLeft="@dimen/medium_margin_spacing"
         android:paddingRight="@dimen/medium_margin_spacing"
         android:textSize="19sp"

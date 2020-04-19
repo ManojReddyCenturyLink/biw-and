@@ -91,9 +91,6 @@
         will apply in full and payments received for unused service will not be prorated, refunded,
         or credited. Your current subscription ends on  %1$s .</string>
     <string name="continue_cancellation">Continue cancellation</string>
-
-    <string name="cancel_subscription_confirm">Your Subscription has been cancelled successfully</string>
-    <string name="cancel_subscription_ok">ok</string>
     <string name="schedule_a_callback">Schedule a callback</string>
     <string name="visit_website_text">Need more help? Visit our self-diagnostic tool on our website for additional options.</string>
 </resources>

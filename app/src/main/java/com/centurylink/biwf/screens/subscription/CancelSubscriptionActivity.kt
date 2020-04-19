@@ -43,7 +43,6 @@ class CancelSubscriptionActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionBinding.inflate(layoutInflater)
         cancelSubscriptionModel.apply {
-            cancelSubscriptionEvent.handleEvent { displayCancelSubscriptionDialog() }
             cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
         }
         setContentView(binding.root)
@@ -70,24 +69,6 @@ class CancelSubscriptionActivity : BaseActivity() {
             this.finish()
         }
         binding.cancelSubscription.setOnClickListener { cancelSubscriptionModel.onCancelSubscription() }
-    }
-
-    private fun displayCancelSubscriptionDialog() {
-        val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setMessage(R.string.cancel_subscription_confirm)
-            .setCancelable(true)
-            .setNegativeButton(
-                R.string.cancel_subscription_ok,
-                DialogInterface.OnClickListener { dialog, id ->
-                    dialog.cancel()
-                    binding.cancelSubscription.visibility = View.GONE
-                })
-        // create dialog box
-        val alert = dialogBuilder.create()
-        // set title for alert dialog box
-        alert.setTitle(R.string.cancel_subscription_sub_header)
-        // show alert dialog
-        alert.show()
     }
 
     @SuppressLint("StringFormatInvalid")
