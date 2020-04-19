@@ -62,7 +62,7 @@ class ManageSubscriptionActivity : BaseActivity() {
     }
 
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.manage_subscription_title)
+        var screenTitle: String = getString(R.string.cancel_subscription_title)
         binding.activityHeaderView.subHeaderTitle.text = screenTitle
         binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
         binding.activityHeaderView.subHeaderRightIcon.setOnClickListener {
