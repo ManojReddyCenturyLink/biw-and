@@ -54,20 +54,16 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun initViews(){
+        viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER",false));
         viewModel.apply {
-            if(intent.getBooleanExtra("EXISTING_USER",false)) {
-                binding.homeOnlineStatusBar.visibility = View.VISIBLE
-                binding.homeUpperTabs.visibility = View.GONE
-                binding.homeLowerTabs.visibility = View.VISIBLE
-                networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
-                setupTabsViewPager(true)
-            }else{
-                binding.homeOnlineStatusBar.visibility = View.GONE
-                binding.homeUpperTabs.visibility = View.VISIBLE
-                binding.homeLowerTabs.visibility = View.GONE
-                setupTabsViewPager(false)
-            }
+            activeUserTabBarVisibility.bindToVisibility(
+                binding.homeUpperTabs,
+                binding.homeLowerTabs,
+                binding.homeOnlineStatusBar
+            )
+            networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
         }
+        setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER",false))
     }
 
     fun onProfileClickEvent(){

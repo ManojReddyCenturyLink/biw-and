@@ -27,6 +27,11 @@ class HomeViewModel @Inject constructor(
         tabsHeaderList = initList(false)
     }
 
+    fun handleTabBarVisibility(isExistingUser:Boolean) {
+        //just a dummy function to test showing different toolbars
+        activeUserTabBarVisibility.latestValue = isExistingUser
+    }
+
     fun onSupportClicked() {
         myState.value = HomeCoordinatorDestinations.SUPPORT
     }
