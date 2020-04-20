@@ -2,12 +2,12 @@ package com.centurylink.biwf.coordinators
 
 import android.app.Activity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
+import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
-import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity

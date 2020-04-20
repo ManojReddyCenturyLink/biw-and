@@ -71,5 +71,5 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(CancelSubscriptionViewModel::class)
-    abstract fun bindManageSubscriptionViewModel(manageSubscriptionViewModel: CancelSubscriptionViewModel): ViewModel
+    abstract fun bindCancelSubscriptionViewModel(cancelSubscriptionViewModel: CancelSubscriptionViewModel): ViewModel
 }

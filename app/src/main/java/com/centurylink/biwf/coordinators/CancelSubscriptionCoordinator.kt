@@ -1,4 +1,5 @@
 package com.centurylink.biwf.coordinators
+
 import android.os.Bundle
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
@@ -23,9 +24,9 @@ class CancelSubscriptionCoordinator @Inject constructor() {
         }
     }
 
-
     enum class SubscriptionCoordinatorDestinations {
         CANCEL_SELECT_DATE_SUBSCRIPTION;
+
         companion object {
             lateinit var bundle: Bundle
             fun get(): Bundle = bundle
