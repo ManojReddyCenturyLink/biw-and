@@ -45,6 +45,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/personal_info_card_title"
+                android:contentDescription="@string/content_description_holder"
                 />
 
             <TextView

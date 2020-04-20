@@ -94,4 +94,17 @@
     <string name="text_header_cancel">CANCEL</string>
     <string name="schedule_a_callback">Schedule a callback</string>
     <string name="visit_website_text">Need more help? Visit our self-diagnostic tool on our website for additional options.</string>
+    <string name="remember_me">Remember Me</string>
+    <string name="learn_more">Learn More</string>
+    <string name="welcome">Welcome</string>
+    <string name="content_description_app_logo">app logo</string>
+    <string name="content_description_holder">Content description Holder</string>
+    <string name="live_chat_times">8:00am - 5:00pm MST</string>
+    <string name="my_account">My Account</string>
+    <string name="online">Online</string>
+    <string name="dash_spacer">-</string>
+    <string name="biwf_home_wifi">BiWF Home Wifi</string>
+    <string name="last_speed_test_fake_value">03/02/2020 at 8:52pm</string>
+    <string name="fake_speed_test_download_speed">910</string>
+    <string name="speed_test_upload_fake_speed">908</string>
 </resources>
