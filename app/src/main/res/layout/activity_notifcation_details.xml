@@ -15,7 +15,9 @@
         android:src="@drawable/ic_back"
         android:contentDescription="Back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_description_holder"
+        />
 
     <TextView
         android:id="@+id/notification_details_title"
@@ -38,7 +40,9 @@
         android:src="@drawable/ic_close_icon"
         android:contentDescription="Close"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_description_holder"
+        />
 
     <FrameLayout
         android:id="@+id/notification_details_container"

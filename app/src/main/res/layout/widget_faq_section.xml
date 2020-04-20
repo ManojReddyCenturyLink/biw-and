@@ -10,7 +10,7 @@
         android:id="@+id/faq_sub_heading"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="My Account"
+        android:text="@string/my_account"
         android:layout_marginStart="24dp"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_16"
@@ -28,7 +28,9 @@
         android:src="@drawable/ic_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/faq_sub_heading"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_description_holder"
+        />
     <View
         android:id="@+id/view"
         android:layout_width="match_parent"

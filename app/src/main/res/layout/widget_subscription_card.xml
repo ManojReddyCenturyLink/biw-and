@@ -58,6 +58,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/account_card_plan_details"
+                android:contentDescription="@string/content_description_holder"
                 />
 
             <TextView
