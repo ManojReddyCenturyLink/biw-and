@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.login
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.screens.login.LoginViewModel
 import com.centurylink.biwf.testutils.event
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

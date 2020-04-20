@@ -1,28 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background_grey">
+
+    <data>
+        <import type="android.view.View"/>
+
+        <variable
+            name="states"
+            type="Integer"/>
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <include
+            android:id="@+id/incSpeedTest"
+            layout="@layout/widget_speedtest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{states==1 ? View.VISIBLE : View.GONE}"/>
+
+        <include
+            android:id="@+id/incNotificationStack"
+            layout="@layout/widget_notification_stack"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_spacing_really_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/incSpeedTest"
+            android:visibility="@{states==1 ? View.VISIBLE : View.GONE}"/>
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewpagerNotification"
+            android:layout_gravity="center"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:visibility="gone"
+            android:layout_margin="@dimen/margin_spacing_really_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/incSpeedTest"/>
+
+        <include
             android:id="@+id/incStatus"
             layout="@layout/widget_appointment_status"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:visibility="@{states==2 ? View.VISIBLE : View.GONE}"/>
 
         <include
             android:id="@+id/incWelcomeCard"
             layout="@layout/widget_welcome_card"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incStatus" />
+            app:layout_constraintTop_toBottomOf="@+id/incStatus"
+            android:visibility="@{states==2 ? View.VISIBLE : View.GONE}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -40,6 +40,10 @@ class LoginViewModel(
         }
     }
 
+    fun onExistingUserLogin() {
+            myState.value = LoginCoordinatorDestinations.EXISTING_USER
+    }
+
     fun onForgotPasswordClicked() {
         myState.value = LoginCoordinatorDestinations.FORGOT_PASSWORD
     }

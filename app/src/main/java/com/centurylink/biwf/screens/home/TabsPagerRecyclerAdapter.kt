@@ -137,11 +137,11 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
 
     class TabAdapterDiffUtil : DiffUtil.ItemCallback<TabsBaseItem>() {
         override fun areItemsTheSame(oldItem: TabsBaseItem, newItem: TabsBaseItem): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return false
         }
 
         override fun areContentsTheSame(oldItem: TabsBaseItem, newItem: TabsBaseItem): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return false
         }
     }
 }

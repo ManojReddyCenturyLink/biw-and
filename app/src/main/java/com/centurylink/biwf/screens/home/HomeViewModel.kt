@@ -16,20 +16,22 @@ class HomeViewModel @Inject constructor(
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
     val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
     val myState = ObservableData(HomeCoordinatorDestinations.HOME)
+    var tabUpperHeaderList = mutableListOf<TabsBaseItem>()
     var tabsHeaderList = mutableListOf<TabsBaseItem>()
 
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
 
     init {
-        tabsHeaderList = initList()
+        tabUpperHeaderList = initList(true)
+        tabsHeaderList = initList(false)
     }
 
     fun onSupportClicked() {
         myState.value = HomeCoordinatorDestinations.SUPPORT
     }
 
-    fun onNotificonBellClicked() {
+    fun onNotificationBellClicked() {
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
 
@@ -53,20 +55,16 @@ class HomeViewModel @Inject constructor(
         dummyOnline = !dummyOnline
     }
 
-    fun onSupportLongClick_toggleToolbars() {
-        //just a dummy function to test showing different toolbars
-        activeUserTabBarVisibility.latestValue = !(activeUserTabBarVisibility.value)!!
-    }
-
     fun onProfileClickEvent(){
         myState.value = HomeCoordinatorDestinations.PROFILE
     }
 
-    private fun initList(): MutableList<TabsBaseItem> {
+    private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {
         val list = mutableListOf<TabsBaseItem>()
 
         list.add(TabsBaseItem(indextype = TabsBaseItem.ACCOUNT, titleRes = R.string.tittle_text_account))
         list.add(TabsBaseItem(indextype = TabsBaseItem.DASHBOARD, titleRes = R.string.tittle_text_dashboard))
+        if (!isUpperTab)
         list.add(TabsBaseItem(indextype = TabsBaseItem.DEVICES, titleRes = R.string.tittle_text_devices))
 
         return list

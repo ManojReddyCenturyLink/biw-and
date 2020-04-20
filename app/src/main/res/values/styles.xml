@@ -3,8 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">#2abb7c</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/grey_darker</item>
@@ -14,6 +13,7 @@
     <style name="Tab.TextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textSize">@dimen/font_size_h4</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="TransparentActivity" parent="AppTheme">

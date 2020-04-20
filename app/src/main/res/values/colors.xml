@@ -21,6 +21,7 @@
     <color name="blue">#0047bb</color>
     <color name="blue_light">#0048bb</color>
     <color name="blue_dark">#001e60</color>
+    <color name="blue_icon_bg">#e5ecf8</color>
 
     <color name="font_color_white">#ffff</color>
     <color name="title_color_blue">#001e60</color>

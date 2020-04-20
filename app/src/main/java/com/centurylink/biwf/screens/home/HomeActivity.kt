@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
@@ -15,7 +16,10 @@ import javax.inject.Inject
 class HomeActivity : BaseActivity() {
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, HomeActivity::class.java)
+        fun newIntent(context: Context, bundle: Bundle): Intent {
+            return Intent(context, HomeActivity::class.java)
+                .putExtra("EXISTING_USER", bundle.getBoolean("EXISTING_USER"))
+        }
     }
 
     @Inject
@@ -32,19 +36,9 @@ class HomeActivity : BaseActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
-
-        viewModel.apply {
-            activeUserTabBarVisibility.bindToVisibility(
-                binding.homeUpperTabs,
-                binding.homeLowerTabs,
-                binding.homeOnlineStatusBar
-            )
-            networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
-        }
-
         homeCoordinator.navigator.activity = this
         homeCoordinator.observeThis(viewModel.myState)
-
+        initViews()
         initOnClicks()
     }
 
@@ -59,32 +53,51 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    private fun initViews(){
+        viewModel.apply {
+            if(intent.getBooleanExtra("EXISTING_USER",false)) {
+                binding.homeOnlineStatusBar.visibility = View.VISIBLE
+                binding.homeUpperTabs.visibility = View.GONE
+                binding.homeLowerTabs.visibility = View.VISIBLE
+                networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
+                setupTabsViewPager(true)
+            }else{
+                binding.homeOnlineStatusBar.visibility = View.GONE
+                binding.homeUpperTabs.visibility = View.VISIBLE
+                binding.homeLowerTabs.visibility = View.GONE
+                setupTabsViewPager(false)
+            }
+        }
+    }
+
     fun onProfileClickEvent(){
         viewModel.onProfileClickEvent()
     }
 
     private fun initOnClicks() {
         binding.homeOnlineStatusBar.setOnClickListener { viewModel.onOnlineToolbarClick() }
-        binding.iBtnNotification.setOnClickListener { viewModel.onNotificonBellClicked() }
+        binding.iBtnNotification.setOnClickListener { viewModel.onNotificationBellClicked() }
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
-        binding.supportButton.setOnLongClickListener {
-            viewModel.onSupportLongClick_toggleToolbars()
-            true
-        }
-        setupTabsViewPager()
     }
 
-    private fun setupTabsViewPager() {
-        binding.vpDashboard.adapter = adapter
+    private fun setupTabsViewPager(isExistingUser : Boolean) {
         //For future reference to load data and display on screen
         viewModel.loadData()
-        adapter.submitList(viewModel.tabsHeaderList)
-        TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
-            TabLayoutMediator.OnConfigureTabCallback
-            { tab, position -> tab.setText(viewModel.tabsHeaderList[position].titleRes) }).attach()
+        if(isExistingUser){
+            adapter.submitList(viewModel.tabsHeaderList)
+            binding.vpDashboard.adapter = adapter
 
-        TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
-            TabLayoutMediator.OnConfigureTabCallback
-            { tab, position -> tab.setText(viewModel.tabsHeaderList[position].titleRes) }).attach()
+            TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
+                TabLayoutMediator.OnConfigureTabCallback
+                { tab, position -> tab.setText(viewModel.tabsHeaderList[position].titleRes) }).attach()
+        }
+        else{
+            adapter.submitList(viewModel.tabUpperHeaderList)
+            binding.vpDashboard.adapter = adapter
+
+            TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
+                TabLayoutMediator.OnConfigureTabCallback
+                { tab, position -> tab.setText(viewModel.tabUpperHeaderList[position].titleRes) }).attach()
+        }
     }
 }

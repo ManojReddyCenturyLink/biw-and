@@ -17,8 +17,6 @@ class OnlineStatusBar @JvmOverloads constructor(
 
     private val onlineStatusIcon: ImageView
     private val onlineStatusText: TextView
-    private val networkNameTextView: TextView
-    private val onlineStatusSpacer: TextView
 
     fun setOnlineStatus(onlineStatusData: OnlineStatusData) {
         if (onlineStatusData.isOnline) isOnline(onlineStatusData.networkName) else isOffLine()
@@ -26,24 +24,18 @@ class OnlineStatusBar @JvmOverloads constructor(
 
     init {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_online_bar, this, true)
-        onlineStatusSpacer = view.findViewById(R.id.status_bar_spacer)
         onlineStatusText = view.findViewById(R.id.status_bar_online_status)
         onlineStatusIcon = view.findViewById(R.id.status_bar_online_circle)
-        networkNameTextView = view.findViewById(R.id.status_bar_network_name)
     }
 
     private fun isOnline(networkName: String) {
-        onlineStatusText.text = "Online"
-        onlineStatusSpacer.visibility = View.VISIBLE
+        onlineStatusText.text = "Internet online"
         onlineStatusIcon.setImageResource(R.drawable.green_circle)
-        networkNameTextView.text = networkName
     }
 
     private fun isOffLine() {
-        onlineStatusText.text = "Offline"
+        onlineStatusText.text = "Internet offline"
         onlineStatusIcon.setImageResource(R.drawable.red_circle)
-        onlineStatusSpacer.visibility = View.INVISIBLE
-        networkNameTextView.text = ""
     }
 }
 
