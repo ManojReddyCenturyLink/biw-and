@@ -18,7 +18,6 @@ import javax.inject.Inject
 class DashboardViewModel @Inject constructor(
     private val currentAppointmentRepository: CurrentAppointmentRepository,
     notificationRepository: NotificationRepository
-
 ) : BaseViewModel() {
 
     val myState = ObservableData(DashboardCoordinatorDestinations.APPOINTMENT_SCHEDULED)
@@ -63,8 +62,8 @@ class DashboardViewModel @Inject constructor(
 
      fun navigateToNotificationDetails(notificationItem: Notification){
         var bundle= Bundle()
-        bundle.putString(NotificationDetailsActivity.urlToLaunch,notificationItem.detialUrl)
-        bundle.putBoolean(NotificationDetailsActivity.launchFromHome,true)
+        bundle.putString(NotificationDetailsActivity.URL_TO_LAUNCH,notificationItem.detialUrl)
+        bundle.putBoolean(NotificationDetailsActivity.LAUNCH_FROM_HOME,true)
         NotificationCoordinator.NotificationCoordinatorDestinations.set(bundle)
         myState.value = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
@@ -77,5 +76,4 @@ class DashboardViewModel @Inject constructor(
         currentAppointmentRepository.getCurrentAppointment(accountId = "")
         myState.value = DashboardCoordinatorDestinations.APPOINTMENT_SCHEDULED
     }
-
 }

@@ -65,8 +65,8 @@ class NotificationViewModel @Inject constructor(
 
     private fun navigatetoNotifcationDetails(notificationItem: Notification) {
         var bundle = Bundle()
-        bundle.putString(NotificationDetailsActivity.urlToLaunch, notificationItem.detialUrl)
-        bundle.putBoolean(NotificationDetailsActivity.launchFromHome, true)
+        bundle.putString(NotificationDetailsActivity.URL_TO_LAUNCH, notificationItem.detialUrl)
+        bundle.putBoolean(NotificationDetailsActivity.LAUNCH_FROM_HOME, true)
         NotificationCoordinator.NotificationCoordinatorDestinations.set(bundle)
         myState.value =
             NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_DETAILS

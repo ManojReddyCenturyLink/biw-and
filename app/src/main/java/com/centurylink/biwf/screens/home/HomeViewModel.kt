@@ -16,15 +16,15 @@ class HomeViewModel @Inject constructor(
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
     val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
     val myState = ObservableData(HomeCoordinatorDestinations.HOME)
-    var tabUpperHeaderList = mutableListOf<TabsBaseItem>()
-    var tabsHeaderList = mutableListOf<TabsBaseItem>()
+    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
+    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
 
     init {
-        tabUpperHeaderList = initList(true)
-        tabsHeaderList = initList(false)
+        upperTabHeaderList = initList(true)
+        lowerTabHeaderList = initList(false)
     }
 
     fun handleTabBarVisibility(isExistingUser:Boolean) {

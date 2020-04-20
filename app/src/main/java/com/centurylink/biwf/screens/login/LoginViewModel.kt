@@ -34,14 +34,14 @@ class LoginViewModel(
     fun onLoginClicked() {
         if (checkForValidFields()) {
             accountRepository.login(email = userEmail!!, password = userPassword!!, rememberMeFlag = rememberMe)
-            myState.value = LoginCoordinatorDestinations.HOME
+            myState.value = LoginCoordinatorDestinations.HOME_NEW_USER
         } else {
             errorEvents.emit("Please give Email and / or Password")
         }
     }
 
     fun onExistingUserLogin() {
-            myState.value = LoginCoordinatorDestinations.EXISTING_USER
+            myState.value = LoginCoordinatorDestinations.HOME_EXISTING_USER
     }
 
     fun onForgotPasswordClicked() {

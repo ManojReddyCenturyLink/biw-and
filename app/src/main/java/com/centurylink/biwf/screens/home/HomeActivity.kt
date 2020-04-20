@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
@@ -79,21 +78,18 @@ class HomeActivity : BaseActivity() {
     private fun setupTabsViewPager(isExistingUser : Boolean) {
         //For future reference to load data and display on screen
         viewModel.loadData()
+        binding.vpDashboard.adapter = adapter
         if(isExistingUser){
-            adapter.submitList(viewModel.tabsHeaderList)
-            binding.vpDashboard.adapter = adapter
-
+            adapter.submitList(viewModel.lowerTabHeaderList)
             TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
                 TabLayoutMediator.OnConfigureTabCallback
-                { tab, position -> tab.setText(viewModel.tabsHeaderList[position].titleRes) }).attach()
+                { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
         }
         else{
-            adapter.submitList(viewModel.tabUpperHeaderList)
-            binding.vpDashboard.adapter = adapter
-
+            adapter.submitList(viewModel.upperTabHeaderList)
             TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
                 TabLayoutMediator.OnConfigureTabCallback
-                { tab, position -> tab.setText(viewModel.tabUpperHeaderList[position].titleRes) }).attach()
+                { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
         }
     }
 }

@@ -16,14 +16,14 @@ import com.centurylink.biwf.screens.common.CustomWebFragment
 class NotificationDetailsActivity : BaseActivity() {
 
     companion object {
-        const val launchFromHome: String = "launchType"
-        const val urlToLaunch: String = "launchurl"
-        const val requestToDismiss = 1000
+        const val LAUNCH_FROM_HOME: String = "launchType"
+        const val URL_TO_LAUNCH: String = "launchurl"
+        const val REQUEST_TO_DISMISS = 1000
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, NotificationDetailsActivity::class.java)
-                .putExtra(launchFromHome, bundle.getBoolean(launchFromHome))
-                .putExtra(urlToLaunch, bundle.getString(urlToLaunch))
+                .putExtra(LAUNCH_FROM_HOME, bundle.getBoolean(LAUNCH_FROM_HOME))
+                .putExtra(URL_TO_LAUNCH, bundle.getString(URL_TO_LAUNCH))
         }
     }
 
@@ -42,7 +42,7 @@ class NotificationDetailsActivity : BaseActivity() {
     }
 
     private fun initView() {
-        val displayBackIcon = intent.getBooleanExtra(launchFromHome, false)
+        val displayBackIcon = intent.getBooleanExtra(LAUNCH_FROM_HOME, false)
         if (displayBackIcon) {
             binding.notificationDetailsBackIcon.visibility = View.VISIBLE
         } else {
@@ -60,7 +60,7 @@ class NotificationDetailsActivity : BaseActivity() {
     }
 
     private fun initFragment() {
-        url = intent.getStringExtra(urlToLaunch)
+        url = intent.getStringExtra(URL_TO_LAUNCH)
         val transaction = manager.beginTransaction()
         val fragment =
             CustomWebFragment.newInstance(url!!)

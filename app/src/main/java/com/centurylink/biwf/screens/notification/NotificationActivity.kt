@@ -87,7 +87,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            NotificationDetailsActivity.requestToDismiss -> {
+            NotificationDetailsActivity.REQUEST_TO_DISMISS -> {
                 if (resultCode == Activity.RESULT_OK) {
                     finish()
                 }

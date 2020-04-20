@@ -29,7 +29,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         viewModel.onEmailTextChanged("dean@gmail.com")
         viewModel.onPasswordTextChanged("passcode")
         viewModel.onLoginClicked()
-        assertSame("Not the same", LoginCoordinatorDestinations.HOME, viewModel.myState.value)
+        assertSame("Not the same", LoginCoordinatorDestinations.HOME_NEW_USER, viewModel.myState.value)
     }
 
     @Test
