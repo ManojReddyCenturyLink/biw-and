@@ -1,11 +1,10 @@
-package com.centurylink.biwf.screens.profile
+package com.centurylink.biwf.screens.emptydesitination
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.centurylink.biwf.R
-import com.centurylink.biwf.base.BaseActivity
 
 class ProfileActivity : AppCompatActivity() {
 

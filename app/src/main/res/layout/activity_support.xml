@@ -4,18 +4,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_darker"
     tools:context=".screens.support.SupportActivity">
 
-    <include
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/incHeader"
-        layout="@layout/widget_header_component"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/above_cardview_elevation"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/white"
+        android:paddingTop="@dimen/margin_spacing_really_small">
+
+        <TextView
+            android:id="@+id/header_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/support"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/small_title_text_size"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/done_button_support"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/done_button_support"
+            android:layout_height="@dimen/padding_0"
+            android:layout_width="wrap_content"
+            android:textColor="@color/blue"
+            android:paddingEnd="@dimen/height_20"
+            android:text="DONE"
+            android:textStyle="bold"
+            android:gravity="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/header_title"
+            app:layout_constraintBottom_toBottomOf="@+id/header_title" />
+        <View
+            android:id="@+id/header_seprator_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/cardview_elevation"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/light_grey"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            app:layout_constraintTop_toBottomOf="@+id/done_button_support"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ScrollView
         android:layout_width="@dimen/padding_0"
@@ -37,6 +70,7 @@
             android:layout_height="wrap_content"
             android:text="@string/faq_topics"
             style="@style/SubHeading"
+            android:paddingTop="@dimen/medium_margin_spacing"
             android:layout_marginStart="@dimen/medium_margin_spacing"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -74,10 +108,11 @@
         <include
             android:id="@+id/incContactUs"
             layout="@layout/widget_contact_us_section"
-            android:layout_marginTop="@dimen/margin_spacing_large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_large"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/incTroubleshooting" />
     </androidx.constraintlayout.widget.ConstraintLayout>

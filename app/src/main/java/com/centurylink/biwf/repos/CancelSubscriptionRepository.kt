@@ -6,7 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ManageSubscriptionRepository @Inject constructor(
+class CancelSubscriptionRepository @Inject constructor(
     private val apiServices: ApiServices
 ) {
 

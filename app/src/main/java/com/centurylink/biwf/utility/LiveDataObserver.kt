@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.centurylink.biwf.widgets.OnlineStatusBar
+import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.tabs.TabLayout
 
 interface LiveDataObserver {
@@ -38,12 +39,17 @@ interface LiveDataObserver {
         }
     }
 
-    fun LiveData<Boolean>.bindToSwitch(switch: Switch) {
+    fun LiveData<Boolean>.bindToSwitch(switch: SwitchMaterial) {
         observe {
             switch.isChecked = it
         }
     }
 
+    fun LiveData<Boolean>.bindToSwitch(switch: Switch) {
+        observe {
+            switch.isChecked = it
+        }
+    }
     fun LiveData<String>.bindToTextView(textView: TextView) {
         observe {
             textView.text = it

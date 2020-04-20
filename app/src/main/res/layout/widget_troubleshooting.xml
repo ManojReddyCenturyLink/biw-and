@@ -16,7 +16,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/last_speed_test"
             android:layout_width="wrap_content"
@@ -132,6 +131,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:background="@drawable/rounded_button_background"
+            android:paddingStart="@dimen/medium_margin_spacing"
+            android:paddingEnd="@dimen/medium_margin_spacing"
             android:text="@string/run_speed_test"
             android:textAllCaps="false"
             android:textColor="@color/white"
