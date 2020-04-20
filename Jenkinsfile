@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                gradlew(args: ['clean', 'test', 'lint', 'lintVitalRelease'])
+                gradlew(args: ['clean', 'test', 'lintVitalRelease'])
                 androidLint(canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'app/build/reports/lint-results*.xml', unHealthy: '')
 		        junit(allowEmptyResults: true, testResults: 'app/build/test-results/**/*.xml')
             }
@@ -62,11 +62,13 @@ pipeline {
             script {
                 def slackMessage = slack.defaultMessage()
                 slackMessage += " - <${env.JENKINS_URL}/job/Centurylink/job/centurylink-android/job/master/Documentation|Documentation>"
-                slack(channels: [SLACK_ALWAYS_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: true, message: slackMessage)
+                // slack(channels: [SLACK_ALWAYS_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: true, message: slackMessage)
+                echo slackMessage
             }
         }
         failure {
-            slack(channels: [SLACK_FAIL_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: false)
+            // slack(channels: [SLACK_FAIL_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: false)
+            echo "Failed"
         }
     }
 }
