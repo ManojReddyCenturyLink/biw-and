@@ -50,7 +50,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/last_speed_test">
 
@@ -61,7 +60,7 @@
                 android:text="910"
                 android:textStyle="bold"
                 android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_44"
+                android:textSize="@dimen/large_title_text_size"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -72,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_download_speed"
                 android:padding="@dimen/margin_spacing_tiny"
+                android:contentDescription="Download Icon"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
                 app:layout_constraintStart_toEndOf="@+id/download_speed"/>
@@ -82,7 +82,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/mbps_download"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_10"
+                android:textSize="@dimen/text_size_12"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
                 app:layout_constraintStart_toEndOf="@+id/download_speed_icon" />
@@ -95,7 +95,7 @@
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/margin_spacing_small"
                 android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_44"
+                android:textSize="@dimen/large_title_text_size"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
                 app:layout_constraintStart_toEndOf="@+id/download_speed_unit" />
@@ -107,6 +107,7 @@
                 android:src="@drawable/ic_download_speed"
                 android:scaleY="-1"
                 android:padding="@dimen/margin_spacing_tiny"
+                android:contentDescription="Upload Icon"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
                 app:layout_constraintStart_toEndOf="@+id/upload_speed" />
@@ -117,7 +118,7 @@
                 android:text="@string/mbps_upload"
                 android:textColor="@color/blue"
                 android:textAlignment="center"
-                android:textSize="@dimen/text_size_10"
+                android:textSize="@dimen/text_size_12"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
                 app:layout_constraintStart_toEndOf="@+id/upload_speed_icon" />
@@ -128,11 +129,15 @@
             android:id="@+id/run_speed_test_button"
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:background="@drawable/rounded_button_background"
+            android:paddingStart="@dimen/medium_margin_spacing"
+            android:paddingEnd="@dimen/medium_margin_spacing"
             android:text="@string/run_speed_test"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:textSize="@dimen/extra_small_text_size"
             app:layout_constraintEnd_toStartOf="@+id/restart_modem_button"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
@@ -141,12 +146,14 @@
             android:id="@+id/restart_modem_button"
             android:layout_width="@dimen/padding_0"
             android:layout_height="@dimen/padding_0"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_marginStart="@dimen/margin_spacing_tiny"
             android:background="@drawable/button_thin_border_background"
             android:gravity="center"
             android:textAllCaps="false"
             android:text="@string/restart_modem"
             android:textColor="@color/blue"
+            android:textSize="@dimen/extra_small_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/run_speed_test_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/run_speed_test_button"
@@ -158,7 +165,7 @@
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:text="@string/visit_website_text"
             android:textColor="@color/black"
-            android:textSize="@dimen/extra_small_text_size"
+            android:textSize="@dimen/font_size_h4"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/run_speed_test_button" />
@@ -167,6 +174,7 @@
             android:id="@+id/support_visit_website"
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
+            style="?android:attr/borderlessButtonStyle"
             android:background="@drawable/button_thin_border_background"
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:gravity="center"

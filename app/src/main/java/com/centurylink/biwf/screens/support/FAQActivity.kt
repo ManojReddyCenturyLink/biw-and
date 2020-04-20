@@ -92,7 +92,6 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
-        binding.activitySupportView.supportCallUsLink.visibility = View.GONE
     }
 
     private fun getFAQInformation() {
