@@ -89,7 +89,7 @@
     <string name="manage_subscription_content" formatted="false">When canceling service on any day
         other than the last day of your current subscription, all monthly rates, fees, and taxes
         will apply in full and payments received for unused service will not be prorated, refunded,
-        or credited. Your current subscription ends on  %1$s .</string>
+        or credited. Your current subscription ends on  %1$s.</string>
     <string name="continue_cancellation">Continue cancellation</string>
     <string name="text_header_cancel">CANCEL</string>
     <string name="schedule_a_callback">Schedule a callback</string>
