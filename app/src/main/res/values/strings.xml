@@ -83,7 +83,7 @@
     <string name="work_phone">Work phone:</string>
     <string name="service_address">Service address:</string>
 
-    <!--Manage Subscription Screen -->
+    <!--Cancel Subscription Screen -->
     <string name="cancel_subscription_title">Cancel subscription</string>
     <string name="cancel_subscription_sub_header">Are you sure you want to cancel?</string>
     <string name="manage_subscription_content" formatted="false">When canceling service on any day
@@ -91,6 +91,7 @@
         will apply in full and payments received for unused service will not be prorated, refunded,
         or credited. Your current subscription ends on  %1$s .</string>
     <string name="continue_cancellation">Continue cancellation</string>
+    <string name="text_header_cancel">CANCEL</string>
     <string name="schedule_a_callback">Schedule a callback</string>
     <string name="visit_website_text">Need more help? Visit our self-diagnostic tool on our website for additional options.</string>
 </resources>

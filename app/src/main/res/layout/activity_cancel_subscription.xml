@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/activty_curved_bg">
+    android:layout_height="match_parent">
 
     <include
         android:id="@+id/activity_header_view"
-        layout="@layout/widget_sub_header_component"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        layout="@layout/widget_subheader_with_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -53,11 +54,12 @@
 
     <TextView
         android:id="@+id/cancel_subscription"
-        style="@style/SubHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="start"
         android:textColor="@color/black"
+        android:fontFamily="@font/arial_mt"
+        android:textSize="@dimen/font_size_h4"
         android:paddingLeft="24dp"
         android:layout_marginTop="18dp"
         android:text="@string/continue_cancellation"

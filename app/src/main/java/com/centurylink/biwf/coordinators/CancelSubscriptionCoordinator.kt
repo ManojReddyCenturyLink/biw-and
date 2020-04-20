@@ -18,14 +18,14 @@ class CancelSubscriptionCoordinator @Inject constructor() {
 
     private fun navigateTo(destinations: CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations) {
         when (destinations) {
-            CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations.LAUNCH_DATE_ACTIVITY -> {
+            CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations.CANCEL_SELECT_DATE_SUBSCRIPTION -> {
             }
         }
     }
 
-    enum class SubscriptionCoordinatorDestinations {
-        LAUNCH_DATE_ACTIVITY;
 
+    enum class SubscriptionCoordinatorDestinations {
+        CANCEL_SELECT_DATE_SUBSCRIPTION;
         companion object {
             lateinit var bundle: Bundle
             fun get(): Bundle = bundle

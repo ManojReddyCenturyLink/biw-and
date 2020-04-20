@@ -3,11 +3,8 @@ package com.centurylink.biwf.screens.subscription
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -39,14 +36,12 @@ class CancelSubscriptionActivity : BaseActivity() {
     private lateinit var binding: ActivityCancelSubscriptionBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.TransparentActivity)
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionBinding.inflate(layoutInflater)
         cancelSubscriptionModel.apply {
             cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
         }
         setContentView(binding.root)
-        setHeightofActivity()
         initHeaders()
         cancelSubscriptionModel.getCancellationValidity()
     }
@@ -62,9 +57,10 @@ class CancelSubscriptionActivity : BaseActivity() {
 
     private fun initHeaders() {
         var screenTitle: String = getString(R.string.cancel_subscription_title)
-        binding.activityHeaderView.subHeaderTitle.text = screenTitle
+        binding.activityHeaderView.subheaderCenterTitle.text = screenTitle
         binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
-        binding.activityHeaderView.subHeaderRightIcon.setOnClickListener {
+        binding.activityHeaderView.subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
+        binding.activityHeaderView.subheaderRightActionTitle.setOnClickListener {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
