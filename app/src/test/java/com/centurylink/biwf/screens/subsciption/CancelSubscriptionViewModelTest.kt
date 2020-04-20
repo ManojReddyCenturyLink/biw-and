@@ -42,14 +42,14 @@ class CancelSubscriptionViewModelTest : ViewModelBaseTest() {
         assertEqualDates(d1!!, mockDate())
     }
 
-    fun mockDate(): Date {
+    private fun mockDate(): Date {
         Calendar.getInstance().apply {
             add(Calendar.DATE, 7)
             return time
         }
     }
 
-    fun assertEqualDates(date1: Date, date2: Date): Boolean {
+    private fun assertEqualDates(date1: Date, date2: Date): Boolean {
         val formatter = SimpleDateFormat("dd MMM yyyy")
         val d1: String = formatter.format(date1)
         val d2: String = formatter.format(date2)

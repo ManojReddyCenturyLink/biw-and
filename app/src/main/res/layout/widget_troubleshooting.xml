@@ -39,7 +39,7 @@
                 android:id="@+id/last_speed_test_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="03/02/2020 at 8:52pm"
+                android:text="@string/last_speed_test_fake_value"
                 android:textColor="@color/grey_darker"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintStart_toEndOf="@+id/last_speed_test_title"
@@ -58,7 +58,7 @@
                 android:id="@+id/download_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="910"
+                android:text="@string/fake_speed_test_download_speed"
                 android:textStyle="bold"
                 android:textColor="@color/blue_dark"
                 android:textSize="@dimen/text_size_44"
@@ -74,7 +74,9 @@
                 android:padding="@dimen/margin_spacing_tiny"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
-                app:layout_constraintStart_toEndOf="@+id/download_speed"/>
+                app:layout_constraintStart_toEndOf="@+id/download_speed"
+                android:contentDescription="@string/content_description_holder"
+                />
 
             <TextView
                 android:id="@+id/download_speed_unit"
@@ -91,7 +93,7 @@
                 android:id="@+id/upload_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="908"
+                android:text="@string/speed_test_upload_fake_speed"
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/margin_spacing_small"
                 android:textColor="@color/blue_dark"
@@ -109,7 +111,9 @@
                 android:padding="@dimen/margin_spacing_tiny"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
-                app:layout_constraintStart_toEndOf="@+id/upload_speed" />
+                app:layout_constraintStart_toEndOf="@+id/upload_speed"
+                android:contentDescription="@string/content_description_holder"
+                />
             <TextView
                 android:id="@+id/upload_speed_unit"
                 android:layout_width="@dimen/padding_0"

@@ -13,7 +13,9 @@
         android:src="@drawable/ic_back"
         android:tint="@color/blue"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_description_holder"
+        />
 
     <TextView
         android:id="@+id/sub_header_title"
@@ -35,5 +37,7 @@
         android:tint="@color/blue"
         app:layout_constraintBottom_toBottomOf="@+id/sub_header_leftIcon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/sub_header_leftIcon" />
+        app:layout_constraintTop_toTopOf="@+id/sub_header_leftIcon"
+        android:contentDescription="@string/content_description_holder"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

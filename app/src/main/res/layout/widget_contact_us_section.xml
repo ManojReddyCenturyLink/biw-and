@@ -40,7 +40,7 @@
         android:id="@+id/live_chat_timing"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        android:text="8:00am - 5:00pm MST "
+        android:text="@string/live_chat_times"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_size_12"
         app:layout_constraintBottom_toBottomOf="@+id/live_chat_textview"
@@ -57,7 +57,9 @@
         android:src="@drawable/ic_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/live_chat_textview"
-        app:layout_constraintTop_toTopOf="@+id/live_chat_textview"/>
+        app:layout_constraintTop_toTopOf="@+id/live_chat_textview"
+        android:contentDescription="@string/content_description_holder"
+        />
     <View
         android:id="@+id/live_chat_divider"
         android:layout_width="match_parent"
@@ -83,7 +85,7 @@
         android:id="@+id/schedule_callback_timing"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        android:text="8:00am - 5:00pm MST "
+        android:text="@string/live_chat_times"
         android:textColor="@color/grey"
         android:textSize="@dimen/text_size_12"
         app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
@@ -100,7 +102,9 @@
         android:src="@drawable/ic_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
-        app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview"/>
+        app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview"
+        android:contentDescription="@string/content_description_holder"
+        />
     <View
         android:id="@+id/schedule_callback_divider"
         android:layout_width="match_parent"

@@ -157,6 +157,7 @@
                 app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_settings_title"
+                android:contentDescription="@string/content_description_holder"
                 />
 
             <TextView
@@ -206,6 +207,7 @@
                 app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_biometric_label"
+                android:contentDescription="@string/content_description_holder"
                 />
 
             <TextView
