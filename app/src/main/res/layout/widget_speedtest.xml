@@ -42,7 +42,7 @@
                 android:text="910"
                 android:textStyle="bold"
                 android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_44"
+                android:textSize="@dimen/text_size_48"
                 android:layout_marginEnd="@dimen/margin_spacing_really_small"
                 app:layout_constraintEnd_toStartOf="@+id/download_speed_icon"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -101,7 +101,7 @@
                 android:textStyle="bold"
                 android:layout_marginStart="@dimen/margin_spacing_really_small"
                 android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_44"
+                android:textSize="@dimen/text_size_48"
                 android:layout_marginEnd="@dimen/margin_spacing_large"
                 app:layout_constraintStart_toEndOf="@+id/upload_speed_icon"
                 app:layout_constraintTop_toTopOf="parent" />
