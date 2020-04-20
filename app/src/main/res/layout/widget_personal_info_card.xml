@@ -38,7 +38,7 @@
             <ImageView
                 android:id="@+id/settings_card_line_break"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="2dp"
                 android:layout_marginTop="16dp"
                 android:elevation="@dimen/above_cardview_elevation"
                 android:src="@drawable/ic_real_dividing_line"

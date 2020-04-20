@@ -1,30 +1,31 @@
 package com.centurylink.biwf.coordinators
+
 import android.os.Bundle
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ManageSubscriptionCoordinator @Inject constructor() {
+class CancelSubscriptionCoordinator @Inject constructor() {
 
     @Inject
     lateinit var navigator: Navigator
 
-    fun observeThis(screenState: ObservableData<ManageSubscriptionCoordinator.SubscriptionCoordinatorDestinations>) {
+    fun observeThis(screenState: ObservableData<CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations>) {
         screenState.observable.subscribe {
             navigateTo(it)
         }
     }
 
-    private fun navigateTo(destinations: ManageSubscriptionCoordinator.SubscriptionCoordinatorDestinations) {
+    private fun navigateTo(destinations: CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations) {
         when (destinations) {
-            ManageSubscriptionCoordinator.SubscriptionCoordinatorDestinations.LAUNCH_DATE_ACTIVITY -> {
+            CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations.CANCEL_SELECT_DATE_SUBSCRIPTION -> {
             }
         }
     }
 
     enum class SubscriptionCoordinatorDestinations {
-        LAUNCH_DATE_ACTIVITY;
+        CANCEL_SELECT_DATE_SUBSCRIPTION;
 
         companion object {
             lateinit var bundle: Bundle

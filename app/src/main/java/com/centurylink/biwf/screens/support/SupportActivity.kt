@@ -8,18 +8,16 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
 import com.centurylink.biwf.model.support.FaqTopicsItem
-import com.centurylink.biwf.screens.subscription.ManageSubscriptionActivity
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
 import kotlinx.android.synthetic.main.widget_contact_us_section.view.*
-import kotlinx.android.synthetic.main.widget_header_component.view.*
 import kotlinx.android.synthetic.main.widget_troubleshooting.view.*
 import javax.inject.Inject
 
@@ -67,7 +65,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            ManageSubscriptionActivity.REQUEST_TO_SUBSCRIPTION,
+            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION,
             FAQActivity.REQUEST_TO_HOME -> {
                 if (resultCode == Activity.RESULT_OK) {
                     finish()

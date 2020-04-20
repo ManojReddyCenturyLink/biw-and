@@ -44,9 +44,9 @@
             android:name=".screens.support.FAQActivity"
             android:screenOrientation="portrait"
             />
-	    <activity android:name=".screens.profile.ProfileActivity"
+	    <activity android:name=".screens.emptydesitination.ProfileActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".screens.subscription.ManageSubscriptionActivity"
+        <activity android:name=".screens.subscription.CancelSubscriptionActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>

@@ -2,7 +2,6 @@ package com.centurylink.biwf.screens.home.account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.CommunicationRepository
@@ -49,7 +48,7 @@ class AccountViewModel @Inject constructor(
     val workNumber: LiveData<String> = MutableLiveData(accountRepository.getAccount().value?.workNumber)
     val emailAddress: LiveData<String> = MutableLiveData(accountRepository.getAccount().value?.emailAddress)
 
-    val navigateToPersonalInfoEvent: EventLiveData<Unit> = MutableLiveData()
+    val navigateToSubscriptionActivityEvent: EventLiveData<Unit> = MutableLiveData()
 
     fun onBiometricChange(boolean: Boolean) {
         biometricStatus.latestValue = boolean
@@ -67,7 +66,7 @@ class AccountViewModel @Inject constructor(
         marketingCallsAndTextStatus.latestValue = boolean
     }
 
-    fun onPersonalInfoClick() {
-        navigateToPersonalInfoEvent.emit(Unit)
+    fun onSubscriptionCardClick() {
+        navigateToSubscriptionActivityEvent.emit(Unit)
     }
 }
