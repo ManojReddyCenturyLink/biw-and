@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                gradlew(args: ['clean', 'test', 'lint'])
+                gradlew(args: ['clean', 'test', 'lintVitalRelease'])
                 androidLint(canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'app/build/reports/lint-results*.xml', unHealthy: '')
 		        junit(allowEmptyResults: true, testResults: 'app/build/test-results/**/*.xml')
             }
