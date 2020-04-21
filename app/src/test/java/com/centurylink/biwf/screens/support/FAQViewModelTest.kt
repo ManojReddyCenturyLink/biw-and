@@ -79,7 +79,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
         Assert.assertTrue(viewModel.faqQuestionsData.value!!.containsValue("Q2"))
     }
 
-    fun mockVideoList(): MutableList<Videofaq> {
+    private fun mockVideoList(): MutableList<Videofaq> {
         return mutableListOf(
             Videofaq(1, "video1", "V1", "", "5:00", ""),
             Videofaq(2, "video2", "V2", "", "6:00", ""),
@@ -88,7 +88,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
         )
     }
 
-    fun mockQuestionList(): MutableList<QuestionFAQ> {
+    private fun mockQuestionList(): MutableList<QuestionFAQ> {
         return mutableListOf(
             QuestionFAQ(1, "Query1", "Q1"),
             QuestionFAQ(1, "Query2", "Q2"),
@@ -96,11 +96,11 @@ class FAQViewModelTest : ViewModelBaseTest() {
         )
     }
 
-    fun mockQuestionAndAnswers():HashMap<String,String>{
+    private fun mockQuestionAndAnswers():HashMap<String,String>{
        return mockQuestionList().associateTo(HashMap(), { it.name to it.description })
     }
 
-    fun mockFAQ(): FAQ {
+    private fun mockFAQ(): FAQ {
         return FAQ(mockVideoList(), mockQuestionList())
     }
 }
