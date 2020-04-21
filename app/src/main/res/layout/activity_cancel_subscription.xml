@@ -1,91 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <include
         android:id="@+id/activity_header_view"
+        layout="@layout/widget_subheader_with_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        layout="@layout/widget_subheader_with_back"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
     <TextView
         android:id="@+id/cancel_subscription_header"
-        android:fontFamily="@font/arial_bold_mt"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_spacing_large"
+        android:fontFamily="@font/arial_bold_mt"
+        android:gravity="start"
         android:paddingLeft="@dimen/medium_margin_spacing"
         android:paddingRight="@dimen/medium_margin_spacing"
-        android:textSize="19sp"
-        android:gravity="start"
-        android:textColor="@color/blue_dark"
         android:text="@string/cancel_subscription_sub_header"
+        android:textColor="@color/blue_dark"
+        android:textSize="19sp"
         app:layout_constraintTop_toBottomOf="@+id/activity_header_view"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        />
 
     <TextView
         android:id="@+id/cancel_subscription_content"
-        android:textColor="@color/black"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/arial_mt"
-        android:textSize="@dimen/small_text_size"
-        android:lineSpacingExtra="6sp"
         android:layout_margin="@dimen/medium_margin_spacing"
+        android:fontFamily="@font/arial_mt"
         android:gravity="start"
+        android:lineSpacingExtra="6sp"
         android:text="@string/manage_subscription_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
         app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_header"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        />
 
     <View
         android:id="@+id/cancel_subscription_top_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/light_grey"
-        android:layout_marginTop="@dimen/margin_spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_content"/>
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_content"
+        />
 
     <TextView
         android:id="@+id/cancel_subscription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="start"
-        android:textColor="@color/black"
-        android:fontFamily="@font/arial_mt"
-        android:textSize="@dimen/font_size_h4"
-        android:paddingLeft="24dp"
         android:layout_marginTop="18dp"
+        android:fontFamily="@font/arial_mt"
+        android:gravity="start"
+        android:layout_marginStart="24dp"
         android:text="@string/continue_cancellation"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_h4"
         app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_top_divider"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
     <ImageView
         android:id="@+id/cancel_subscription_navigate"
         android:layout_width="@dimen/close_icon_size"
         android:layout_height="@dimen/close_icon_size"
-        android:tint="@color/blue"
-        android:scaleX="-1"
-        android:padding="@dimen/margin_spacing_tiny"
-        android:src="@drawable/ic_back"
         android:layout_marginEnd="@dimen/margin_spacing_tiny"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/content_description_holder"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:scaleX="-1"
+        android:src="@drawable/ic_back"
+        android:tint="@color/blue"
         app:layout_constraintBottom_toBottomOf="@+id/cancel_subscription_top_divider"
-        app:layout_constraintTop_toTopOf="@+id/cancel_subscription_callback_divider"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cancel_subscription_callback_divider"
+        />
 
     <View
         android:id="@+id/cancel_subscription_callback_divider"
         android:layout_width="match_parent"
         android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:background="@color/light_grey"
-        android:layout_marginTop="@dimen/margin_spacing_small"
-        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription"/>
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

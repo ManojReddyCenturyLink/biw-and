@@ -36,13 +36,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/content_description_app_logo"
         />
 
     <TextView
         android:id="@+id/login_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome"
+        android:text="@string/welcome"
         android:textColor="@android:color/black"
         android:textSize="@dimen/large_title_text_size"
         android:textStyle="bold"
@@ -112,6 +113,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/login_email_label"
                 tools:text="espiiking@gmail.com"
+                android:autofillHints=""
+                tools:ignore="LabelFor"
                 />
 
             <TextView
@@ -142,6 +145,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/login_password_label"
                 tools:text="espiiking@gmail.com"
+                android:autofillHints=""
+                tools:ignore="LabelFor"
                 />
 
             <Button
@@ -165,7 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:elevation="@dimen/above_cardview_elevation"
-                android:text="Remember Me"
+                android:text="@string/remember_me"
                 android:textColor="@android:color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +226,7 @@
         android:layout_marginEnd="40dp"
         android:background="@drawable/background_thin_border"
         android:gravity="center"
-        android:text="Learn More"
+        android:text="@string/learn_more"
         android:textColor="@color/grey_darker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

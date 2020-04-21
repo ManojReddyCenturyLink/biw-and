@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,13 +11,15 @@
         android:layout_height="@dimen/padding_0"
         android:layout_width="wrap_content"
         android:tint="@color/blue"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:src="@drawable/ic_header_back"
         android:padding="1dp"
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/header_title"
-        app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title" />
+        app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
+        android:contentDescription="@string/content_description_holder"
+        tools:ignore="ContentDescription"
+        />
     <TextView
         android:id="@+id/subheader_center_title"
         android:layout_width="wrap_content"
@@ -44,7 +47,9 @@
         android:textSize="@dimen/extra_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/subheader_center_title"
-        app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title" />
+        app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
+        tools:ignore="RtlSymmetry"
+        />
     <View
         android:id="@+id/header_seprator_view"
         android:layout_width="match_parent"
