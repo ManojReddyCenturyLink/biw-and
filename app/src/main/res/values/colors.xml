@@ -17,6 +17,7 @@
     <color name="notification_read_title_color">#979797</color>
     <color name="mint_green">#48d597</color>
     <color name="notification_unread_bg">#D3D3D3</color>
+    <color name="grey_text_color">#bebebe</color>
 
     <color name="background_grey">#eeeeee</color>
     <color name="blue">#0047bb</color>
