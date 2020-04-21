@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_grey"
+        android:background="@color/line_break_color"
         >
 
         <androidx.constraintlayout.widget.Guideline
@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".9"
+            app:layout_constraintGuide_percent=".92"
             />
         <View
             android:id="@+id/greyBg"
@@ -64,7 +64,10 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_upload_speed"
                 android:scaleY="-1"
-                android:layout_margin="@dimen/margin_spacing_small"
+                android:foregroundGravity="center"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                android:layout_marginTop="@dimen/margin_spacing_really_small"
                 android:contentDescription="Download Icon"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
@@ -89,6 +92,8 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_upload_speed"
                 android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                android:layout_marginTop="@dimen/margin_spacing_really_small"
                 android:contentDescription="Upload Icon"
                 app:layout_constraintTop_toTopOf="@+id/download_speed"
                 app:layout_constraintBottom_toBottomOf="@+id/download_speed"
@@ -154,20 +159,17 @@
 
         <Button
             android:id="@+id/run_speed_test_dashboard"
-            android:layout_width="wrap_content"
+            android:layout_width="180dp"
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/margin_spacing_small"
             style="@style/Widget.AppCompat.Button.Borderless"
             android:background="@drawable/rounded_button_with_border_background"
             android:textSize="@dimen/extra_small_text_size"
-            android:paddingStart="@dimen/height_28"
-            android:paddingEnd="@dimen/height_28"
             android:text="@string/run_speed_test"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/last_speed_test" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

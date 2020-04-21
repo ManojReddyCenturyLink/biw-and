@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home
 
+import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.R
@@ -68,7 +69,7 @@ class HomeViewModel @Inject constructor(
         val list = mutableListOf<TabsBaseItem>()
 
         list.add(TabsBaseItem(indextype = TabsBaseItem.ACCOUNT, titleRes = R.string.tittle_text_account))
-        list.add(TabsBaseItem(indextype = TabsBaseItem.DASHBOARD, titleRes = R.string.tittle_text_dashboard))
+        list.add(TabsBaseItem(indextype = TabsBaseItem.DASHBOARD, titleRes = R.string.tittle_text_dashboard, bundle = bundleOf("NEW_USER" to isUpperTab)))
         if (!isUpperTab)
         list.add(TabsBaseItem(indextype = TabsBaseItem.DEVICES, titleRes = R.string.tittle_text_devices))
 

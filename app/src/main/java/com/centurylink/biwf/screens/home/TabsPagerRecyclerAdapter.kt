@@ -117,7 +117,8 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
 
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
-            val myFragment: Fragment = DashboardFragment()
+            val newUser = getItem(adapterPosition).bundle.getBoolean("NEW_USER",false)
+            val myFragment: Fragment = DashboardFragment(newUser)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.container, myFragment).commit()
         }

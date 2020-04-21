@@ -11,6 +11,7 @@
     <color name="grey_light">#f0f0f0</color>
     <color name="black">#000000</color>
     <color name="online_green">#02d597</color>
+    <color name="primary_dark">#2abb7c</color>
     <color name="offline_red">#d54848</color>
     <color name="light_grey">#F0F0F0</color>
     <color name="notification_read_title_color">#979797</color>

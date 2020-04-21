@@ -15,10 +15,9 @@ import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
-import kotlinx.android.synthetic.main.widget_notification_stack.view.*
 import javax.inject.Inject
 
-class DashboardFragment : BaseFragment() {
+class DashboardFragment constructor(val newUser : Boolean) : BaseFragment()  {
 
     companion object {
         const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
@@ -44,7 +43,7 @@ class DashboardFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
         /*Added dummy state variable to test layout for different scenarios */
-        binding.states = 2
+        binding.states = newUser
         initOnClicks()
         getNotificationInformation()
         binding.executePendingBindings()
@@ -78,38 +77,34 @@ class DashboardFragment : BaseFragment() {
         if(unreadNotificationList.isNotEmpty()){
             when(unreadNotificationList.size){
                 1->{
-                    binding.incNotificationStack.middleCardview.visibility = View.GONE
-                    binding.incNotificationStack.bottomCardview.visibility = View.GONE
+                    binding.middleCard.visibility = View.GONE
+                    binding.bottomCard.visibility = View.GONE
                 }
                 2->{
-                    binding.incNotificationStack.bottomCardview.visibility = View.GONE
+                    binding.bottomCard.visibility = View.GONE
                 }
             }
-            binding.incNotificationStack.topCardview.notification_title.text = unreadNotificationList.get(0).name
-            binding.incNotificationStack.topCardview.notification_msg.text = unreadNotificationList.get(0).description
+            binding.notificationTitle.text = unreadNotificationList.get(0).name
+            binding.notificationMsg.text = unreadNotificationList.get(0).description
         }else{
-            binding.incNotificationStack.root.visibility = View.GONE
+            binding.topCard.visibility = View.GONE
+            binding.middleCard.visibility = View.GONE
+            binding.bottomCard.visibility = View.GONE
         }
     }
 
     private fun initOnClicks() {
         binding.incStatus.appointmentChangeLink.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incWelcomeCard.welcomeCardCancelButton.setOnClickListener { hideWelcomeCard() }
-        binding.incWelcomeCard.welcomeCardStatusTitle.setOnClickListener { updateUI()
-        binding.incNotificationStack.topCardview.notification_dismiss_button.setOnClickListener {
+        binding.notificationDismissButton.setOnClickListener {
             dashboardViewModel.markNotificationAsRead(unreadNotificationList.get(0))
             displaySortedNotification()
         }
-        binding.incNotificationStack.topCardview.setOnClickListener {
+        binding.topCard.setOnClickListener {
             dashboardViewModel.navigateToNotificationDetails(unreadNotificationList.get(0)) }
-        }
     }
 
     private fun hideWelcomeCard() {
         binding.incWelcomeCard.root.visibility = View.GONE
-    }
-
-    private fun updateUI(){
-        binding.states = 1
     }
 }
