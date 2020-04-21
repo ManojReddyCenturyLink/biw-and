@@ -9,11 +9,6 @@ import javax.inject.Singleton
 class CancelSubscriptionRepository @Inject constructor(
     private val apiServices: ApiServices
 ) {
-
-    fun cancelSubscription(): Boolean {
-        return true
-    }
-
     fun getSubscriptionValidity(): Date {
         Calendar.getInstance().apply {
             add(Calendar.DATE, 7)
