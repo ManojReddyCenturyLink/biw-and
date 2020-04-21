@@ -1,6 +1,7 @@
 package com.centurylink.biwf.coordinators
 
 import android.app.Activity
+import androidx.core.os.bundleOf
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
@@ -27,8 +28,8 @@ class Navigator @Inject constructor() {
         activity?.startActivity(LearnMoreActivity.newIntent(activity!!))
     }
 
-    fun navigateToHomeScreen() {
-        activity?.startActivity(HomeActivity.newIntent(activity!!))
+    fun navigateToHomeScreen(userType: Boolean) {
+        activity?.startActivity(HomeActivity.newIntent(activity!!, bundleOf("EXISTING_USER" to userType)))
     }
 
     fun navigateToSupport() {
@@ -47,7 +48,7 @@ class Navigator @Inject constructor() {
         val bundle = NotificationCoordinator.NotificationCoordinatorDestinations.get()
         activity?.startActivityForResult(
             NotificationDetailsActivity.newIntent(activity!!, bundle),
-            NotificationDetailsActivity.requestToDismiss
+            NotificationDetailsActivity.REQUEST_TO_DISMISS
         )
     }
 

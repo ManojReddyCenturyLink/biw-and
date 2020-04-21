@@ -11,6 +11,7 @@
     <color name="grey_light">#f0f0f0</color>
     <color name="black">#000000</color>
     <color name="online_green">#02d597</color>
+    <color name="primary_dark">#2abb7c</color>
     <color name="offline_red">#d54848</color>
     <color name="light_grey">#F0F0F0</color>
     <color name="notification_read_title_color">#979797</color>
@@ -22,6 +23,7 @@
     <color name="blue">#0047bb</color>
     <color name="blue_light">#0048bb</color>
     <color name="blue_dark">#001e60</color>
+    <color name="blue_icon_bg">#e5ecf8</color>
 
     <color name="font_color_white">#ffff</color>
     <color name="title_color_blue">#001e60</color>
@@ -29,4 +31,3 @@
     <color name="text_label_color">#a6000000</color>
 
 </resources>
-

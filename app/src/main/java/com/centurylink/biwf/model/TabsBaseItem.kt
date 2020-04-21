@@ -1,8 +1,10 @@
 package com.centurylink.biwf.model
 
+import android.os.Bundle
 import androidx.annotation.StringRes
+import androidx.core.os.bundleOf
 
-open class TabsBaseItem (val indextype: Int, @StringRes val titleRes: Int){
+open class TabsBaseItem (val indextype: Int, @StringRes val titleRes: Int, val bundle: Bundle= bundleOf()){
 
     companion object {
         const val DEVICES = 0

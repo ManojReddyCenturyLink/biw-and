@@ -117,7 +117,8 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
 
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
-            val myFragment: Fragment = DashboardFragment()
+            val newUser = getItem(adapterPosition).bundle.getBoolean("NEW_USER",false)
+            val myFragment: Fragment = DashboardFragment(newUser)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.container, myFragment).commit()
         }
@@ -137,11 +138,11 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
 
     class TabAdapterDiffUtil : DiffUtil.ItemCallback<TabsBaseItem>() {
         override fun areItemsTheSame(oldItem: TabsBaseItem, newItem: TabsBaseItem): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return false
         }
 
         override fun areContentsTheSame(oldItem: TabsBaseItem, newItem: TabsBaseItem): Boolean {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            return false
         }
     }
 }

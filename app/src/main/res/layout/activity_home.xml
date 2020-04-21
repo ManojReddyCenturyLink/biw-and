@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/online_green"
     tools:context=".screens.home.HomeActivity"
     >
 
@@ -14,14 +14,29 @@
         android:id="@+id/home_upper_tabs"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/iBtnNotification"
+        app:layout_constraintBottom_toBottomOf="@id/iBtnNotification"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicator="@drawable/tab_indicator_bg"
-        app:tabIndicatorColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/iBtnNotification"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:background="@drawable/background_tab_bar"
+        app:tabBackground="@drawable/tab_color_selector"
+        app:tabIndicator="@null"
+        app:tabRippleColor="@null"
         app:tabIndicatorFullWidth="false"
-        app:tabPaddingBottom="@dimen/spacing_14_"
         app:tabTextAppearance="@style/Tab.TextAppearance"
+        />
+
+    <com.centurylink.biwf.widgets.OnlineStatusBar
+        android:id="@+id/home_online_status_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        app:layout_constraintBottom_toBottomOf="@id/iBtnNotification"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iBtnNotification"
         />
 
     <com.google.android.material.tabs.TabLayout
@@ -30,11 +45,13 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/home_upper_tabs"
-        app:tabIndicator="@drawable/tab_indicator_bg"
-        app:tabIndicatorColor="@color/black"
+        android:layout_margin="@dimen/medium_margin_spacing"
+        app:layout_constraintTop_toBottomOf="@id/home_online_status_bar"
+        android:background="@drawable/background_tab_bar"
+        app:tabBackground="@drawable/tab_color_selector"
+        app:tabIndicator="@null"
+        app:tabRippleColor="@null"
         app:tabIndicatorFullWidth="false"
-        app:tabPaddingBottom="@dimen/spacing_14_"
         app:tabTextAppearance="@style/Tab.TextAppearance"
         />
 
@@ -42,19 +59,17 @@
         android:id="@+id/iBtnNotification"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/padding_0"
-        android:layout_marginEnd="@dimen/margin_spacing_small"
-        app:layout_constraintBottom_toBottomOf="@+id/home_upper_tabs"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/margin_spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_upper_tabs"
-        >
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@color/online_green">
 
         <ImageView
-            android:layout_width="@dimen/height_28"
-            android:layout_height="@dimen/height_28"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:layout_marginBottom="@dimen/margin_spacing_small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="@string/notification"
-            android:rotation="325"
+            android:layout_marginTop="4dp"
             android:src="@drawable/ic_notifications"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,11 +79,11 @@
 
         <TextView
             android:id="@+id/cart_badge"
-            android:layout_width="@dimen/height_20"
-            android:layout_height="@dimen/height_20"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_gravity="right|end|top"
-            android:layout_marginStart="@dimen/margin_spacing_really_small"
-            android:layout_marginTop="@dimen/margin_spacing_really_small"
+            android:layout_marginStart="14dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/badge_background"
             android:gravity="center"
             android:padding="@dimen/spacing_3"
@@ -84,40 +99,39 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/horizontalBarrier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="home_lower_tabs,home_upper_tabs" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vpDashboard"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_0"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_lower_tabs"
-        />
-
-    <com.centurylink.biwf.widgets.OnlineStatusBar
-        android:id="@+id/home_online_status_bar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="30dp"
-        android:elevation="5dp"
-        app:layout_constraintBottom_toBottomOf="@id/iBtnNotification"
-        app:layout_constraintEnd_toStartOf="@id/iBtnNotification"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier"
+        android:background="@color/white"/>
 
     <Button
         android:id="@+id/supportButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/medium_margin_spacing"
-        android:background="@drawable/support_button_background"
+        android:background="@drawable/rounded_button_background"
+        android:drawableLeft="@drawable/ic_support"
+        android:drawablePadding="@dimen/margin_spacing_really_small"
         android:elevation="1dp"
-        android:padding="4dp"
+        android:padding="@dimen/margin_spacing_really_small"
         android:text="@string/support"
         android:textAllCaps="false"
+        android:textStyle="bold"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />

@@ -1,5 +1,6 @@
 package com.centurylink.biwf.coordinators
 
+import android.os.Bundle
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -25,6 +26,8 @@ class DashboardCoordinator @Inject constructor() {
             DashboardCoordinatorDestinations.COMPLETED -> loadCompletedFragment()
             DashboardCoordinatorDestinations.NORMAL -> loadNormalFragment()
             DashboardCoordinatorDestinations.CHANGE_APPOINTMENT -> navigateToChangeAppointment()
+            DashboardCoordinatorDestinations.NOTIFICATION_DETAILS -> {
+                navigator.navigateToNotificationDetails()}
         }
     }
 
@@ -54,5 +57,13 @@ class DashboardCoordinator @Inject constructor() {
 }
 
 enum class DashboardCoordinatorDestinations {
-    HOME, APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT
+    HOME, APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS, NOTIFICATION_LIST;
+
+    companion object {
+        lateinit var bundle: Bundle
+        fun get(): Bundle = bundle
+        fun set(bundleValue: Bundle) {
+            bundle = bundleValue
+        }
+    }
 }

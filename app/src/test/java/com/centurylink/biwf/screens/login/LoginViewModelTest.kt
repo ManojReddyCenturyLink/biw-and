@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.login
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.screens.login.LoginViewModel
 import com.centurylink.biwf.testutils.event
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -30,7 +29,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         viewModel.onEmailTextChanged("dean@gmail.com")
         viewModel.onPasswordTextChanged("passcode")
         viewModel.onLoginClicked()
-        assertSame("Not the same", LoginCoordinatorDestinations.HOME, viewModel.myState.value)
+        assertSame("Not the same", LoginCoordinatorDestinations.HOME_NEW_USER, viewModel.myState.value)
     }
 
     @Test

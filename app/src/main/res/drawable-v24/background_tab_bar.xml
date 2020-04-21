@@ -8,5 +8,5 @@
         android:width="260dp"
         android:height="28dp"/>
 
-    <corners android:radius="@dimen/margin_spacing_tiny"/>
+    <corners android:radius="@dimen/margin_spacing_really_small"/>
 </shape>

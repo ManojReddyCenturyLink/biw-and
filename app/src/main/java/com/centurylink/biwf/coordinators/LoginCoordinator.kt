@@ -18,15 +18,12 @@ class LoginCoordinator @Inject constructor() {
 
     private fun navigateTo(destinations: LoginCoordinatorDestinations) {
         when (destinations) {
+            LoginCoordinatorDestinations.LOGIN -> {}
             LoginCoordinatorDestinations.FORGOT_PASSWORD -> navigateToForgotPassword()
             LoginCoordinatorDestinations.LEARN_MORE -> navigateToLearnMore()
-            LoginCoordinatorDestinations.HOME -> navigateToHomeScreen()
-            LoginCoordinatorDestinations.LOGIN -> navigateToLoginScreen()
+            LoginCoordinatorDestinations.HOME_NEW_USER -> navigateToHomeScreen(false)
+            LoginCoordinatorDestinations.HOME_EXISTING_USER -> navigateToHomeScreen(true)
         }
-    }
-
-    private fun navigateToLoginScreen() {
-        // Do Nothing
     }
 
     private fun navigateToForgotPassword() {
@@ -37,11 +34,11 @@ class LoginCoordinator @Inject constructor() {
         navigator.navigateToLearnMore()
     }
 
-    private fun navigateToHomeScreen() {
-        navigator.navigateToHomeScreen()
+    private fun navigateToHomeScreen(existingUser: Boolean) {
+        navigator.navigateToHomeScreen(existingUser)
     }
 }
 
 enum class LoginCoordinatorDestinations {
-    FORGOT_PASSWORD, LEARN_MORE, HOME, LOGIN
+    FORGOT_PASSWORD, LEARN_MORE, HOME_NEW_USER, LOGIN, HOME_EXISTING_USER
 }

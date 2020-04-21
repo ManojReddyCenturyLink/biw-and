@@ -98,7 +98,7 @@
             layout="@layout/widget_troubleshooting"
             android:layout_marginStart="@dimen/medium_margin_spacing"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
-            android:layout_marginTop="@dimen/margin_spacing_large"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"

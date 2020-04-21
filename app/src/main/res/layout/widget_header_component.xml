@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/activty_curved_bg"
+    android:background="@drawable/activity_curved_bg"
     android:padding="@dimen/medium_margin_spacing">
 
     <TextView

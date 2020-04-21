@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
@@ -42,6 +41,7 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun initOnClicks() {
+        binding.loginCardTitle.setOnClickListener { viewModel.onExistingUserLogin() }
         binding.loginButton.setOnClickListener { viewModel.onLoginClicked() }
         binding.loginForgotPassword.setOnClickListener { viewModel.onForgotPasswordClicked() }
         binding.loginLearnMore.setOnClickListener { viewModel.onLearnMoreClicked() }

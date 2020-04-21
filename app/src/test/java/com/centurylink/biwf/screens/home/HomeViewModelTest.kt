@@ -32,12 +32,4 @@ class HomeViewModelTest : ViewModelBaseTest() {
         // Will rename this test once we have this feature in place
         viewModel.activeUserTabBarVisibility.value shouldEqual false
     }
-
-    @Test
-    fun onSupportLongClick_displayOnboardedTabBar() {
-        // Will rename this test once we have this feature in place
-        onStart_displayNonOnboardedTabBar()
-        viewModel.onSupportLongClick_toggleToolbars()
-        viewModel.activeUserTabBarVisibility.value shouldEqual true
-    }
 }
