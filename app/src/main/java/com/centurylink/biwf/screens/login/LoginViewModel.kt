@@ -6,11 +6,17 @@ import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.preferences.Preferences
+import javax.inject.Inject
 
-class LoginViewModel(
-    private val accountRepository: AccountRepository
+class LoginViewModel @Inject constructor(
+    private val accountRepository: AccountRepository,
+    private val sharedPreferences: Preferences
 ) : BaseViewModel() {
 
+    companion object{
+        val USER_ID = "USER_ID"
+    }
     private var userEmail: String? = null
     private var userPassword: String? = null
     private var rememberMe = false
@@ -27,8 +33,13 @@ class LoginViewModel(
         userPassword = password
     }
 
-    fun onRememberMeCheckChanged(isChecked: Boolean) {
+    fun onRememberMeCheckChanged(isChecked: Boolean, userId: String) {
         rememberMe = isChecked
+        if(rememberMe && userId.isNotEmpty()){
+            sharedPreferences.saveUserId(userId)
+        }else{
+            sharedPreferences.removeUserId(USER_ID)
+        }
     }
 
     fun onLoginClicked() {
