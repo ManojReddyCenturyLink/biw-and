@@ -44,6 +44,7 @@ class CancelSubscriptionActivity : BaseActivity() {
         setContentView(binding.root)
         initHeaders()
         cancelSubscriptionModel.getCancellationValidity()
+        cancelSubscriptionCoordinator.observeThis(cancelSubscriptionModel.myState)
     }
 
     override fun onBackPressed() {
@@ -64,7 +65,7 @@ class CancelSubscriptionActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
-        binding.cancelSubscription.setOnClickListener { cancelSubscriptionModel.onCancelSubscription() }
+        binding.cancelSubscription.setOnClickListener { cancelSubscriptionModel.onNavigateToCancelSubscriptionDetails() }
     }
 
     @SuppressLint("StringFormatInvalid")
