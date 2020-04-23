@@ -34,6 +34,7 @@ import javax.inject.Singleton
         (CustomWebFragmentInjectorModule::class),
         (FAQActivityInjectorModule::class),
         (CancelSubscriptionInjectorModule::class),
+        (CancelSubscriptionDetailsInjectorModule::class),
         (RepositoryModule::class)
     ]
 )

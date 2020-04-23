@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <include
+        android:id="@+id/activity_header_view"
+        layout="@layout/widget_subheader_with_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/cancel_subscription_details_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_large"
+        android:fontFamily="@font/arial_bold_mt"
+        android:gravity="start"
+        android:paddingLeft="@dimen/medium_margin_spacing"
+        android:paddingRight="@dimen/medium_margin_spacing"
+        android:text="@string/cancel_subscription_sub_header"
+        android:textColor="@color/blue_dark"
+        android:textSize="19sp"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view"
+        tools:ignore="MissingConstraints"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

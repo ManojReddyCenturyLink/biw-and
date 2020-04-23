@@ -69,7 +69,14 @@ class Navigator @Inject constructor() {
     fun navigateToMangeSubscription() {
         activity?.startActivityForResult(
             CancelSubscriptionActivity.newIntent(activity!!),
-            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
+            CancelSubscriptionActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
+        )
+    }
+
+    fun navigateToCancelSubscriptionDetails() {
+        activity?.startActivityForResult(
+            CancelSubscriptionDetailsActivity.newIntent(activity!!),
+            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
         )
     }
 }

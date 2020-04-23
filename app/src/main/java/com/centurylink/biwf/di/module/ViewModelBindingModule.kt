@@ -15,6 +15,7 @@ import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import kotlin.reflect.KClass
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsViewModel as CancelSubscriptionDetailsViewModel
 
 @Module
 abstract class DaggerViewModelFactoryModule {
@@ -72,4 +73,10 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CancelSubscriptionViewModel::class)
     abstract fun bindCancelSubscriptionViewModel(cancelSubscriptionViewModel: CancelSubscriptionViewModel): ViewModel
+    
+    @Binds
+    @IntoMap
+    @ViewModelKey(CancelSubscriptionDetailsViewModel::class)
+    abstract fun bindCancelSubscriptionDetailsViewModel(cancelSubscriptionDetailsViewModel: CancelSubscriptionDetailsViewModel): ViewModel
+
 }
