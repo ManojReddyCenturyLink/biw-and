@@ -2,6 +2,7 @@ package com.centurylink.biwf.coordinators
 
 import android.app.Activity
 import androidx.core.os.bundleOf
+import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
@@ -12,6 +13,8 @@ import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
+import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
+import com.centurylink.biwf.utility.WebLinkUtil
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -71,5 +74,13 @@ class Navigator @Inject constructor() {
             CancelSubscriptionActivity.newIntent(activity!!),
             CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
         )
+    }
+
+    fun navigateToScheduleCallback() {
+        activity?.startActivity(ScheduleCallbackActivity.newIntent(activity!!))
+    }
+
+    fun navigateToPhoneDialler() {
+        WebLinkUtil.handleClick(activity!!.getString(R.string.tel), activity!!)
     }
 }

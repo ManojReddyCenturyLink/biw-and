@@ -22,7 +22,7 @@ class SupportCoordinator @Inject constructor() {
             SupportCoordinatorDestinations.SUPPORT -> {}
             SupportCoordinatorDestinations.FAQ -> { navigateToFaq() }
             SupportCoordinatorDestinations.NAVIGATE_TO_WEBSITE -> {}
-            SupportCoordinatorDestinations.SCHEDULE_CALLBACK -> {}
+            SupportCoordinatorDestinations.SCHEDULE_CALLBACK -> { navigateToScheduleCallback()}
             SupportCoordinatorDestinations.LIVE_CHAT -> navigateToLiveChat()
             //Temporary Navigation
             SupportCoordinatorDestinations.MANAGE_SUBSCRIPTION->navigateToManageSubscription()
@@ -31,6 +31,10 @@ class SupportCoordinator @Inject constructor() {
 
     private fun navigateToFaq() {
         navigator.navigateToFaq()
+    }
+
+    private fun navigateToScheduleCallback() {
+        navigator.navigateToScheduleCallback()
     }
 
     private fun navigateToLiveChat(){}

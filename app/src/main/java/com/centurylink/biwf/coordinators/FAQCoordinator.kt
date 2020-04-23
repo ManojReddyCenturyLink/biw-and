@@ -18,19 +18,25 @@ class FAQCoordinator @Inject constructor() {
 
     private fun navigateTo(destinations: FAQCoordinatorDestinations) {
         when (destinations) {
+            FAQCoordinatorDestinations.FAQ_HOME -> {
+            }
             FAQCoordinatorDestinations.PLAY_VIDEO_ACTIVITY -> {
             }
             FAQCoordinatorDestinations.FAQ_LIST -> {
             }
             FAQCoordinatorDestinations.LIVE_CHAT -> {
             }
-            FAQCoordinatorDestinations.CALL_BACK_SCHEDULE -> {
+            FAQCoordinatorDestinations.SCHEDULE_CALLBACK -> { navigateToScheduleCallback()
             }
         }
     }
 
+    private fun navigateToScheduleCallback() {
+        navigator.navigateToScheduleCallback()
+    }
+
     enum class FAQCoordinatorDestinations {
-        PLAY_VIDEO_ACTIVITY, FAQ_LIST, LIVE_CHAT, CALL_BACK_SCHEDULE;
+        FAQ_HOME, PLAY_VIDEO_ACTIVITY, FAQ_LIST, LIVE_CHAT, SCHEDULE_CALLBACK;
 
         companion object {
             lateinit var bundle: Bundle

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.support.SupportActivity">
+
+    <include
+        android:id="@+id/incHeader"
+        layout="@layout/widget_subheader_with_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/schedule_callback_info_text"
+        style="@style/SubHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin_spacing"
+        android:text="Just let us know what you need and we’ll call you right back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader" />
+
+    <View
+        android:id="@+id/schedule_callback_info_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_info_text" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/schedule_callback_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_info_view" />
+
+    <View
+        android:id="@+id/schedule_callback_rv_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="64dp"
+        android:background="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_recyclerview" />
+
+    <TextView
+        android:id="@+id/call_us_now_textview"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:text="Call us now at 833-250-6306"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_rv_view" />
+
+    <ImageView
+        android:id="@+id/call_us_navigate_to_dialler"
+        android:layout_width="@dimen/close_icon_size"
+        android:layout_height="@dimen/close_icon_size"
+        android:layout_marginEnd="@dimen/margin_spacing_tiny"
+        android:contentDescription="@string/content_description_holder"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:scaleX="-1"
+        android:src="@drawable/ic_back"
+        android:tint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/call_us_now_textview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/call_us_now_textview" />
+
+    <View
+        android:id="@+id/live_chat_divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/call_us_now_textview" />
+</androidx.constraintlayout.widget.ConstraintLayout>

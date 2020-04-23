@@ -73,7 +73,7 @@
         android:id="@+id/schedule_callback_textview"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        android:text="@string/schedule_a_callback"
+        android:text="@string/support_schedule_a_callback"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:textColor="@color/black"
