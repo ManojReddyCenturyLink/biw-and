@@ -18,9 +18,11 @@ class Preferences(private val store: KeyValueStore) {
         return store.get(userId)
     }
 
-    fun removeUserId(userId: String?){
+    fun removeUserId(){
         store.remove(USER_ID)
     }
 
-    val USER_ID = "USER_ID"
+    companion object{
+        val USER_ID = "USER_ID"
+    }
 }

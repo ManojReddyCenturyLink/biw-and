@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.login
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
@@ -14,16 +15,14 @@ class LoginViewModel @Inject constructor(
     private val sharedPreferences: Preferences
 ) : BaseViewModel() {
 
-    companion object{
-        val USER_ID = "USER_ID"
-    }
+    val myState = ObservableData(LoginCoordinatorDestinations.LOGIN)
+    val errorEvents: EventLiveData<String> = MutableLiveData()
+    val userId: LiveData<String> = MutableLiveData(getUserIdFromPreferences())
+    val checkRememberMe: LiveData<Boolean> = MutableLiveData(isRememberMeChecked())
+
     private var userEmail: String? = null
     private var userPassword: String? = null
     private var rememberMe = false
-
-    val myState = ObservableData(LoginCoordinatorDestinations.LOGIN)
-
-    val errorEvents: EventLiveData<String> = MutableLiveData()
 
     fun onEmailTextChanged(email: String) {
         userEmail = email
@@ -38,8 +37,19 @@ class LoginViewModel @Inject constructor(
         if(rememberMe && userId.isNotEmpty()){
             sharedPreferences.saveUserId(userId)
         }else{
-            sharedPreferences.removeUserId(USER_ID)
+            sharedPreferences.removeUserId()
         }
+    }
+
+    private fun getUserIdFromPreferences() : String? {
+        return sharedPreferences.getUserId(LoginActivity.USER_ID)
+    }
+
+    private fun isRememberMeChecked() : Boolean? {
+        if(sharedPreferences.getUserId(LoginActivity.USER_ID).isNullOrEmpty()){
+            return false
+        }
+        return true
     }
 
     fun onLoginClicked() {
@@ -65,5 +75,9 @@ class LoginViewModel @Inject constructor(
 
     private fun checkForValidFields(): Boolean {
         return !(userEmail.isNullOrBlank() || userPassword.isNullOrBlank())
+    }
+
+    companion object{
+        val USER_ID = "USER_ID"
     }
 }

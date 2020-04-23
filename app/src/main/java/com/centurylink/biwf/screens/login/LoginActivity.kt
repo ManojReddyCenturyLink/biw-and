@@ -9,7 +9,6 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
 import com.centurylink.biwf.databinding.ActivityLoginBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
@@ -21,8 +20,6 @@ class LoginActivity : BaseActivity() {
     lateinit var loginCoordinator: LoginCoordinator
     @Inject
     lateinit var factory: DaggerViewModelFactory
-    @Inject
-    lateinit var sharedPreferences: Preferences
     private val viewModel by lazy { ViewModelProvider(this, factory).get(LoginViewModel::class.java) }
     private lateinit var binding: ActivityLoginBinding
 
@@ -34,6 +31,8 @@ class LoginActivity : BaseActivity() {
 
         viewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
+            userId.bindToTextView(binding.loginEmailInput)
+            checkRememberMe.bindToCheckBox(binding.loginRememberMeCheckbox)
         }
 
         loginCoordinator.navigator.activity = this
@@ -49,7 +48,6 @@ class LoginActivity : BaseActivity() {
     }
 
     private fun initOnClicks() {
-        autoPopulateUserId()
         binding.loginCardTitle.setOnClickListener { viewModel.onExistingUserLogin() }
         binding.loginButton.setOnClickListener { viewModel.onLoginClicked()
             /*Adding here for testing purpose, method call will get move to onLoginSuccess after api implementation*/
@@ -86,12 +84,5 @@ class LoginActivity : BaseActivity() {
                 // Do nothing
             }
         })
-    }
-
-    private fun autoPopulateUserId() {
-        if(!sharedPreferences.getUserId(USER_ID).isNullOrEmpty()){
-            binding.loginEmailInput.setText(sharedPreferences.getUserId(USER_ID).toString())
-            binding.loginRememberMeCheckbox.isChecked = true
-        }
     }
 }
