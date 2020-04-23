@@ -62,7 +62,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     private fun initHeaders() {
         binding.scheduleCallbackRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        var screenTitle: String = getString(R.string.schedule_callback)
+        val screenTitle: String = getString(R.string.schedule_callback)
         binding.incHeader.subheaderCenterTitle.text = screenTitle
         binding.incHeader.subHeaderLeftIcon.setOnClickListener { this.finish() }
         binding.incHeader.subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
