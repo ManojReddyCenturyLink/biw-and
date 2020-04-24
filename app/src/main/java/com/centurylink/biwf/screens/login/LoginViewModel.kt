@@ -42,11 +42,11 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun getUserIdFromPreferences() : String? {
-        return sharedPreferences.getUserId(LoginActivity.USER_ID)
+        return sharedPreferences.getUserId(USER_ID)
     }
 
     private fun isRememberMeChecked() : Boolean? {
-        if(sharedPreferences.getUserId(LoginActivity.USER_ID).isNullOrEmpty()){
+        if(sharedPreferences.getUserId(USER_ID).isNullOrEmpty()){
             return false
         }
         return true
