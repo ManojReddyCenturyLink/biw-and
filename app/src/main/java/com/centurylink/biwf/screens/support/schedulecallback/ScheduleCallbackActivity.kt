@@ -19,12 +19,6 @@ import javax.inject.Inject
 
 class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListener {
 
-    companion object {
-        fun newIntent(context: Context): Intent {
-            return Intent(context, ScheduleCallbackActivity::class.java)
-        }
-    }
-
     @Inject
     lateinit var scheduleCallbackCoordinator: ScheduleCallbackCoordinator
 
@@ -59,6 +53,10 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         scheduleCallbackCoordinator.navigator.activity = this
     }
 
+    override fun onItemClick(item: TopicList) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     private fun initHeaders() {
         binding.scheduleCallbackRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -78,7 +76,9 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         binding.scheduleCallbackRecyclerview.adapter = adapter
     }
 
-    override fun onItemClick(item: TopicList) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    companion object {
+        fun newIntent(context: Context): Intent {
+            return Intent(context, ScheduleCallbackActivity::class.java)
+        }
     }
 }
