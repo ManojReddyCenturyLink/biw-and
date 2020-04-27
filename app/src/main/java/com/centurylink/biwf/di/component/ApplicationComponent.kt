@@ -9,6 +9,7 @@ import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
 import com.centurylink.biwf.di.module.AppModule
 import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
 import com.centurylink.biwf.di.module.RepositoryModule
+import com.centurylink.biwf.di.module.SharedPreferencesModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -35,7 +36,8 @@ import javax.inject.Singleton
         (DaggerViewModelFactoryModule::class),
         (AndroidInjectionModule::class),
         (AppModule::class),
-        (RepositoryModule::class)
+        (RepositoryModule::class),
+        (SharedPreferencesModule::class)
     ]
 )
 interface ApplicationComponent {

@@ -1,6 +1,7 @@
 package com.centurylink.biwf
 
 import android.content.Context
+import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.centurylink.biwf.coordinators.Navigator
