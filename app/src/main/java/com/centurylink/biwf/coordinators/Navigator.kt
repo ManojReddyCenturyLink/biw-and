@@ -13,6 +13,7 @@ import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
+import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoActivity
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
 import com.centurylink.biwf.utility.WebLinkUtil
 import javax.inject.Inject
@@ -80,5 +81,12 @@ class Navigator @Inject constructor() {
 
     fun navigateToPhoneDialler() {
         WebLinkUtil.handleClick(activity!!.getString(R.string.tel), activity!!)
+    }
+
+    fun navigateToAdditionalInfo() {
+        val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.get()
+        activity?.startActivityForResult(
+            AdditionalInfoActivity.newIntent(activity!!, bundle),
+            AdditionalInfoActivity.REQUEST_TO_HOME)
     }
 }

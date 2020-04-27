@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.support.schedulecallback
 
+import android.os.Bundle
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinator
 import com.centurylink.biwf.model.support.TopicList
@@ -14,6 +15,14 @@ class ScheduleCallbackViewModel @Inject constructor(
 
     fun launchCallDialer() {
         myState.value = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
+    }
+
+    fun navigateAdditionalInfoScreen(item: TopicList) {
+        var bundle = Bundle()
+        bundle.putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
+        ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.set(bundle)
+        myState.value =
+            ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO
     }
 
     private fun dummyList(): List<TopicList> {
