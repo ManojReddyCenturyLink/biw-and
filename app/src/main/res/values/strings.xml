@@ -114,8 +114,10 @@
     <string name="cancel_subscription_details_title">Cancel subscription</string>
     <string name="cancel_subscription_details_sub_header"> We’re sorry to see you go.</string>
     <string name="cancel_subscription_details_cancellation_date">Cancellation date</string>
+    <string name="cancel_subscription_details_cancellation_date_error">Cancellation date *</string>
+    <string name="cancel_subscription_details_cancellation_reason_label">Cancellation reason</string>
     <string name="cancel_subscription_details_cancellation_reason">Please specify your cancellation reason</string>
-    <string name="cancel_subscription_details_">Please rate your experience with your service </string>
+    <string name="cancel_subscription_details_service">Please rate your experience with your service </string>
     <string name="cancel_subscription_details_comments">Comments</string>
     <string name="cancel_subscription_details_optional">(Optional)</string>
     <string name="cancel_subscription_details_experience_request">Please tell us more about your experience </string>
