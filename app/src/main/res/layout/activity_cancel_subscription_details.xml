@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -104,14 +105,27 @@
 
         <Spinner
             android:id="@+id/cancellation_reason_dropdown"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="3dp"
             android:background="@drawable/background_thin_border"
-            android:src="@drawable/ic_dropdown_arrow"
-            android:text="Others"
-            app:layout_constraintTop_toBottomOf="@id/cancellation_reason_label" />
+
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:prompt="@string/support"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cancellation_reason_label"/>
+
+        <ImageView
+            android:id="@+id/ivDrop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:clickable="false"
+            app:layout_constraintBottom_toBottomOf="@+id/cancellation_reason_dropdown"
+            app:layout_constraintEnd_toEndOf="@+id/cancellation_reason_dropdown"
+            app:layout_constraintTop_toTopOf="@+id/cancellation_reason_dropdown"
+            app:srcCompat="@drawable/ic_dropdown_arrow" />
+
 
         <TextView
             android:id="@+id/cancellation_specify_reason_label"
@@ -177,13 +191,26 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/cancellation_specify_service_label"
             app:layout_constraintStart_toEndOf="@+id/cancellation_specify_service_label" />
 
-        <RatingBar
+        <com.willy.ratingbar.ScaleRatingBar
             android:id="@+id/cancellation_service_rating_bar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:numStars="5"
-            app:layout_constraintTop_toBottomOf="@+id/cancellation_specify_service_label" />
+            app:srb_numStars="5"
+            app:srb_minimumStars="5"
+            app:srb_rating="4"
+            app:srb_starWidth="26dp"
+            app:srb_starHeight="25dp"
+            app:srb_starPadding="5dp"
+            app:srb_stepSize="1"
+            app:srb_isIndicator="false"
+            app:srb_clickable="true"
+            app:srb_scrollable="true"
+            app:srb_clearRatingEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/cancellation_specify_service_label"
+            app:srb_drawableEmpty="@drawable/ic_empty_stars"
+            app:srb_drawableFilled="@drawable/ic_filled_star">
+        </com.willy.ratingbar.ScaleRatingBar>
+
 
         <TextView
             android:id="@+id/cancellation_specify_comments_label"

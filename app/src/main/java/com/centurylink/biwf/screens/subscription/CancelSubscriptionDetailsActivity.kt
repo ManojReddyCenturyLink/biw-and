@@ -1,15 +1,18 @@
 package com.centurylink.biwf.screens.subscription
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.DatePicker
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.CancelSubscriptionsDetailsCoordinator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import java.util.*
 import javax.inject.Inject
 
 class CancelSubscriptionDetailsActivity : BaseActivity() {
@@ -26,6 +29,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
+    var cal = Calendar.getInstance()
 
     private val cancelSubscriptionDetailsModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionDetailsViewModel::class.java)
@@ -59,11 +64,27 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.activityHeaderView.subheaderRightActionTitle.text =
             getText(R.string.text_header_cancel)
         binding.activityHeaderView.subheaderRightActionTitle.setOnClickListener {
-            setResult(Activity.RESULT_OK)
-            this.finish()
+           // setResult(Activity.RESULT_OK)
+            //this.finish()
+            displayDatePicker()
         }
     }
 
     private fun initViews(){
+    }
+
+    private fun displayDatePicker(){
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            // Display Selected date in Toast
+
+
+        }, year, month, day)
+        dpd.datePicker.minDate = c.getTimeInMillis();
+        dpd.show()
     }
 }
