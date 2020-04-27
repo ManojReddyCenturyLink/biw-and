@@ -3,19 +3,25 @@ package com.centurylink.biwf.screens.login
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
 import com.centurylink.biwf.databinding.ActivityLoginBinding
-import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
 
+    companion object{
+        val USER_ID = "USER_ID"
+    }
     @Inject
     lateinit var loginCoordinator: LoginCoordinator
+    @Inject
+    lateinit var factory: DaggerViewModelFactory
+    private val viewModel by lazy { ViewModelProvider(this, factory).get(LoginViewModel::class.java) }
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var viewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +29,10 @@ class LoginActivity : BaseActivity() {
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
 
-        viewModel = LoginViewModel(AccountRepository())
         viewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
+            userId.bindToTextView(binding.loginEmailInput)
+            checkRememberMe.bindToCheckBox(binding.loginRememberMeCheckbox)
         }
 
         loginCoordinator.navigator.activity = this
@@ -42,12 +49,12 @@ class LoginActivity : BaseActivity() {
 
     private fun initOnClicks() {
         binding.loginCardTitle.setOnClickListener { viewModel.onExistingUserLogin() }
-        binding.loginButton.setOnClickListener { viewModel.onLoginClicked() }
+        binding.loginButton.setOnClickListener { viewModel.onLoginClicked()
+            /*Adding here for testing purpose, method call will get move to onLoginSuccess after api implementation*/
+            viewModel.onRememberMeCheckChanged(binding.loginRememberMeCheckbox.isChecked, binding.loginEmailInput.text.toString())
+        }
         binding.loginForgotPassword.setOnClickListener { viewModel.onForgotPasswordClicked() }
         binding.loginLearnMore.setOnClickListener { viewModel.onLearnMoreClicked() }
-        binding.loginRememberMeCheckbox.setOnCheckedChangeListener { _, boolean ->
-            viewModel.onRememberMeCheckChanged(boolean)
-        }
     }
 
     private fun initTextChangeListeners() {
