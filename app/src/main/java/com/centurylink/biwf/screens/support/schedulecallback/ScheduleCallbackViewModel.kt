@@ -10,19 +10,19 @@ class ScheduleCallbackViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val myState = ObservableData(ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.SCHEDULE_CALLBACK)
-    val topicList: MutableList<TopicList> = dummyList()
+    val topicList: List<TopicList> = dummyList()
 
     fun launchCallDialer() {
         myState.value = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
     }
 
-    private fun dummyList(): MutableList<TopicList> {
-        return mutableListOf(
-            TopicList( "I want to know more about fiber internet service"),
-            TopicList( "I’m having trouble signing up for fiber internet service"),
-            TopicList( "I can’t sign into my account"),
-            TopicList( "I have questions about my account"),
-            TopicList( "I need something not listed here")
-        )
+    private fun dummyList(): List<TopicList> {
+        return listOf(
+            "I want to know more about fiber internet service",
+            "I’m having trouble signing up for fiber internet service",
+            "I can’t sign into my account",
+            "I have questions about my account",
+            "I need something not listed here"
+        ).map (::TopicList)
     }
 }

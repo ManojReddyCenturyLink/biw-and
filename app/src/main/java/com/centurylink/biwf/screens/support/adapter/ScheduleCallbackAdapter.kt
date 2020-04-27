@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.widget_recyclerview_list.view.*
 class ScheduleCallbackAdapter(
     private val mContext: Context,
     private val itemClickListener: ScheduleCallbackItemClickListener,
-    private var listItems: MutableList<TopicList>
+    private var listItems: List<TopicList>
 ) : RecyclerView.Adapter<ScheduleCallbackViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleCallbackViewHolder {

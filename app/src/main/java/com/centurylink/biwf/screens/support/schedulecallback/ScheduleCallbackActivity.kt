@@ -34,8 +34,6 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScheduleCallbackBinding.inflate(layoutInflater)
-        scheduleCallbackViewModel.apply {
-        }
         scheduleCallbackCoordinator.observeThis(scheduleCallbackViewModel.myState)
         setContentView(binding.root)
         scheduleCallbackViewModel.apply {
@@ -50,7 +48,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
 
     override fun onResume() {
         super.onResume()
-        scheduleCallbackCoordinator.navigator.activity = this
+        scheduleCallbackCoordinator.getNavigator().activity = this
     }
 
     override fun onItemClick(item: TopicList) {
@@ -61,22 +59,25 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         binding.scheduleCallbackRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val screenTitle: String = getString(R.string.schedule_callback)
-        binding.incHeader.subheaderCenterTitle.text = screenTitle
-        binding.incHeader.subHeaderLeftIcon.setOnClickListener { this.finish() }
-        binding.incHeader.subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
-        binding.incHeader.subheaderRightActionTitle.setOnClickListener {
-            setResult(Activity.RESULT_OK)
-            this.finish()
+        binding.incHeader.apply {
+            subheaderCenterTitle.text = screenTitle
+            subHeaderLeftIcon.setOnClickListener { finish() }
+            subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
+            subheaderRightActionTitle.setOnClickListener {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
         binding.callUsNowTextview.setOnClickListener { scheduleCallbackViewModel.launchCallDialer() }
     }
 
-    private fun prepareRecyclerView(list: MutableList<TopicList>) {
+    private fun prepareRecyclerView(list: List<TopicList>) {
         adapter = ScheduleCallbackAdapter(this, this, list)
         binding.scheduleCallbackRecyclerview.adapter = adapter
     }
 
     companion object {
+        const val REQUEST_TO_HOME: Int = 1100
         fun newIntent(context: Context): Intent {
             return Intent(context, ScheduleCallbackActivity::class.java)
         }

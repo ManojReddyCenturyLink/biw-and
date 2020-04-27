@@ -108,4 +108,5 @@
     <string name="fake_speed_test_download_speed">910</string>
     <string name="speed_test_upload_fake_speed">908</string>
     <string name="tel">tel:833-250-6306</string>
+    <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
 </resources>
