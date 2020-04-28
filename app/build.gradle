@@ -63,7 +63,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${androidxAppCompatVersion}"
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
 
-    implementation 'com.github.tiper:MaterialSpinner:1.4.1'
     // Cardview Dependency
     implementation "androidx.cardview:cardview:$cardviewVersion"
 
@@ -103,7 +102,7 @@ dependencies {
 
     //timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
-    implementation "com.github.ome450901:SimpleRatingBar:1.5.0"
+    implementation "com.github.ome450901:SimpleRatingBar:$ratingVersion"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

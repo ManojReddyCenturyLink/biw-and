@@ -154,6 +154,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 val newDate: Calendar = Calendar.getInstance()
                 newDate.set(year, monthOfYear, dayOfMonth)
+                binding.cancelSubscriptionDetailsError.visibility = View.GONE
                 cancelSubscriptionDetailsModel.onCancellationDateSelected(newDate.time)
             },
             year,
