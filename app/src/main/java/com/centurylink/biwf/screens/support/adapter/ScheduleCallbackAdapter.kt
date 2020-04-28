@@ -32,7 +32,6 @@ class ScheduleCallbackAdapter(
     override fun onBindViewHolder(holder: ScheduleCallbackViewHolder, position: Int) {
         val item: TopicList = listItems[position]
         holder.header.text = item.topic
-        holder.content.setOnClickListener { itemClickListener.onItemClick(item) }
     }
 }
 
