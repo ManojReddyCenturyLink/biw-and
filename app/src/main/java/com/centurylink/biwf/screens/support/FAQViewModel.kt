@@ -4,12 +4,14 @@ package com.centurylink.biwf.screens.support
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.coordinators.FAQCoordinator
 import com.centurylink.biwf.model.support.FAQ
 import com.centurylink.biwf.model.support.QuestionFAQ
 import com.centurylink.biwf.model.support.Videofaq
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.utility.EventLiveData
+import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
 class FAQViewModel @Inject constructor(
@@ -22,6 +24,7 @@ class FAQViewModel @Inject constructor(
     private var questionMap: HashMap<String, String> = HashMap<String, String>()
     private var faqListDetails: LiveData<Resource<FAQ>> =
         faqRepository.getFAQDetails()
+    val myState = ObservableData(FAQCoordinator.FAQCoordinatorDestinations.FAQ_HOME)
 
     fun getFAQDetails() = faqListDetails
 
@@ -29,5 +32,10 @@ class FAQViewModel @Inject constructor(
         faqVideoData.value = videolist
         questionMap = questionList.associateTo(HashMap(), { it.name to it.description })
         faqQuestionsData.value = questionMap
+    }
+
+    fun navigateToScheduleCallback() {
+        myState.value =
+            FAQCoordinator.FAQCoordinatorDestinations.SCHEDULE_CALLBACK
     }
 }

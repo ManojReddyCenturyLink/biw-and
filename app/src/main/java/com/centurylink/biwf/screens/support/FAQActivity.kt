@@ -39,7 +39,6 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
 
     @Inject
     lateinit var faqCoordinator: FAQCoordinator
-
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
@@ -67,6 +66,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
                 prepareQuestionRecyclerView(it)
             })
         }
+        faqCoordinator.observeThis(faqViewModel.myState)
         initHeaders()
         initView()
         getFAQInformation()
@@ -123,7 +123,8 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
     }
 
     private fun initView() {
-        binding.activitySupportView.contactUsHeading.visibility = View.GONE
+        binding.faqContactUs.contactUsHeading.visibility = View.GONE
+        binding.faqContactUs.scheduleCallbackTextview.setOnClickListener { faqViewModel.navigateToScheduleCallback() }
         binding.faqVideoList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         val myDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
@@ -133,8 +134,5 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         binding.faqVideoList.addItemDecoration(myDivider)
     }
 
-    private fun displaySortedFAQ() {
-
-
-    }
+    private fun displaySortedFAQ() {}
 }

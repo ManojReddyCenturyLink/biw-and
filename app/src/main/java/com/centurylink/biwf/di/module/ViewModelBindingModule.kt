@@ -10,6 +10,7 @@ import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
+import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -78,4 +79,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CancelSubscriptionViewModel::class)
     abstract fun bindCancelSubscriptionViewModel(cancelSubscriptionViewModel: CancelSubscriptionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ScheduleCallbackViewModel::class)
+    abstract fun bindScheduleCallbackViewModel(scheduleCallbackViewModel: ScheduleCallbackViewModel): ViewModel
 }
