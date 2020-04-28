@@ -6,7 +6,8 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
@@ -23,15 +24,8 @@ import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-import kotlinx.android.synthetic.main.dialog_cancel_subscription_details.view.*
-class CancelSubscriptionDetailsActivity : BaseActivity() {
 
-    companion object {
-        const val REQUEST_TO__CANCEL_SUBSCRIPTION: Int = 11101
-        fun newIntent(context: Context): Intent {
-            return Intent(context, CancelSubscriptionDetailsActivity::class.java)
-        }
-    }
+class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     @Inject
     lateinit var cancelSubscriptionDetailsCoordinator: CancelSubscriptionsDetailsCoordinator
@@ -48,11 +42,16 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionDetailsBinding.inflate(layoutInflater)
         cancelSubscriptionDetailsModel.apply {
-
+            errorEvents.handleEvent { displayDateError() }
+            performSubmitEvent.handleEvent { showCancellationDialog() }
+            cancelSubscriptionDateEvent.handleEvent { updateCancellationDate(it) }
+            displayReasonSelectionEvent.handleEvent { toggleCancellationReasonInfo(it) }
+            changeDateEvent.handleEvent { displayDatePicker() }
         }
         setContentView(binding.root)
         initHeaders()
-        initViews()
+        initTextWatchers()
+        initSpinner()
         initRatingView()
     }
 
@@ -72,40 +71,86 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.activityHeaderView.subheaderRightActionTitle.text =
             getText(R.string.text_header_cancel)
         binding.activityHeaderView.subheaderRightActionTitle.setOnClickListener {
-           // setResult(Activity.RESULT_OK)
-            //this.finish()
-            showDialog()
+            setResult(Activity.RESULT_OK)
+            this.finish()
         }
+        binding.cancelSubscriptionSubmit.setOnClickListener{
+            cancelSubscriptionDetailsModel.onSubmitCancellation()}
     }
 
-    fun toggleCancellationReasonInfo(show:Boolean){
-        val state = if(show) View.VISIBLE else View.GONE
+    private fun initTextWatchers() {
+        binding.cancellationSpecifyReasonInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editText: Editable?) {
+                cancelSubscriptionDetailsModel.onOtherCancellationChanged(editText.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+        })
+        binding.cancellationCommentsReasonInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editText: Editable?) {
+                cancelSubscriptionDetailsModel.onCancellationCommentsChanged(editText.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+        })
+    }
+
+    private fun toggleCancellationReasonInfo(show: Boolean) {
+        val state = if (show) View.VISIBLE else View.GONE
         binding.cancellationReasonOptionalLabel.visibility = state
-        binding.cancellationSpecifyReasonLabel.visibility=state
-        binding.cancellationSpecifyReasonInput.visibility=state
+        binding.cancellationSpecifyReasonLabel.visibility = state
+        binding.cancellationSpecifyReasonInput.visibility = state
     }
 
-    private fun updateCancellationDate(date:Date){
+    private fun updateCancellationDate(date: Date) {
         val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(date)
-        binding.cancellationDateSelection.text =validityDate
+        binding.cancellationDateSelection.text = validityDate
     }
 
-    private fun initViews(){
-        val changeList :ArrayList<String> = ArrayList()
-        changeList.addAll(listOf("Moving","Service is not working as expected","Price is too high","Switching service providers","Other"))
-        val adapter = CancellationReasonAdapter(this,changeList)
-        binding.cancellationReasonDropdown.adapter=adapter
-        binding.cancellationReasonDropdown.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {
+    private fun initSpinner() {
+        val changeList: ArrayList<String> = ArrayList()
+        changeList.addAll(
+            listOf(
+                "Moving",
+                "Service is not working as expected",
+                "Price is too high",
+                "Switching service providers",
+                "Other"
+            )
+        )
+        val adapter = CancellationReasonAdapter(this, changeList)
+        binding.cancellationReasonDropdown.adapter = adapter
+        binding.cancellationReasonDropdown.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
 
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    cancelSubscriptionDetailsModel.onCancellationReason(changeList[position])
+                }
             }
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    toggleCancellationReasonInfo(position==4)
-            }
-        }
     }
 
     private fun displayDatePicker() {
+        binding.cancelSubscriptionDetailsError.visibility = View.GONE
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -115,7 +160,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 val newDate: Calendar = Calendar.getInstance()
                 newDate.set(year, monthOfYear, dayOfMonth)
-                updateCancellationDate(newDate.time)
+                cancelSubscriptionDetailsModel.onCancellationDateSelected(newDate.time)
             },
             year,
             month,
@@ -125,27 +170,41 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         datePicker.show()
     }
 
-    private fun initRatingView(){
-        binding.cancellationServiceRatingBar.setOnRatingChangeListener{ baseRatingBar: BaseRatingBar, rating: Float, b: Boolean ->
-            baseRatingBar.rating =rating
+    private fun initRatingView() {
+        binding.cancellationDateSelection.setOnClickListener { cancelSubscriptionDetailsModel.onDateChange() }
+        binding.cancellationServiceRatingBar.setOnRatingChangeListener { baseRatingBar: BaseRatingBar, rating: Float, b: Boolean ->
+            baseRatingBar.rating = rating
+            cancelSubscriptionDetailsModel.onRatingChanged(rating)
         }
     }
 
-    private fun performCancellationSubmission(){
-
+    private fun displayDateError() {
+        binding.cancelSubscriptionDetailsError.visibility = View.VISIBLE
     }
 
-    private fun showDialog() {
+    private fun showCancellationDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_cancel_subscription_details)
-        val keepService = dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_keep_service)
-        val cancelService = dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_cancel_service)
+        val keepService =
+            dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_keep_service)
+        val cancelService =
+            dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_cancel_service)
         keepService.setOnClickListener {
-            dialog .dismiss()
+            dialog.dismiss()
+
         }
-        cancelService.setOnClickListener { dialog .dismiss() }
-        dialog .show()
+        cancelService.setOnClickListener {
+            cancelSubscriptionDetailsModel.performCancellationCall()
+            dialog.dismiss() }
+        dialog.show()
+    }
+
+    companion object {
+        const val REQUEST_TO__CANCEL_SUBSCRIPTION: Int = 11101
+        fun newIntent(context: Context): Intent {
+            return Intent(context, CancelSubscriptionDetailsActivity::class.java)
+        }
     }
 }

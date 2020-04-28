@@ -10,6 +10,63 @@ import javax.inject.Inject
 class CancelSubscriptionDetailsViewModel @Inject constructor(
     private val cancelSubscriptionDetailsRepository: CancelSubscriptionDetailsRepository
 ) : BaseViewModel() {
-    val cancelSubscriptionDate: EventLiveData<Date> = MutableLiveData()
 
+    private var cancellationDate: Date? = null
+    private var cancellationReason: String? = null
+    private var cancellationReasonExplanation: String? = null
+    private var ratingValue: Float? = null
+    private var cancellationComments: String? = null
+
+    val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
+
+    val performSubmitEvent: EventLiveData<Unit> = MutableLiveData()
+
+    val changeDateEvent: EventLiveData<Unit> = MutableLiveData()
+
+    val errorEvents: EventLiveData<String> = MutableLiveData()
+
+    val displayReasonSelectionEvent: EventLiveData<Boolean> = MutableLiveData()
+
+    fun onRatingChanged(rating: Float) {
+        ratingValue = rating
+    }
+
+    fun onCancellationReason(cancellationReasonData: String) {
+        cancellationReason = cancellationReasonData
+        if (cancellationReasonData.equals("Other", true)) {
+            displayReasonSelectionEvent.emit(true)
+        } else {
+            displayReasonSelectionEvent.emit(false)
+        }
+    }
+
+    fun onCancellationCommentsChanged(cancellationCommentsData: String) {
+        cancellationComments = cancellationCommentsData
+    }
+
+    fun onCancellationDateSelected(cancellationDateInfo: Date) {
+        cancellationDate = cancellationDateInfo
+        cancelSubscriptionDateEvent.emit(cancellationDateInfo)
+    }
+
+    fun onOtherCancellationChanged(commentsOnOthers: String) {
+        cancellationReasonExplanation = commentsOnOthers
+    }
+
+    fun onDateChange(){
+        changeDateEvent.emit(Unit)
+    }
+
+    fun onSubmitCancellation() {
+        if (cancelSubscriptionDateEvent == null) {
+            errorEvents.emit("Error")
+        } else {
+            performSubmitEvent.emit(Unit)
+        }
+    }
+
+    fun performCancellationCall(){
+        cancelSubscriptionDetailsRepository.submitCancellation(cancellationDate!!,
+            cancellationReason!!,ratingValue!!,cancellationComments!!)
+    }
 }

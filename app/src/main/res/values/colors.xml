@@ -26,6 +26,7 @@
     <color name="blue_icon_bg">#e5ecf8</color>
 
     <color name="font_color_white">#ffff</color>
+    <color name="font_color_dialog_blue">#1d48bb</color>
     <color name="font_color_medium_grey">#53565a</color>
     <color name="title_color_blue">#001e60</color>
     <color name="main_background_color">#eeeeee</color>

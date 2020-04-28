@@ -16,6 +16,7 @@ class CancelSubscriptionViewModel @Inject constructor(
 
     val cancelSubscriptionDate: EventLiveData<Date> = MutableLiveData()
 
+
     val myState = ObservableData(CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations.CANCEL_SUBSCRIPTION)
 
     fun getCancellationValidity(){

@@ -113,6 +113,7 @@
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>
     <string name="cancel_subscription_details_sub_header"> We’re sorry to see you go.</string>
+    <string name="cancel_subscription_error_info">fields marked * are required</string>
     <string name="cancel_subscription_details_cancellation_date">Cancellation date</string>
     <string name="cancel_subscription_details_cancellation_date_error">Cancellation date *</string>
     <string name="cancel_subscription_details_cancellation_reason_label">Cancellation reason</string>
