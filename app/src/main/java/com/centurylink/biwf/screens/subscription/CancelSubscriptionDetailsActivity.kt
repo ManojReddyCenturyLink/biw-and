@@ -2,11 +2,15 @@ package com.centurylink.biwf.screens.subscription
 
 import android.app.Activity
 import android.app.DatePickerDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.view.Window
 import android.widget.AdapterView
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -14,11 +18,12 @@ import com.centurylink.biwf.coordinators.CancelSubscriptionsDetailsCoordinator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
-
+import kotlinx.android.synthetic.main.dialog_cancel_subscription_details.view.*
 class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     companion object {
@@ -48,6 +53,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         setContentView(binding.root)
         initHeaders()
         initViews()
+        initRatingView()
     }
 
     override fun onBackPressed() {
@@ -66,8 +72,9 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.activityHeaderView.subheaderRightActionTitle.text =
             getText(R.string.text_header_cancel)
         binding.activityHeaderView.subheaderRightActionTitle.setOnClickListener {
-            setResult(Activity.RESULT_OK)
-            this.finish()
+           // setResult(Activity.RESULT_OK)
+            //this.finish()
+            showDialog()
         }
     }
 
@@ -118,5 +125,27 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         datePicker.show()
     }
 
+    private fun initRatingView(){
+        binding.cancellationServiceRatingBar.setOnRatingChangeListener{ baseRatingBar: BaseRatingBar, rating: Float, b: Boolean ->
+            baseRatingBar.rating =rating
+        }
+    }
 
+    private fun performCancellationSubmission(){
+
+    }
+
+    private fun showDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_cancel_subscription_details)
+        val keepService = dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_keep_service)
+        val cancelService = dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_cancel_service)
+        keepService.setOnClickListener {
+            dialog .dismiss()
+        }
+        cancelService.setOnClickListener { dialog .dismiss() }
+        dialog .show()
+    }
 }
