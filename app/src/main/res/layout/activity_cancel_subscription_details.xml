@@ -26,8 +26,6 @@
             android:layout_marginStart="@dimen/medium_margin_spacing"
             android:layout_marginTop="@dimen/margin_spacing_large"
             android:layout_marginEnd="@dimen/medium_margin_spacing">
-
-
             <TextView
                 android:id="@+id/cancel_subscription_details_header"
                 android:layout_width="match_parent"
@@ -38,7 +36,7 @@
                 android:text="@string/cancel_subscription_details_sub_header"
                 android:textColor="@color/blue_dark"
                 android:textSize="@dimen/small_subcontent_title_text_size"
-                app:layout_constraintBottom_toTopOf="@+id/cancellation_date_label"
+                app:layout_constraintBottom_toTopOf="@+id/cancel_subscription_details_error"
                 app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_contents" />
 
             <TextView
@@ -51,9 +49,9 @@
                 android:text="@string/cancel_subscription_error_info"
                 android:textColor="@color/offline_red"
                 android:textSize="@dimen/text_size_12"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_date_label"
-                app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_contents" />
+                app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_header" />
 
             <TextView
                 android:id="@+id/cancellation_date_label"
