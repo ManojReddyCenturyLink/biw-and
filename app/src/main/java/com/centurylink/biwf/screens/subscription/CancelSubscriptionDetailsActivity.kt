@@ -23,7 +23,6 @@ import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.ArrayList
 
 class CancelSubscriptionDetailsActivity : BaseActivity() {
 
@@ -74,13 +73,15 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             setResult(Activity.RESULT_OK)
             this.finish()
         }
-        binding.cancelSubscriptionSubmit.setOnClickListener{
-            cancelSubscriptionDetailsModel.onSubmitCancellation()}
+        binding.cancelSubscriptionSubmit.setOnClickListener {
+            cancelSubscriptionDetailsModel.onSubmitCancellation()
+        }
     }
 
     private fun initTextWatchers() {
-        val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(Calendar.getInstance().time)
-
+        val hintDate =
+            DateFormat.getDateInstance(DateFormat.LONG).format(Calendar.getInstance().time)
+        binding.cancellationDateSelection.hint = hintDate
         binding.cancellationSpecifyReasonInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(editText: Editable?) {
                 cancelSubscriptionDetailsModel.onOtherCancellationChanged(editText.toString())
@@ -122,7 +123,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     }
 
     private fun initSpinner() {
-        val cancellationList= resources.getStringArray(R.array.cancellation_reason_list)
+        val cancellationList = resources.getStringArray(R.array.cancellation_reason_list)
         val adapter = CancellationReasonAdapter(this, cancellationList)
         binding.cancellationReasonDropdown.adapter = adapter
         binding.cancellationReasonDropdown.onItemSelectedListener =
@@ -190,7 +191,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         }
         cancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationCall()
-            dialog.dismiss() }
+            dialog.dismiss()
+        }
         dialog.show()
     }
 
