@@ -86,7 +86,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding.incTroubleshooting.supportVisitWebsite.setOnClickListener { }
 
         binding.incContactUs.liveChatTextview.setOnClickListener { supportViewModel.setManageSubscription() }
-        binding.incContactUs.scheduleCallbackTextview.setOnClickListener { supportViewModel.launchScheduleCallback() }
+        binding.incContactUs.scheduleCallbackRow.setOnClickListener { supportViewModel.launchScheduleCallback() }
     }
 
     private fun getNotificationInformation() {

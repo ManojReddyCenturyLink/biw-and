@@ -3,7 +3,7 @@
     <dimen name="spacing_14_">-14dp</dimen>
 
     <dimen name="padding_0">0dp</dimen>
-    <dimen name="cardview_elevation">1dp</dimen>
+    <dimen name="view_elevation_tiny">1dp</dimen>
     <dimen name="above_cardview_elevation">2dp</dimen>
     <dimen name="spacing_3">3dp</dimen>
     <dimen name="margin_spacing_tiny">8dp</dimen>

@@ -16,7 +16,7 @@ import javax.inject.Singleton
 open class AppModule {
 
     companion object {
-        private const val BASE_URL = "https://bucketforapi.s3-eu-west-1.amazonaws.com/";
+        private const val BASE_URL = "https://bucketforapi.s3-eu-west-1.amazonaws.com/"
     }
 
     /**

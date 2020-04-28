@@ -80,7 +80,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
                 finish()
             }
         }
-        binding.callUsNowTextview.setOnClickListener { scheduleCallbackViewModel.launchCallDialer() }
+        binding.callUsNowLayout.setOnClickListener { scheduleCallbackViewModel.launchCallDialer() }
     }
 
     private fun prepareRecyclerView(list: List<TopicList>) {

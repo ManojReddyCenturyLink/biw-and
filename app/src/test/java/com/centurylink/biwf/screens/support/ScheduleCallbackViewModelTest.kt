@@ -39,7 +39,7 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun onItemClicked_navigateToAdditionalInfoActivity() {
-        viewModel.navigateAdditionalInfoScreen(dummyList.get(0))
+        viewModel.navigateAdditionalInfoScreen(dummyList[0])
         Assert.assertEquals(
             "AdditionalInfo Activity wasn't Launched",
             ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO,

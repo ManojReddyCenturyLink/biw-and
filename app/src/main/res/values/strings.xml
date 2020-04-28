@@ -113,4 +113,10 @@
     <string name="additional_information">Additional information</string>
     <string name="additional_info_title">Additional info</string>
     <string name="next">Next</string>
+    <string name="learn_more_activity">Learn More Activity</string>
+    <string name="activity">Activity</string>
+    <string name="call_us_now_at_833_250_6306">Call us now at 833-250-6306</string>
+    <string name="done">DONE</string>
+    <string name="internet_online">Internet online</string>
+    <string name="internet_offline">Internet offline</string>
 </resources>
