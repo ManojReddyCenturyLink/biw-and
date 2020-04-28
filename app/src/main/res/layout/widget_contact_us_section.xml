@@ -20,7 +20,7 @@
     <View
         android:id="@+id/heading_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_elevation_tiny"
+        android:layout_height="@dimen/cardview_elevation"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
@@ -67,7 +67,7 @@
     <View
         android:id="@+id/live_chat_divider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_elevation_tiny"
+        android:layout_height="@dimen/cardview_elevation"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
@@ -122,7 +122,7 @@
     <View
         android:id="@+id/schedule_callback_divider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_elevation_tiny"
+        android:layout_height="@dimen/cardview_elevation"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
