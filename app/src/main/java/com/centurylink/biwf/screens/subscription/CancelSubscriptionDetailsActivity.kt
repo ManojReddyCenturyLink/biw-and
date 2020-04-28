@@ -79,6 +79,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     }
 
     private fun initTextWatchers() {
+        val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(Calendar.getInstance().time)
+
         binding.cancellationSpecifyReasonInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(editText: Editable?) {
                 cancelSubscriptionDetailsModel.onOtherCancellationChanged(editText.toString())
@@ -120,17 +122,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     }
 
     private fun initSpinner() {
-        val changeList: ArrayList<String> = ArrayList()
-        changeList.addAll(
-            listOf(
-                "Moving",
-                "Service is not working as expected",
-                "Price is too high",
-                "Switching service providers",
-                "Other"
-            )
-        )
-        val adapter = CancellationReasonAdapter(this, changeList)
+        val cancellationList= resources.getStringArray(R.array.cancellation_reason_list)
+        val adapter = CancellationReasonAdapter(this, cancellationList)
         binding.cancellationReasonDropdown.adapter = adapter
         binding.cancellationReasonDropdown.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
@@ -144,7 +137,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
                     position: Int,
                     id: Long
                 ) {
-                    cancelSubscriptionDetailsModel.onCancellationReason(changeList[position])
+                    cancelSubscriptionDetailsModel.onCancellationReason(cancellationList[position])
                 }
             }
     }

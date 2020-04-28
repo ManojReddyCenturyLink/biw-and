@@ -74,10 +74,9 @@
                 android:drawableLeft="@drawable/ic_calendar"
                 android:drawablePadding="10dp"
                 android:gravity="start|center_vertical"
-                android:hint="28,February 1982"
                 android:padding="10dp"
-                android:textColor="#53565a"
-                android:textSize="12sp"
+                android:textColor="@color/title_color_blue"
+                android:textSize="@dimen/text_size_16"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_reason_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_date_label" />
 
