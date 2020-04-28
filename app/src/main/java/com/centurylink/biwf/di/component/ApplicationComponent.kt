@@ -9,6 +9,7 @@ import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
 import com.centurylink.biwf.di.module.AppModule
 import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
 import com.centurylink.biwf.di.module.RepositoryModule
+import com.centurylink.biwf.di.module.SharedPreferencesModule
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -23,19 +24,21 @@ import javax.inject.Singleton
         (LoginActivityInjectorModule::class),
         (HomeActivityInjectorModule::class),
         (SupportActivityInjectorModule::class),
-        (BaseFragmentInjectorModule::class),
-        (DaggerViewModelFactoryModule::class),
+        (FAQActivityInjectorModule::class),
         (NotificationActivityInjectorModule::class),
         (NotificationDetailsActivityInjectorModule::class),
-        (AndroidInjectionModule::class),
-        (AppModule::class),
+        (CancelSubscriptionInjectorModule::class),
+        (ScheduleCallbackInjectorModule::class),
+        (BaseFragmentInjectorModule::class),
         (DashboardFragmentInjectorModule::class),
         (AccountFragmentInjectorModule::class),
         (CustomWebFragmentInjectorModule::class),
-        (FAQActivityInjectorModule::class),
-        (CancelSubscriptionInjectorModule::class),
+        (DaggerViewModelFactoryModule::class),
+        (AndroidInjectionModule::class),
+        (AppModule::class),
+        (RepositoryModule::class),
         (CancelSubscriptionDetailsInjectorModule::class),
-        (RepositoryModule::class)
+        (SharedPreferencesModule::class)
     ]
 )
 interface ApplicationComponent {

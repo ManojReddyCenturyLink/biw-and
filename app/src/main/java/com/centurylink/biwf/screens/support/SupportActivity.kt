@@ -17,8 +17,6 @@ import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
-import kotlinx.android.synthetic.main.widget_contact_us_section.view.*
-import kotlinx.android.synthetic.main.widget_troubleshooting.view.*
 import javax.inject.Inject
 
 class SupportActivity : BaseActivity(), SupportItemClickListener {
@@ -83,12 +81,12 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.doneButtonSupport.setOnClickListener { finish() }
 
-        binding.incTroubleshooting.root.restart_modem_button.setOnClickListener { supportViewModel.restartModem() }
-        binding.incTroubleshooting.root.run_speed_test_button.setOnClickListener { supportViewModel.runSpeedTest() }
-        binding.incTroubleshooting.root.support_visit_website.setOnClickListener { }
+        binding.incTroubleshooting.restartModemButton.setOnClickListener { supportViewModel.restartModem() }
+        binding.incTroubleshooting.runSpeedTestButton.setOnClickListener { supportViewModel.runSpeedTest() }
+        binding.incTroubleshooting.supportVisitWebsite.setOnClickListener { }
 
-        binding.incContactUs.root.live_chat_textview.setOnClickListener { supportViewModel.setManageSubscription() }
-        binding.incContactUs.root.schedule_callback_textview.setOnClickListener { }
+        binding.incContactUs.liveChatTextview.setOnClickListener { supportViewModel.setManageSubscription() }
+        binding.incContactUs.scheduleCallbackTextview.setOnClickListener { supportViewModel.launchScheduleCallback() }
     }
 
     private fun getNotificationInformation() {

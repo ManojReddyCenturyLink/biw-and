@@ -45,6 +45,11 @@ class SupportViewModel @Inject constructor(supportRepository: SupportRepository)
         myState.value =
             SupportCoordinator.SupportCoordinatorDestinations.MANAGE_SUBSCRIPTION
     }
+
+    fun launchScheduleCallback() {
+        myState.value =
+            SupportCoordinator.SupportCoordinatorDestinations.SCHEDULE_CALLBACK
+    }
 }
 
 

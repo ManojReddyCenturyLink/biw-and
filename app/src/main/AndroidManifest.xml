@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.centurylink.biwf">
+    package="com.centurylink.biwf"
+    >
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <application
         android:name=".BIWFApp"
         android:allowBackup="true"
@@ -11,56 +14,68 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        >
         <activity
             android:name=".screens.login.LoginActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity">
+            tools:ignore="LockedOrientationActivity"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".screens.forgotpassword.ForgotPasswordActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            />
         <activity
             android:name=".screens.learnmore.LearnMoreActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            />
         <activity
             android:name=".screens.home.HomeActivity"
             android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
             android:theme="@style/AppTheme.HomeActivity"
-            tools:ignore="LockedOrientationActivity" />
+            />
         <activity
             android:name=".screens.support.SupportActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            />
         <activity
             android:name=".screens.support.FAQActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            />
         <activity
             android:name=".screens.emptydesitination.ProfileActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            />
         <activity
             android:name=".screens.subscription.CancelSubscriptionActivity"
             android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity" />
+            tools:ignore="LockedOrientationActivity"
+            />
+        <activity
+            android:name=".screens.support.schedulecallback.ScheduleCallbackActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:theme="@style/AppTheme.ScheduleCallbackActivity"
+            />
         <activity
             android:name=".screens.subscription.CancelSubscriptionDetailsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            tools:ignore="LockedOrientationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-        <activity android:name=".screens.notification.NotificationActivity" />
-        <activity android:name=".screens.notification.NotificationDetailsActivity" />
-        <activity android:name=".screens.changeappointment.ChangeAppointmentActivity" />
+            tools:ignore="LockedOrientationActivity"
+            />
+        <activity android:name=".screens.notification.NotificationActivity"/>
+        <activity android:name=".screens.notification.NotificationDetailsActivity"/>
+        <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>
     </application>
 </manifest>

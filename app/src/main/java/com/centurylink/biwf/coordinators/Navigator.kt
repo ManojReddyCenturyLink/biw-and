@@ -2,6 +2,7 @@ package com.centurylink.biwf.coordinators
 
 import android.app.Activity
 import androidx.core.os.bundleOf
+import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
@@ -13,6 +14,8 @@ import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
+import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
+import com.centurylink.biwf.utility.WebLinkUtil
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -49,16 +52,14 @@ class Navigator @Inject constructor() {
         val bundle = NotificationCoordinator.NotificationCoordinatorDestinations.get()
         activity?.startActivityForResult(
             NotificationDetailsActivity.newIntent(activity!!, bundle),
-            NotificationDetailsActivity.REQUEST_TO_DISMISS
-        )
+            NotificationDetailsActivity.REQUEST_TO_DISMISS)
     }
 
     fun navigateToFaq() {
         val bundle = SupportCoordinator.SupportCoordinatorDestinations.get()
         activity?.startActivityForResult(
             FAQActivity.newIntent(activity!!, bundle),
-            FAQActivity.REQUEST_TO_HOME
-        )
+            FAQActivity.REQUEST_TO_HOME)
     }
 
     fun navigateToProfileActivity() {
@@ -70,8 +71,16 @@ class Navigator @Inject constructor() {
     fun navigateToMangeSubscription() {
         activity?.startActivityForResult(
             CancelSubscriptionActivity.newIntent(activity!!),
-            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
-        )
+            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION)
+    }
+
+    fun navigateToScheduleCallback() {
+        activity?.startActivityForResult(ScheduleCallbackActivity.newIntent(activity!!),
+            ScheduleCallbackActivity.REQUEST_TO_HOME)
+    }
+
+    fun navigateToPhoneDialler() {
+        WebLinkUtil.handleClick(activity!!.getString(R.string.tel), activity!!)
     }
 
     fun navigateToCancelSubscriptionDetails() {

@@ -92,9 +92,7 @@
         or credited. Your current subscription ends on  %1$s.</string>
     <string name="continue_cancellation">Continue cancellation</string>
     <string name="text_header_cancel">CANCEL</string>
-
-
-    <string name="schedule_a_callback">Schedule a callback</string>
+    <string name="schedule_callback">Schedule callback</string>
     <string name="visit_website_text">Need more help? Visit our self-diagnostic tool on our website for additional options.</string>
     <string name="remember_me">Remember Me</string>
     <string name="learn_more">Learn More</string>
@@ -109,6 +107,8 @@
     <string name="last_speed_test_fake_value">03/02/2020 at 8:52pm</string>
     <string name="fake_speed_test_download_speed">910</string>
     <string name="speed_test_upload_fake_speed">908</string>
+    <string name="tel">tel:833-250-6306</string>
+    <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
 
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>
@@ -127,7 +127,7 @@
     <!--Cancel Subscription Detail Dialog Screen -->
     <string name="cancel_subscription_dialog_title">Are you sure you want to cancel your subscription?</string>
     <string name="cancel_subscription_dialog_content">Your service will end on %1$s,
-        and you will not have access to internet after that date.</string>
+    and you will not have access to internet after that date.</string>
     <string name="cancel_subscription_dialog_keepservice">KEEP SERVICE</string>
     <string name="cancel_subscription_dialog_cancel">CANCEL SERVICE</string>
 

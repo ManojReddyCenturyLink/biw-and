@@ -14,6 +14,11 @@
         <item name="android:statusBarColor">@color/primary_dark</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
+    <!-- Custom theme for Schedule Callback Activity. -->
+    <style name="AppTheme.ScheduleCallbackActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/main_background_color</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 
     <style name="Tab.TextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>

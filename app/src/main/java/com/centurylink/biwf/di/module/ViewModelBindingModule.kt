@@ -5,17 +5,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
+import com.centurylink.biwf.screens.login.LoginViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsViewModel
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
+import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import dagger.Binds
 import dagger.MapKey
 import dagger.Module
 import dagger.multibindings.IntoMap
 import kotlin.reflect.KClass
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsViewModel as CancelSubscriptionDetailsViewModel
 
 @Module
 abstract class DaggerViewModelFactoryModule {
@@ -33,6 +35,11 @@ annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
 @Module
 abstract class ViewModelModule {
+    @Binds
+    @IntoMap
+    @ViewModelKey(LoginViewModel::class)
+    abstract fun bindLoginViewModel(loginViewModel: LoginViewModel): ViewModel
+
     @Binds
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
@@ -73,10 +80,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CancelSubscriptionViewModel::class)
     abstract fun bindCancelSubscriptionViewModel(cancelSubscriptionViewModel: CancelSubscriptionViewModel): ViewModel
-    
+
     @Binds
     @IntoMap
     @ViewModelKey(CancelSubscriptionDetailsViewModel::class)
     abstract fun bindCancelSubscriptionDetailsViewModel(cancelSubscriptionDetailsViewModel: CancelSubscriptionDetailsViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(ScheduleCallbackViewModel::class)
+    abstract fun bindScheduleCallbackViewModel(scheduleCallbackViewModel: ScheduleCallbackViewModel): ViewModel
 }
