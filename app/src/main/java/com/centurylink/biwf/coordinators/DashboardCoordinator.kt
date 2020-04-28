@@ -54,6 +54,8 @@ class DashboardCoordinator @Inject constructor() {
     private fun navigateToChangeAppointment() {
         navigator.navigateToChangeAppointment()
     }
+
+
 }
 
 enum class DashboardCoordinatorDestinations {
