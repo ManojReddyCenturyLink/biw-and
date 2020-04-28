@@ -106,12 +106,14 @@
         <Spinner
             android:id="@+id/cancellation_reason_dropdown"
             android:background="@drawable/background_thin_border"
-
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
+            android:padding="12dp"
+            android:spinnerMode="dialog"
+
+
             app:layout_constraintEnd_toEndOf="parent"
-            android:prompt="@string/support"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/cancellation_reason_label"/>
 
@@ -134,6 +136,7 @@
             android:text="@string/cancel_subscription_details_cancellation_reason"
             android:textColor="@color/font_color_medium_grey"
             android:textSize="@dimen/text_size_12"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/margin_spacing_tiny"
             app:layout_constraintEnd_toStartOf="@+id/cancellation_specify_reason_optional_label"
             app:layout_constraintTop_toBottomOf="@+id/cancellation_reason_dropdown" />
@@ -147,6 +150,7 @@
             android:layout_marginTop="@dimen/margin_spacing_tiny"
             android:layout_marginStart="4dp"
             android:text="@string/cancel_subscription_details_optional"
+            android:visibility="gone"
             app:layout_constraintBaseline_toBaselineOf="@+id/cancellation_specify_reason_label"
             app:layout_constraintStart_toEndOf="@+id/cancellation_specify_reason_label"
             app:layout_constraintTop_toBottomOf="@+id/cancellation_reason_dropdown" />
@@ -159,6 +163,7 @@
             android:background="@drawable/background_thin_border"
             android:gravity="top|start"
             android:hint="Placeholder"
+            android:visibility="gone"
             android:inputType="textMultiLine"
             android:maxLength="150"
             android:padding="@dimen/margin_spacing_tiny"
@@ -193,7 +198,7 @@
 
         <com.willy.ratingbar.ScaleRatingBar
             android:id="@+id/cancellation_service_rating_bar"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:srb_numStars="5"
             app:srb_minimumStars="5"

@@ -63,6 +63,7 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${androidxAppCompatVersion}"
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
 
+    implementation 'com.github.tiper:MaterialSpinner:1.4.1'
     // Cardview Dependency
     implementation "androidx.cardview:cardview:$cardviewVersion"
 

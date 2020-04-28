@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="changeList">
+        <item>Switch to another</item>
+        <item>Not Proper</item>
+        <item>Others</item>
+        <item>Others plans</item>
+    </string-array>
+</resources>
