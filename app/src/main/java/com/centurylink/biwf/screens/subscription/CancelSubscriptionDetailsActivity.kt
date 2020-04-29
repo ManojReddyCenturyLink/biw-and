@@ -112,7 +112,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     private fun toggleCancellationReasonInfo(show: Boolean) {
         val state = if (show) View.VISIBLE else View.GONE
-        binding.cancellationReasonOptionalLabel.visibility = state
+        binding.cancellationSpecifyReasonOptionalLabel.visibility = state
         binding.cancellationSpecifyReasonLabel.visibility = state
         binding.cancellationSpecifyReasonInput.visibility = state
     }

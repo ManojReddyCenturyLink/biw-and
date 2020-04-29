@@ -12,10 +12,10 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private var cancellationDate: Date? = null
-    private var cancellationReason: String? = null
-    private var cancellationReasonExplanation: String? = null
+    private var cancellationReason: String = ""
+    private var cancellationReasonExplanation: String=""
     private var ratingValue: Float? = 0F
-    private var cancellationComments: String? = null
+    private var cancellationComments: String=""
 
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
 
