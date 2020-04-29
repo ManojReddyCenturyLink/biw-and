@@ -33,12 +33,9 @@ class Navigator @Inject constructor() {
     }
 
     fun navigateToHomeScreen(userType: Boolean) {
-        activity?.startActivity(
-            HomeActivity.newIntent(
-                activity!!,
-                bundleOf("EXISTING_USER" to userType)
-            )
-        )
+        activity?.also {
+            it.startActivity(HomeActivity.newIntent(it, bundleOf("EXISTING_USER" to userType)))
+        }
     }
 
     fun navigateToSupport() {
@@ -94,7 +91,7 @@ class Navigator @Inject constructor() {
     }
 
     fun navigateToAdditionalInfo() {
-        val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.get()
+        val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle
         activity?.startActivityForResult(
             AdditionalInfoActivity.newIntent(activity!!, bundle),
             AdditionalInfoActivity.REQUEST_TO_HOME
