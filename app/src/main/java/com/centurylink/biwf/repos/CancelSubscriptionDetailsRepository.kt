@@ -10,8 +10,8 @@ class CancelSubscriptionDetailsRepository @Inject constructor(
     private val apiServices: ApiServices
 ) {
     fun submitCancellation(
-        cancellation: Date, cancellationReason: String,
-        rating: Float, comments: String
+        cancellation: Date, cancellationReason: String?,
+        rating: Float?, comments: String?
     ): Boolean {
         return true
     }

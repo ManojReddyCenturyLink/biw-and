@@ -11,12 +11,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
-import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.CancelSubscriptionsDetailsCoordinator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
+import com.centurylink.biwf.databinding.DialogCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
@@ -42,7 +42,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding = ActivityCancelSubscriptionDetailsBinding.inflate(layoutInflater)
         cancelSubscriptionDetailsModel.apply {
             errorEvents.handleEvent { displayDateError() }
-            performSubmitEvent.handleEvent { showCancellationDialog() }
+            performSubmitEvent.handleEvent { showCancellationDialog(it) }
             cancelSubscriptionDateEvent.handleEvent { updateCancellationDate(it) }
             displayReasonSelectionEvent.handleEvent { toggleCancellationReasonInfo(it) }
             changeDateEvent.handleEvent { displayDatePicker() }
@@ -145,6 +145,9 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     private fun displayDatePicker() {
         binding.cancelSubscriptionDetailsError.visibility = View.GONE
+        val hintDate =
+            DateFormat.getDateInstance(DateFormat.LONG).format(Calendar.getInstance().time)
+        binding.cancellationDateSelection.hint = hintDate
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -177,20 +180,19 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancelSubscriptionDetailsError.visibility = View.VISIBLE
     }
 
-    private fun showCancellationDialog() {
+    private fun showCancellationDialog(date: Date) {
+        val formattedDate =
+            DateFormat.getDateInstance(DateFormat.LONG).format(date)
+        val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_cancel_subscription_details)
-        val keepService =
-            dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_keep_service)
-        val cancelService =
-            dialog.findViewById<TextView>(R.id.cancellation_detail_dialog_cancel_service)
-        keepService.setOnClickListener {
+        dialog.setContentView(dialogbinding.root)
+        dialogbinding.cancelSubscriptionDialogDetails.text = getString(R.string.cancel_subscription_dialog_content,formattedDate)
+        dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
             dialog.dismiss()
-
         }
-        cancelService.setOnClickListener {
+        dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationCall()
             dialog.dismiss()
         }
