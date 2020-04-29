@@ -109,4 +109,6 @@
     <string name="speed_test_upload_fake_speed">908</string>
     <string name="tel">tel:833-250-6306</string>
     <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
+    <string name="personal_info_popup_msg">We’re very sorry for the inconvenience, but we are currently unable to accommodate changing email addresses in the app. \n\nYou can change your email by calling our customer support number at 123- 456-7890</string>
+    <string name="done">Done</string>
 </resources>

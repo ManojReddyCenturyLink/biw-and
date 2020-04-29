@@ -27,6 +27,7 @@ import javax.inject.Singleton
         (FAQActivityInjectorModule::class),
         (NotificationActivityInjectorModule::class),
         (NotificationDetailsActivityInjectorModule::class),
+        (PersonalInfoActivityInjectorModule::class),
         (CancelSubscriptionInjectorModule::class),
         (ScheduleCallbackInjectorModule::class),
         (BaseFragmentInjectorModule::class),

@@ -67,7 +67,13 @@
             android:name=".screens.support.schedulecallback.ScheduleCallbackActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
-            android:theme="@style/AppTheme.ScheduleCallbackActivity"
+            android:theme="@style/AppTheme.GreyStatusBar"
+            />
+        <activity
+            android:name=".screens.home.account.PersonalInfoActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:theme="@style/AppTheme.GreyStatusBar"
             />
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>
