@@ -37,5 +37,4 @@ class CancelSubscriptionViewModel @Inject constructor(
         myState.value =
             CancelSubscriptionCoordinator.SubscriptionCoordinatorDestinations.CANCEL_SELECT_DATE_SUBSCRIPTION
     }
-
 }
