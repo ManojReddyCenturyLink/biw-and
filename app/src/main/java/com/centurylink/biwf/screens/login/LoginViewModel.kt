@@ -1,28 +1,49 @@
 package com.centurylink.biwf.screens.login
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.service.auth.AuthService
+import com.centurylink.biwf.service.auth.AuthServiceFactory
+import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.ViewModelFactoryWithInput
 import com.centurylink.biwf.utility.preferences.Preferences
+import com.centurylink.biwf.utility.viewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
-class LoginViewModel @Inject constructor(
+class LoginViewModel internal constructor(
     private val accountRepository: AccountRepository,
-    private val sharedPreferences: Preferences
+    private val sharedPreferences: Preferences,
+    private val authService: AuthService<*>
 ) : BaseViewModel() {
+
+    class Factory @Inject constructor(
+        private val accountRepository: AccountRepository,
+        private val sharedPreferences: Preferences,
+        private val authServiceFactory: AuthServiceFactory<*>
+    ) : ViewModelFactoryWithInput<AuthServiceHost> {
+
+        override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
+            return viewModelFactory {
+                LoginViewModel(
+                    accountRepository,
+                    sharedPreferences,
+                    authServiceFactory.create(input)
+                )
+            }
+        }
+    }
 
     val myState = ObservableData(LoginCoordinatorDestinations.LOGIN)
     val errorEvents: EventLiveData<String> = MutableLiveData()
-    val userId: LiveData<String> = MutableLiveData(getUserIdFromPreferences())
-    val checkRememberMe: LiveData<Boolean> = MutableLiveData(isRememberMeChecked())
 
     private var userEmail: String? = null
     private var userPassword: String? = null
-    private var rememberMe = false
 
     fun onEmailTextChanged(email: String) {
         userEmail = email
@@ -32,37 +53,15 @@ class LoginViewModel @Inject constructor(
         userPassword = password
     }
 
-    fun onRememberMeCheckChanged(isChecked: Boolean, userId: String) {
-        rememberMe = isChecked
-        if(rememberMe && userId.isNotEmpty()){
-            sharedPreferences.saveUserId(userId)
-        }else{
-            sharedPreferences.removeUserId()
-        }
-    }
-
-    private fun getUserIdFromPreferences() : String? {
-        return sharedPreferences.getUserId(USER_ID)
-    }
-
-    private fun isRememberMeChecked() : Boolean? {
-        if(sharedPreferences.getUserId(USER_ID).isNullOrEmpty()){
-            return false
-        }
-        return true
-    }
-
     fun onLoginClicked() {
-        if (checkForValidFields()) {
-            accountRepository.login(email = userEmail!!, password = userPassword!!, rememberMeFlag = rememberMe)
-            myState.value = LoginCoordinatorDestinations.HOME_NEW_USER
-        } else {
-            errorEvents.emit("Please give Email and / or Password")
-        }
+        authService.launchSignInFlow()
+            .doOnError(Timber::e)
+            .onErrorComplete()
+            .subscribe()
     }
 
     fun onExistingUserLogin() {
-            myState.value = LoginCoordinatorDestinations.HOME_EXISTING_USER
+        myState.value = LoginCoordinatorDestinations.HOME_EXISTING_USER
     }
 
     fun onForgotPasswordClicked() {
@@ -71,13 +70,5 @@ class LoginViewModel @Inject constructor(
 
     fun onLearnMoreClicked() {
         myState.value = LoginCoordinatorDestinations.LEARN_MORE
-    }
-
-    private fun checkForValidFields(): Boolean {
-        return !(userEmail.isNullOrBlank() || userPassword.isNullOrBlank())
-    }
-
-    companion object{
-        val USER_ID = "USER_ID"
     }
 }

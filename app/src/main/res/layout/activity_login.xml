@@ -97,6 +97,7 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/login_card_title"
+                android:visibility="gone"
                 />
 
             <EditText
@@ -116,6 +117,7 @@
                 tools:text="espiiking@gmail.com"
                 android:autofillHints=""
                 tools:ignore="LabelFor"
+                android:visibility="gone"
                 />
 
             <TextView
@@ -129,6 +131,7 @@
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/login_email_input"
+                android:visibility="gone"
                 />
 
             <EditText
@@ -148,6 +151,7 @@
                 tools:text="espiiking@gmail.com"
                 android:autofillHints=""
                 tools:ignore="LabelFor"
+                android:visibility="gone"
                 />
 
             <Button
@@ -176,6 +180,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/login_button"
+                android:visibility="gone"
                 />
 
             <CheckBox
@@ -187,6 +192,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/login_remember_me_text"
                 app:layout_constraintEnd_toStartOf="@id/login_remember_me_text"
                 app:layout_constraintTop_toTopOf="@id/login_remember_me_text"
+                android:visibility="gone"
                 />
 
             <TextView
@@ -201,6 +207,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/login_remember_me_text"
+                android:visibility="gone"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
