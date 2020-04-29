@@ -121,7 +121,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     private fun updateCancellationDate(date: Date) {
         val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(date)
         binding.cancellationDateSelection.text = validityDate
-        binding.cancellationDateLabel.text = getText(R.string.cancel_subscription_details_cancellation_date)
+        binding.cancellationDateLabel.text =
+            getText(R.string.cancel_subscription_details_cancellation_date)
         binding.cancellationDateLabel.setTextColor(getColor(R.color.font_color_medium_grey))
     }
 
@@ -133,7 +134,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancellationReasonDropdown.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    Log.i("Pravin","ON Nothing Selected")
+                    Log.i("Pravin", "ON Nothing Selected")
 
                 }
 
@@ -183,7 +184,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     private fun displayDateError() {
         binding.cancelSubscriptionDetailsError.visibility = View.VISIBLE
-        binding.cancellationDateLabel.text = getText(R.string.cancel_subscription_details_cancellation_date_error)
+        binding.cancellationDateLabel.text =
+            getText(R.string.cancel_subscription_details_cancellation_date_error)
         binding.cancellationDateLabel.setTextColor(getColor(R.color.offline_red))
     }
 
@@ -195,7 +197,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(dialogbinding.root)
-        dialogbinding.cancelSubscriptionDialogDetails.text = getString(R.string.cancel_subscription_dialog_content,formattedDate)
+        dialogbinding.cancelSubscriptionDialogDetails.text =
+            getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
             dialog.dismiss()
         }

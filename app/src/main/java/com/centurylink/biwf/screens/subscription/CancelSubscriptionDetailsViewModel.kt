@@ -13,9 +13,9 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
 
     private var cancellationDate: Date? = null
     private var cancellationReason: String = ""
-    private var cancellationReasonExplanation: String=""
+    private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
-    private var cancellationComments: String=""
+    private var cancellationComments: String = ""
 
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
 
@@ -53,7 +53,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         cancellationReasonExplanation = commentsOnOthers
     }
 
-    fun onDateChange(){
+    fun onDateChange() {
         changeDateEvent.emit(Unit)
     }
 
@@ -65,8 +65,10 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         }
     }
 
-    fun performCancellationCall(){
-        cancelSubscriptionDetailsRepository.submitCancellation(cancellationDate!!,
-            cancellationReason!!,ratingValue!!,cancellationComments!!)
+    fun performCancellationCall() {
+        cancelSubscriptionDetailsRepository.submitCancellation(
+            cancellationDate!!,
+            cancellationReason!!, ratingValue!!, cancellationComments!!
+        )
     }
 }

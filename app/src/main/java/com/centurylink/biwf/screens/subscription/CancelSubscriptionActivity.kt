@@ -10,6 +10,7 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
+import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import java.text.DateFormat
 import java.util.*
@@ -73,5 +74,17 @@ class CancelSubscriptionActivity : BaseActivity() {
         val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(date)
         binding.cancelSubscriptionContent.text =
             getString(R.string.manage_subscription_content, validityDate)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION,
+            FAQActivity.REQUEST_TO_HOME -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                }
+            }
+        }
     }
 }

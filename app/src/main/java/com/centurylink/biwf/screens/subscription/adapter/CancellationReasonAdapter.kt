@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.cancellation_reason_item.view.*
 
 class CancellationReasonAdapter(
     internal var context: Context,
-    internal var cancellationList:Array<String>
+    internal var cancellationList: Array<String>
 ) :
     BaseAdapter() {
 
@@ -35,6 +35,6 @@ class CancellationReasonAdapter(
     }
 
     override fun getCount(): Int {
-        return  cancellationList.size
+        return cancellationList.size
     }
 }

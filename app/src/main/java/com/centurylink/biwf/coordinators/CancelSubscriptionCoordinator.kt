@@ -27,6 +27,7 @@ class CancelSubscriptionCoordinator @Inject constructor() {
 
     enum class SubscriptionCoordinatorDestinations {
         CANCEL_SUBSCRIPTION, CANCEL_SELECT_DATE_SUBSCRIPTION;
+
         companion object {
             lateinit var bundle: Bundle
             fun get(): Bundle = bundle
