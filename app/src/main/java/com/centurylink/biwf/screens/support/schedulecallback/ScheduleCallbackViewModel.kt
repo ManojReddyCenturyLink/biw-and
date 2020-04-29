@@ -20,7 +20,7 @@ class ScheduleCallbackViewModel @Inject constructor(
     fun navigateAdditionalInfoScreen(item: TopicList) {
         var bundle = Bundle()
         bundle.putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
-        ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.set(bundle)
+        ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle = Bundle().apply { bundle }
         myState.value =
             ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO
     }
