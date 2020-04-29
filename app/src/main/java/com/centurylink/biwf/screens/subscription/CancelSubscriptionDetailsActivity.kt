@@ -8,6 +8,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
@@ -120,15 +121,19 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     private fun updateCancellationDate(date: Date) {
         val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(date)
         binding.cancellationDateSelection.text = validityDate
+        binding.cancellationDateLabel.text = getText(R.string.cancel_subscription_details_cancellation_date)
+        binding.cancellationDateLabel.setTextColor(getColor(R.color.font_color_medium_grey))
     }
 
     private fun initSpinner() {
         val cancellationList = resources.getStringArray(R.array.cancellation_reason_list)
         val adapter = CancellationReasonAdapter(this, cancellationList)
+
         binding.cancellationReasonDropdown.adapter = adapter
         binding.cancellationReasonDropdown.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
+                    Log.i("Pravin","ON Nothing Selected")
 
                 }
 
@@ -178,6 +183,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     private fun displayDateError() {
         binding.cancelSubscriptionDetailsError.visibility = View.VISIBLE
+        binding.cancellationDateLabel.text = getText(R.string.cancel_subscription_details_cancellation_date_error)
+        binding.cancellationDateLabel.setTextColor(getColor(R.color.offline_red))
     }
 
     private fun showCancellationDialog(date: Date) {

@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.centurylink.biwf.R
 import kotlinx.android.synthetic.main.cancellation_reason_item.view.*
 
+
 class CancellationReasonAdapter(
     internal var context: Context,
     internal var cancellationList:Array<String>
@@ -34,6 +35,6 @@ class CancellationReasonAdapter(
     }
 
     override fun getCount(): Int {
-        return cancellationList.size
+        return  cancellationList.size
     }
 }
