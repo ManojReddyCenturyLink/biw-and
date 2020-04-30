@@ -65,14 +65,15 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     }
 
     private fun initHeaders() {
-        binding.activityHeaderView.subheaderCenterTitle.text =
-            getString(R.string.cancel_subscription_details_title)
-        binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
-        binding.activityHeaderView.subheaderRightActionTitle.text =
-            getText(R.string.text_header_cancel)
-        binding.activityHeaderView.subheaderRightActionTitle.setOnClickListener {
-            setResult(Activity.RESULT_OK)
-            this.finish()
+        binding.activityHeaderView.apply {
+            subheaderCenterTitle.text =
+                getString(R.string.cancel_subscription_details_title)
+            subheaderRightActionTitle.text =
+                getText(R.string.text_header_cancel)
+            subheaderRightActionTitle.setOnClickListener {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
         binding.cancelSubscriptionSubmit.setOnClickListener {
             cancelSubscriptionDetailsModel.onSubmitCancellation()
