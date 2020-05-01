@@ -34,6 +34,8 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     lateinit var notificationCoordinator: NotificationCoordinator
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val notificationViewModel by lazy {
         ViewModelProvider(this, factory).get(NotificationViewModel::class.java)
@@ -48,7 +50,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Navigator.ActivityObserver.observe(this)
+        navigator.observe(this)
         setHeightofActivity()
 
         notificationViewModel.apply {

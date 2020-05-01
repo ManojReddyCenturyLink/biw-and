@@ -22,9 +22,10 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
 
     @Inject
     lateinit var scheduleCallbackCoordinator: ScheduleCallbackCoordinator
-
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val scheduleCallbackViewModel by lazy {
         ViewModelProvider(this, factory).get(ScheduleCallbackViewModel::class.java)
@@ -37,7 +38,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         binding = ActivityScheduleCallbackBinding.inflate(layoutInflater)
         scheduleCallbackCoordinator.observeThis(scheduleCallbackViewModel.myState)
         setContentView(binding.root)
-        Navigator.ActivityObserver.observe(this)
+        navigator.observe(this)
 
         scheduleCallbackViewModel.apply {
             prepareRecyclerView(topicList)

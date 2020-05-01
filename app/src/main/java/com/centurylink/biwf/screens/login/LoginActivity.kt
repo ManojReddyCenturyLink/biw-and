@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityLoginBinding
 import com.centurylink.biwf.service.auth.AuthResponseType
 import com.centurylink.biwf.service.auth.AuthServiceHost
@@ -17,9 +18,10 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     @Inject
     lateinit var loginCoordinator: LoginCoordinator
-
     @Inject
     lateinit var viewModelFactory: LoginViewModel.Factory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val viewModel by lazy {
         getViewModel<LoginViewModel>(viewModelFactory.withInput(this))
@@ -32,16 +34,15 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
+        navigator.observe(this)
 
         viewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
         }
 
-        loginCoordinator.navigator.activity = this
         loginCoordinator.observeThis(viewModel.myState)
 
         initOnClicks()
-
         handleIntent()
     }
 
@@ -65,11 +66,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 displayToast("Error: Got AuthResponseType=$authResult")
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        loginCoordinator.navigator.activity = null
     }
 
     private fun initOnClicks() {

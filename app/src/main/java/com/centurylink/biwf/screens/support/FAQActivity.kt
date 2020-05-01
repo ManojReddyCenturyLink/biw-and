@@ -33,6 +33,8 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
     lateinit var faqCoordinator: FAQCoordinator
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val faqViewModel by lazy {
         ViewModelProvider(this, factory).get(FAQViewModel::class.java)
@@ -48,7 +50,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityFaqBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Navigator.ActivityObserver.observe(this)
+        navigator.observe(this)
         setHeightofActivity()
 
         faqViewModel.apply {

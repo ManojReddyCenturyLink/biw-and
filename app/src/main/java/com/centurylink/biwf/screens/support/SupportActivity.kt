@@ -27,6 +27,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     lateinit var supportCoordinator: SupportCoordinator
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val supportViewModel by lazy {
         ViewModelProvider(this, factory).get(SupportViewModel::class.java)
@@ -39,7 +41,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivitySupportBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Navigator.ActivityObserver.observe(this)
+        navigator.observe(this)
 
         supportViewModel.apply {
             faqLiveData.observe(this@SupportActivity, Observer {

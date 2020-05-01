@@ -22,9 +22,10 @@ class CancelSubscriptionActivity : BaseActivity() {
 
     @Inject
     lateinit var cancelSubscriptionCoordinator: CancelSubscriptionCoordinator
-
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val cancelSubscriptionModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionViewModel::class.java)
@@ -35,7 +36,7 @@ class CancelSubscriptionActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Navigator.ActivityObserver.observe(this)
+        navigator.observe(this)
 
         cancelSubscriptionModel.apply {
             cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
