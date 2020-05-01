@@ -1,7 +1,10 @@
 package com.centurylink.biwf.coordinators
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
@@ -20,9 +23,9 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Navigator @Inject constructor() {
+class Navigator @Inject constructor() : LifecycleObserver {
 
-    var activity: Activity? = null
+    private val activity: AppCompatActivity? get() = ActivityObserver.resumedActivity
 
     fun navigateToForgotPassword() {
         activity?.startActivity(ForgotPasswordActivity.newIntent(activity!!))
@@ -34,10 +37,7 @@ class Navigator @Inject constructor() {
 
     fun navigateToHomeScreen(userType: Boolean) {
         activity?.startActivity(
-            HomeActivity.newIntent(
-                activity!!,
-                bundleOf("EXISTING_USER" to userType)
-            )
+            HomeActivity.newIntent(activity!!, bundleOf("EXISTING_USER" to userType))
         )
     }
 
@@ -98,5 +98,29 @@ class Navigator @Inject constructor() {
             CancelSubscriptionDetailsActivity.newIntent(activity!!),
             CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
         )
+    }
+
+    class ActivityObserver private constructor(
+        private val activity: AppCompatActivity
+    ) : LifecycleObserver {
+        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        fun onDestroyed() {
+            activity.lifecycle.removeObserver(this)
+            observers -= this
+        }
+
+        companion object {
+            private val observers = mutableListOf<ActivityObserver>()
+            val resumedActivity: AppCompatActivity?
+                get() = observers
+                    .firstOrNull { it.activity.lifecycle.currentState == Lifecycle.State.RESUMED }
+                    ?.activity
+
+            fun observe(activity: AppCompatActivity) =
+                ActivityObserver(activity).also {
+                    activity.lifecycle.addObserver(it)
+                    observers += it
+                }
+        }
     }
 }

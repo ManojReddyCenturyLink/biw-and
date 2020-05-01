@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.NotificationCoordinator
 import com.centurylink.biwf.databinding.ActivityNotificationBinding
 import com.centurylink.biwf.model.notification.Notification
@@ -28,12 +29,6 @@ import javax.inject.Inject
  * Activity for displaying the Notification Lists in the view
  */
 class NotificationActivity : BaseActivity(), NotificationItemClickListener {
-
-    companion object {
-        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
-        const val KEY_READ_HEADER: String = "READ_HEADER"
-        fun newIntent(context: Context) = Intent(context, NotificationActivity::class.java)
-    }
 
     @Inject
     lateinit var notificationCoordinator: NotificationCoordinator
@@ -53,19 +48,17 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        Navigator.ActivityObserver.observe(this)
         setHeightofActivity()
+
         notificationViewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
             displayClearAllEvent.handleEvent { displayClearAllDialog() }
         }
         notificationCoordinator.observeThis(notificationViewModel.myState)
+
         initView()
         getNotificationInformation()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        notificationCoordinator.navigator.activity = this
     }
 
     override fun onNotificationItemClick(notificationItem: Notification) {
@@ -155,6 +148,12 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         binding.notificationListRecyclerview.adapter = notificationAdapter
     }
 
+    companion object {
+        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
+        const val KEY_READ_HEADER: String = "READ_HEADER"
+
+        fun newIntent(context: Context) = Intent(context, NotificationActivity::class.java)
+    }
 }
 
 
