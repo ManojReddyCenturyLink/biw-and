@@ -34,7 +34,7 @@ class CustomWebFragment : BaseFragment() {
         }
     }
 
-    override val liveDataLifecycleOwner: LifecycleOwner = this
+    override val lifecycleOwner: LifecycleOwner = this
 
     private lateinit var binding: FragmentWebviewBinding
     private lateinit var webView: WebView
