@@ -8,7 +8,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
@@ -22,7 +21,8 @@ import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapt
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 class CancelSubscriptionDetailsActivity : BaseActivity() {
@@ -59,11 +59,6 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         finish()
     }
 
-    override fun onResume() {
-        super.onResume()
-        cancelSubscriptionDetailsCoordinator.navigator.activity = this
-    }
-
     private fun initHeaders() {
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text =
@@ -74,7 +69,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
-            subHeaderLeftIcon.setOnClickListener {finish() }
+            subHeaderLeftIcon.setOnClickListener { finish() }
         }
         binding.cancelSubscriptionSubmit.setOnClickListener {
             cancelSubscriptionDetailsModel.onSubmitCancellation()
