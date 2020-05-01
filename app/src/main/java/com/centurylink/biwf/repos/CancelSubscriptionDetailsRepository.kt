@@ -1,7 +1,7 @@
 package com.centurylink.biwf.repos
 
-import com.centurylink.biwf.network.api.ApiServices
-import java.util.*
+import com.centurylink.biwf.service.network.ApiServices
+import java.util.Date
 import javax.inject.Inject
 import javax.inject.Singleton
 

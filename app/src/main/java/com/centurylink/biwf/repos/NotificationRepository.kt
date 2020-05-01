@@ -1,12 +1,10 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.network.NetworkResource
 import com.centurylink.biwf.network.Resource
-import com.centurylink.biwf.network.api.ApiServices
+import com.centurylink.biwf.service.network.ApiServices
 import javax.inject.Inject
 import javax.inject.Singleton
 
