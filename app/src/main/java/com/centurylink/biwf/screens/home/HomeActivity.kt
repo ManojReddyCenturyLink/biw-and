@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
@@ -40,7 +41,6 @@ class HomeActivity : BaseActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
-        homeCoordinator.navigator.activity = this
         homeCoordinator.observeThis(viewModel.myState)
         initViews()
         initOnClicks()
@@ -48,6 +48,15 @@ class HomeActivity : BaseActivity() {
         testService.query("SELECT Name FROM Contact LIMIT 10")
             .map { it.toString() }
             .subscribe({ Timber.d(it) }, Timber::e)
+    }
+    override fun onStart() {
+        super.onStart()
+        homeCoordinator.navigator.activity = this
+    }
+
+    override fun onPause() {
+        super.onPause()
+        homeCoordinator.navigator.activity = null
     }
 
     /**
