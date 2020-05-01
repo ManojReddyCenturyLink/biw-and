@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -59,14 +60,17 @@ class CancelSubscriptionActivity : BaseActivity() {
 
     private fun initHeaders() {
         var screenTitle: String = getString(R.string.cancel_subscription_title)
-        binding.activityHeaderView.subheaderCenterTitle.text = screenTitle
-        binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
-        binding.activityHeaderView.subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
-        binding.activityHeaderView.subheaderRightActionTitle.setOnClickListener {
-            setResult(Activity.RESULT_OK)
-            this.finish()
+        binding.activityHeaderView.apply {
+            subheaderCenterTitle.text = screenTitle
+            subHeaderLeftIcon.setOnClickListener { finish() }
+            subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
+            subheaderRightActionTitle.setOnClickListener {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
-        binding.cancelSubscription.setOnClickListener { cancelSubscriptionModel.onNavigateToCancelSubscriptionDetails() }
+        binding.cancelSubscription
+            .setOnClickListener { cancelSubscriptionModel.onNavigateToCancelSubscriptionDetails() }
     }
 
     @SuppressLint("StringFormatInvalid")
@@ -82,6 +86,7 @@ class CancelSubscriptionActivity : BaseActivity() {
             CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION,
             FAQActivity.REQUEST_TO_HOME -> {
                 if (resultCode == Activity.RESULT_OK) {
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
             }

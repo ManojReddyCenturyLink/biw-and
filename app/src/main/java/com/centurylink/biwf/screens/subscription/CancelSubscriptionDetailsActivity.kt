@@ -74,6 +74,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
+            subHeaderLeftIcon.setOnClickListener {finish() }
         }
         binding.cancelSubscriptionSubmit.setOnClickListener {
             cancelSubscriptionDetailsModel.onSubmitCancellation()
@@ -135,7 +136,6 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancellationReasonDropdown.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-                    Log.i("Pravin", "ON Nothing Selected")
 
                 }
 
@@ -206,12 +206,14 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationCall()
             dialog.dismiss()
+            setResult(Activity.RESULT_OK)
+            finish()
         }
         dialog.show()
     }
 
     companion object {
-        const val REQUEST_TO__CANCEL_SUBSCRIPTION: Int = 11101
+        const val REQUEST_TO__CANCEL_SUBSCRIPTION: Int = 44011
         fun newIntent(context: Context): Intent {
             return Intent(context, CancelSubscriptionDetailsActivity::class.java)
         }

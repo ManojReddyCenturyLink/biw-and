@@ -42,7 +42,7 @@ class Navigator @Inject constructor() {
     }
 
     fun navigateToSupport() {
-        activity?.startActivity(SupportActivity.newIntent(activity!!))
+        activity?.startActivityForResult(SupportActivity.newIntent(activity!!),SupportActivity.REQUEST_TO_HOME)
     }
 
     fun navigateToChangeAppointment() {

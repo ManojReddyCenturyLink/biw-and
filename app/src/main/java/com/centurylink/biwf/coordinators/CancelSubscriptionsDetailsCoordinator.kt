@@ -25,7 +25,6 @@ class CancelSubscriptionsDetailsCoordinator @Inject constructor() {
 
     enum class CancelSubscriptionsDetailsCoordinatorDestinations {
         HOME;
-
         companion object {
             lateinit var bundle: Bundle
         }
