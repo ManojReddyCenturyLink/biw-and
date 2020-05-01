@@ -1,7 +1,6 @@
 package com.centurylink.biwf.coordinators
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
@@ -45,7 +44,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
 
     fun navigateToHomeScreen(userType: Boolean) {
         activity?.also {
-            it.startActivity(HomeActivity.newIntent(it, bundleOf("EXISTING_USER" to userType)))
+            it.startActivity(HomeActivity.newIntent(it, userType))
         }
     }
 
@@ -133,23 +132,32 @@ class Navigator @Inject constructor() : LifecycleObserver {
     private class ActivityObserver private constructor(
         private val activity: AppCompatActivity
     ) : LifecycleObserver {
+
         @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
         fun onDestroyed() {
             activity.lifecycle.removeObserver(this)
             observers -= this
         }
 
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        fun onResumed() {
+            observers -= this
+            observers.add(0, this)
+        }
+
+
         companion object {
             private val observers = mutableListOf<ActivityObserver>()
+
             val resumedActivity: AppCompatActivity?
                 get() = observers
-                    .firstOrNull { it.activity.lifecycle.currentState == Lifecycle.State.RESUMED }
+                    .firstOrNull()
                     ?.activity
 
             fun observe(activity: AppCompatActivity) =
                 ActivityObserver(activity).also {
                     activity.lifecycle.addObserver(it)
-                    observers += it
+                    observers.add(it)
                 }
         }
     }

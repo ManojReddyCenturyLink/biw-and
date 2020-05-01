@@ -98,9 +98,9 @@ class HomeActivity : BaseActivity() {
     }
 
     companion object {
-        fun newIntent(context: Context, bundle: Bundle): Intent {
+        fun newIntent(context: Context, boolean: Boolean): Intent {
             return Intent(context, HomeActivity::class.java)
-                .putExtra("EXISTING_USER", bundle.getBoolean("EXISTING_USER"))
+                .putExtra("EXISTING_USER", boolean)
         }
     }
 }
