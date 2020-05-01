@@ -107,7 +107,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         const val REQUEST_TO_HOME: Int = 12200
 
         fun newIntent(context: Context): Intent {
-            return Intent(context, CancelSubscriptionActivity::class.java)
+            return Intent(context, SupportActivity::class.java)
         }
     }
 }
