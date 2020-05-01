@@ -102,6 +102,7 @@ dependencies {
 
     //timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.github.ome450901:SimpleRatingBar:$ratingVersion"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

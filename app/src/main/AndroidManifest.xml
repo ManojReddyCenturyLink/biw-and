@@ -69,6 +69,11 @@
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/AppTheme.ScheduleCallbackActivity"
             />
+        <activity
+            android:name=".screens.subscription.CancelSubscriptionDetailsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            />
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>
         <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>

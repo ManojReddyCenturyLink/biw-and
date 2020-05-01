@@ -11,6 +11,7 @@ import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
@@ -32,11 +33,16 @@ class Navigator @Inject constructor() {
     }
 
     fun navigateToHomeScreen(userType: Boolean) {
-        activity?.startActivity(HomeActivity.newIntent(activity!!, bundleOf("EXISTING_USER" to userType)))
+        activity?.startActivity(
+            HomeActivity.newIntent(
+                activity!!,
+                bundleOf("EXISTING_USER" to userType)
+            )
+        )
     }
 
     fun navigateToSupport() {
-        activity?.startActivity(SupportActivity.newIntent(activity!!))
+        activity?.startActivityForResult(SupportActivity.newIntent(activity!!),SupportActivity.REQUEST_TO_HOME)
     }
 
     fun navigateToChangeAppointment() {
@@ -51,14 +57,16 @@ class Navigator @Inject constructor() {
         val bundle = NotificationCoordinator.NotificationCoordinatorDestinations.get()
         activity?.startActivityForResult(
             NotificationDetailsActivity.newIntent(activity!!, bundle),
-            NotificationDetailsActivity.REQUEST_TO_DISMISS)
+            NotificationDetailsActivity.REQUEST_TO_DISMISS
+        )
     }
 
     fun navigateToFaq() {
         val bundle = SupportCoordinator.SupportCoordinatorDestinations.get()
         activity?.startActivityForResult(
             FAQActivity.newIntent(activity!!, bundle),
-            FAQActivity.REQUEST_TO_HOME)
+            FAQActivity.REQUEST_TO_HOME
+        )
     }
 
     fun navigateToProfileActivity() {
@@ -70,15 +78,25 @@ class Navigator @Inject constructor() {
     fun navigateToMangeSubscription() {
         activity?.startActivityForResult(
             CancelSubscriptionActivity.newIntent(activity!!),
-            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION)
+            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
+        )
     }
 
     fun navigateToScheduleCallback() {
-        activity?.startActivityForResult(ScheduleCallbackActivity.newIntent(activity!!),
-            ScheduleCallbackActivity.REQUEST_TO_HOME)
+        activity?.startActivityForResult(
+            ScheduleCallbackActivity.newIntent(activity!!),
+            ScheduleCallbackActivity.REQUEST_TO_HOME
+        )
     }
 
     fun navigateToPhoneDialler() {
         WebLinkUtil.handleClick(activity!!.getString(R.string.tel), activity!!)
+    }
+
+    fun navigateToCancelSubscriptionDetails() {
+        activity?.startActivityForResult(
+            CancelSubscriptionDetailsActivity.newIntent(activity!!),
+            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
+        )
     }
 }

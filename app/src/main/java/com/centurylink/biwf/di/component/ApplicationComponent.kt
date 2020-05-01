@@ -37,6 +37,7 @@ import javax.inject.Singleton
         (AndroidInjectionModule::class),
         (AppModule::class),
         (RepositoryModule::class),
+        (CancelSubscriptionDetailsInjectorModule::class),
         (SharedPreferencesModule::class)
     ]
 )
