@@ -130,6 +130,12 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    fun navigateToPersonalInfoActivity() {
+        activity?.also {
+            it.startActivity(PersonalInfoActivity.newIntent(it))
+        }
+    }
+
     private class ActivityObserver private constructor(
         private val activity: AppCompatActivity
     ) : LifecycleObserver {
@@ -161,9 +167,5 @@ class Navigator @Inject constructor() : LifecycleObserver {
                     observers.add(it)
                 }
         }
-    }
-
-    fun navigateToPersonalInfoActivity() {
-        activity?.startActivity(PersonalInfoActivity.newIntent(activity!!))
     }
 }

@@ -4,8 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".screens.home.account.PersonalInfoActivity">
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/personal_info_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
 
     <include
         android:id="@+id/incHeader"
@@ -40,26 +46,172 @@
         app:layout_constraintStart_toEndOf="@+id/login_label"
         app:layout_constraintTop_toTopOf="@+id/login_label" />
 
-    <include layout="@layout/widget_edittext_with_error"
-        android:id="@+id/layoutEmail"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/personal_info_email_label"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/login_label"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:text="Email address"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_label" />
 
-    <include layout="@layout/widget_edittext_with_error"
-        android:id="@+id/layoutPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/layoutEmail"
-        app:layout_constraintStart_toStartOf="parent"/>
+    <EditText
+        android:id="@+id/personal_info_email_input"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:autofillHints=""
+        android:background="@drawable/background_thin_border"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_email_label"
+        tools:ignore="LabelFor"
+        tools:text="espiiking@gmail.com" />
 
-    <include layout="@layout/widget_edittext_with_error"
-        android:id="@+id/layoutConfirmPassword"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/iv_question"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/layoutPassword"
-        app:layout_constraintStart_toStartOf="parent"/>
+        android:layout_margin="@dimen/margin_spacing_tiny"
+        android:src="@drawable/ic_question"
+        app:layout_constraintBottom_toBottomOf="@+id/personal_info_email_input"
+        app:layout_constraintEnd_toEndOf="@+id/personal_info_email_input"
+        app:layout_constraintTop_toTopOf="@+id/personal_info_email_input" />
+
+    <TextView
+        android:id="@+id/personal_info_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:text="Password"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_email_input" />
+
+    <TextView
+        android:id="@+id/personal_info_password_error_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:text="@string/password_mandatory"
+        android:textColor="@color/offline_red"
+        android:textSize="@dimen/text_size_12"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_email_input" />
+
+    <TextView
+        android:id="@+id/error_password_different"
+        style="@style/ErrorFields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passwords do not match"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/personal_info_password_error_label"
+        app:layout_constraintStart_toEndOf="@+id/personal_info_guideline"
+        app:layout_constraintTop_toTopOf="@+id/personal_info_password_error_label" />
+
+    <EditText
+        android:id="@+id/personal_info_password_input"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:autofillHints=""
+        android:background="@drawable/background_thin_border"
+        android:inputType="textPassword"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:textColor="@color/blue_dark"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_password_label"
+        tools:ignore="LabelFor"
+        tools:text="espiiking@gmail.com" />
+
+    <ImageView
+        android:id="@+id/iv_password_visibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_spacing_tiny"
+        android:src="@drawable/ic_show_password"
+        app:layout_constraintBottom_toBottomOf="@+id/personal_info_password_input"
+        app:layout_constraintEnd_toEndOf="@+id/personal_info_password_input"
+        app:layout_constraintTop_toTopOf="@+id/personal_info_password_input" />
+
+    <TextView
+        android:id="@+id/personal_info_confirm_password_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:text="@string/confirm_password"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_password_input" />
+
+    <TextView
+        android:id="@+id/personal_info_confirm_password_error_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:text="@string/confirm_password_mandatory"
+        android:textColor="@color/offline_red"
+        android:textSize="@dimen/text_size_12"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_email_input" />
+
+    <TextView
+        android:id="@+id/error_confirm_password_different"
+        style="@style/ErrorFields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passwords do not match"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/personal_info_confirm_password_error_label"
+        app:layout_constraintStart_toEndOf="@+id/personal_info_guideline"
+        app:layout_constraintTop_toTopOf="@+id/personal_info_confirm_password_error_label" />
+
+    <EditText
+        android:id="@+id/personal_info_confirm_password_input"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:autofillHints=""
+        android:background="@drawable/background_thin_border"
+        android:inputType="textPassword"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:textColor="@color/blue_dark"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_confirm_password_label"
+        tools:ignore="LabelFor"
+        tools:text="espiiking@gmail.com" />
+
+    <ImageView
+        android:id="@+id/iv_confirm_password_visibility"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_spacing_tiny"
+        android:src="@drawable/ic_password_hide"
+        app:layout_constraintBottom_toBottomOf="@+id/personal_info_confirm_password_input"
+        app:layout_constraintEnd_toEndOf="@+id/personal_info_confirm_password_input"
+        app:layout_constraintTop_toTopOf="@+id/personal_info_confirm_password_input" />
 
     <TextView
         android:id="@+id/phone_number_label"
@@ -71,7 +223,7 @@
         android:text="Phone number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutConfirmPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/personal_info_confirm_password_input" />
 
     <TextView
         android:id="@+id/phone_number_text"
@@ -91,11 +243,12 @@
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/medium_margin_spacing"
         android:text="@string/mobile_phone_mandatory"
-        android:textSize="@dimen/text_size_12"
         android:textColor="@color/offline_red"
+        android:textSize="@dimen/text_size_12"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/phone_number_label" />
+        app:layout_constraintTop_toBottomOf="@id/personal_info_password_input" />
+
     <EditText
         android:id="@+id/personal_info_phone_number_input"
         android:layout_width="0dp"

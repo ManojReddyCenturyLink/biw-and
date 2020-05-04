@@ -5,11 +5,10 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AccountCoordinator @Inject constructor(private val navigator: Navigator) {
+class AccountCoordinator @Inject constructor() {
 
-    fun getNavigator(): Navigator {
-        return navigator
-    }
+    @Inject
+    lateinit var navigator: Navigator
 
     fun observeThis(screenState: ObservableData<AccountCoordinatorDestinations>) {
         screenState.observable.subscribe {

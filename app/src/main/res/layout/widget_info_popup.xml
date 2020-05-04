@@ -4,8 +4,7 @@
     android:id="@+id/login_cardview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/medium_margin_spacing"
-    android:layout_marginEnd="@dimen/medium_margin_spacing"
+    android:layout_margin="@dimen/margin_spacing_small"
     app:cardCornerRadius="12dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,6 +22,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:id="@+id/popup_cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_close_popup"
@@ -38,12 +38,13 @@
             android:lineSpacingExtra="6sp"
             android:text="@string/personal_info_popup_msg"
             android:textColor="@color/black"
+            android:autoLink="phone"
             android:textSize="@dimen/text_size_16"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/popup_title" />
 
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/popup_ok_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_large"

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.AccountCoordinator
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -21,6 +22,8 @@ class AccountFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
     @Inject
     lateinit var accountCoordinator: AccountCoordinator
     private val viewModel by lazy {
