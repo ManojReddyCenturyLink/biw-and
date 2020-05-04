@@ -134,7 +134,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
         val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(
-                AdditionalInfoActivity.newIntent(activity!!, bundle),
+                AdditionalInfoActivity.newIntent(it, bundle),
                 AdditionalInfoActivity.REQUEST_TO_HOME
             )
         }
