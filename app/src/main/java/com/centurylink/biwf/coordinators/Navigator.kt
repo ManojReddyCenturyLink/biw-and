@@ -124,8 +124,8 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToCancelSubscriptionDetails() {
         activity?.also {
             it.startActivityForResult(
-                CancelSubscriptionActivity.newIntent(it),
-                CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
+                CancelSubscriptionDetailsActivity.newIntent(it),
+                CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION
             )
         }
     }
