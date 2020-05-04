@@ -19,6 +19,19 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def subDomain = "r3dev"
+        def rootUrl = "https://$subDomain-ctl-fiber.cs21.force.com/fiber"
+        def baseUrl = "$rootUrl/services/data/v46.0/"
+        def clientId = "3MVG9zZht._ZaMulq8jyjl8B1uabBoDATc77NFnEPrlQeZfz3M0CxCodan..16NairjQ3lVoCD7XAO.2JgJXh"
+        def scope = "web api refresh_token"
+        def redirectUrl = "myapp://com.force.lightning.ctl-fiber--$subDomain"
+
+        buildConfigField "String", "ROOT_URL", "\"$rootUrl\""
+        buildConfigField "String", "BASE_URL", "\"$baseUrl\""
+        buildConfigField "String", "CLIENT_ID", "\"$clientId\""
+        buildConfigField "String", "SCOPE", "\"$scope\""
+        buildConfigField "String", "REDIRECT_URL", "\"$redirectUrl\""
     }
     buildTypes {
         release {
@@ -30,6 +43,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
     viewBinding {
@@ -102,6 +119,12 @@ dependencies {
 
     //timber
     implementation "com.jakewharton.timber:timber:$timberVersion"
+    implementation "com.github.ome450901:SimpleRatingBar:$ratingVersion"
+
+    // AppAuth
+    implementation "net.openid:appauth:0.7.1"
+    implementation "androidx.security:security-crypto:1.0.0-rc01"
+    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

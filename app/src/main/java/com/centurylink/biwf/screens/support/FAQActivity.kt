@@ -16,6 +16,8 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.FAQCoordinator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
 import com.centurylink.biwf.model.support.Videofaq
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.adapter.ExpandableContentAdapter
 import com.centurylink.biwf.screens.support.adapter.FAQVideoViewAdapter
 import com.centurylink.biwf.screens.support.adapter.VideoItemClickListener

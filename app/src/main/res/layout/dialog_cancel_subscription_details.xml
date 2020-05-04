@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:layout_margin="24dp">
+
+    <TextView
+        android:id="@+id/cancel_subscription_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_spacing_small"
+        android:fontFamily="@font/arial_bold_mt"
+        android:gravity="start"
+        android:text="@string/cancel_subscription_dialog_title"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_subcontent_title_text_size"
+        android:visibility="visible"
+        android:lineSpacingExtra="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/cancel_subscription_dialog_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:fontFamily="@font/arial_bold_mt"
+        android:gravity="start"
+        android:text="@string/cancel_subscription_dialog_content"
+        android:textColor="@color/blue_dark"
+        android:textSize="@dimen/text_size_16"
+        android:lineSpacingExtra="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/cancellation_detail_dialog_keep_service"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_dialog_title" />
+
+    <TextView
+        android:id="@+id/cancellation_detail_dialog_keep_service"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/arial_mt"
+        android:gravity="center"
+        android:text="@string/cancel_subscription_dialog_keepservice"
+        android:textColor="@color/font_color_medium_grey"
+        android:textSize="@dimen/text_size_16"
+        android:layout_marginTop="@dimen/margin_spacing_large"
+        app:layout_constraintEnd_toStartOf="@+id/cancellation_detail_dialog_cancel_service"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_dialog_details" />
+
+    <TextView
+        android:id="@+id/cancellation_detail_dialog_cancel_service"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/arial_mt"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/margin_spacing_large"
+        android:text="@string/cancel_subscription_dialog_cancel"
+        android:textColor="@color/font_color_dialog_blue"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancellation_detail_dialog_keep_service"
+        app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_dialog_details" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

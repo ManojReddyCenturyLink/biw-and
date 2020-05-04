@@ -11,6 +11,7 @@ import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoActivity
@@ -39,7 +40,7 @@ class Navigator @Inject constructor() {
     }
 
     fun navigateToSupport() {
-        activity?.startActivity(SupportActivity.newIntent(activity!!))
+        activity?.startActivityForResult(SupportActivity.newIntent(activity!!),SupportActivity.REQUEST_TO_HOME)
     }
 
     fun navigateToChangeAppointment() {
@@ -88,6 +89,13 @@ class Navigator @Inject constructor() {
 
     fun navigateToPhoneDialler() {
         WebLinkUtil.handleClick(activity!!.getString(R.string.tel), activity!!)
+    }
+
+    fun navigateToCancelSubscriptionDetails() {
+        activity?.startActivityForResult(
+            CancelSubscriptionDetailsActivity.newIntent(activity!!),
+            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
+        )
     }
 
     fun navigateToAdditionalInfo() {

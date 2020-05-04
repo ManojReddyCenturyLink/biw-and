@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     companion object {
+        const val REQUEST_TO_HOME: Int = 12200
         fun newIntent(context: Context) = Intent(context, SupportActivity::class.java)
     }
 
