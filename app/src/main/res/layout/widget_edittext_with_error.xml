@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/personal_info_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
+
+    <TextView
+        android:id="@+id/tv_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:layout_marginBottom="@dimen/spacing_4"
+        android:text="@string/password"
+        android:textSize="@dimen/text_size_12"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/edittext_input"/>
+
+    <TextView
+        android:id="@+id/tv_error_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:layout_marginBottom="@dimen/spacing_4"
+        android:text="@string/password_mandatory"
+        android:textSize="@dimen/text_size_12"
+        android:textColor="@color/offline_red"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/edittext_input"/>
+
+    <TextView
+        android:id="@+id/tv_validation_error"
+        style="@style/ErrorFields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Passwords do not match"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_label"
+        app:layout_constraintStart_toEndOf="@+id/personal_info_guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/edittext_input"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:autofillHints=""
+        android:background="@drawable/background_thin_border"
+        android:inputType="textEmailAddress"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:textColor="@color/blue_dark"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="LabelFor"
+        tools:text="123456" />
+
+    <ImageView
+        android:id="@+id/et_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_spacing_tiny"
+        android:src="@drawable/ic_show_password"
+        app:layout_constraintBottom_toBottomOf="@+id/edittext_input"
+        app:layout_constraintEnd_toEndOf="@+id/edittext_input"
+        app:layout_constraintTop_toTopOf="@+id/edittext_input" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

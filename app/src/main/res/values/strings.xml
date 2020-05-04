@@ -110,5 +110,10 @@
     <string name="tel">tel:833-250-6306</string>
     <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
     <string name="personal_info_popup_msg">We’re very sorry for the inconvenience, but we are currently unable to accommodate changing email addresses in the app. \n\nYou can change your email by calling our customer support number at 123- 456-7890</string>
-    <string name="done">Done</string>
+    <string name="done">Done</string>"X"
+    <string name="password_mandatory">Password<sup>*</sup></string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="confirm_password_mandatory">Confirm password<sup>*</sup></string>
+    <string name="mobile_phone">Mobile phone</string>
+    <string name="mobile_phone_mandatory">Mobile phone<sup>*</sup></string>
 </resources>
