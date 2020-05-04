@@ -3,17 +3,12 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
-import com.centurylink.biwf.model.TabsBaseItem
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
-import com.centurylink.biwf.screens.support.FAQActivity
-import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -32,7 +27,12 @@ class HomeActivity : BaseActivity() {
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private val viewModel by lazy { ViewModelProvider(this, factory).get(HomeViewModel::class.java) }
+    private val viewModel by lazy {
+        ViewModelProvider(
+            this,
+            factory
+        ).get(HomeViewModel::class.java)
+    }
     private val adapter by lazy { TabsPagerRecyclerAdapter(this) }
     private lateinit var binding: ActivityHomeBinding
 
@@ -50,21 +50,21 @@ class HomeActivity : BaseActivity() {
     /**
      * Comparing the number of entries currently in the back stack to handle Back Press
      */
-   /* override fun onBackPressed() {
+    override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
-    }*/
+    }
 
     override fun onResume() {
         super.onResume()
         homeCoordinator.navigator.activity = this
     }
 
-    private fun initViews(){
-        viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER",false));
+    private fun initViews() {
+        viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER", false))
         viewModel.apply {
             activeUserTabBarVisibility.bindToVisibility(
                 binding.homeUpperTabs,
@@ -73,10 +73,10 @@ class HomeActivity : BaseActivity() {
             )
             networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
         }
-        setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER",false))
+        setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER", false))
     }
 
-    fun onProfileClickEvent(){
+    fun onProfileClickEvent() {
         viewModel.onProfileClickEvent()
     }
 
@@ -86,18 +86,17 @@ class HomeActivity : BaseActivity() {
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
-    private fun setupTabsViewPager(isExistingUser : Boolean) {
+    private fun setupTabsViewPager(isExistingUser: Boolean) {
         //For future reference to load data and display on screen
         viewModel.loadData()
         binding.vpDashboard.adapter = adapter
 
-        if(isExistingUser){
+        if (isExistingUser) {
             adapter.submitList(viewModel.lowerTabHeaderList)
             TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
                 TabLayoutMediator.OnConfigureTabCallback
                 { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
-        }
-        else{
+        } else {
             adapter.submitList(viewModel.upperTabHeaderList)
             TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
                 TabLayoutMediator.OnConfigureTabCallback
@@ -107,8 +106,8 @@ class HomeActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode==CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
-            binding.vpDashboard.setCurrentItem(0)
+        if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
+            binding.vpDashboard.currentItem = 0
         }
     }
 }

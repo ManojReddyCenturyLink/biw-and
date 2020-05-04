@@ -1,7 +1,6 @@
 package com.centurylink.biwf.coordinators
 
 import android.app.Activity
-import android.util.Log
 import androidx.core.os.bundleOf
 import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity

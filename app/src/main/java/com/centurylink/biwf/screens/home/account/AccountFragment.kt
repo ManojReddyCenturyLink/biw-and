@@ -1,8 +1,6 @@
 package com.centurylink.biwf.screens.home.account
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +11,6 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
@@ -35,7 +32,11 @@ class AccountFragment : BaseFragment() {
         retainInstance = false
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
         viewModel.apply {
             accountName.bindToTextView(binding.accountFullName)
