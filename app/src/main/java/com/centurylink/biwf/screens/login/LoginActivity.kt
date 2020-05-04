@@ -11,6 +11,7 @@ import com.centurylink.biwf.databinding.ActivityLoginBinding
 import com.centurylink.biwf.service.auth.AuthResponseType
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.getViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class LoginActivity : BaseActivity(), AuthServiceHost {
@@ -63,7 +64,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
             }
 
             else -> {
-                displayToast("Error: Got AuthResponseType=$authResult")
+                Timber.d("Got non-successful AuthResponseType=$authResult")
             }
         }
     }
