@@ -65,8 +65,6 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-
-
     private fun initViews() {
         viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER", false))
         viewModel.apply {
