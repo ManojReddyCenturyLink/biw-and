@@ -3,6 +3,8 @@ package com.centurylink.biwf.screens.home.account
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
@@ -14,7 +16,6 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
 import com.centurylink.biwf.databinding.ActivityPersonalInfoBinding
-import com.centurylink.biwf.model.UserDetails
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.widget_info_popup.view.*
 import javax.inject.Inject
@@ -32,7 +33,7 @@ class PersonalInfoActivity : BaseActivity() {
         ViewModelProvider(this, factory).get(PersonalInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityPersonalInfoBinding
-    private var userDetails: UserDetails? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
@@ -40,30 +41,27 @@ class PersonalInfoActivity : BaseActivity() {
         setContentView(binding.root)
         navigator.observe(this)
         initViews()
+        initTextWatchers()
     }
 
+    /* Disable hardware back button */
     override fun onBackPressed() {
-        finish()
     }
 
     private fun initViews() {
         val screenTitle: String = getString(R.string.personal_info)
-        userDetails?.password  = binding.personalInfoPasswordInput.text.toString()
-        userDetails?.confirmPassword  = binding.personalInfoConfirmPasswordInput.text.toString()
-        userDetails?.mobileNumber = binding.personalInfoPhoneNumberInput.text.toString()
-        //val errors = personalInfoViewModel.validateInput(userDetails)
 
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-//                if (errors.hasErrors()) {
-//                    validateFields()
-//                } else {
-//                    personalInfoViewModel.updatePassword()
-//                    finish()
-//                }
+                val errors = personalInfoViewModel.validateInput()
+                validateFields()
+                if (!errors.hasErrors()) {
+                    personalInfoViewModel.updatePassword()
+                    finish()
+                }
             }
         }
         binding.ivQuestion.setOnClickListener {
@@ -82,6 +80,49 @@ class PersonalInfoActivity : BaseActivity() {
             )
         }
     }
+
+    private fun initTextWatchers() {
+        binding.personalInfoPasswordInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editText: Editable?) {
+                personalInfoViewModel.onPasswordValueChanged(editText.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+        })
+        binding.personalInfoConfirmPasswordInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editText: Editable?) {
+                personalInfoViewModel.onConfirmPasswordValueChanged(editText.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+        })
+        binding.personalInfoPhoneNumberInput.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editText: Editable?) {
+                personalInfoViewModel.onPhoneNumberChanged(editText.toString())
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                // Do nothing
+            }
+        })
+    }
+
 
     private fun toggleTextVisibility(togglePasswordVisibility: Boolean, layout: String) {
         if (togglePasswordVisibility) {
@@ -123,33 +164,32 @@ class PersonalInfoActivity : BaseActivity() {
     }
 
     private fun validateFields() {
-        var checks = personalInfoViewModel.error
-        when {
-            checks.value?.get("mandatoryFieldError")!! -> {
-                binding.mandatoryFieldsLabel.visibility = View.VISIBLE
-            }
-            checks.value?.get("mobileNumberError")!! -> {
-                binding.personalInfoPhoneNumberInput.background =
-                    getDrawable(R.drawable.background_thin_border_red)
-                binding.phoneNumberErrorText.visibility = View.VISIBLE
-                binding.phoneNumberText.visibility = View.GONE
-            }
-            checks.value?.get("passwordError")!! || checks.value?.get("passwordMismatchError")!! -> {
-                binding.personalInfoPasswordInput.background =
-                    getDrawable(R.drawable.background_thin_border_red)
-                binding.personalInfoPasswordErrorLabel.visibility = View.VISIBLE
-                binding.personalInfoPasswordLabel.visibility = View.GONE
-            }
-            checks.value?.get("confirmPasswordError")!! || checks.value?.get("passwordMismatchError")!! -> {
-                binding.personalInfoConfirmPasswordInput.background =
-                    getDrawable(R.drawable.background_thin_border_red)
-                binding.personalInfoConfirmPasswordErrorLabel.visibility = View.VISIBLE
-                binding.personalInfoConfirmPasswordLabel.visibility = View.GONE
-            }
-            checks.value?.get("passwordMismatchError")!! -> {
-                binding.errorPasswordDifferent.visibility = View.VISIBLE
-                binding.errorConfirmPasswordDifferent.visibility = View.VISIBLE
-            }
+        val checks = personalInfoViewModel.error
+
+        if (checks.value?.get("mandatoryFieldError")!!) {
+            binding.mandatoryFieldsLabel.visibility = View.VISIBLE
+        }
+        if (checks.value?.get("mobileNumberError")!!) {
+            binding.personalInfoPhoneNumberInput.background =
+                getDrawable(R.drawable.background_thin_border_red)
+            binding.phoneNumberErrorText.visibility = View.VISIBLE
+            binding.phoneNumberText.visibility = View.GONE
+        }
+        if (checks.value?.get("passwordError")!! || checks.value?.get("passwordMismatchError")!!) {
+            binding.personalInfoPasswordInput.background =
+                getDrawable(R.drawable.background_thin_border_red)
+            binding.personalInfoPasswordErrorLabel.visibility = View.VISIBLE
+            binding.personalInfoPasswordLabel.visibility = View.GONE
+        }
+        if (checks.value?.get("confirmPasswordError")!! || checks.value?.get("passwordMismatchError")!!) {
+            binding.personalInfoConfirmPasswordInput.background =
+                getDrawable(R.drawable.background_thin_border_red)
+            binding.personalInfoConfirmPasswordErrorLabel.visibility = View.VISIBLE
+            binding.personalInfoConfirmPasswordLabel.visibility = View.GONE
+        }
+        if (checks.value?.get("passwordMismatchError")!!) {
+            binding.errorPasswordDifferent.visibility = View.VISIBLE
+            binding.errorConfirmPasswordDifferent.visibility = View.VISIBLE
         }
     }
 

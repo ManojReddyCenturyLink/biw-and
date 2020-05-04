@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_large"
-        android:text="Login information"
+        android:text="@string/login_information"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incHeader" />
 
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_spacing_small"
-        android:text="fields marked * are required"
+        android:text="@string/cancel_subscription_error_info"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/login_label"
         app:layout_constraintStart_toEndOf="@+id/login_label"
@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:text="Email address"
+        android:text="@string/email_address"
         android:textSize="@dimen/text_size_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_label" />
@@ -114,11 +114,19 @@
         style="@style/ErrorFields"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Passwords do not match"
+        android:text="@string/passwords_do_not_match"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/personal_info_password_error_label"
         app:layout_constraintStart_toEndOf="@+id/personal_info_guideline"
         app:layout_constraintTop_toTopOf="@+id/personal_info_password_error_label" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierPasswordField"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:orientation="horizontal"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="personal_info_password_error_label, personal_info_password_label" />
 
     <EditText
         android:id="@+id/personal_info_password_input"
@@ -135,7 +143,7 @@
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/personal_info_password_label"
+        app:layout_constraintTop_toBottomOf="@id/barrierPasswordField"
         tools:ignore="LabelFor"
         tools:text="espiiking@gmail.com" />
 
@@ -144,7 +152,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/margin_spacing_tiny"
-        android:src="@drawable/ic_show_password"
+        android:src="@drawable/ic_password_hide"
         app:layout_constraintBottom_toBottomOf="@+id/personal_info_password_input"
         app:layout_constraintEnd_toEndOf="@+id/personal_info_password_input"
         app:layout_constraintTop_toTopOf="@+id/personal_info_password_input" />
@@ -171,18 +179,26 @@
         android:textSize="@dimen/text_size_12"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/personal_info_email_input" />
+        app:layout_constraintTop_toBottomOf="@id/personal_info_password_input" />
 
     <TextView
         android:id="@+id/error_confirm_password_different"
         style="@style/ErrorFields"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Passwords do not match"
+        android:text="@string/passwords_do_not_match"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/personal_info_confirm_password_error_label"
         app:layout_constraintStart_toEndOf="@+id/personal_info_guideline"
         app:layout_constraintTop_toTopOf="@+id/personal_info_confirm_password_error_label" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierConfirmPasswordField"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:orientation="horizontal"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="personal_info_confirm_password_label, personal_info_confirm_password_error_label" />
 
     <EditText
         android:id="@+id/personal_info_confirm_password_input"
@@ -199,7 +215,7 @@
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/personal_info_confirm_password_label"
+        app:layout_constraintTop_toBottomOf="@id/barrierConfirmPasswordField"
         tools:ignore="LabelFor"
         tools:text="espiiking@gmail.com" />
 
@@ -220,7 +236,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_large"
-        android:text="Phone number"
+        android:text="@string/phone_number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/personal_info_confirm_password_input" />
@@ -247,7 +263,15 @@
         android:textSize="@dimen/text_size_12"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/personal_info_password_input" />
+        app:layout_constraintTop_toBottomOf="@id/phone_number_label" />
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrierPhoneNumberField"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:orientation="horizontal"
+        app:barrierDirection="bottom"
+        app:constraint_referenced_ids="phone_number_text, phone_number_error_text" />
 
     <EditText
         android:id="@+id/personal_info_phone_number_input"
@@ -263,7 +287,7 @@
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/phone_number_text"
+        app:layout_constraintTop_toBottomOf="@id/barrierPhoneNumberField"
         tools:ignore="LabelFor"
         tools:text="123-456-7890" />
 

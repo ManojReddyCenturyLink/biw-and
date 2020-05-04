@@ -133,9 +133,13 @@
 
     <string name="personal_info_popup_msg">We’re very sorry for the inconvenience, but we are currently unable to accommodate changing email addresses in the app. \n\nYou can change your email by calling our customer support number at 123- 456-7890</string>
     <string name="done">Done</string>"X"
-    <string name="password_mandatory">Password<sup>*</sup></string>
+    <string name="password_mandatory">Password*</string>
     <string name="confirm_password">Confirm password</string>
-    <string name="confirm_password_mandatory">Confirm password<sup>*</sup></string>
+    <string name="confirm_password_mandatory">Confirm password*</string>
     <string name="mobile_phone">Mobile phone</string>
-    <string name="mobile_phone_mandatory">Mobile phone<sup>*</sup></string>
+    <string name="mobile_phone_mandatory">Mobile phone*</string>
+    <string name="phone_number">Phone number</string>
+    <string name="login_information">Login information</string>
+    <string name="email_address">Email address</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
 </resources>
