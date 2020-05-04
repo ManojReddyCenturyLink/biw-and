@@ -51,11 +51,6 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         finish()
     }
 
-    override fun onResume() {
-        super.onResume()
-        scheduleCallbackCoordinator.navigator.activity = this
-    }
-
     override fun onItemClick(item: TopicList) {
         scheduleCallbackViewModel.navigateAdditionalInfoScreen(item)
     }
