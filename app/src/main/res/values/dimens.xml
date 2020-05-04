@@ -26,6 +26,7 @@
     <dimen name="font_size_h4">16sp</dimen>
     <dimen name="text_size_16">16sp</dimen>
     <dimen name="small_title_text_size">18sp</dimen>
+    <dimen name="small_subcontent_title_text_size">20sp</dimen>
     <dimen name="medium_title_text_size">24sp</dimen>
     <dimen name="large_title_text_size">32sp</dimen>
     <dimen name="small_text_size">16sp</dimen>

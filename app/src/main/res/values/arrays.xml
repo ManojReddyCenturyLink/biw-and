@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="cancellation_reason_list">
+        <item>Moving</item>
+        <item>Service is not working as expected</item>
+        <item>Price is too high</item>
+        <item>Switching service providers</item>
+        <item>Other</item>
+    </string-array>
+</resources>

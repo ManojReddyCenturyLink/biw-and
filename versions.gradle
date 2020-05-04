@@ -50,6 +50,9 @@ ext {
     //timber
     timberVersion = "4.7.1"
 
+    //rating
+    ratingVersion="1.5.0"
+
     //Test Dependencies
     jUnitVersion = '4.12'
     testRunnerVersion = '1.1.1'
@@ -58,4 +61,6 @@ ext {
     archCoreTestingVersion = '2.1.0'
     mockKVersion = '1.9.3'
     mockitoVersion = '2.1.0'
+
+
 }

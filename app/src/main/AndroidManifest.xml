@@ -19,6 +19,8 @@
         <activity
             android:name=".screens.login.LoginActivity"
             android:screenOrientation="portrait"
+            android:launchMode="singleInstance"
+            android:configChanges="fontScale|locale|orientation|screenLayout|screenSize|uiMode"
             tools:ignore="LockedOrientationActivity"
             >
             <intent-filter>
@@ -75,8 +77,40 @@
             tools:ignore="LockedOrientationActivity"
             android:theme="@style/AppTheme.GreyStatusBar"
             />
+        <activity
+            android:name=".screens.subscription.CancelSubscriptionDetailsActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            />
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>
         <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>
+
+        <!-- AppAuth Stuff -->
+        <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            tools:node="replace"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <!-- Redirect Uri WITHOUT any host or path information -->
+                <data android:scheme="myapp"/>
+            </intent-filter>
+        </activity>
+
+        <service android:name=".service.impl.auth.AppAuthResponseService">
+            <intent-filter>
+                <action android:name="com.centurylink.HANDLE_AUTHORIZATION_RESPONSE"/>
+                <action android:name="com.centurylink.HANDLE_AUTHORIZATION_CANCELLATION"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+
+        </service>
+
     </application>
 </manifest>

@@ -8,8 +8,10 @@ import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
+import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity() {
@@ -26,6 +28,9 @@ class HomeActivity : BaseActivity() {
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
+    @Inject
+    lateinit var testService: TestRestServices
+
     private val viewModel by lazy { ViewModelProvider(this, factory).get(HomeViewModel::class.java) }
     private val adapter by lazy { TabsPagerRecyclerAdapter(this) }
     private lateinit var binding: ActivityHomeBinding
@@ -39,6 +44,10 @@ class HomeActivity : BaseActivity() {
         homeCoordinator.observeThis(viewModel.myState)
         initViews()
         initOnClicks()
+
+        testService.query("SELECT Name FROM Contact LIMIT 10")
+            .map { it.toString() }
+            .subscribe({ Timber.d(it) }, Timber::e)
     }
 
     /**

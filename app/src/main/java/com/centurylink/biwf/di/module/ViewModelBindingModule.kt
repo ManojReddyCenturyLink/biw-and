@@ -6,8 +6,8 @@ import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.screens.home.account.PersonalInfoViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
-import com.centurylink.biwf.screens.login.LoginViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsViewModel
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
@@ -35,11 +35,6 @@ annotation class ViewModelKey(val value: KClass<out ViewModel>)
 
 @Module
 abstract class ViewModelModule {
-    @Binds
-    @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    abstract fun bindLoginViewModel(loginViewModel: LoginViewModel): ViewModel
-
     @Binds
     @IntoMap
     @ViewModelKey(HomeViewModel::class)
@@ -80,6 +75,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CancelSubscriptionViewModel::class)
     abstract fun bindCancelSubscriptionViewModel(cancelSubscriptionViewModel: CancelSubscriptionViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CancelSubscriptionDetailsViewModel::class)
+    abstract fun bindCancelSubscriptionDetailsViewModel(cancelSubscriptionDetailsViewModel: CancelSubscriptionDetailsViewModel): ViewModel
 
     @Binds
     @IntoMap
