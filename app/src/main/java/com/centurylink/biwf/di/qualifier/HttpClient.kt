@@ -5,9 +5,9 @@ import javax.inject.Qualifier
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class BaseUrl(val type: BaseUrlType)
+annotation class HttpClient(val type: ClientType)
 
-enum class BaseUrlType {
-    FIBER_SERVICES,
-    AWS_BUCKET_SERVICES
+enum class ClientType {
+    OAUTH,
+    NONE
 }
