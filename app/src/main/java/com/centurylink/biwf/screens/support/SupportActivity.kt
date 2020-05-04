@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,6 +13,7 @@ import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
 import com.centurylink.biwf.model.support.FaqTopicsItem
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -64,8 +64,19 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        setResult(resultCode)
-        finish()
+        when (requestCode) {
+            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION -> {
+                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
+                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT)
+                    finish()
+                }
+            }
+            FAQActivity.REQUEST_TO_HOME -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

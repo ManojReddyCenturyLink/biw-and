@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -50,6 +49,7 @@ class CancelSubscriptionActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
+        setResult(Activity.RESULT_OK)
         finish()
     }
 
@@ -83,10 +83,11 @@ class CancelSubscriptionActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION,
-            FAQActivity.REQUEST_TO_HOME -> {
-                setResult(resultCode)
-                finish()
+            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION->{
+                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
+                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT)
+                    finish()
+                }
             }
         }
     }

@@ -208,7 +208,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationCall()
             dialog.dismiss()
-            setResult(Activity.RESULT_OK)
+            setResult(REQUEST_TO__ACCOUNT)
             finish()
         }
         dialog.show()
