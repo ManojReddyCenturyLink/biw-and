@@ -9,8 +9,10 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeActivity : BaseActivity() {
@@ -27,12 +29,10 @@ class HomeActivity : BaseActivity() {
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private val viewModel by lazy {
-        ViewModelProvider(
-            this,
-            factory
-        ).get(HomeViewModel::class.java)
-    }
+    @Inject
+    lateinit var testService: TestRestServices
+
+    private val viewModel by lazy { ViewModelProvider(this, factory).get(HomeViewModel::class.java) }
     private val adapter by lazy { TabsPagerRecyclerAdapter(this) }
     private lateinit var binding: ActivityHomeBinding
 
@@ -45,6 +45,10 @@ class HomeActivity : BaseActivity() {
         homeCoordinator.observeThis(viewModel.myState)
         initViews()
         initOnClicks()
+
+        testService.query("SELECT Name FROM Contact LIMIT 10")
+            .map { it.toString() }
+            .subscribe({ Timber.d(it) }, Timber::e)
     }
 
     /**
@@ -58,13 +62,8 @@ class HomeActivity : BaseActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        homeCoordinator.navigator.activity = this
-    }
-
-    private fun initViews() {
-        viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER", false))
+    private fun initViews(){
+        viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER",false));
         viewModel.apply {
             activeUserTabBarVisibility.bindToVisibility(
                 binding.homeUpperTabs,
@@ -73,10 +72,10 @@ class HomeActivity : BaseActivity() {
             )
             networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
         }
-        setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER", false))
+        setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER",false))
     }
 
-    fun onProfileClickEvent() {
+    fun onProfileClickEvent(){
         viewModel.onProfileClickEvent()
     }
 
@@ -86,17 +85,17 @@ class HomeActivity : BaseActivity() {
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
-    private fun setupTabsViewPager(isExistingUser: Boolean) {
+    private fun setupTabsViewPager(isExistingUser : Boolean) {
         //For future reference to load data and display on screen
         viewModel.loadData()
         binding.vpDashboard.adapter = adapter
-
-        if (isExistingUser) {
+        if(isExistingUser){
             adapter.submitList(viewModel.lowerTabHeaderList)
             TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
                 TabLayoutMediator.OnConfigureTabCallback
                 { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
-        } else {
+        }
+        else{
             adapter.submitList(viewModel.upperTabHeaderList)
             TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
                 TabLayoutMediator.OnConfigureTabCallback
