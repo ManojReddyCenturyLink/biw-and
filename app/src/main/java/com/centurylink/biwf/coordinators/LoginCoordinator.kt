@@ -5,10 +5,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoginCoordinator @Inject constructor() {
-
-    @Inject
-    lateinit var navigator: Navigator
+class LoginCoordinator @Inject constructor(val navigator: Navigator) {
 
     fun observeThis(screenState: ObservableData<LoginCoordinatorDestinations>) {
         screenState.observable.subscribe {
@@ -18,7 +15,8 @@ class LoginCoordinator @Inject constructor() {
 
     private fun navigateTo(destinations: LoginCoordinatorDestinations) {
         when (destinations) {
-            LoginCoordinatorDestinations.LOGIN -> {}
+            LoginCoordinatorDestinations.LOGIN -> {
+            }
             LoginCoordinatorDestinations.FORGOT_PASSWORD -> navigateToForgotPassword()
             LoginCoordinatorDestinations.LEARN_MORE -> navigateToLearnMore()
             LoginCoordinatorDestinations.HOME_NEW_USER -> navigateToHomeScreen(false)
