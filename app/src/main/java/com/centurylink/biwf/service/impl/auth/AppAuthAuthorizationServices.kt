@@ -50,7 +50,17 @@ class AppAuthAuthService(
             result.getOrElse { emitter.onError(it) }
         }
 
-    override fun launchSignInFlow(): Completable = executeAuthRequest(config.policySignIn)
+    override fun launchSignInFlow(): Completable = executeAuthRequest(config.policySignIn, true)
+
+    override fun launchLogoutFlow(): Completable = tokenStorage.currentPolicy?.let {
+        executeAuthRequest(it, false)
+            .doOnComplete {
+                tokenStorage.apply {
+                    state = null
+                    currentPolicy = null
+                }
+            }
+    } ?: Completable.error(IllegalStateException("There is no auth policy defined."))
 
     override fun handleResponse(androidIntent: Intent): Single<AuthResponseType> {
         val action = androidIntent.action
@@ -59,16 +69,10 @@ class AppAuthAuthService(
         return when {
             action == AUTH_CANCELLATION_ACTION -> Single.just(AuthResponseType.CANCELLED)
             action != AUTH_COMPLETION_ACTION -> Single.error(Exception(action ?: ""))
-            //redirectUrl!!.startsWith(config.logoutRedirectUrl) -> handleLogoutRedirect()
             redirectUrl!!.startsWith(config.authRedirectUrl) -> handleAuthRedirect(androidIntent)
             else -> Single.just(AuthResponseType.UNKNOWN_RESPONSE)
         }
     }
-
-//    private fun handleLogoutRedirect(): Single<AuthResponseType> {
-//        tokenStorage.state = null
-//        return Single.just(AuthResponseType.LOGGED_OUT)
-//    }
 
     private fun handleAuthRedirect(androidIntent: Intent): Single<AuthResponseType> {
         val authorizationException = AuthorizationException.fromIntent(androidIntent)
@@ -109,7 +113,7 @@ class AppAuthAuthService(
             .doFinally { authorizationService.dispose() }
     }
 
-    private fun executeAuthRequest(policy: String): Completable {
+    private fun executeAuthRequest(policy: String, login: Boolean): Completable {
         val appContext = host.hostContext.applicationContext
 
         val customTabsIntent = host.customTabsIntent ?: buildCustomTabsIntent(host.hostContext)
@@ -127,7 +131,11 @@ class AppAuthAuthService(
 
         tokenStorage.currentPolicy = policy
 
-        return authConfiguration.map { createAuthorizationRequest(it) }
+        return authConfiguration
+            .map {
+                if (login) createAuthorizationRequest(it)
+                else createLogoutRequest(it)
+            }
             .flatMapCompletable {
                 authorizationService.executeAuthRequest(
                     appContext,
@@ -145,6 +153,25 @@ class AppAuthAuthService(
     ): AuthorizationRequest = with(config) {
         AuthorizationRequest.Builder(
             authConfig,
+            clientId,
+            responseType,
+            Uri.parse(authRedirectUrl)
+        )
+            .setScope(scope)
+            .setDisplay(display)
+            .setCodeVerifier(null)
+            .setAdditionalParameters(tokenStorage.createPolicyParam() + extraParams)
+            .setState(null)
+            .build()
+    }
+
+    private fun createLogoutRequest(
+        authConfig: AuthorizationServiceConfiguration
+    ): AuthorizationRequest = with(config) {
+        val logoutAuthConfig =
+            AuthorizationServiceConfiguration(authConfig.logoutUrl, authConfig.tokenEndpoint)
+        return AuthorizationRequest.Builder(
+            logoutAuthConfig,
             clientId,
             responseType,
             Uri.parse(authRedirectUrl)
@@ -260,6 +287,9 @@ private fun buildCustomTabsIntent(context: Context): CustomTabsIntent = CustomTa
     .setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.primary_dark))
     .setExitAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
     .build()
+
+private val AuthorizationServiceConfiguration.logoutUrl
+    get() = Uri.parse(discoveryDoc?.docJson?.getString("end_session_endpoint") ?: "")
 
 private const val AUTH_COMPLETION_ACTION = "com.centurylink.HANDLE_AUTHORIZATION_RESPONSE"
 private const val AUTH_CANCELLATION_ACTION = "com.centurylink.HANDLE_AUTHORIZATION_CANCELLATION"

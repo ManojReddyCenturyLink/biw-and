@@ -27,5 +27,6 @@ private val authServiceConfig = AuthServiceConfigModule(
 )
 
 private val restServiceConfig = RestServiceConfigModule(
-    baseUrlFiberServices = BuildConfig.BASE_URL
+    baseUrlFiberServices = BuildConfig.BASE_URL,
+    baseUrlForAwsBucket = "https://bucketforapi.s3-eu-west-1.amazonaws.com/"
 )

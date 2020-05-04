@@ -3,7 +3,7 @@ package com.centurylink.biwf.repos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.model.CommunicationPreferences
-import com.centurylink.biwf.network.api.ApiServices
+import com.centurylink.biwf.service.network.ApiServices
 import javax.inject.Inject
 import javax.inject.Singleton
 
