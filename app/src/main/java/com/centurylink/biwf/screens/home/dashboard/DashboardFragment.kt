@@ -17,11 +17,8 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
 import javax.inject.Inject
 
-class DashboardFragment constructor(val newUser : Boolean) : BaseFragment()  {
+class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
 
-    companion object {
-        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
-    }
     override val liveDataLifecycleOwner: LifecycleOwner = this
 
     @Inject
@@ -40,7 +37,11 @@ class DashboardFragment constructor(val newUser : Boolean) : BaseFragment()  {
         retainInstance = false
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
         /*Added dummy state variable to test layout for different scenarios */
         binding.states = newUser
@@ -79,19 +80,19 @@ class DashboardFragment constructor(val newUser : Boolean) : BaseFragment()  {
 
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
         unreadNotificationList = notificationList
-        if(unreadNotificationList.isNotEmpty()){
-            when(unreadNotificationList.size){
-                1->{
+        if (unreadNotificationList.isNotEmpty()) {
+            when (unreadNotificationList.size) {
+                1 -> {
                     binding.middleCard.visibility = View.GONE
                     binding.bottomCard.visibility = View.GONE
                 }
-                2->{
+                2 -> {
                     binding.bottomCard.visibility = View.GONE
                 }
             }
             binding.notificationTitle.text = unreadNotificationList.get(0).name
             binding.notificationMsg.text = unreadNotificationList.get(0).description
-        }else{
+        } else {
             binding.topCard.visibility = View.GONE
             binding.middleCard.visibility = View.GONE
             binding.bottomCard.visibility = View.GONE
@@ -106,10 +107,16 @@ class DashboardFragment constructor(val newUser : Boolean) : BaseFragment()  {
             displaySortedNotification()
         }
         binding.topCard.setOnClickListener {
-            dashboardViewModel.navigateToNotificationDetails(unreadNotificationList.get(0)) }
+            dashboardViewModel.navigateToNotificationDetails(unreadNotificationList.get(0))
+        }
     }
 
     private fun hideWelcomeCard() {
         binding.incWelcomeCard.root.visibility = View.GONE
     }
+
+    companion object {
+        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
+    }
+
 }

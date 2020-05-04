@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.subscription
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
@@ -8,7 +7,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
@@ -22,7 +20,8 @@ import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapt
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 class CancelSubscriptionDetailsActivity : BaseActivity() {
@@ -59,11 +58,6 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         finish()
     }
 
-    override fun onResume() {
-        super.onResume()
-        cancelSubscriptionDetailsCoordinator.navigator.activity = this
-    }
-
     private fun initHeaders() {
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text =
@@ -71,10 +65,10 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             subheaderRightActionTitle.text =
                 getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(Activity.RESULT_OK)
+                setResult(REQUEST_TO_ACCOUNT)
                 finish()
             }
-            subHeaderLeftIcon.setOnClickListener {finish() }
+            subHeaderLeftIcon.setOnClickListener { finish() }
         }
         binding.cancelSubscriptionSubmit.setOnClickListener {
             cancelSubscriptionDetailsModel.onSubmitCancellation()
@@ -194,7 +188,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         val formattedDate =
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
-        val dialog = Dialog(this)
+        val dialog = Dialog(this,R.style.mycustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(dialogbinding.root)
@@ -202,18 +196,21 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
             dialog.dismiss()
+            setResult(REQUEST_TO_ACCOUNT)
+            finish()
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationCall()
             dialog.dismiss()
-            setResult(Activity.RESULT_OK)
+            setResult(REQUEST_TO_ACCOUNT)
             finish()
         }
         dialog.show()
     }
 
     companion object {
-        const val REQUEST_TO__CANCEL_SUBSCRIPTION: Int = 44011
+        const val REQUEST_TO_CANCEL_SUBSCRIPTION: Int = 44011
+        const val REQUEST_TO_ACCOUNT: Int = 43611
         fun newIntent(context: Context): Intent {
             return Intent(context, CancelSubscriptionDetailsActivity::class.java)
         }
