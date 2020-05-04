@@ -19,10 +19,6 @@ import javax.inject.Inject
 
 class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
 
-    companion object {
-        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
-    }
-
     override val liveDataLifecycleOwner: LifecycleOwner = this
 
     @Inject
@@ -113,4 +109,9 @@ class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
     private fun hideWelcomeCard() {
         binding.incWelcomeCard.root.visibility = View.GONE
     }
+
+    companion object {
+        const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
+    }
+
 }

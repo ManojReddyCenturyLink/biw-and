@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.subscription
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
@@ -66,7 +65,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             subheaderRightActionTitle.text =
                 getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(REQUEST_TO__ACCOUNT)
+                setResult(REQUEST_TO_ACCOUNT)
                 finish()
             }
             subHeaderLeftIcon.setOnClickListener { finish() }
@@ -197,21 +196,21 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
             dialog.dismiss()
-            setResult(REQUEST_TO__ACCOUNT)
+            setResult(REQUEST_TO_ACCOUNT)
             finish()
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationCall()
             dialog.dismiss()
-            setResult(REQUEST_TO__ACCOUNT)
+            setResult(REQUEST_TO_ACCOUNT)
             finish()
         }
         dialog.show()
     }
 
     companion object {
-        const val REQUEST_TO__CANCEL_SUBSCRIPTION: Int = 44011
-        const val REQUEST_TO__ACCOUNT: Int = 43611
+        const val REQUEST_TO_CANCEL_SUBSCRIPTION: Int = 44011
+        const val REQUEST_TO_ACCOUNT: Int = 43611
         fun newIntent(context: Context): Intent {
             return Intent(context, CancelSubscriptionDetailsActivity::class.java)
         }

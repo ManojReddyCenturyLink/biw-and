@@ -60,8 +60,8 @@ class HomeActivity : BaseActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode== CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
-            binding.vpDashboard.setCurrentItem(0)
+        if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
+            binding.vpDashboard.currentItem = 0
         }
     }
 

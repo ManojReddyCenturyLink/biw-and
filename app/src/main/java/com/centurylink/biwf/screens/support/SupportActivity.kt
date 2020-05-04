@@ -61,10 +61,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION -> {
-                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
-                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT)
+                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
+                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
                     finish()
-                } else if(resultCode ==Activity.RESULT_OK){
+                } else if (resultCode == Activity.RESULT_OK) {
                     finish()
                 }
             }
