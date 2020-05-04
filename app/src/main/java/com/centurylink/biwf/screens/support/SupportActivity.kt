@@ -69,6 +69,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
                     setResult(CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT)
                     finish()
+                } else if(resultCode ==Activity.RESULT_OK){
+                    finish()
                 }
             }
             FAQActivity.REQUEST_TO_HOME -> {

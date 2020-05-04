@@ -49,7 +49,6 @@ class CancelSubscriptionActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
-        setResult(Activity.RESULT_OK)
         finish()
     }
 
