@@ -21,6 +21,13 @@ interface AuthService<S> {
     fun launchSignInFlow(): Completable
 
     /**
+     * Call this method to launch the logout flow.
+     *
+     * @return A Completable that either emits an error or completes successfully when the logout flow has launched.
+     */
+    fun launchLogoutFlow(): Completable
+
+    /**
      * Handles the sign-in/sign-up/logout redirect for the receiving Activity.
      * Provide its [Intent] to ensure a correct handling of the auth-flow response.
      *
