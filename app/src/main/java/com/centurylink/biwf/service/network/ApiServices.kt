@@ -1,4 +1,4 @@
-package com.centurylink.biwf.network.api
+package com.centurylink.biwf.service.network
 
 import androidx.lifecycle.LiveData
 import com.centurylink.biwf.model.TroubleshootingModel
