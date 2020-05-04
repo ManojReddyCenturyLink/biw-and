@@ -58,6 +58,11 @@ class HomeActivity : BaseActivity() {
         }
     }*/
 
+    override fun onResume() {
+        super.onResume()
+        homeCoordinator.navigator.activity = this
+    }
+
     private fun initViews(){
         viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER",false));
         viewModel.apply {
@@ -101,7 +106,7 @@ class HomeActivity : BaseActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.i("Pravin","onActivityResult Home Activity :  "+resultCode)
+        super.onActivityResult(requestCode, resultCode, data)
         if(resultCode==CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
             binding.vpDashboard.setCurrentItem(0)
         }

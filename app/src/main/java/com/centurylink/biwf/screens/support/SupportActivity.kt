@@ -64,8 +64,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i("Pravin","Support Activity "+resultCode)
-        setResult(Activity.RESULT_OK)
+        setResult(resultCode)
         finish()
     }
 
