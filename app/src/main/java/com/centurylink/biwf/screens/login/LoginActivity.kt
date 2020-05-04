@@ -69,7 +69,8 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     override fun onDestroy() {
         super.onDestroy()
-        loginCoordinator.navigator.activity = null
+        //Temporary fix for navigation
+       // loginCoordinator.navigator.activity = null
     }
 
     private fun initOnClicks() {

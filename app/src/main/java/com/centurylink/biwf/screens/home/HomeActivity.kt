@@ -62,6 +62,11 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeCoordinator.navigator.activity = this
+    }
+
     private fun initViews(){
         viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER",false));
         viewModel.apply {

@@ -115,6 +115,5 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun prepareRecyclerView(list: MutableList<FaqTopicsItem>) {
         adapter = SupportFAQAdapter(this, this, list)
         binding.supportFaqTopicsRecyclerview.adapter = adapter
-
     }
 }
