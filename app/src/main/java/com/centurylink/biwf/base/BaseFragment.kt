@@ -19,5 +19,4 @@ abstract class BaseFragment : Fragment(), LiveDataObserver {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
     }
-
 }

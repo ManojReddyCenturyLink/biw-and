@@ -1,7 +1,9 @@
 package com.centurylink.biwf.coordinators
 
-import android.app.Activity
-import androidx.core.os.bundleOf
+import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
@@ -20,73 +22,98 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class Navigator @Inject constructor() {
+class Navigator @Inject constructor() : LifecycleObserver {
 
-    var activity: Activity? = null
+    private val activity: AppCompatActivity? get() = ActivityObserver.resumedActivity
+
+    fun observe(activity: AppCompatActivity) {
+        ActivityObserver.observe(activity)
+    }
 
     fun navigateToForgotPassword() {
-        activity?.startActivity(ForgotPasswordActivity.newIntent(activity!!))
+        activity?.also {
+            it.startActivity(ForgotPasswordActivity.newIntent(it))
+        }
     }
 
     fun navigateToLearnMore() {
-        activity?.startActivity(LearnMoreActivity.newIntent(activity!!))
+        activity?.also {
+            it.startActivity(LearnMoreActivity.newIntent(it))
+        }
     }
 
     fun navigateToHomeScreen(userType: Boolean) {
-        activity?.startActivity(
-            HomeActivity.newIntent(
-                activity!!,
-                bundleOf("EXISTING_USER" to userType)
-            )
-        )
+        activity?.also {
+            it.startActivity(HomeActivity.newIntent(it, userType))
+        }
     }
 
     fun navigateToSupport() {
-        activity?.startActivityForResult(SupportActivity.newIntent(activity!!),SupportActivity.REQUEST_TO_HOME)
+        activity?.also {
+            it.startActivityForResult(
+                SupportActivity.newIntent(it),
+                SupportActivity.REQUEST_TO_HOME
+            )
+        }
     }
 
     fun navigateToChangeAppointment() {
-        activity?.startActivity(ChangeAppointmentActivity.newIntent(activity!!))
+        activity?.also {
+            it.startActivity(ChangeAppointmentActivity.newIntent(it))
+        }
     }
 
     fun navigateToNotificationList() {
-        activity?.startActivity(NotificationActivity.newIntent(activity!!))
+        activity?.also {
+            it.startActivity(NotificationActivity.newIntent(it))
+        }
     }
 
     fun navigateToNotificationDetails() {
-        val bundle = NotificationCoordinator.NotificationCoordinatorDestinations.get()
-        activity?.startActivityForResult(
-            NotificationDetailsActivity.newIntent(activity!!, bundle),
-            NotificationDetailsActivity.REQUEST_TO_DISMISS
-        )
+        activity?.also {
+            it.startActivityForResult(
+                NotificationDetailsActivity.newIntent(
+                    it,
+                    NotificationCoordinator.NotificationCoordinatorDestinations.bundle
+                ),
+                NotificationDetailsActivity.REQUEST_TO_DISMISS
+            )
+        }
     }
 
     fun navigateToFaq() {
-        val bundle = SupportCoordinator.SupportCoordinatorDestinations.get()
-        activity?.startActivityForResult(
-            FAQActivity.newIntent(activity!!, bundle),
-            FAQActivity.REQUEST_TO_HOME
-        )
+        activity?.also {
+            it.startActivityForResult(
+                FAQActivity.newIntent(it, SupportCoordinator.SupportCoordinatorDestinations.bundle),
+                FAQActivity.REQUEST_TO_HOME
+            )
+        }
     }
 
     fun navigateToProfileActivity() {
-        activity?.startActivity(ProfileActivity.newIntent(activity!!))
+        activity?.also {
+            it.startActivity(ProfileActivity.newIntent(it))
+        }
     }
 
     fun navigateToLiveChat() {}
 
     fun navigateToMangeSubscription() {
-        activity?.startActivityForResult(
-            CancelSubscriptionActivity.newIntent(activity!!),
-            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
-        )
+        activity?.also {
+            it.startActivityForResult(
+                CancelSubscriptionActivity.newIntent(it),
+                CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
+            )
+        }
     }
 
     fun navigateToScheduleCallback() {
-        activity?.startActivityForResult(
-            ScheduleCallbackActivity.newIntent(activity!!),
-            ScheduleCallbackActivity.REQUEST_TO_HOME
-        )
+        activity?.also {
+            it.startActivityForResult(
+                ScheduleCallbackActivity.newIntent(it),
+                ScheduleCallbackActivity.REQUEST_TO_HOME
+            )
+        }
     }
 
     fun navigateToPhoneDialler() {
@@ -94,9 +121,44 @@ class Navigator @Inject constructor() {
     }
 
     fun navigateToCancelSubscriptionDetails() {
-        activity?.startActivityForResult(
-            CancelSubscriptionDetailsActivity.newIntent(activity!!),
-            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
-        )
+        activity?.also {
+            it.startActivityForResult(
+                CancelSubscriptionActivity.newIntent(it),
+                CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION
+            )
+        }
+    }
+
+    private class ActivityObserver private constructor(
+        private val activity: AppCompatActivity
+    ) : LifecycleObserver {
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+        fun onDestroyed() {
+            activity.lifecycle.removeObserver(this)
+            observers -= this
+        }
+
+        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+        fun onResumed() {
+            observers -= this
+            observers.add(0, this)
+        }
+
+
+        companion object {
+            private val observers = mutableListOf<ActivityObserver>()
+
+            val resumedActivity: AppCompatActivity?
+                get() = observers
+                    .firstOrNull()
+                    ?.activity
+
+            fun observe(activity: AppCompatActivity) =
+                ActivityObserver(activity).also {
+                    activity.lifecycle.addObserver(it)
+                    observers.add(it)
+                }
+        }
     }
 }

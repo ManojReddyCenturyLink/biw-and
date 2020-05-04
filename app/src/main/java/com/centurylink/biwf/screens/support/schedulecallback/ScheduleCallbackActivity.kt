@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinator
 import com.centurylink.biwf.databinding.ActivityScheduleCallbackBinding
 import com.centurylink.biwf.model.support.TopicList
@@ -21,9 +22,10 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
 
     @Inject
     lateinit var scheduleCallbackCoordinator: ScheduleCallbackCoordinator
-
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val scheduleCallbackViewModel by lazy {
         ViewModelProvider(this, factory).get(ScheduleCallbackViewModel::class.java)
@@ -36,19 +38,17 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         binding = ActivityScheduleCallbackBinding.inflate(layoutInflater)
         scheduleCallbackCoordinator.observeThis(scheduleCallbackViewModel.myState)
         setContentView(binding.root)
+        navigator.observe(this)
+
         scheduleCallbackViewModel.apply {
             prepareRecyclerView(topicList)
         }
+
         initHeaders()
     }
 
     override fun onBackPressed() {
         finish()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        scheduleCallbackCoordinator.getNavigator().activity = this
     }
 
     override fun onItemClick(item: TopicList) {
