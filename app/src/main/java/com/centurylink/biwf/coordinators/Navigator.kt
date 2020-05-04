@@ -130,6 +130,16 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    fun navigateToAdditionalInfo() {
+        val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(
+                AdditionalInfoActivity.newIntent(activity!!, bundle),
+                AdditionalInfoActivity.REQUEST_TO_HOME
+            )
+        }
+    }
+
     private class ActivityObserver private constructor(
         private val activity: AppCompatActivity
     ) : LifecycleObserver {
@@ -146,7 +156,6 @@ class Navigator @Inject constructor() : LifecycleObserver {
             observers.add(0, this)
         }
 
-
         companion object {
             private val observers = mutableListOf<ActivityObserver>()
 
@@ -161,13 +170,5 @@ class Navigator @Inject constructor() : LifecycleObserver {
                     observers.add(it)
                 }
         }
-    }
-
-    fun navigateToAdditionalInfo() {
-        val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle
-        activity?.startActivityForResult(
-            AdditionalInfoActivity.newIntent(activity!!, bundle),
-            AdditionalInfoActivity.REQUEST_TO_HOME
-        )
     }
 }

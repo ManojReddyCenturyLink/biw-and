@@ -6,10 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ScheduleCallbackCoordinator @Inject constructor() {
-
-    @Inject
-    lateinit var navigator: Navigator
+class ScheduleCallbackCoordinator @Inject constructor(val navigator: Navigator) {
 
     fun observeThis(screenState: ObservableData<ScheduleCallbackCoordinatorDestinations>) {
         screenState.observable.subscribe {
