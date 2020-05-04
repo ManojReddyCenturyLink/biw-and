@@ -51,6 +51,11 @@ class DashboardFragment constructor(val newUser : Boolean) : BaseFragment()  {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        dashboardCoordinator.navigator.activity = activity
+    }
+
     private fun getNotificationInformation() {
         dashboardViewModel.getNotificationDetails().observe(this) {
             when {
