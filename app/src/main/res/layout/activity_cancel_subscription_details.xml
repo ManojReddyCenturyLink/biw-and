@@ -13,7 +13,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -23,6 +23,7 @@
             android:id="@+id/cancel_subscription_details_contents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
             android:layout_marginStart="@dimen/medium_margin_spacing"
             android:layout_marginTop="@dimen/margin_spacing_large"
             android:layout_marginEnd="@dimen/medium_margin_spacing">
@@ -61,7 +62,7 @@
                 android:fontFamily="@font/arial_mt"
                 android:gravity="start"
                 android:text="@string/cancel_subscription_details_cancellation_date"
-                android:textColor="@color/font_color_medium_grey"
+                android:textColor="@color/blue_dark"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_date_selection"
                 app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_error" />
@@ -69,7 +70,7 @@
             <TextView
                 android:id="@+id/cancellation_date_selection"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/text_entry_height"
                 android:background="@drawable/background_thin_border"
                 android:drawableLeft="@drawable/ic_calendar"
                 android:drawablePadding="10dp"
@@ -110,11 +111,12 @@
             <Spinner
                 android:id="@+id/cancellation_reason_dropdown"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/text_entry_height"
                 android:layout_marginTop="3dp"
                 android:background="@drawable/background_thin_border"
                 android:gravity="left"
                 android:spinnerMode="dialog"
+                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_reason_label" />
@@ -166,6 +168,7 @@
                 android:gravity="top|start"
                 android:hint="Placeholder"
                 android:inputType="textMultiLine"
+                android:textColor="@color/title_color_blue"
                 android:maxLength="150"
                 android:padding="@dimen/margin_spacing_tiny"
                 android:scrollbars="vertical"
@@ -205,6 +208,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_specify_service_label"
                 app:srb_clearRatingEnabled="true"
                 app:srb_clickable="true"
+                android:layout_marginTop="@dimen/margin_spacing_tiny"
                 app:srb_drawableEmpty="@drawable/ic_empty_stars"
                 app:srb_drawableFilled="@drawable/ic_filled_star"
                 app:srb_isIndicator="false"
@@ -221,8 +225,8 @@
                 android:id="@+id/cancellation_specify_comments_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:fontFamily="@font/arial_mt"
+                android:layout_marginTop="@dimen/margin_spacing_large"
                 android:text="@string/cancel_subscription_details_comments"
                 android:textColor="@color/font_color_medium_grey"
                 android:textSize="@dimen/text_size_12"
@@ -251,6 +255,7 @@
                 android:gravity="top|start"
                 android:hint="@string/cancel_subscription_details_experience_request"
                 android:inputType="textMultiLine"
+                android:textColor="@color/title_color_blue"
                 android:maxLength="150"
                 android:padding="@dimen/margin_spacing_tiny"
                 android:scrollbars="vertical"
@@ -262,8 +267,8 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:background="@drawable/rounded_button_background"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:paddingStart="@dimen/medium_margin_spacing"
                 android:paddingEnd="@dimen/medium_margin_spacing"
                 android:text="@string/cancel_subscription_details_submit"
@@ -271,7 +276,8 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/extra_small_text_size"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_comments_reason_input" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

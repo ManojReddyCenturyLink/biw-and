@@ -5,14 +5,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
-import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import java.text.DateFormat
 import java.util.Date
@@ -76,10 +74,9 @@ class CancelSubscriptionActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION,
-            FAQActivity.REQUEST_TO_HOME -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    setResult(Activity.RESULT_OK)
+            CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION->{
+                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
+                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
                     finish()
                 }
             }

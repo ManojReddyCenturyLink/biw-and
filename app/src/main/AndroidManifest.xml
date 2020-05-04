@@ -74,6 +74,7 @@
         <activity
             android:name=".screens.subscription.CancelSubscriptionDetailsActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             tools:ignore="LockedOrientationActivity"
             />
         <activity android:name=".screens.notification.NotificationActivity"/>

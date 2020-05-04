@@ -4,16 +4,17 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="24dp"
-    android:layout_margin="24dp">
+    android:paddingTop="@dimen/margin_spacing_large"
+    android:paddingBottom="@dimen/margin_spacing_large"
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/cancel_subscription_dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_spacing_small"
-        android:fontFamily="@font/arial_bold_mt"
+        android:layout_margin="@dimen/medium_title_text_size"
+        android:fontFamily="@font/roboto_medium"
         android:gravity="start"
         android:text="@string/cancel_subscription_dialog_title"
         android:textColor="@color/black"
@@ -28,12 +29,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:fontFamily="@font/arial_bold_mt"
+        android:fontFamily="@font/roboto_regular"
         android:gravity="start"
+        android:layout_margin="@dimen/medium_title_text_size"
         android:text="@string/cancel_subscription_dialog_content"
-        android:textColor="@color/blue_dark"
+        android:textColor="#99000000"
         android:textSize="@dimen/text_size_16"
-        android:lineSpacingExtra="2dp"
+        android:lineSpacingExtra="6sp"
         app:layout_constraintBottom_toTopOf="@+id/cancellation_detail_dialog_keep_service"
         app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_dialog_title" />
 
@@ -41,7 +43,7 @@
         android:id="@+id/cancellation_detail_dialog_keep_service"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/arial_mt"
+        android:fontFamily="@font/roboto_medium"
         android:gravity="center"
         android:text="@string/cancel_subscription_dialog_keepservice"
         android:textColor="@color/font_color_medium_grey"
@@ -55,7 +57,7 @@
         android:id="@+id/cancellation_detail_dialog_cancel_service"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/arial_mt"
+        android:fontFamily="@font/roboto_medium"
         android:gravity="center"
         android:layout_marginTop="@dimen/margin_spacing_large"
         android:text="@string/cancel_subscription_dialog_cancel"
