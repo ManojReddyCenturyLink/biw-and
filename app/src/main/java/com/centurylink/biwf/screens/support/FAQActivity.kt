@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.FAQCoordinator
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
 import com.centurylink.biwf.model.support.Videofaq
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
@@ -28,21 +29,12 @@ import javax.inject.Inject
 
 class FAQActivity : BaseActivity(), VideoItemClickListener {
 
-    companion object {
-        const val FAQ_TITLE: String = "FaqTitle"
-        const val REQUEST_TO_HOME: Int = 1100
-
-        fun newIntent(context: Context, bundle: Bundle): Intent {
-            return Intent(context, FAQActivity::class.java).putExtra(
-                FAQ_TITLE, bundle.getString(FAQ_TITLE)
-            )
-        }
-    }
-
     @Inject
     lateinit var faqCoordinator: FAQCoordinator
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val faqViewModel by lazy {
         ViewModelProvider(this, factory).get(FAQViewModel::class.java)
@@ -58,7 +50,9 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityFaqBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        navigator.observe(this)
         setHeightofActivity()
+
         faqViewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
             faqVideoData.observe(this@FAQActivity, Observer {
@@ -69,14 +63,10 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
             })
         }
         faqCoordinator.observeThis(faqViewModel.myState)
+
         initHeaders()
         initView()
         getFAQInformation()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        faqCoordinator.navigator.activity = this
     }
 
     override fun onBackPressed() {
@@ -137,4 +127,15 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
     }
 
     private fun displaySortedFAQ() {}
+
+    companion object {
+        const val FAQ_TITLE: String = "FaqTitle"
+        const val REQUEST_TO_HOME: Int = 1100
+
+        fun newIntent(context: Context, bundle: Bundle): Intent {
+            return Intent(context, FAQActivity::class.java).putExtra(
+                FAQ_TITLE, bundle.getString(FAQ_TITLE)
+            )
+        }
+    }
 }

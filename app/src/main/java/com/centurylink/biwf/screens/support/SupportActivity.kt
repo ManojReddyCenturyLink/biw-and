@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.base.BaseActivity
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
 import com.centurylink.biwf.model.support.FaqTopicsItem
@@ -22,15 +23,12 @@ import javax.inject.Inject
 
 class SupportActivity : BaseActivity(), SupportItemClickListener {
 
-    companion object {
-        const val REQUEST_TO_HOME: Int = 12200
-        fun newIntent(context: Context) = Intent(context, SupportActivity::class.java)
-    }
-
     @Inject
     lateinit var supportCoordinator: SupportCoordinator
     @Inject
     lateinit var factory: DaggerViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private val supportViewModel by lazy {
         ViewModelProvider(this, factory).get(SupportViewModel::class.java)
@@ -43,6 +41,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivitySupportBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        navigator.observe(this)
+
         supportViewModel.apply {
             faqLiveData.observe(this@SupportActivity, Observer {
                 prepareRecyclerView(it)
@@ -51,11 +51,6 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         supportCoordinator.observeThis(supportViewModel.myState)
         init()
         getNotificationInformation()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        supportCoordinator.navigator.activity = this
     }
 
     override fun onFaqItemClick(itemFAQ: FaqTopicsItem) {
@@ -108,5 +103,13 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun prepareRecyclerView(list: MutableList<FaqTopicsItem>) {
         adapter = SupportFAQAdapter(this, this, list)
         binding.supportFaqTopicsRecyclerview.adapter = adapter
+    }
+
+    companion object {
+        const val REQUEST_TO_HOME: Int = 12200
+
+        fun newIntent(context: Context): Intent {
+            return Intent(context, SupportActivity::class.java)
+        }
     }
 }

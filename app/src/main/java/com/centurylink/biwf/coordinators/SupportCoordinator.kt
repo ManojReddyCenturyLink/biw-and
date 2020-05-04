@@ -48,10 +48,6 @@ class SupportCoordinator @Inject constructor() {
 
         companion object {
             lateinit var bundle: Bundle
-            fun get(): Bundle = bundle
-            fun set(bundleValue: Bundle) {
-                bundle = bundleValue
-            }
         }
     }
 }
