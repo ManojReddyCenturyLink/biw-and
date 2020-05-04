@@ -71,7 +71,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             subheaderRightActionTitle.text =
                 getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(Activity.RESULT_OK)
+                setResult(REQUEST_TO__ACCOUNT)
                 finish()
             }
             subHeaderLeftIcon.setOnClickListener {finish() }
@@ -194,7 +194,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         val formattedDate =
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
-        val dialog = Dialog(this)
+        val dialog = Dialog(this,R.style.mycustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(dialogbinding.root)
@@ -202,6 +202,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
             dialog.dismiss()
+            setResult(REQUEST_TO__ACCOUNT)
+            finish()
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationCall()
@@ -214,6 +216,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     companion object {
         const val REQUEST_TO__CANCEL_SUBSCRIPTION: Int = 44011
+        const val REQUEST_TO__ACCOUNT: Int = 43611
         fun newIntent(context: Context): Intent {
             return Intent(context, CancelSubscriptionDetailsActivity::class.java)
         }

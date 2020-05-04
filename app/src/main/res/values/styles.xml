@@ -8,6 +8,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/primary_dark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowActionBarOverlay">true</item>
     </style>
     <!-- Custom theme for Home Activity. -->
     <style name="AppTheme.HomeActivity" parent="Theme.AppCompat.Light.NoActionBar">
@@ -55,5 +56,10 @@
 
     <style name="Theme.SwitchButtonTheme" parent="AppTheme">
         <item name="colorAccent">@color/mint_green</item>
+    </style>
+
+    <style name="mycustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMajor">95%</item>
+        <item name="android:windowMinWidthMinor">95%</item>
     </style>
 </resources>

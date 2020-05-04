@@ -3,11 +3,17 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
+import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.support.FAQActivity
+import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import javax.inject.Inject
@@ -44,13 +50,13 @@ class HomeActivity : BaseActivity() {
     /**
      * Comparing the number of entries currently in the back stack to handle Back Press
      */
-    override fun onBackPressed() {
+   /* override fun onBackPressed() {
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {
             super.onBackPressed()
         }
-    }
+    }*/
 
     private fun initViews(){
         viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER",false));
@@ -79,6 +85,7 @@ class HomeActivity : BaseActivity() {
         //For future reference to load data and display on screen
         viewModel.loadData()
         binding.vpDashboard.adapter = adapter
+
         if(isExistingUser){
             adapter.submitList(viewModel.lowerTabHeaderList)
             TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
@@ -90,6 +97,13 @@ class HomeActivity : BaseActivity() {
             TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
                 TabLayoutMediator.OnConfigureTabCallback
                 { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        Log.i("Pravin","onActivityResult Home Activity :  "+resultCode)
+        if(resultCode==CancelSubscriptionDetailsActivity.REQUEST_TO__ACCOUNT) {
+            binding.vpDashboard.setCurrentItem(0)
         }
     }
 }

@@ -64,14 +64,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION,
-            FAQActivity.REQUEST_TO_HOME -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    finish()
-                }
-            }
-        }
+        Log.i("Pravin","Support Activity "+resultCode)
+        setResult(Activity.RESULT_OK)
+        finish()
     }
 
     override fun onBackPressed() {
@@ -108,5 +103,6 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun prepareRecyclerView(list: MutableList<FaqTopicsItem>) {
         adapter = SupportFAQAdapter(this, this, list)
         binding.supportFaqTopicsRecyclerview.adapter = adapter
+
     }
 }

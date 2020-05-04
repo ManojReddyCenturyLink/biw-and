@@ -85,10 +85,8 @@ class CancelSubscriptionActivity : BaseActivity() {
         when (requestCode) {
             CancelSubscriptionDetailsActivity.REQUEST_TO__CANCEL_SUBSCRIPTION,
             FAQActivity.REQUEST_TO_HOME -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
+                setResult(resultCode)
+                finish()
             }
         }
     }

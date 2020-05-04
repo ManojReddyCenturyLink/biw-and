@@ -60,7 +60,7 @@
 
     <TextView
         android:id="@+id/cancel_subscription"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="18dp"
         android:fontFamily="@font/arial_mt"
