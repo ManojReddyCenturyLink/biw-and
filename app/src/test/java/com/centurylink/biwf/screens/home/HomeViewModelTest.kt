@@ -2,7 +2,7 @@ package com.centurylink.biwf.screens.home
 
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
-import com.centurylink.biwf.screens.home.HomeViewModel
+import com.nhaarman.mockitokotlin2.mock
 import org.amshove.kluent.shouldEqual
 import org.junit.Assert
 import org.junit.Before
@@ -14,7 +14,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @Before
     fun setup() {
-        viewModel = HomeViewModel()
+        viewModel = HomeViewModel(mock())
     }
 
     @Test

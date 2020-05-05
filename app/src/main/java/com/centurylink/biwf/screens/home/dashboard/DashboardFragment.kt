@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
 
-    override val liveDataLifecycleOwner: LifecycleOwner = this
+    override val lifecycleOwner: LifecycleOwner = this
 
     @Inject
     lateinit var dashboardCoordinator: DashboardCoordinator
