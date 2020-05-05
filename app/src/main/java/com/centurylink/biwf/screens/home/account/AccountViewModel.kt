@@ -11,6 +11,7 @@ import com.centurylink.biwf.repos.CommunicationRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.SubscriptionRepository
 import com.centurylink.biwf.utility.EventLiveData
+import com.centurylink.biwf.utility.MutableStateFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -24,15 +25,17 @@ class AccountViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     lateinit var accountFlow: Flow<AccountDetails>
-    lateinit var accountErrorFlow: Flow<Throwable>
+
     lateinit var onServiceCalls: Flow<Unit>
-    lateinit var accountErrorSubmission: Flow<Throwable>
+
     lateinit var onMarketingEmailflow: Flow<Unit>
     lateinit var onMarketingcallsandTextflow: Flow<Unit>
 
     lateinit var contactFlow: Flow<ContactDetails>
-    lateinit var contactErrorFlow: Flow<Throwable>
-    lateinit var contactErrorSubmission: Flow<Throwable>
+    var contactErrorFlow: Flow<Throwable> = MutableStateFlow()
+    var contactErrorSubmission: Flow<Throwable> = MutableStateFlow()
+    var accountErrorFlow: Flow<Throwable> = MutableStateFlow()
+    var accountErrorSubmission: Flow<Throwable> = MutableStateFlow()
 
     lateinit var accountDetails: AccountDetails
     lateinit var contactDetails: ContactDetails
@@ -67,9 +70,9 @@ class AccountViewModel @Inject constructor(
     val biometricStatus: LiveData<Boolean> =
         MutableLiveData(communicationRepository.getPreferences().value?.biometricStatus)
 
-    val marketingEmailStatus: EventLiveData<Boolean> = MutableLiveData()
-    val serviceCallsAndTextStatus: EventLiveData<Boolean> = MutableLiveData()
-    val marketingCallsAndTextStatus: EventLiveData<Boolean> = MutableLiveData()
+    val marketingEmailStatus: LiveData<Boolean> = MutableLiveData(false)
+    val serviceCallsAndTextStatus: LiveData<Boolean> = MutableLiveData(false)
+    val marketingCallsAndTextStatus: LiveData<Boolean> = MutableLiveData(false)
 
     val cellNumber: LiveData<String> =
         MutableLiveData(accountRepository.getAccount().value?.cellNumber)
@@ -86,15 +89,14 @@ class AccountViewModel @Inject constructor(
         biometricStatus.latestValue = boolean
     }
 
-    fun onServiceCallsAndTextsChange(boolean: Boolean) {
+    fun onServiceCallsAndTextsChange(email: Boolean) {
         viewModelScope.launch {
             try {
-                onServiceCalls = accountRepository.setServiceCallsAndTexts(boolean)
+                onServiceCalls= accountRepository.setServiceCallsAndTexts(email)
             } catch (e: Throwable) {
                 accountErrorSubmission.latestValue = e
             }
         }
-
     }
 
     fun onMarketingEmailsChange(boolean: Boolean) {
@@ -128,7 +130,7 @@ class AccountViewModel @Inject constructor(
                 accountFlow.collect {
                     accountDetails = it
                 }
-                serviceCallsAndTextStatus.emit(accountDetails.marketingOptInC)
+                serviceCallsAndTextStatus.latestValue=accountDetails.marketingOptInC
             } catch (e: Throwable) {
                 accountErrorFlow.latestValue = e
             }
@@ -142,7 +144,8 @@ class AccountViewModel @Inject constructor(
                 contactFlow.collect {
                     contactDetails = it
                 }
-
+                marketingCallsAndTextStatus.latestValue=contactDetails.marketingOptInC
+                marketingEmailStatus.latestValue=contactDetails.emailOptInC
             } catch (e: Throwable) {
                 contactErrorFlow.latestValue = e
             }

@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface ContactApiService {
 
     @GET("sobjects/Contact/{contact-id}")
-    suspend fun getContactDetails(@Query("q") soqlQuery: String): ContactDetails
+    suspend fun getContactDetails(@Path("contact-id") id: String): ContactDetails
 
     @PATCH("sobjects/Contact/{contact-id}")
     suspend fun submitMarketingEmail(@Path("contact-id") id: String, @Body updatedPassword: UpdatedMarketingEmails)

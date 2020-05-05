@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import android.util.Log
 import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.model.contact.UpdatedCallsandTextMarketing
 import com.centurylink.biwf.model.contact.UpdatedMarketingEmails
@@ -26,6 +27,7 @@ class ContactRepository @Inject constructor(
 
 
     fun getContactDetails(): Flow<ContactDetails> = flow {
+        Log.i("JAMMY","Contact ID "+getContactId())
         val contactInfo = contactApiService.getContactDetails(getContactId()!!)
         emit(contactInfo)
     }
