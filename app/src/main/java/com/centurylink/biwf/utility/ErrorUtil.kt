@@ -1,6 +1,6 @@
 package com.centurylink.biwf.utility
 
-class Errors : HashMap<String, Boolean>(){
+class Errors : HashMap<String, String>(){
 
     fun hasErrors(): Boolean{
         return size > 0

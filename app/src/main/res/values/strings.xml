@@ -3,6 +3,7 @@
     <string name="login_card_title">Log In to Your Account</string>
     <string name="email">Email:</string>
     <string name="password">Password:</string>
+    <string name="personal_info_password">Password</string>
     <string name="log_in">Log In</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
@@ -142,7 +143,6 @@
     <string name="cancel_subscription_dialog_cancel">CANCEL SERVICE</string>
 
     <string name="personal_info_popup_msg">We’re very sorry for the inconvenience, but we are currently unable to accommodate changing email addresses in the app. \n\nYou can change your email by calling our customer support number at 123- 456-7890</string>
-    <string name="done">Done</string>"X"
     <string name="password_mandatory">Password*</string>
     <string name="confirm_password">Confirm password</string>
     <string name="confirm_password_mandatory">Confirm password*</string>

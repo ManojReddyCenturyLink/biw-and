@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
 import com.centurylink.biwf.utility.Errors
-import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
@@ -49,32 +48,21 @@ class PersonalInfoViewModel @Inject constructor(
     fun validateInput(): Errors {
         val errors = Errors()
         if (phoneNumberValue.isEmpty()) {
-            errors["mandatoryFieldError"] = true
-            errors["mobileNumberError"] = true
-        } else {
-            errors["mobileNumberError"] = false
+            errors["mobileNumberError"] = "mobileNumberError"
+            errors["fieldMandatory"] = "fieldMandatory"
         }
         if (passwordValue.isEmpty()) {
-            errors["mandatoryFieldError"] = true
-            errors["passwordError"] = true
-        } else {
-            errors["passwordError"] = false
+            errors["passwordError"] = "passwordError"
+            errors["fieldMandatory"] = "fieldMandatory"
         }
         if (confirmPasswordValue.isEmpty()) {
-            errors["mandatoryFieldError"] = true
-            errors["confirmPasswordError"] = true
-        } else {
-            errors["confirmPasswordError"] = false
+            errors["confirmPasswordError"] = "confirmPasswordError"
+            errors["fieldMandatory"] = "fieldMandatory"
         }
         if (confirmPasswordValue != passwordValue && confirmPasswordValue.isNotEmpty() && passwordValue.isNotEmpty()) {
-            errors["passwordMismatchError"] = true
-            errors["passwordError"] = true
-            errors["confirmPasswordError"] = true
-        } else {
-            errors["passwordMismatchError"] = false
-        }
-        if (!errors.hasErrors()) {
-            errors["mobileNumberError"] = false
+            errors["passwordMismatchError"] = "passwordMismatchError"
+            errors["passwordError"] = "passwordError"
+            errors["confirmPasswordError"] = "confirmPasswordError"
         }
         this.error.value = errors
         return errors

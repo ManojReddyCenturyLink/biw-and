@@ -20,6 +20,7 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import kotlinx.android.synthetic.main.widget_info_popup.view.*
 import javax.inject.Inject
 
+
 class PersonalInfoActivity : BaseActivity() {
 
     @Inject
@@ -56,8 +57,9 @@ class PersonalInfoActivity : BaseActivity() {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
+                binding.errors = personalInfoViewModel.error
+                binding.lifecycleOwner = this.lifecycleOwner
                 val errors = personalInfoViewModel.validateInput()
-                validateFields()
                 if (!errors.hasErrors()) {
                     personalInfoViewModel.updatePassword()
                     finish()
@@ -108,11 +110,8 @@ class PersonalInfoActivity : BaseActivity() {
                 // Do nothing
             }
         })
-        binding.personalInfoPhoneNumberInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editText: Editable?) {
-                personalInfoViewModel.onPhoneNumberChanged(editText.toString())
-            }
-
+        binding.personalInfoPhoneNumberInput.addTextChangedListener(object :
+            TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 // Do nothing
             }
@@ -120,9 +119,48 @@ class PersonalInfoActivity : BaseActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 // Do nothing
             }
+
+            override fun afterTextChanged(s: Editable?) {
+                personalInfoViewModel.onPhoneNumberChanged(s.toString())
+
+                val digits = StringBuilder()
+                val phone = StringBuilder()
+                val chars: CharArray =
+                    binding.personalInfoPhoneNumberInput.text.toString().toCharArray()
+                for (x in chars.indices) {
+                    if (Character.isDigit(chars[x])) {
+                        digits.append(chars[x])
+                    }
+                }
+                if (digits.toString().length >= 3) {
+                    phone.append(digits.toString().substring(0, 3) + "-")
+                    if (digits.toString().length >= 6) {
+                        phone.append(digits.toString().substring(3, 6) + "-")
+                        /** the phone number will not go over 12 digits  if ten, set the limit to ten digits */
+                        if (digits.toString().length >= 10) {
+                            phone.append(digits.toString().substring(6, 10))
+                        } else {
+                            phone.append(digits.toString().substring(6))
+                        }
+                    } else {
+                        phone.append(digits.toString().substring(3))
+                    }
+                    /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
+                    binding.personalInfoPhoneNumberInput.removeTextChangedListener(this)
+                    /** set the new text to the EditText  */
+                    binding.personalInfoPhoneNumberInput.setText(phone.toString())
+                    /** bring the cursor to the end of input  */
+                    binding.personalInfoPhoneNumberInput.setSelection(binding.personalInfoPhoneNumberInput.getText().toString().length)
+                    /* bring back the watcher and go on listening to change events */
+                    binding.personalInfoPhoneNumberInput.addTextChangedListener(
+                        this
+                    )
+                } else {
+                    return
+                }
+            }
         })
     }
-
 
     private fun toggleTextVisibility(togglePasswordVisibility: Boolean, layout: String) {
         if (togglePasswordVisibility) {
@@ -161,36 +199,6 @@ class PersonalInfoActivity : BaseActivity() {
         dialogView.popup_ok_button.setOnClickListener { alertDialog.dismiss() }
         alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
         alertDialog.show()
-    }
-
-    private fun validateFields() {
-        val checks = personalInfoViewModel.error
-
-        if (checks.value?.get("mandatoryFieldError")!!) {
-            binding.mandatoryFieldsLabel.visibility = View.VISIBLE
-        }
-        if (checks.value?.get("mobileNumberError")!!) {
-            binding.personalInfoPhoneNumberInput.background =
-                getDrawable(R.drawable.background_thin_border_red)
-            binding.phoneNumberErrorText.visibility = View.VISIBLE
-            binding.phoneNumberText.visibility = View.GONE
-        }
-        if (checks.value?.get("passwordError")!! || checks.value?.get("passwordMismatchError")!!) {
-            binding.personalInfoPasswordInput.background =
-                getDrawable(R.drawable.background_thin_border_red)
-            binding.personalInfoPasswordErrorLabel.visibility = View.VISIBLE
-            binding.personalInfoPasswordLabel.visibility = View.GONE
-        }
-        if (checks.value?.get("confirmPasswordError")!! || checks.value?.get("passwordMismatchError")!!) {
-            binding.personalInfoConfirmPasswordInput.background =
-                getDrawable(R.drawable.background_thin_border_red)
-            binding.personalInfoConfirmPasswordErrorLabel.visibility = View.VISIBLE
-            binding.personalInfoConfirmPasswordLabel.visibility = View.GONE
-        }
-        if (checks.value?.get("passwordMismatchError")!!) {
-            binding.errorPasswordDifferent.visibility = View.VISIBLE
-            binding.errorConfirmPasswordDifferent.visibility = View.VISIBLE
-        }
     }
 
     companion object {
