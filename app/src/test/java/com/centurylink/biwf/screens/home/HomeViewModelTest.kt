@@ -21,8 +21,6 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: HomeViewModel
 
-
-
     private val mockuserRepository : UserRepository = mockk(relaxed = true) {
         every{ getUserId() } returns ""
     }
