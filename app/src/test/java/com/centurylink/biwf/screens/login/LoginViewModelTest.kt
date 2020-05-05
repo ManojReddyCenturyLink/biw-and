@@ -31,7 +31,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     @Before
     fun setup() {
         every { mockAccountRepository.login(any(), any(), any()) } returns true
-        every { mockSharedPreferences.getUserId("USER_ID") }.returns("")
+        every { mockSharedPreferences.getValueByID("USER_ID") }.returns("")
         every { mockSharedPreferences.saveUserId("USER_ID") } just runs
         every { mockSharedPreferences.removeUserId() } just runs
         viewModel = LoginViewModel(accountRepository = mockAccountRepository, sharedPreferences = mockSharedPreferences, authService = mockAuthService)

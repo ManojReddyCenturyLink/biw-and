@@ -3,11 +3,13 @@ package com.centurylink.biwf.repos
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.model.Account
+import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class AccountRepository @Inject constructor(
+    private val preferences: Preferences
 ) {
 
     fun login(email: String, password: String, rememberMeFlag: Boolean): Boolean {
@@ -29,5 +31,13 @@ class AccountRepository @Inject constructor(
                 billingAddress = "1222 Bilington Way"
             )
         )
+    }
+
+    fun storeAccountId(accountId: String) {
+        preferences.saveAccountId(accountId)
+    }
+
+    fun getAccountId(): String? {
+        return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 }

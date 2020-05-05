@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.impl.network
 
+import android.util.Log
 import com.centurylink.biwf.service.auth.TokenService
 import com.centurylink.biwf.service.auth.accessTokenHeader
 import okhttp3.Authenticator
@@ -41,7 +42,7 @@ class OAuthHttpClient @Inject constructor(
  */
 private fun addAccessTokenHeader(service: TokenService, chain: Interceptor.Chain): Response {
     val accessTokenHeader = service.accessTokenHeader
-
+    Log.i("JAMMY","Access Token Header "+accessTokenHeader)
     return if (accessTokenHeader.isNotEmpty()) {
         val request = chain.request()
             .newBuilder()
