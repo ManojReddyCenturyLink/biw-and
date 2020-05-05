@@ -166,7 +166,6 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             day
         )
         datePicker.datePicker.minDate = c.timeInMillis
-       // datePicker.datePicker.maxDate =4765112941000 // Time stamp for 31 decemeber 2120
         datePicker.show()
     }
 
