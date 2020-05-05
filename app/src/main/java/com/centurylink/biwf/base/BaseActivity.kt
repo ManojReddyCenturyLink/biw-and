@@ -14,7 +14,7 @@ import dagger.android.AndroidInjection
  */
 abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
 
-    override val liveDataLifecycleOwner: LifecycleOwner get() = this
+    override val lifecycleOwner: LifecycleOwner get() = this
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

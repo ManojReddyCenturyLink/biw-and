@@ -69,7 +69,9 @@ android {
 dependencies {
     //Android Core libraries and
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
+
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
@@ -105,8 +107,9 @@ dependencies {
 
     //LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$androidxLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidxLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidxLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$androidxLifecycleVersion"
 
     // Parceler in Kotlin
     implementation "org.parceler:parceler-api:$parcelerVersion"
@@ -124,7 +127,6 @@ dependencies {
     // AppAuth
     implementation "net.openid:appauth:0.7.1"
     implementation "androidx.security:security-crypto:1.0.0-rc01"
-    implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
@@ -132,6 +134,7 @@ dependencies {
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoVersion"
     testImplementation "androidx.arch.core:core-testing:$archCoreTestingVersion"
     testImplementation "org.amshove.kluent:kluent-android:$kluentVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     androidTestImplementation "androidx.test.ext:junit:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
 }

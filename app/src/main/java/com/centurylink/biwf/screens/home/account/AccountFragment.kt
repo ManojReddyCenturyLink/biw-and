@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class AccountFragment : BaseFragment() {
 
-    override val liveDataLifecycleOwner: LifecycleOwner = this
+    override val lifecycleOwner: LifecycleOwner = this
 
     @Inject
     lateinit var factory: DaggerViewModelFactory

@@ -9,7 +9,6 @@ import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
-import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
@@ -23,8 +22,6 @@ class HomeActivity : BaseActivity() {
     lateinit var factory: DaggerViewModelFactory
     @Inject
     lateinit var navigator: Navigator
-    @Inject
-    lateinit var testService: TestRestServices
 
     private val viewModel by lazy {
         ViewModelProvider(this, factory).get(HomeViewModel::class.java)
@@ -42,9 +39,12 @@ class HomeActivity : BaseActivity() {
         initViews()
         initOnClicks()
 
-        testService.query("SELECT Name FROM Contact LIMIT 10")
-            .map { it.toString() }
-            .subscribe({ Timber.d(it) }, Timber::e)
+        // Example: Listen to data emitted from Flow properties.
+        // TODO Remove this example when we get some actual code here using this setup.
+        viewModel.apply {
+            testRestFlow.observe { Timber.d(it) }
+            testRestErrorFlow.observe { Timber.e(it) }
+        }
     }
 
     /**
