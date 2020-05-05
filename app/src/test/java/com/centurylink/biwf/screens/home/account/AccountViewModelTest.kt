@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.CommunicationPreferences
 import com.centurylink.biwf.model.Subscription
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.CommunicationRepository
+import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.SubscriptionRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -28,6 +29,9 @@ class AccountViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var mockAccountRepository: AccountRepository
 
+    @MockK
+    private lateinit var mockContactRepository: ContactRepository
+
     @Before
     fun setup() {
         setUpDummyAccount()
@@ -37,14 +41,19 @@ class AccountViewModelTest : ViewModelBaseTest() {
         every { mockAccountRepository.login(any(), any(), any()) } returns true
         every { mockAccountRepository.getAccount() } returns MutableLiveData(mockAccount)
 
-        every { mockCommunicationRepository.getPreferences() } returns MutableLiveData(mockCommunicationPreferences)
+        every { mockCommunicationRepository.getPreferences() } returns MutableLiveData(
+            mockCommunicationPreferences
+        )
 
-        every { mockSubscriptionRepository.getSubscription() } returns MutableLiveData(mockSubscription)
+        every { mockSubscriptionRepository.getSubscription() } returns MutableLiveData(
+            mockSubscription
+        )
 
         viewModel = AccountViewModel(
             communicationRepository = mockCommunicationRepository,
             subscriptionRepository = mockSubscriptionRepository,
-            accountRepository = mockAccountRepository
+            accountRepository = mockAccountRepository,
+            contactRepository = mockContactRepository
         )
     }
 

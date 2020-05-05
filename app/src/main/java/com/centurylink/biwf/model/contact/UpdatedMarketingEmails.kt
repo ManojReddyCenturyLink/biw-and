@@ -6,8 +6,6 @@ import java.io.Serializable
 class UpdatedMarketingEmails (
 
     @SerializedName("Email_Opt_In__c")
-    val emailOptInC: Boolean,
+    val emailOptInC: Boolean
 
-    @SerializedName("Marketing_Opt_In__c")
-    val marketingOptInC: Boolean
 ):Serializable
