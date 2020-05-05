@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.login
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
@@ -13,6 +14,7 @@ import com.centurylink.biwf.utility.ObservableData
 import com.centurylink.biwf.utility.ViewModelFactoryWithInput
 import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.utility.viewModelFactory
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,10 +56,13 @@ class LoginViewModel internal constructor(
     }
 
     fun onLoginClicked() {
-        authService.launchSignInFlow()
-            .doOnError(Timber::e)
-            .onErrorComplete()
-            .subscribe()
+        viewModelScope.launch {
+            try {
+                authService.launchSignInFlow()
+            } catch (error: Throwable) {
+                Timber.e(error)
+            }
+        }
     }
 
     fun onExistingUserLogin() {

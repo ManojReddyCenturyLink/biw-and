@@ -1,8 +1,6 @@
 package com.centurylink.biwf.service.auth
 
 import android.content.Intent
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
 
 /**
  * Service for the launching the sign-in flow and handling the result.
@@ -16,25 +14,25 @@ interface AuthService<S> {
     /**
      * Call this method to launch a sign-in flow.
      *
-     * @return A Completable that either emits an error or completes successfully when the sign-in flow has launched.
+     * This method resumes when the sign-in flow has launched.
      */
-    fun launchSignInFlow(): Completable
+    suspend fun launchSignInFlow()
 
     /**
      * Call this method to launch the logout flow.
      *
-     * @return A Completable that either emits an error or completes successfully when the logout flow has launched.
+     * This method resumes when the logout flow has launched.
      */
-    fun launchLogoutFlow(): Completable
+    suspend fun launchLogoutFlow()
 
     /**
      * Handles the sign-in/sign-up/logout redirect for the receiving Activity.
      * Provide its [Intent] to ensure a correct handling of the auth-flow response.
      *
      * @param androidIntent The [Intent] from the calling Activity that handles the redirect.
-     * @return A Single that emits a [AuthResponseType]
+     * @return An [AuthResponseType]
      */
-    fun handleResponse(androidIntent: Intent): Single<AuthResponseType>
+    suspend fun handleResponse(androidIntent: Intent): AuthResponseType
 }
 
 /**
