@@ -57,10 +57,9 @@ class AccountRepository @Inject constructor(
     }
 
 
-    fun setServiceCallsAndTexts(emailValue: Boolean) :Flow<Unit> = flow {
+    suspend fun setServiceCallsAndTexts(emailValue: Boolean) {
         val updatedServiceCallsAndTexts = UpdatedServiceCallsAndTexts(emailValue)
         val update = accountApiService.submitServiceCallDetails(getAccountId()!!,
             updatedServiceCallsAndTexts)
-        emit(Unit)
     }
 }

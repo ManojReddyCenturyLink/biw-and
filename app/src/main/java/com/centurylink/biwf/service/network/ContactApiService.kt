@@ -11,8 +11,8 @@ interface ContactApiService {
     suspend fun getContactDetails(@Path("contact-id") id: String): ContactDetails
 
     @PATCH("sobjects/Contact/{contact-id}")
-    suspend fun submitMarketingEmail(@Path("contact-id") id: String, @Body updatedPassword: UpdatedMarketingEmails)
+    suspend fun submitMarketingEmail(@Path("contact-id") id: String, @Body updateMarketing: UpdatedMarketingEmails)
 
     @PATCH("sobjects/Contact/{contact-id}")
-    suspend fun submitMarketingCalls(@Path("contact-id") id: String, @Body updatedPassword: UpdatedCallsandTextMarketing)
+    suspend fun submitMarketingCalls(@Path("contact-id") id: String, @Body updatedCall: UpdatedCallsandTextMarketing)
 }

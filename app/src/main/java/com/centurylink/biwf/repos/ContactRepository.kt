@@ -27,28 +27,21 @@ class ContactRepository @Inject constructor(
 
 
     fun getContactDetails(): Flow<ContactDetails> = flow {
-        Log.i("JAMMY","Contact ID "+getContactId())
         val contactInfo = contactApiService.getContactDetails(getContactId()!!)
         emit(contactInfo)
     }
 
-    fun setMarketingEmails(emailValue: Boolean): Flow<Unit> = flow {
+    suspend fun setMarketingEmails(emailValue: Boolean)  {
         val updatedMarketingEmails = UpdatedMarketingEmails(emailValue)
-        emit(
-            contactApiService.submitMarketingEmail(
+        contactApiService.submitMarketingEmail(
                 getContactId()!!,
-                updatedMarketingEmails
-            )
-        )
+                updatedMarketingEmails)
     }
 
-    fun setMarketingCallsAndText(emailValue: Boolean): Flow<Unit> = flow {
+    suspend fun setMarketingCallsAndText(emailValue: Boolean){
         val updatedCallsandTextMarketing = UpdatedCallsandTextMarketing(emailValue)
-        emit(
-            contactApiService.submitMarketingCalls(
-                getContactId()!!,
-                updatedCallsandTextMarketing
-            )
-        )
+        contactApiService.submitMarketingCalls(
+            getContactId()!!,
+            updatedCallsandTextMarketing)
     }
 }

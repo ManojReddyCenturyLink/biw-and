@@ -5,9 +5,14 @@ import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.nhaarman.mockitokotlin2.doReturn
 import com.nhaarman.mockitokotlin2.mock
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.amshove.kluent.shouldEqual
+import org.hamcrest.core.Every
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -16,8 +21,11 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: HomeViewModel
 
-    @MockK
-    private lateinit var mockuserRepository: UserRepository
+
+
+    private val mockuserRepository : UserRepository = mockk(relaxed = true) {
+        every{ getUserId() } returns ""
+    }
 
     @MockK
     private lateinit var mockAccountRepository: AccountRepository

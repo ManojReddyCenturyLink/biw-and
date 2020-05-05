@@ -1,11 +1,13 @@
 package com.centurylink.biwf.screens.home.account
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.contact.ContactDetails
+import com.centurylink.biwf.model.contact.UpdatedMarketingEmails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.CommunicationRepository
 import com.centurylink.biwf.repos.ContactRepository
@@ -25,12 +27,6 @@ class AccountViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     lateinit var accountFlow: Flow<AccountDetails>
-
-    lateinit var onServiceCalls: Flow<Unit>
-
-    lateinit var onMarketingEmailflow: Flow<Unit>
-    lateinit var onMarketingcallsandTextflow: Flow<Unit>
-
     lateinit var contactFlow: Flow<ContactDetails>
     var contactErrorFlow: Flow<Throwable> = MutableStateFlow()
     var contactErrorSubmission: Flow<Throwable> = MutableStateFlow()
@@ -92,7 +88,7 @@ class AccountViewModel @Inject constructor(
     fun onServiceCallsAndTextsChange(email: Boolean) {
         viewModelScope.launch {
             try {
-                onServiceCalls= accountRepository.setServiceCallsAndTexts(email)
+                accountRepository.setServiceCallsAndTexts(email)
             } catch (e: Throwable) {
                 accountErrorSubmission.latestValue = e
             }
@@ -102,9 +98,9 @@ class AccountViewModel @Inject constructor(
     fun onMarketingEmailsChange(boolean: Boolean) {
         viewModelScope.launch {
             try {
-                onMarketingEmailflow = contactRepository.setMarketingEmails(boolean)
+                contactRepository.setMarketingEmails(boolean)
             } catch (e: Throwable) {
-                contactErrorSubmission.latestValue = e
+                contactErrorFlow.latestValue = e
             }
         }
     }
@@ -112,7 +108,7 @@ class AccountViewModel @Inject constructor(
     fun onMarketingCallsAndTextsChange(boolean: Boolean) {
         viewModelScope.launch {
             try {
-                onMarketingcallsandTextflow = contactRepository.setMarketingCallsAndText(boolean)
+               contactRepository.setMarketingCallsAndText(boolean)
             } catch (e: Throwable) {
                 contactErrorSubmission.latestValue = e
             }
@@ -151,5 +147,4 @@ class AccountViewModel @Inject constructor(
             }
         }
     }
-
 }
