@@ -48,8 +48,7 @@ class AccountRepository @Inject constructor(
     }
 
     fun getAccountId(): String? {
-       // return preferences.getValueByID(Preferences.ACCOUNT_ID)
-        return "001q000001HdM41AAF"
+        return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
     fun getAccountDetails() : Flow<AccountDetails> = flow {

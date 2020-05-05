@@ -22,16 +22,16 @@ class Preferences(private val store: KeyValueStore) {
         store.remove(USER_ID)
     }
 
-    fun saveAccountId(userId: String?) {
-        store.put(ACCOUNT_ID, userId!!)
+    fun saveAccountId(accountId: String?) {
+        store.put(ACCOUNT_ID, accountId!!)
     }
 
     fun removeAccountId() {
         store.remove(ACCOUNT_ID)
     }
 
-    fun saveContactId(userId: String?) {
-        store.put(CONTACT_ID, userId!!)
+    fun saveContactId(accountId: String?) {
+        store.put(CONTACT_ID, accountId!!)
     }
 
     fun removeContactId() {

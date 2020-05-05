@@ -8,7 +8,13 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.model.user.UserDetails
+import com.centurylink.biwf.model.user.UserInfo
+import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.ContactRepository
+import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.TestRestServices
+import com.centurylink.biwf.service.network.UserService
 import com.centurylink.biwf.utility.MutableStateFlow
 import com.centurylink.biwf.utility.ObservableData
 import com.centurylink.biwf.widgets.OnlineStatusData
@@ -17,8 +23,19 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-    private val testRestServices: TestRestServices
+    private val testRestServices: TestRestServices,
+    private val userService: UserService,
+    private val userRepository: UserRepository,
+    private val contactRepository: ContactRepository,
+    private val accountRepository: AccountRepository
+
 ) : BaseViewModel() {
+
+    val userRestFlow: Flow<UserInfo> = MutableStateFlow()
+    val userRestErrorFlow: Flow<Throwable> = MutableStateFlow()
+
+    val userDetailsFlow: Flow<UserDetails> = MutableStateFlow()
+    val userDetailsErrorFlow: Flow<Throwable> = MutableStateFlow()
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
     val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
@@ -40,6 +57,9 @@ class HomeViewModel @Inject constructor(
 
         // TODO Remove later when example is no longer needed.
         requestTestRestFlow()
+        requestUserInfo()
+        getUserDetails()
+
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {
@@ -115,6 +135,35 @@ class HomeViewModel @Inject constructor(
 
     private fun loadAccountsData() {
         //Load data here
+    }
+
+    private fun requestUserInfo() {
+        viewModelScope.launch {
+            try {
+                userRestFlow.latestValue =
+                    userService.qetUserInfo()
+                val userId: String = userRestFlow.latestValue.recentItems[0].Id!!
+                userRepository.storeUserId(userId)
+
+
+            } catch (e: Throwable) {
+                userRestErrorFlow.latestValue = e
+            }
+        }
+    }
+
+    private fun getUserDetails() {
+        val userId = userRepository.getUserId()
+        viewModelScope.launch {
+            try {
+                userDetailsFlow.latestValue =
+                    userService.getCompleteUserDetails(userId!!)
+                accountRepository.storeAccountId(userDetailsFlow.latestValue.accountId!!)
+                contactRepository.storeContactId(userDetailsFlow.latestValue.contactId!!)
+            } catch (e: Throwable) {
+                userDetailsErrorFlow.latestValue = e
+            }
+        }
     }
 }
 

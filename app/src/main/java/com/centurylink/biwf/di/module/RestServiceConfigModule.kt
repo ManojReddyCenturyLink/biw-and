@@ -75,4 +75,10 @@ class RestServiceConfigModule(
     fun provideContactServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): ContactApiService {
         return factory.create()
     }
+
+    @Singleton
+    @Provides
+    fun provideUserServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): UserService {
+        return factory.create()
+    }
 }
