@@ -52,7 +52,19 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     }
 
     override fun onItemClick(item: TopicList) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        scheduleCallbackViewModel.navigateAdditionalInfoScreen(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TO_HOME -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    setResult(RESULT_OK)
+                    finish()
+                }
+            }
+        }
     }
 
     private fun initHeaders() {
@@ -68,7 +80,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
                 finish()
             }
         }
-        binding.callUsNowTextview.setOnClickListener { scheduleCallbackViewModel.launchCallDialer() }
+        binding.callUsNowLayout.setOnClickListener { scheduleCallbackViewModel.launchCallDialer() }
     }
 
     private fun prepareRecyclerView(list: List<TopicList>) {

@@ -69,7 +69,13 @@
             android:name=".screens.support.schedulecallback.ScheduleCallbackActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
-            android:theme="@style/AppTheme.ScheduleCallbackActivity"
+            android:theme="@style/AppTheme.ScheduleCallbackModuleTheme"
+            />
+        <activity
+            android:name=".screens.support.schedulecallback.AdditionalInfoActivity"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"
+            android:theme="@style/AppTheme.ScheduleCallbackModuleTheme"
             />
         <activity
             android:name=".screens.subscription.CancelSubscriptionDetailsActivity"

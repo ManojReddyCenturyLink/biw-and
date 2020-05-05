@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/schedule_callback_info_text"
@@ -54,31 +54,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schedule_callback_recyclerview" />
 
-    <TextView
-        android:id="@+id/call_us_now_textview"
-        android:layout_width="@dimen/padding_0"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/call_us_now_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:text="Call us now at 833-250-6306"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_16"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_rv_view" />
-
-    <ImageView
-        android:id="@+id/call_us_navigate_to_dialler"
-        android:layout_width="@dimen/close_icon_size"
-        android:layout_height="@dimen/close_icon_size"
         android:layout_marginEnd="@dimen/margin_spacing_tiny"
-        android:contentDescription="@string/content_description_holder"
-        android:padding="@dimen/margin_spacing_tiny"
-        android:scaleX="-1"
-        android:src="@drawable/ic_back"
-        android:tint="@color/blue"
-        app:layout_constraintBottom_toBottomOf="@+id/call_us_now_textview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/call_us_now_textview" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/schedule_callback_rv_view">
+
+        <TextView
+            android:id="@+id/call_us_now_textview"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            android:text="@string/call_us_now_at_833_250_6306"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/call_us_navigate_to_dialler"
+            android:layout_width="@dimen/close_icon_size"
+            android:layout_height="@dimen/close_icon_size"
+            android:contentDescription="@string/content_description_holder"
+            android:padding="@dimen/margin_spacing_tiny"
+            android:scaleX="-1"
+            android:src="@drawable/ic_back"
+            android:tint="@color/blue"
+            app:layout_constraintBottom_toBottomOf="@+id/call_us_now_textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/call_us_now_textview" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View
         android:id="@+id/live_chat_divider"
@@ -88,5 +96,5 @@
         android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/call_us_now_textview" />
+        app:layout_constraintTop_toBottomOf="@+id/call_us_now_layout" />
 </androidx.constraintlayout.widget.ConstraintLayout>

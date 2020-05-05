@@ -16,6 +16,7 @@ import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
+import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoActivity
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
 import com.centurylink.biwf.utility.WebLinkUtil
 import javax.inject.Inject
@@ -129,6 +130,16 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    fun navigateToAdditionalInfo() {
+        val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(
+                AdditionalInfoActivity.newIntent(it, bundle),
+                AdditionalInfoActivity.REQUEST_TO_HOME
+            )
+        }
+    }
+
     private class ActivityObserver private constructor(
         private val activity: AppCompatActivity
     ) : LifecycleObserver {
@@ -144,7 +155,6 @@ class Navigator @Inject constructor() : LifecycleObserver {
             observers -= this
             observers.add(0, this)
         }
-
 
         companion object {
             private val observers = mutableListOf<ActivityObserver>()

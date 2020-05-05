@@ -5,7 +5,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/line_break_color"
+        android:background="@color/background_grey"
         >
 
         <androidx.constraintlayout.widget.Guideline

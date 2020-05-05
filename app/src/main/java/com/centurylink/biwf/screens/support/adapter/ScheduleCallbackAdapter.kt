@@ -22,7 +22,8 @@ class ScheduleCallbackAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleCallbackViewHolder {
         return ScheduleCallbackViewHolder(
-            LayoutInflater.from(mContext).inflate(R.layout.widget_recyclerview_list, parent, false))
+            LayoutInflater.from(mContext).inflate(R.layout.widget_recyclerview_list, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -32,6 +33,7 @@ class ScheduleCallbackAdapter(
     override fun onBindViewHolder(holder: ScheduleCallbackViewHolder, position: Int) {
         val item: TopicList = listItems[position]
         holder.header.text = item.topic
+        holder.content.setOnClickListener { itemClickListener.onItemClick(item) }
     }
 }
 
