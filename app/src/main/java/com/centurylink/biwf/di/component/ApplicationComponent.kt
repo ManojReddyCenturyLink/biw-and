@@ -35,6 +35,7 @@ import javax.inject.Singleton
         (PersonalInfoActivityInjectorModule::class),
         (CancelSubscriptionInjectorModule::class),
         (ScheduleCallbackInjectorModule::class),
+        (AdditionalInfoActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DashboardFragmentInjectorModule::class),
         (AccountFragmentInjectorModule::class),

@@ -109,6 +109,16 @@
     <string name="speed_test_upload_fake_speed">908</string>
     <string name="tel">tel:833-250-6306</string>
     <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
+    <string name="reason_for_call_back"><font color="#001e60" size="16"><b>Please give us more information about the help you need. </b></font><font color="#bebebe" size="12">(optional)</font></string>
+    <string name="additional_information">Additional information</string>
+    <string name="additional_info_title">Additional info</string>
+    <string name="next">Next</string>
+    <string name="learn_more_activity">Learn More Activity</string>
+    <string name="activity">Activity</string>
+    <string name="call_us_now_at_833_250_6306">Call us now at 833-250-6306</string>
+    <string name="done">DONE</string>
+    <string name="internet_online">Internet online</string>
+    <string name="internet_offline">Internet offline</string>
 
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>

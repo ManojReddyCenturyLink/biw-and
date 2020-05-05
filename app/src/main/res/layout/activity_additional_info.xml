@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".screens.support.schedulecallback.AdditionalInfoActivity">
+
+    <include
+        android:id="@+id/incHeader"
+        layout="@layout/widget_subheader_with_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/additional_info_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin_spacing"
+        android:text="@string/reason_for_call_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader" />
+
+    <EditText
+        android:id="@+id/additional_info_input"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="157dp"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:background="@drawable/background_thin_border"
+        android:gravity="top|start"
+        android:hint="@string/additional_information"
+        android:inputType="textMultiLine"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:scrollbars="vertical"
+        android:textSize="@dimen/text_size_16"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/additional_info_text" />
+
+    <Button
+        android:id="@+id/additional_info_next_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/margin_spacing_large"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:background="@drawable/rounded_button_background"
+        android:gravity="center"
+        android:text="@string/next"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/additional_info_input" />
+</androidx.constraintlayout.widget.ConstraintLayout>

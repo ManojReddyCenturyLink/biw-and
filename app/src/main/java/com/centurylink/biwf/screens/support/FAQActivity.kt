@@ -76,8 +76,20 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
     override fun onVideoItemClicked(videoFAQ: Videofaq) {
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TO_HOME -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    setResult(RESULT_OK)
+                    finish()
+                }
+            }
+        }
+    }
+
     private fun initHeaders() {
-        var screenTitle: String = intent.getStringExtra(FAQ_TITLE)
+        val screenTitle: String = intent.getStringExtra(FAQ_TITLE)!!
         binding.activityHeaderView.subHeaderTitle.text = screenTitle
         binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
         binding.activityHeaderView.subHeaderRightIcon.setOnClickListener {
