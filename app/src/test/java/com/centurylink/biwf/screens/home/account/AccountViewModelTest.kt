@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.account
 
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.model.Account
 import com.centurylink.biwf.model.CommunicationPreferences
 import com.centurylink.biwf.model.Subscription
@@ -11,6 +12,7 @@ import com.centurylink.biwf.repos.SubscriptionRepository
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import org.amshove.kluent.internal.assertSame
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -74,6 +76,16 @@ class AccountViewModelTest : ViewModelBaseTest() {
         assertSame(true, viewModel.marketingEmailStatus.value)
         viewModel.onMarketingEmailsChange(false)
         assertSame(false, viewModel.marketingEmailStatus.value)
+    }
+
+    @Test
+    fun onPersonalInfoCardClick_navigateToPersonalInfoScreen() {
+        viewModel.onPersonalInfoCardClick()
+        Assert.assertEquals(
+            "Personal Info Screen wasn't Launched",
+            AccountCoordinator.AccountCoordinatorDestinations.PROFILE_INFO,
+            viewModel.myState.value
+        )
     }
 
     private fun setUpDummyAccount() {
