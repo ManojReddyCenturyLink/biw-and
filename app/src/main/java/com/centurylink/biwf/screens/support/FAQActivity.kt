@@ -128,7 +128,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
 
     private fun initView() {
         binding.faqContactUs.contactUsHeading.visibility = View.GONE
-        binding.faqContactUs.scheduleCallbackTextview.setOnClickListener { faqViewModel.navigateToScheduleCallback() }
+        binding.faqContactUs.scheduleCallbackRow.setOnClickListener { faqViewModel.navigateToScheduleCallback() }
         binding.faqVideoList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         val myDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)

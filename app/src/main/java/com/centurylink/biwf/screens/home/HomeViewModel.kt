@@ -8,16 +8,21 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.model.user.UserInfo
+import com.centurylink.biwf.network.UserService
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.MutableStateFlow
 import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
-    private val testRestServices: TestRestServices
+    private val testRestServices: TestRestServices,
+    private val userService: UserService,
+    private val sharedPreferences: Preferences
 ) : BaseViewModel() {
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -26,6 +31,8 @@ class HomeViewModel @Inject constructor(
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
+    val userRestFlow: Flow<UserInfo> = MutableStateFlow()
+    val userRestErrorFlow: Flow<Throwable> = MutableStateFlow()
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = MutableStateFlow()
@@ -40,6 +47,20 @@ class HomeViewModel @Inject constructor(
 
         // TODO Remove later when example is no longer needed.
         requestTestRestFlow()
+        requestUserInfo()
+    }
+
+    private fun requestUserInfo() {
+        viewModelScope.launch {
+            try {
+                userRestFlow.latestValue =
+                    userService.qetUserInfo()
+                val userId: String = userRestFlow.latestValue.recentItems[0].Id!!
+                sharedPreferences.saveUserId(userId)
+            } catch (e: Throwable) {
+                userRestErrorFlow.latestValue = e
+            }
+        }
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {
@@ -55,9 +76,10 @@ class HomeViewModel @Inject constructor(
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
 
-	fun onNotificationClicked(){
+    fun onNotificationClicked() {
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
     }
+
     fun loadData() {
         loadAccountsData()
         loadDevicesData()
@@ -97,11 +119,26 @@ class HomeViewModel @Inject constructor(
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {
         val list = mutableListOf<TabsBaseItem>()
 
-        list.add(TabsBaseItem(indextype = TabsBaseItem.ACCOUNT, titleRes = R.string.tittle_text_account))
-        list.add(TabsBaseItem(indextype = TabsBaseItem.DASHBOARD, titleRes = R.string.tittle_text_dashboard, bundle = bundleOf("NEW_USER" to isUpperTab)))
+        list.add(
+            TabsBaseItem(
+                indextype = TabsBaseItem.ACCOUNT,
+                titleRes = R.string.tittle_text_account
+            )
+        )
+        list.add(
+            TabsBaseItem(
+                indextype = TabsBaseItem.DASHBOARD,
+                titleRes = R.string.tittle_text_dashboard,
+                bundle = bundleOf("NEW_USER" to isUpperTab)
+            )
+        )
         if (!isUpperTab)
-        list.add(TabsBaseItem(indextype = TabsBaseItem.DEVICES, titleRes = R.string.tittle_text_devices))
-
+            list.add(
+                TabsBaseItem(
+                    indextype = TabsBaseItem.DEVICES,
+                    titleRes = R.string.tittle_text_devices
+                )
+            )
         return list
     }
 

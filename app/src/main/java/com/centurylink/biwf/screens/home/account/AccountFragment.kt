@@ -89,7 +89,7 @@ class AccountFragment : BaseFragment() {
         binding.accountSubscriptionCard.subscriptionCard.setOnClickListener {
             viewModel.onSubscriptionCardClick()
         }
-        binding.accountPersonalInfoCard.root.setOnClickListener {
+        binding.accountPersonalInfoCard.personalInfoCardView.setOnClickListener {
             viewModel.onPersonalInfoCardClick()
         }
     }
