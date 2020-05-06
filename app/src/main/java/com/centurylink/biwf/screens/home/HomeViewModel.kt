@@ -9,11 +9,10 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.user.UserInfo
-import com.centurylink.biwf.network.UserService
+import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.MutableStateFlow
 import com.centurylink.biwf.utility.ObservableData
-import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -21,8 +20,7 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
-    private val userService: UserService,
-    private val sharedPreferences: Preferences
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -53,10 +51,9 @@ class HomeViewModel @Inject constructor(
     private fun requestUserInfo() {
         viewModelScope.launch {
             try {
-                userRestFlow.latestValue =
-                    userService.qetUserInfo()
+                userRestFlow.latestValue = userRepository.getUserInfo()
                 val userId: String = userRestFlow.latestValue.recentItems[0].Id!!
-                sharedPreferences.saveUserId(userId)
+                userRepository.storeUserId(userId)
             } catch (e: Throwable) {
                 userRestErrorFlow.latestValue = e
             }

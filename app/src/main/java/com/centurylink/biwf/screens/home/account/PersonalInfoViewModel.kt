@@ -4,19 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
-import com.centurylink.biwf.model.user.UpdatedPassword
-import com.centurylink.biwf.network.UserService
+import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.MutableStateFlow
 import com.centurylink.biwf.utility.ObservableData
-import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PersonalInfoViewModel @Inject constructor(
-    private val userService: UserService,
-    private val sharedPreferences: Preferences
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
     val myState =
@@ -28,8 +25,8 @@ class PersonalInfoViewModel @Inject constructor(
     private var confirmPasswordValue: String = ""
     private var phoneNumberValue: String = ""
 
-    val userPasswordFlow: Flow<Unit> = MutableStateFlow()
-    val userPasswordErrorFlow: Flow<Throwable> = MutableStateFlow()
+    private val userPasswordFlow: Flow<Unit> = MutableStateFlow()
+    private val userPasswordErrorFlow: Flow<Throwable> = MutableStateFlow()
 
     fun updatePassword() {
         callUpdatePasswordApi(passwordValue)
@@ -37,11 +34,10 @@ class PersonalInfoViewModel @Inject constructor(
     }
 
     private fun callUpdatePasswordApi(password: String) {
-        val userId = sharedPreferences.getUserId(Preferences.USER_ID)
+        val userId = userRepository.getUserId()!!
         viewModelScope.launch {
             try {
-                userPasswordFlow.latestValue =
-                    userService.updatePassword(userId!!, UpdatedPassword(password))
+                userPasswordFlow.latestValue = userRepository.resetPassWord(userId)
             } catch (e: Throwable) {
                 userPasswordErrorFlow.latestValue = e
             }
@@ -66,8 +62,34 @@ class PersonalInfoViewModel @Inject constructor(
         this.confirmPasswordValue = confirmPasswordValue
     }
 
-    fun onPhoneNumberChanged(phoneNumberValue: String) {
-        this.phoneNumberValue = phoneNumberValue
+    fun onPhoneNumberChanged(phoneNumberValue: String): String {
+        val digits = StringBuilder()
+        val phone = StringBuilder()
+        val chars: CharArray = phoneNumberValue.toCharArray()
+        for (x in chars.indices) {
+            if (Character.isDigit(chars[x])) {
+                digits.append(chars[x])
+            }
+        }
+        if (digits.toString().length > 3) {
+            phone.append(digits.toString().substring(0, 3) + "-")
+            if (digits.toString().length > 6) {
+                phone.append(digits.toString().substring(3, 6) + "-")
+                /** the phone number will not go over 12 digits  if ten, set the limit to ten digits */
+                if (digits.toString().length >= 10) {
+                    phone.append(digits.toString().substring(6, 10))
+                } else {
+                    phone.append(digits.toString().substring(6))
+                }
+            } else {
+                phone.append(digits.toString().substring(3))
+            }
+        } else {
+            this.phoneNumberValue = digits.toString()
+            return digits.toString()
+        }
+        this.phoneNumberValue = phone.toString()
+        return this.phoneNumberValue
     }
 
     fun validateInput(): Errors {

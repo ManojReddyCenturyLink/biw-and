@@ -83,82 +83,46 @@ class PersonalInfoActivity : BaseActivity() {
         }
     }
 
+    private fun afterTextChanged(listener: (Editable) -> Unit) = object : TextWatcher {
+        override fun afterTextChanged(editText: Editable) {
+            listener(editText)
+        }
+
+        override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {}
+    }
+
     private fun initTextWatchers() {
-        binding.personalInfoPasswordInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editText: Editable?) {
-                personalInfoViewModel.onPasswordValueChanged(editText.toString())
+        binding.personalInfoPasswordInput.addTextChangedListener(
+            afterTextChanged {
+                personalInfoViewModel.onPasswordValueChanged(it.toString())
+                binding.personalInfoPasswordInput.setSelection(binding.personalInfoPasswordInput.text.toString().length)
             }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // Do nothing
+        )
+        binding.personalInfoConfirmPasswordInput.addTextChangedListener(
+            afterTextChanged {
+                personalInfoViewModel.onConfirmPasswordValueChanged(it.toString())
+                binding.personalInfoConfirmPasswordInput.setSelection(binding.personalInfoConfirmPasswordInput.text.toString().length)
             }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // Do nothing
-            }
-        })
-        binding.personalInfoConfirmPasswordInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(editText: Editable?) {
-                personalInfoViewModel.onConfirmPasswordValueChanged(editText.toString())
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // Do nothing
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // Do nothing
-            }
-        })
-        binding.personalInfoPhoneNumberInput.addTextChangedListener(object :
-            TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // Do nothing
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                // Do nothing
-            }
-
+        )
+        binding.personalInfoPhoneNumberInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                personalInfoViewModel.onPhoneNumberChanged(s.toString())
-
-                val digits = StringBuilder()
-                val phone = StringBuilder()
-                val chars: CharArray =
-                    binding.personalInfoPhoneNumberInput.text.toString().toCharArray()
-                for (x in chars.indices) {
-                    if (Character.isDigit(chars[x])) {
-                        digits.append(chars[x])
-                    }
-                }
-                if (digits.toString().length >= 3) {
-                    phone.append(digits.toString().substring(0, 3) + "-")
-                    if (digits.toString().length >= 6) {
-                        phone.append(digits.toString().substring(3, 6) + "-")
-                        /** the phone number will not go over 12 digits  if ten, set the limit to ten digits */
-                        if (digits.toString().length >= 10) {
-                            phone.append(digits.toString().substring(6, 10))
-                        } else {
-                            phone.append(digits.toString().substring(6))
-                        }
-                    } else {
-                        phone.append(digits.toString().substring(3))
-                    }
+                val validatedString = personalInfoViewModel.onPhoneNumberChanged(s.toString())
+                binding.personalInfoPhoneNumberInput.also {
                     /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
-                    binding.personalInfoPhoneNumberInput.removeTextChangedListener(this)
+                    it.removeTextChangedListener(this)
                     /** set the new text to the EditText  */
-                    binding.personalInfoPhoneNumberInput.setText(phone.toString())
+                    it.setText(validatedString.toString())
                     /** bring the cursor to the end of input  */
-                    binding.personalInfoPhoneNumberInput.setSelection(binding.personalInfoPhoneNumberInput.getText().toString().length)
+                    it.setSelection(binding.personalInfoPhoneNumberInput.text.toString().length)
                     /* bring back the watcher and go on listening to change events */
-                    binding.personalInfoPhoneNumberInput.addTextChangedListener(
-                        this
-                    )
-                } else {
-                    return
+                    it.addTextChangedListener(this)
                 }
             }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
         })
     }
 
