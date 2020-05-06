@@ -1,16 +1,8 @@
 package com.centurylink.biwf.service.impl.network
 
-import android.util.Log
 import com.centurylink.biwf.service.auth.TokenService
 import com.centurylink.biwf.service.auth.accessTokenHeader
-import okhttp3.Authenticator
-import okhttp3.Call
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
-import okhttp3.Protocol
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.Route
+import okhttp3.*
 import okhttp3.internal.http.RealResponseBody
 import okio.Buffer
 import timber.log.Timber

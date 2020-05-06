@@ -24,17 +24,10 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
-    private val userService: UserService,
-    private val userRepository: UserRepository,
-    private val contactRepository: ContactRepository,
-    private val accountRepository: AccountRepository
-
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    val userRestFlow: Flow<UserInfo> = MutableStateFlow()
     val userRestErrorFlow: Flow<Throwable> = MutableStateFlow()
-
-    val userDetailsFlow: Flow<UserDetails> = MutableStateFlow()
     val userDetailsErrorFlow: Flow<Throwable> = MutableStateFlow()
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -120,7 +113,6 @@ class HomeViewModel @Inject constructor(
         list.add(TabsBaseItem(indextype = TabsBaseItem.DASHBOARD, titleRes = R.string.tittle_text_dashboard, bundle = bundleOf("NEW_USER" to isUpperTab)))
         if (!isUpperTab)
         list.add(TabsBaseItem(indextype = TabsBaseItem.DEVICES, titleRes = R.string.tittle_text_devices))
-
         return list
     }
 
@@ -139,9 +131,7 @@ class HomeViewModel @Inject constructor(
     private fun requestUserInfo() {
         viewModelScope.launch {
             try {
-                userRestFlow.latestValue = userRepository.getUserInfo()
-                val userId: String = userRestFlow.latestValue.recentItems[0].Id!!
-                userRepository.storeUserId(userId)
+                userRepository.getUserInfo()
             } catch (e: Throwable) {
                 userRestErrorFlow.latestValue = e
             }
@@ -151,9 +141,7 @@ class HomeViewModel @Inject constructor(
     private fun getUserDetails() {
         viewModelScope.launch {
             try {
-                userDetailsFlow.latestValue = userRepository.getUserDetails()
-                accountRepository.storeAccountId(userDetailsFlow.latestValue.accountId!!)
-                contactRepository.storeContactId(userDetailsFlow.latestValue.contactId!!)
+                userRepository.getUserDetails()
             } catch (e: Throwable) {
                 userDetailsErrorFlow.latestValue = e
             }

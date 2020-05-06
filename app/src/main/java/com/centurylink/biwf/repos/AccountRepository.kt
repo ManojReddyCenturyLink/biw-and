@@ -37,11 +37,7 @@ class AccountRepository @Inject constructor(
         )
     }
 
-    fun storeAccountId(accountId: String) {
-        preferences.saveAccountId(accountId)
-    }
-
-    fun getAccountId(): String? {
+    private fun getAccountId(): String? {
         return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
