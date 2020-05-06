@@ -3,8 +3,8 @@ package com.centurylink.biwf.screens.home
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.repos.UserRepository
-import com.nhaarman.mockitokotlin2.mock
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -23,7 +23,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @Before
     fun setup() {
-        viewModel = HomeViewModel(mock(), userRepository)
+        viewModel = HomeViewModel(mockk(), userRepository, mockk())
     }
 
     @Test
