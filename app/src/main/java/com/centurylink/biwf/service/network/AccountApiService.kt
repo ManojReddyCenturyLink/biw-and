@@ -10,7 +10,7 @@ import retrofit2.http.Path
 interface AccountApiService {
 
     @GET("sobjects/Account/{account-id}")
-    suspend fun gerAccountDetails(@Path("account-id") id: String): AccountDetails
+    suspend fun getAccountDetails(@Path("account-id") id: String): AccountDetails
 
     @PATCH("sobjects/Account/{account-id}")
     suspend fun submitServiceCallDetails(

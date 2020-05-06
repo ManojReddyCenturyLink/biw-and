@@ -26,9 +26,9 @@ class ContactRepository @Inject constructor(
     }
 
 
-    fun getContactDetails(): Flow<ContactDetails> = flow {
-        val contactInfo = contactApiService.getContactDetails(getContactId()!!)
-        emit(contactInfo)
+    suspend fun getContactDetails() :ContactDetails {
+       return contactApiService.getContactDetails(getContactId()!!)
+
     }
 
     suspend fun setMarketingEmails(emailValue: Boolean)  {

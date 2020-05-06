@@ -1,18 +1,12 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.model.Account
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.UpdatedServiceCallsAndTexts
 import com.centurylink.biwf.service.network.AccountApiService
-import com.centurylink.biwf.utility.MutableStateFlow
-
 import com.centurylink.biwf.utility.preferences.Preferences
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -51,15 +45,15 @@ class AccountRepository @Inject constructor(
         return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
-    fun getAccountDetails() : Flow<AccountDetails> = flow {
-        val accountInfo = accountApiService.gerAccountDetails(getAccountId()!!)
-        emit(accountInfo)
+    suspend fun getAccountDetails(): AccountDetails {
+        return accountApiService.getAccountDetails(getAccountId()!!)
     }
-
 
     suspend fun setServiceCallsAndTexts(emailValue: Boolean) {
         val updatedServiceCallsAndTexts = UpdatedServiceCallsAndTexts(emailValue)
-        val update = accountApiService.submitServiceCallDetails(getAccountId()!!,
-            updatedServiceCallsAndTexts)
+        val update = accountApiService.submitServiceCallDetails(
+            getAccountId()!!,
+            updatedServiceCallsAndTexts
+        )
     }
 }

@@ -1,13 +1,11 @@
 package com.centurylink.biwf.screens.home.account
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.contact.ContactDetails
-import com.centurylink.biwf.model.contact.UpdatedMarketingEmails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.CommunicationRepository
 import com.centurylink.biwf.repos.ContactRepository
@@ -26,8 +24,9 @@ class AccountViewModel @Inject constructor(
     private val contactRepository: ContactRepository
 ) : BaseViewModel() {
 
-    lateinit var accountFlow: Flow<AccountDetails>
-    lateinit var contactFlow: Flow<ContactDetails>
+    var accountFlow: Flow<AccountDetails> = MutableStateFlow()
+    var contactFlow: Flow<ContactDetails> = MutableStateFlow()
+
     var contactErrorFlow: Flow<Throwable> = MutableStateFlow()
     var contactErrorSubmission: Flow<Throwable> = MutableStateFlow()
     var accountErrorFlow: Flow<Throwable> = MutableStateFlow()
@@ -108,7 +107,7 @@ class AccountViewModel @Inject constructor(
     fun onMarketingCallsAndTextsChange(boolean: Boolean) {
         viewModelScope.launch {
             try {
-               contactRepository.setMarketingCallsAndText(boolean)
+                contactRepository.setMarketingCallsAndText(boolean)
             } catch (e: Throwable) {
                 contactErrorSubmission.latestValue = e
             }
@@ -122,11 +121,11 @@ class AccountViewModel @Inject constructor(
     private fun requestAccountDetails() {
         viewModelScope.launch {
             try {
-                accountFlow = accountRepository.getAccountDetails()
+                accountFlow.latestValue = accountRepository.getAccountDetails()
                 accountFlow.collect {
                     accountDetails = it
                 }
-                serviceCallsAndTextStatus.latestValue=accountDetails.marketingOptInC
+                serviceCallsAndTextStatus.latestValue = accountDetails.emailOptInC
             } catch (e: Throwable) {
                 accountErrorFlow.latestValue = e
             }
@@ -136,12 +135,12 @@ class AccountViewModel @Inject constructor(
     private fun requestContactDetails() {
         viewModelScope.launch {
             try {
-                contactFlow = contactRepository.getContactDetails()
+                contactFlow.latestValue = contactRepository.getContactDetails()
                 contactFlow.collect {
                     contactDetails = it
                 }
-                marketingCallsAndTextStatus.latestValue=contactDetails.marketingOptInC
-                marketingEmailStatus.latestValue=contactDetails.emailOptInC
+                marketingCallsAndTextStatus.latestValue = contactDetails.marketingOptInC
+                marketingEmailStatus.latestValue = contactDetails.emailOptInC
             } catch (e: Throwable) {
                 contactErrorFlow.latestValue = e
             }

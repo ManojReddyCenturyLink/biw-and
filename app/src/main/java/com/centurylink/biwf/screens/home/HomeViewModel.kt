@@ -116,7 +116,6 @@ class HomeViewModel @Inject constructor(
 
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {
         val list = mutableListOf<TabsBaseItem>()
-
         list.add(TabsBaseItem(indextype = TabsBaseItem.ACCOUNT, titleRes = R.string.tittle_text_account))
         list.add(TabsBaseItem(indextype = TabsBaseItem.DASHBOARD, titleRes = R.string.tittle_text_dashboard, bundle = bundleOf("NEW_USER" to isUpperTab)))
         if (!isUpperTab)
@@ -140,12 +139,9 @@ class HomeViewModel @Inject constructor(
     private fun requestUserInfo() {
         viewModelScope.launch {
             try {
-                userRestFlow.latestValue =
-                    userService.qetUserInfo()
+                userRestFlow.latestValue = userRepository.getUserInfo()
                 val userId: String = userRestFlow.latestValue.recentItems[0].Id!!
                 userRepository.storeUserId(userId)
-
-
             } catch (e: Throwable) {
                 userRestErrorFlow.latestValue = e
             }
@@ -153,11 +149,9 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getUserDetails() {
-        val userId = userRepository.getUserId()
         viewModelScope.launch {
             try {
-                userDetailsFlow.latestValue =
-                    userService.getCompleteUserDetails(userId!!)
+                userDetailsFlow.latestValue = userRepository.getUserDetails()
                 accountRepository.storeAccountId(userDetailsFlow.latestValue.accountId!!)
                 contactRepository.storeContactId(userDetailsFlow.latestValue.contactId!!)
             } catch (e: Throwable) {
