@@ -3,8 +3,6 @@ package com.centurylink.biwf.screens.home.account
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.LayoutInflater
@@ -17,6 +15,7 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
 import com.centurylink.biwf.databinding.ActivityPersonalInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.utility.afterTextChanged
 import kotlinx.android.synthetic.main.widget_info_popup.view.*
 import javax.inject.Inject
 
@@ -83,16 +82,6 @@ class PersonalInfoActivity : BaseActivity() {
         }
     }
 
-    private fun afterTextChanged(listener: (Editable) -> Unit) = object : TextWatcher {
-        override fun afterTextChanged(editText: Editable) {
-            listener(editText)
-        }
-
-        override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {}
-
-        override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {}
-    }
-
     private fun initTextWatchers() {
         binding.personalInfoPasswordInput.addTextChangedListener(
             afterTextChanged {
@@ -106,9 +95,9 @@ class PersonalInfoActivity : BaseActivity() {
                 binding.personalInfoConfirmPasswordInput.setSelection(binding.personalInfoConfirmPasswordInput.text.toString().length)
             }
         )
-        binding.personalInfoPhoneNumberInput.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                val validatedString = personalInfoViewModel.onPhoneNumberChanged(s.toString())
+        binding.personalInfoPhoneNumberInput.addTextChangedListener(
+            afterTextChanged { editable ->
+                val validatedString = personalInfoViewModel.onPhoneNumberChanged(editable.toString())
                 binding.personalInfoPhoneNumberInput.also {
                     /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
                     it.removeTextChangedListener(this)
@@ -120,10 +109,7 @@ class PersonalInfoActivity : BaseActivity() {
                     it.addTextChangedListener(this)
                 }
             }
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
-        })
+        )
     }
 
     private fun toggleTextVisibility(togglePasswordVisibility: Boolean, layout: String) {
