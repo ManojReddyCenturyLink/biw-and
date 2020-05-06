@@ -22,12 +22,7 @@ class AccountViewModel @Inject constructor(
     private val contactRepository: ContactRepository
 ) : BaseViewModel() {
 
-    var contactFlow: Flow<ContactDetails> = MutableStateFlow()
-
-    var contactErrorFlow: Flow<Throwable> = MutableStateFlow()
-    var contactErrorSubmission: Flow<Throwable> = MutableStateFlow()
-    var accountErrorFlow: Flow<Throwable> = MutableStateFlow()
-    var accountErrorSubmission: Flow<Throwable> = MutableStateFlow()
+    private var contactFlow: Flow<ContactDetails> = MutableStateFlow()
 
     init {
         updateServiceandCallStatusForUser()
@@ -83,7 +78,7 @@ class AccountViewModel @Inject constructor(
             try {
                 accountRepository.setServiceCallsAndTexts(email)
             } catch (e: Throwable) {
-                accountErrorSubmission.latestValue = e
+
             }
         }
     }
@@ -93,7 +88,7 @@ class AccountViewModel @Inject constructor(
             try {
                 contactRepository.setMarketingEmails(boolean)
             } catch (e: Throwable) {
-                contactErrorFlow.latestValue = e
+
             }
         }
     }
@@ -103,7 +98,7 @@ class AccountViewModel @Inject constructor(
             try {
                 contactRepository.setMarketingCallsAndText(boolean)
             } catch (e: Throwable) {
-                contactErrorSubmission.latestValue = e
+
             }
         }
     }
@@ -118,7 +113,7 @@ class AccountViewModel @Inject constructor(
                 serviceCallsAndTextStatus.latestValue =
                     accountRepository.getAccountDetails().emailOptInC
             } catch (e: Throwable) {
-                accountErrorFlow.latestValue = e
+
             }
         }
     }
@@ -130,7 +125,7 @@ class AccountViewModel @Inject constructor(
                 marketingEmailStatus.latestValue = contactFlow.latestValue.emailOptInC
                 marketingCallsAndTextStatus.latestValue = contactFlow.latestValue.marketingOptInC
             } catch (e: Throwable) {
-                contactErrorFlow.latestValue = e
+
             }
         }
     }
