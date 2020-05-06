@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home.account
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -36,8 +37,8 @@ class AccountViewModel @Inject constructor(
     lateinit var contactDetails: ContactDetails
 
     init {
-        requestAccountDetails()
-        requestContactDetails()
+        updateServiceandCallStatusForUser()
+        requestMarketingEmailsAndTexts()
     }
 
     val accountName: LiveData<String> =
@@ -65,8 +66,8 @@ class AccountViewModel @Inject constructor(
     val biometricStatus: LiveData<Boolean> =
         MutableLiveData(communicationRepository.getPreferences().value?.biometricStatus)
 
-    val marketingEmailStatus: LiveData<Boolean> = MutableLiveData(false)
     val serviceCallsAndTextStatus: LiveData<Boolean> = MutableLiveData(false)
+    val marketingEmailStatus: LiveData<Boolean> = MutableLiveData(false)
     val marketingCallsAndTextStatus: LiveData<Boolean> = MutableLiveData(false)
 
     val cellNumber: LiveData<String> =
@@ -118,29 +119,29 @@ class AccountViewModel @Inject constructor(
         navigateToSubscriptionActivityEvent.emit(Unit)
     }
 
-    private fun requestAccountDetails() {
+    private fun updateServiceandCallStatusForUser() {
         viewModelScope.launch {
             try {
                 accountFlow.latestValue = accountRepository.getAccountDetails()
                 accountFlow.collect {
                     accountDetails = it
+                    serviceCallsAndTextStatus.latestValue = accountDetails.emailOptInC
                 }
-                serviceCallsAndTextStatus.latestValue = accountDetails.emailOptInC
             } catch (e: Throwable) {
                 accountErrorFlow.latestValue = e
             }
         }
     }
 
-    private fun requestContactDetails() {
+    private fun requestMarketingEmailsAndTexts() {
         viewModelScope.launch {
             try {
                 contactFlow.latestValue = contactRepository.getContactDetails()
                 contactFlow.collect {
                     contactDetails = it
+                    marketingEmailStatus.latestValue = contactDetails.emailOptInC
+                    marketingCallsAndTextStatus.latestValue = contactDetails.marketingOptInC
                 }
-                marketingCallsAndTextStatus.latestValue = contactDetails.marketingOptInC
-                marketingEmailStatus.latestValue = contactDetails.emailOptInC
             } catch (e: Throwable) {
                 contactErrorFlow.latestValue = e
             }
