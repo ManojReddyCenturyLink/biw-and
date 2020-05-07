@@ -14,16 +14,12 @@ class Preferences(private val store: KeyValueStore) {
         store.put(USER_ID, userId!!)
     }
 
-    fun getUserId(userId: String): String? {
+    fun getValueByID(userId: String): String? {
         return store.get(userId)
     }
 
     fun removeUserId() {
         store.remove(USER_ID)
-    }
-
-    fun getValueByID(userId: String): String? {
-        return store.get(userId)
     }
 
     fun saveAccountId(accountId: String?) {

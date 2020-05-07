@@ -56,6 +56,7 @@ class AccountFragment : BaseFragment() {
             subscriptionDescription.bindToTextView(binding.accountSubscriptionCard.accountCardPlanDetails)
             subscriptionDate.bindToTextView(binding.accountSubscriptionCard.accountCardNextPaymentDate)
             subscriptionCardDisplayedText.bindToTextView(binding.accountSubscriptionCard.accountCardCardNumbers)
+
             serviceCallsAndTextStatus.bindToSwitch(binding.accountServiceCallsSwitch)
             marketingEmailStatus.bindToSwitch(binding.accountMarketingEmailsSwitch)
             marketingCallsAndTextStatus.bindToSwitch(binding.accountMarketingCallsSwitch)

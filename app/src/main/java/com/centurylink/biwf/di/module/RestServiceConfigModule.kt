@@ -5,12 +5,8 @@ import com.centurylink.biwf.di.qualifier.BaseUrlType
 import com.centurylink.biwf.di.qualifier.ClientType
 import com.centurylink.biwf.di.qualifier.HttpClient
 import com.centurylink.biwf.network.LiveDataCallAdapterFactory
-import com.centurylink.biwf.service.network.UserService
 import com.centurylink.biwf.service.impl.network.asFactory
-import com.centurylink.biwf.service.network.ApiServices
-import com.centurylink.biwf.service.network.ServicesFactory
-import com.centurylink.biwf.service.network.TestRestServices
-import com.centurylink.biwf.service.network.create
+import com.centurylink.biwf.service.network.*
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -68,6 +64,19 @@ class RestServiceConfigModule(
         return factory.create()
     }
 
+    @Singleton
+    @Provides
+    fun provideAccountServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): AccountApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideContactServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): ContactApiService {
+        return factory.create()
+    }
+
+    @Singleton
     @Provides
     fun provideUserServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): UserService {
         return factory.create()

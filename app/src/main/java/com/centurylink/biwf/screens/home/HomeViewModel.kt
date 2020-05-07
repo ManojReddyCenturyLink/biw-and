@@ -8,7 +8,6 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
-import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.MutableStateFlow
@@ -29,8 +28,7 @@ class HomeViewModel @Inject constructor(
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
-    val userRestFlow: Flow<UserInfo> = MutableStateFlow()
-    val userRestErrorFlow: Flow<Throwable> = MutableStateFlow()
+
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = MutableStateFlow()
@@ -46,18 +44,8 @@ class HomeViewModel @Inject constructor(
         // TODO Remove later when example is no longer needed.
         requestTestRestFlow()
         requestUserInfo()
-    }
+        getUserDetails()
 
-    private fun requestUserInfo() {
-        viewModelScope.launch {
-            try {
-                userRestFlow.latestValue = userRepository.getUserInfo()
-                val userId: String = userRestFlow.latestValue.recentItems[0].Id!!
-                userRepository.storeUserId(userId)
-            } catch (e: Throwable) {
-                userRestErrorFlow.latestValue = e
-            }
-        }
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {
@@ -149,6 +137,26 @@ class HomeViewModel @Inject constructor(
 
     private fun loadAccountsData() {
         //Load data here
+    }
+
+    private fun requestUserInfo() {
+        viewModelScope.launch {
+            try {
+                userRepository.getUserInfo()
+            } catch (e: Throwable) {
+
+            }
+        }
+    }
+
+    private fun getUserDetails() {
+        viewModelScope.launch {
+            try {
+                userRepository.getUserDetails()
+            } catch (e: Throwable) {
+
+            }
+        }
     }
 }
 

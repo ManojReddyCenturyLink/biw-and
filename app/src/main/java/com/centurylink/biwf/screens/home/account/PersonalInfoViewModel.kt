@@ -34,10 +34,9 @@ class PersonalInfoViewModel @Inject constructor(
     }
 
     private fun callUpdatePasswordApi(password: String) {
-        val userId = userRepository.getUserId()!!
         viewModelScope.launch {
             try {
-                userPasswordFlow.latestValue = userRepository.resetPassWord(userId)
+                userPasswordFlow.latestValue = userRepository.resetPassWord(password)
             } catch (e: Throwable) {
                 userPasswordErrorFlow.latestValue = e
             }
