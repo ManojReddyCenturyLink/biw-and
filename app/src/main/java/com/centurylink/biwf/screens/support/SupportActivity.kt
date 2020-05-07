@@ -13,8 +13,8 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
 import com.centurylink.biwf.model.support.FaqTopicsItem
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory

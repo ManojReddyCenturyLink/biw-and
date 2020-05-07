@@ -2,6 +2,7 @@ package com.centurylink.biwf.utility
 
 import android.view.View
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
@@ -66,6 +67,12 @@ interface LiveDataObserver {
     fun LiveData<Boolean>.bindToCheckBox(checkBox: CheckBox) {
         observe {
             checkBox.isChecked = it
+        }
+    }
+
+    fun LiveData<Boolean>.bindToImageView(imageView: ImageView) {
+        observe {
+            imageView.isActivated = it
         }
     }
 

@@ -56,12 +56,12 @@
             tools:ignore="LockedOrientationActivity"
             />
         <activity
-            android:name=".screens.home.account.subscription.SubscriptionActivity"
+            android:name="com.centurylink.biwf.screens.subscription.SubscriptionActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             />
         <activity
-            android:name=".screens.subscription.CancelSubscriptionActivity"
+            android:name=".screens.cancelsubscription.CancelSubscriptionActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
             />
@@ -84,7 +84,7 @@
             android:theme="@style/AppTheme.GreyStatusBar"
             />
         <activity
-            android:name=".screens.subscription.CancelSubscriptionDetailsActivity"
+            android:name=".screens.cancelsubscription.CancelSubscriptionDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             tools:ignore="LockedOrientationActivity"
