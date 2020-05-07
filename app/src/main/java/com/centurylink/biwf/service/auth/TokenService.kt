@@ -1,6 +1,6 @@
 package com.centurylink.biwf.service.auth
 
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.runBlocking
 
 /**
  * The service that provides to proper access-tokens to an HTTP API client.
@@ -39,9 +39,7 @@ interface TokenService {
  * happen at the same time, only one refresh-token-request is issued and the result is shared with all
  * subscribers.
  */
-val TokenService.accessToken: Single<String>
-    get() = Single.defer { accessTokenGenerator.generate(tokenStorage) }
-        .toFlowable().share().singleOrError()
+suspend fun TokenService.getAccessToken(): String = accessTokenGenerator.generate(tokenStorage)
 
 /**
  * Returns the value of an "Authorization" header. It is either empty, if authorization failed
@@ -51,7 +49,7 @@ val TokenService.accessToken: Single<String>
  * access-token.
  */
 val TokenService.accessTokenHeader: String get() = try {
-    "Bearer ${accessToken.blockingGet()}"
+    "Bearer ${runBlocking { getAccessToken() }}"
 } catch (e: Exception) {
     ""
 }

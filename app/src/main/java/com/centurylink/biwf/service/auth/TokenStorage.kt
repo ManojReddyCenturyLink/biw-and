@@ -1,6 +1,6 @@
 package com.centurylink.biwf.service.auth
 
-import io.reactivex.rxjava3.core.Flowable
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Handles the storage of the (JWT) token.
@@ -23,10 +23,10 @@ interface TokenStorage<S> {
     var currentPolicy: String?
 
     /**
-     * A Flowable that emits a value each time the current [state] changes from
+     * A Flow that emits a value each time the current [state] changes from
      * having a Token (`true` is emitted) to not having one (`false` is emitted).
      */
-    val hasToken: Flowable<Boolean>
+    val hasToken: Flow<Boolean>
 }
 
 /**

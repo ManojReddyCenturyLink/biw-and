@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.centurylink.biwf.service.auth.TokenStorage
-import io.reactivex.rxjava3.core.Flowable
-import io.reactivex.rxjava3.processors.BehaviorProcessor
-import io.reactivex.rxjava3.processors.FlowableProcessor
+import com.centurylink.biwf.utility.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import net.openid.appauth.AuthState
 import javax.inject.Inject
 
@@ -46,7 +46,7 @@ class AppAuthTokenStorage @Inject constructor(
                 false
             }
 
-            _stateChanges.onNext(hasToken)
+            _stateChanges.value = hasToken
         }
 
     override var currentPolicy: String?
@@ -61,8 +61,8 @@ class AppAuthTokenStorage @Inject constructor(
             }
         }
 
-    private val _stateChanges: FlowableProcessor<Boolean> =
-        BehaviorProcessor.create()
+    private val _stateChanges = MutableStateFlow<Boolean>()
 
-    override val hasToken: Flowable<Boolean> = _stateChanges.distinctUntilChanged()
+    @Suppress("EXPERIMENTAL_API_USAGE")
+    override val hasToken: Flow<Boolean> = _stateChanges.distinctUntilChanged()
 }

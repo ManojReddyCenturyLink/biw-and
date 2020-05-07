@@ -15,8 +15,7 @@ import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.service.auth.TokenStorage
 import com.centurylink.biwf.service.auth.createPolicyParam
 import com.centurylink.biwf.service.auth.updateAndCommit
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import kotlinx.coroutines.suspendCancellableCoroutine
 import net.openid.appauth.AuthState
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationRequest
@@ -27,6 +26,8 @@ import net.openid.appauth.TokenRequest
 import net.openid.appauth.TokenResponse
 import org.json.JSONObject
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 private const val NEW_POLICY = "newPolicy"
 
@@ -36,45 +37,45 @@ class AppAuthAuthService(
     private val host: AuthServiceHost
 ) : AuthService<AuthState> {
 
-    private val authConfiguration
-        get() = Single.create<AuthorizationServiceConfiguration> { emitter ->
-            val result = runCatching {
-                AuthorizationServiceConfiguration.fetchFromIssuer(Uri.parse(config.configurationUrl)) { authConfig, error ->
-                    when {
-                        error != null -> emitter.onError(error)
-                        authConfig != null -> emitter.onSuccess(authConfig)
-                        else -> emitter.onError(Error("Should not happen"))
-                    }
+    private suspend fun getAuthConfiguration(): AuthorizationServiceConfiguration =
+        suspendCancellableCoroutine { cont ->
+            AuthorizationServiceConfiguration.fetchFromIssuer(Uri.parse(config.configurationUrl)) { authConfig, error ->
+                when {
+                    error != null -> cont.resumeWithException(error)
+                    authConfig != null -> cont.resume(authConfig)
+                    else -> cont.resumeWithException(Error("Should not happen"))
                 }
             }
-            result.getOrElse { emitter.onError(it) }
         }
 
-    override fun launchSignInFlow(): Completable = executeAuthRequest(config.policySignIn, true)
+    override suspend fun launchSignInFlow() {
+        executeAuthRequest(config.policySignIn, true)
+    }
 
-    override fun launchLogoutFlow(): Completable = tokenStorage.currentPolicy?.let {
-        executeAuthRequest(it, false)
-            .doOnComplete {
-                tokenStorage.apply {
-                    state = null
-                    currentPolicy = null
-                }
+    override suspend fun launchLogoutFlow() {
+        tokenStorage.currentPolicy?.let {
+            executeAuthRequest(it, false)
+
+            tokenStorage.apply {
+                state = null
+                currentPolicy = null
             }
-    } ?: Completable.error(IllegalStateException("There is no auth policy defined."))
+        } ?: throw IllegalStateException("There is no auth policy defined.")
+    }
 
-    override fun handleResponse(androidIntent: Intent): Single<AuthResponseType> {
+    override suspend fun handleResponse(androidIntent: Intent): AuthResponseType {
         val action = androidIntent.action
         val redirectUrl = androidIntent.dataString
 
         return when {
-            action == AUTH_CANCELLATION_ACTION -> Single.just(AuthResponseType.CANCELLED)
-            action != AUTH_COMPLETION_ACTION -> Single.error(Exception(action ?: ""))
+            action == AUTH_CANCELLATION_ACTION -> AuthResponseType.CANCELLED
+            action != AUTH_COMPLETION_ACTION -> throw Exception(action ?: "")
             redirectUrl!!.startsWith(config.authRedirectUrl) -> handleAuthRedirect(androidIntent)
-            else -> Single.just(AuthResponseType.UNKNOWN_RESPONSE)
+            else -> AuthResponseType.UNKNOWN_RESPONSE
         }
     }
 
-    private fun handleAuthRedirect(androidIntent: Intent): Single<AuthResponseType> {
+    private suspend fun handleAuthRedirect(androidIntent: Intent): AuthResponseType {
         val authorizationException = AuthorizationException.fromIntent(androidIntent)
 
         val (authorizationResponse, tokenResponse) =
@@ -89,31 +90,34 @@ class AppAuthAuthService(
             else AuthState(null, authorizationException)
 
         return when {
-            authorizationException != null -> Single.error(authorizationException)
-            tokenResponse != null -> Single.just(AuthResponseType.AUTHORIZED)
-            authorizationResponse != null -> handleSuccessfulAuthRedirect(authorizationResponse)
-            else -> Single.error(Error("Should not happen"))
+            authorizationException != null -> throw authorizationException
+            tokenResponse != null -> AuthResponseType.AUTHORIZED
+            authorizationResponse != null -> authorizationResponse.handleSuccessfulAuthRedirect()
+            else -> throw Error("Should not happen")
         }
     }
 
-    private fun handleSuccessfulAuthRedirect(authorizationResponse: AuthorizationResponse): Single<AuthResponseType> {
-        val authorizationService = AuthorizationService(host.hostContext)
-
+    private suspend fun AuthorizationResponse.handleSuccessfulAuthRedirect(): AuthResponseType {
         // A New Policy could be sent if the user switched from login to sign-up
         // from within the auth-flow.
-        val newPolicy = authorizationResponse.additionalParameters[NEW_POLICY]
+        val newPolicy = additionalParameters[NEW_POLICY]
         if (!newPolicy.isNullOrEmpty()) {
             tokenStorage.currentPolicy = newPolicy
         }
 
-        return Single.just(authorizationResponse)
-            .map { it.createTokenExchangeRequest(tokenStorage.createPolicyParam() + config.extraParams) }
-            .flatMap { authorizationService.executeTokenRequest(it) }
-            .map { AuthResponseType.AUTHORIZED }
-            .doFinally { authorizationService.dispose() }
+        with(AuthorizationService(host.hostContext)) {
+            try {
+                val params = tokenStorage.createPolicyParam() + config.extraParams
+                val request = createTokenExchangeRequest(params)
+                executeTokenRequest(request)
+            } finally {
+                dispose()
+            }
+        }
+        return AuthResponseType.AUTHORIZED
     }
 
-    private fun executeAuthRequest(policy: String, login: Boolean): Completable {
+    private suspend fun executeAuthRequest(policy: String, login: Boolean) {
         val appContext = host.hostContext.applicationContext
 
         val customTabsIntent = host.customTabsIntent ?: buildCustomTabsIntent(host.hostContext)
@@ -127,25 +131,23 @@ class AppAuthAuthService(
 
         val cancelledAuthorizationIntent = authIntent().setAction(AUTH_CANCELLATION_ACTION)
 
-        val authorizationService = AuthorizationService(host.hostContext)
+        val authRequest = if (login) ::createAuthorizationRequest else ::createLogoutRequest
 
         tokenStorage.currentPolicy = policy
 
-        return authConfiguration
-            .map {
-                if (login) createAuthorizationRequest(it)
-                else createLogoutRequest(it)
-            }
-            .flatMapCompletable {
-                authorizationService.executeAuthRequest(
+        with(AuthorizationService(host.hostContext)) {
+            try {
+                executeAuthRequest(
                     appContext,
                     customTabsIntent,
                     completedAuthorizationIntent,
                     cancelledAuthorizationIntent,
-                    it
+                    authRequest(getAuthConfiguration())
                 )
+            } finally {
+                dispose()
             }
-            .doFinally { authorizationService.dispose() }
+        }
     }
 
     private fun createAuthorizationRequest(
@@ -190,7 +192,7 @@ class AppAuthAuthService(
         completedAuthorizationIntent: Intent,
         cancelledAuthorizationIntent: Intent,
         authRequest: AuthorizationRequest
-    ): Completable {
+    ) {
         val pendingCompletionIntent =
             PendingIntent.getService(
                 appContext,
@@ -207,31 +209,24 @@ class AppAuthAuthService(
                 0
             )
 
-        val result = runCatching {
-            performAuthorizationRequest(
-                authRequest,
-                pendingCompletionIntent,
-                pendingCancelledIntent,
-                customTabsIntent
-            )
-        }
-
-        return result.fold(
-            onFailure = { Completable.error(it) },
-            onSuccess = { Completable.complete() }
+        performAuthorizationRequest(
+            authRequest,
+            pendingCompletionIntent,
+            pendingCancelledIntent,
+            customTabsIntent
         )
     }
 
-    private fun AuthorizationService.executeTokenRequest(
+    private suspend fun AuthorizationService.executeTokenRequest(
         tokenRequest: TokenRequest
-    ) = Single.create<TokenResponse> { emitter ->
+    ): TokenResponse = suspendCancellableCoroutine { cont ->
         performTokenRequest(tokenRequest) { tokenResponse, error ->
             tokenStorage.updateAndCommit { update(tokenResponse, error) }
 
             when {
-                error != null -> emitter.onError(error)
-                tokenResponse != null -> emitter.onSuccess(tokenResponse)
-                else -> emitter.onError(Error("Should not happen"))
+                error != null -> cont.resumeWithException(error)
+                tokenResponse != null -> cont.resume(tokenResponse)
+                else -> cont.resumeWithException(Error("Should not happen"))
             }
         }
     }

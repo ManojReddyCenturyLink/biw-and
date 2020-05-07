@@ -1,20 +1,20 @@
 package com.centurylink.biwf.service.impl.auth
 
 import android.content.Context
-import android.os.Process
 import com.centurylink.biwf.service.auth.AccessTokenGenerator
 import com.centurylink.biwf.service.auth.TokenStorage
 import com.centurylink.biwf.service.auth.createPolicyParam
-import io.reactivex.rxjava3.core.Single
-import io.reactivex.rxjava3.schedulers.Schedulers
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import net.openid.appauth.AuthState
-import net.openid.appauth.AuthorizationException
+import net.openid.appauth.AuthorizationException.AuthorizationRequestErrors
 import net.openid.appauth.AuthorizationService
-import org.json.JSONException
 import timber.log.Timber
-import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
 
 class AppAuthAccessTokenGenerator @Inject constructor(
     private val appContext: Context
@@ -22,119 +22,91 @@ class AppAuthAccessTokenGenerator @Inject constructor(
 
     internal val tokenIsInvalidated = AtomicBoolean(false)
 
-    override fun generate(tokenStorage: TokenStorage<*>): Single<String> {
+    /**
+     * Use a [Mutex] so that there will only be at most one token-exchange request in the air at
+     * any given time. If multiple callers are calling [generate] at the same time, the first one
+     * will continue and actually may get a fresh token. The later ones will just get the newly
+     * refreshed token.
+     */
+    private val mutex = Mutex()
+
+    override suspend fun generate(tokenStorage: TokenStorage<*>): String = mutex.withLock {
         val appAuthTokenStorage = tokenStorage as AppAuthTokenStorage
 
-        val authorizationService = AuthorizationService(appContext)
+        // The try-catch prevents a crash when appAuthTokenStorage.state returns an error
+        // and then in the catch-block checks if emitter has not been disposed
+        val authState = appAuthTokenStorage.state
 
-        val token = Single.create<String> { emitter ->
-            // The try-catch prevents a crash when appAuthTokenStorage.state returns an error
-            // and then in the catch-block checks if emitter has not been disposed
+        val policyParams = appAuthTokenStorage.createPolicyParam()
+
+        // The 'refreshStrategy' is a method-reference that takes a context (AuthorizationService,
+        // AuthState and policy-parameters) and returns the proper method that will do the actual
+        // refreshing of the token.
+        val refreshStrategy = when {
+            authState?.refreshToken == null -> throw AuthorizationRequestErrors.OTHER
+            tokenIsInvalidated.getAndSet(false) -> AuthorizationService::refreshTokenAlways
+            else -> AuthorizationService::refreshTokenIfNecessary
+        }
+
+        return with(AuthorizationService(appContext)) {
+            // Now do the actual refresh, where the provided lambda will be called when the refresh succeeds or fails.
             try {
-                val authState = appAuthTokenStorage.state
-
-                val policyParams = appAuthTokenStorage.createPolicyParam()
-
-                // The 'refreshStrategy' is a method-reference that takes a context (AuthorizationSerivce,
-                // AuthState and policy-parameters) and returns the proper method that will do the actual
-                // refreshing of the token.
-                val refreshStrategy =
-                    when {
-                        authState?.refreshToken == null -> AuthorizationService::refreshTokenFail
-                        tokenIsInvalidated.getAndSet(false) -> AuthorizationService::refreshTokenAlways
-                        else -> AuthorizationService::refreshTokenIfNecessary
-                    }
-
-                // The 'refreshActionWithCallback' is a function that will do the actual refreshing of the token.
-                val refreshActionWithCallback =
-                    refreshStrategy(authorizationService, authState!!, policyParams)
-
-                // Now do the actual refresh, where the provided lambda will be called when the refresh succeeds or fails.
-                refreshActionWithCallback { accessToken, error ->
-                    if (accessToken != null) {
-                        Timber.d("Received access token: $accessToken")
-                    }
-                    if (error != null) {
-                        Timber.e(error, "Token refresh error!")
-                    }
-
-                    // The AuthState has already been updated when this callback happens. Just assign it.
-                    appAuthTokenStorage.state = authState
-
-                    when {
-                        error != null -> emitter.onError(error)
-                        accessToken != null -> emitter.onSuccess(accessToken)
-                        else -> emitter.onError(Error("Should not happen"))
-                    }
-                }
-            } catch (e: JSONException) {
-                Timber.e(e)
-                if (!emitter.isDisposed) {
-                    emitter.onError(Error("Should not happen"))
-                }
+                refreshStrategy(this, authState!!, policyParams)
+            } catch (error: Throwable) {
+                Timber.e(error, "Token refresh error!")
+                throw error
+            } finally {
+                // The AuthState has already been updated when this callback happens. Just assign it.
+                appAuthTokenStorage.state = authState
+                dispose()
+            }.also {
+                Timber.d("Received access token: $it")
             }
         }
-
-        return token
-            .subscribeOn(SCHEDULER)
-            .doFinally { authorizationService.dispose() }
-    }
-
-    companion object {
-        private val EXECUTOR = Executors.newSingleThreadExecutor { runnable ->
-            Thread {
-                Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND)
-                runnable.run()
-            }
-        }
-        private val SCHEDULER = Schedulers.from(EXECUTOR)
     }
 }
 
 /**
  * Use this function to always refresh an access-token, even if the current one is still valid.
  *
- * @return A function that delays the refreshing of the token until the returned function is called.
+ * @return A a fresh new access-token.
  */
-private fun AuthorizationService.refreshTokenAlways(
+private suspend fun AuthorizationService.refreshTokenAlways(
     state: AuthState,
     policyParams: Map<String, String>
-): ((String?, AuthorizationException?) -> Unit) -> Unit = { callback ->
-    val tokenRequest = state.createTokenRefreshRequest(policyParams)
+): String = suspendCancellableCoroutine { cont ->
 
+    val tokenRequest = state.createTokenRefreshRequest(policyParams)
     performTokenRequest(tokenRequest) { resp, error ->
         state.update(resp, error)
 
         Timber.d("Token callback from refreshTokenAlways()")
-        callback(resp?.accessToken, error)
+
+        when {
+            error != null -> cont.resumeWithException(error)
+            resp?.accessToken != null -> cont.resume(resp.accessToken!!)
+            else -> cont.resumeWithException(Error("Should not happen"))
+        }
     }
 }
 
 /**
  * Use this function to only refresh an access-token when needed (default strategy).
  *
- * @return A function that delays the refreshing of the token until the returned function is called.
+ * @return The current or a new access-token.
  */
-private fun AuthorizationService.refreshTokenIfNecessary(
+private suspend fun AuthorizationService.refreshTokenIfNecessary(
     state: AuthState,
     policyParams: Map<String, String>
-): ((String?, AuthorizationException?) -> Unit) -> Unit = { callback ->
+): String = suspendCancellableCoroutine { cont ->
+
     state.performActionWithFreshTokens(this, policyParams) { token, _, error ->
         Timber.d("Token callback from refreshTokenIfNecessary()")
-        callback(token, error)
-    }
-}
 
-@Suppress("UNUSED_PARAMETER", "unused")
-/**
- * Use this function to always fail a access-token refresh.
- *
- * @return A function that delays the refreshing of the token until the returned function is called.
- */
-private fun AuthorizationService.refreshTokenFail(
-    state: AuthState,
-    policyParams: Map<String, String>
-): ((String?, AuthorizationException?) -> Unit) -> Unit = { callback ->
-    Timber.d("Token callback from refreshTokenFail()")
-    callback(null, AuthorizationException.AuthorizationRequestErrors.OTHER)
+        when {
+            error != null -> cont.resumeWithException(error)
+            token != null -> cont.resume(token)
+            else -> cont.resumeWithException(Error("Should not happen"))
+        }
+    }
 }
