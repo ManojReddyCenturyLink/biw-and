@@ -2,12 +2,11 @@ package com.centurylink.biwf.screens.home
 
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
-import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.service.network.UserService
+import com.centurylink.biwf.utility.preferences.Preferences
 import com.nhaarman.mockitokotlin2.mock
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import org.amshove.kluent.shouldEqual
 import org.junit.Assert
 import org.junit.Before
@@ -17,18 +16,12 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: HomeViewModel
 
-    private val mockuserRepository: UserRepository = mockk(relaxed = true) {
-    }
-
     @MockK
-    private lateinit var mockAccountRepository: AccountRepository
-
-    @MockK
-    private lateinit var mockContactRepository: ContactRepository
+    private lateinit var userRepository: UserRepository
 
     @Before
     fun setup() {
-        viewModel = HomeViewModel(mock(), userRepository = mockuserRepository)
+        viewModel = HomeViewModel(mock(), userRepository)
     }
 
     @Test

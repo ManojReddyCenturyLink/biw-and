@@ -8,13 +8,8 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
-import com.centurylink.biwf.model.user.UserDetails
-import com.centurylink.biwf.model.user.UserInfo
-import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.TestRestServices
-import com.centurylink.biwf.service.network.UserService
 import com.centurylink.biwf.utility.MutableStateFlow
 import com.centurylink.biwf.utility.ObservableData
 import com.centurylink.biwf.widgets.OnlineStatusData
@@ -27,14 +22,12 @@ class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    val userRestErrorFlow: Flow<Throwable> = MutableStateFlow()
-    val userDetailsErrorFlow: Flow<Throwable> = MutableStateFlow()
-
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
     val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
     val myState = ObservableData(HomeCoordinatorDestinations.HOME)
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
+
 
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
@@ -68,9 +61,10 @@ class HomeViewModel @Inject constructor(
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
 
-	fun onNotificationClicked(){
+    fun onNotificationClicked() {
         myState.value = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
     }
+
     fun loadData() {
         loadAccountsData()
         loadDevicesData()
@@ -109,10 +103,27 @@ class HomeViewModel @Inject constructor(
 
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {
         val list = mutableListOf<TabsBaseItem>()
-        list.add(TabsBaseItem(indextype = TabsBaseItem.ACCOUNT, titleRes = R.string.tittle_text_account))
-        list.add(TabsBaseItem(indextype = TabsBaseItem.DASHBOARD, titleRes = R.string.tittle_text_dashboard, bundle = bundleOf("NEW_USER" to isUpperTab)))
+
+        list.add(
+            TabsBaseItem(
+                indextype = TabsBaseItem.ACCOUNT,
+                titleRes = R.string.tittle_text_account
+            )
+        )
+        list.add(
+            TabsBaseItem(
+                indextype = TabsBaseItem.DASHBOARD,
+                titleRes = R.string.tittle_text_dashboard,
+                bundle = bundleOf("NEW_USER" to isUpperTab)
+            )
+        )
         if (!isUpperTab)
-        list.add(TabsBaseItem(indextype = TabsBaseItem.DEVICES, titleRes = R.string.tittle_text_devices))
+            list.add(
+                TabsBaseItem(
+                    indextype = TabsBaseItem.DEVICES,
+                    titleRes = R.string.tittle_text_devices
+                )
+            )
         return list
     }
 
@@ -133,7 +144,7 @@ class HomeViewModel @Inject constructor(
             try {
                 userRepository.getUserInfo()
             } catch (e: Throwable) {
-                userRestErrorFlow.latestValue = e
+
             }
         }
     }
@@ -143,7 +154,7 @@ class HomeViewModel @Inject constructor(
             try {
                 userRepository.getUserDetails()
             } catch (e: Throwable) {
-                userDetailsErrorFlow.latestValue = e
+
             }
         }
     }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.AccountViewModel
+import com.centurylink.biwf.screens.home.account.PersonalInfoViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsViewModel
@@ -90,4 +91,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AdditionalInfoViewModel::class)
     abstract fun bindAdditionalInfoViewModel(additionalInfoViewModel: AdditionalInfoViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PersonalInfoViewModel::class)
+    abstract fun bindPersonalInfoViewModel(personalInfoViewModel: PersonalInfoViewModel): ViewModel
 }

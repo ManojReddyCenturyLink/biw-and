@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.coordinators.AccountCoordinator
+import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.CommunicationRepository
@@ -11,6 +13,7 @@ import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.SubscriptionRepository
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.MutableStateFlow
+import com.centurylink.biwf.utility.ObservableData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,13 +25,14 @@ class AccountViewModel @Inject constructor(
     private val contactRepository: ContactRepository
 ) : BaseViewModel() {
 
-    private var contactFlow: Flow<ContactDetails> = MutableStateFlow()
-
     init {
         updateServiceandCallStatusForUser()
         requestMarketingEmailsAndTexts()
     }
 
+    val myState = ObservableData(AccountCoordinator.AccountCoordinatorDestinations.HOME)
+    private var accountFlow: Flow<AccountDetails> = MutableStateFlow()
+    private var contactFlow: Flow<ContactDetails> = MutableStateFlow()
     val accountName: LiveData<String> =
         MutableLiveData(accountRepository.getAccount().value?.fullName)
     val streetAddress: LiveData<String> =
@@ -53,11 +57,9 @@ class AccountViewModel @Inject constructor(
     val biometricType: LiveData<String> = MutableLiveData()
     val biometricStatus: LiveData<Boolean> =
         MutableLiveData(communicationRepository.getPreferences().value?.biometricStatus)
-
     val serviceCallsAndTextStatus: LiveData<Boolean> = MutableLiveData(false)
     val marketingEmailStatus: LiveData<Boolean> = MutableLiveData(false)
     val marketingCallsAndTextStatus: LiveData<Boolean> = MutableLiveData(false)
-
     val cellNumber: LiveData<String> =
         MutableLiveData(accountRepository.getAccount().value?.cellNumber)
     val homeNumber: LiveData<String> =
@@ -107,11 +109,15 @@ class AccountViewModel @Inject constructor(
         navigateToSubscriptionActivityEvent.emit(Unit)
     }
 
+    fun onPersonalInfoCardClick() {
+        myState.value = AccountCoordinator.AccountCoordinatorDestinations.PROFILE_INFO
+    }
+
     private fun updateServiceandCallStatusForUser() {
         viewModelScope.launch {
             try {
-                serviceCallsAndTextStatus.latestValue =
-                    accountRepository.getAccountDetails().emailOptInC
+                accountFlow.latestValue = accountRepository.getAccountDetails()
+                serviceCallsAndTextStatus.latestValue = accountFlow.latestValue.emailOptInC
             } catch (e: Throwable) {
 
             }
@@ -123,7 +129,8 @@ class AccountViewModel @Inject constructor(
             try {
                 contactFlow.latestValue = contactRepository.getContactDetails()
                 marketingEmailStatus.latestValue = contactFlow.latestValue.emailOptInC
-                marketingCallsAndTextStatus.latestValue = contactFlow.latestValue.marketingOptInC
+                marketingCallsAndTextStatus.latestValue =
+                    contactFlow.latestValue.marketingOptInC
             } catch (e: Throwable) {
 
             }

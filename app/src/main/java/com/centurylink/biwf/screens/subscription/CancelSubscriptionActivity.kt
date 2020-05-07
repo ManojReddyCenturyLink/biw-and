@@ -56,7 +56,7 @@ class CancelSubscriptionActivity : BaseActivity() {
             subHeaderLeftIcon.setOnClickListener { finish() }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(Activity.RESULT_OK)
+                setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
                 finish()
             }
         }

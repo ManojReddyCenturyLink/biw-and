@@ -9,7 +9,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface UserService {
-
     @GET("sobjects/User")
     suspend fun qetUserInfo(): UserInfo
 

@@ -20,9 +20,9 @@ import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapt
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
+
 
 class CancelSubscriptionDetailsActivity : BaseActivity() {
 
@@ -188,7 +188,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         val formattedDate =
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
-        val dialog = Dialog(this,R.style.mycustomDialog)
+        val dialog = Dialog(this, R.style.mycustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(dialogbinding.root)
