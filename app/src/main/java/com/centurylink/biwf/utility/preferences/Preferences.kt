@@ -14,15 +14,37 @@ class Preferences(private val store: KeyValueStore) {
         store.put(USER_ID, userId!!)
     }
 
-    fun getUserId(userId: String) : String?{
+    fun getUserId(userId: String): String? {
         return store.get(userId)
     }
 
-    fun removeUserId(){
+    fun removeUserId() {
         store.remove(USER_ID)
     }
 
-    companion object{
+    fun getValueByID(userId: String): String? {
+        return store.get(userId)
+    }
+
+    fun saveAccountId(accountId: String?) {
+        store.put(ACCOUNT_ID, accountId!!)
+    }
+
+    fun removeAccountId() {
+        store.remove(ACCOUNT_ID)
+    }
+
+    fun saveContactId(accountId: String?) {
+        store.put(CONTACT_ID, accountId!!)
+    }
+
+    fun removeContactId() {
+        store.remove(CONTACT_ID)
+    }
+
+    companion object {
         val USER_ID = "USER_ID"
+        val ACCOUNT_ID = "ACCOUNT_ID"
+        val CONTACT_ID = "CONTACT_ID"
     }
 }

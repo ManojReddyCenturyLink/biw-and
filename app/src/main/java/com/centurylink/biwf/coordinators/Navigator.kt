@@ -9,6 +9,7 @@ import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
+import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
@@ -127,6 +128,12 @@ class Navigator @Inject constructor() : LifecycleObserver {
                 CancelSubscriptionDetailsActivity.newIntent(it),
                 CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION
             )
+        }
+    }
+
+    fun navigateToPersonalInfoActivity() {
+        activity?.also {
+            it.startActivity(PersonalInfoActivity.newIntent(it))
         }
     }
 

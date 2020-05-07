@@ -5,6 +5,7 @@ import com.centurylink.biwf.di.qualifier.BaseUrlType
 import com.centurylink.biwf.di.qualifier.ClientType
 import com.centurylink.biwf.di.qualifier.HttpClient
 import com.centurylink.biwf.network.LiveDataCallAdapterFactory
+import com.centurylink.biwf.service.network.UserService
 import com.centurylink.biwf.service.impl.network.asFactory
 import com.centurylink.biwf.service.network.ApiServices
 import com.centurylink.biwf.service.network.ServicesFactory
@@ -64,6 +65,11 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun provideApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): ApiServices {
+        return factory.create()
+    }
+
+    @Provides
+    fun provideUserServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): UserService {
         return factory.create()
     }
 }

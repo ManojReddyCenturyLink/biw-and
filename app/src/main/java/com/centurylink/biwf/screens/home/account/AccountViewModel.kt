@@ -3,10 +3,12 @@ package com.centurylink.biwf.screens.home.account
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.CommunicationRepository
 import com.centurylink.biwf.repos.SubscriptionRepository
 import com.centurylink.biwf.utility.EventLiveData
+import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
 class AccountViewModel @Inject constructor(
@@ -15,6 +17,7 @@ class AccountViewModel @Inject constructor(
     accountRepository: AccountRepository
 ) : BaseViewModel() {
 
+    val myState = ObservableData(AccountCoordinator.AccountCoordinatorDestinations.HOME)
 
     val accountName: LiveData<String> = MutableLiveData(accountRepository.getAccount().value?.fullName)
     val streetAddress: LiveData<String> = MutableLiveData(accountRepository.getAccount().value?.streetAddress)
@@ -68,5 +71,9 @@ class AccountViewModel @Inject constructor(
 
     fun onSubscriptionCardClick() {
         navigateToSubscriptionActivityEvent.emit(Unit)
+    }
+
+    fun onPersonalInfoCardClick() {
+        myState.value = AccountCoordinator.AccountCoordinatorDestinations.PROFILE_INFO
     }
 }

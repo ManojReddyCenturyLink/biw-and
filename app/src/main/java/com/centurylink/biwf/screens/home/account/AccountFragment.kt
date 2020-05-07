@@ -9,6 +9,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
+import com.centurylink.biwf.coordinators.AccountCoordinator
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -20,7 +22,10 @@ class AccountFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
-
+    @Inject
+    lateinit var navigator: Navigator
+    @Inject
+    lateinit var accountCoordinator: AccountCoordinator
     private val viewModel by lazy {
         ViewModelProvider(this, factory).get(AccountViewModel::class.java)
     }
@@ -60,6 +65,7 @@ class AccountFragment : BaseFragment() {
 
         initSwitches()
         initClicks()
+        accountCoordinator.observeThis(viewModel.myState)
         return binding.root
     }
 
@@ -82,6 +88,9 @@ class AccountFragment : BaseFragment() {
     private fun initClicks() {
         binding.accountSubscriptionCard.subscriptionCard.setOnClickListener {
             viewModel.onSubscriptionCardClick()
+        }
+        binding.accountPersonalInfoCard.personalInfoCardView.setOnClickListener {
+            viewModel.onPersonalInfoCardClick()
         }
     }
 }
