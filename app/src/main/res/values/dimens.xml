@@ -19,6 +19,7 @@
     <dimen name="margin_42">42dp</dimen>
     <dimen name="notification_circle_size">60dp</dimen>
     <dimen name="text_entry_height">41dp</dimen>
+    <dimen name="margin_22">22dp</dimen>
 
     <!--Font Sizing -->
     <dimen name="text_size_10">10sp</dimen>

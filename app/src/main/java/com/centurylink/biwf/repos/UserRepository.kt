@@ -5,7 +5,6 @@ import com.centurylink.biwf.model.user.UpdatedPassword
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.service.network.UserService
-import com.centurylink.biwf.service.resp.ErrorResponse
 import com.centurylink.biwf.service.resp.Failure
 import com.centurylink.biwf.service.resp.Success
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -45,7 +44,7 @@ class UserRepository @Inject constructor(
                 Log.i("JAMMY","Error : "+result.error)
             }
         }
-
+    return UserDetails()
     }
 
     suspend fun getUserInfo(): UserInfo {
@@ -57,6 +56,5 @@ class UserRepository @Inject constructor(
     suspend fun resetPassWord(password: String){
         val userId = getUserId()
         val result  = userApiService.updatePassword(userId!!, UpdatedPassword(password))
-
     }
 }

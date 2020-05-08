@@ -23,7 +23,6 @@
             android:configChanges="fontScale|locale|orientation|screenLayout|screenSize|uiMode"
             tools:ignore="LockedOrientationActivity"
             >
-
         </activity>
         <activity
             android:name=".screens.forgotpassword.ForgotPasswordActivity"
@@ -89,7 +88,13 @@
             android:name=".screens.subscription.SubscriptionStatementActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"
-            />
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
         <activity android:name=".screens.notification.NotificationActivity"/>
         <activity android:name=".screens.notification.NotificationDetailsActivity"/>
         <activity android:name=".screens.changeappointment.ChangeAppointmentActivity"/>

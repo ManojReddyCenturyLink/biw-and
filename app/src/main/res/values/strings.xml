@@ -154,12 +154,13 @@
     <string name="passwords_do_not_match">Passwords do not match</string>
 
     <!-- Subscription Statement Screen-->
-    <string name="statment_header">Passwords do not match</string>
-    <string name="statment_done">Passwords do not match</string>
-    <string name="statement_payment_details">Passwords do not match</string>
-    <string name="statement_payment_method">Passwords do not match</string>
-    <string name="statement_payment_email">Passwords do not match</string>
-    <string name="statement_billing_address">Passwords do not match</string>
-    <string name="statement_payment_breakdown">Passwords do not match</string>
-    <string name="statement_payment_total">Passwords do not match</string>
+    <string name="statment_header">Statement</string>
+    <string name="statment_done">DONE</string>
+    <string name="statement_processed_date">Successfully processed  %1$s</string>
+    <string name="statement_payment_details">Payment Details</string>
+    <string name="statement_payment_method">Payment method:</string>
+    <string name="statement_payment_email">Email:</string>
+    <string name="statement_billing_address">Billing address:</string>
+    <string name="statement_payment_breakdown">Payment Breakdown</string>
+    <string name="statement_payment_total">Sales tax</string>
 </resources>
