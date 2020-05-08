@@ -208,6 +208,31 @@
                 app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname"
                 app:layout_constraintStart_toStartOf="parent"
                 />
+            <TextView
+                android:id="@+id/subscription_statement_promo_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_bold_mt"
+                android:gravity="start"
+                android:text="Promo code - XXXXXX "
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_h4"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_sales_tax_label"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/subscription_statement_promo_subheader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="start"
+                android:text="$65.00"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label"
+                app:layout_constraintStart_toStartOf="parent"
+                />
             <View
                 android:id="@+id/statement_seprator_salesTax"
                 android:layout_width="match_parent"
@@ -216,7 +241,7 @@
                 android:background="@color/light_grey"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_sales_tax_label" />
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_subheader" />
             <TextView
                 android:id="@+id/subscription_statement_total_label"
                 android:layout_width="match_parent"

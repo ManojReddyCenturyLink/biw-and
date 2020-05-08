@@ -160,7 +160,10 @@
     <string name="statement_payment_details">Payment Details</string>
     <string name="statement_payment_method">Payment method:</string>
     <string name="statement_payment_email">Email:</string>
+
     <string name="statement_billing_address">Billing address:</string>
     <string name="statement_payment_breakdown">Payment Breakdown</string>
     <string name="statement_payment_total">Sales tax</string>
+    <string name="statement_payment_promo_label">Promo code - XXXXXX </string>
+    <string name="statement_payment_promo_info">$X off your monthly bill</string>
 </resources>
