@@ -110,8 +110,8 @@ class AccountViewModel @Inject constructor(
     private fun updateServiceandCallStatusForUser() {
         viewModelScope.launch {
             try {
-                val accountFlow = accountRepository.getAccountDetails()
-                serviceCallsAndTextStatus.latestValue = accountFlow.emailOptInC
+                val accountDetails = accountRepository.getAccountDetails()
+                serviceCallsAndTextStatus.latestValue = accountDetails.emailOptInC
             } catch (e: Throwable) {
 
             }
@@ -121,9 +121,9 @@ class AccountViewModel @Inject constructor(
     private fun requestMarketingEmailsAndTexts() {
         viewModelScope.launch {
             try {
-                val contactFlow = contactRepository.getContactDetails()
-                marketingEmailStatus.latestValue = contactFlow.emailOptInC
-                marketingCallsAndTextStatus.latestValue = contactFlow.marketingOptInC
+                val contactDetails = contactRepository.getContactDetails()
+                marketingEmailStatus.latestValue = contactDetails.emailOptInC
+                marketingCallsAndTextStatus.latestValue = contactDetails.marketingOptInC
             } catch (e: Throwable) {
 
             }
