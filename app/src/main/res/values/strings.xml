@@ -152,4 +152,14 @@
     <string name="login_information">Login information</string>
     <string name="email_address">Email address</string>
     <string name="passwords_do_not_match">Passwords do not match</string>
+
+    <!-- Subscription Statement Screen-->
+    <string name="statment_header">Passwords do not match</string>
+    <string name="statment_done">Passwords do not match</string>
+    <string name="statement_payment_details">Passwords do not match</string>
+    <string name="statement_payment_method">Passwords do not match</string>
+    <string name="statement_payment_email">Passwords do not match</string>
+    <string name="statement_billing_address">Passwords do not match</string>
+    <string name="statement_payment_breakdown">Passwords do not match</string>
+    <string name="statement_payment_total">Passwords do not match</string>
 </resources>
