@@ -5,16 +5,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.AccountCoordinator
-import com.centurylink.biwf.model.account.AccountDetails
-import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.CommunicationRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.SubscriptionRepository
 import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.MutableStateFlow
 import com.centurylink.biwf.utility.ObservableData
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,8 +27,6 @@ class AccountViewModel @Inject constructor(
     }
 
     val myState = ObservableData(AccountCoordinator.AccountCoordinatorDestinations.HOME)
-    private var accountFlow: Flow<AccountDetails> = MutableStateFlow()
-    private var contactFlow: Flow<ContactDetails> = MutableStateFlow()
     val accountName: LiveData<String> =
         MutableLiveData(accountRepository.getAccount().value?.fullName)
     val streetAddress: LiveData<String> =
@@ -116,8 +110,8 @@ class AccountViewModel @Inject constructor(
     private fun updateServiceandCallStatusForUser() {
         viewModelScope.launch {
             try {
-                accountFlow.latestValue = accountRepository.getAccountDetails()
-                serviceCallsAndTextStatus.latestValue = accountFlow.latestValue.emailOptInC
+                val accountDetails = accountRepository.getAccountDetails()
+                serviceCallsAndTextStatus.latestValue = accountDetails.emailOptInC
             } catch (e: Throwable) {
 
             }
@@ -127,10 +121,9 @@ class AccountViewModel @Inject constructor(
     private fun requestMarketingEmailsAndTexts() {
         viewModelScope.launch {
             try {
-                contactFlow.latestValue = contactRepository.getContactDetails()
-                marketingEmailStatus.latestValue = contactFlow.latestValue.emailOptInC
-                marketingCallsAndTextStatus.latestValue =
-                    contactFlow.latestValue.marketingOptInC
+                val contactDetails = contactRepository.getContactDetails()
+                marketingEmailStatus.latestValue = contactDetails.emailOptInC
+                marketingCallsAndTextStatus.latestValue = contactDetails.marketingOptInC
             } catch (e: Throwable) {
 
             }
