@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.network
 
+import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.testrest.ContactList
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -10,5 +11,5 @@ import retrofit2.http.Query
 @Deprecated("Temporary interface for P.O.C.")
 interface TestRestServices {
     @GET("query/")
-    suspend fun query(@Query("q") soqlQuery: String): ContactList
+    suspend fun query(@Query("q") soqlQuery: String): FiberServiceResult<ContactList>
 }

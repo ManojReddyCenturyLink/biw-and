@@ -5,8 +5,17 @@ import com.centurylink.biwf.di.qualifier.BaseUrlType
 import com.centurylink.biwf.di.qualifier.ClientType
 import com.centurylink.biwf.di.qualifier.HttpClient
 import com.centurylink.biwf.network.LiveDataCallAdapterFactory
+import com.centurylink.biwf.service.impl.network.EitherCallAdapterFactory
+import com.centurylink.biwf.service.impl.network.EitherConverterFactory
+import com.centurylink.biwf.service.impl.network.FiberErrorConverterFactory
 import com.centurylink.biwf.service.impl.network.asFactory
-import com.centurylink.biwf.service.network.*
+import com.centurylink.biwf.service.network.AccountApiService
+import com.centurylink.biwf.service.network.ApiServices
+import com.centurylink.biwf.service.network.ContactApiService
+import com.centurylink.biwf.service.network.ServicesFactory
+import com.centurylink.biwf.service.network.TestRestServices
+import com.centurylink.biwf.service.network.UserService
+import com.centurylink.biwf.service.network.create
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -34,6 +43,9 @@ class RestServiceConfigModule(
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlFiberServices)
+            .addCallAdapterFactory(EitherCallAdapterFactory())
+            .addConverterFactory(EitherConverterFactory())
+            .addConverterFactory(FiberErrorConverterFactory())
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .asFactory

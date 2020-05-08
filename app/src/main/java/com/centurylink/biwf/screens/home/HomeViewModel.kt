@@ -4,6 +4,7 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.Either
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
@@ -28,11 +29,10 @@ class HomeViewModel @Inject constructor(
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
-
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
-    val testRestErrorFlow: Flow<Throwable> = BehaviorStateFlow()
+    val testRestErrorFlow: Flow<String> = BehaviorStateFlow()
 
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
@@ -90,13 +90,11 @@ class HomeViewModel @Inject constructor(
     // TODO Remove later when example is no longer needed.
     private fun requestTestRestFlow() {
         viewModelScope.launch {
-            try {
-                testRestFlow.latestValue =
-                    testRestServices.query("SELECT Name FROM Contact LIMIT 10").toString()
-
-            } catch (e: Throwable) {
-                testRestFlow.latestValue = ""
-                testRestErrorFlow.latestValue = e
+            testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
+                when (it) {
+                    is Either.Left -> testRestErrorFlow.latestValue = "Encountered error ${it.error}"
+                    is Either.Right -> testRestFlow.latestValue = it.value.toString()
+                }
             }
         }
     }
@@ -159,4 +157,3 @@ class HomeViewModel @Inject constructor(
         }
     }
 }
-
