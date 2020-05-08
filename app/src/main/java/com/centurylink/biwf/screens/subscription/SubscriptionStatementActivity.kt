@@ -10,6 +10,7 @@ import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.StatementCoordinator
 import com.centurylink.biwf.databinding.ActivitySubscriptionStatementBinding
+import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
@@ -40,6 +41,7 @@ class SubscriptionStatementActivity : BaseActivity() {
         setContentView(binding.root)
         navigator.observe(this)
         initHeaders()
+        observeViews()
     }
 
     override fun onBackPressed() {
@@ -52,10 +54,27 @@ class SubscriptionStatementActivity : BaseActivity() {
             subHeaderLeftIcon.setOnClickListener { finish() }
             subheaderRightActionTitle.text = getText(R.string.statment_done)
             subheaderRightActionTitle.setOnClickListener {
-
+                finish()
             }
         }
     }
+
+    private fun observeViews(){
+        subscriptionStatementViewModel.apply {
+            successfullyProcessed.bindToTextView(binding.subscriptionStatementProcessedDate)
+            paymentMethod.bindToTextView(binding.subscriptionPaymentMethodContent)
+            emails.bindToTextView(binding.subscriptionStatementEmailContent)
+            billingAddress.bindToTextView(binding.subscriptionStatementBillingAddressContent)
+            planName.bindToTextView(binding.subscriptionStatementPlanName)
+            planCost.bindToTextView(binding.subscriptionStatementPlanCost)
+            salesTaxCost.bindToTextView(binding.subscriptionStatementSalesTaxCost)
+            promoCode.bindToTextView(binding.subscriptionStatementPromoLabel)
+            promoCodeCost.bindToTextView(binding.subscriptionStatementPromoCost)
+            promoCodeSubValue.bindToTextView(binding.subscriptionStatementPromoSubheader)
+            totalCost.bindToTextView(binding.subscriptionStatementTotalCost)
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
