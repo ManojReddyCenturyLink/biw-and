@@ -21,7 +21,11 @@ data class AccountDetails(
     @SerializedName("Email__c")
     val emailAddress: String,
     @SerializedName("BillingAddress")
-    val billingAddress: BillingAddress
+    val billingAddress: BillingAddress,
+    @SerializedName("Product_Plan_Name__c")
+    val productPlanNameC: String = "",
+    @SerializedName("Product_Name__c")
+    val productNameC: String = ""
 ) : Serializable
 
 data class BillingAddress(

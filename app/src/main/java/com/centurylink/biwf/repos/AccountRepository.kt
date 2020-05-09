@@ -16,6 +16,8 @@ class AccountRepository @Inject constructor(
     private val accountApiService: AccountApiService
 ) {
 
+
+
     fun login(email: String, password: String, rememberMeFlag: Boolean): Boolean {
         return true
     }
@@ -37,12 +39,22 @@ class AccountRepository @Inject constructor(
         )
     }
 
+    private fun storePlanName(planName: String) {
+        preferences.savePlanName(planName)
+    }
+
+    private fun getPlanName(): String? {
+        return preferences.getValueByID(Preferences.USER_ID)
+    }
+
     private fun getAccountId(): String? {
         return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
     suspend fun getAccountDetails(): AccountDetails {
-        return accountApiService.getAccountDetails(getAccountId()!!)
+        val accountDetails =  accountApiService.getAccountDetails(getAccountId()!!)
+        storePlanName(accountDetails.productPlanNameC)
+        return accountDetails
     }
 
     suspend fun setServiceCallsAndTexts(emailValue: Boolean) {
