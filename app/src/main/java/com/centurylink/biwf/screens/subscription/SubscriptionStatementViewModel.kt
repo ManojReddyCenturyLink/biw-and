@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.BillingRepository
 import com.centurylink.biwf.repos.CancelSubscriptionRepository
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SubscriptionStatementViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val cancelSubscriptionRepository: CancelSubscriptionRepository
+    private val billingRepository: BillingRepository
 ) : BaseViewModel() {
 
     val paymentMethod: LiveData<String> = MutableLiveData()
