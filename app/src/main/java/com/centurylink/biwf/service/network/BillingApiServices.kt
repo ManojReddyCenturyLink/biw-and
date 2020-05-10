@@ -6,6 +6,6 @@ import retrofit2.http.Path
 
 interface BillingApiServices {
 
-    @GET("sobjects/Contact/{product-name}")
-    suspend fun getBillingDetails(@Path("product-name") id: String): BillingDetails
+    @GET("invoice.json")
+    suspend fun getBillingDetails(): List<BillingDetails>
 }

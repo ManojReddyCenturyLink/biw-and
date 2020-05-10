@@ -74,16 +74,4 @@ class SubscriptionStatementActivity : BaseActivity() {
             totalCost.bindToTextView(binding.subscriptionStatementTotalCost)
         }
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when (requestCode) {
-            CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION->{
-                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
-                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
-                    finish()
-                }
-            }
-        }
-    }
 }

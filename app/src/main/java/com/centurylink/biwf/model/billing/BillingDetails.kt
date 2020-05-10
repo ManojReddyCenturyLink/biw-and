@@ -34,5 +34,8 @@ class BillingDetails(
     val ZuoraInvoicec: String = "",
 
     @SerializedName("Zuora__Amount__c")
-    val ZuoraAmountc: String = ""
+    val ZuoraAmountc: String = "",
+
+    @SerializedName("ZTaxAmount__c")
+    val ZtaxAmount: String = ""
 )
