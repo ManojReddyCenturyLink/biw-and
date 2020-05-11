@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.model.billing.BillingDetails
 import com.centurylink.biwf.service.network.BillingApiServices
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -18,7 +17,6 @@ class BillingRepository @Inject constructor(
     }
 
     suspend fun getBillingDetails(): List<BillingDetails> {
-        Log.i("JAMMY","getBillingDetails")
         return billingApiDetails.getBillingDetails()
     }
 }
