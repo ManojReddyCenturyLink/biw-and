@@ -1,5 +1,6 @@
 package com.centurylink.biwf.model.billing
 
+import com.centurylink.biwf.model.account.BillingAddress
 import com.google.gson.annotations.SerializedName
 
 class BillingDetails(
@@ -13,8 +14,10 @@ class BillingDetails(
     val accountZuoraBillingAddress1: String = "",
     @SerializedName("Account Zuora__BillToAddress2__c")
     val accountZuoraBillingAddress2: String = "",
+
     @SerializedName("Account ProductPlanName__c")
     val accountProductPlanName: String = "",
+
     @SerializedName("Invoice Id")
     val invoiceId: String = "",
 
@@ -37,5 +40,11 @@ class BillingDetails(
     val ZuoraAmountc: String = "",
 
     @SerializedName("ZTaxAmount__c")
-    val ZtaxAmount: String = ""
+    val ZtaxAmount: String = "",
+
+    @SerializedName("Zuora__CreatedDate__c")
+    val ZuoraCreatedDate: String = "",
+
+    @SerializedName("BillingAddress")
+    val billingAddress: BillingAddress
 )

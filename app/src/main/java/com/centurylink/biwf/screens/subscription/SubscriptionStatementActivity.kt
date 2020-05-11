@@ -3,21 +3,21 @@ package com.centurylink.biwf.screens.subscription
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.TextView
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
-import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.StatementCoordinator
 import com.centurylink.biwf.databinding.ActivitySubscriptionStatementBinding
-import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
 
 class SubscriptionStatementActivity : BaseActivity() {
 
-    companion object{
+    companion object {
         fun newIntent(context: Context) = Intent(context, SubscriptionStatementActivity::class.java)
     }
 
@@ -48,8 +48,8 @@ class SubscriptionStatementActivity : BaseActivity() {
         finish()
     }
 
-    private fun initHeaders(){
-        binding.activityHeaderView.apply{
+    private fun initHeaders() {
+        binding.activityHeaderView.apply {
             subheaderCenterTitle.text = getText(R.string.statment_header)
             subHeaderLeftIcon.setOnClickListener { finish() }
             subheaderRightActionTitle.text = getText(R.string.statment_done)
@@ -59,19 +59,34 @@ class SubscriptionStatementActivity : BaseActivity() {
         }
     }
 
-    private fun observeViews(){
+    private fun observeViews() {
         subscriptionStatementViewModel.apply {
-            successfullyProcessed.bindToTextView(binding.subscriptionStatementProcessedDate)
+            updateProcessedDate(successfullyProcessed)
             paymentMethod.bindToTextView(binding.subscriptionPaymentMethodContent)
             emails.bindToTextView(binding.subscriptionStatementEmailContent)
-            billingAddress.bindToTextView(binding.subscriptionStatementBillingAddressContent)
+            billingAddressData.bindToTextView(binding.subscriptionStatementBillingAddressContent)
             planName.bindToTextView(binding.subscriptionStatementPlanName)
-            planCost.bindToTextView(binding.subscriptionStatementPlanCost)
-            salesTaxCost.bindToTextView(binding.subscriptionStatementSalesTaxCost)
-            promoCode.bindToTextView(binding.subscriptionStatementPromoLabel)
-            promoCodeCost.bindToTextView(binding.subscriptionStatementPromoCost)
+            planCost.bindTextViewWithCosts(binding.subscriptionStatementPlanCost)
             promoCodeSubValue.bindToTextView(binding.subscriptionStatementPromoSubheader)
-            totalCost.bindToTextView(binding.subscriptionStatementTotalCost)
+            salesTaxCost.bindTextViewWithCosts(binding.subscriptionStatementSalesTaxCost)
+            promoCode.bindTextViewWithCosts(binding.subscriptionStatementPromoLabel)
+            promoCodeCost.bindTextViewWithCosts(binding.subscriptionStatementPromoCost)
+            totalCost.bindTextViewWithCosts(binding.subscriptionStatementTotalCost)
         }
     }
+
+    private fun updateProcessedDate(successfullyProcessed: LiveData<String>) {
+        successfullyProcessed.observe {
+            binding.subscriptionStatementProcessedDate.text =
+                getString(R.string.statement_processed_date, it)
+        }
+    }
+
+    private fun LiveData<String>.bindTextViewWithCosts(textView : TextView){
+      observe {
+          textView.text =
+                getString(R.string.cost_template, it)
+        }
+    }
+
 }

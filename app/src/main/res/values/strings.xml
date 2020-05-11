@@ -164,6 +164,7 @@
     <string name="statement_billing_address">Billing address:</string>
     <string name="statement_payment_breakdown">Payment Breakdown</string>
     <string name="statement_payment_total">Sales tax</string>
-    <string name="statement_payment_promo_label">Promo code - XXXXXX </string>
+    <string name="statement_payment_promo_label">Promo code - %s </string>
     <string name="statement_payment_promo_info">$X off your monthly bill</string>
+    <string name="cost_template">$ %s</string>
 </resources>
