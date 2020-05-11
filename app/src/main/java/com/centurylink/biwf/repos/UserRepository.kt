@@ -1,12 +1,9 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.model.user.UpdatedPassword
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.service.network.UserService
-import com.centurylink.biwf.service.resp.Failure
-import com.centurylink.biwf.service.resp.Success
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -35,16 +32,10 @@ class UserRepository @Inject constructor(
 
     suspend fun getUserDetails(): UserDetails {
         val userId = getUserId()
-        val result = userApiService.getCompleteUserDetails(userId!!)
-        when(result){
-            is Success->{
-               Log.i("JAMMY","SUCCESS : "+result.value.name)
-            }
-            is Failure->{
-                Log.i("JAMMY","Error : "+result.error)
-            }
-        }
-    return UserDetails()
+        val userDetails = userApiService.getCompleteUserDetails(userId!!)
+        storeAccountId(userDetails.accountId!!)
+        storeContactId(userDetails.contactId!!)
+        return userDetails
     }
 
     suspend fun getUserInfo(): UserInfo {
@@ -53,8 +44,8 @@ class UserRepository @Inject constructor(
         return userInfo
     }
 
-    suspend fun resetPassWord(password: String){
+    suspend fun resetPassWord(password: String) {
         val userId = getUserId()
-        val result  = userApiService.updatePassword(userId!!, UpdatedPassword(password))
+        userApiService.updatePassword(userId!!, UpdatedPassword(password))
     }
 }

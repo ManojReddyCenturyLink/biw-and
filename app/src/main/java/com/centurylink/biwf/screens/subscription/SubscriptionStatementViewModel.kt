@@ -63,7 +63,6 @@ class SubscriptionStatementViewModel @Inject constructor(
 
                 totalCost.latestValue = billDetails.ZuoraAmountc
             } catch (e: Throwable) {
-                Log.i("JAMMY", "Exception Catch " + e.message)
             }
         }
     }

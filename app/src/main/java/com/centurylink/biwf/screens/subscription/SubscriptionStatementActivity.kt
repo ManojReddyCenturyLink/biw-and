@@ -67,9 +67,9 @@ class SubscriptionStatementActivity : BaseActivity() {
             billingAddressData.bindToTextView(binding.subscriptionStatementBillingAddressContent)
             planName.bindToTextView(binding.subscriptionStatementPlanName)
             planCost.bindTextViewWithCosts(binding.subscriptionStatementPlanCost)
-            promoCodeSubValue.bindToTextView(binding.subscriptionStatementPromoSubheader)
+            //promoCodeSubValue.bindToTextView(binding.subscriptionStatementPromoSubheader)
             salesTaxCost.bindTextViewWithCosts(binding.subscriptionStatementSalesTaxCost)
-            promoCode.bindTextViewWithCosts(binding.subscriptionStatementPromoLabel)
+          //  promoCode.bindTextViewWithCosts(binding.subscriptionStatementPromoLabel)
             promoCodeCost.bindTextViewWithCosts(binding.subscriptionStatementPromoCost)
             totalCost.bindTextViewWithCosts(binding.subscriptionStatementTotalCost)
         }
