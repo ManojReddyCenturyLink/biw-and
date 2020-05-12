@@ -19,7 +19,6 @@ class SubscriptionStatementViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
-
     val emails: LiveData<String> = MutableLiveData()
 
     init {
