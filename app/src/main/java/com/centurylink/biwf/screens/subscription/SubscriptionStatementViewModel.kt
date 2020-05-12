@@ -1,7 +1,5 @@
 package com.centurylink.biwf.screens.subscription
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.billing.BillingDetails
@@ -19,7 +17,6 @@ class SubscriptionStatementViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
-    val emails: LiveData<String> = MutableLiveData()
 
     init {
         getAccountInformation()
@@ -30,9 +27,7 @@ class SubscriptionStatementViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val accountDetails = accountRepository.getAccountDetails()
-                emails.latestValue = accountDetails.emailAddress
             } catch (e: Throwable) {
-
             }
         }
     }
