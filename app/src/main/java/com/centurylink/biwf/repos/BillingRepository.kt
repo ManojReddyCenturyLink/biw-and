@@ -18,10 +18,7 @@ class BillingRepository @Inject constructor(
         return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
-    suspend fun getBillingDetails(invoiceId:String): BillingDetails {
-        val query:String = "SELECT+Id,Zuora__Invoice__c,CreatedDate+FROM+Zuora__Payment__c+WHERE+Zuora__Account__c+=+'%s'"
-        val finalQuery = String.format(query,invoiceId)
-        Log.i("JAMMY","Query :"+finalQuery)
-        return billingApiDetails.getBillStatementDetails(finalQuery)
+    suspend fun getBillingDetails(): List<BillingDetails> {
+        return billingApiDetails.getBillingDetails()
     }
 }

@@ -20,7 +20,6 @@ class SubscriptionStatementViewModel @Inject constructor(
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
 
-
     val emails: LiveData<String> = MutableLiveData()
 
     init {
@@ -42,8 +41,8 @@ class SubscriptionStatementViewModel @Inject constructor(
     private fun getBillingInformation() {
         viewModelScope.launch {
             try {
-                val billingDetailList = billingRepository.getBillingDetails("122333333")
-                statementDetailsInfo.latestValue = toUIStatementInfo(billingDetailList)
+                val billingDetailList = billingRepository.getBillingDetails()
+                statementDetailsInfo.latestValue = toUIStatementInfo(billingDetailList[0])
             } catch (e: Throwable) {
             }
         }
