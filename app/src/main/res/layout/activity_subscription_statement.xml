@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/activity_header_view"
+        layout="@layout/widget_subheader_with_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/subscription_statement_details_contents"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/medium_margin_spacing"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/medium_margin_spacing"
+            android:layout_marginBottom="100dp">
+
+            <TextView
+                android:id="@+id/subscription_statement_details_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_bold_mt"
+                android:gravity="start"
+                android:text="@string/statement_payment_details"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/small_subcontent_title_text_size"
+                app:layout_constraintBottom_toTopOf="@+id/subscription_statement_processed_date"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_details_contents" />
+
+            <TextView
+                android:id="@+id/subscription_statement_processed_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="start"
+                android:text="@string/statement_processed_date"
+                android:textColor="@color/font_color_medium_grey"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toTopOf="@+id/subscription_statement_payment_method_label"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_details_header" />
+
+            <TextView
+                android:id="@+id/subscription_statement_payment_method_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="start"
+                android:text="@string/statement_payment_method"
+                android:textColor="@color/text_label_color"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintBottom_toTopOf="@+id/subscription_payment_method_content"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_processed_date" />
+
+            <TextView
+                android:id="@+id/subscription_payment_method_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_regular"
+                android:gravity="start|center_vertical"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintBottom_toTopOf="@+id/subscription_statement_email_label"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_method_label" />
+
+            <TextView
+                android:id="@+id/subscription_statement_email_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_22"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/statement_payment_email"
+                android:textColor="@color/text_label_color"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintBottom_toTopOf="@+id/subscription_statement_email_content"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_payment_method_content" />
+
+            <TextView
+                android:id="@+id/subscription_statement_email_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:fontFamily="@font/sf_regular"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintBottom_toTopOf="@+id/subscription_statement_billing_address_label"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_email_label" />
+
+
+            <TextView
+                android:id="@+id/subscription_statement_billing_address_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/statement_billing_address"
+                android:textColor="@color/text_label_color"
+                android:textSize="@dimen/text_size_16"
+                android:visibility="visible"
+                app:layout_constraintBottom_toTopOf="@+id/subscription_statement_billing_address_content"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_email_content" />
+
+            <TextView
+                android:id="@+id/subscription_statement_billing_address_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/sf_regular"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_16"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_billing_address_label" />
+
+            <View
+                android:id="@+id/statement_seprator_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cardview_elevation"
+                android:layout_marginTop="@dimen/margin_spacing_large"
+                android:background="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_billing_address_content" />
+            <TextView
+                android:id="@+id/subscription_statement_payment_breakdown_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_bold_mt"
+                android:gravity="start"
+                android:layout_marginTop="@dimen/margin_spacing_large"
+                android:text="@string/statement_payment_breakdown"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/small_subcontent_title_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_view" />
+            <TextView
+                android:id="@+id/subscription_statement_plan_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_bold_mt"
+                android:gravity="start"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_h4"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_breakdown_header"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/subscription_statement_plan_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_title_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_breakdown_header"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <View
+                android:id="@+id/statement_seprator_planname"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cardview_elevation"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_plan_name" />
+
+            <TextView
+                android:id="@+id/subscription_statement_sales_tax_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_bold_mt"
+                android:gravity="start"
+                android:text="@string/statement_payment_total"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_h4"
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/subscription_statement_sales_tax_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_title_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/subscription_statement_promo_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_bold_mt"
+                android:gravity="start"
+                android:text="Promo code - XXXXXX "
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_h4"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_sales_tax_label"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/subscription_statement_promo_subheader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="start"
+                android:text="@string/statement_payment_promo_info"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/subscription_statement_promo_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:paddingBottom="10dp"
+                android:textSize="@dimen/small_title_text_size"
+                app:layout_constraintBaseline_toBaselineOf="@+id/subscription_statement_promo_subheader"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <View
+                android:id="@+id/statement_seprator_salesTax"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cardview_elevation"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_subheader" />
+            <TextView
+                android:id="@+id/subscription_statement_total_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_bold_mt"
+                android:gravity="start"
+                android:text="@string/statement_total"
+                android:textColor="@color/black"
+                android:textSize="@dimen/font_size_h4"
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_salesTax"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+            <TextView
+                android:id="@+id/subscription_statement_total_cost"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:fontFamily="@font/arial_mt"
+                android:gravity="end"
+                android:textColor="@color/black"
+                android:textSize="@dimen/small_title_text_size"
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_salesTax"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,10 @@ class Preferences(private val store: KeyValueStore) {
         store.put(USER_ID, userId!!)
     }
 
+    fun savePlanName(planname: String?) {
+        store.put(PLAN_NAME, planname!!)
+    }
+
     fun getValueByID(userId: String): String? {
         return store.get(userId)
     }
@@ -42,5 +46,6 @@ class Preferences(private val store: KeyValueStore) {
         val USER_ID = "USER_ID"
         val ACCOUNT_ID = "ACCOUNT_ID"
         val CONTACT_ID = "CONTACT_ID"
+        val PLAN_NAME="PLAN_NAME"
     }
 }

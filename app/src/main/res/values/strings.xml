@@ -152,4 +152,20 @@
     <string name="login_information">Login information</string>
     <string name="email_address">Email address</string>
     <string name="passwords_do_not_match">Passwords do not match</string>
+
+    <!-- Subscription Statement Screen-->
+    <string name="statment_header">Statement</string>
+    <string name="statment_done">DONE</string>
+    <string name="statement_processed_date">Successfully processed  %1$s</string>
+    <string name="statement_payment_details">Payment Details</string>
+    <string name="statement_payment_method">Payment method:</string>
+    <string name="statement_payment_email">Email:</string>
+
+    <string name="statement_billing_address">Billing address:</string>
+    <string name="statement_payment_breakdown">Payment Breakdown</string>
+    <string name="statement_payment_total">Sales tax</string>
+    <string name="statement_payment_promo_label">Promo code - %s </string>
+    <string name="statement_payment_promo_info">$X off your monthly bill</string>
+    <string name="cost_template">$%s</string>
+    <string name="statement_total">Total</string>
 </resources>
