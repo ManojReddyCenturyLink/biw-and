@@ -56,14 +56,14 @@ class SubscriptionStatementViewModel @Inject constructor(
 
     private fun toUIStatementInfo(billDetails: BillingDetails): UiStatementDetails {
         return UiStatementDetails(
-            DateUtils.formatPaymentProcessedDate(billDetails.ZuoraCreatedDate),
-            billDetails.zuoraPaymentMethod,
-            billDetails.accountProductPlanName,
-            billDetails.ZAmountWithoutTax,
-            billDetails.ZtaxAmount,
-            billDetails.zuoraPaymentMethod,
-            billDetails.ZuoraAmountc,
-            formatBillingAddress(billDetails)
+            successfullyProcessed = DateUtils.formatPaymentProcessedDate(billDetails.ZuoraCreatedDate),
+            paymentMethod = billDetails.zuoraPaymentMethod,
+            planName = billDetails.accountProductPlanName,
+            planCost = billDetails.ZAmountWithoutTax,
+            salesTaxCost = billDetails.ZtaxAmount,
+            promoCode = billDetails.zuoraPaymentMethod,
+            totalCost = billDetails.ZuoraAmountc,
+            billingAddress = formatBillingAddress(billDetails)
         )
     }
 
