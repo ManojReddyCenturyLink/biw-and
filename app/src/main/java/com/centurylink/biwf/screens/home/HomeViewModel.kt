@@ -10,7 +10,7 @@ import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.TestRestServices
-import com.centurylink.biwf.utility.MutableStateFlow
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.ObservableData
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
@@ -31,8 +31,8 @@ class HomeViewModel @Inject constructor(
 
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
-    val testRestFlow: Flow<String> = MutableStateFlow()
-    val testRestErrorFlow: Flow<Throwable> = MutableStateFlow()
+    val testRestFlow: Flow<String> = BehaviorStateFlow()
+    val testRestErrorFlow: Flow<Throwable> = BehaviorStateFlow()
 
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false

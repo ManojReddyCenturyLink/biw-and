@@ -3,9 +3,9 @@ package com.centurylink.biwf.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.LiveEvent
-import com.centurylink.biwf.utility.MutableStateFlow
 import kotlinx.coroutines.flow.Flow
 
 abstract class BaseViewModel : ViewModel() {
@@ -24,12 +24,12 @@ abstract class BaseViewModel : ViewModel() {
      * Either reads the latest value from this [Flow] or
      * changes the latest value of this [Flow].
      *
-     * Note that this [Flow] has a [MutableStateFlow] backing it.
+     * Note that this [Flow] has a [BehaviorStateFlow] backing it.
      */
     protected var <T : Any> Flow<T>.latestValue: T
-        get() = (this as MutableStateFlow<T>).value
+        get() = (this as BehaviorStateFlow<T>).value
         set(value) {
-            (this as MutableStateFlow<T>).value = value
+            (this as BehaviorStateFlow<T>).value = value
         }
 
     protected fun <T : Any> EventLiveData<T>.emit(event: T) {
