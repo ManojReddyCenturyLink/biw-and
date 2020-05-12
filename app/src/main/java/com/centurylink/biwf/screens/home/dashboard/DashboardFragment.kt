@@ -17,12 +17,15 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
 import javax.inject.Inject
 
-class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
+class DashboardFragment : BaseFragment() {
 
     override val lifecycleOwner: LifecycleOwner = this
 
+    private var newUser: Boolean = false
+
     @Inject
     lateinit var dashboardCoordinator: DashboardCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
     private val dashboardViewModel by lazy {
@@ -35,6 +38,8 @@ class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
+
+        newUser = arguments!!.getBoolean(KEY_NEW_USER, newUser)
     }
 
     override fun onCreateView(
@@ -48,7 +53,7 @@ class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
         initOnClicks()
         getNotificationInformation()
         binding.executePendingBindings()
-        dashboardCoordinator.observeThis(dashboardViewModel.myState)
+        dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
     }
 
@@ -112,6 +117,10 @@ class DashboardFragment constructor(val newUser: Boolean) : BaseFragment() {
 
     companion object {
         const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
-    }
+        private const val KEY_NEW_USER = "NEW_USER"
 
+        operator fun invoke(newUser: Boolean) = DashboardFragment().apply {
+            arguments = Bundle().apply { putBoolean(KEY_NEW_USER, newUser) }
+        }
+    }
 }

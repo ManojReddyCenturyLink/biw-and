@@ -39,7 +39,7 @@ class CancelSubscriptionActivity : BaseActivity() {
         cancelSubscriptionModel.apply {
             cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
         }
-        cancelSubscriptionCoordinator.observeThis(cancelSubscriptionModel.myState)
+        cancelSubscriptionModel.myState.observeWith(cancelSubscriptionCoordinator)
 
         initHeaders()
         cancelSubscriptionModel.getCancellationValidity()

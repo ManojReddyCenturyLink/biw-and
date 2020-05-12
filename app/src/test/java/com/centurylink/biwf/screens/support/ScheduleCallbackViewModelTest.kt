@@ -1,14 +1,18 @@
 package com.centurylink.biwf.screens.support
 
 import com.centurylink.biwf.ViewModelBaseTest
-import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinator
+import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinatorDestinations
 import com.centurylink.biwf.model.support.TopicList
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.mockito.MockitoAnnotations
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
 
     private val dummyList = listOf(
@@ -28,22 +32,28 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun onCallUSClicked_navigateToPhoneDiallerScreen() {
-        viewModel.launchCallDialer()
+    fun onCallUSClicked_navigateToPhoneDiallerScreen() = runBlockingTest {
+        launch {
+            viewModel.launchCallDialer()
+        }
+
         Assert.assertEquals(
             "Dialler Screen wasn't Launched",
-            ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT,
-            viewModel.myState.value
+            ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT,
+            viewModel.myState.first()
         )
     }
 
     @Test
-    fun onItemClicked_navigateToAdditionalInfoActivity() {
-        viewModel.navigateAdditionalInfoScreen(dummyList[0])
+    fun onItemClicked_navigateToAdditionalInfoActivity() = runBlockingTest {
+        launch {
+            viewModel.navigateAdditionalInfoScreen(dummyList[0])
+        }
+
         Assert.assertEquals(
             "AdditionalInfo Activity wasn't Launched",
-            ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO,
-            viewModel.myState.value
+            ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO,
+            viewModel.myState.first()
         )
     }
 }

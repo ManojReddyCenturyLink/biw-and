@@ -4,25 +4,23 @@ import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.coordinators.NotificationCoordinator
+import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
 
 class NotificationViewModel @Inject constructor(
-    private val notificationRepository: NotificationRepository
+    notificationRepository: NotificationRepository
 ) : BaseViewModel() {
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
     val displayClearAllEvent: EventLiveData<Unit> = MutableLiveData()
-    val myState = ObservableData(
-        NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_LIST
-    )
+    val myState = EventFlow<NotificationCoordinatorDestinations>()
     val notificationLiveData: MutableLiveData<MutableList<Notification>> = MutableLiveData()
     private val unreadItem: Notification =
         Notification(
@@ -64,12 +62,11 @@ class NotificationViewModel @Inject constructor(
     }
 
     private fun navigatetoNotifcationDetails(notificationItem: Notification) {
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putString(NotificationDetailsActivity.URL_TO_LAUNCH, notificationItem.detialUrl)
         bundle.putBoolean(NotificationDetailsActivity.LAUNCH_FROM_HOME, true)
-        NotificationCoordinator.NotificationCoordinatorDestinations.bundle = bundle
-        myState.value =
-            NotificationCoordinator.NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
+        NotificationCoordinatorDestinations.bundle = bundle
+        myState.latestValue = NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
     fun markNotificationasRead() {

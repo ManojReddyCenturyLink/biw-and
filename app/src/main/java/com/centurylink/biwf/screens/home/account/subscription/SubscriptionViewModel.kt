@@ -3,13 +3,13 @@ package com.centurylink.biwf.screens.home.account.subscription
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.coordinators.SubscriptionCoordinator
+import com.centurylink.biwf.coordinators.SubscriptionCoordinatorDestinations
 import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.account.RecordsItem
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementActivity
 import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,8 +23,7 @@ class SubscriptionViewModel @Inject constructor(
     }
 
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
-    val myState =
-        ObservableData(SubscriptionCoordinator.SubscriptionCoordinatorDestinations.SUBSCRIPTION)
+    val myState = EventFlow<SubscriptionCoordinatorDestinations>()
 
     private fun getInvoicesList() {
         viewModelScope.launch {
@@ -37,17 +36,16 @@ class SubscriptionViewModel @Inject constructor(
     }
 
     fun launchStatement(item: RecordsItem) {
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putString(
             SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_TITLE,
             item.id
         )
-        SubscriptionCoordinator.SubscriptionCoordinatorDestinations.bundle = bundle
-        myState.value = SubscriptionCoordinator.SubscriptionCoordinatorDestinations.STATEMENT
+        SubscriptionCoordinatorDestinations.bundle = bundle
+        myState.latestValue = SubscriptionCoordinatorDestinations.STATEMENT
     }
 
     fun launchManageSubscription() {
-        myState.value =
-            SubscriptionCoordinator.SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION
+        myState.latestValue = SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION
     }
 }

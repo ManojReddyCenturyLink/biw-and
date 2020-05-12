@@ -3,7 +3,7 @@ package com.centurylink.biwf.screens.home.account
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.coordinators.AccountCoordinator
+import com.centurylink.biwf.coordinators.AccountCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.model.user.UserDetails
@@ -12,8 +12,8 @@ import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.ObservableData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +31,7 @@ class AccountViewModel @Inject constructor(
         getUserDetails()
     }
 
-    val myState = ObservableData(AccountCoordinator.AccountCoordinatorDestinations.HOME)
+    val myState = EventFlow<AccountCoordinatorDestinations>()
 
     val navigateToSubscriptionActivityEvent: EventLiveData<Unit> = MutableLiveData()
 
@@ -80,7 +80,7 @@ class AccountViewModel @Inject constructor(
     }
 
     fun onPersonalInfoCardClick() {
-        myState.value = AccountCoordinator.AccountCoordinatorDestinations.PROFILE_INFO
+        myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
     }
 
     private fun getAccountInfo() {

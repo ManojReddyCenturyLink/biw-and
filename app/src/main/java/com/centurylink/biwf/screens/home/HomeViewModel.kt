@@ -12,7 +12,7 @@ import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -25,7 +25,7 @@ class HomeViewModel @Inject constructor(
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
     val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
-    val myState = ObservableData(HomeCoordinatorDestinations.HOME)
+    val myState = EventFlow<HomeCoordinatorDestinations>()
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
@@ -54,15 +54,15 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSupportClicked() {
-        myState.value = HomeCoordinatorDestinations.SUPPORT
+        myState.latestValue = HomeCoordinatorDestinations.SUPPORT
     }
 
     fun onNotificationBellClicked() {
-        myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
+        myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
 
     fun onNotificationClicked() {
-        myState.value = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
+        myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
     fun loadData() {
@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSubscriptionActivityClick() {
-        myState.value = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
+        myState.latestValue = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }
 
     // Example: Use Coroutines to get data asynchronously and emit the results through Flows

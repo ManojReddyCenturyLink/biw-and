@@ -1,22 +1,15 @@
 package com.centurylink.biwf.coordinators
 
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LoginCoordinator @Inject constructor(val navigator: Navigator) {
+class LoginCoordinator @Inject constructor(
+    val navigator: Navigator
+) : Coordinator<LoginCoordinatorDestinations> {
 
-    fun observeThis(screenState: ObservableData<LoginCoordinatorDestinations>) {
-        screenState.observable.subscribe {
-            navigateTo(it)
-        }
-    }
-
-    private fun navigateTo(destinations: LoginCoordinatorDestinations) {
-        when (destinations) {
-            LoginCoordinatorDestinations.LOGIN -> {
-            }
+    override fun navigateTo(destination: LoginCoordinatorDestinations) {
+        when (destination) {
             LoginCoordinatorDestinations.FORGOT_PASSWORD -> navigateToForgotPassword()
             LoginCoordinatorDestinations.LEARN_MORE -> navigateToLearnMore()
             LoginCoordinatorDestinations.HOME_NEW_USER -> navigateToHomeScreen(false)
@@ -38,5 +31,5 @@ class LoginCoordinator @Inject constructor(val navigator: Navigator) {
 }
 
 enum class LoginCoordinatorDestinations {
-    FORGOT_PASSWORD, LEARN_MORE, HOME_NEW_USER, LOGIN, HOME_EXISTING_USER
+    FORGOT_PASSWORD, LEARN_MORE, HOME_NEW_USER, HOME_EXISTING_USER
 }
