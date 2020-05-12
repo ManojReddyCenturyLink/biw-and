@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.subscription
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -8,9 +7,10 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.billing.BillingDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.BillingRepository
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.util.stream.Collectors
 import javax.inject.Inject
 
 class SubscriptionStatementViewModel @Inject constructor(
@@ -18,17 +18,10 @@ class SubscriptionStatementViewModel @Inject constructor(
     private val billingRepository: BillingRepository
 ) : BaseViewModel() {
 
-    val paymentMethod: LiveData<String> = MutableLiveData()
-    val successfullyProcessed: LiveData<String> = MutableLiveData()
+    val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
+
+
     val emails: LiveData<String> = MutableLiveData()
-    val billingAddressData: LiveData<String> = MutableLiveData()
-    val planName: LiveData<String> = MutableLiveData()
-    val planCost: LiveData<String> = MutableLiveData()
-    val salesTaxCost: LiveData<String> = MutableLiveData()
-    val promoCode: LiveData<String> = MutableLiveData()
-    val promoCodeCost: LiveData<String> = MutableLiveData()
-    val promoCodeSubValue: LiveData<String> = MutableLiveData()
-    val totalCost: LiveData<String> = MutableLiveData()
 
     init {
         getAccountInformation()
@@ -49,37 +42,46 @@ class SubscriptionStatementViewModel @Inject constructor(
     private fun getBillingInformation() {
         viewModelScope.launch {
             try {
-                val billingDetailList = billingRepository.getBillingDetails()
-                var billDetails = billingDetailList[0]
-                successfullyProcessed.latestValue =
-                    DateUtils.formatPaymentProcessedDate(billDetails.ZuoraCreatedDate)
-                paymentMethod.latestValue = billDetails.zuoraPaymentMethod
-                formatBillingAddress(billDetails)
-                planName.latestValue = billDetails.accountProductPlanName
-                planCost.latestValue = billDetails.ZAmountWithoutTax
-
-                salesTaxCost.latestValue = billDetails.ZtaxAmount
-                promoCode.latestValue = billDetails.zuoraPaymentMethod
-
-                totalCost.latestValue = billDetails.ZuoraAmountc
+                val billingDetailList = billingRepository.getBillingDetails("122333333")
+                statementDetailsInfo.latestValue = toUIStatementInfo(billingDetailList)
             } catch (e: Throwable) {
             }
         }
     }
 
-    private fun formatBillingAddress(billDetails: BillingDetails) {
-        billDetails.billingAddress.apply {
+    private fun formatBillingAddress(billDetails: BillingDetails): String {
+        return billDetails.billingAddress.run {
             val billingAddressList: MutableList<String> = mutableListOf<String>()
             billingAddressList.add(street)
             billingAddressList.add(city)
             billingAddressList.add(state)
             billingAddressList.add(postalCode)
             billingAddressList.add(country)
-            val finalAddress: String = billingAddressList.filterNotNull().stream()
-                .collect(Collectors.joining(" , "))
-            billingAddressData.latestValue = finalAddress
+            return@run billingAddressList.filterNotNull().joinToString(separator = " , ")
         }
     }
 
+    private fun toUIStatementInfo(billDetails: BillingDetails): UiStatementDetails {
+        return UiStatementDetails(
+            DateUtils.formatPaymentProcessedDate(billDetails.ZuoraCreatedDate),
+            billDetails.zuoraPaymentMethod,
+            billDetails.accountProductPlanName,
+            billDetails.ZAmountWithoutTax,
+            billDetails.ZtaxAmount,
+            billDetails.zuoraPaymentMethod,
+            billDetails.ZuoraAmountc,
+            formatBillingAddress(billDetails)
+        )
+    }
 
+    data class UiStatementDetails(
+        val successfullyProcessed: String,
+        val paymentMethod: String,
+        val planName: String,
+        val planCost: String,
+        val salesTaxCost: String,
+        val promoCode: String,
+        val totalCost: String,
+        val billingAddress: String
+    )
 }

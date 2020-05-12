@@ -3,8 +3,6 @@ package com.centurylink.biwf.screens.subscription
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.TextView
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -61,32 +59,21 @@ class SubscriptionStatementActivity : BaseActivity() {
 
     private fun observeViews() {
         subscriptionStatementViewModel.apply {
-            updateProcessedDate(successfullyProcessed)
-            paymentMethod.bindToTextView(binding.subscriptionPaymentMethodContent)
-            emails.bindToTextView(binding.subscriptionStatementEmailContent)
-            billingAddressData.bindToTextView(binding.subscriptionStatementBillingAddressContent)
-            planName.bindToTextView(binding.subscriptionStatementPlanName)
-            planCost.bindTextViewWithCosts(binding.subscriptionStatementPlanCost)
-            //promoCodeSubValue.bindToTextView(binding.subscriptionStatementPromoSubheader)
-            salesTaxCost.bindTextViewWithCosts(binding.subscriptionStatementSalesTaxCost)
-          //  promoCode.bindTextViewWithCosts(binding.subscriptionStatementPromoLabel)
-            promoCodeCost.bindTextViewWithCosts(binding.subscriptionStatementPromoCost)
-            totalCost.bindTextViewWithCosts(binding.subscriptionStatementTotalCost)
+            statementDetailsInfo.observe { uiAccountInfo ->
+                binding.subscriptionStatementProcessedDate.text =
+                    getString(R.string.statement_processed_date,  uiAccountInfo.successfullyProcessed)
+                binding.subscriptionPaymentMethodContent.text = uiAccountInfo.paymentMethod
+                binding.subscriptionStatementPlanName.text = uiAccountInfo.planName
+                binding.subscriptionStatementPlanCost.text =
+                    getString(R.string.cost_template, uiAccountInfo.planCost)
+                binding.subscriptionStatementSalesTaxCost.text =
+                    getString(R.string.cost_template, uiAccountInfo.salesTaxCost)
+                binding.subscriptionStatementTotalCost.text =
+                    getString(R.string.cost_template, uiAccountInfo.totalCost)
+                binding.subscriptionStatementBillingAddressContent.text =
+                    uiAccountInfo.billingAddress
+                binding.subscriptionStatementEmailContent.text=""
+            }
         }
     }
-
-    private fun updateProcessedDate(successfullyProcessed: LiveData<String>) {
-        successfullyProcessed.observe {
-            binding.subscriptionStatementProcessedDate.text =
-                getString(R.string.statement_processed_date, it)
-        }
-    }
-
-    private fun LiveData<String>.bindTextViewWithCosts(textView : TextView){
-      observe {
-          textView.text =
-                getString(R.string.cost_template, it)
-        }
-    }
-
 }

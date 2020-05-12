@@ -84,7 +84,7 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideBillingApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): BillingApiServices {
+    fun provideBillingApiServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): BillingApiServices {
         return factory.create()
     }
 }
