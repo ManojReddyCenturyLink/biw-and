@@ -4,9 +4,8 @@ import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
 import com.centurylink.biwf.service.auth.TokenStorage
-import com.centurylink.biwf.utility.MutableStateFlow
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
 import net.openid.appauth.AuthState
 import javax.inject.Inject
 
@@ -61,8 +60,8 @@ class AppAuthTokenStorage @Inject constructor(
             }
         }
 
-    private val _stateChanges = MutableStateFlow<Boolean>()
+    private val _stateChanges = BehaviorStateFlow<Boolean>()
 
     @Suppress("EXPERIMENTAL_API_USAGE")
-    override val hasToken: Flow<Boolean> = _stateChanges.distinctUntilChanged()
+    override val hasToken: Flow<Boolean> = _stateChanges
 }

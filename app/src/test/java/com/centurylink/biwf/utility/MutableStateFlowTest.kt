@@ -15,14 +15,14 @@ class MutableStateFlowTest {
 
     @Test(expected = IllegalStateException::class)
     fun `Getting value from empty StateFlow will throw IllegalStateException`() {
-        val mutableStateFlow = MutableStateFlow<Int>()
+        val mutableStateFlow = BehaviorStateFlow<Int>()
 
         mutableStateFlow.value
     }
 
     @Test
     fun `Collecting values from empty StateFlow will get nothing`() = runBlockingTest {
-        val mutableStateFlow = MutableStateFlow<Int>()
+        val mutableStateFlow = BehaviorStateFlow<Int>()
 
         val result = mutableListOf<Int>()
         try {
@@ -37,14 +37,14 @@ class MutableStateFlowTest {
 
     @Test
     fun `Getting value from non-empty StateFlow`() {
-        val mutableStateFlow = MutableStateFlow(3)
+        val mutableStateFlow = BehaviorStateFlow(3)
 
         assertThat(mutableStateFlow.value, `is`(3))
     }
 
     @Test
     fun `Collecting values from non-empty StateFlow`() = runBlockingTest {
-        val mutableStateFlow = MutableStateFlow(5)
+        val mutableStateFlow = BehaviorStateFlow(5)
 
         val result = mutableListOf<Int>()
         try {
@@ -59,7 +59,7 @@ class MutableStateFlowTest {
 
     @Test
     fun `Collect multiple values from StateFlow`() = runBlockingTest {
-        val mutableStateFlow = MutableStateFlow(100)
+        val mutableStateFlow = BehaviorStateFlow(100)
 
         val result = mutableListOf<Int>()
         launch {
@@ -74,5 +74,44 @@ class MutableStateFlowTest {
         }
 
         assertThat(result, `is`(listOf(100, 1, 2, 3)))
+    }
+
+    @Test
+    fun `Collect one values from StateFlow emitting the same value more than once`() =
+        runBlockingTest {
+            val mutableStateFlow = BehaviorStateFlow(100)
+
+            val result = mutableListOf<Int>()
+            launch {
+                withTimeout(500) {
+                    mutableStateFlow.collect { result += it }
+                }
+            }
+
+            for (i in 1..3) {
+                mutableStateFlow.value = 100
+                delay(100)
+            }
+
+            assertThat(result, `is`(listOf(100)))
+        }
+
+    @Test
+    fun `Collect multiple nullable values from StateFlow`() = runBlockingTest {
+        val mutableStateFlow = BehaviorStateFlow<Int?>(100)
+
+        val result = mutableListOf<Int?>()
+        launch {
+            withTimeout(500) {
+                mutableStateFlow.collect { result += it }
+            }
+        }
+
+        for (i in 1..3) {
+            mutableStateFlow.value = if (i % 2 == 0) i else null
+            delay(100)
+        }
+
+        assertThat(result, `is`(listOf(100, null, 2, null)))
     }
 }

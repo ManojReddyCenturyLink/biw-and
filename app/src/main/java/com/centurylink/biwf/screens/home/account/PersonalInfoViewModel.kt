@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Errors
-import com.centurylink.biwf.utility.MutableStateFlow
 import com.centurylink.biwf.utility.ObservableData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -25,8 +25,8 @@ class PersonalInfoViewModel @Inject constructor(
     private var confirmPasswordValue: String = ""
     private var phoneNumberValue: String = ""
 
-    private val userPasswordFlow: Flow<Unit> = MutableStateFlow()
-    private val userPasswordErrorFlow: Flow<Throwable> = MutableStateFlow()
+    private val userPasswordFlow: Flow<Unit> = BehaviorStateFlow()
+    private val userPasswordErrorFlow: Flow<Throwable> = BehaviorStateFlow()
 
     fun updatePassword() {
         callUpdatePasswordApi(passwordValue)
