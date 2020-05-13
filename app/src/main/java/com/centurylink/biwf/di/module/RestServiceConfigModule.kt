@@ -11,6 +11,7 @@ import com.centurylink.biwf.service.impl.network.FiberErrorConverterFactory
 import com.centurylink.biwf.service.impl.network.asFactory
 import com.centurylink.biwf.service.network.AccountApiService
 import com.centurylink.biwf.service.network.ApiServices
+import com.centurylink.biwf.service.network.BillingApiServices
 import com.centurylink.biwf.service.network.ContactApiService
 import com.centurylink.biwf.service.network.ServicesFactory
 import com.centurylink.biwf.service.network.TestRestServices
