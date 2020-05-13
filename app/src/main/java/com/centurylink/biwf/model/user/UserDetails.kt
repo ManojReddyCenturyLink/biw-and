@@ -34,5 +34,8 @@ data class UserDetails(
     val accountId: String? = null,
 
     @SerializedName("CallCenterId")
-    val callCenterId: String? = null
+    val callCenterId: String? = null,
+
+    @SerializedName("Email")
+    val email: String? = null
 )

@@ -56,7 +56,7 @@ class SubscriptionStatementViewModel @Inject constructor(
 
     private fun toUIStatementInfo(billDetails: BillingDetails): UiStatementDetails {
         return UiStatementDetails(
-            successfullyProcessed = DateUtils.formatPaymentProcessedDate(billDetails.ZuoraCreatedDate),
+            successfullyProcessed = DateUtils.formatInvoiceDate(billDetails.ZuoraCreatedDate),
             paymentMethod = billDetails.zuoraPaymentMethod,
             planName = billDetails.accountProductPlanName,
             planCost = billDetails.ZAmountWithoutTax,

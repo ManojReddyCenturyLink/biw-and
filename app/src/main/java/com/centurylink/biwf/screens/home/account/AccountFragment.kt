@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
-import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
-import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
@@ -22,8 +19,10 @@ class AccountFragment : BaseFragment() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
+
     @Inject
     lateinit var accountCoordinator: AccountCoordinator
     private val viewModel by lazy {
@@ -42,33 +41,14 @@ class AccountFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_account, container, false)
-        viewModel.apply {
-            accountName.bindToTextView(binding.accountFullName)
-            streetAddress.bindToTextView(binding.accountStreetAddress)
-            combinedSecondHalfOfAddress.bindToTextView(binding.accountCityStateAndZip)
-            emailAddress.bindToTextView(binding.accountPersonalInfoCard.personalInfoEmail)
-            cellNumber.bindToTextView(binding.accountPersonalInfoCard.personalInfoCellphone)
-            homeNumber.bindToTextView(binding.accountPersonalInfoCard.personalInfoHomephone)
-            workNumber.bindToTextView(binding.accountPersonalInfoCard.personalInfoWorkphone)
-            biometricStatus.bindToSwitch(binding.accountBiometricSwitch)
-            subscriptionName.bindToTextView(binding.accountSubscriptionCard.accountCardPlanName)
-            subscriptionDescription.bindToTextView(binding.accountSubscriptionCard.accountCardPlanDetails)
-            subscriptionDate.bindToTextView(binding.accountSubscriptionCard.accountCardNextPaymentDate)
-            subscriptionCardDisplayedText.bindToTextView(binding.accountSubscriptionCard.accountCardCardNumbers)
-
-            serviceCallsAndTextStatus.bindToSwitch(binding.accountServiceCallsSwitch)
-            marketingEmailStatus.bindToSwitch(binding.accountMarketingEmailsSwitch)
-            marketingCallsAndTextStatus.bindToSwitch(binding.accountMarketingCallsSwitch)
-
-            navigateToSubscriptionActivityEvent.handleEvent { (context as HomeActivity).onProfileClickEvent() }
-        }
-
+        binding = FragmentAccountBinding.inflate(layoutInflater)
+        observeViews()
         initSwitches()
         initClicks()
         accountCoordinator.observeThis(viewModel.myState)
         return binding.root
     }
+
 
     private fun initSwitches() {
         binding.accountBiometricSwitch.setOnCheckedChangeListener { _, boolean ->
@@ -83,6 +63,44 @@ class AccountFragment : BaseFragment() {
         }
         binding.accountMarketingCallsSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onMarketingCallsAndTextsChange(boolean)
+        }
+    }
+
+
+    private fun observeViews() {
+        // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
+        //Todo: Remove Harding of values once API returns
+        viewModel.apply {
+            accountDetailsInfo.observe { uiAccountDetails ->
+                binding.accountFullName.text = uiAccountDetails.name
+                binding.accountStreetAddress.text =
+                    uiAccountDetails.serviceAddress ?: "3004 Parkington Place SE\n" +
+                            "Port Orchard, WA 98366"
+                //planInfo
+                binding.accountSubscriptionCard.accountCardPlanName.text =
+                    uiAccountDetails.planName ?: "Best in world Fiber "
+                binding.accountSubscriptionCard.accountCardPlanDetails.text =
+                    uiAccountDetails.planSpeed ?: "Speeds Upto 940 Mbps"
+                binding.accountSubscriptionCard.accountCardNextPaymentDate.text =
+                    uiAccountDetails.paymentDate
+                binding.accountSubscriptionCard.accountCardCardNumbers.text =
+                    "Visa ******* 2453"
+                // Personal Info
+                binding.accountPersonalInfoCard.personalInfoEmail.text = uiAccountDetails.email
+                binding.accountPersonalInfoCard.personalInfoCellphone.text =
+                    uiAccountDetails.cellPhone
+                binding.accountPersonalInfoCard.personalInfoHomephone.text =
+                    uiAccountDetails.homePhone
+                binding.accountPersonalInfoCard.personalInfoWorkphone.text =
+                    uiAccountDetails.workPhone
+                // Preference
+                binding.accountServiceCallsSwitch.isChecked =
+                    uiAccountDetails.serviceCallsAndText
+                binding.accountMarketingEmailsSwitch.isChecked =
+                    uiAccountDetails.marketingEmails
+                binding.accountMarketingCallsSwitch.isChecked =
+                    uiAccountDetails.marketingCallsAndText
+            }
         }
     }
 

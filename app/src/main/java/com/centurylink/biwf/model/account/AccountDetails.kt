@@ -25,7 +25,30 @@ data class AccountDetails(
     @SerializedName("Product_Plan_Name__c")
     val productPlanNameC: String = "",
     @SerializedName("Product_Name__c")
-    val productNameC: String = ""
+    val productNameC: String = "",
+    @SerializedName("Service_Address__c")
+    val serviceCompleteAddress: String = "",
+    @SerializedName("Service_City__c")
+    val serviceCity: String = "",
+    @SerializedName("Service_Country__c")
+    val serviceCountry: String = "",
+    @SerializedName("Service_State_Province__c")
+    val serviceStateProvince: String = "",
+    @SerializedName("Service_Street__c")
+    val serviceStreet: String = "",
+    @SerializedName("Service_Zip_Postal_Code__c")
+    val servicePostalCode: String = "",
+    @SerializedName("Phone")
+    val phone: String = "",
+    @SerializedName("Secondary_Phone__c")
+    val secondaryPhone: String = "",
+    @SerializedName("Cell_Phone_Opt_In__c")
+    val cellPhoneOptInC: Boolean,
+    @SerializedName("Payment_Method_Name__c")
+    val paymentMethodName: String = "",
+    @SerializedName("LastViewedDate")
+    val lastViewedDate: String = ""
+
 ) : Serializable
 
 data class BillingAddress(
@@ -42,7 +65,7 @@ data class BillingAddress(
     @SerializedName("postalCode")
     val postalCode: String = "",
     @SerializedName("state")
-    val state: String,
+    val state: String="",
     @SerializedName("street")
-    val street: String
-)
+    val street: String=""
+) : Serializable
