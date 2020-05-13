@@ -20,10 +20,10 @@ android {
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        def subDomain = "r3dev"
-        def rootUrl = "https://$subDomain-ctl-fiber.cs21.force.com/fiber"
+        def subDomain = "qa"
+        def rootUrl = "https://$subDomain-qa101.cs16.force.com/fiber"
         def baseUrl = "$rootUrl/services/data/v46.0/"
-        def clientId = "3MVG9zZht._ZaMulq8jyjl8B1uabBoDATc77NFnEPrlQeZfz3M0CxCodan..16NairjQ3lVoCD7XAO.2JgJXh"
+        def clientId = "3MVG9zJJ_hX_0bb9K7vLVk3OsI9xKsWw_HJHXUqrZt94ciDzSui3EjQhxwl6AXIDmKvZWU6_dhjfeUOghN7Wa"
         def scope = "web api refresh_token"
         def redirectUrl = "myapp://com.force.lightning.ctl-fiber--$subDomain"
 
