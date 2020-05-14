@@ -55,7 +55,6 @@ class AccountFragment : BaseFragment() {
         binding.accountBiometricSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onBiometricChange(boolean)
         }
-
         binding.accountServiceCallsSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onServiceCallsAndTextsChange(boolean)
         }

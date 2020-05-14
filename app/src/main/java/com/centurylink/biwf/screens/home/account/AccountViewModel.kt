@@ -42,37 +42,25 @@ class AccountViewModel @Inject constructor(
 
     fun onServiceCallsAndTextsChange(servicecall: Boolean) {
         viewModelScope.launch {
-            try {
-                uiAccountDetails = uiAccountDetails.copy(serviceCallsAndText = servicecall)
-                val result = accountRepository.setServiceCallsAndTexts(servicecall)
-                errorMessageFlow.latestValue = result
-            } catch (e: Throwable) {
-
-            }
+            uiAccountDetails = uiAccountDetails.copy(serviceCallsAndText = servicecall)
+            val result = accountRepository.setServiceCallsAndTexts(servicecall)
+            errorMessageFlow.latestValue = result
         }
     }
 
     fun onMarketingEmailsChange(boolean: Boolean) {
         viewModelScope.launch {
-            try {
-                uiAccountDetails = uiAccountDetails.copy(marketingEmails = boolean)
-                val result = contactRepository.setMarketingEmails(boolean)
-                errorMessageFlow.latestValue = result
-            } catch (e: Throwable) {
-
-            }
+            uiAccountDetails = uiAccountDetails.copy(marketingEmails = boolean)
+            val result = contactRepository.setMarketingEmails(boolean)
+            errorMessageFlow.latestValue = result
         }
     }
 
     fun onMarketingCallsAndTextsChange(boolean: Boolean) {
         viewModelScope.launch {
-            try {
-                uiAccountDetails = uiAccountDetails.copy(marketingCallsAndText = boolean)
-                val result = contactRepository.setMarketingCallsAndText(boolean)
-                errorMessageFlow.latestValue = result
-            } catch (e: Throwable) {
-
-            }
+            uiAccountDetails = uiAccountDetails.copy(marketingCallsAndText = boolean)
+            val result = contactRepository.setMarketingCallsAndText(boolean)
+            errorMessageFlow.latestValue = result
         }
     }
 
