@@ -55,15 +55,6 @@ class AccountFragment : BaseFragment() {
         binding.accountBiometricSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onBiometricChange(boolean)
         }
-
-        binding.accountServiceCallsSwitch.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                val serviceCallsAndTexts: SwitchMaterial = v as SwitchMaterial
-                val currentState: Boolean = serviceCallsAndTexts.isChecked
-                serviceCallsAndTexts.isChecked = !currentState
-            }
-        })
-
         binding.accountServiceCallsSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onServiceCallsAndTextsChange(boolean)
         }
