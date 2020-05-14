@@ -1,5 +1,7 @@
 package com.centurylink.biwf.repos
 
+import com.centurylink.biwf.Either
+import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.UpdatedServiceCallsAndTexts
 import com.centurylink.biwf.service.network.AccountApiService
@@ -29,8 +31,16 @@ class AccountRepository @Inject constructor(
         return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
-    suspend fun getAccountDetails(): AccountDetails {
-        return accountApiService.getAccountDetails(getAccountId()!!)
+    suspend fun getAccountDetails(): Either<String, AccountDetails> {
+        val result: FiberServiceResult<AccountDetails> =
+            accountApiService.getAccountDetails(getAccountId()!!)
+        result.fold(
+            ifLeft = {},
+            ifRight = {
+                it
+            }
+        )
+        return result.mapLeft { it.message?.message.toString() }
     }
 
     suspend fun setServiceCallsAndTexts(callValue: Boolean) {

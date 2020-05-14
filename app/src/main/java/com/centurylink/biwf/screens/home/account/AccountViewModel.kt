@@ -26,9 +26,10 @@ class AccountViewModel @Inject constructor(
 
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
+    var errorMessageFlow = EventFlow<String>()
 
     init {
-        getUserDetails()
+        requestUserInfo()
     }
 
     val myState = EventFlow<AccountCoordinatorDestinations>()
@@ -43,7 +44,6 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 uiAccountDetails = uiAccountDetails.copy(serviceCallsAndText = servicecall)
-                updateAccountFlow()
                 accountRepository.setServiceCallsAndTexts(servicecall)
             } catch (e: Throwable) {
 
@@ -51,11 +51,11 @@ class AccountViewModel @Inject constructor(
         }
     }
 
+
     fun onMarketingEmailsChange(boolean: Boolean) {
         viewModelScope.launch {
             try {
                 uiAccountDetails = uiAccountDetails.copy(marketingEmails = boolean)
-                updateAccountFlow()
                 contactRepository.setMarketingEmails(boolean)
             } catch (e: Throwable) {
 
@@ -67,12 +67,15 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 uiAccountDetails = uiAccountDetails.copy(marketingCallsAndText = boolean)
-                updateAccountFlow()
                 contactRepository.setMarketingCallsAndText(boolean)
             } catch (e: Throwable) {
 
             }
         }
+    }
+
+    fun onResume() {
+        updateAccountFlow()
     }
 
     fun onSubscriptionCardClick() {
@@ -83,13 +86,48 @@ class AccountViewModel @Inject constructor(
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
     }
 
+    private fun requestUserInfo() {
+        viewModelScope.launch {
+            val userInfo = userRepository.getUserInfo()
+            userInfo.fold(ifLeft = {
+                errorMessageFlow.latestValue = it
+            }) {
+                getUserDetails()
+            }
+        }
+    }
+
+    private fun getUserDetails() {
+        viewModelScope.launch {
+            val userDetails = userRepository.getUserDetails()
+            userDetails.fold(ifLeft = {
+                errorMessageFlow.latestValue = it
+            }) {
+                updateUIAccountDetailsFromUserDetails(it)
+                getAccountInfo()
+            }
+        }
+    }
+
     private fun getAccountInfo() {
         viewModelScope.launch {
-            try {
-                val accountDetails = accountRepository.getAccountDetails()
-                updateUIAccountDetailsFromAccounts(accountDetails)
+            val accountDetails = accountRepository.getAccountDetails()
+            accountDetails.fold(ifLeft = {
+                errorMessageFlow.latestValue = it
+            }) {
+                updateUIAccountDetailsFromAccounts(it)
                 getContactInfo()
-            } catch (e: Throwable) {
+            }
+        }
+    }
+
+    private fun getContactInfo() {
+        viewModelScope.launch {
+            val contactDetails = contactRepository.getContactDetails()
+            contactDetails.fold(ifLeft = {
+                errorMessageFlow.latestValue = it
+            }) {
+                updateUIAccountDetailsFromContacts(it)
             }
         }
     }
@@ -116,28 +154,6 @@ class AccountViewModel @Inject constructor(
 
     private fun updateAccountFlow() {
         accountDetailsInfo.latestValue = uiAccountDetails
-    }
-
-    private fun getContactInfo() {
-        viewModelScope.launch {
-            try {
-                val contactDetails = contactRepository.getContactDetails()
-                updateUIAccountDetailsFromContacts(contactDetails)
-            } catch (e: Throwable) {
-            }
-        }
-    }
-
-    private fun getUserDetails() {
-        viewModelScope.launch {
-            try {
-                val userDetails = userRepository.getUserDetails()
-                updateUIAccountDetailsFromUserDetails(userDetails)
-                getAccountInfo()
-            } catch (e: Throwable) {
-
-            }
-        }
     }
 
     private fun updateUIAccountDetailsFromUserDetails(userDetails: UserDetails) {

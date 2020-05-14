@@ -2,6 +2,7 @@ package com.centurylink.biwf.base
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.centurylink.biwf.utility.LiveDataObserver
 import dagger.android.support.AndroidSupportInjection
@@ -18,5 +19,9 @@ abstract class BaseFragment : Fragment(), LiveDataObserver {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         AndroidSupportInjection.inject(this)
+    }
+
+    fun displayToast(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 }

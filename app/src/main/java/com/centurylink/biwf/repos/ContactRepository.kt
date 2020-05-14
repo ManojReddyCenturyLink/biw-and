@@ -1,5 +1,7 @@
 package com.centurylink.biwf.repos
 
+import com.centurylink.biwf.Either
+import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.model.contact.UpdatedCallsandTextMarketing
 import com.centurylink.biwf.model.contact.UpdatedMarketingEmails
@@ -18,8 +20,16 @@ class ContactRepository @Inject constructor(
         return preferences.getValueByID(Preferences.CONTACT_ID)
     }
 
-    suspend fun getContactDetails(): ContactDetails {
-        return contactApiService.getContactDetails(getContactId()!!)
+    suspend fun getContactDetails(): Either<String, ContactDetails> {
+        val result: FiberServiceResult<ContactDetails> =
+            contactApiService.getContactDetails(getContactId()!!)
+        result.fold(
+            ifLeft = {},
+            ifRight = {
+                it
+            }
+        )
+        return result.mapLeft { it.message?.message.toString() }
     }
 
     suspend fun setMarketingEmails(emailValue: Boolean) {

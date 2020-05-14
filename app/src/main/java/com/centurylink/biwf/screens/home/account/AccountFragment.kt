@@ -50,6 +50,11 @@ class AccountFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
 
     private fun initSwitches() {
         binding.accountBiometricSwitch.setOnCheckedChangeListener { _, boolean ->
@@ -103,6 +108,9 @@ class AccountFragment : BaseFragment() {
                     uiAccountDetails.marketingCallsAndText
             }
             navigateToSubscriptionActivityEvent.handleEvent { (context as HomeActivity).launchSubscriptionActivity() }
+            errorMessageFlow.observe {
+                displayToast(message = it)
+            }
         }
     }
 

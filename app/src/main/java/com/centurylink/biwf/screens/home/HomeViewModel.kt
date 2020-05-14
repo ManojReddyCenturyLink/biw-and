@@ -44,12 +44,6 @@ class HomeViewModel @Inject constructor(
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
-
-        // TODO Remove later when example is no longer needed.
-       // requestTestRestFlow()
-        requestUserInfo()
-        getUserDetails()
-
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {
@@ -70,9 +64,6 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadData() {
-        loadAccountsData()
-        loadDevicesData()
-        loadDashboardData()
     }
 
     fun onOnlineToolbarClick() {
@@ -130,37 +121,5 @@ class HomeViewModel @Inject constructor(
                 )
             )
         return list
-    }
-
-    private fun loadDashboardData() {
-        //Load data here
-    }
-
-    private fun loadDevicesData() {
-        //Load data here
-    }
-
-    private fun loadAccountsData() {
-        //Load data here
-    }
-
-    private fun requestUserInfo() {
-        viewModelScope.launch {
-            try {
-                userRepository.getUserInfo()
-            } catch (e: Throwable) {
-
-            }
-        }
-    }
-
-    private fun getUserDetails() {
-        viewModelScope.launch {
-            try {
-                userRepository.getUserDetails()
-            } catch (e: Throwable) {
-
-            }
-        }
     }
 }
