@@ -5,49 +5,49 @@ import java.io.Serializable
 
 data class AccountDetails(
     @SerializedName("Id")
-    val Id: String = "",
+    val Id: String? = null,
     @SerializedName("Name")
-    val name: String = "",
+    val name: String? = null,
     @SerializedName("LastName__c")
-    val lastName: String = "",
+    val lastName: String? = null,
     @SerializedName("FirstName__c")
-    val firstName: String = "",
+    val firstName: String? = null,
     @SerializedName("Is_Billing_Address_Updated__c")
     val isBillingAddressUpdated: Boolean,
     @SerializedName("Email_Opt_In__c")
     val emailOptInC: Boolean,
     @SerializedName("Marketing_Opt_In__c")
-    val marketingOptInC: String,
+    val marketingOptInC: String? = null,
     @SerializedName("Email__c")
-    val emailAddress: String,
+    val emailAddress: String? = null,
     @SerializedName("BillingAddress")
     val billingAddress: BillingAddress? = null,
     @SerializedName("Product_Plan_Name__c")
-    val productPlanNameC: String = "",
+    val productPlanNameC: String? = null,
     @SerializedName("Product_Name__c")
-    val productNameC: String = "",
+    val productNameC: String? = null,
     @SerializedName("Service_Address__c")
     val serviceCompleteAddress: String = "",
     @SerializedName("Service_City__c")
-    val serviceCity: String = "",
+    val serviceCity: String? = null,
     @SerializedName("Service_Country__c")
-    val serviceCountry: String = "",
+    val serviceCountry: String? = null,
     @SerializedName("Service_State_Province__c")
-    val serviceStateProvince: String = "",
+    val serviceStateProvince: String? = null,
     @SerializedName("Service_Street__c")
-    val serviceStreet: String = "",
+    val serviceStreet: String? = null,
     @SerializedName("Service_Zip_Postal_Code__c")
-    val servicePostalCode: String = "",
+    val servicePostalCode: String? = null,
     @SerializedName("Phone")
-    val phone: String = "",
+    val phone: String? = null,
     @SerializedName("Secondary_Phone__c")
-    val secondaryPhone: String = "",
+    val secondaryPhone: String? = null,
     @SerializedName("Cell_Phone_Opt_In__c")
     val cellPhoneOptInC: Boolean,
     @SerializedName("Payment_Method_Name__c")
-    val paymentMethodName: String = "",
+    val paymentMethodName: String? = null,
     @SerializedName("LastViewedDate")
-    val lastViewedDate: String = ""
+    val lastViewedDate: String? = null
 
 ) : Serializable
 
