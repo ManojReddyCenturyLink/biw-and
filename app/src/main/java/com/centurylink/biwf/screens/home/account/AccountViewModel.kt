@@ -29,7 +29,7 @@ class AccountViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
 
     init {
-        requestUserInfo()
+        initApiCalls()
     }
 
     val myState = EventFlow<AccountCoordinatorDestinations>()
@@ -38,6 +38,15 @@ class AccountViewModel @Inject constructor(
 
     fun onBiometricChange(boolean: Boolean) {
         uiAccountDetails = uiAccountDetails.copy(biometricStatus = boolean)
+    }
+
+    private fun initApiCalls() {
+        viewModelScope.launch {
+            requestUserInfo()
+            getUserDetails()
+            getAccountInfo()
+            getContactInfo()
+        }
     }
 
     fun onServiceCallsAndTextsChange(servicecall: Boolean) {
@@ -72,49 +81,38 @@ class AccountViewModel @Inject constructor(
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
     }
 
-    private fun requestUserInfo() {
-        viewModelScope.launch {
-            val userInfo = userRepository.getUserInfo()
-            userInfo.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                getUserDetails()
-            }
+    private suspend fun requestUserInfo() {
+        val userInfo = userRepository.getUserInfo()
+        userInfo.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {}
+    }
+
+    private suspend fun getUserDetails() {
+        val userDetails = userRepository.getUserDetails()
+        userDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            updateUIAccountDetailsFromUserDetails(it)
         }
     }
 
-    private fun getUserDetails() {
-        viewModelScope.launch {
-            val userDetails = userRepository.getUserDetails()
-            userDetails.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                updateUIAccountDetailsFromUserDetails(it)
-                getAccountInfo()
-            }
+    private suspend fun getAccountInfo() {
+        val accountDetails = accountRepository.getAccountDetails()
+        accountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            updateUIAccountDetailsFromAccounts(it)
+
         }
     }
 
-    private fun getAccountInfo() {
-        viewModelScope.launch {
-            val accountDetails = accountRepository.getAccountDetails()
-            accountDetails.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                updateUIAccountDetailsFromAccounts(it)
-                getContactInfo()
-            }
-        }
-    }
-
-    private fun getContactInfo() {
-        viewModelScope.launch {
-            val contactDetails = contactRepository.getContactDetails()
-            contactDetails.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                updateUIAccountDetailsFromContacts(it)
-            }
+    private suspend fun getContactInfo() {
+        val contactDetails = contactRepository.getContactDetails()
+        contactDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            updateUIAccountDetailsFromContacts(it)
         }
     }
 

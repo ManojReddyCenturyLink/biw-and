@@ -39,7 +39,6 @@ class UserRepository @Inject constructor(
         result.fold(
             ifLeft = { },
             ifRight = {
-                it
                 storeAccountId(it.accountId!!)
                 storeContactId(it.contactId!!)
             }
@@ -52,9 +51,7 @@ class UserRepository @Inject constructor(
         result.fold(
             ifLeft = { },
             ifRight = {
-                it
                 storeUserId(it.recentItems[0].Id!!)
-
             }
         )
         return result.mapLeft { it.message?.message.toString() }
