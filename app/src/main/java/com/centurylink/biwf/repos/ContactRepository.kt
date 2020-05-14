@@ -32,19 +32,29 @@ class ContactRepository @Inject constructor(
         return result.mapLeft { it.message?.message.toString() }
     }
 
-    suspend fun setMarketingEmails(emailValue: Boolean) {
+    suspend fun setMarketingEmails(emailValue: Boolean): String {
         val updatedMarketingEmails = UpdatedMarketingEmails(emailValue)
-        contactApiService.submitMarketingEmail(
+        val result: FiberServiceResult<Unit> = contactApiService.submitMarketingEmail(
             getContactId()!!,
             updatedMarketingEmails
         )
+        val msg = result.fold(
+            ifLeft = { it.message?.message.toString() },
+            ifRight = { "" }
+        )
+        return msg
     }
 
-    suspend fun setMarketingCallsAndText(emailValue: Boolean) {
+    suspend fun setMarketingCallsAndText(emailValue: Boolean): String {
         val updatedCallsandTextMarketing = UpdatedCallsandTextMarketing(emailValue)
-        contactApiService.submitMarketingCalls(
+        val result: FiberServiceResult<Unit> = contactApiService.submitMarketingCalls(
             getContactId()!!,
             updatedCallsandTextMarketing
         )
+        val msg = result.fold(
+            ifLeft = { it.message?.message.toString() },
+            ifRight = { "" }
+        )
+        return msg
     }
 }

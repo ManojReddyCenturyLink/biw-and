@@ -18,5 +18,5 @@ interface AccountApiService {
     suspend fun submitServiceCallDetails(
         @Path("account-id") id: String,
         @Body updateCallsAndText: UpdatedServiceCallsAndTexts
-    )
+    ):FiberServiceResult<Unit>
 }

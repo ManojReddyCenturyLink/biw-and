@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.account
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -50,12 +51,6 @@ class AccountFragment : BaseFragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
-
-
     private fun initSwitches() {
         binding.accountBiometricSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onBiometricChange(boolean)
@@ -71,7 +66,6 @@ class AccountFragment : BaseFragment() {
             viewModel.onMarketingCallsAndTextsChange(boolean)
         }
     }
-
 
     private fun observeViews() {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding

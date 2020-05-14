@@ -12,8 +12,8 @@ interface ContactApiService {
     suspend fun getContactDetails(@Path("contact-id") id: String): FiberServiceResult<ContactDetails>
 
     @PATCH("sobjects/Contact/{contact-id}")
-    suspend fun submitMarketingEmail(@Path("contact-id") id: String, @Body updateMarketing: UpdatedMarketingEmails)
+    suspend fun submitMarketingEmail(@Path("contact-id") id: String, @Body updateMarketing: UpdatedMarketingEmails):FiberServiceResult<Unit>
 
     @PATCH("sobjects/Contact/{contact-id}")
-    suspend fun submitMarketingCalls(@Path("contact-id") id: String, @Body updatedCall: UpdatedCallsandTextMarketing)
+    suspend fun submitMarketingCalls(@Path("contact-id") id: String, @Body updatedCall: UpdatedCallsandTextMarketing):FiberServiceResult<Unit>
 }

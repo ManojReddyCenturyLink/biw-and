@@ -43,11 +43,16 @@ class AccountRepository @Inject constructor(
         return result.mapLeft { it.message?.message.toString() }
     }
 
-    suspend fun setServiceCallsAndTexts(callValue: Boolean) {
+    suspend fun setServiceCallsAndTexts(callValue: Boolean) : String {
         val updatedServiceCallsAndTexts = UpdatedServiceCallsAndTexts(callValue)
-        val update = accountApiService.submitServiceCallDetails(
+        val result: FiberServiceResult<Unit> = accountApiService.submitServiceCallDetails(
             getAccountId()!!,
             updatedServiceCallsAndTexts
         )
+        val msg = result.fold(
+            ifLeft = { it.message?.message.toString() },
+            ifRight = { "" }
+        )
+        return msg
     }
 }

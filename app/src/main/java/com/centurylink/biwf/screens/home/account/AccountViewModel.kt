@@ -44,19 +44,20 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 uiAccountDetails = uiAccountDetails.copy(serviceCallsAndText = servicecall)
-                accountRepository.setServiceCallsAndTexts(servicecall)
+                val result = accountRepository.setServiceCallsAndTexts(servicecall)
+                errorMessageFlow.latestValue = result
             } catch (e: Throwable) {
 
             }
         }
     }
 
-
     fun onMarketingEmailsChange(boolean: Boolean) {
         viewModelScope.launch {
             try {
                 uiAccountDetails = uiAccountDetails.copy(marketingEmails = boolean)
-                contactRepository.setMarketingEmails(boolean)
+                val result = contactRepository.setMarketingEmails(boolean)
+                errorMessageFlow.latestValue = result
             } catch (e: Throwable) {
 
             }
@@ -67,15 +68,12 @@ class AccountViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 uiAccountDetails = uiAccountDetails.copy(marketingCallsAndText = boolean)
-                contactRepository.setMarketingCallsAndText(boolean)
+                val result = contactRepository.setMarketingCallsAndText(boolean)
+                errorMessageFlow.latestValue = result
             } catch (e: Throwable) {
 
             }
         }
-    }
-
-    fun onResume() {
-        updateAccountFlow()
     }
 
     fun onSubscriptionCardClick() {
