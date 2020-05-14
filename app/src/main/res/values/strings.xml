@@ -172,4 +172,9 @@
     <string name="statement_payment_promo_info">$X off your monthly bill</string>
     <string name="cost_template">$%s</string>
     <string name="statement_total">Total</string>
+    <string name="previous_statements">Previous statements</string>
+    <string name="subscription">Subscription</string>
+    <string name="my_subscription">My subscription</string>
+    <string name="manage_my_subscription">Manage my subscription</string>
+    <string name="view_older_statements">View older statements</string>
 </resources>

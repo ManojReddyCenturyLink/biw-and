@@ -9,14 +9,7 @@ import com.centurylink.biwf.service.impl.network.EitherCallAdapterFactory
 import com.centurylink.biwf.service.impl.network.EitherConverterFactory
 import com.centurylink.biwf.service.impl.network.FiberErrorConverterFactory
 import com.centurylink.biwf.service.impl.network.asFactory
-import com.centurylink.biwf.service.network.AccountApiService
-import com.centurylink.biwf.service.network.ApiServices
-import com.centurylink.biwf.service.network.BillingApiServices
-import com.centurylink.biwf.service.network.ContactApiService
-import com.centurylink.biwf.service.network.ServicesFactory
-import com.centurylink.biwf.service.network.TestRestServices
-import com.centurylink.biwf.service.network.UserService
-import com.centurylink.biwf.service.network.create
+import com.centurylink.biwf.service.network.*
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -92,6 +85,12 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun provideUserServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): UserService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideZuoraPaymentService(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): ZuoraPaymentService {
         return factory.create()
     }
 

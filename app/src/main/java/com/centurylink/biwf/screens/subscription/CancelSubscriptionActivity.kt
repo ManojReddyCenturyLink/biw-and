@@ -56,7 +56,7 @@ class CancelSubscriptionActivity : BaseActivity() {
             subHeaderLeftIcon.setOnClickListener { finish() }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         }
@@ -74,9 +74,9 @@ class CancelSubscriptionActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION->{
-                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
-                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
+            CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    setResult(RESULT_OK)
                     finish()
                 }
             }

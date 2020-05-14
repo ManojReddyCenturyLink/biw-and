@@ -82,8 +82,8 @@ class HomeViewModel @Inject constructor(
         dummyOnline = !dummyOnline
     }
 
-    fun onProfileClickEvent() {
-        myState.value = HomeCoordinatorDestinations.PROFILE
+    fun onSubscriptionActivityClick() {
+        myState.value = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }
 
     // Example: Use Coroutines to get data asynchronously and emit the results through Flows

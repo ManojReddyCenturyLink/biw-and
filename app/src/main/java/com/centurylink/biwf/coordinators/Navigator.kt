@@ -6,7 +6,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
-import com.centurylink.biwf.screens.emptydesitination.ProfileActivity
+import com.centurylink.biwf.screens.home.account.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
@@ -93,9 +93,9 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
-    fun navigateToProfileActivity() {
+    fun navigateToSubscriptionActivity() {
         activity?.also {
-            it.startActivity(ProfileActivity.newIntent(it))
+            it.startActivity(SubscriptionActivity.newIntent(it))
         }
     }
 
@@ -104,7 +104,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToMangeSubscription() {
         activity?.also {
             it.startActivityForResult(
-                SubscriptionStatementActivity.newIntent(it),
+                CancelSubscriptionActivity.newIntent(it),
                 CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
             )
         }
@@ -144,6 +144,16 @@ class Navigator @Inject constructor() : LifecycleObserver {
             it.startActivityForResult(
                 AdditionalInfoActivity.newIntent(it, bundle),
                 AdditionalInfoActivity.REQUEST_TO_HOME
+            )
+        }
+    }
+
+    fun navigateToBillStatement() {
+        val bundle = SubscriptionCoordinator.SubscriptionCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(
+                SubscriptionStatementActivity.newIntent(it, bundle),
+                CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
             )
         }
     }

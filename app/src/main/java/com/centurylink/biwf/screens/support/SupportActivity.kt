@@ -89,7 +89,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding.incTroubleshooting.runSpeedTestButton.setOnClickListener { supportViewModel.runSpeedTest() }
         binding.incTroubleshooting.supportVisitWebsite.setOnClickListener { }
 
-        binding.incContactUs.liveChatTextview.setOnClickListener { supportViewModel.setManageSubscription() }
+        binding.incContactUs.liveChatTextview.setOnClickListener { }
         binding.incContactUs.scheduleCallbackRow.setOnClickListener { supportViewModel.launchScheduleCallback() }
     }
 

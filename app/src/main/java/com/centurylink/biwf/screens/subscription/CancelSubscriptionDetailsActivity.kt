@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.subscription
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
@@ -65,7 +66,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             subheaderRightActionTitle.text =
                 getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(REQUEST_TO_ACCOUNT)
+                setResult(Activity.RESULT_OK)
                 finish()
             }
             subHeaderLeftIcon.setOnClickListener { finish() }
