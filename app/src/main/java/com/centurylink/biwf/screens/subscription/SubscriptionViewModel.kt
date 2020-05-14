@@ -80,11 +80,12 @@ class SubscriptionViewModel @Inject constructor(
                 billingLastName = userAccount.lastName,
                 billingAddress = serviceAddressData
             )
+            uiFlowable.latestValue = uiSubscriptionPageObject
         }
     }
 
     fun launchStatement(item: RecordsItem) {
-        var bundle = Bundle()
+        val bundle = Bundle()
         bundle.putString(
             SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_TITLE,
             item.id
@@ -120,24 +121,28 @@ class SubscriptionViewModel @Inject constructor(
     fun onStreetAddressChange(streetAddress: String) {
         billingAddress = billingAddress.copy(street = streetAddress)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
+        uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onCityChange(city: String) {
         billingAddress = billingAddress.copy(city = city)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
+        uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onStateChange(state: String) {
         billingAddress = billingAddress.copy(state = state)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
+        uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onZipCodeChange(zipCode: String) {
         billingAddress = billingAddress.copy(postalCode = zipCode)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
+        uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
