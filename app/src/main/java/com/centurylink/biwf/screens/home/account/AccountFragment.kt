@@ -10,6 +10,7 @@ import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
+import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
@@ -101,6 +102,7 @@ class AccountFragment : BaseFragment() {
                 binding.accountMarketingCallsSwitch.isChecked =
                     uiAccountDetails.marketingCallsAndText
             }
+            navigateToSubscriptionActivityEvent.handleEvent { (context as HomeActivity).launchSubscriptionActivity() }
         }
     }
 

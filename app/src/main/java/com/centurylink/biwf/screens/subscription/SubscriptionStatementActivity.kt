@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.subscription
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -14,10 +15,6 @@ import javax.inject.Inject
 
 
 class SubscriptionStatementActivity : BaseActivity() {
-
-    companion object {
-        fun newIntent(context: Context) = Intent(context, SubscriptionStatementActivity::class.java)
-    }
 
     @Inject
     lateinit var statementCoordinator: StatementCoordinator
@@ -52,6 +49,7 @@ class SubscriptionStatementActivity : BaseActivity() {
             subHeaderLeftIcon.setOnClickListener { finish() }
             subheaderRightActionTitle.text = getText(R.string.statment_done)
             subheaderRightActionTitle.setOnClickListener {
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         }
@@ -74,6 +72,17 @@ class SubscriptionStatementActivity : BaseActivity() {
                     uiAccountInfo.billingAddress
                 binding.subscriptionStatementEmailContent.text=""
             }
+        }
+    }
+
+    companion object {
+        const val SUBSCRIPTION_STATEMENT_TITLE: String = "SUBSCRIPTION_STATEMENT"
+        const val REQUEST_TO_STATEMENT: Int = 1102
+
+        fun newIntent(context: Context, bundle: Bundle): Intent {
+            return Intent(context, SubscriptionStatementActivity::class.java).putExtra(
+                SUBSCRIPTION_STATEMENT_TITLE, bundle.getString(SUBSCRIPTION_STATEMENT_TITLE)
+            )
         }
     }
 }

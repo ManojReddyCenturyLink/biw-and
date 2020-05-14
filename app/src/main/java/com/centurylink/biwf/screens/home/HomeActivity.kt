@@ -78,8 +78,8 @@ class HomeActivity : BaseActivity() {
         setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER", false))
     }
 
-    fun onProfileClickEvent() {
-        viewModel.onProfileClickEvent()
+    fun launchSubscriptionActivity() {
+        viewModel.onSubscriptionActivityClick()
     }
 
     private fun initOnClicks() {

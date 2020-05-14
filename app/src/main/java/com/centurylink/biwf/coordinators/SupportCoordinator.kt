@@ -24,8 +24,6 @@ class SupportCoordinator @Inject constructor() {
             SupportCoordinatorDestinations.NAVIGATE_TO_WEBSITE -> {}
             SupportCoordinatorDestinations.SCHEDULE_CALLBACK -> { navigateToScheduleCallback()}
             SupportCoordinatorDestinations.LIVE_CHAT -> navigateToLiveChat()
-            //Temporary Navigation
-            SupportCoordinatorDestinations.MANAGE_SUBSCRIPTION->navigateToManageSubscription()
         }
     }
 
@@ -39,12 +37,8 @@ class SupportCoordinator @Inject constructor() {
 
     private fun navigateToLiveChat(){}
 
-    private fun navigateToManageSubscription(){
-        navigator.navigateToMangeSubscription()
-    }
-
     enum class SupportCoordinatorDestinations {
-        FAQ, LIVE_CHAT, SCHEDULE_CALLBACK, NAVIGATE_TO_WEBSITE, SUPPORT,MANAGE_SUBSCRIPTION;
+        FAQ, LIVE_CHAT, SCHEDULE_CALLBACK, NAVIGATE_TO_WEBSITE, SUPPORT;
 
         companion object {
             lateinit var bundle: Bundle
