@@ -56,13 +56,14 @@ class SubscriptionViewModel @Inject constructor(
                     billingAddress = billingAddress
                 )
                 uiFlowable.latestValue = uiSubscriptionPageObject
-
                 planName.latestValue = userAccount.productNameC!!
                 planDetails.latestValue = userAccount.productPlanNameC!!
+
+                getInvoicesList()
             } catch (e: Throwable) {
             }
         }
-        getInvoicesList()
+
         mockPlanName()
     }
 
@@ -146,13 +147,11 @@ class SubscriptionViewModel @Inject constructor(
         checkboxState.latestValue = false
     }
 
-    private fun getInvoicesList() {
-        viewModelScope.launch {
-            try {
-                val paymentList = zuoraPaymentRepository.getInvoicesList()
-                invoicesListResponse.latestValue = paymentList
-            } catch (e: Throwable) {
-            }
+    private suspend fun getInvoicesList() {
+        try {
+            val paymentList = zuoraPaymentRepository.getInvoicesList()
+            invoicesListResponse.latestValue = paymentList
+        } catch (e: Throwable) {
         }
     }
 
