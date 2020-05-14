@@ -25,65 +25,59 @@ class SubscriptionStatementViewModel @Inject constructor(
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var uiStatementDetails = UiStatementDetails()
-    var invoicedId:String?=null
+    var invoicedId: String? = null
+
     init {
-        getUserDetails()
+        initAPiCalls()
     }
 
-    fun setInvoiceId(invoiced:String){
-        invoicedId =invoiced;
+    fun setInvoiceId(invoiced: String) {
+        invoicedId = invoiced
     }
 
-    private fun getUserDetails() {
+    private fun initAPiCalls() {
         viewModelScope.launch {
-            val userDetails = userRepository.getUserDetails()
-            userDetails.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                uiStatementDetails = uiStatementDetails.copy(email = it.email)
-                getAccountInformation()
-            }
+            getUserDetails()
+            getAccountInformation()
+            getPaymentInformation()
+            getBillingInformation()
         }
     }
 
-    private fun getAccountInformation() {
-        viewModelScope.launch {
-            val accountDetails = accountRepository.getAccountDetails()
-            accountDetails.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                uiStatementDetails = uiStatementDetails.copy(
-                    planName = it.productPlanNameC,
-                    billingAddress = formatBillingAddress(it)
-                )
-                getPaymentInformation()
-            }
-
+    private suspend fun getUserDetails() {
+        val userDetails = userRepository.getUserDetails()
+        userDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            uiStatementDetails = uiStatementDetails.copy(email = it.email)
         }
     }
 
-    private fun getPaymentInformation(){
-        viewModelScope.launch {
-            val paymentDetails = zuoraPaymentRepository.getPaymentInformation(invoicedId!!)
-            paymentDetails.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-
-                getBillingInformation()
-            }
-
+    private suspend fun getAccountInformation() {
+        val accountDetails = accountRepository.getAccountDetails()
+        accountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            uiStatementDetails = uiStatementDetails.copy(
+                planName = it.productPlanNameC,
+                billingAddress = formatBillingAddress(it)
+            )
         }
     }
 
-    private fun getBillingInformation() {
-        viewModelScope.launch {
-            val billingDetailList = billingRepository.getBillingDetails()
-            billingDetailList.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                statementDetailsInfo.latestValue = toUIStatementInfo(it[0])
-            }
+    private suspend fun getPaymentInformation() {
+        val paymentDetails = zuoraPaymentRepository.getPaymentInformation(invoicedId!!)
+        paymentDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {}
+    }
 
+    private suspend fun getBillingInformation() {
+        val billingDetailList = billingRepository.getBillingDetails()
+        billingDetailList.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            statementDetailsInfo.latestValue = toUIStatementInfo(it[0])
         }
     }
 
