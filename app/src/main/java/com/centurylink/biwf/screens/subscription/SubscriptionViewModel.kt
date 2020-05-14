@@ -3,15 +3,14 @@ package com.centurylink.biwf.screens.subscription
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.coordinators.SubscriptionCoordinator
+import com.centurylink.biwf.coordinators.SubscriptionCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.account.RecordsItem
 import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +20,7 @@ class SubscriptionViewModel @Inject constructor(
     accountRepository: AccountRepository
 ) : BaseViewModel() {
 
-    val myState = ObservableData(SubscriptionCoordinator.SubscriptionCoordinatorDestinations.SUBSCRIPTION)
+    val myState = EventFlow<SubscriptionCoordinatorDestinations>()
 
     private lateinit var userAccount: AccountDetails
     val checkboxState: Flow<Boolean> = BehaviorStateFlow(false)
@@ -64,10 +63,6 @@ class SubscriptionViewModel @Inject constructor(
         planDetails.latestValue = "Speeds up to 940Mbps"
     }
 
-    fun navigateToInvoiceDetails() {
-        myState.value = SubscriptionCoordinator.SubscriptionCoordinatorDestinations.STATEMENT
-    }
-
     fun sameAsServiceAddressedClicked() {
         checkboxState.latestValue = !checkboxState.latestValue
         if (checkboxState.latestValue) {
@@ -81,13 +76,12 @@ class SubscriptionViewModel @Inject constructor(
             SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_TITLE,
             item.id
         )
-        SubscriptionCoordinator.SubscriptionCoordinatorDestinations.bundle = bundle
-        myState.value = SubscriptionCoordinator.SubscriptionCoordinatorDestinations.STATEMENT
+        SubscriptionCoordinatorDestinations.bundle = bundle
+        myState.latestValue = SubscriptionCoordinatorDestinations.STATEMENT
     }
 
     fun launchManageSubscription() {
-        myState.value =
-            SubscriptionCoordinator.SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION
+        myState.latestValue = SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION
     }
 
     fun onPaymentFirstNameChange(firstName: String) {

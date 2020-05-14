@@ -4,8 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,8 +42,8 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
         navigator.observe(this)
-        subscriptionCoordinator.observeThis(subscriptionViewModel.myState)
         subscriptionViewModel.apply {
+            myState.observeWith(subscriptionCoordinator)
             checkboxState.observe { binding.billingInfoWidget.billingInfoCheckbox.isActivated = it }
             paymentFirstName.observe { binding.paymentInfoWidget.paymentInfoFirstNameInput.setText(it) }
             paymentLastName.observe { binding.paymentInfoWidget.paymentInfoLastNameInput.setText(it) }
@@ -109,14 +107,14 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         })
 
         val streetAddress = binding.billingInfoWidget.billingInfoStreetAddressInput
-        streetAddress.addTextChangedListener(afterTextChanged {editable ->
+        streetAddress.addTextChangedListener(afterTextChanged { editable ->
             subscriptionViewModel.onStreetAddressChange(editable.toString())
             streetAddress.setSelection(editable.toString().length)
 
         })
 
         val city = binding.billingInfoWidget.billingInfoCityInput
-        city.addTextChangedListener(afterTextChanged {editable ->
+        city.addTextChangedListener(afterTextChanged { editable ->
             subscriptionViewModel.onCityChange(editable.toString())
             city.setSelection(editable.toString().length)
         })
