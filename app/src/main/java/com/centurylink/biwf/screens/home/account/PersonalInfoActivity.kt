@@ -5,9 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.view.LayoutInflater
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -16,9 +14,8 @@ import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
 import com.centurylink.biwf.databinding.ActivityPersonalInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
-import kotlinx.android.synthetic.main.widget_info_popup.view.*
+import com.centurylink.biwf.widgets.CustomDialog
 import javax.inject.Inject
-
 
 class PersonalInfoActivity : BaseActivity() {
 
@@ -50,23 +47,34 @@ class PersonalInfoActivity : BaseActivity() {
 
     private fun initViews() {
         val screenTitle: String = getString(R.string.personal_info)
-
+        val fm = supportFragmentManager
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                binding.errors = personalInfoViewModel.error
-                binding.lifecycleOwner = this.lifecycleOwner
                 val errors = personalInfoViewModel.validateInput()
                 if (!errors.hasErrors()) {
-                    personalInfoViewModel.updatePassword()
-                    finish()
+                    personalInfoViewModel.callUpdatePasswordApi()
+
                 }
             }
         }
+        binding.errors = personalInfoViewModel.error
+        binding.lifecycleOwner = this.lifecycleOwner
+        personalInfoViewModel.userPasswordFlow.observe {
+            if (it.isEmpty()) {
+                finish()
+            } else {
+                CustomDialog(getString(R.string.error), it, true).show(fm, callingActivity?.className)
+            }
+        }
         binding.ivQuestion.setOnClickListener {
-            showPopup()
+            CustomDialog(
+                getString(R.string.how_do_i_change_my_email),
+                getString(R.string.personal_info_popup_msg),
+                false
+            ).show(fm, callingActivity?.className)
         }
         binding.ivPasswordVisibility.setOnClickListener {
             toggleTextVisibility(
@@ -97,7 +105,8 @@ class PersonalInfoActivity : BaseActivity() {
         )
         binding.personalInfoPhoneNumberInput.addTextChangedListener(
             afterTextChanged { editable ->
-                val validatedString = personalInfoViewModel.onPhoneNumberChanged(editable.toString())
+                val validatedString =
+                    personalInfoViewModel.onPhoneNumberChanged(editable.toString())
                 binding.personalInfoPhoneNumberInput.also {
                     /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
                     it.removeTextChangedListener(this)
@@ -134,21 +143,6 @@ class PersonalInfoActivity : BaseActivity() {
                 binding.ivConfirmPasswordVisibility.setImageResource(R.drawable.ic_password_hide)
             }
         }
-    }
-
-    private fun showPopup() {
-        val builder = AlertDialog.Builder(this)
-        val viewGroup = null
-        val dialogView = LayoutInflater.from(this).inflate(
-            R.layout.widget_info_popup,
-            viewGroup, false
-        )
-        builder.setView(dialogView)
-        val alertDialog = builder.create()
-        dialogView.popup_cancel_btn.setOnClickListener { alertDialog.dismiss() }
-        dialogView.popup_ok_button.setOnClickListener { alertDialog.dismiss() }
-        alertDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        alertDialog.show()
     }
 
     companion object {

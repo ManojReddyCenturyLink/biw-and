@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.network
 
+import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.user.UpdatedPassword
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
@@ -13,7 +14,7 @@ interface UserService {
     suspend fun qetUserInfo(): UserInfo
 
     @POST("sobjects/User/{user-id}/password")
-    suspend fun updatePassword(@Path("user-id") id: String, @Body updatedPassword: UpdatedPassword)
+    suspend fun updatePassword(@Path("user-id") id: String, @Body updatedPassword: UpdatedPassword): FiberServiceResult<Unit>
 
     @GET("sobjects/User/{user-id}")
     suspend fun getCompleteUserDetails(@Path("user-id") id: String): UserDetails

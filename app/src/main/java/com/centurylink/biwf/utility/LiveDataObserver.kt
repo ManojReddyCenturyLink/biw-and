@@ -55,6 +55,7 @@ interface LiveDataObserver {
             switch.isChecked = it
         }
     }
+
     fun LiveData<String>.bindToTextView(textView: TextView) {
         observe {
             textView.text = it
@@ -67,7 +68,6 @@ interface LiveDataObserver {
         }
     }
 
-
     /**
      * Observes this [Flow] instance by calling [observe] each time
      * a value is emitted.
@@ -78,7 +78,7 @@ interface LiveDataObserver {
      *
      * Note that values are only emitted when the Activity is at least in a STARTED state.
      */
-     fun <T> Flow<T>.observe(observe: suspend (T) -> Unit) {
+    fun <T> Flow<T>.observe(observe: suspend (T) -> Unit) {
         lifecycleOwner.lifecycleScope.launchWhenStarted {
             @Suppress("EXPERIMENTAL_API_USAGE")
             this@observe
