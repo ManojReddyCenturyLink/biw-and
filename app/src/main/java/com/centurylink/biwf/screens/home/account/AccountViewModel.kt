@@ -122,7 +122,7 @@ class AccountViewModel @Inject constructor(
             serviceAddress = accontDetails.serviceCompleteAddress,
             planName = accontDetails.productPlanNameC,
             planSpeed = accontDetails.productPlanNameC,
-            paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate),
+            paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******", cellPhone = accontDetails.phone, homePhone = accontDetails.phone,
             workPhone = accontDetails.phone, serviceCallsAndText = accontDetails.cellPhoneOptInC
         )
