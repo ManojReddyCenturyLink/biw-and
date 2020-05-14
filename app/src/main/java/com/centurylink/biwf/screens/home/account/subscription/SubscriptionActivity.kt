@@ -40,7 +40,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySubscriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
