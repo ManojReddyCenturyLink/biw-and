@@ -70,12 +70,6 @@ interface LiveDataObserver {
         }
     }
 
-    fun LiveData<Boolean>.bindToImageView(imageView: ImageView) {
-        observe {
-            imageView.isActivated = it
-        }
-    }
-
     /**
      * Observes this [Flow] instance by calling [observe] each time
      * a value is emitted.
