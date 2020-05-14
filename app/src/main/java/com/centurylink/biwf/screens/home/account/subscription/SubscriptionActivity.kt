@@ -26,8 +26,10 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     @Inject
     lateinit var subscriptionCoordinator: SubscriptionCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
     private val subscriptionViewModel by lazy {
@@ -44,6 +46,9 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
         navigator.observe(this)
         subscriptionViewModel.myState.observeWith(subscriptionCoordinator)
+        subscriptionViewModel.apply {
+            errorMessageFlow.observe { displayToast(it) }
+        }
         prepareRecyclerView()
         initViews()
     }

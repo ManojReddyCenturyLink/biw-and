@@ -21,7 +21,7 @@ data class AccountDetails(
     @SerializedName("Email__c")
     val emailAddress: String,
     @SerializedName("BillingAddress")
-    val billingAddress: BillingAddress,
+    val billingAddress: BillingAddress? = null,
     @SerializedName("Product_Plan_Name__c")
     val productPlanNameC: String = "",
     @SerializedName("Product_Name__c")
@@ -53,19 +53,19 @@ data class AccountDetails(
 
 data class BillingAddress(
     @SerializedName("city")
-    val city: String = "",
+    val city: String? = null,
     @SerializedName("country")
-    val country: String = "",
+    val country: String? = null,
     @SerializedName("geocodeAccuracy")
-    val geocodeAccuracy: String = "",
+    val geocodeAccuracy: String? = null,
     @SerializedName("latitude")
-    val latitude: String = "",
+    val latitude: String? = null,
     @SerializedName("longitude")
-    val longitude: String = "",
+    val longitude: String? = null,
     @SerializedName("postalCode")
-    val postalCode: String = "",
+    val postalCode: String? = null,
     @SerializedName("state")
-    val state: String="",
+    val state: String? = null,
     @SerializedName("street")
-    val street: String=""
+    val street: String? = null
 ) : Serializable

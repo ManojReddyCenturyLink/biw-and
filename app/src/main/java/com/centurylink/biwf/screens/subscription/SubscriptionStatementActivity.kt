@@ -57,6 +57,7 @@ class SubscriptionStatementActivity : BaseActivity() {
 
     private fun observeViews() {
         subscriptionStatementViewModel.apply {
+
             statementDetailsInfo.observe { uiAccountInfo ->
                 binding.subscriptionStatementProcessedDate.text =
                     getString(R.string.statement_processed_date,  uiAccountInfo.successfullyProcessed)

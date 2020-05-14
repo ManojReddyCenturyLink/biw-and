@@ -24,13 +24,15 @@ class SubscriptionViewModel @Inject constructor(
 
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
+    var errorMessageFlow = EventFlow<String>()
 
     private fun getInvoicesList() {
         viewModelScope.launch {
-            try {
-                val paymentList = zuoraPaymentRepository.getInvoicesList()
-                invoicesListResponse.latestValue = paymentList
-            } catch (e: Throwable) {
+            val paymentList = zuoraPaymentRepository.getInvoicesList()
+            paymentList.fold(ifLeft = {
+                errorMessageFlow.latestValue = it
+            }) {
+                invoicesListResponse.latestValue = it
             }
         }
     }
