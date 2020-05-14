@@ -2,7 +2,6 @@ package com.centurylink.biwf.utility
 
 import android.view.View
 import android.widget.CheckBox
-import android.widget.ImageView
 import android.widget.Switch
 import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
