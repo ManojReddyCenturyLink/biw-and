@@ -45,14 +45,28 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         subscriptionViewModel.apply {
             myState.observeWith(subscriptionCoordinator)
             checkboxState.observe { binding.billingInfoWidget.billingInfoCheckbox.isActivated = it }
-            paymentFirstName.observe { binding.paymentInfoWidget.paymentInfoFirstNameInput.setText(it) }
-            paymentLastName.observe { binding.paymentInfoWidget.paymentInfoLastNameInput.setText(it) }
-            billingFirstName.observe { binding.billingInfoWidget.billingInfoFirstNameInput.setText(it) }
-            billingLastName.observe { binding.billingInfoWidget.billingInfoLastNameInput.setText(it) }
-            billingStreetAddress.observe { binding.billingInfoWidget.billingInfoStreetAddressInput.setText(it) }
-            billingCity.observe { binding.billingInfoWidget.billingInfoCityInput.setText(it) }
-            billingState.observe { binding.billingInfoWidget.billingInfoStateInput.setText(it) }
-            billingZipCode.observe { binding.billingInfoWidget.billingInfoZipcodeInput.setText(it) }
+            uiFlowable.observe { uiObject ->
+
+                binding.apply {
+
+                    paymentInfoWidget.apply {
+                        paymentInfoFirstNameInput.setText(uiObject.paymentFirstName)
+                        paymentInfoLastNameInput.setText((uiObject.paymentlastName))
+                        paymentInfoCreditCardInput.setText(uiObject.creditCardNumber)
+                        paymentInfoExpirationInput.setText(uiObject.expirationDate)
+                        paymentInfoCvvInput.setText(uiObject.cvv)
+                    }
+
+                    billingInfoWidget.apply {
+                        billingInfoFirstNameInput.setText(uiObject.billingFirstName)
+                        billingInfoLastNameInput.setText(uiObject.billingLastName)
+                        billingInfoStreetAddressInput.setText(uiObject.billingAddress?.street)
+                        billingInfoCityInput.setText(uiObject.billingAddress?.city)
+                        billingInfoStateInput.setText(uiObject.billingAddress?.state)
+                        billingInfoZipcodeInput.setText(uiObject.billingAddress?.postalCode)
+                    }
+                }
+            }
             planName.observe { binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it }
             planDetails.observe { binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it }
         }
