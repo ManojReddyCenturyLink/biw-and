@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.user.UpdatedPassword
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
@@ -44,8 +45,14 @@ class UserRepository @Inject constructor(
         return userInfo
     }
 
-    suspend fun resetPassWord(password: String) {
+    suspend fun resetPassWord(password: String): String {
         val userId = getUserId()
-        userApiService.updatePassword(userId!!, UpdatedPassword(password))
+        val result: FiberServiceResult<Unit> =
+            userApiService.updatePassword(userId!!, UpdatedPassword(password))
+        val msg = result.fold(
+            ifLeft = { it.message?.message.toString() },
+            ifRight = { "" }
+        )
+        return msg
     }
 }

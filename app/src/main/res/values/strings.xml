@@ -152,6 +152,10 @@
     <string name="login_information">Login information</string>
     <string name="email_address">Email address</string>
     <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="something_went_wrong">Something went wrong, please try again later.</string>
+    <string name="how_do_i_change_my_email">How do I change my email?</string>
+    <string name="error">Error</string>
+
 
     <!-- Subscription Statement Screen-->
     <string name="statment_header">Statement</string>

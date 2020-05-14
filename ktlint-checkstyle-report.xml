@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="utf-8"?>
+<checkstyle version="8.0">
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/androidTest/java/com/centurylink/biwf/ExampleInstrumentedTest.kt">
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="9" column="1" severity="error" message="Wildcard import (cannot be auto-corrected)" source="no-wildcard-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/BIWFApp.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="11" column="1" severity="error" message="Unused import" source="no-unused-imports" />
+		<error line="15" column="44" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="25" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/base/BaseActivity.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/base/BaseFragment.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/coordinators/CancelSubscriptionCoordinator.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/coordinators/DashboardCoordinator.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="30" column="58" severity="error" message="Missing spacing before &quot;}&quot;" source="curly-spacing" />
+		<error line="35" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="39" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="43" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="47" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="51" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/coordinators/FAQCoordinator.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/coordinators/LoginCoordinator.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/coordinators/NotificationCoordinator.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="23" column="58" severity="error" message="Missing spacing before &quot;}&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/coordinators/ScheduleCallbackCoordinator.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/coordinators/SupportCoordinator.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="25" column="95" severity="error" message="Missing spacing before &quot;}&quot;" source="curly-spacing" />
+		<error line="27" column="13" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="28" column="63" severity="error" message="Missing spacing around &quot;-&gt;&quot;" source="op-spacing" />
+		<error line="40" column="37" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="42" column="47" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="47" column="73" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/BaseActivityInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/CancelSubscriptionInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/FAQActivityInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/HomeActivityInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/LoginActivityInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/NotificationActivityInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+		<error line="4" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/NotificationDetailsActivityInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/ScheduleCallbackInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/activityinjector/SupportActivityInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/component/ApplicationComponent.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="4" column="1" severity="error" message="Wildcard import (cannot be auto-corrected)" source="no-wildcard-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/fragmentinjector/AccountFragmentInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/fragmentinjector/BaseFragmentInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/fragmentinjector/CustomWebFragmentInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/fragmentinjector/DashboardFragmentInjectorModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/module/AppModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="19" column="88" severity="error" message="Unnecessary semicolon" source="no-semi" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/module/RepositoryModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/di/module/ViewModelBindingModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/Account.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="6" column="23" severity="error" message="Missing spacing after &quot;=&quot;" source="op-spacing" />
+		<error line="7" column="15" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="7" column="23" severity="error" message="Missing spacing after &quot;=&quot;" source="op-spacing" />
+		<error line="8" column="26" severity="error" message="Missing spacing after &quot;=&quot;" source="op-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/CommunicationPreferences.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="37" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="4" column="37" severity="error" message="Unexpected indentation (expected 4, actual 36)" source="parameter-list-wrapping" />
+		<error line="5" column="37" severity="error" message="Unexpected indentation (expected 4, actual 36)" source="parameter-list-wrapping" />
+		<error line="6" column="37" severity="error" message="Unexpected indentation (expected 4, actual 36)" source="parameter-list-wrapping" />
+		<error line="6" column="85" severity="error" message="Missing newline before &quot;)&quot;" source="parameter-list-wrapping" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/Subscription.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/TabsBaseItem.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="7" column="24" severity="error" message="Unexpected spacing before &quot;(&quot;" source="paren-spacing" />
+		<error line="7" column="94" severity="error" message="Missing spacing before &quot;=&quot;" source="op-spacing" />
+		<error line="7" column="107" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/TroubleshootingModel.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="7" column="28" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="8" column="28" severity="error" message="Unexpected indentation (expected 4, actual 27)" source="parameter-list-wrapping" />
+		<error line="9" column="28" severity="error" message="Unexpected indentation (expected 4, actual 27)" source="parameter-list-wrapping" />
+		<error line="10" column="28" severity="error" message="Unexpected indentation (expected 4, actual 27)" source="parameter-list-wrapping" />
+		<error line="10" column="77" severity="error" message="Missing newline before &quot;)&quot;" source="parameter-list-wrapping" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/notification/Notification.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/notification/NotificationSource.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/support/ContactUs.kt">
+		<error line="5" column="22" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="7" column="22" severity="error" message="Unexpected indentation (expected 4, actual 21)" source="parameter-list-wrapping" />
+		<error line="9" column="22" severity="error" message="Unexpected indentation (expected 4, actual 21)" source="parameter-list-wrapping" />
+		<error line="11" column="22" severity="error" message="Unexpected indentation (expected 4, actual 21)" source="parameter-list-wrapping" />
+		<error line="12" column="46" severity="error" message="Missing newline before &quot;)&quot;" source="parameter-list-wrapping" />
+		<error line="14" column="26" severity="error" message="Unexpected spacing before &quot;(&quot;" source="paren-spacing" />
+		<error line="14" column="28" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="18" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/support/FAQ.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="8" column="46" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/support/FaqModel.kt">
+		<error line="5" column="99" severity="error" message="Missing spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="7" column="26" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="8" column="26" severity="error" message="Unexpected indentation (expected 4, actual 25)" source="parameter-list-wrapping" />
+		<error line="9" column="26" severity="error" message="Unexpected indentation (expected 4, actual 25)" source="parameter-list-wrapping" />
+		<error line="10" column="26" severity="error" message="Unexpected indentation (expected 4, actual 25)" source="parameter-list-wrapping" />
+		<error line="11" column="26" severity="error" message="Unexpected indentation (expected 4, actual 25)" source="parameter-list-wrapping" />
+		<error line="12" column="26" severity="error" message="Unexpected indentation (expected 4, actual 25)" source="parameter-list-wrapping" />
+		<error line="12" column="63" severity="error" message="Missing newline before &quot;)&quot;" source="parameter-list-wrapping" />
+		<error line="12" column="64" severity="error" message="Missing spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="14" column="28" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="15" column="28" severity="error" message="Unexpected indentation (expected 4, actual 27)" source="parameter-list-wrapping" />
+		<error line="16" column="28" severity="error" message="Unexpected indentation (expected 4, actual 27)" source="parameter-list-wrapping" />
+		<error line="16" column="65" severity="error" message="Missing newline before &quot;)&quot;" source="parameter-list-wrapping" />
+		<error line="16" column="66" severity="error" message="Missing spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="18" column="26" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="19" column="26" severity="error" message="Unexpected indentation (expected 4, actual 25)" source="parameter-list-wrapping" />
+		<error line="20" column="26" severity="error" message="Unexpected indentation (expected 4, actual 25)" source="parameter-list-wrapping" />
+		<error line="20" column="72" severity="error" message="Missing newline before &quot;)&quot;" source="parameter-list-wrapping" />
+		<error line="20" column="73" severity="error" message="Missing spacing before &quot;:&quot;" source="colon-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/support/QuestionFAQ.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/support/ScheduleCallbackModel.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="5" column="110" severity="error" message="Missing spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="7" column="71" severity="error" message="Missing spacing before &quot;:&quot;" source="colon-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/model/support/Videofaq.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/network/LiveDataCallAdapter.kt">
+		<error line="2" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/network/LiveDataCallAdapterFactory.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="11" column="33" severity="error" message="Missing spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="11" column="35" severity="error" message="Unnecessary space(s)" source="no-multi-spaces" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/network/NetworkBoundResource.kt">
+		<error line="1" column="1" severity="error" message="class NetworkResource should be declared in a file named NetworkResource.kt (cannot be auto-corrected)" source="filename" />
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="7" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/network/Resource.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/network/RetrofitExtensions.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/network/Status.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/network/api/ApiServices.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/AccountRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="10" column="45" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/CancelSubscriptionRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="4" column="1" severity="error" message="Wildcard import (cannot be auto-corrected)" source="no-wildcard-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/CommunicationRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/CurrentAppointmentRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="5" column="57" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/NetworkRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="5" column="35" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="5" column="42" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/NotificationRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Unused import" source="no-unused-imports" />
+		<error line="5" column="1" severity="error" message="Unused import" source="no-unused-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/SubscriptionRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/repos/SupportRepository.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/common/CustomWebFragment.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="128" column="98" severity="error" message="Unnecessary semicolon" source="no-semi" />
+		<error line="134" column="68" severity="error" message="Unnecessary block (&quot;{}&quot;)" source="no-empty-class-body" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/emptydesitination/ProfileActivity.kt">
+		<error line="11" column="21" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/home/HomeActivity.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="55" column="28" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="56" column="81" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="56" column="88" severity="error" message="Unnecessary semicolon" source="no-semi" />
+		<error line="65" column="67" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="68" column="30" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="78" column="51" severity="error" message="Unexpected spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="79" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="82" column="11" severity="error" message="Missing spacing after &quot;if&quot;" source="keyword-spacing" />
+		<error line="82" column="27" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="88" column="9" severity="error" message="Unexpected newline before &quot;else&quot;" source="keyword-spacing" />
+		<error line="88" column="13" severity="error" message="Missing spacing after &quot;else&quot;" source="keyword-spacing" />
+		<error line="88" column="13" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/home/HomeViewModel.kt">
+		<error line="14" column="41" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+		<error line="31" column="47" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="32" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="44" column="1" severity="error" message="Unexpected indentation (1) (it should be 4) (cannot be auto-corrected)" source="indent" />
+		<error line="44" column="1" severity="error" message="Unexpected Tab character(s)" source="indent" />
+		<error line="44" column="29" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="45" column="1" severity="error" message="Unexpected indentation (8) (it should be 5) (cannot be auto-corrected)" source="indent" />
+		<error line="46" column="1" severity="error" message="Unexpected indentation (4) (it should be 5) (cannot be auto-corrected)" source="indent" />
+		<error line="64" column="30" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="80" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="84" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="88" column="9" severity="error" message="Missing space after //" source="comment-spacing" />
+		<error line="92" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/home/TabsPagerRecyclerAdapter.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="120" column="81" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/home/account/AccountFragment.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/home/account/AccountViewModel.kt">
+		<error line="18" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+		<error line="36" column="71" severity="error" message="Missing spacing before &quot;+&quot;" source="op-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/home/dashboard/DashboardFragment.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="20" column="49" severity="error" message="Unexpected spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="20" column="77" severity="error" message="Unnecessary space(s)" source="no-multi-spaces" />
+		<error line="77" column="11" severity="error" message="Missing spacing after &quot;if&quot;" source="keyword-spacing" />
+		<error line="77" column="48" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="78" column="17" severity="error" message="Missing spacing after &quot;when&quot;" source="keyword-spacing" />
+		<error line="78" column="46" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="79" column="18" severity="error" message="Missing spacing around &quot;-&gt;&quot;" source="op-spacing" />
+		<error line="79" column="20" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="83" column="18" severity="error" message="Missing spacing around &quot;-&gt;&quot;" source="op-spacing" />
+		<error line="83" column="20" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="89" column="10" severity="error" message="Missing spacing after &quot;}&quot;" source="curly-spacing" />
+		<error line="89" column="14" severity="error" message="Missing spacing after &quot;else&quot;" source="keyword-spacing" />
+		<error line="89" column="14" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/home/dashboard/DashboardViewModel.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="27" column="30" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="34" column="31" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="39" column="63" severity="error" message="Unnecessary space(s)" source="no-multi-spaces" />
+		<error line="50" column="49" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="51" column="11" severity="error" message="Missing spacing after &quot;if&quot;" source="keyword-spacing" />
+		<error line="63" column="1" severity="error" message="Unexpected indentation (5) (it should be 4) (cannot be auto-corrected)" source="indent" />
+		<error line="63" column="71" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="64" column="1" severity="error" message="Unexpected indentation (8) (it should be 9) (cannot be auto-corrected)" source="indent" />
+		<error line="64" column="19" severity="error" message="Missing spacing before &quot;=&quot;" source="op-spacing" />
+		<error line="65" column="1" severity="error" message="Unexpected indentation (8) (it should be 9) (cannot be auto-corrected)" source="indent" />
+		<error line="65" column="68" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="66" column="1" severity="error" message="Unexpected indentation (8) (it should be 9) (cannot be auto-corrected)" source="indent" />
+		<error line="66" column="72" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="67" column="1" severity="error" message="Unexpected indentation (8) (it should be 9) (cannot be auto-corrected)" source="indent" />
+		<error line="68" column="1" severity="error" message="Unexpected indentation (8) (it should be 9) (cannot be auto-corrected)" source="indent" />
+		<error line="69" column="1" severity="error" message="Unexpected indentation (4) (it should be 9) (cannot be auto-corrected)" source="indent" />
+		<error line="75" column="1" severity="error" message="Unexpected indentation (4) (it should be 9) (cannot be auto-corrected)" source="indent" />
+		<error line="75" column="27" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/learnmore/LearnMoreActivity.kt">
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="11" column="21" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="12" column="58" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/notification/NotificationActivity.kt">
+		<error line="26" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+		<error line="111" column="1" severity="error" message="Unexpected blank line(s) before &quot;}&quot;" source="no-blank-line-before-rbrace" />
+		<error line="157" column="1" severity="error" message="Unexpected blank line(s) before &quot;}&quot;" source="no-blank-line-before-rbrace" />
+		<error line="160" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/notification/NotificationDetailsActivity.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/notification/NotificationViewModel.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="16" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/notification/adapter/NotificationAdapter.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="58" column="71" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="72" column="71" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="74" column="11" severity="error" message="Missing spacing after &quot;if&quot;" source="keyword-spacing" />
+		<error line="74" column="28" severity="error" message="Missing spacing after &quot;&gt;&quot;" source="op-spacing" />
+		<error line="92" column="71" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="110" column="44" severity="error" message="Unexpected spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="114" column="71" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="134" column="44" severity="error" message="Unexpected spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="134" column="45" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="138" column="71" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="149" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/subscription/CancelSubscriptionActivity.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="15" column="1" severity="error" message="Wildcard import (cannot be auto-corrected)" source="no-wildcard-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/subscription/CancelSubscriptionViewModel.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="7" column="1" severity="error" message="Wildcard import (cannot be auto-corrected)" source="no-wildcard-imports" />
+		<error line="11" column="46" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="18" column="34" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/CustomExpandableListView.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="8" column="23" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+		<error line="8" column="52" severity="error" message="Parameter should be on a separate line (unless all parameters can fit a single line)" source="parameter-list-wrapping" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/FAQActivity.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="26" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+		<error line="107" column="1" severity="error" message="Unexpected blank line(s) before &quot;}&quot;" source="no-blank-line-before-rbrace" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/FAQViewModel.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/SupportViewModel.kt">
+		<error line="55" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/adapter/ExpandableContentAdapter.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="12" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/adapter/FAQVideoViewAdapter.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/adapter/ScheduleCallbackAdapter.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/adapter/SupportFAQAdapter.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="56" column="1" severity="error" message="Unexpected blank line(s) before &quot;}&quot;" source="no-blank-line-before-rbrace" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/schedulecallback/ScheduleCallbackActivity.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/screens/support/schedulecallback/ScheduleCallbackViewModel.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="9" column="53" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+		<error line="21" column="23" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+		<error line="22" column="23" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+		<error line="23" column="23" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+		<error line="24" column="23" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+		<error line="25" column="23" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/utility/DaggerViewModelFactory.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="12" column="57" severity="error" message="Line must not end with &quot;?:&quot;" source="chain-wrapping" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/utility/InitUtility.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="6" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/utility/LiveDataExtensions.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/utility/LiveDataObserver.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/utility/ObservableHelper.kt">
+		<error line="1" column="1" severity="error" message="class ObservableData should be declared in a file named ObservableData.kt (cannot be auto-corrected)" source="filename" />
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/utility/WebLinkUtil.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/main/java/com/centurylink/biwf/widgets/OnlineStatusBar.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="6" column="1" severity="error" message="Unused import" source="no-unused-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/BIWFAppTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="6" column="25" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="6" column="34" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/ExampleUnitTest.kt">
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="5" column="1" severity="error" message="Wildcard import (cannot be auto-corrected)" source="no-wildcard-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/ViewModelBaseTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/di/component/TestApplicationComponent.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="13" column="10" severity="error" message="Unexpected spacing after &quot;(&quot;" source="paren-spacing" />
+		<error line="16" column="37" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/di/module/TestAppModule.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="5" column="22" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="5" column="33" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/NotificationViewModelTest.kt">
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="6" column="1" severity="error" message="Unused import" source="no-unused-imports" />
+		<error line="26" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+		<error line="53" column="63" severity="error" message="Unnecessary semicolon" source="no-semi" />
+		<error line="54" column="48" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="54" column="67" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="54" column="70" severity="error" message="Unnecessary semicolon" source="no-semi" />
+		<error line="55" column="16" severity="error" message="Missing spacing after &quot;{&quot;" source="curly-spacing" />
+		<error line="55" column="65" severity="error" message="Missing spacing before &quot;}&quot;" source="curly-spacing" />
+		<error line="60" column="9" severity="error" message="Unnecessary space(s)" source="no-multi-spaces" />
+		<error line="60" column="33" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="61" column="18" severity="error" message="Unexpected spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="66" column="37" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="72" column="42" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="78" column="80" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="79" column="24" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="83" column="69" severity="error" message="Missing spacing around &quot;==&quot;" source="op-spacing" />
+		<error line="87" column="72" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="88" column="24" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="92" column="30" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="93" column="49" severity="error" message="Missing spacing after &quot;&gt;&quot;" source="op-spacing" />
+		<error line="98" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/home/HomeViewModelTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="5" column="1" severity="error" message="Unnecessary import" source="no-unused-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/home/account/AccountViewModelTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/home/dashboard/DashboardViewModelTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="40" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+		<error line="47" column="63" severity="error" message="Unnecessary semicolon" source="no-semi" />
+		<error line="48" column="48" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="48" column="67" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="48" column="70" severity="error" message="Unnecessary semicolon" source="no-semi" />
+		<error line="49" column="16" severity="error" message="Missing spacing after &quot;{&quot;" source="curly-spacing" />
+		<error line="49" column="65" severity="error" message="Missing spacing before &quot;}&quot;" source="curly-spacing" />
+		<error line="51" column="1" severity="error" message="Unexpected blank line(s) before &quot;}&quot;" source="no-blank-line-before-rbrace" />
+		<error line="65" column="80" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="66" column="24" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="70" column="69" severity="error" message="Missing spacing around &quot;==&quot;" source="op-spacing" />
+		<error line="82" column="1" severity="error" message="Unexpected blank line(s) before &quot;}&quot;" source="no-blank-line-before-rbrace" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/login/LoginViewModelTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="41" column="1" severity="error" message="Needless blank line(s)" source="no-consecutive-blank-lines" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/subsciption/CancelSubscriptionViewModelTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="3" column="1" severity="error" message="Imports must be ordered in lexicographic order without any empty lines in-between" source="import-ordering" />
+		<error line="15" column="1" severity="error" message="Wildcard import (cannot be auto-corrected)" source="no-wildcard-imports" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/support/FAQViewModelTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+		<error line="40" column="48" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="40" column="58" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="40" column="61" severity="error" message="Unnecessary semicolon" source="no-semi" />
+		<error line="41" column="16" severity="error" message="Missing spacing after &quot;{&quot;" source="curly-spacing" />
+		<error line="41" column="47" severity="error" message="Missing spacing before &quot;}&quot;" source="curly-spacing" />
+		<error line="46" column="9" severity="error" message="Unnecessary space(s)" source="no-multi-spaces" />
+		<error line="46" column="24" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="47" column="18" severity="error" message="Unexpected spacing before &quot;:&quot;" source="colon-spacing" />
+		<error line="52" column="77" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="53" column="24" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="57" column="61" severity="error" message="Missing spacing around &quot;==&quot;" source="op-spacing" />
+		<error line="61" column="80" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="62" column="24" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="64" column="37" severity="error" message="Missing spacing after &quot;=&quot;" source="op-spacing" />
+		<error line="71" column="95" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="72" column="24" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="73" column="52" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="74" column="37" severity="error" message="Missing spacing after &quot;=&quot;" source="op-spacing" />
+		<error line="75" column="31" severity="error" message="Missing spacing before &quot;=&quot;" source="op-spacing" />
+		<error line="77" column="61" severity="error" message="Missing spacing around &quot;==&quot;" source="op-spacing" />
+		<error line="99" column="42" severity="error" message="Missing spacing after &quot;:&quot;" source="colon-spacing" />
+		<error line="99" column="57" severity="error" message="Missing spacing after &quot;,&quot;" source="comma-spacing" />
+		<error line="99" column="64" severity="error" message="Missing spacing before &quot;{&quot;" source="curly-spacing" />
+		<error line="100" column="1" severity="error" message="Unexpected indentation (7) (it should be 8) (cannot be auto-corrected)" source="indent" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/screens/support/ScheduleCallbackViewModelTest.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+	<file name="/Users/vinisha.mangal/AndroidStudioProjects/ctl-biwf-and/app/src/test/java/com/centurylink/biwf/testutils/TestConvenience.kt">
+		<error line="1" column="1" severity="error" message="File must end with a newline (\n)" source="final-newline" />
+	</file>
+</checkstyle>
