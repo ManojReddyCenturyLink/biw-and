@@ -23,12 +23,6 @@ class ContactRepository @Inject constructor(
     suspend fun getContactDetails(): Either<String, ContactDetails> {
         val result: FiberServiceResult<ContactDetails> =
             contactApiService.getContactDetails(getContactId()!!)
-        result.fold(
-            ifLeft = {},
-            ifRight = {
-                it
-            }
-        )
         return result.mapLeft { it.message?.message.toString() }
     }
 
@@ -38,11 +32,10 @@ class ContactRepository @Inject constructor(
             getContactId()!!,
             updatedMarketingEmails
         )
-        val msg = result.fold(
+        return result.fold(
             ifLeft = { it.message?.message.toString() },
             ifRight = { "" }
         )
-        return msg
     }
 
     suspend fun setMarketingCallsAndText(emailValue: Boolean): String {
@@ -51,10 +44,9 @@ class ContactRepository @Inject constructor(
             getContactId()!!,
             updatedCallsandTextMarketing
         )
-        val msg = result.fold(
+        return result.fold(
             ifLeft = { it.message?.message.toString() },
             ifRight = { "" }
         )
-        return msg
     }
 }

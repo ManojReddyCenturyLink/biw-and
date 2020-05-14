@@ -34,25 +34,18 @@ class AccountRepository @Inject constructor(
     suspend fun getAccountDetails(): Either<String, AccountDetails> {
         val result: FiberServiceResult<AccountDetails> =
             accountApiService.getAccountDetails(getAccountId()!!)
-        result.fold(
-            ifLeft = {},
-            ifRight = {
-                it
-            }
-        )
         return result.mapLeft { it.message?.message.toString() }
     }
 
-    suspend fun setServiceCallsAndTexts(callValue: Boolean) : String {
+    suspend fun setServiceCallsAndTexts(callValue: Boolean): String {
         val updatedServiceCallsAndTexts = UpdatedServiceCallsAndTexts(callValue)
         val result: FiberServiceResult<Unit> = accountApiService.submitServiceCallDetails(
             getAccountId()!!,
             updatedServiceCallsAndTexts
         )
-        val msg = result.fold(
+        return result.fold(
             ifLeft = { it.message?.message.toString() },
             ifRight = { "" }
         )
-        return msg
     }
 }

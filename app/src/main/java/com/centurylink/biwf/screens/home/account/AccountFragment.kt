@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.account
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.google.android.material.switchmaterial.SwitchMaterial
 import javax.inject.Inject
 
 class AccountFragment : BaseFragment() {
