@@ -138,7 +138,7 @@ private class EitherCall(
             val eitherResult = when {
                 eitherBody != null -> eitherBody
                 errorBody != null -> Either.Left(leftConverter.convert(errorBody))
-                else -> return this
+                else -> Either.Right(Unit)
             }
 
             return Response.success(eitherResult, headers())
