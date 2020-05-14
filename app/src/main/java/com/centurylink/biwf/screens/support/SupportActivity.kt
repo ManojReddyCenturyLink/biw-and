@@ -48,13 +48,13 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 prepareRecyclerView(it)
             })
         }
-        supportCoordinator.observeThis(supportViewModel.myState)
+        supportViewModel.myState.observeWith(supportCoordinator)
         init()
         getNotificationInformation()
     }
 
-    override fun onFaqItemClick(itemFAQ: FaqTopicsItem) {
-        supportViewModel.navigateToFAQList(itemFAQ)
+    override fun onFaqItemClick(item: FaqTopicsItem) {
+        supportViewModel.navigateToFAQList(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

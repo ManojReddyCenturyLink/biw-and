@@ -43,7 +43,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
         navigator.observe(this)
-        subscriptionCoordinator.observeThis(subscriptionViewModel.myState)
+        subscriptionViewModel.myState.observeWith(subscriptionCoordinator)
         prepareRecyclerView()
         initViews()
     }

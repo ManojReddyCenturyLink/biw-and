@@ -34,7 +34,7 @@ class HomeActivity : BaseActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.observe(this)
-        homeCoordinator.observeThis(viewModel.myState)
+        viewModel.myState.observeWith(homeCoordinator)
 
         initViews()
         initOnClicks()

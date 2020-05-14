@@ -36,7 +36,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScheduleCallbackBinding.inflate(layoutInflater)
-        scheduleCallbackCoordinator.observeThis(scheduleCallbackViewModel.myState)
+        scheduleCallbackViewModel.myState.observeWith(scheduleCallbackCoordinator)
         setContentView(binding.root)
         navigator.observe(this)
 

@@ -41,7 +41,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
             errorEvents.handleEvent { displayToast(it) }
         }
 
-        loginCoordinator.observeThis(viewModel.myState)
+        viewModel.myState.observeWith(loginCoordinator)
 
         initOnClicks()
         handleIntent()

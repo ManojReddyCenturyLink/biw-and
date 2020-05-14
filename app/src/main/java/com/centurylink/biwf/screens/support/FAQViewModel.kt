@@ -4,27 +4,26 @@ package com.centurylink.biwf.screens.support
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.coordinators.FAQCoordinator
+import com.centurylink.biwf.coordinators.FAQCoordinatorDestinations
 import com.centurylink.biwf.model.support.FAQ
 import com.centurylink.biwf.model.support.QuestionFAQ
 import com.centurylink.biwf.model.support.Videofaq
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.FAQRepository
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
 class FAQViewModel @Inject constructor(
-    private val faqRepository: FAQRepository
+    faqRepository: FAQRepository
 ) : BaseViewModel() {
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
     val faqVideoData: MutableLiveData<List<Videofaq>> = MutableLiveData()
     val faqQuestionsData: MutableLiveData<HashMap<String, String>> = MutableLiveData()
-    private var questionMap: HashMap<String, String> = HashMap<String, String>()
-    private var faqListDetails: LiveData<Resource<FAQ>> =
-        faqRepository.getFAQDetails()
-    val myState = ObservableData(FAQCoordinator.FAQCoordinatorDestinations.FAQ_HOME)
+    private var questionMap: HashMap<String, String> = HashMap()
+    private var faqListDetails: LiveData<Resource<FAQ>> = faqRepository.getFAQDetails()
+    val myState = EventFlow<FAQCoordinatorDestinations>()
 
     fun getFAQDetails() = faqListDetails
 
@@ -35,7 +34,6 @@ class FAQViewModel @Inject constructor(
     }
 
     fun navigateToScheduleCallback() {
-        myState.value =
-            FAQCoordinator.FAQCoordinatorDestinations.SCHEDULE_CALLBACK
+        myState.latestValue = FAQCoordinatorDestinations.SCHEDULE_CALLBACK
     }
 }

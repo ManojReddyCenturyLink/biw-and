@@ -46,7 +46,7 @@ class AccountFragment : BaseFragment() {
         observeViews()
         initSwitches()
         initClicks()
-        accountCoordinator.observeThis(viewModel.myState)
+        viewModel.myState.observeWith(accountCoordinator)
         return binding.root
     }
 

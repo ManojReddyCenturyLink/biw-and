@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.centurylink.biwf.coordinators.Coordinator
 import com.centurylink.biwf.widgets.OnlineStatusBar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.tabs.TabLayout
@@ -85,5 +86,15 @@ interface LiveDataObserver {
                 .onEach(observe)
                 .launchIn(this)
         }
+    }
+
+    /**
+     * Observes any navigation emissions from this [EventFlow] and calls the
+     * [coordinator]'s [Coordinator.navigateTo] method when an emission is received.
+     *
+     * Note that this will only happen when the Activity/Component is at least in a STARTED state.
+     */
+    fun <T : Any> EventFlow<T>.observeWith(coordinator: Coordinator<T>) {
+        observe { coordinator.navigateTo(it) }
     }
 }

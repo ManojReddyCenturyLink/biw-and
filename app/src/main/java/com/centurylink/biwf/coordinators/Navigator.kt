@@ -6,10 +6,10 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
-import com.centurylink.biwf.screens.home.account.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
+import com.centurylink.biwf.screens.home.account.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
@@ -24,6 +24,7 @@ import com.centurylink.biwf.utility.WebLinkUtil
 import javax.inject.Inject
 import javax.inject.Singleton
 
+@Suppress("unused")
 @Singleton
 class Navigator @Inject constructor() : LifecycleObserver {
 
@@ -77,7 +78,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
             it.startActivityForResult(
                 NotificationDetailsActivity.newIntent(
                     it,
-                    NotificationCoordinator.NotificationCoordinatorDestinations.bundle
+                    NotificationCoordinatorDestinations.bundle
                 ),
                 NotificationDetailsActivity.REQUEST_TO_DISMISS
             )
@@ -87,7 +88,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToFaq() {
         activity?.also {
             it.startActivityForResult(
-                FAQActivity.newIntent(it, SupportCoordinator.SupportCoordinatorDestinations.bundle),
+                FAQActivity.newIntent(it, SupportCoordinatorDestinations.bundle),
                 FAQActivity.REQUEST_TO_HOME
             )
         }
@@ -98,8 +99,6 @@ class Navigator @Inject constructor() : LifecycleObserver {
             it.startActivity(SubscriptionActivity.newIntent(it))
         }
     }
-
-    fun navigateToLiveChat() {}
 
     fun navigateToMangeSubscription() {
         activity?.also {
@@ -139,7 +138,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToAdditionalInfo() {
-        val bundle = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle
+        val bundle = ScheduleCallbackCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(
                 AdditionalInfoActivity.newIntent(it, bundle),
@@ -149,7 +148,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToBillStatement() {
-        val bundle = SubscriptionCoordinator.SubscriptionCoordinatorDestinations.bundle
+        val bundle = SubscriptionCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(
                 SubscriptionStatementActivity.newIntent(it, bundle),

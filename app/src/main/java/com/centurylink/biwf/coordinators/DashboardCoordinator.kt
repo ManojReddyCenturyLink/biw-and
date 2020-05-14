@@ -1,33 +1,24 @@
 package com.centurylink.biwf.coordinators
 
 import android.os.Bundle
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class DashboardCoordinator @Inject constructor() {
+class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordinatorDestinations> {
 
     @Inject
     lateinit var navigator: Navigator
 
-    fun observeThis(screenState: ObservableData<DashboardCoordinatorDestinations>) {
-        screenState.observable.subscribe {
-            navigateTo(it)
-        }
-    }
-
-    private fun navigateTo(destinations: DashboardCoordinatorDestinations) {
-        when (destinations) {
-            DashboardCoordinatorDestinations.HOME -> {}
+    override fun navigateTo(destination: DashboardCoordinatorDestinations) {
+        when (destination) {
             DashboardCoordinatorDestinations.APPOINTMENT_SCHEDULED -> loadAppointmentFragment()
             DashboardCoordinatorDestinations.ENROUTE -> loadEnrouteFragment()
             DashboardCoordinatorDestinations.IN_PROGRESS -> loadInProgressFragment()
             DashboardCoordinatorDestinations.COMPLETED -> loadCompletedFragment()
             DashboardCoordinatorDestinations.NORMAL -> loadNormalFragment()
             DashboardCoordinatorDestinations.CHANGE_APPOINTMENT -> navigateToChangeAppointment()
-            DashboardCoordinatorDestinations.NOTIFICATION_DETAILS -> {
-                navigator.navigateToNotificationDetails()}
+            DashboardCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNotificationDetails()
         }
     }
 
@@ -54,16 +45,16 @@ class DashboardCoordinator @Inject constructor() {
     private fun navigateToChangeAppointment() {
         navigator.navigateToChangeAppointment()
     }
+
+    private fun navigateToNotificationDetails() {
+        navigator.navigateToNotificationDetails()
+    }
 }
 
 enum class DashboardCoordinatorDestinations {
-    HOME, APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS, NOTIFICATION_LIST;
+    APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS;
 
     companion object {
         lateinit var bundle: Bundle
-        fun get(): Bundle = bundle
-        fun set(bundleValue: Bundle) {
-            bundle = bundleValue
-        }
     }
 }

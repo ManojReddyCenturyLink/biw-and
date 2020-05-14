@@ -2,27 +2,25 @@ package com.centurylink.biwf.screens.support.schedulecallback
 
 import android.os.Bundle
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinator
+import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinatorDestinations
 import com.centurylink.biwf.model.support.TopicList
-import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.EventFlow
 import javax.inject.Inject
 
-class ScheduleCallbackViewModel @Inject constructor(
-) : BaseViewModel() {
+class ScheduleCallbackViewModel @Inject constructor() : BaseViewModel() {
 
-    val myState = ObservableData(ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.SCHEDULE_CALLBACK)
+    val myState = EventFlow<ScheduleCallbackCoordinatorDestinations>()
     val topicList: List<TopicList> = dummyList()
 
     fun launchCallDialer() {
-        myState.value = ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
+        myState.latestValue = ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
     }
 
     fun navigateAdditionalInfoScreen(item: TopicList) {
-        var bundle = Bundle()
-        bundle.putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
-        ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.bundle = Bundle().apply { bundle }
-        myState.value =
-            ScheduleCallbackCoordinator.ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO
+        ScheduleCallbackCoordinatorDestinations.bundle = Bundle().apply {
+            putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
+        }
+        myState.latestValue = ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO
     }
 
     private fun dummyList(): List<TopicList> {
@@ -32,6 +30,6 @@ class ScheduleCallbackViewModel @Inject constructor(
             "I can’t sign into my account",
             "I have questions about my account",
             "I need something not listed here"
-        ).map (::TopicList)
+        ).map(::TopicList)
     }
 }

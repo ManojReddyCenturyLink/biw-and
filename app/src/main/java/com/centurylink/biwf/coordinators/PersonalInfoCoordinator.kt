@@ -1,28 +1,19 @@
 package com.centurylink.biwf.coordinators
 
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class PersonalInfoCoordinator @Inject constructor(val navigator: Navigator) {
+class PersonalInfoCoordinator @Inject constructor(val navigator: Navigator) :
+    Coordinator<PersonalInfoCoordinatorDestinations> {
 
-    fun observeThis(screenState: ObservableData<PersonalInfoCoordinatorDestinations>) {
-        screenState.observable.subscribe {
-            navigateTo(it)
+    override fun navigateTo(destination: PersonalInfoCoordinatorDestinations) {
+        when (destination) {
+            PersonalInfoCoordinatorDestinations.DONE -> Unit
         }
     }
+}
 
-    private fun navigateTo(destinations: PersonalInfoCoordinatorDestinations) {
-        when (destinations) {
-            PersonalInfoCoordinatorDestinations.PROFILE_INFO -> {
-            }
-            PersonalInfoCoordinatorDestinations.DONE -> {
-            }
-        }
-    }
-
-    enum class PersonalInfoCoordinatorDestinations {
-        PROFILE_INFO, DONE;
-    }
+enum class PersonalInfoCoordinatorDestinations {
+    DONE
 }

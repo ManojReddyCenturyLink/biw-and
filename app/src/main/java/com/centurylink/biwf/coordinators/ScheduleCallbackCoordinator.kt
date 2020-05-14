@@ -1,29 +1,18 @@
 package com.centurylink.biwf.coordinators
 
 import android.os.Bundle
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ScheduleCallbackCoordinator @Inject constructor(val navigator: Navigator) {
+class ScheduleCallbackCoordinator @Inject constructor(
+    val navigator: Navigator
+) : Coordinator<ScheduleCallbackCoordinatorDestinations> {
 
-    fun observeThis(screenState: ObservableData<ScheduleCallbackCoordinatorDestinations>) {
-        screenState.observable.subscribe {
-            navigateTo(it)
-        }
-    }
-
-    private fun navigateTo(destinations: ScheduleCallbackCoordinatorDestinations) {
-        when (destinations) {
-            ScheduleCallbackCoordinatorDestinations.SCHEDULE_CALLBACK -> {
-            }
-            ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT -> {
-                navigateToPhoneDialler()
-            }
-            ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO -> {
-                navigateToAdditionalInfo()
-            }
+    override fun navigateTo(destination: ScheduleCallbackCoordinatorDestinations) {
+        when (destination) {
+            ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT -> navigateToPhoneDialler()
+            ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO -> navigateToAdditionalInfo()
         }
     }
 
@@ -34,12 +23,12 @@ class ScheduleCallbackCoordinator @Inject constructor(val navigator: Navigator) 
     private fun navigateToPhoneDialler() {
         navigator.navigateToPhoneDialler()
     }
+}
 
-    enum class ScheduleCallbackCoordinatorDestinations {
-        SCHEDULE_CALLBACK, CALL_SUPPORT, ADDITIONAL_INFO;
+enum class ScheduleCallbackCoordinatorDestinations {
+    CALL_SUPPORT, ADDITIONAL_INFO;
 
-        companion object {
-            lateinit var bundle: Bundle
-        }
+    companion object {
+        lateinit var bundle: Bundle
     }
 }

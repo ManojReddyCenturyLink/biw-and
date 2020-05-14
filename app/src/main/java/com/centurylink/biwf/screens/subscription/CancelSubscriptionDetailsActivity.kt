@@ -14,21 +14,18 @@ import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
-import com.centurylink.biwf.coordinators.CancelSubscriptionsDetailsCoordinator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.databinding.DialogCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 
 class CancelSubscriptionDetailsActivity : BaseActivity() {
-
-    @Inject
-    lateinit var cancelSubscriptionDetailsCoordinator: CancelSubscriptionsDetailsCoordinator
 
     @Inject
     lateinit var factory: DaggerViewModelFactory

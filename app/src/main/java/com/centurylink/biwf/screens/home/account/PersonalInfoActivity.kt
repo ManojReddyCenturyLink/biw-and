@@ -34,7 +34,7 @@ class PersonalInfoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
-        personalInfoCoordinator.observeThis(personalInfoViewModel.myState)
+        personalInfoViewModel.myState.observeWith(personalInfoCoordinator)
         setContentView(binding.root)
         navigator.observe(this)
         initViews()
@@ -111,7 +111,7 @@ class PersonalInfoActivity : BaseActivity() {
                     /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
                     it.removeTextChangedListener(this)
                     /** set the new text to the EditText  */
-                    it.setText(validatedString.toString())
+                    it.setText(validatedString)
                     /** bring the cursor to the end of input  */
                     it.setSelection(binding.personalInfoPhoneNumberInput.text.toString().length)
                     /* bring back the watcher and go on listening to change events */
