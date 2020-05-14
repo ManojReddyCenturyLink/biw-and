@@ -2,6 +2,7 @@ package com.centurylink.biwf.service.impl.network
 
 import com.centurylink.biwf.service.auth.TokenService
 import com.centurylink.biwf.service.auth.accessTokenHeader
+import com.centurylink.biwf.service.integration.IntegrationServerService
 import okhttp3.*
 import okhttp3.internal.http.RealResponseBody
 import okio.Buffer
@@ -15,11 +16,18 @@ import javax.inject.Inject
  * @property tokenService The service that provides this client/factory with access-tokens.
  */
 class OAuthHttpClient @Inject constructor(
-    private val tokenService: TokenService
+    private val tokenService: TokenService,
+    private val integrationServerService: IntegrationServerService
 ) : Call.Factory {
 
     private val client by lazy {
         OkHttpClient.Builder()
+            .apply {
+                addInterceptor {
+                    integrationServerService.start()
+                    it.proceed(it.request())
+                }
+            }
             .addInterceptor { addAccessTokenHeader(tokenService, it) }
             .authenticator(retryWithNewAccessToken(tokenService))
             .addNetworkInterceptor(HttpLogger { Timber.d(it) })
@@ -34,6 +42,7 @@ class OAuthHttpClient @Inject constructor(
  */
 private fun addAccessTokenHeader(service: TokenService, chain: Interceptor.Chain): Response {
     val accessTokenHeader = service.accessTokenHeader
+
     return if (accessTokenHeader.isNotEmpty()) {
         val request = chain.request()
             .newBuilder()

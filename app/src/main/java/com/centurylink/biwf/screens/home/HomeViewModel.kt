@@ -9,18 +9,22 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val integrationServices: IntegrationRestServices
 ) : BaseViewModel() {
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -90,6 +94,9 @@ class HomeViewModel @Inject constructor(
     // TODO Remove later when example is no longer needed.
     private fun requestTestRestFlow() {
         viewModelScope.launch {
+            val sumUpResult = integrationServices.calculateSum(12, 25, SumUpInput(10))
+            Timber.d("IntegrationService test: sumUp returned $sumUpResult")
+
             testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
                 when (it) {
                     is Either.Left -> testRestErrorFlow.latestValue = "Encountered error ${it.error}"
