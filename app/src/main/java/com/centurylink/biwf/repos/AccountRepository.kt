@@ -1,8 +1,5 @@
 package com.centurylink.biwf.repos
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.centurylink.biwf.model.Account
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.UpdatedServiceCallsAndTexts
 import com.centurylink.biwf.service.network.AccountApiService
@@ -20,23 +17,6 @@ class AccountRepository @Inject constructor(
         return true
     }
 
-    fun getAccount(): LiveData<Account> {
-        return MutableLiveData(
-            Account(
-                fullName = "Barry Allen",
-                streetAddress = "2333 Candycane Lane",
-                city = "Bellflower",
-                state = "WA",
-                zipcode = "90703",
-                cellNumber = "(562) 416-1854",
-                homeNumber = "(562) 865-7228",
-                workNumber = "(562) 422-2144",
-                emailAddress = "email@something.com",
-                billingAddress = "1222 Bilington Way"
-            )
-        )
-    }
-
     private fun storePlanName(planName: String) {
         preferences.savePlanName(planName)
     }
@@ -50,13 +30,11 @@ class AccountRepository @Inject constructor(
     }
 
     suspend fun getAccountDetails(): AccountDetails {
-        val accountDetails = accountApiService.getAccountDetails(getAccountId()!!)
-        storePlanName(accountDetails.productPlanNameC)
-        return accountDetails
+        return accountApiService.getAccountDetails(getAccountId()!!)
     }
 
-    suspend fun setServiceCallsAndTexts(emailValue: Boolean) {
-        val updatedServiceCallsAndTexts = UpdatedServiceCallsAndTexts(emailValue)
+    suspend fun setServiceCallsAndTexts(callValue: Boolean) {
+        val updatedServiceCallsAndTexts = UpdatedServiceCallsAndTexts(callValue)
         val update = accountApiService.submitServiceCallDetails(
             getAccountId()!!,
             updatedServiceCallsAndTexts

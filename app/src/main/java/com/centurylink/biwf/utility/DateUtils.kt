@@ -6,10 +6,10 @@ import java.util.*
 
 class DateUtils {
     companion object {
-        fun formatPaymentProcessedDate(dateInput: String): String {
+        fun formatInvoiceDate(dateInput: String): String {
             var formattedDate: String = ""
-            val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
-            val output = SimpleDateFormat("dd/MM/yyyy")
+            val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
+            val output = SimpleDateFormat("dd/MM/yy")
             var d: Date? = null
             try {
                 d = input.parse(dateInput)

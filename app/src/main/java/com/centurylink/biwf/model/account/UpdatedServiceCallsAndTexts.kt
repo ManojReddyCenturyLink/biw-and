@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class UpdatedServiceCallsAndTexts(
-    @SerializedName("Email_Opt_In__c")
-    val emailOptInC: Boolean
+    @SerializedName("Cell_Phone_Opt_In__c")
+    val callsOptinC: Boolean
 ) : Serializable

@@ -42,7 +42,7 @@ class HomeViewModel @Inject constructor(
         lowerTabHeaderList = initList(false)
 
         // TODO Remove later when example is no longer needed.
-        requestTestRestFlow()
+       // requestTestRestFlow()
         requestUserInfo()
         getUserDetails()
 
