@@ -118,10 +118,10 @@ class AccountViewModel @Inject constructor(
     private fun updateUIAccountDetailsFromAccounts(accontDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             name = accontDetails.name,
-            serviceAddress1 =  accontDetails.billingAddress?.street ?: "",
+            serviceAddress1 = accontDetails.billingAddress?.street ?: "",
             serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
-            planName = accontDetails.productPlanNameC?:"",
-            planSpeed = accontDetails.productPlanNameC?:"",
+            planName = accontDetails.productNameC ?: "Best in world Fiber",
+            planSpeed = accontDetails.productPlanNameC ?: "",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******", cellPhone = accontDetails.phone, homePhone = accontDetails.phone,
             workPhone = accontDetails.phone, serviceCallsAndText = accontDetails.cellPhoneOptInC
