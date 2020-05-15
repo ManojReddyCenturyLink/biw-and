@@ -132,7 +132,7 @@ class AccountViewModel @Inject constructor(
     private fun formatServiceAddress2(accountDetails: AccountDetails): String? {
         return accountDetails.billingAddress?.run {
             val billingAddressList = listOf(city, state, postalCode, country)
-            return@run billingAddressList.filterNotNull().joinToString(separator = ", ")
+            billingAddressList.filterNotNull().joinToString(separator = ", ")
         }
     }
 
