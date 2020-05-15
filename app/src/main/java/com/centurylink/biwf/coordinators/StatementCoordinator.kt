@@ -1,26 +1,15 @@
 package com.centurylink.biwf.coordinators
 
 import android.os.Bundle
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 
-class StatementCoordinator @Inject constructor() {
+class StatementCoordinator @Inject constructor(): Coordinator<StatementCoordinatorDestinations> {
+    override fun navigateTo(destination: StatementCoordinatorDestinations) { }
+}
 
-    fun observeThis(screenState: ObservableData<StatementCoordinatorDestinations>) {
-        screenState.observable.subscribe {
-            navigateTo(it)
-        }
+enum class StatementCoordinatorDestinations {
+    FAQ;
+    companion object {
+        lateinit var bundle: Bundle
     }
-
-    private fun navigateTo(destinations: StatementCoordinatorDestinations) {
-
-    }
-
-    enum class StatementCoordinatorDestinations {
-        FAQ;
-        companion object {
-            lateinit var bundle: Bundle
-        }
-    }
-
 }

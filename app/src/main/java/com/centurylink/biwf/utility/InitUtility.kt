@@ -5,6 +5,8 @@ import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.di.component.DaggerApplicationComponent
 import com.centurylink.biwf.di.module.AuthServiceConfigModule
 import com.centurylink.biwf.di.module.RestServiceConfigModule
+import com.centurylink.biwf.service.impl.integration.IntegrationServer
+import com.centurylink.biwf.service.integration.IntegrationServerService
 
 class InitUtility {
     companion object {
@@ -28,5 +30,20 @@ private val authServiceConfig = AuthServiceConfigModule(
 
 private val restServiceConfig = RestServiceConfigModule(
     baseUrlFiberServices = BuildConfig.BASE_URL,
-    baseUrlForAwsBucket = "https://bucketforapi.s3-eu-west-1.amazonaws.com/"
+    baseUrlForAwsBucket = "https://bucketforapi.s3-eu-west-1.amazonaws.com/",
+    integrationServerService = if (BuildConfig.DEBUG) {
+        object : IntegrationServerService {
+            override val baseUrl: String = IntegrationServer.baseUrl
+
+            override fun start() {
+                IntegrationServer.start()
+            }
+
+            override fun stop() {
+                IntegrationServer.stop()
+            }
+        }
+    } else {
+        object : IntegrationServerService {}
+    }
 )

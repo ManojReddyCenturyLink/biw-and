@@ -10,7 +10,9 @@ import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
+import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.google.android.material.switchmaterial.SwitchMaterial
 import javax.inject.Inject
 
 class AccountFragment : BaseFragment() {
@@ -45,16 +47,14 @@ class AccountFragment : BaseFragment() {
         observeViews()
         initSwitches()
         initClicks()
-        accountCoordinator.observeThis(viewModel.myState)
+        viewModel.myState.observeWith(accountCoordinator)
         return binding.root
     }
-
 
     private fun initSwitches() {
         binding.accountBiometricSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onBiometricChange(boolean)
         }
-
         binding.accountServiceCallsSwitch.setOnCheckedChangeListener { _, boolean ->
             viewModel.onServiceCallsAndTextsChange(boolean)
         }
@@ -65,7 +65,6 @@ class AccountFragment : BaseFragment() {
             viewModel.onMarketingCallsAndTextsChange(boolean)
         }
     }
-
 
     private fun observeViews() {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
@@ -100,6 +99,10 @@ class AccountFragment : BaseFragment() {
                     uiAccountDetails.marketingEmails
                 binding.accountMarketingCallsSwitch.isChecked =
                     uiAccountDetails.marketingCallsAndText
+            }
+            navigateToSubscriptionActivityEvent.handleEvent { (context as HomeActivity).launchSubscriptionActivity() }
+            errorMessageFlow.observe {
+                displayToast(message = it)
             }
         }
     }

@@ -11,11 +11,15 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
 import junit.framework.Assert.assertSame
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runBlockingTest
 import org.amshove.kluent.shouldEqual
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
+@Suppress("EXPERIMENTAL_API_USAGE")
 class LoginViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: LoginViewModel
@@ -39,11 +43,14 @@ class LoginViewModelTest : ViewModelBaseTest() {
 
     @Ignore
     @Test
-    fun onLoginClicked_withRequiredFields_navigateToHomeScreen() {
-        viewModel.onEmailTextChanged("dean@gmail.com")
-        viewModel.onPasswordTextChanged("passcode")
-        viewModel.onLoginClicked()
-        assertSame("Not the same", LoginCoordinatorDestinations.HOME_NEW_USER, viewModel.myState.value)
+    fun onLoginClicked_withRequiredFields_navigateToHomeScreen() = runBlockingTest {
+        launch {
+            viewModel.onEmailTextChanged("dean@gmail.com")
+            viewModel.onPasswordTextChanged("passcode")
+            viewModel.onLoginClicked()
+        }
+
+        assertSame("Not the same", LoginCoordinatorDestinations.HOME_NEW_USER, viewModel.myState.first())
     }
 
     @Ignore
@@ -54,14 +61,18 @@ class LoginViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun onLearnMoreClicked_navigateToLearnMoreScreen() {
-        viewModel.onLearnMoreClicked()
-        assertSame("Not the same", LoginCoordinatorDestinations.LEARN_MORE, viewModel.myState.value)
+    fun onLearnMoreClicked_navigateToLearnMoreScreen() = runBlockingTest {
+        launch {
+            viewModel.onLearnMoreClicked()
+        }
+        assertSame("Not the same", LoginCoordinatorDestinations.LEARN_MORE, viewModel.myState.first())
     }
 
     @Test
-    fun onForgotPasswordClicked_navigateToForgotPasswordScreen() {
-        viewModel.onForgotPasswordClicked()
-        assertSame("Not the same", LoginCoordinatorDestinations.FORGOT_PASSWORD, viewModel.myState.value)
+    fun onForgotPasswordClicked_navigateToForgotPasswordScreen() = runBlockingTest {
+        launch {
+            viewModel.onForgotPasswordClicked()
+        }
+        assertSame("Not the same", LoginCoordinatorDestinations.FORGOT_PASSWORD, viewModel.myState.first())
     }
 }

@@ -5,11 +5,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.screens.home.account.PersonalInfoViewModel
+import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsViewModel
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementViewModel
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsViewModel
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
 import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoViewModel
@@ -100,6 +101,11 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(SubscriptionViewModel::class)
+    abstract fun bindSubscriptionViewModel(subscriptionViewModel: SubscriptionViewModel) : ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(SubscriptionStatementViewModel::class)
-    abstract fun bindSubscriptionViewModel(subscriptionStatementViewModel: SubscriptionStatementViewModel): ViewModel
+    abstract fun bindSubscriptionStatementViewModel(subscriptionStatementViewModel: SubscriptionStatementViewModel): ViewModel
 }

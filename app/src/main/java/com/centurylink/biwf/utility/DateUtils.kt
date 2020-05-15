@@ -6,6 +6,7 @@ import java.util.*
 
 class DateUtils {
     companion object {
+
         fun formatInvoiceDate(dateInput: String): String {
             var formattedDate: String = ""
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")

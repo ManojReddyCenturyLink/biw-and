@@ -11,11 +11,11 @@ import retrofit2.http.Path
 
 interface UserService {
     @GET("sobjects/User")
-    suspend fun qetUserInfo(): UserInfo
+    suspend fun qetUserInfo(): FiberServiceResult<UserInfo>
 
     @POST("sobjects/User/{user-id}/password")
     suspend fun updatePassword(@Path("user-id") id: String, @Body updatedPassword: UpdatedPassword): FiberServiceResult<Unit>
 
     @GET("sobjects/User/{user-id}")
-    suspend fun getCompleteUserDetails(@Path("user-id") id: String): UserDetails
+    suspend fun getCompleteUserDetails(@Path("user-id") id: String): FiberServiceResult<UserDetails>
 }

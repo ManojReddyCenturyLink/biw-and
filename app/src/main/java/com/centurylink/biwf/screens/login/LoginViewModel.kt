@@ -9,8 +9,8 @@ import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.ObservableData
 import com.centurylink.biwf.utility.ViewModelFactoryWithInput
 import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.utility.viewModelFactory
@@ -41,7 +41,7 @@ class LoginViewModel internal constructor(
         }
     }
 
-    val myState = ObservableData(LoginCoordinatorDestinations.LOGIN)
+    val myState = EventFlow<LoginCoordinatorDestinations>()
     val errorEvents: EventLiveData<String> = MutableLiveData()
 
     private var userEmail: String? = null
@@ -66,14 +66,14 @@ class LoginViewModel internal constructor(
     }
 
     fun onExistingUserLogin() {
-        myState.value = LoginCoordinatorDestinations.HOME_EXISTING_USER
+        myState.latestValue = LoginCoordinatorDestinations.HOME_EXISTING_USER
     }
 
     fun onForgotPasswordClicked() {
-        myState.value = LoginCoordinatorDestinations.FORGOT_PASSWORD
+        myState.latestValue = LoginCoordinatorDestinations.FORGOT_PASSWORD
     }
 
     fun onLearnMoreClicked() {
-        myState.value = LoginCoordinatorDestinations.LEARN_MORE
+        myState.latestValue = LoginCoordinatorDestinations.LEARN_MORE
     }
 }

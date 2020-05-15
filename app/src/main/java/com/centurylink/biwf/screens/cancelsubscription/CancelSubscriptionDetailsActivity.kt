@@ -1,5 +1,6 @@
-package com.centurylink.biwf.screens.subscription
+package com.centurylink.biwf.screens.cancelsubscription
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
@@ -13,21 +14,18 @@ import android.widget.AdapterView
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
-import com.centurylink.biwf.coordinators.CancelSubscriptionsDetailsCoordinator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.databinding.DialogCancelSubscriptionDetailsBinding
-import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapter
+import com.centurylink.biwf.screens.cancelsubscription.adapter.CancellationReasonAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 import javax.inject.Inject
 
 
 class CancelSubscriptionDetailsActivity : BaseActivity() {
-
-    @Inject
-    lateinit var cancelSubscriptionDetailsCoordinator: CancelSubscriptionsDetailsCoordinator
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
@@ -65,7 +63,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             subheaderRightActionTitle.text =
                 getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(REQUEST_TO_ACCOUNT)
+                setResult(Activity.RESULT_OK)
                 finish()
             }
             subHeaderLeftIcon.setOnClickListener { finish() }

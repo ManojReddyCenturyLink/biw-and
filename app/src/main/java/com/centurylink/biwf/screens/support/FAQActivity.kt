@@ -17,8 +17,6 @@ import com.centurylink.biwf.coordinators.FAQCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
 import com.centurylink.biwf.model.support.Videofaq
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionActivity
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.adapter.ExpandableContentAdapter
 import com.centurylink.biwf.screens.support.adapter.FAQVideoViewAdapter
 import com.centurylink.biwf.screens.support.adapter.VideoItemClickListener
@@ -31,8 +29,10 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
 
     @Inject
     lateinit var faqCoordinator: FAQCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -41,7 +41,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
     }
     private lateinit var binding: ActivityFaqBinding
     private var videoList: List<Videofaq> = mutableListOf()
-    private var questionList: HashMap<String, String> = HashMap<String, String>()
+    private var questionList: HashMap<String, String> = HashMap()
     private lateinit var videoAdapter: FAQVideoViewAdapter
     private lateinit var questionAdapter: ExpandableContentAdapter
 
@@ -62,7 +62,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
                 prepareQuestionRecyclerView(it)
             })
         }
-        faqCoordinator.observeThis(faqViewModel.myState)
+        faqViewModel.myState.observeWith(faqCoordinator)
 
         initHeaders()
         initView()

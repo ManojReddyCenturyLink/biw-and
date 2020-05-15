@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.subscription
+package com.centurylink.biwf.screens.cancelsubscription
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,6 +11,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import java.text.DateFormat
 import java.util.Date
@@ -39,7 +40,7 @@ class CancelSubscriptionActivity : BaseActivity() {
         cancelSubscriptionModel.apply {
             cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
         }
-        cancelSubscriptionCoordinator.observeThis(cancelSubscriptionModel.myState)
+        cancelSubscriptionModel.myState.observeWith(cancelSubscriptionCoordinator)
 
         initHeaders()
         cancelSubscriptionModel.getCancellationValidity()
@@ -56,7 +57,7 @@ class CancelSubscriptionActivity : BaseActivity() {
             subHeaderLeftIcon.setOnClickListener { finish() }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
-                setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
+                setResult(Activity.RESULT_OK)
                 finish()
             }
         }
@@ -74,9 +75,9 @@ class CancelSubscriptionActivity : BaseActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION->{
-                if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
-                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
+            CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    setResult(RESULT_OK)
                     finish()
                 }
             }

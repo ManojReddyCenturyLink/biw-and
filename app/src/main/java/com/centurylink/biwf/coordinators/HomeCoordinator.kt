@@ -1,28 +1,20 @@
 package com.centurylink.biwf.coordinators
 
-import com.centurylink.biwf.utility.ObservableData
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class HomeCoordinator @Inject constructor() {
+class HomeCoordinator @Inject constructor(): Coordinator<HomeCoordinatorDestinations> {
 
     @Inject
     lateinit var navigator: Navigator
 
-    fun observeThis(screenState: ObservableData<HomeCoordinatorDestinations>) {
-        screenState.observable.subscribe {
-            navigateTo(it)
-        }
-    }
-
-    private fun navigateTo(destinations: HomeCoordinatorDestinations) {
-        when (destinations) {
-            HomeCoordinatorDestinations.HOME -> {}
+    override fun navigateTo(destination: HomeCoordinatorDestinations) {
+        when (destination) {
             HomeCoordinatorDestinations.SUPPORT -> navigateToSupport()
             HomeCoordinatorDestinations.NOTIFICATION_LIST -> navigateToNotificationList()
             HomeCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNavigationDetails()
-            HomeCoordinatorDestinations.PROFILE -> navigateToProfileScreen()
+            HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY -> navigateToSubscriptionActivity()
         }
     }
 
@@ -38,11 +30,11 @@ class HomeCoordinator @Inject constructor() {
         navigator.navigateToNotificationDetails()
     }
 
-    private fun navigateToProfileScreen() {
-        navigator.navigateToProfileActivity()
+    private fun navigateToSubscriptionActivity() {
+        navigator.navigateToSubscriptionActivity()
     }
 }
 
 enum class HomeCoordinatorDestinations {
-    HOME, SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, PROFILE
+    SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, SUBSCRIPTION_ACTIVITY
 }

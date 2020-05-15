@@ -9,23 +9,27 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val integrationServices: IntegrationRestServices
 ) : BaseViewModel() {
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
     val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
-    val myState = ObservableData(HomeCoordinatorDestinations.HOME)
+    val myState = EventFlow<HomeCoordinatorDestinations>()
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
@@ -40,12 +44,6 @@ class HomeViewModel @Inject constructor(
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
-
-        // TODO Remove later when example is no longer needed.
-       // requestTestRestFlow()
-        requestUserInfo()
-        getUserDetails()
-
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {
@@ -54,21 +52,18 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSupportClicked() {
-        myState.value = HomeCoordinatorDestinations.SUPPORT
+        myState.latestValue = HomeCoordinatorDestinations.SUPPORT
     }
 
     fun onNotificationBellClicked() {
-        myState.value = HomeCoordinatorDestinations.NOTIFICATION_LIST
+        myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
 
     fun onNotificationClicked() {
-        myState.value = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
+        myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
     fun loadData() {
-        loadAccountsData()
-        loadDevicesData()
-        loadDashboardData()
     }
 
     fun onOnlineToolbarClick() {
@@ -82,14 +77,17 @@ class HomeViewModel @Inject constructor(
         dummyOnline = !dummyOnline
     }
 
-    fun onProfileClickEvent() {
-        myState.value = HomeCoordinatorDestinations.PROFILE
+    fun onSubscriptionActivityClick() {
+        myState.latestValue = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }
 
     // Example: Use Coroutines to get data asynchronously and emit the results through Flows
     // TODO Remove later when example is no longer needed.
     private fun requestTestRestFlow() {
         viewModelScope.launch {
+            val sumUpResult = integrationServices.calculateSum(12, 25, SumUpInput(10))
+            Timber.d("IntegrationService test: sumUp returned $sumUpResult")
+
             testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
                 when (it) {
                     is Either.Left -> testRestErrorFlow.latestValue = "Encountered error ${it.error}"
@@ -123,37 +121,5 @@ class HomeViewModel @Inject constructor(
                 )
             )
         return list
-    }
-
-    private fun loadDashboardData() {
-        //Load data here
-    }
-
-    private fun loadDevicesData() {
-        //Load data here
-    }
-
-    private fun loadAccountsData() {
-        //Load data here
-    }
-
-    private fun requestUserInfo() {
-        viewModelScope.launch {
-            try {
-                userRepository.getUserInfo()
-            } catch (e: Throwable) {
-
-            }
-        }
-    }
-
-    private fun getUserDetails() {
-        viewModelScope.launch {
-            try {
-                userRepository.getUserDetails()
-            } catch (e: Throwable) {
-
-            }
-        }
     }
 }

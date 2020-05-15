@@ -9,16 +9,11 @@ import com.centurylink.biwf.service.impl.network.EitherCallAdapterFactory
 import com.centurylink.biwf.service.impl.network.EitherConverterFactory
 import com.centurylink.biwf.service.impl.network.FiberErrorConverterFactory
 import com.centurylink.biwf.service.impl.network.asFactory
-import com.centurylink.biwf.service.network.AccountApiService
-import com.centurylink.biwf.service.network.ApiServices
-import com.centurylink.biwf.service.network.BillingApiServices
-import com.centurylink.biwf.service.network.ContactApiService
-import com.centurylink.biwf.service.network.ServicesFactory
-import com.centurylink.biwf.service.network.TestRestServices
-import com.centurylink.biwf.service.network.UserService
-import com.centurylink.biwf.service.network.create
+import com.centurylink.biwf.service.integration.IntegrationServerService
+import com.centurylink.biwf.service.network.*
 import dagger.Module
 import dagger.Provides
+import okhttp3.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -35,12 +30,17 @@ import javax.inject.Singleton
 class RestServiceConfigModule(
     private val baseUrlFiberServices: String,
     private val baseUrlForAwsBucket: String,
+    private val integrationServerService: IntegrationServerService,
     private val fakeServicesFactory: ServicesFactory? = null
 ) {
     @Singleton
     @Provides
+    fun provideIntegrationServerService() = integrationServerService
+
+    @Singleton
+    @Provides
     @BaseUrl(BaseUrlType.FIBER_SERVICES)
-    fun provideRetrofit(@HttpClient(ClientType.OAUTH) client: okhttp3.Call.Factory): ServicesFactory {
+    fun provideRetrofit(@HttpClient(ClientType.OAUTH) client: Call.Factory): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlFiberServices)
@@ -55,12 +55,24 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     @BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES)
-    fun provideRetrofitForAws(@HttpClient(ClientType.NONE) client: okhttp3.Call.Factory): ServicesFactory {
+    fun provideRetrofitForAws(@HttpClient(ClientType.NONE) client: Call.Factory): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForAwsBucket)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
+            .build()
+            .asFactory
+    }
+
+    @Singleton
+    @Provides
+    @BaseUrl(BaseUrlType.LOCAL_INTEGRATION)
+    fun provideRetrofitForMock(@HttpClient(ClientType.OAUTH) client: Call.Factory): ServicesFactory {
+        return fakeServicesFactory ?: Retrofit.Builder()
+            .callFactory(client)
+            .baseUrl(integrationServerService.baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .asFactory
     }
@@ -97,7 +109,19 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
+    fun provideZuoraPaymentService(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): ZuoraPaymentService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
     fun provideBillingApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): BillingApiServices {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideIntegrationRestServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): IntegrationRestServices {
         return factory.create()
     }
 }

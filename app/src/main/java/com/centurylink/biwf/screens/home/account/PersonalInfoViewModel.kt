@@ -3,11 +3,11 @@ package com.centurylink.biwf.screens.home.account
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
+import com.centurylink.biwf.coordinators.PersonalInfoCoordinatorDestinations
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Errors
-import com.centurylink.biwf.utility.ObservableData
+import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,8 +16,7 @@ class PersonalInfoViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    val myState =
-        ObservableData(PersonalInfoCoordinator.PersonalInfoCoordinatorDestinations.PROFILE_INFO)
+    val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
     var error: MutableLiveData<Errors> = MutableLiveData()
     private var passwordVisibility: Boolean = false
     private var confirmPasswordVisibility = false

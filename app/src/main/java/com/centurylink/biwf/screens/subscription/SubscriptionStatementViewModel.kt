@@ -45,11 +45,11 @@ class SubscriptionStatementViewModel @Inject constructor(
     private fun formatBillingAddress(billDetails: BillingDetails): String {
         return billDetails.billingAddress.run {
             val billingAddressList: MutableList<String> = mutableListOf<String>()
-            billingAddressList.add(street)
-            billingAddressList.add(city)
-            billingAddressList.add(state)
-            billingAddressList.add(postalCode)
-            billingAddressList.add(country)
+            billingAddressList.add(street!!)
+            billingAddressList.add(city!!)
+            billingAddressList.add(state!!)
+            billingAddressList.add(postalCode!!)
+            billingAddressList.add(country!!)
             return@run billingAddressList.filterNotNull().joinToString(separator = " , ")
         }
     }

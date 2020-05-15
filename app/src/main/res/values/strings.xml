@@ -172,4 +172,21 @@
     <string name="statement_payment_promo_info">$X off your monthly bill</string>
     <string name="cost_template">$%s</string>
     <string name="statement_total">Total</string>
+    <string name="previous_statements">Previous statements</string>
+    <string name="subscription">Subscription</string>
+    <string name="my_subscription">My subscription</string>
+    <string name="manage_my_subscription">Manage my subscription</string>
+    <string name="view_older_statements">View older statements</string>
+    <string name="card_payment_fine_print">Your card will be charged $65.00 + taxes and fees on the 1st of every month</string>
+    <string name="same_as_service_address">Same as service address</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="apt_optional">Apt (optional)</string>
+    <string name="street_address">Street address</string>
+    <string name="zip_code">Zip code</string>
+    <string name="state">State</string>
+    <string name="city">City</string>
+    <string name="credit_card_number">Credit card number</string>
+    <string name="expiration_date">Expiration date</string>
+    <string name="cvv">CVV</string>
 </resources>

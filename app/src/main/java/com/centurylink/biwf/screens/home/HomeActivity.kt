@@ -8,7 +8,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
@@ -34,7 +34,7 @@ class HomeActivity : BaseActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.observe(this)
-        homeCoordinator.observeThis(viewModel.myState)
+        viewModel.myState.observeWith(homeCoordinator)
 
         initViews()
         initOnClicks()
@@ -78,8 +78,8 @@ class HomeActivity : BaseActivity() {
         setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER", false))
     }
 
-    fun onProfileClickEvent() {
-        viewModel.onProfileClickEvent()
+    fun launchSubscriptionActivity() {
+        viewModel.onSubscriptionActivityClick()
     }
 
     private fun initOnClicks() {

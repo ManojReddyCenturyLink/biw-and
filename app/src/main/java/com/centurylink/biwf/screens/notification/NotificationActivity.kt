@@ -2,7 +2,6 @@ package com.centurylink.biwf.screens.notification
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
@@ -57,7 +56,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
             errorEvents.handleEvent { displayToast(it) }
             displayClearAllEvent.handleEvent { displayClearAllDialog() }
         }
-        notificationCoordinator.observeThis(notificationViewModel.myState)
+        notificationViewModel.myState.observeWith(notificationCoordinator)
 
         initView()
         getNotificationInformation()
@@ -120,12 +119,12 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage(R.string.notification_screen_warning)
             .setCancelable(true)
-            .setPositiveButton(R.string.dialog_yes, DialogInterface.OnClickListener { dialog, id ->
+            .setPositiveButton(R.string.dialog_yes) { _, _ ->
                 performClearAll()
-            })
-            .setNegativeButton(R.string.dialog_no, DialogInterface.OnClickListener { dialog, id ->
+            }
+            .setNegativeButton(R.string.dialog_no) { dialog, _ ->
                 dialog.cancel()
-            })
+            }
         // create dialog box
         val alert = dialogBuilder.create()
         // set title for alert dialog box
