@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.user.UpdatedPassword
 import com.centurylink.biwf.model.user.UserDetails
@@ -31,18 +32,29 @@ class UserRepository @Inject constructor(
         preferences.saveContactId(contactId)
     }
 
-    suspend fun getUserDetails(): UserDetails {
+    suspend fun getUserDetails(): Either<String, UserDetails> {
         val userId = getUserId()
-        val userDetails = userApiService.getCompleteUserDetails(userId!!)
-        storeAccountId(userDetails.accountId!!)
-        storeContactId(userDetails.contactId!!)
-        return userDetails
+        val result: FiberServiceResult<UserDetails> =
+            userApiService.getCompleteUserDetails(userId!!)
+        result.fold(
+            ifLeft = { },
+            ifRight = {
+                storeAccountId(it.accountId!!)
+                storeContactId(it.contactId!!)
+            }
+        )
+        return result.mapLeft { it.message?.message.toString() }
     }
 
-    suspend fun getUserInfo(): UserInfo {
-        val userInfo = userApiService.qetUserInfo()
-        storeUserId(userInfo.recentItems[0].Id!!)
-        return userInfo
+    suspend fun getUserInfo(): Either<String, UserInfo> {
+        val result: FiberServiceResult<UserInfo> = userApiService.qetUserInfo()
+        result.fold(
+            ifLeft = { },
+            ifRight = {
+                storeUserId(it.recentItems[0].Id!!)
+            }
+        )
+        return result.mapLeft { it.message?.message.toString() }
     }
 
     suspend fun resetPassWord(password: String): String {
