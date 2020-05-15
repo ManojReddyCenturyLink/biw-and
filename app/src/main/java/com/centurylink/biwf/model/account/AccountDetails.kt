@@ -21,7 +21,7 @@ data class AccountDetails(
     @SerializedName("Email__c")
     val emailAddress: String? = null,
     @SerializedName("BillingAddress")
-    val billingAddress: BillingAddress,
+    val billingAddress: BillingAddress?=null,
     @SerializedName("Product_Plan_Name__c")
     val productPlanNameC: String? = null,
     @SerializedName("Product_Name__c")
