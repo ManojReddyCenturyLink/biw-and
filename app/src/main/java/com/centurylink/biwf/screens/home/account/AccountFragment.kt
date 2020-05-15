@@ -12,7 +12,6 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.google.android.material.switchmaterial.SwitchMaterial
 import javax.inject.Inject
 
 class AccountFragment : BaseFragment() {
@@ -73,8 +72,8 @@ class AccountFragment : BaseFragment() {
             accountDetailsInfo.observe { uiAccountDetails ->
                 binding.accountFullName.text = uiAccountDetails.name
                 binding.accountStreetAddress.text =
-                    uiAccountDetails.serviceAddress ?: "3004 Parkington Place SE\n" +
-                            "Port Orchard, WA 98366"
+                    uiAccountDetails.serviceAddress1
+                binding.accountCityStateAndZip.text = uiAccountDetails.serviceAddress2
                 //planInfo
                 binding.accountSubscriptionCard.accountCardPlanName.text =
                     uiAccountDetails.planName ?: "Best in world Fiber "
