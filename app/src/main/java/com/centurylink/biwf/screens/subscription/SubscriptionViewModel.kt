@@ -24,8 +24,8 @@ class SubscriptionViewModel @Inject constructor(
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
     private lateinit var userAccount: AccountDetails
 
-    private lateinit var serviceAddressData: BillingAddress
-    private lateinit var billingAddress: BillingAddress
+    private var serviceAddressData: BillingAddress = BillingAddress()
+    private var billingAddress: BillingAddress = BillingAddress()
     private var uiSubscriptionPageObject = UiSubscriptionPageInfo()
 
     val checkboxState: Flow<Boolean> = BehaviorStateFlow(false)
@@ -33,21 +33,25 @@ class SubscriptionViewModel @Inject constructor(
     val planName: Flow<String> = BehaviorStateFlow()
     val planDetails: Flow<String> = BehaviorStateFlow()
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
+    var errorMessageFlow = EventFlow<String>()
 
     init {
         viewModelScope.launch {
-            try {
-                userAccount = accountRepository.getAccountDetails()
 
-                billingAddress = userAccount.billingAddress
-
-                serviceAddressData = BillingAddress(
-                    street = userAccount.serviceStreet ?: billingAddress.street,
-                    city = userAccount.serviceCity ?: billingAddress.city,
-                    state = userAccount.serviceStateProvince ?: billingAddress.state,
-                    postalCode = userAccount.servicePostalCode ?: billingAddress.postalCode
-                )
-
+            val userAccountDetails = accountRepository.getAccountDetails()
+            userAccountDetails.fold(ifLeft = {
+                errorMessageFlow.latestValue = it
+            }) {
+                userAccount = it
+                if (userAccount.billingAddress != null) {
+                    billingAddress = userAccount.billingAddress
+                    serviceAddressData = BillingAddress(
+                        street = userAccount.serviceStreet ?: billingAddress!!.street,
+                        city = userAccount.serviceCity ?: billingAddress!!.city,
+                        state = userAccount.serviceStateProvince ?: billingAddress!!.state,
+                        postalCode = userAccount.servicePostalCode ?: billingAddress!!.postalCode
+                    )
+                }
                 uiSubscriptionPageObject = uiSubscriptionPageObject.copy(
                     paymentFirstName = userAccount.firstName,
                     paymentlastName = userAccount.lastName,
@@ -56,14 +60,12 @@ class SubscriptionViewModel @Inject constructor(
                     billingAddress = billingAddress
                 )
                 uiFlowable.latestValue = uiSubscriptionPageObject
-                planName.latestValue = userAccount.productNameC!!
-                planDetails.latestValue = userAccount.productPlanNameC!!
-
+                planName.latestValue = userAccount.productNameC ?: "Best in world Fiber "
+                planDetails.latestValue = userAccount.productPlanNameC?: "Speeds up to 940Mbps "
                 getInvoicesList()
-            } catch (e: Throwable) {
+
             }
         }
-
         mockPlanName()
     }
 
@@ -120,28 +122,28 @@ class SubscriptionViewModel @Inject constructor(
     }
 
     fun onStreetAddressChange(streetAddress: String) {
-        billingAddress = billingAddress.copy(street = streetAddress)
+        billingAddress = billingAddress!!.copy(street = streetAddress)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onCityChange(city: String) {
-        billingAddress = billingAddress.copy(city = city)
+        billingAddress = billingAddress!!.copy(city = city)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onStateChange(state: String) {
-        billingAddress = billingAddress.copy(state = state)
+        billingAddress = billingAddress!!.copy(state = state)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onZipCodeChange(zipCode: String) {
-        billingAddress = billingAddress.copy(postalCode = zipCode)
+        billingAddress = billingAddress!!.copy(postalCode = zipCode)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
