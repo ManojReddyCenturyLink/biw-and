@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.subscription
+package com.centurylink.biwf.screens.cancelsubscription
 
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.base.BaseViewModel

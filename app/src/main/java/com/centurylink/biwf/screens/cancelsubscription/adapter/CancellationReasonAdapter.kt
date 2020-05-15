@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.subscription.adapter
+package com.centurylink.biwf.screens.cancelsubscription.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

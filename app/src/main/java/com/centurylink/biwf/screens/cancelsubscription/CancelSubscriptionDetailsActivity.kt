@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.subscription
+package com.centurylink.biwf.screens.cancelsubscription
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -16,7 +16,7 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.databinding.DialogCancelSubscriptionDetailsBinding
-import com.centurylink.biwf.screens.subscription.adapter.CancellationReasonAdapter
+import com.centurylink.biwf.screens.cancelsubscription.adapter.CancellationReasonAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat

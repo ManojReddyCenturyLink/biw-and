@@ -19,53 +19,53 @@ data class AccountDetails(
     @SerializedName("Marketing_Opt_In__c")
     val marketingOptInC: String,
     @SerializedName("Email__c")
-    val emailAddress: String,
+    val emailAddress: String? = null,
     @SerializedName("BillingAddress")
     val billingAddress: BillingAddress,
     @SerializedName("Product_Plan_Name__c")
-    val productPlanNameC: String = "",
+    val productPlanNameC: String? = null,
     @SerializedName("Product_Name__c")
-    val productNameC: String = "",
+    val productNameC: String? = null,
     @SerializedName("Service_Address__c")
-    val serviceCompleteAddress: String = "",
+    val serviceCompleteAddress: String? = null,
     @SerializedName("Service_City__c")
-    val serviceCity: String = "",
+    val serviceCity: String? = null,
     @SerializedName("Service_Country__c")
-    val serviceCountry: String = "",
+    val serviceCountry: String? = null,
     @SerializedName("Service_State_Province__c")
-    val serviceStateProvince: String = "",
+    val serviceStateProvince: String? = null,
     @SerializedName("Service_Street__c")
-    val serviceStreet: String = "",
+    val serviceStreet: String? = null,
     @SerializedName("Service_Zip_Postal_Code__c")
-    val servicePostalCode: String = "",
+    val servicePostalCode: String? = null,
     @SerializedName("Phone")
-    val phone: String = "",
+    val phone: String? = null,
     @SerializedName("Secondary_Phone__c")
-    val secondaryPhone: String = "",
+    val secondaryPhone: String? = null,
     @SerializedName("Cell_Phone_Opt_In__c")
     val cellPhoneOptInC: Boolean,
     @SerializedName("Payment_Method_Name__c")
-    val paymentMethodName: String = "",
+    val paymentMethodName: String? = null,
     @SerializedName("LastViewedDate")
-    val lastViewedDate: String = ""
+    val lastViewedDate: String? = null
 
 ) : Serializable
 
 data class BillingAddress(
     @SerializedName("city")
-    val city: String = "",
+    val city: String? = "",
     @SerializedName("country")
-    val country: String = "",
+    val country: String? = "",
     @SerializedName("geocodeAccuracy")
-    val geocodeAccuracy: String = "",
+    val geocodeAccuracy: String? = "",
     @SerializedName("latitude")
-    val latitude: String = "",
+    val latitude: String? = "",
     @SerializedName("longitude")
-    val longitude: String = "",
+    val longitude: String? = "",
     @SerializedName("postalCode")
-    val postalCode: String = "",
+    val postalCode: String? = "",
     @SerializedName("state")
-    val state: String="",
+    val state: String? = "",
     @SerializedName("street")
-    val street: String=""
+    val street: String? = ""
 ) : Serializable

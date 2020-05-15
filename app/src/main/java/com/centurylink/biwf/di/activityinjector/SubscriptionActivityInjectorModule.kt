@@ -1,6 +1,6 @@
 package com.centurylink.biwf.di.activityinjector
 
-import com.centurylink.biwf.screens.home.account.subscription.SubscriptionActivity
+import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
