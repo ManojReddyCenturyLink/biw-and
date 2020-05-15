@@ -41,38 +41,41 @@ class SubscriptionViewModel @Inject constructor(
 
     private fun initApis() {
         viewModelScope.launch {
-            getAccountDetails()
-            getInvoicesList()
+            requestAccountDetails()
+            requestInvoiceList()
         }
     }
 
-    private suspend fun getAccountDetails() {
+    private suspend fun requestAccountDetails() {
         val userAccountDetails = accountRepository.getAccountDetails()
         userAccountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
             userAccount = it
-            if (userAccount.billingAddress != null) {
-                billingAddress = userAccount.billingAddress!!
-                serviceAddressData = BillingAddress(
-                    street = userAccount.serviceStreet ?: billingAddress.street,
-                    city = userAccount.serviceCity ?: billingAddress.city,
-                    state = userAccount.serviceStateProvince ?: billingAddress.state,
-                    postalCode = userAccount.servicePostalCode ?: billingAddress.postalCode
-                )
-            }
-            uiSubscriptionPageObject = uiSubscriptionPageObject.copy(
-                paymentFirstName = userAccount.firstName,
-                paymentlastName = userAccount.lastName,
-                billingFirstName = userAccount.firstName,
-                billingLastName = userAccount.lastName,
-                billingAddress = billingAddress
-            )
-            uiFlowable.latestValue = uiSubscriptionPageObject
-            planName.latestValue = userAccount.productNameC ?: "Best in World Fiber "
-            planDetails.latestValue = userAccount.productPlanNameC ?: "Speeds up to 940Mbps "
-            getInvoicesList()
+            processAccountData()
         }
+    }
+
+    private fun processAccountData() {
+        if (userAccount.billingAddress != null) {
+            billingAddress = userAccount.billingAddress!!
+            serviceAddressData = BillingAddress(
+                street = userAccount.serviceStreet ?: billingAddress.street,
+                city = userAccount.serviceCity ?: billingAddress.city,
+                state = userAccount.serviceStateProvince ?: billingAddress.state,
+                postalCode = userAccount.servicePostalCode ?: billingAddress.postalCode
+            )
+        }
+        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(
+            paymentFirstName = userAccount.firstName,
+            paymentlastName = userAccount.lastName,
+            billingFirstName = userAccount.firstName,
+            billingLastName = userAccount.lastName,
+            billingAddress = billingAddress
+        )
+        uiFlowable.latestValue = uiSubscriptionPageObject
+        planName.latestValue = userAccount.productNameC ?: "Best in World Fiber "
+        planDetails.latestValue = userAccount.productPlanNameC ?: "Speeds up to 940Mbps "
     }
 
     fun sameAsServiceAddressedClicked() {
@@ -153,7 +156,7 @@ class SubscriptionViewModel @Inject constructor(
         checkboxState.latestValue = false
     }
 
-    private suspend fun getInvoicesList() {
+    private suspend fun requestInvoiceList() {
         val paymentList = zuoraPaymentRepository.getInvoicesList()
         paymentList.fold(ifLeft = {
             errorMessageFlow.latestValue = it

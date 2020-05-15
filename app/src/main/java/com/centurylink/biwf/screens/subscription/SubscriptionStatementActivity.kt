@@ -37,9 +37,8 @@ class SubscriptionStatementActivity : BaseActivity() {
         setContentView(binding.root)
         navigator.observe(this)
         subscriptionStatementViewModel.setInvoiceDetails(
-            intent.getStringExtra(
-                SUBSCRIPTION_STATEMENT_INVOICE_ID
-            ), intent.getStringExtra(SUBSCRIPTION_STATEMENT_DATE)
+            intent.getStringExtra(SUBSCRIPTION_STATEMENT_INVOICE_ID),
+            intent.getStringExtra(SUBSCRIPTION_STATEMENT_DATE)
         )
         initHeaders()
         observeViews()

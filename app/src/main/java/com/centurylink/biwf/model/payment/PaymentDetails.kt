@@ -62,5 +62,4 @@ class PaymentDetails(
 
     @SerializedName("Zuora__AppliedInvoiceAmount__c")
     val zuoraAppliedInvoiceAmount: String? = null
-
 )

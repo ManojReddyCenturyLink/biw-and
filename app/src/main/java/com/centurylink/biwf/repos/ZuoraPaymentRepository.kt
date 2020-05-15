@@ -2,7 +2,6 @@ package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
-import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.payment.PaymentDetails
 import com.centurylink.biwf.service.network.ZuoraPaymentService
@@ -22,7 +21,7 @@ class ZuoraPaymentRepository @Inject constructor(
 
     suspend fun getInvoicesList(): Either<String, PaymentList> {
         val query: String =
-            "SELECT+Id,Zuora__Invoice__c,CreatedDate+FROM+Zuora__Payment__c+WHERE+Zuora__Account__c+=+'%s'"
+            "SELECT Id, Zuora__Invoice__c, CreatedDate FROM Zuora__Payment__c WHERE Zuora__Account__c ='%s'"
         val finalQuery = String.format(query, getAccountId()!!)
         val result: FiberServiceResult<PaymentList> =
             zuoraPaymentService.getZuoraPaymentDetails(finalQuery)

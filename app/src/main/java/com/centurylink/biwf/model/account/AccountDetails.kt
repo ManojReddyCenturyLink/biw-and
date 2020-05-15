@@ -50,7 +50,6 @@ data class AccountDetails(
     val lastViewedDate: String? = null,
     @SerializedName("ShippingAddress")
     val shippingAddress: BillingAddress? = null
-
 ) : Serializable
 
 data class BillingAddress(

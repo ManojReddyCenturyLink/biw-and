@@ -38,13 +38,13 @@ class SubscriptionStatementViewModel @Inject constructor(
 
     private fun initAPiCalls() {
         viewModelScope.launch {
-            getUserDetails()
-            getAccountInformation()
-            getPaymentInformation()
+            requestUserDetails()
+            requestAccountDetails()
+            requestPaymentInformation()
         }
     }
 
-    private suspend fun getUserDetails() {
+    private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
@@ -53,7 +53,7 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAccountInformation() {
+    private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
@@ -65,7 +65,7 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getPaymentInformation() {
+    private suspend fun requestPaymentInformation() {
         val paymentDetails = zuoraPaymentRepository.getPaymentInformation(invoicedId!!)
         paymentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
@@ -88,7 +88,7 @@ class SubscriptionStatementViewModel @Inject constructor(
     private fun formatBillingAddress(accountDetails: AccountDetails): String? {
         return accountDetails.billingAddress?.run {
             val billingAddressList = listOf(street, city, state, postalCode, country)
-            return@run billingAddressList.filterNotNull().joinToString(separator = ", ")
+            return billingAddressList.filterNotNull().joinToString(separator = ", ")
         }
     }
 

@@ -43,9 +43,9 @@ class AccountViewModel @Inject constructor(
     private fun initApiCalls() {
         viewModelScope.launch {
             requestUserInfo()
-            getUserDetails()
-            getAccountInfo()
-            getContactInfo()
+            requestUserDetails()
+            requestAccountDetails()
+            requestContactInfo()
         }
     }
 
@@ -88,7 +88,7 @@ class AccountViewModel @Inject constructor(
         }) {}
     }
 
-    private suspend fun getUserDetails() {
+    private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
@@ -97,7 +97,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAccountInfo() {
+    private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
@@ -106,7 +106,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getContactInfo() {
+    private suspend fun requestContactInfo() {
         val contactDetails = contactRepository.getContactDetails()
         contactDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
