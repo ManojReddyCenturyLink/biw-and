@@ -44,7 +44,7 @@ class SubscriptionViewModel @Inject constructor(
             }) {
                 userAccount = it
                 if (userAccount.billingAddress != null) {
-                    billingAddress = userAccount.billingAddress
+                    billingAddress = userAccount.billingAddress!!
                     serviceAddressData = BillingAddress(
                         street = userAccount.serviceStreet ?: billingAddress.street,
                         city = userAccount.serviceCity ?: billingAddress.city,

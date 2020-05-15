@@ -103,7 +103,6 @@ class AccountViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             updateUIAccountDetailsFromAccounts(it)
-
         }
     }
 

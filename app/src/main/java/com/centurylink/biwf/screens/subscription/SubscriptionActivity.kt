@@ -13,7 +13,6 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SubscriptionCoordinator
-import com.centurylink.biwf.databinding.ActivitySubscriptionBinding
 import com.centurylink.biwf.model.account.RecordsItem
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
