@@ -18,22 +18,17 @@ class PersonalInfoViewModel @Inject constructor(
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
     var error: MutableLiveData<Errors> = MutableLiveData()
+    var userPasswordFlow = EventFlow<String>()
     private var passwordVisibility: Boolean = false
     private var confirmPasswordVisibility = false
     private var passwordValue: String = ""
     private var confirmPasswordValue: String = ""
     private var phoneNumberValue: String = ""
 
-    //val userPasswordFlow: Flow<String> = BehaviorStateFlow()
-    var userPasswordFlow = EventFlow<String>()
-
     fun callUpdatePasswordApi() {
         viewModelScope.launch {
-            try {
-                val res = userRepository.resetPassWord(passwordValue)
-                userPasswordFlow.latestValue = res
-            } catch (e: Throwable) {
-            }
+            val res = userRepository.resetPassWord(passwordValue)
+            userPasswordFlow.latestValue = res
         }
     }
 
