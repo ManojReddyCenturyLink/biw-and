@@ -70,19 +70,23 @@ class SubscriptionStatementViewModel @Inject constructor(
         paymentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+
+            val planCost: Double = it.planCostWithoutTax?.toDouble() ?: 0.0
+            val salesTaxCost: Double = it.salesTaxAmount?.toDouble() ?: 0.0
+            val totalCost: Double = planCost + salesTaxCost
             uiStatementDetails = uiStatementDetails.copy(
                 planName = it.productPlanNameC ?: "Fiber Internet",
                 successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
-                planCost = it.planCostWithoutTax ?: "100.0",
-                salesTaxCost = it.salesTaxAmount ?: "0.0",
-                totalCost = it.planCostWithoutTax ?: "100.0"
+                planCost = String.format("%.1f", planCost),
+                salesTaxCost = String.format("%.1f", salesTaxCost),
+                totalCost = String.format("%.1f", totalCost)
             )
             statementDetailsInfo.latestValue = uiStatementDetails
         }
     }
 
     private fun formatBillingAddress(accountDetails: AccountDetails): String? {
-        return accountDetails.billingAddress!!.run {
+        return accountDetails.billingAddress?.run {
             val billingAddressList = listOf(street, city, state, postalCode, country)
             return@run billingAddressList.filterNotNull().joinToString(separator = ", ")
         }

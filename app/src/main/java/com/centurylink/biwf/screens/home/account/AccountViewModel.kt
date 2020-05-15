@@ -118,22 +118,19 @@ class AccountViewModel @Inject constructor(
     private fun updateUIAccountDetailsFromAccounts(accontDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             name = accontDetails.name,
-            serviceAddress1 = formatServiceAddress1(accontDetails) ?: "",
+            serviceAddress1 =  accontDetails.billingAddress?.street ?: "",
             serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
-            planName = accontDetails.productPlanNameC,
-            planSpeed = accontDetails.productPlanNameC,
+            planName = accontDetails.productPlanNameC?:"",
+            planSpeed = accontDetails.productPlanNameC?:"",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******", cellPhone = accontDetails.phone, homePhone = accontDetails.phone,
             workPhone = accontDetails.phone, serviceCallsAndText = accontDetails.cellPhoneOptInC
         )
     }
 
-    private fun formatServiceAddress1(accountDetails: AccountDetails): String? {
-        return accountDetails.billingAddress!!.street
-    }
 
     private fun formatServiceAddress2(accountDetails: AccountDetails): String? {
-        return accountDetails.billingAddress!!.run {
+        return accountDetails.billingAddress?.run {
             val billingAddressList = listOf(city, state, postalCode, country)
             return@run billingAddressList.filterNotNull().joinToString(separator = ", ")
         }
