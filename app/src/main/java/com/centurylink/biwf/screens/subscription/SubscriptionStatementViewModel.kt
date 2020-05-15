@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.subscription
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
-import com.centurylink.biwf.model.billing.BillingDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.BillingRepository
 import com.centurylink.biwf.repos.UserRepository
@@ -61,7 +60,7 @@ class SubscriptionStatementViewModel @Inject constructor(
         }) {
             uiStatementDetails = uiStatementDetails.copy(
                 paymentMethod = it.paymentMethodName ?: "Visa ******* 2453",
-                billingAddress = formatBillingAddress(it) ?:formatServiceAddress(it)
+                billingAddress = formatBillingAddress(it) ?: ""
             )
         }
     }
@@ -82,46 +81,11 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getBillingInformation() {
-        val billingDetailList = billingRepository.getBillingDetails()
-        billingDetailList.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            statementDetailsInfo.latestValue = toUIStatementInfo(it[0])
-        }
-    }
-
     private fun formatBillingAddress(accountDetails: AccountDetails): String? {
         return accountDetails.billingAddress!!.run {
-            val billingAddressList: MutableList<String> = mutableListOf<String>()
-            billingAddressList.add(street!!)
-            billingAddressList.add(city!!)
-            billingAddressList.add(state!!)
-            billingAddressList.add(postalCode!!)
-            return@run billingAddressList.filterNotNull().joinToString(separator = ",")
+            val billingAddressList = listOf(street, city, state, postalCode, country)
+            return@run billingAddressList.filterNotNull().joinToString(separator = ", ")
         }
-    }
-
-    private fun formatServiceAddress(accountDetails: AccountDetails): String? {
-        return accountDetails.run {
-            val billingAddressList: MutableList<String> = mutableListOf<String>()
-            billingAddressList.add(serviceStreet!!)
-            billingAddressList.add(serviceCity!!)
-            billingAddressList.add(serviceStateProvince!!)
-            billingAddressList.add(servicePostalCode!!)
-            return@run billingAddressList.filterNotNull().joinToString(separator = ",")
-        }
-    }
-
-    private fun toUIStatementInfo(billDetails: BillingDetails): UiStatementDetails {
-        return UiStatementDetails(
-            successfullyProcessed = DateUtils.formatInvoiceDate(billDetails.ZuoraCreatedDate),
-            paymentMethod = billDetails.zuoraPaymentMethod,
-            planCost = billDetails.ZAmountWithoutTax,
-            salesTaxCost = billDetails.ZtaxAmount,
-            promoCode = billDetails.zuoraPaymentMethod,
-            totalCost = billDetails.ZuoraAmountc
-        )
     }
 
     data class UiStatementDetails(
