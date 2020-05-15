@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/medium_margin_spacing"
+        android:paddingTop="24dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="@dimen/margin_spacing_large"
+        >
+
+        <TextView
+            android:id="@+id/subscription_info_subscription_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/arial_bold_mt"
+            android:textColor="@color/title_color_blue"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Best in World Fiber"
+            />
+
+        <TextView
+            android:id="@+id/subscription_info_subscription_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/arial_mt"
+            android:textColor="@color/title_color_blue"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subscription_info_subscription_name"
+            tools:text="Speeds up to 940Mbps"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:text="@string/card_payment_fine_print"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subscription_info_subscription_details"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

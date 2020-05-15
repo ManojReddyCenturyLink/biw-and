@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.subscription
+package com.centurylink.biwf.screens.cancelsubscription
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,6 +11,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
+import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import java.text.DateFormat
 import java.util.Date

@@ -46,6 +46,6 @@ class Preferences(private val store: KeyValueStore) {
         val USER_ID = "USER_ID"
         val ACCOUNT_ID = "ACCOUNT_ID"
         val CONTACT_ID = "CONTACT_ID"
-        val PLAN_NAME="PLAN_NAME"
+        val PLAN_NAME = "PLAN_NAME"
     }
 }

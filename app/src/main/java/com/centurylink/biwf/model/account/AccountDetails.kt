@@ -5,29 +5,29 @@ import java.io.Serializable
 
 data class AccountDetails(
     @SerializedName("Id")
-    val Id: String? = null,
+    val Id: String = "",
     @SerializedName("Name")
-    val name: String? = null,
+    val name: String = "",
     @SerializedName("LastName__c")
-    val lastName: String? = null,
+    val lastName: String = "",
     @SerializedName("FirstName__c")
-    val firstName: String? = null,
+    val firstName: String = "",
     @SerializedName("Is_Billing_Address_Updated__c")
     val isBillingAddressUpdated: Boolean,
     @SerializedName("Email_Opt_In__c")
     val emailOptInC: Boolean,
     @SerializedName("Marketing_Opt_In__c")
-    val marketingOptInC: String? = null,
+    val marketingOptInC: String,
     @SerializedName("Email__c")
     val emailAddress: String? = null,
     @SerializedName("BillingAddress")
-    val billingAddress: BillingAddress? = null,
+    val billingAddress: BillingAddress,
     @SerializedName("Product_Plan_Name__c")
     val productPlanNameC: String? = null,
     @SerializedName("Product_Name__c")
     val productNameC: String? = null,
     @SerializedName("Service_Address__c")
-    val serviceCompleteAddress: String = "",
+    val serviceCompleteAddress: String? = null,
     @SerializedName("Service_City__c")
     val serviceCity: String? = null,
     @SerializedName("Service_Country__c")
@@ -53,19 +53,19 @@ data class AccountDetails(
 
 data class BillingAddress(
     @SerializedName("city")
-    val city: String? = null,
+    val city: String? = "",
     @SerializedName("country")
-    val country: String? = null,
+    val country: String? = "",
     @SerializedName("geocodeAccuracy")
-    val geocodeAccuracy: String? = null,
+    val geocodeAccuracy: String? = "",
     @SerializedName("latitude")
-    val latitude: String? = null,
+    val latitude: String? = "",
     @SerializedName("longitude")
-    val longitude: String? = null,
+    val longitude: String? = "",
     @SerializedName("postalCode")
-    val postalCode: String? = null,
+    val postalCode: String? = "",
     @SerializedName("state")
-    val state: String? = null,
+    val state: String? = "",
     @SerializedName("street")
-    val street: String? = null
+    val street: String? = ""
 ) : Serializable

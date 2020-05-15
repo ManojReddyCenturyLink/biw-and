@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/medium_margin_spacing"
+        android:paddingTop="@dimen/margin_spacing_small"
+        android:paddingEnd="@dimen/medium_margin_spacing"
+        android:paddingBottom="@dimen/margin_spacing_large"
+        >
+
+        <ImageView
+            android:id="@+id/billing_info_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:src="@drawable/checkbox_selector"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:fontFamily="@font/arial_mt"
+            android:text="@string/same_as_service_address"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/billing_info_checkbox"
+            app:layout_constraintStart_toEndOf="@id/billing_info_checkbox"
+            app:layout_constraintTop_toTopOf="@id/billing_info_checkbox"
+            />
+
+        <TextView
+            android:id="@+id/billing_info_first_name_label"
+            style="@style/TextViewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:text="@string/first_name"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/billing_info_checkbox"
+            />
+
+        <EditText
+            android:id="@+id/billing_info_first_name_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:background="@drawable/background_thin_border"
+            android:paddingStart="12dp"
+            tools:text="Deanthonee"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@+id/billing_info_last_name_input"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/billing_info_first_name_label"
+            />
+
+        <EditText
+            android:id="@+id/billing_info_last_name_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:background="@drawable/background_thin_border"
+            android:paddingStart="12dp"
+            tools:text="Greenfield"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/billing_info_first_name_input"
+            app:layout_constraintTop_toTopOf="@id/billing_info_first_name_input"
+            />
+
+        <TextView
+            android:id="@+id/billing_info_last_name_label"
+            style="@style/TextViewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/last_name"
+            app:layout_constraintStart_toStartOf="@id/billing_info_last_name_input"
+            app:layout_constraintTop_toTopOf="@id/billing_info_first_name_label"
+            />
+
+        <TextView
+            android:id="@+id/billing_info_apt_label"
+            style="@style/TextViewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:text="@string/apt_optional"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/billing_info_last_name_input"
+            />
+
+        <EditText
+            android:id="@+id/billing_info_apt_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/background_thin_border"
+            android:paddingStart="12dp"
+            android:text="123"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/billing_info_apt_label"
+            app:layout_constraintStart_toStartOf="@id/billing_info_apt_label"
+            app:layout_constraintTop_toBottomOf="@id/billing_info_apt_label"
+            />
+
+        <EditText
+            android:id="@+id/billing_info_street_address_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/background_thin_border"
+            android:paddingStart="12dp"
+            tools:text="5050 Broadway"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/billing_info_apt_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/billing_info_apt_input"
+            />
+
+        <TextView
+            android:id="@+id/billing_info_street_address_label"
+            style="@style/TextViewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/street_address"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/billing_info_apt_label"
+            />
+
+        <TextView
+            android:id="@+id/billing_info_zip_code_label"
+            style="@style/TextViewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:text="@string/zip_code"
+            app:layout_constraintStart_toStartOf="@id/billing_info_zipcode_input"
+            app:layout_constraintTop_toBottomOf="@id/billing_info_apt_input"
+            />
+
+
+        <EditText
+            android:id="@+id/billing_info_zipcode_input"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/background_thin_border"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            tools:text="60640"
+            android:maxLength="5"
+            android:inputType="number"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/billing_info_zip_code_label"
+            />
+
+        <EditText
+            android:id="@+id/billing_info_state_input"
+            android:layout_width="70dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/background_thin_border"
+            android:paddingStart="12dp"
+            tools:text="IL"
+            android:inputType="textCapCharacters"
+            android:maxLength="2"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/billing_info_zipcode_input"
+            app:layout_constraintTop_toTopOf="@id/billing_info_zipcode_input"
+            />
+
+        <TextView
+            android:id="@+id/billing_info_state_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/arial_mt"
+            android:text="@string/state"
+            android:textColor="@color/font_color_medium_grey"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/billing_info_state_input"
+            app:layout_constraintTop_toTopOf="@id/billing_info_zip_code_label"
+            />
+
+        <EditText
+            android:id="@+id/billing_info_city_input"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/background_thin_border"
+            android:paddingStart="12dp"
+            tools:text="Chicago"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/billing_info_state_input"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/billing_info_state_input"
+            />
+
+        <TextView
+            android:id="@+id/billing_info_city_label"
+            style="@style/TextViewLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/city"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/billing_info_state_label"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

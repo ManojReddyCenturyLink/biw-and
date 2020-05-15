@@ -8,7 +8,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber

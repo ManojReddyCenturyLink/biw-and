@@ -1,6 +1,6 @@
 package com.centurylink.biwf.di.activityinjector
 
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

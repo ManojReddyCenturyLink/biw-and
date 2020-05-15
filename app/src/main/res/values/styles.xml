@@ -67,4 +67,10 @@
         <item name="android:windowMinWidthMajor">95%</item>
         <item name="android:windowMinWidthMinor">95%</item>
     </style>
+
+    <style name="TextViewLabel">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/font_color_medium_grey</item>
+        <item name="fontFamily">@font/arial_mt</item>
+    </style>
 </resources>
