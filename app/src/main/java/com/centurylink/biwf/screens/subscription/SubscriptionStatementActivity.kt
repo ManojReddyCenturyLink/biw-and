@@ -81,6 +81,7 @@ class SubscriptionStatementActivity : BaseActivity() {
                 binding.subscriptionStatementTotalCost.text =
                     getString(R.string.cost_template, uiAccountInfo.totalCost)
                 binding.subscriptionStatementEmailContent.text = uiAccountInfo.email
+
             }
         }
     }

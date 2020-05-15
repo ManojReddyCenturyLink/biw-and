@@ -60,8 +60,8 @@ class SubscriptionStatementViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             uiStatementDetails = uiStatementDetails.copy(
-                paymentMethod = it.paymentMethodName ?: "visa *****2342",
-                billingAddress = ""
+                paymentMethod = it.paymentMethodName ?: "Visa ******* 2453",
+                billingAddress = formatBillingAddress(it) ?:formatServiceAddress(it)
             )
         }
     }
@@ -91,14 +91,24 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
-    private fun formatBillingAddress(accountDetails: AccountDetails): String {
+    private fun formatBillingAddress(accountDetails: AccountDetails): String? {
         return accountDetails.billingAddress!!.run {
             val billingAddressList: MutableList<String> = mutableListOf<String>()
             billingAddressList.add(street!!)
             billingAddressList.add(city!!)
             billingAddressList.add(state!!)
             billingAddressList.add(postalCode!!)
-            billingAddressList.add(country!!)
+            return@run billingAddressList.filterNotNull().joinToString(separator = ",")
+        }
+    }
+
+    private fun formatServiceAddress(accountDetails: AccountDetails): String? {
+        return accountDetails.run {
+            val billingAddressList: MutableList<String> = mutableListOf<String>()
+            billingAddressList.add(serviceStreet!!)
+            billingAddressList.add(serviceCity!!)
+            billingAddressList.add(serviceStateProvince!!)
+            billingAddressList.add(servicePostalCode!!)
             return@run billingAddressList.filterNotNull().joinToString(separator = ",")
         }
     }
