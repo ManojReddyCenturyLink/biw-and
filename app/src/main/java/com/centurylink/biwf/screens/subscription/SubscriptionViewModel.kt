@@ -69,7 +69,7 @@ class SubscriptionViewModel @Inject constructor(
                 billingAddress = billingAddress
             )
             uiFlowable.latestValue = uiSubscriptionPageObject
-            planName.latestValue = userAccount.productNameC ?: "Best in world Fiber "
+            planName.latestValue = userAccount.productNameC ?: "Best in World Fiber "
             planDetails.latestValue = userAccount.productPlanNameC ?: "Speeds up to 940Mbps "
             getInvoicesList()
         }

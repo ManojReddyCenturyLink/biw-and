@@ -24,7 +24,8 @@ class PersonalInfoViewModel @Inject constructor(
     private var confirmPasswordValue: String = ""
     private var phoneNumberValue: String = ""
 
-    val userPasswordFlow: Flow<String> = BehaviorStateFlow()
+    //val userPasswordFlow: Flow<String> = BehaviorStateFlow()
+    var userPasswordFlow = EventFlow<String>()
 
     fun callUpdatePasswordApi() {
         viewModelScope.launch {

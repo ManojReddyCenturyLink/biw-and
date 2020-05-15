@@ -120,7 +120,7 @@ class AccountViewModel @Inject constructor(
             name = accontDetails.name,
             serviceAddress1 = accontDetails.billingAddress?.street ?: "",
             serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
-            planName = accontDetails.productNameC ?: "Best in world Fiber",
+            planName = accontDetails.productNameC ?: "Best in World Fiber",
             planSpeed = accontDetails.productPlanNameC ?: "",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******", cellPhone = accontDetails.phone, homePhone = accontDetails.phone,

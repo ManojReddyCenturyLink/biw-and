@@ -70,9 +70,9 @@ class SubscriptionStatementViewModel @Inject constructor(
         paymentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-
-            val planCost: Double = it.planCostWithoutTax?.toDouble() ?: 0.0
-            val salesTaxCost: Double = it.salesTaxAmount?.toDouble() ?: 0.0
+            // QA Environment comes with $ value
+            val planCost: Double = it.planCostWithoutTax?.replace("$", "")?.toDouble() ?: 0.0
+            val salesTaxCost: Double = it.salesTaxAmount?.replace("$", "")?.toDouble() ?: 0.0
             val totalCost: Double = planCost + salesTaxCost
             uiStatementDetails = uiStatementDetails.copy(
                 planName = it.productPlanNameC ?: "Fiber Internet",
