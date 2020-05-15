@@ -15,9 +15,9 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SubscriptionCoordinator
 import com.centurylink.biwf.databinding.ActivitySubscriptionBinding
 import com.centurylink.biwf.model.account.RecordsItem
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
-import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
 import javax.inject.Inject
@@ -65,8 +65,12 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                     }
                 }
             }
-            planName.observe { binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it }
-            planDetails.observe { binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it }
+            planName.observe {
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it
+            }
+            planDetails.observe {
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it
+            }
         }
         prepareRecyclerView()
         initViews()
@@ -79,6 +83,22 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     override fun onPaymentListItemClick(item: RecordsItem) {
         subscriptionViewModel.launchStatement(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            SubscriptionStatementActivity.REQUEST_TO_STATEMENT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                }
+            }
+            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                }
+            }
+        }
     }
 
     private fun initViews() {
