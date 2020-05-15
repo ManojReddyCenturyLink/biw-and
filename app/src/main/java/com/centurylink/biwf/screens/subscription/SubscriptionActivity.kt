@@ -15,6 +15,7 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SubscriptionCoordinator
 import com.centurylink.biwf.databinding.ActivitySubscriptionBinding
 import com.centurylink.biwf.model.account.RecordsItem
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -37,18 +38,16 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySubscriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
         navigator.observe(this)
         subscriptionViewModel.apply {
+            errorMessageFlow.observe { displayToast(it) }
             myState.observeWith(subscriptionCoordinator)
             checkboxState.observe { binding.billingInfoWidget.billingInfoCheckbox.isActivated = it }
             uiFlowable.observe { uiObject ->
-
                 binding.apply {
-
                     paymentInfoWidget.apply {
                         paymentInfoFirstNameInput.setText(uiObject.paymentFirstName)
                         paymentInfoLastNameInput.setText((uiObject.paymentlastName))
@@ -56,7 +55,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                         paymentInfoExpirationInput.setText(uiObject.expirationDate)
                         paymentInfoCvvInput.setText(uiObject.cvv)
                     }
-
                     billingInfoWidget.apply {
                         billingInfoFirstNameInput.setText(uiObject.billingFirstName)
                         billingInfoLastNameInput.setText(uiObject.billingLastName)
@@ -67,8 +65,12 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                     }
                 }
             }
-            planName.observe { binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it }
-            planDetails.observe { binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it }
+            planName.observe {
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it
+            }
+            planDetails.observe {
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it
+            }
         }
         prepareRecyclerView()
         initViews()
@@ -81,6 +83,22 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     override fun onPaymentListItemClick(item: RecordsItem) {
         subscriptionViewModel.launchStatement(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            SubscriptionStatementActivity.REQUEST_TO_STATEMENT -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                }
+            }
+            CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                }
+            }
+        }
     }
 
     private fun initViews() {

@@ -43,9 +43,9 @@ class AccountViewModel @Inject constructor(
     private fun initApiCalls() {
         viewModelScope.launch {
             requestUserInfo()
-            getUserDetails()
-            getAccountInfo()
-            getContactInfo()
+            requestUserDetails()
+            requestAccountDetails()
+            requestContactInfo()
         }
     }
 
@@ -88,7 +88,7 @@ class AccountViewModel @Inject constructor(
         }) {}
     }
 
-    private suspend fun getUserDetails() {
+    private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
@@ -97,17 +97,16 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private suspend fun getAccountInfo() {
+    private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
             updateUIAccountDetailsFromAccounts(it)
-
         }
     }
 
-    private suspend fun getContactInfo() {
+    private suspend fun requestContactInfo() {
         val contactDetails = contactRepository.getContactDetails()
         contactDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
@@ -119,13 +118,22 @@ class AccountViewModel @Inject constructor(
     private fun updateUIAccountDetailsFromAccounts(accontDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             name = accontDetails.name,
-            serviceAddress = accontDetails.serviceCompleteAddress,
-            planName = accontDetails.productPlanNameC,
-            planSpeed = accontDetails.productPlanNameC,
+            serviceAddress1 = accontDetails.billingAddress?.street ?: "",
+            serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
+            planName = accontDetails.productNameC ?: "Best in World Fiber",
+            planSpeed = accontDetails.productPlanNameC ?: "",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******", cellPhone = accontDetails.phone, homePhone = accontDetails.phone,
             workPhone = accontDetails.phone, serviceCallsAndText = accontDetails.cellPhoneOptInC
         )
+    }
+
+
+    private fun formatServiceAddress2(accountDetails: AccountDetails): String? {
+        return accountDetails.billingAddress?.run {
+            val billingAddressList = listOf(city, state, postalCode, country)
+            billingAddressList.filterNotNull().joinToString(separator = ", ")
+        }
     }
 
     private fun updateUIAccountDetailsFromContacts(contactDetails: ContactDetails) {
@@ -146,7 +154,8 @@ class AccountViewModel @Inject constructor(
 
     data class UiAccountDetails(
         val name: String? = null,
-        val serviceAddress: String? = null,
+        val serviceAddress1: String? = null,
+        val serviceAddress2: String? = null,
         val planName: String? = null,
         val planSpeed: String? = null,
         val paymentDate: String? = null,

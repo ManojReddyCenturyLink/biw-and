@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 class SubscriptionViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
-    accountRepository: AccountRepository
+    private val accountRepository: AccountRepository
 ) : BaseViewModel() {
 
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
@@ -36,43 +36,46 @@ class SubscriptionViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
 
     init {
-        viewModelScope.launch {
-
-            val userAccountDetails = accountRepository.getAccountDetails()
-            userAccountDetails.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
-            }) {
-                userAccount = it
-                if (userAccount.billingAddress != null) {
-                    billingAddress = userAccount.billingAddress
-                    serviceAddressData = BillingAddress(
-                        street = userAccount.serviceStreet ?: billingAddress!!.street,
-                        city = userAccount.serviceCity ?: billingAddress!!.city,
-                        state = userAccount.serviceStateProvince ?: billingAddress!!.state,
-                        postalCode = userAccount.servicePostalCode ?: billingAddress!!.postalCode
-                    )
-                }
-                uiSubscriptionPageObject = uiSubscriptionPageObject.copy(
-                    paymentFirstName = userAccount.firstName,
-                    paymentlastName = userAccount.lastName,
-                    billingFirstName = userAccount.firstName,
-                    billingLastName = userAccount.lastName,
-                    billingAddress = billingAddress
-                )
-                uiFlowable.latestValue = uiSubscriptionPageObject
-                planName.latestValue = userAccount.productNameC ?: "Best in world Fiber "
-                planDetails.latestValue = userAccount.productPlanNameC?: "Speeds up to 940Mbps "
-                getInvoicesList()
-
-            }
-        }
-        mockPlanName()
+        initApis()
     }
 
-    private fun mockPlanName() {
-        //this is so that the ui doesnt show an empty plan and plan description. Will remove in near future
-        planName.latestValue = "Best in World Fiber"
-        planDetails.latestValue = "Speeds up to 940Mbps"
+    private fun initApis() {
+        viewModelScope.launch {
+            requestAccountDetails()
+            requestInvoiceList()
+        }
+    }
+
+    private suspend fun requestAccountDetails() {
+        val userAccountDetails = accountRepository.getAccountDetails()
+        userAccountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            userAccount = it
+            processAccountData()
+        }
+    }
+
+    private fun processAccountData() {
+        if (userAccount.billingAddress != null) {
+            billingAddress = userAccount.billingAddress!!
+            serviceAddressData = BillingAddress(
+                street = userAccount.serviceStreet ?: billingAddress.street,
+                city = userAccount.serviceCity ?: billingAddress.city,
+                state = userAccount.serviceStateProvince ?: billingAddress.state,
+                postalCode = userAccount.servicePostalCode ?: billingAddress.postalCode
+            )
+        }
+        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(
+            paymentFirstName = userAccount.firstName,
+            paymentlastName = userAccount.lastName,
+            billingFirstName = userAccount.firstName,
+            billingLastName = userAccount.lastName,
+            billingAddress = billingAddress
+        )
+        uiFlowable.latestValue = uiSubscriptionPageObject
+        planName.latestValue = userAccount.productNameC ?: "Best in World Fiber "
+        planDetails.latestValue = userAccount.productPlanNameC ?: "Speeds up to 940Mbps "
     }
 
     fun sameAsServiceAddressedClicked() {
@@ -90,8 +93,12 @@ class SubscriptionViewModel @Inject constructor(
     fun launchStatement(item: RecordsItem) {
         val bundle = Bundle()
         bundle.putString(
-            SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_TITLE,
+            SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_INVOICE_ID,
             item.id
+        )
+        bundle.putString(
+            SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_DATE,
+            item.createdDate
         )
         SubscriptionCoordinatorDestinations.bundle = bundle
         myState.latestValue = SubscriptionCoordinatorDestinations.STATEMENT
@@ -122,38 +129,39 @@ class SubscriptionViewModel @Inject constructor(
     }
 
     fun onStreetAddressChange(streetAddress: String) {
-        billingAddress = billingAddress!!.copy(street = streetAddress)
+        billingAddress = billingAddress.copy(street = streetAddress)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onCityChange(city: String) {
-        billingAddress = billingAddress!!.copy(city = city)
+        billingAddress = billingAddress.copy(city = city)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onStateChange(state: String) {
-        billingAddress = billingAddress!!.copy(state = state)
+        billingAddress = billingAddress.copy(state = state)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
     fun onZipCodeChange(zipCode: String) {
-        billingAddress = billingAddress!!.copy(postalCode = zipCode)
+        billingAddress = billingAddress.copy(postalCode = zipCode)
         uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
         uiFlowable.latestValue = uiSubscriptionPageObject
         checkboxState.latestValue = false
     }
 
-    private suspend fun getInvoicesList() {
-        try {
-            val paymentList = zuoraPaymentRepository.getInvoicesList()
-            invoicesListResponse.latestValue = paymentList
-        } catch (e: Throwable) {
+    private suspend fun requestInvoiceList() {
+        val paymentList = zuoraPaymentRepository.getInvoicesList()
+        paymentList.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            invoicesListResponse.latestValue = it
         }
     }
 
