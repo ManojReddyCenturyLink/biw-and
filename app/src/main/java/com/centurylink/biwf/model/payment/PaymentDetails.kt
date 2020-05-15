@@ -4,66 +4,63 @@ import com.google.gson.annotations.SerializedName
 
 class PaymentDetails(
     @SerializedName("Id")
-    val invoiceId: String = "",
-    @SerializedName("Account Email")
-    val accountEmail: String = "",
-    @SerializedName("Name")
-    val name: String = "",
+    val invoiceId: String? = null,
     @SerializedName("CreatedDate")
-    val createdDate: String = "",
+    val createdDate: String? = null,
     @SerializedName("CreatedById")
-    val createdById: String = "",
+    val createdById: String? = null,
     @SerializedName("LastModifiedDate")
-    val lastModifiedDate: String = "",
+    val lastModifiedDate: String? = null,
+
     @SerializedName("SystemModstamp")
-    val systemModStamp: String = "",
+    val systemModStamp: String? = null,
 
     @SerializedName("LastModifiedById")
-    val lastModifiedById: String = "",
+    val lastModifiedById: String? = null,
 
     @SerializedName("Product_Name__c")
-    val productNameC: String = "",
+    val productNameC: String? = null,
 
     @SerializedName("Product_Plan_Name__c")
-    val productPlanNameC: String = "",
+    val productPlanNameC: String? = null,
 
     @SerializedName("Zuora__PaymentMethod__c")
-    val zuoraPaymentMethod: String = "",
+    val zuoraPaymentMethod: String? = null,
 
     @SerializedName("Zuora__PaymentMethodId__c")
-    val zuoraPaymentMethodId: String = "",
+    val zuoraPaymentMethodId: String? = null,
 
     @SerializedName("ZAmountWithoutTax__c")
-    val planCostWithoutTax: String = "",
+    val planCostWithoutTax: String? = null,
 
     @SerializedName("Sales_Tax__c")
-    val salesTaxAmount: String = "",
+    val salesTaxAmount: String? = null,
 
     @SerializedName("Tax_Amount__c")
-    val taxAmount: String = "",
+    val taxAmount: String? = null,
 
     @SerializedName("ZTaxAmount__c")
-    val ZtaxAmount: String = "",
+    val ZtaxAmount: String? = null,
 
     @SerializedName("Amount_Without_Tax_Formula__c")
-    val amountWithoutTaxFormula: String = "",
+    val amountWithoutTaxFormula: String? = null,
 
     @SerializedName("Tax_Amount_Formula__c")
-    val taxAmountFormula: String = "",
+    val taxAmountFormula: String? = null,
 
     @SerializedName("Zuora__Invoice__c")
-    val ZuoraInvoicec: String = "",
+    val ZuoraInvoicec: String? = null,
 
     @SerializedName("Zuora__Amount__c")
-    val ZuoraAmountc: String = "",
+    val ZuoraAmountc: String? = null,
 
     @SerializedName("Zuora__CreatedDate__c")
-    val ZuoraCreatedDate: String = "",
+    val ZuoraCreatedDate: String? = null,
 
     @SerializedName("Zuora__RefundedAmount__c")
-    val zuoraRefundAmount: String = "",
+    val zuoraRefundAmount: String? = null,
 
     @SerializedName("Zuora__AppliedInvoiceAmount__c")
-    val zuoraAppliedInvoiceAmount: String = ""
+    val zuoraAppliedInvoiceAmount: String? = null
 
 )

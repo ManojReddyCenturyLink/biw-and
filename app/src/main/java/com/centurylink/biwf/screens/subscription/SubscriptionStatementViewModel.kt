@@ -26,13 +26,15 @@ class SubscriptionStatementViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
     var uiStatementDetails = UiStatementDetails()
     var invoicedId: String? = null
+    var processedDate: String? = null
 
     init {
         initAPiCalls()
     }
 
-    fun setInvoiceId(invoiced: String) {
+    fun setInvoiceDetails(invoiced: String?, process: String?) {
         invoicedId = invoiced
+        processedDate = process
     }
 
     private fun initAPiCalls() {
@@ -40,7 +42,6 @@ class SubscriptionStatementViewModel @Inject constructor(
             getUserDetails()
             getAccountInformation()
             getPaymentInformation()
-            getBillingInformation()
         }
     }
 
@@ -59,8 +60,8 @@ class SubscriptionStatementViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             uiStatementDetails = uiStatementDetails.copy(
-                planName = it.productPlanNameC,
-                billingAddress = formatBillingAddress(it)
+                paymentMethod = it.paymentMethodName ?: "visa *****2342",
+                billingAddress = ""
             )
         }
     }
@@ -71,6 +72,13 @@ class SubscriptionStatementViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
 
+            uiStatementDetails = uiStatementDetails.copy(
+                planName = it.productPlanNameC ?: "Fiber Internet",
+                successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
+                planCost = it.planCostWithoutTax ?: "100.0",
+                salesTaxCost = it.salesTaxAmount ?: "0.0",
+                totalCost = it.planCostWithoutTax ?: "100.0"
+            )
         }
     }
 
@@ -83,15 +91,15 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
-    private fun formatBillingAddress(billDetails: AccountDetails): String {
-        return billDetails.billingAddress!!.run {
+    private fun formatBillingAddress(accountDetails:  AccountDetails): String {
+        return accountDetails.billingAddress!!.run {
             val billingAddressList: MutableList<String> = mutableListOf<String>()
             billingAddressList.add(street!!)
             billingAddressList.add(city!!)
             billingAddressList.add(state!!)
             billingAddressList.add(postalCode!!)
             billingAddressList.add(country!!)
-            return@run billingAddressList.filterNotNull().joinToString(separator = " , ")
+            return@run billingAddressList.filterNotNull().joinToString(separator = ",")
         }
     }
 

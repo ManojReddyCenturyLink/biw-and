@@ -17,6 +17,7 @@ import com.centurylink.biwf.databinding.ActivitySubscriptionBinding
 import com.centurylink.biwf.model.account.RecordsItem
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
+import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
 import javax.inject.Inject
@@ -37,18 +38,16 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         binding = ActivitySubscriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
         navigator.observe(this)
         subscriptionViewModel.apply {
+            errorMessageFlow.observe { displayToast(it) }
             myState.observeWith(subscriptionCoordinator)
             checkboxState.observe { binding.billingInfoWidget.billingInfoCheckbox.isActivated = it }
             uiFlowable.observe { uiObject ->
-
                 binding.apply {
-
                     paymentInfoWidget.apply {
                         paymentInfoFirstNameInput.setText(uiObject.paymentFirstName)
                         paymentInfoLastNameInput.setText((uiObject.paymentlastName))
@@ -56,7 +55,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                         paymentInfoExpirationInput.setText(uiObject.expirationDate)
                         paymentInfoCvvInput.setText(uiObject.cvv)
                     }
-
                     billingInfoWidget.apply {
                         billingInfoFirstNameInput.setText(uiObject.billingFirstName)
                         billingInfoLastNameInput.setText(uiObject.billingLastName)
