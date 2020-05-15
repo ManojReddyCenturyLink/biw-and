@@ -4,6 +4,7 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.PaymentList
+import com.centurylink.biwf.model.payment.PaymentDetails
 import com.centurylink.biwf.service.network.ZuoraPaymentService
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
@@ -28,8 +29,8 @@ class ZuoraPaymentRepository @Inject constructor(
         return result.mapLeft { it.message?.message.toString() }
     }
 
-    suspend fun getPaymentInformation(invoiceId: String): Either<String, AccountDetails> {
-        val result: FiberServiceResult<AccountDetails> =
+    suspend fun getPaymentInformation(invoiceId: String): Either<String, PaymentDetails> {
+        val result: FiberServiceResult<PaymentDetails> =
             zuoraPaymentService.getPaymentDetails(invoiceId)
         return result.mapLeft { it.message?.message.toString() }
     }

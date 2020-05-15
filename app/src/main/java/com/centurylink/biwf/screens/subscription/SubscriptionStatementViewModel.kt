@@ -69,7 +69,9 @@ class SubscriptionStatementViewModel @Inject constructor(
         val paymentDetails = zuoraPaymentRepository.getPaymentInformation(invoicedId!!)
         paymentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
-        }) {}
+        }) {
+
+        }
     }
 
     private suspend fun getBillingInformation() {
