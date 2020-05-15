@@ -80,11 +80,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_22"
-                android:layout_marginBottom="5dp"
                 android:fontFamily="@font/arial_mt"
                 android:text="@string/statement_payment_email"
                 android:textColor="@color/text_label_color"
                 android:textSize="@dimen/text_size_16"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/subscription_statement_email_content"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_payment_method_content" />
 
