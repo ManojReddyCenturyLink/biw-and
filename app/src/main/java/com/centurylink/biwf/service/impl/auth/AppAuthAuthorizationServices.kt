@@ -25,6 +25,7 @@ import net.openid.appauth.AuthorizationServiceConfiguration
 import net.openid.appauth.TokenRequest
 import net.openid.appauth.TokenResponse
 import org.json.JSONObject
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -82,15 +83,19 @@ class AppAuthAuthService(
             if (authorizationException == null) {
                 androidIntent.parseResponse(config.clientId)
             } else {
+                Timber.e(authorizationException)
                 AuthorizationResponse.fromIntent(androidIntent) to null
             }
 
-        tokenStorage.state =
-            if (authorizationResponse != null) AuthState(authorizationResponse, tokenResponse, null)
-            else AuthState(null, authorizationException)
+        tokenStorage.state = when {
+            authorizationResponse != null && tokenResponse != null ->
+                AuthState(authorizationResponse, tokenResponse, null)
+            else ->
+                AuthState(authorizationResponse, authorizationException)
+        }
 
         return when {
-            authorizationException != null -> throw authorizationException
+            authorizationException != null -> AuthResponseType.ERROR
             tokenResponse != null -> AuthResponseType.AUTHORIZED
             authorizationResponse != null -> authorizationResponse.handleSuccessfulAuthRedirect()
             else -> throw Error("Should not happen")
@@ -105,16 +110,19 @@ class AppAuthAuthService(
             tokenStorage.currentPolicy = newPolicy
         }
 
-        with(AuthorizationService(host.hostContext)) {
+        return with(AuthorizationService(host.hostContext)) {
             try {
                 val params = tokenStorage.createPolicyParam() + config.extraParams
                 val request = createTokenExchangeRequest(params)
                 executeTokenRequest(request)
+                AuthResponseType.AUTHORIZED
+            } catch (e: Throwable) {
+                Timber.e(e)
+                AuthResponseType.ERROR
             } finally {
                 dispose()
             }
         }
-        return AuthResponseType.AUTHORIZED
     }
 
     private suspend fun executeAuthRequest(policy: String, login: Boolean) {

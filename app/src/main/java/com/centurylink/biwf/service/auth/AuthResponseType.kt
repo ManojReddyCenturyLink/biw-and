@@ -17,6 +17,10 @@ enum class AuthResponseType {
      */
     CANCELLED,
     /**
+     * An authorization error took place.
+     */
+    ERROR,
+    /**
      * Some unknown redirect-url successfully somehow managed to return a proper response.
      * Still, the response is unexpected and unknown.
      */
