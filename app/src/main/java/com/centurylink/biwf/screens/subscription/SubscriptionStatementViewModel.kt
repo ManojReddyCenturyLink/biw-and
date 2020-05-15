@@ -71,7 +71,6 @@ class SubscriptionStatementViewModel @Inject constructor(
         paymentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-
             uiStatementDetails = uiStatementDetails.copy(
                 planName = it.productPlanNameC ?: "Fiber Internet",
                 successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
@@ -79,6 +78,7 @@ class SubscriptionStatementViewModel @Inject constructor(
                 salesTaxCost = it.salesTaxAmount ?: "0.0",
                 totalCost = it.planCostWithoutTax ?: "100.0"
             )
+            statementDetailsInfo.latestValue = uiStatementDetails
         }
     }
 
@@ -91,7 +91,7 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
-    private fun formatBillingAddress(accountDetails:  AccountDetails): String {
+    private fun formatBillingAddress(accountDetails: AccountDetails): String {
         return accountDetails.billingAddress!!.run {
             val billingAddressList: MutableList<String> = mutableListOf<String>()
             billingAddressList.add(street!!)

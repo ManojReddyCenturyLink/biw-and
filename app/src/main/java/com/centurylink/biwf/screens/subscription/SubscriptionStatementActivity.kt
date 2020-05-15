@@ -42,7 +42,7 @@ class SubscriptionStatementActivity : BaseActivity() {
             ), intent.getStringExtra(SUBSCRIPTION_STATEMENT_DATE)
         )
         initHeaders()
-        // observeViews()
+         observeViews()
     }
 
     override fun onBackPressed() {
@@ -80,9 +80,7 @@ class SubscriptionStatementActivity : BaseActivity() {
                     getString(R.string.cost_template, uiAccountInfo.salesTaxCost)
                 binding.subscriptionStatementTotalCost.text =
                     getString(R.string.cost_template, uiAccountInfo.totalCost)
-                binding.subscriptionStatementBillingAddressContent.text =
-                    uiAccountInfo.billingAddress
-                binding.subscriptionStatementEmailContent.text = ""
+                binding.subscriptionStatementEmailContent.text = uiAccountInfo.email
             }
         }
     }

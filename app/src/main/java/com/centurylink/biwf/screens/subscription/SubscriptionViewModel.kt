@@ -42,6 +42,7 @@ class SubscriptionViewModel @Inject constructor(
     private fun initApis() {
         viewModelScope.launch {
             getAccountDetails()
+            getInvoicesList()
         }
     }
 
