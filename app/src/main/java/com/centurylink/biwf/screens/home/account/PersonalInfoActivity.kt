@@ -41,10 +41,6 @@ class PersonalInfoActivity : BaseActivity() {
         initTextWatchers()
     }
 
-    /* Disable hardware back button */
-    override fun onBackPressed() {
-    }
-
     private fun initViews() {
         val screenTitle: String = getString(R.string.personal_info)
         val fm = supportFragmentManager
