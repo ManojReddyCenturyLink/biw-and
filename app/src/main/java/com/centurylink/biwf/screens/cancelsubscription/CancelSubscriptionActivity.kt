@@ -79,6 +79,9 @@ class CancelSubscriptionActivity : BaseActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     setResult(RESULT_OK)
                     finish()
+                }else if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT){
+                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
+                    finish()
                 }
             }
         }
