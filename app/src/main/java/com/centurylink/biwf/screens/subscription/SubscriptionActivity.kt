@@ -16,6 +16,7 @@ import com.centurylink.biwf.coordinators.SubscriptionCoordinator
 import com.centurylink.biwf.databinding.ActivitySubscriptionBinding
 import com.centurylink.biwf.model.account.RecordsItem
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -95,6 +96,9 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             }
             CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION -> {
                 if (resultCode == Activity.RESULT_OK) {
+                    finish()
+                } else if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
+                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
                     finish()
                 }
             }

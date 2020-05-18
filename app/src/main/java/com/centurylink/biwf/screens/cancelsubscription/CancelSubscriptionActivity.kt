@@ -14,7 +14,7 @@ import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
 import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import java.text.DateFormat
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 class CancelSubscriptionActivity : BaseActivity() {
@@ -78,6 +78,9 @@ class CancelSubscriptionActivity : BaseActivity() {
             CancelSubscriptionDetailsActivity.REQUEST_TO_CANCEL_SUBSCRIPTION -> {
                 if (resultCode == Activity.RESULT_OK) {
                     setResult(RESULT_OK)
+                    finish()
+                } else if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
+                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
                     finish()
                 }
             }
