@@ -27,10 +27,8 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     @Inject
     lateinit var subscriptionCoordinator: SubscriptionCoordinator
-
     @Inject
     lateinit var factory: DaggerViewModelFactory
-
     @Inject
     lateinit var navigator: Navigator
     private val subscriptionViewModel by lazy {
