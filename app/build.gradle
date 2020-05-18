@@ -108,10 +108,6 @@ dependencies {
     //Gson
     implementation "com.google.code.gson:gson:$gsonVersion"
 
-    //RX java
-    implementation "io.reactivex.rxjava3:rxandroid:$rxJavaVersion"
-    implementation "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
-
     //LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$androidxLifecycleVersion"
