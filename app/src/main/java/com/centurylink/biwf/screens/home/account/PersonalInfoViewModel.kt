@@ -5,16 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinatorDestinations
 import com.centurylink.biwf.repos.UserRepository
-import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.CoroutineContextProvider
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.EventFlow
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PersonalInfoViewModel @Inject constructor(
-    private val userRepository: UserRepository
-) : BaseViewModel() {
+    private val userRepository: UserRepository,
+    private val coroutineContextProvider: CoroutineContextProvider
+    ) : BaseViewModel() {
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
     var error: MutableLiveData<Errors> = MutableLiveData()
@@ -26,7 +26,7 @@ class PersonalInfoViewModel @Inject constructor(
     private var phoneNumberValue: String = ""
 
     fun callUpdatePasswordApi() {
-        viewModelScope.launch {
+        viewModelScope.launch(coroutineContextProvider.IO) {
             val res = userRepository.resetPassWord(passwordValue)
             userPasswordFlow.latestValue = res
         }
