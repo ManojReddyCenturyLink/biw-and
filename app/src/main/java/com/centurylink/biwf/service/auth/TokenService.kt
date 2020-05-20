@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.auth
 
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -40,6 +41,12 @@ interface TokenService {
  * subscribers.
  */
 suspend fun TokenService.getAccessToken(): String = accessTokenGenerator.generate(tokenStorage)
+
+/**
+ * A Flow that emits a value each time the current logged-in-state changes from
+ * having a Token (`true` is emitted) to not having one (`false` is emitted).
+ */
+val TokenService.hasToken: Flow<Boolean> get() = tokenStorage.hasToken
 
 /**
  * Returns the value of an "Authorization" header. It is either empty, if authorization failed
