@@ -23,6 +23,7 @@ This document describes the setup and patterns used by this project implementing
   - [Packages](#packages)
   - [Third Party Libraries](#third-party-libraries)
 - [Style Guidelines](#style-guidelines)
+- [Notes](#notes)
 
 ## Building
 Building this project locally on a development environment does not need any special configuration. Import the project into Android Studio and let it sync. A plain build after that is enough.
@@ -148,6 +149,9 @@ class InvoiceViewModel(   ): BaseViewModel() {
     }
 }
 ```
+In most cases, there are two types of `Flow`s for a ViewModel's observable property:
+- For **Data** to render on the screen: A `Flow` backed by a `BehaviorFlow`
+- For (navigation) **Events**: An `EventFlow`.
 
 #### Railway Oriented Programming
 
@@ -303,4 +307,9 @@ Common UI elements and components.
 - Before committing, be sure to do a '*Reformat Code*' and '*Optimize Imports*'.  
  Sometimes, a reformatting of code can produce some odd line breaks. Fix those and and do '*Reformat Code*' again.
 - Unit Testing  
- Avoid mocking (MockK) if you can and use fakes instead (provide your own test/dummy implementations of dependent interfaces). Reserve mocks only for services and other edge-of-the-world classes and components that can't be easily faked.
+ Avoid mocking (MockK) if you can and use fakes instead (provide your own test/dummy implementations of dependent interfaces). Reserve mocks only for services and other edge-of-the-world classes and components that can't be easily faked and for verifying behavior.
+
+## Notes
+We did not include the library for Functional Programming for Kotlin called **Arrow**. Currently, we only use the sum-type `Either` and including the Arrow library would bring in too much code. Instead, we opted to implemented our own version of `Either`, closely matching the one from Arrow.
+
+This README.md document is a living document and it is only a guideline. When things change, are re-thought, please don't forget to update this document as well to make our devs' lives a little easier. Thank you!
