@@ -48,5 +48,4 @@ class ZuoraPaymentServiceTest : BaseServiceTest() {
         val posts: FiberServiceResult<PaymentDetails> = zuoraService.getPaymentDetails("12233")
         Assert.assertEquals(posts.mapLeft { it.status }, Either.Left(0))
     }
-
 }
