@@ -5,15 +5,13 @@
 <androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/margin_42"
-    app:cardCornerRadius="@dimen/margin_spacing_tiny">
+    app:cardCornerRadius="@dimen/margin_spacing_small">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/appointment_status_installation_details"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/margin_spacing_small"
-        android:background="@color/grey_light"
         app:layout_constraintStart_toStartOf="parent">
 
         <TextView
@@ -21,7 +19,7 @@
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:text="@string/fiber_installation_status"
-            android:textColor="@android:color/black"
+            android:textColor="@color/blue_dark"
             android:textSize="@dimen/text_size_16"
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/appointment_status_progress_bar"
@@ -56,6 +54,7 @@
             android:id="@+id/appointment_date_time_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="@dimen/padding_0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appointment_status_progress_state"
@@ -66,16 +65,17 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/grey_card_bg"
+                android:background="@drawable/blue_background_rounded_corner"
                 android:padding="@dimen/margin_spacing_small"
+                android:layout_marginBottom="@dimen/margin_spacing_small"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
                     android:id="@+id/appointment_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="4/12/2020"
-                    android:textColor="@android:color/white"
+                    android:text="Apr. 4th 2020"
+                    android:textColor="@color/blue"
                     android:textSize="48sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -87,7 +87,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_really_small"
-                    android:textColor="@color/grey_light"
+                    android:textColor="@color/blue"
                     android:text="@string/text_time_details"
                     android:textSize="@dimen/text_size_12"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -96,16 +96,35 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/appointment_change_link"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/appointment_change_btn"
+            android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/height_20"
-            android:layout_marginBottom="@dimen/spacing_3"
+            style="?android:attr/borderlessButtonStyle"
             android:text="@string/change_installation_appointment"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/extra_small_text_size"
+            android:background="@drawable/button_thin_border_background"
+            android:gravity="center"
+            android:layout_marginEnd="@dimen/margin_spacing_small"
+            app:layout_constraintEnd_toStartOf="@+id/appointment_cancel_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/appointment_date_time_card" />
+
+        <Button
+            android:id="@+id/appointment_cancel_btn"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="@dimen/padding_0"
+            style="?android:attr/borderlessButtonStyle"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/extra_small_text_size"
+            android:background="@drawable/button_thin_border_background"
+            android:gravity="center"
+            android:text="@string/cancel_installation_appointment"
+            app:layout_constraintStart_toEndOf="@+id/appointment_change_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/appointment_date_time_card" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
