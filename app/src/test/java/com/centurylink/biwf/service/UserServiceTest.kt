@@ -24,12 +24,12 @@ class UserServiceTest : BaseServiceTest() {
 
     @Test
     fun testGetUserInfoSuccess() = runBlocking {
-        enqueueResponse("account.json")
+        enqueueResponse("user.json")
         val posts: FiberServiceResult<UserInfo> = userService.qetUserInfo()
-        Assert.assertEquals(posts.map { it.recentItems.get(0).Id }, Either.Right("James Cameroon"))
+        Assert.assertEquals(posts.map { it.recentItems.get(0).Id }, Either.Right("Pravin Kumar"))
         Assert.assertEquals(
             posts.map { it.recentItems.get(0).name },
-            Either.Right("001q000001GZ900AAD")
+            Either.Right("005f0000004654oAAA")
         )
     }
 
@@ -47,10 +47,10 @@ class UserServiceTest : BaseServiceTest() {
 
     @Test
     fun testGetUsercompleteDetailsSuccess() = runBlocking {
-        enqueueResponse("user.json")
+        enqueueResponse("userdetails.json")
         val posts: FiberServiceResult<UserDetails> = userService.getCompleteUserDetails("1234444")
-        Assert.assertEquals(posts.map { it.Id }, Either.Right("005f0000004654oAAA"))
-        Assert.assertEquals(posts.map { it.email }, Either.Right("pravin.kumar@accenture.com"))
+        Assert.assertEquals(posts.map { it.contactId }, Either.Right("003f000001Q5bRAAAZ"))
+        Assert.assertEquals(posts.map { it.accountId }, Either.Right("001f000001RCofwAAD"))
     }
 
     @Test
