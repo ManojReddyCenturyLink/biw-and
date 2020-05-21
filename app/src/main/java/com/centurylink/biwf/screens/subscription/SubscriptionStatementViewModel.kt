@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.subscription
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
@@ -41,6 +42,7 @@ class SubscriptionStatementViewModel @Inject constructor(
             requestUserDetails()
             requestAccountDetails()
             requestPaymentInformation()
+            requestSubscriptionInformation()
         }
     }
 
@@ -82,6 +84,16 @@ class SubscriptionStatementViewModel @Inject constructor(
                 totalCost = String.format("%.1f", totalCost)
             )
             statementDetailsInfo.latestValue = uiStatementDetails
+        }
+    }
+
+    private suspend fun requestSubscriptionInformation() {
+        val paymentDetails = zuoraPaymentRepository.getSubscription()
+        paymentDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+            Log.i("JAMMY","PAYMENT  ERROR"+it)
+        }) {
+           Log.i("JAMMY","PAYMENT "+it)
         }
     }
 

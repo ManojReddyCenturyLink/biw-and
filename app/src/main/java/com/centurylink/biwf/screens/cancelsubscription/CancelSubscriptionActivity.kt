@@ -11,7 +11,6 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
-import com.centurylink.biwf.screens.subscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import java.text.DateFormat
 import java.util.*
@@ -38,12 +37,10 @@ class CancelSubscriptionActivity : BaseActivity() {
         navigator.observe(this)
 
         cancelSubscriptionModel.apply {
-            cancelSubscriptionDate.handleEvent { displayCancellationValidity(it) }
+            cancelSubscriptionDate.observe { displayCancellationValidity(it.subscriptionEndDate!!) }
         }
         cancelSubscriptionModel.myState.observeWith(cancelSubscriptionCoordinator)
-
         initHeaders()
-        cancelSubscriptionModel.getCancellationValidity()
     }
 
     override fun onBackPressed() {
@@ -66,10 +63,9 @@ class CancelSubscriptionActivity : BaseActivity() {
     }
 
     @SuppressLint("StringFormatInvalid")
-    private fun displayCancellationValidity(date: Date) {
-        val validityDate = DateFormat.getDateInstance(DateFormat.LONG).format(date)
+    private fun displayCancellationValidity(date: String) {
         binding.cancelSubscriptionContent.text =
-            getString(R.string.manage_subscription_content, validityDate)
+            getString(R.string.manage_subscription_content, date)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

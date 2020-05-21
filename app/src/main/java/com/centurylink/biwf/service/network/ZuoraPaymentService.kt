@@ -14,4 +14,7 @@ interface ZuoraPaymentService {
 
     @GET("sobjects/Zuora__Payment__c/{invoice-id}")
     suspend fun getPaymentDetails(@Path("invoice-id") id: String): FiberServiceResult<PaymentDetails>
+
+    @GET("query/")
+    suspend fun getSubscriptionDetails(@Query("q") id: String): FiberServiceResult<PaymentList>
 }
