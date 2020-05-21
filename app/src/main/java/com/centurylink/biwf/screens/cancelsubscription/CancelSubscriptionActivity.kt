@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.cancelsubscription
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -12,8 +11,6 @@ import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityCancelSubscriptionBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import java.text.DateFormat
-import java.util.*
 import javax.inject.Inject
 
 class CancelSubscriptionActivity : BaseActivity() {
@@ -35,7 +32,6 @@ class CancelSubscriptionActivity : BaseActivity() {
         binding = ActivityCancelSubscriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.observe(this)
-
         cancelSubscriptionModel.apply {
             cancelSubscriptionDate.observe { displayCancellationValidity(it.subscriptionEndDate!!) }
         }
@@ -48,7 +44,7 @@ class CancelSubscriptionActivity : BaseActivity() {
     }
 
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.cancel_subscription_title)
+        val screenTitle: String = getString(R.string.cancel_subscription_title)
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener { finish() }
@@ -62,7 +58,6 @@ class CancelSubscriptionActivity : BaseActivity() {
             .setOnClickListener { cancelSubscriptionModel.onNavigateToCancelSubscriptionDetails() }
     }
 
-    @SuppressLint("StringFormatInvalid")
     private fun displayCancellationValidity(date: String) {
         binding.cancelSubscriptionContent.text =
             getString(R.string.manage_subscription_content, date)
