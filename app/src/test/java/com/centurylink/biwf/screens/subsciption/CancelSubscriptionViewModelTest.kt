@@ -2,7 +2,6 @@ package com.centurylink.biwf.screens.subsciption
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.centurylink.biwf.ViewModelBaseTest
-import com.centurylink.biwf.repos.CancelSubscriptionRepository
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.testutils.event
 import io.mockk.every

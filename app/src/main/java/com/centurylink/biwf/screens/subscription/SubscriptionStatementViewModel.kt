@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.subscription
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
@@ -78,7 +77,8 @@ class SubscriptionStatementViewModel @Inject constructor(
             val totalCost: Double = planCost + salesTaxCost
             uiStatementDetails = uiStatementDetails.copy(
                 planName = it.productPlanNameC ?: "Fiber Internet",
-                successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
+                successfullyProcessed = DateUtils.formatInvoiceDate(
+                    processedDate!!),
                 planCost = String.format("%.1f", planCost),
                 salesTaxCost = String.format("%.1f", salesTaxCost),
                 totalCost = String.format("%.1f", totalCost)
@@ -91,9 +91,7 @@ class SubscriptionStatementViewModel @Inject constructor(
         val paymentDetails = zuoraPaymentRepository.getSubscription()
         paymentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
-            Log.i("JAMMY","PAYMENT  ERROR"+it)
         }) {
-           Log.i("JAMMY","PAYMENT "+it)
         }
     }
 

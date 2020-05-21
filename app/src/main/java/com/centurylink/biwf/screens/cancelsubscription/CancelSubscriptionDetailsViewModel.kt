@@ -1,14 +1,25 @@
 package com.centurylink.biwf.screens.cancelsubscription
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.repos.CancelSubscriptionDetailsRepository
+import com.centurylink.biwf.repos.CaseRepository
+import com.centurylink.biwf.repos.CaseRepository_Factory
+import com.centurylink.biwf.screens.home.account.AccountViewModel
+import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 class CancelSubscriptionDetailsViewModel @Inject constructor(
-    private val cancelSubscriptionDetailsRepository: CancelSubscriptionDetailsRepository
+    private val cancelSubscriptionDetailsRepository: CancelSubscriptionDetailsRepository,
+    private val caseRepository: CaseRepository
+
 ) : BaseViewModel() {
 
     private var cancellationDate: Date? = null
@@ -16,6 +27,10 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
     private var cancellationComments: String = ""
+    private var caseId:String=""
+
+    val caseDetailsInfo: Flow<Cases> = BehaviorStateFlow()
+    var errorMessageFlow = EventFlow<String>()
 
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
 
@@ -26,6 +41,16 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     val errorEvents: EventLiveData<String> = MutableLiveData()
 
     val displayReasonSelectionEvent: EventLiveData<Boolean> = MutableLiveData()
+
+    init {
+        initApis()
+    }
+
+    private fun initApis(){
+        viewModelScope.launch {
+
+        }
+    }
 
     fun onRatingChanged(rating: Float) {
         ratingValue = rating
@@ -65,10 +90,25 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         }
     }
 
-    fun performCancellationCall() {
-        cancelSubscriptionDetailsRepository.submitCancellation(
-            cancellationDate!!,
-            cancellationReason!!, ratingValue!!, cancellationComments!!
-        )
+    suspend fun requestCaseId(){
+        val caseDetails = caseRepository.getCaseId()
+        caseDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            caseId =it.caseRecentItems[0].caseNumber?:""
+        }
+    }
+
+    fun performCancellationRequest() {
+        viewModelScope.launch {
+            requestCaseId()
+            caseRepository.createDeactivationRequest(
+                cancellationDate!!,
+                cancellationReason,
+                cancellationReasonExplanation,
+                ratingValue!!,
+                cancellationComments,caseId!!
+            )
+        }
     }
 }

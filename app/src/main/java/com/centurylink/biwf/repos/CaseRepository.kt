@@ -1,10 +1,14 @@
 package com.centurylink.biwf.repos
 
+import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.CaseCreate
+import com.centurylink.biwf.model.cases.CaseResponse
+import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.service.network.CaseApiService
 import com.centurylink.biwf.utility.preferences.Preferences
-
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,15 +19,38 @@ class CaseRepository @Inject constructor(
 ) {
 
     private fun getAccountId(): String? {
-        return preferences.getValueByID(com.centurylink.biwf.utility.preferences.Preferences.ACCOUNT_ID)
+        return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
-    suspend fun setServiceCallsAndTexts(callValue: Boolean): String {
-        val caseCreate = CaseCreate()
-        val result: FiberServiceResult<Unit> = caseApiService.submitCaseForSubscription(caseCreate)
-        return result.fold(
-            ifLeft = { it.message?.message.toString() },
-            ifRight = { "" }
+    private fun getContactId(): String? {
+        return preferences.getValueByID(Preferences.CONTACT_ID)
+    }
+
+    private fun toSimpleString(date: Date): String {
+        val format = SimpleDateFormat("yyyy-MM-dd")
+        return format.format(date)
+    }
+
+    suspend fun createDeactivationRequest(
+        cancellationDate: Date?, cancellationReason: String?, cancellationReasonExpln: String?,
+        rating: Float?, comments: String?, caseId: String?
+    ): Either<String, CaseResponse> {
+        val caseCreate = CaseCreate(
+            accountId = getAccountId() ?: "", contactId = getContactId() ?: "",
+            cancellationReason = cancellationReason ?: "",
+            cancelReasonComments = cancellationReasonExpln ?: "",
+            cancellationDateHolder = toSimpleString(cancellationDate!!),
+            notes = comments ?: "",
+            experience = String.format("%.0f", rating),
+            recordTypeId = caseId ?: ""
         )
+        val result: FiberServiceResult<CaseResponse> =
+            caseApiService.submitCaseForSubscription(caseCreate)
+        return result.mapLeft { it.message?.message.toString() }
+    }
+
+    suspend fun getCaseId(): Either<String, Cases> {
+        val result: FiberServiceResult<Cases> = caseApiService.getCaseNumber()
+        return result.mapLeft { it.message?.message.toString() }
     }
 }
