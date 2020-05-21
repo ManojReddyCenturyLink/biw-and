@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class SubscriptionStatementViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val billingRepository: BillingRepository,
     private val userRepository: UserRepository,
     private val zuoraPaymentRepository: ZuoraPaymentRepository
 ) : BaseViewModel() {
@@ -76,9 +75,7 @@ class SubscriptionStatementViewModel @Inject constructor(
             val totalCost: Double = planCost + salesTaxCost
             uiStatementDetails = uiStatementDetails.copy(
                 planName = it.productPlanNameC ?: "Fiber Internet",
-                successfullyProcessed = DateUtils.formatInvoiceDate(
-                    processedDate!!
-                ),
+                successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
                 planCost = String.format("%.1f", planCost),
                 salesTaxCost = String.format("%.1f", salesTaxCost),
                 totalCost = String.format("%.1f", totalCost)
