@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.home.account
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.repos.UserRepository
-import com.centurylink.biwf.utility.CoroutineContextProvider
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.TestCoroutineRule
 import io.mockk.impl.annotations.MockK
@@ -23,15 +22,12 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
     @get:Rule
     var coroutinesTestRule = TestCoroutineRule()
 
-    private val coroutineContextProvider: CoroutineContextProvider = CoroutineContextProvider()
-
     var error: MutableLiveData<Errors> = MutableLiveData()
 
     @Before
     fun setup() {
         viewModel = PersonalInfoViewModel(
-            userRepository = mockUserRepository,
-            coroutineContextProvider = coroutineContextProvider
+            userRepository = mockUserRepository
         )
     }
 
@@ -89,9 +85,6 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
         )
     }
 
-    /*
-    * Added test method to check coroutine methods
-    * */
     @Test
     fun onDoneClick_correctPasswordDetailsSubmit_navigateToAccountScreen() =
         runBlockingTest {

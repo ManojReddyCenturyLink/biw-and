@@ -12,17 +12,16 @@ import org.junit.runner.Description
  * Test Rule For testing coroutine methods
  */
 @ExperimentalCoroutinesApi
-class TestCoroutineRule(val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()) :
+class TestCoroutineRule() :
     TestWatcher() {
 
     override fun starting(description: Description?) {
         super.starting(description)
-        Dispatchers.setMain(testDispatcher)
+        Dispatchers.setMain(Dispatchers.Unconfined)
     }
 
     override fun finished(description: Description?) {
         super.finished(description)
         Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
     }
 }
