@@ -1,10 +1,8 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.CaseCreate
-import com.centurylink.biwf.model.cases.CaseResponse
 import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.service.network.CaseApiService
 import com.centurylink.biwf.utility.preferences.Preferences
