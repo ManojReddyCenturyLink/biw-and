@@ -26,6 +26,13 @@ interface AuthService<S> {
     suspend fun launchLogoutFlow()
 
     /**
+     * Call this method to revoke the refresh-token on behalf of the client.
+     *
+     * This method returns true if the refresh-token has been successfully revoked.
+     */
+    suspend fun revokeToken(): Boolean
+
+    /**
      * Handles the sign-in/sign-up/logout redirect for the receiving Activity.
      * Provide its [Intent] to ensure a correct handling of the auth-flow response.
      *
