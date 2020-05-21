@@ -23,6 +23,7 @@ This document describes the setup and patterns used by this project implementing
   - [Packages](#packages)
   - [Third Party Libraries](#third-party-libraries)
 - [Style Guidelines](#style-guidelines)
+- [Linting](#linting)
 - [Notes](#notes)
 
 ## Building
@@ -308,6 +309,21 @@ Common UI elements and components.
  Sometimes, a reformatting of code can produce some odd line breaks. Fix those and and do '*Reformat Code*' again.
 - Unit Testing  
  Avoid mocking (MockK) if you can and use fakes instead (provide your own test/dummy implementations of dependent interfaces). Reserve mocks only for services and other edge-of-the-world classes and components that can't be easily faked and for verifying behavior.
+
+## Linting
+The build of this project has KtLint installed. As of this moment, they are not automatically run, but you can run them manually:
+
+###### Check Source Code
+Run `./gradlew ktlintCheck` in the terminal.
+
+###### Check Unit Test Code
+Run `./gradlew ktlintTestSourceSetCheck` in the terminal.
+
+###### Fix Formatting in Source Code
+Run `./gradlew ktlintFormat` in the terminal.
+
+###### Fix Formatting in Unit Test Code
+Run `./gradlew ktlintTestSourceSetFormat` in the terminal.
 
 ## Notes
 We did not include the library for Functional Programming for Kotlin called **Arrow**. Currently, we only use the sum-type `Either` and including the Arrow library would bring in too much code. Instead, we opted to implemented our own version of `Either`, closely matching the one from Arrow.
