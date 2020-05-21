@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <debug-overrides>
+        <trust-anchors>
+            <!-- To enable Charles Proxy snooping of network request, follow this guide: -->
+            <!-- https://medium.com/@daptronic/the-android-emulator-and-charles-proxy-a-love-story-595c23484e02 -->
+            <!-- (except there is no need to download and install the Charles-Cert; it is included here below) -->
+            <certificates src="@raw/charles_proxy_ssl_proxying_certificate" />
+        </trust-anchors>
+    </debug-overrides>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
     </domain-config>

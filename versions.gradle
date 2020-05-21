@@ -39,9 +39,6 @@ ext {
     //Gson version
     gsonVersion = '2.8.6'
 
-    //reactivex
-    rxJavaVersion = '3.0.0'
-
     //parceler
     parcelerVersion = '1.1.12'
 

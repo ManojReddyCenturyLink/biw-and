@@ -84,17 +84,12 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
     implementation "androidx.multidex:multidex:$androidxMultidexVersion"
     implementation "androidx.viewpager2:viewpager2:${viewpager2Version}"
-
-    implementation "com.google.android.material:material:${materialComponentsVersion}"
-    implementation "androidx.appcompat:appcompat:${androidxAppCompatVersion}"
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
-
-    // Cardview Dependency
     implementation "androidx.cardview:cardview:$cardviewVersion"
+    implementation "androidx.security:security-crypto:1.0.0-rc01"
+    implementation "com.google.android.material:material:${materialComponentsVersion}"
 
     /* Dagger2 - default dependency */
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     /* Dagger2 - We are going to use dagger.android which includes
@@ -107,10 +102,6 @@ dependencies {
 
     //Gson
     implementation "com.google.code.gson:gson:$gsonVersion"
-
-    //RX java
-    implementation "io.reactivex.rxjava3:rxandroid:$rxJavaVersion"
-    implementation "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
 
     //LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$androidxLifecycleVersion"
@@ -133,7 +124,6 @@ dependencies {
 
     // AppAuth
     implementation "net.openid:appauth:0.7.1"
-    implementation "androidx.security:security-crypto:1.0.0-rc01"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
@@ -145,6 +135,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
     testImplementation "org.mockito:mockito-core:$mockitoCoreVersion"
+    testImplementation "com.squareup.okhttp3:mockwebserver:4.4.0"
 }
 
 dokka {
