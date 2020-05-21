@@ -1,6 +1,7 @@
 package com.centurylink.biwf.model.subscription
 
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 class Records(
     @SerializedName("Id")
@@ -8,11 +9,11 @@ class Records(
     @SerializedName("Name")
     val name: String = "",
     @SerializedName("Zuora__SubscriptionStartDate__c")
-    val ZuoraSubscriptionStartDate: String = "",
+    val ZuoraSubscriptionStartDate: Date? = null,
     @SerializedName("Zuora__SubscriptionEndDate__c")
-    val ZuoraSubscriptionEndDate: String = "",
+    val ZuoraSubscriptionEndDate: Date? = null,
     @SerializedName("Zuora__NextRenewalDate__c")
-    val ZuoraNextRenewalDate: String = "",
+    val ZuoraNextRenewalDate: Date? = null,
     @SerializedName("Zuora__NextChargeDate__c")
-    val ZuoraNextChargeDate: String = ""
+    val ZuoraNextChargeDate: Date? = null
 )

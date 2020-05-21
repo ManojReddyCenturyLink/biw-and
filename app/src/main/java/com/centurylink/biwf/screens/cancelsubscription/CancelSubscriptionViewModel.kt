@@ -5,6 +5,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinatorDestinations
 import com.centurylink.biwf.repos.ZouraSubscriptionRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -33,9 +34,14 @@ class CancelSubscriptionViewModel @Inject constructor(
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            val subscriptionEndDates = it.records[0].ZuoraSubscriptionEndDate
+            val subscriptionEndDates = it.records[0]!!.ZuoraSubscriptionEndDate
             cancelSubscriptionDate.latestValue =
-                UiCancelSubscriptionDetails(subscriptionEndDate = subscriptionEndDates)
+                UiCancelSubscriptionDetails(
+                    subscriptionEndDate = DateUtils.toSimpleString(
+                        subscriptionEndDates!!,
+                        DateUtils.STANDARD_FORMAT
+                    )
+                )
         }
     }
 

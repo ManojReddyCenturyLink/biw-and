@@ -81,16 +81,16 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun requestCaseId() {
+    private suspend fun requestCaseId() {
         val caseDetails = caseRepository.getCaseId()
         caseDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            caseId = it.caseRecentItems[0].Id ?: ""
+            caseId = it.caseRecentItems[0]!!.Id ?: ""
         }
     }
 
-    suspend fun performCancel() {
+    private suspend fun performCancel() {
         val caseDetails = caseRepository.createDeactivationRequest(
             cancellationDate!!,
             cancellationReason,

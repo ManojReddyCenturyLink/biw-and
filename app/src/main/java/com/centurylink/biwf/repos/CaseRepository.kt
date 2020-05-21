@@ -5,6 +5,7 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.CaseCreate
 import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.service.network.CaseApiService
+import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.preferences.Preferences
 import java.text.SimpleDateFormat
 import java.util.*
@@ -38,7 +39,7 @@ class CaseRepository @Inject constructor(
             accountId = getAccountId() ?: "", contactId = getContactId() ?: "",
             cancellationReason = cancellationReason ?: "",
             cancelReasonComments = cancellationReasonExpln ?: "",
-            cancellationDateHolder = toSimpleString(cancellationDate!!),
+            cancellationDateHolder = DateUtils.toSimpleString(cancellationDate!!,DateUtils.STANDARD_FORMAT),
             notes = comments ?: "",
             experience = String.format("%.0f", rating),
             recordTypeId = caseId ?: ""
