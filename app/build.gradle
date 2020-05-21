@@ -8,6 +8,8 @@ apply plugin: 'org.jetbrains.dokka'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: "org.jlleitschuh.gradle.ktlint"
+
 android {
 
     compileSdkVersion 29
@@ -140,4 +142,14 @@ dependencies {
 dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/dokka"
+}
+
+ktlint {
+    android = true
+    outputToConsole = true
+    outputColorName = "YELLOW"
+    disabledRules = ["no-wildcard-imports", "import-ordering", "max-line-length"]
+    filter {
+        exclude("**/generated/**")
+    }
 }
