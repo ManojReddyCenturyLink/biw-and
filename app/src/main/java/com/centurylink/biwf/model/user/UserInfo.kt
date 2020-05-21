@@ -1,6 +1,5 @@
 package com.centurylink.biwf.model.user
 
-import com.centurylink.biwf.model.cases.CaseRecentItems
 import com.google.gson.annotations.SerializedName
 
 data class UserInfo(

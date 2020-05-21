@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.CaseCreate
@@ -34,7 +35,7 @@ class CaseRepository @Inject constructor(
     suspend fun createDeactivationRequest(
         cancellationDate: Date?, cancellationReason: String?, cancellationReasonExpln: String?,
         rating: Float?, comments: String?, caseId: String?
-    ): Either<String, CaseResponse> {
+    ): String {
         val caseCreate = CaseCreate(
             accountId = getAccountId() ?: "", contactId = getContactId() ?: "",
             cancellationReason = cancellationReason ?: "",
@@ -44,9 +45,12 @@ class CaseRepository @Inject constructor(
             experience = String.format("%.0f", rating),
             recordTypeId = caseId ?: ""
         )
-        val result: FiberServiceResult<CaseResponse> =
+        val result: FiberServiceResult<Unit> =
             caseApiService.submitCaseForSubscription(caseCreate)
-        return result.mapLeft { it.message?.message.toString() }
+        return result.fold(
+            ifLeft = { it.message?.message.toString() },
+            ifRight = { "" }
+        )
     }
 
     suspend fun getCaseId(): Either<String, Cases> {

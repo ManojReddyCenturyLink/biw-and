@@ -41,7 +41,6 @@ class SubscriptionStatementViewModel @Inject constructor(
             requestUserDetails()
             requestAccountDetails()
             requestPaymentInformation()
-            requestSubscriptionInformation()
         }
     }
 
@@ -78,20 +77,13 @@ class SubscriptionStatementViewModel @Inject constructor(
             uiStatementDetails = uiStatementDetails.copy(
                 planName = it.productPlanNameC ?: "Fiber Internet",
                 successfullyProcessed = DateUtils.formatInvoiceDate(
-                    processedDate!!),
+                    processedDate!!
+                ),
                 planCost = String.format("%.1f", planCost),
                 salesTaxCost = String.format("%.1f", salesTaxCost),
                 totalCost = String.format("%.1f", totalCost)
             )
             statementDetailsInfo.latestValue = uiStatementDetails
-        }
-    }
-
-    private suspend fun requestSubscriptionInformation() {
-        val paymentDetails = zuoraPaymentRepository.getSubscription()
-        paymentDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
         }
     }
 

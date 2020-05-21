@@ -10,10 +10,10 @@ import retrofit2.http.POST
 
 interface CaseApiService {
 
-    @POST("sobjects/Case/")
+    @POST("sobjects/Case")
     suspend fun submitCaseForSubscription(
         @Body createCase: CaseCreate
-    ): FiberServiceResult<CaseResponse>
+    ): FiberServiceResult<Unit>
 
     @GET("sobjects/Case")
     suspend fun getCaseNumber(): FiberServiceResult<Cases>

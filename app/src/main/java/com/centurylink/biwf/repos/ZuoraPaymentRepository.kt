@@ -34,13 +34,4 @@ class ZuoraPaymentRepository @Inject constructor(
             zuoraPaymentService.getPaymentDetails(invoiceId)
         return result.mapLeft { it.message?.message.toString() }
     }
-
-    suspend fun getSubscription(): Either<String, PaymentList> {
-        val query =
-            "SELECT Id, Name, Zuora__SubscriptionStartDate__c, Zuora__SubscriptionEndDate__c, Zuora__NextRenewalDate__c, Zuora__NextChargeDate__c FROM Zuora__Subscription__c WHERE Zuora__Account__c='%s'"
-        val finalQuery = String.format(query, getAccountId()!!)
-        val result: FiberServiceResult<PaymentList> =
-            zuoraPaymentService.getSubscriptionDetails(finalQuery)
-        return result.mapLeft { it.message?.message.toString() }
-    }
 }

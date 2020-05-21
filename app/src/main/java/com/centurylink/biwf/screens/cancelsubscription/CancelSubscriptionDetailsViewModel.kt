@@ -3,23 +3,15 @@ package com.centurylink.biwf.screens.cancelsubscription
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.model.cases.Cases
-import com.centurylink.biwf.repos.CancelSubscriptionDetailsRepository
 import com.centurylink.biwf.repos.CaseRepository
-import com.centurylink.biwf.repos.CaseRepository_Factory
-import com.centurylink.biwf.screens.home.account.AccountViewModel
-import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 class CancelSubscriptionDetailsViewModel @Inject constructor(
-    private val cancelSubscriptionDetailsRepository: CancelSubscriptionDetailsRepository,
     private val caseRepository: CaseRepository
-
 ) : BaseViewModel() {
 
     private var cancellationDate: Date? = null
@@ -27,9 +19,8 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
     private var cancellationComments: String = ""
-    private var caseId:String=""
+    private var caseId: String = ""
 
-    val caseDetailsInfo: Flow<Cases> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
 
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
@@ -46,9 +37,9 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         initApis()
     }
 
-    private fun initApis(){
+    private fun initApis() {
         viewModelScope.launch {
-
+            requestCaseId()
         }
     }
 
@@ -90,25 +81,29 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         }
     }
 
-    suspend fun requestCaseId(){
+    suspend fun requestCaseId() {
         val caseDetails = caseRepository.getCaseId()
         caseDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            caseId =it.caseRecentItems[0].caseNumber?:""
+            caseId = it.caseRecentItems[0].Id ?: ""
         }
+    }
+
+    suspend fun performCancel() {
+        val caseDetails = caseRepository.createDeactivationRequest(
+            cancellationDate!!,
+            cancellationReason,
+            cancellationReasonExplanation,
+            ratingValue!!,
+            cancellationComments, caseId
+        )
+        errorMessageFlow.latestValue = caseDetails
     }
 
     fun performCancellationRequest() {
         viewModelScope.launch {
-            requestCaseId()
-            caseRepository.createDeactivationRequest(
-                cancellationDate!!,
-                cancellationReason,
-                cancellationReasonExplanation,
-                ratingValue!!,
-                cancellationComments,caseId!!
-            )
+            performCancel()
         }
     }
 }

@@ -6,5 +6,5 @@ class CaseResponse(
     @SerializedName("id")
     val Id: String = "",
     @SerializedName("success")
-    val boolean: Boolean
+    val success: Boolean
 )
