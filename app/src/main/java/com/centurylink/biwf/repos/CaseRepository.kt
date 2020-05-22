@@ -26,13 +26,9 @@ class CaseRepository @Inject constructor(
         return preferences.getValueByID(Preferences.CONTACT_ID)
     }
 
-    private fun toSimpleString(date: Date): String {
-        val format = SimpleDateFormat("yyyy-MM-dd")
-        return format.format(date)
-    }
 
     suspend fun createDeactivationRequest(
-        cancellationDate: Date?, cancellationReason: String?, cancellationReasonExpln: String?,
+        cancellationDate: Date, cancellationReason: String?, cancellationReasonExpln: String?,
         rating: Float?, comments: String?
     ): String {
         val caseCreate = CaseCreate(
@@ -40,7 +36,7 @@ class CaseRepository @Inject constructor(
             cancellationReason = cancellationReason ?: "",
             cancelReasonComments = cancellationReasonExpln ?: "",
             cancellationDateHolder = DateUtils.toSimpleString(
-                cancellationDate!!,
+                cancellationDate,
                 DateUtils.STANDARD_FORMAT
             ),
             notes = comments ?: "",

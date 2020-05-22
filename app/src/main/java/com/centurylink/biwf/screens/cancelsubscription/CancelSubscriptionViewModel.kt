@@ -34,14 +34,14 @@ class CancelSubscriptionViewModel @Inject constructor(
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            val subscriptionEndDates =it.records.elementAtOrElse(0) { null }?.ZuoraSubscriptionEndDate
-            cancelSubscriptionDate.latestValue =
-                UiCancelSubscriptionDetails(
-                    subscriptionEndDate = DateUtils.toSimpleString(
-                        subscriptionEndDates!!,
-                        DateUtils.STANDARD_FORMAT
-                    )
+            val subscriptionEndDates =
+                it.records.elementAtOrElse(0) { null }?.ZuoraSubscriptionEndDate!!
+            subscriptionEndDates.let {
+                cancelSubscriptionDate.latestValue = UiCancelSubscriptionDetails(
+                    subscriptionEndDate =
+                    DateUtils.toSimpleString(subscriptionEndDates, DateUtils.STANDARD_FORMAT)
                 )
+            }
         }
     }
 
