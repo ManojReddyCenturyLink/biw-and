@@ -147,7 +147,7 @@
 
         <include
             android:id="@+id/incStatus"
-            layout="@layout/widget_appointment_status"
+            layout="@layout/widget_appointment_scheduled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin_spacing"

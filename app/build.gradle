@@ -125,6 +125,9 @@ dependencies {
     // AppAuth
     implementation "net.openid:appauth:0.7.1"
 
+    //Google-map
+    implementation "com.google.android.gms:play-services-maps:$googleMapVersion"
+
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
     testImplementation "io.mockk:mockk:$mockKVersion"

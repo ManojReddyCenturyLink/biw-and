@@ -13,7 +13,6 @@
     <string name="notification">Notification</string>
     <string name="forgot_password_activity">Forgot Password Activity</string>
     <string name="placeholder_text_1">1</string>
-
     <string name="support">Support</string>
     <string name="call_us"><u>Call us at (123) 456-7890</u></string>
 
@@ -40,7 +39,7 @@
     <string name="change_appointment">Change Appointment</string>
     <string name="fiber_installation_status">Fiber Installation Status</string>
     <string name="installation_scheduled">Installation has been scheduled</string>
-    <string name="text_time_details">Your appointment is between 8:00AM and 10:00AM</string>
+    <string name="text_time_details">Your appointment is between %s and %s</string>
     <string name="congratulations">Congratulations!</string>
     <string name="faq_topics">FAQ topics</string>
     <string name="troubleshooting">Troubleshooting</string>
@@ -62,7 +61,6 @@
     <string name="frequently_questions_cant_find">Can’t find the answer to your question? \n Try contacting us. We’d love to help!</string>
     <string name="support_live_chat">Live chat</string>
     <string name="support_schedule_a_callback">Schedule a callback</string>
-
 
     <!--Account Screen -->
     <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
@@ -157,7 +155,6 @@
     <string name="how_do_i_change_my_email">How do I change my email?</string>
     <string name="error">Error</string>
 
-
     <!-- Subscription Statement Screen-->
     <string name="statment_header">Statement</string>
     <string name="statment_done">DONE</string>
@@ -190,4 +187,12 @@
     <string name="credit_card_number">Credit card number</string>
     <string name="expiration_date">Expiration date</string>
     <string name="cvv">CVV</string>
+    <string name="a_technician_is_on_the_way">A technician is on the way</string>
+    <string name="estimated_arrival_window">Estimated arrival window</string>
+    <string name="installation_underway">Installation underway</string>
+    <string name="is_setting_up_your_network_now">is setting up your network now!</string>
+    <string name="the_network_is_ready_for_you_to_connect_and_start_enjoying_your_blazing_fast_internet">The network is ready for you to connect and start enjoying your blazing fast internet.</string>
+    <string name="get_started">Get started</string>
+    <string name="you_re_all_set">You’re all set!</string>
+    <string name="installation_complete">Installation complete</string>
 </resources>

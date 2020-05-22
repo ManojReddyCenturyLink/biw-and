@@ -127,5 +127,8 @@
 
         </service>
 
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAoMWNi1LtAdDTvRT26zCwsy7qslHLqQTE" />
     </application>
 </manifest>

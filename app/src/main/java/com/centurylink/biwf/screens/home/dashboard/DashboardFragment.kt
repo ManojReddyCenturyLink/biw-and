@@ -100,7 +100,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun initOnClicks() {
-        binding.incStatus.appointmentChangeLink.setOnClickListener { dashboardViewModel.getChangeAppointment() }
+        binding.incStatus.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incWelcomeCard.welcomeCardCancelButton.setOnClickListener { hideWelcomeCard() }
         binding.notificationDismissButton.setOnClickListener {
             dashboardViewModel.markNotificationAsRead(unreadNotificationList.get(0))
