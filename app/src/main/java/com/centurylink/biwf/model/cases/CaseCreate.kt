@@ -20,7 +20,12 @@ data class CaseCreate(
     @SerializedName("Experience__c")
     var experience: String="0",
     @SerializedName("Cancellation_Date_Holder__c")
-    val cancellationDateHolder: String="",
-    @SerializedName("RecordTypeId")
-    val recordTypeId: String = "01217000001Ec3kAAC"
+    val cancellationDateHolder: String=""
 )
+
+
+
+
+
+
+
