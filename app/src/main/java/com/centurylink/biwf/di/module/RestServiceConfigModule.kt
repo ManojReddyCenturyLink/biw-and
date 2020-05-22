@@ -5,15 +5,14 @@ import com.centurylink.biwf.di.qualifier.BaseUrlType
 import com.centurylink.biwf.di.qualifier.ClientType
 import com.centurylink.biwf.di.qualifier.HttpClient
 import com.centurylink.biwf.network.LiveDataCallAdapterFactory
-import com.centurylink.biwf.service.impl.network.EitherCallAdapterFactory
-import com.centurylink.biwf.service.impl.network.EitherConverterFactory
-import com.centurylink.biwf.service.impl.network.FiberErrorConverterFactory
-import com.centurylink.biwf.service.impl.network.asFactory
+import com.centurylink.biwf.service.impl.network.*
 import com.centurylink.biwf.service.integration.IntegrationServerService
 import com.centurylink.biwf.service.network.*
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.Call
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -33,21 +32,36 @@ class RestServiceConfigModule(
     private val integrationServerService: IntegrationServerService,
     private val fakeServicesFactory: ServicesFactory? = null
 ) {
+    private val primitiveTypeConverters = PrimitiveTypeConverterFactory()
+
     @Singleton
     @Provides
     fun provideIntegrationServerService() = integrationServerService
 
     @Singleton
     @Provides
+    fun provideJsonConverters(): Converter.Factory {
+        val gson = GsonBuilder()
+            .registerTypeAdapterFactory(primitiveTypeConverters)
+            .create()
+        return GsonConverterFactory.create(gson)
+    }
+
+    @Singleton
+    @Provides
     @BaseUrl(BaseUrlType.FIBER_SERVICES)
-    fun provideRetrofit(@HttpClient(ClientType.OAUTH) client: Call.Factory): ServicesFactory {
+    fun provideRetrofit(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.OAUTH) client: Call.Factory
+    ): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlFiberServices)
             .addCallAdapterFactory(EitherCallAdapterFactory())
             .addConverterFactory(EitherConverterFactory())
             .addConverterFactory(FiberErrorConverterFactory())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
             .build()
             .asFactory
     }
@@ -55,11 +69,15 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     @BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES)
-    fun provideRetrofitForAws(@HttpClient(ClientType.NONE) client: Call.Factory): ServicesFactory {
+    fun provideRetrofitForAws(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.NONE) client: Call.Factory
+    ): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForAwsBucket)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
             .addCallAdapterFactory(LiveDataCallAdapterFactory())
             .build()
             .asFactory
@@ -68,11 +86,15 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     @BaseUrl(BaseUrlType.LOCAL_INTEGRATION)
-    fun provideRetrofitForMock(@HttpClient(ClientType.OAUTH) client: Call.Factory): ServicesFactory {
+    fun provideRetrofitForMock(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.OAUTH) client: Call.Factory
+    ): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(integrationServerService.baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
             .build()
             .asFactory
     }

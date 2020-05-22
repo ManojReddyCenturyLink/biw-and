@@ -4,7 +4,7 @@ This document describes the setup and patterns used by this project implementing
 
 [TOC levels=2-5]: # "Table of Contents"
 
-## Table of Contents
+# Table of Contents
 - [Building](#building)
 - [Configurations](#configurations)
 - [Environments](#environments)
@@ -22,6 +22,7 @@ This document describes the setup and patterns used by this project implementing
 - [Code Structure](#code-structure)
   - [Packages](#packages)
   - [Third Party Libraries](#third-party-libraries)
+  - [Custom Primitive Types](#custom-primitive-types)
 - [Style Guidelines](#style-guidelines)
 - [Linting](#linting)
 - [Notes](#notes)
@@ -278,6 +279,7 @@ Common UI elements and components.
 - Security: Crypto
 - Testing: Core
 ###### Third Party
+- ThreeTenBP for Android
 - Dagger 2
 - GSon
 - Parceler
@@ -292,6 +294,17 @@ Common UI elements and components.
 - MockK
 - Kluent
 - HamCrest
+
+### Custom Primitive Types
+When modeling your data, please use, when appropriate, these custom primitive types, especially when dealing with marshalling queries and Json requests and responses from network servers.
+
+###### Date and Time
+Use the *ThreeTenBP* classes `LocalDate`, `LocalDateTime`, `LocalTime`, `ZonedDateTime` and `Duration`.
+
+###### Miscellaneous
+`CurrencyAmount`: An amount of money in a particular currency (USD).  
+`EmailAddress`: An email address.  
+`PhoneNumber`: A phone number.
 
 ## Style Guidelines
 - Code Style: Default one bundled with Android Studio
