@@ -30,8 +30,8 @@ class CancelSubscriptionViewModel @Inject constructor(
     }
 
     private suspend fun requestSubscriptionDate() {
-        val userDetails = zuoraSubscriptionRepository.getSubscriptionDate()
-        userDetails.fold(ifLeft = {
+        val subscriptionDate = zuoraSubscriptionRepository.getSubscriptionDate()
+        subscriptionDate.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
             cancelSubscriptionDate.latestValue = UiCancelSubscriptionDetails(

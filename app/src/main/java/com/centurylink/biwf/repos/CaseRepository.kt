@@ -7,7 +7,6 @@ import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.service.network.CaseApiService
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.preferences.Preferences
-import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -32,7 +31,8 @@ class CaseRepository @Inject constructor(
         rating: Float?, comments: String?
     ): String {
         val caseCreate = CaseCreate(
-            accountId = getAccountId() ?: "", contactId = getContactId() ?: "",
+            accountId = getAccountId() ?: "",
+            contactId = getContactId() ?: "",
             cancellationReason = cancellationReason ?: "",
             cancelReasonComments = cancellationReasonExpln ?: "",
             cancellationDateHolder = DateUtils.toSimpleString(
