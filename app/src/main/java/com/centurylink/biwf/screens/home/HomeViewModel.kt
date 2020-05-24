@@ -15,6 +15,7 @@ import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
     private val userRepository: UserRepository,
+    private val sharedPreferences: Preferences,
     private val integrationServices: IntegrationRestServices
 ) : BaseViewModel() {
 
@@ -33,6 +35,9 @@ class HomeViewModel @Inject constructor(
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
+    val displayBioMetricPrompt = EventFlow<List<Int>>()
+    val refreshBioMetrics = EventFlow<Unit>()
+
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
@@ -41,9 +46,20 @@ class HomeViewModel @Inject constructor(
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
 
+    private val list = listOf(
+        R.string.welcome_to_dashboard,
+        R.string.biometric_dialog_message,
+        R.string.ok,
+        R.string.dont_allow
+    )
+
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
+        if (!sharedPreferences.getHasSeenDialog()) {
+            displayBioMetricPrompt.latestValue = list
+            sharedPreferences.saveHasSeenDialog()
+        }
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {
@@ -64,6 +80,14 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadData() {
+    }
+
+    fun onBiometricYesResponse() {
+        sharedPreferences.apply {
+            saveBioMetrics(value = true)
+            saveHasSeenDialog()
+        }
+        refreshBioMetrics.latestValue = Unit
     }
 
     fun onOnlineToolbarClick() {

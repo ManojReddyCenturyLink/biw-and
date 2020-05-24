@@ -40,6 +40,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         every { mockSharedPreferences.getValueByID("USER_ID") }.returns("")
         every { mockSharedPreferences.saveUserId("USER_ID") } just runs
         every { mockSharedPreferences.removeUserId() } just runs
+        every { mockSharedPreferences.getBioMetrics() } returns true
         viewModel = LoginViewModel(
             accountRepository = mockAccountRepository,
             sharedPreferences = mockSharedPreferences,

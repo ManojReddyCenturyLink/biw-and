@@ -42,10 +42,28 @@ class Preferences(private val store: KeyValueStore) {
         store.remove(CONTACT_ID)
     }
 
+    fun getBioMetrics(): Boolean? {
+        return store.getBoolean(BIOMETRIC)
+    }
+
+    fun saveBioMetrics(value: Boolean) {
+        store.putBoolean(BIOMETRIC, value)
+    }
+
+    fun getHasSeenDialog(): Boolean {
+        return store.getBoolean(HAS_SEEN_PROMPT)!!
+    }
+
+    fun saveHasSeenDialog() {
+        store.putBoolean(HAS_SEEN_PROMPT, true)
+    }
+
     companion object {
-        val USER_ID = "USER_ID"
-        val ACCOUNT_ID = "ACCOUNT_ID"
-        val CONTACT_ID = "CONTACT_ID"
-        val PLAN_NAME = "PLAN_NAME"
+        const val USER_ID = "USER_ID"
+        const val ACCOUNT_ID = "ACCOUNT_ID"
+        const val CONTACT_ID = "CONTACT_ID"
+        const val PLAN_NAME = "PLAN_NAME"
+        const val BIOMETRIC = "BIOMETRICS"
+        const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
     }
 }

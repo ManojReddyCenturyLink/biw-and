@@ -9,6 +9,7 @@ import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.ViewModelFactoryWithInput
@@ -56,12 +57,18 @@ class LoginViewModel internal constructor(
 
     val myState = EventFlow<LoginCoordinatorDestinations>()
     val errorEvents: EventLiveData<String> = MutableLiveData()
+    val showBioMetricsLogin = BehaviorStateFlow<Unit>()
 
     private var userEmail: String? = null
     private var userPassword: String? = null
 
     init {
-        if (navFromAccountScreen) onLoginClicked()
+        val showBiometrics = sharedPreferences.getBioMetrics()?:false
+        if (navFromAccountScreen) {
+            onLoginClicked()
+        } else if(showBiometrics){
+            showBioMetricsLogin.latestValue = Unit
+        }
     }
 
     fun onEmailTextChanged(email: String) {
@@ -92,5 +99,9 @@ class LoginViewModel internal constructor(
 
     fun onLearnMoreClicked() {
         myState.latestValue = LoginCoordinatorDestinations.LEARN_MORE
+    }
+
+    fun onBiometricSuccess() {
+        myState.latestValue = LoginCoordinatorDestinations.HOME_EXISTING_USER
     }
 }
