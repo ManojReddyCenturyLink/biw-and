@@ -8,7 +8,7 @@ import com.centurylink.biwf.utility.TestCoroutineRule
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -37,14 +37,10 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
         viewModel.onConfirmPasswordValueChanged("")
         viewModel.onPasswordValueChanged("")
         error.value = viewModel.validateInput()
-        Assert.assertEquals("Phone Number Empty", error.value!!.contains("mobileNumberError"), true)
-        Assert.assertEquals("Password Empty", error.value!!.contains("passwordError"), true)
-        Assert.assertEquals(
-            "Confirm Password Empty",
-            error.value!!.contains("confirmPasswordError"),
-            true
-        )
-        Assert.assertEquals("Fields Empty", error.value!!.contains("fieldMandatory"), true)
+        assertThat("Phone Number Empty", error.value!!.contains("mobileNumberError"))
+        assertThat("Password Empty", error.value!!.contains("passwordError"))
+        assertThat("Confirm Password Empty", error.value!!.contains("confirmPasswordError"))
+        assertThat("Fields Empty", error.value!!.contains("fieldMandatory"))
     }
 
     @Test
@@ -53,23 +49,11 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
         viewModel.onConfirmPasswordValueChanged("abc@1234")
         viewModel.onPasswordValueChanged("abc@1234")
         error.value = viewModel.validateInput()
-        Assert.assertEquals(
-            "Phone Number Empty",
-            error.value!!.contains("mobileNumberError"),
-            false
-        )
-        Assert.assertEquals("Password Empty", error.value!!.contains("passwordError"), false)
-        Assert.assertEquals(
-            "Confirm Password Empty",
-            error.value!!.contains("confirmPasswordError"),
-            false
-        )
-        Assert.assertEquals(
-            "Password Mismatch",
-            error.value!!.contains("passwordMismatchError"),
-            false
-        )
-        Assert.assertEquals("Fields Empty", error.value!!.contains("fieldMandatory"), false)
+        assertThat("Phone Number Empty Check", !error.value!!.contains("mobileNumberError"))
+        assertThat("Password Empty Check", !error.value!!.contains("passwordError"))
+        assertThat("Confirm Password Empty Check", !error.value!!.contains("confirmPasswordError"))
+        assertThat("Password Mismatch Check", !error.value!!.contains("passwordMismatchError"))
+        assertThat("Fields Empty Check", !error.value!!.contains("fieldMandatory"))
     }
 
     @Test
@@ -78,11 +62,7 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
         viewModel.onConfirmPasswordValueChanged("abc@1234")
         viewModel.onPasswordValueChanged("abc@5678")
         error.value = viewModel.validateInput()
-        Assert.assertEquals(
-            "Password Mismatch",
-            error.value!!.contains("passwordMismatchError"),
-            true
-        )
+        assertThat("Password Mismatch Check", error.value!!.contains("passwordMismatchError"))
     }
 
     @Test
