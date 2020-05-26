@@ -1,20 +1,24 @@
 package com.centurylink.biwf.screens.home.account
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
+import com.centurylink.biwf.screens.login.LoginViewModel
+import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.utility.getViewModel
 import javax.inject.Inject
 
-class AccountFragment : BaseFragment() {
+class AccountFragment : BaseFragment(), AuthServiceHost {
+    override val hostContext: Context = activity!!.baseContext
 
     override val lifecycleOwner: LifecycleOwner = this
 
@@ -26,8 +30,12 @@ class AccountFragment : BaseFragment() {
 
     @Inject
     lateinit var accountCoordinator: AccountCoordinator
+
+    @Inject
+    lateinit var viewModelFactory: LoginViewModel.Factory
+
     private val viewModel by lazy {
-        ViewModelProvider(this, factory).get(AccountViewModel::class.java)
+        getViewModel<AccountViewModel>(viewModelFactory.withInput(this))
     }
 
     lateinit var binding: FragmentAccountBinding
@@ -112,6 +120,9 @@ class AccountFragment : BaseFragment() {
         }
         binding.accountPersonalInfoCard.personalInfoCardView.setOnClickListener {
             viewModel.onPersonalInfoCardClick()
+        }
+        binding.logOutButton.setOnClickListener {
+            viewModel.onLogOutClick()
         }
     }
 }
