@@ -27,7 +27,9 @@ class CaseRepository @Inject constructor(
 
 
     suspend fun createDeactivationRequest(
-        cancellationDate: Date, cancellationReason: String?, cancellationReasonExpln: String?,
+        cancellationDate: Date,
+        cancellationReason: String?,
+        cancellationReasonExpln: String?,
         rating: Float?, comments: String?
     ): String {
         val caseCreate = CaseCreate(

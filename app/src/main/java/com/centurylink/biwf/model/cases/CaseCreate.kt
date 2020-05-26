@@ -1,7 +1,6 @@
 package com.centurylink.biwf.model.cases
 
 import com.google.gson.annotations.SerializedName
-
 data class CaseCreate(
     @SerializedName("AccountId")
     val accountId: String = "",
@@ -22,9 +21,6 @@ data class CaseCreate(
     @SerializedName("Cancellation_Date_Holder__c")
     val cancellationDateHolder: String=""
 )
-
-
-
 
 
 

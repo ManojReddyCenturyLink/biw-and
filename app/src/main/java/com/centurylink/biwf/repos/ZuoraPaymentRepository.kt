@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos
 
-
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.account.PaymentList

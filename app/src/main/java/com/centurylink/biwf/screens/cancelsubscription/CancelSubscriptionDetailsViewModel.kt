@@ -21,17 +21,11 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var cancellationComments: String = ""
 
     var errorMessageFlow = EventFlow<String>()
-
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
-
     val performSubmitEvent: EventLiveData<Date> = MutableLiveData()
-
     val changeDateEvent: EventLiveData<Unit> = MutableLiveData()
-
     val errorEvents: EventLiveData<String> = MutableLiveData()
-
     val displayReasonSelectionEvent: EventLiveData<Boolean> = MutableLiveData()
-
 
     fun onRatingChanged(rating: Float) {
         ratingValue = rating
