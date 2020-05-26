@@ -35,7 +35,7 @@
     <!--Dashboard Screen -->
     <string name="change_installation_appointment">Change</string>
     <string name="cancel_installation_appointment">Cancel</string>
-    <string name="welcome_msg">You’ve signed up for Best in World Fiber.\n\n Keep track of your installation status here on your Best in World Fiber Dashboard!\n\n Next step is to wait for your technician on your scheduled installation date. Make sure the area where the modem will be installed is clear for the technician.</string>
+    <string name="welcome_msg">You’re signed up. Keep track of your installation status here on your Dashboard!</string>
     <string name="change_appointment">Change Appointment</string>
     <string name="fiber_installation_status">Fiber Installation Status</string>
     <string name="installation_scheduled">Installation has been scheduled</string>

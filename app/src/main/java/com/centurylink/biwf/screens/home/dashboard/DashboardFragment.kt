@@ -38,7 +38,7 @@ class DashboardFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
-
+        //Service call and check user type
         newUser = arguments!!.getBoolean(KEY_NEW_USER, newUser)
     }
 
@@ -51,10 +51,30 @@ class DashboardFragment : BaseFragment() {
         /*Added dummy state variable to test layout for different scenarios */
         binding.states = newUser
         initOnClicks()
+        getAppointmentStatus()
         getNotificationInformation()
         binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
+    }
+
+    private fun getAppointmentStatus() {
+        dashboardViewModel.appointmentStatusFlow.observe {
+            when {
+                it.equals("Scheduled") || it.equals("Dispatched") || it.equals("None")-> {
+                binding.incStarted.root.visibility = View.VISIBLE
+                }
+                it.equals("Enroute") -> {
+                    binding.incEnroute.root.visibility = View.VISIBLE
+                }
+                it.equals("Work Begun") -> {
+                    binding.incWorkBegun.root.visibility = View.VISIBLE
+                }
+                it.equals("Completed") -> {
+                    binding.incCompleted.root.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     private fun getNotificationInformation() {
@@ -100,8 +120,8 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun initOnClicks() {
-        binding.incStatus.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
-        binding.incWelcomeCard.welcomeCardCancelButton.setOnClickListener { hideWelcomeCard() }
+        binding.incStarted.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
+        binding.incWelcomeCard.notificationDismissButton.setOnClickListener { hideWelcomeCard() }
         binding.notificationDismissButton.setOnClickListener {
             dashboardViewModel.markNotificationAsRead(unreadNotificationList.get(0))
             displaySortedNotification()
