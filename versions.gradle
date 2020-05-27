@@ -59,6 +59,4 @@ ext {
     archCoreTestingVersion = '2.1.0'
     mockKVersion = '1.9.3'
     mockitoVersion = '2.1.0'
-
-
 }
