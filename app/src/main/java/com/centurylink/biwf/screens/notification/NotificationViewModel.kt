@@ -3,25 +3,28 @@ package com.centurylink.biwf.screens.notification
 import android.os.Bundle
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 class NotificationViewModel @Inject constructor(
-    notificationRepository: NotificationRepository
+    private val notificationRepository: NotificationRepository
 ) : BaseViewModel() {
 
     val errorEvents: EventLiveData<String> = MutableLiveData()
     val displayClearAllEvent: EventLiveData<Unit> = MutableLiveData()
     val myState = EventFlow<NotificationCoordinatorDestinations>()
-    val notificationLiveData: MutableLiveData<MutableList<Notification>> = MutableLiveData()
+    val notificationLiveData: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
     private val unreadItem: Notification =
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -34,8 +37,28 @@ class NotificationViewModel @Inject constructor(
         )
 
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
-    private var notificationListDetails: LiveData<Resource<NotificationSource>> =
-        notificationRepository.getNotificationDetails()
+    var notificationListDetails = BehaviorStateFlow<NotificationSource>()
+
+//    private var notificationListDetails: LiveData<Resource<NotificationSource>> =
+//        notificationRepository.getNotificationDetails()
+
+    init {
+        initApi()
+    }
+
+    private fun initApi() {
+        viewModelScope.launch {
+            requestNotificationDetails()
+        }
+    }
+
+    private suspend fun requestNotificationDetails() {
+        val result = notificationRepository.getNotificationDetails()
+        result.fold(ifLeft = {
+        }) {
+            notificationListDetails.latestValue = it
+        }
+    }
 
     fun getNotificationDetails() = notificationListDetails
 
@@ -109,7 +132,7 @@ class NotificationViewModel @Inject constructor(
         errorEvents.emit("Server error!Try again later")
     }
 
-    fun getNotificationMutableLiveData(): MutableLiveData<MutableList<Notification>> {
+    fun getNotificationMutableLiveData(): BehaviorStateFlow<MutableList<Notification>> {
         return notificationLiveData
     }
 }

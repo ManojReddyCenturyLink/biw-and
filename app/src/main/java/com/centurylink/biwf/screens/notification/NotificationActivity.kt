@@ -99,19 +99,9 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun getNotificationInformation() {
-        notificationViewModel.getNotificationDetails().observe(this) {
-            when {
-                it.status.isLoading() -> {
-
-                }
-                it.status.isSuccessful() -> {
-                    notificationViewModel.displaySortedNotifications(it.data!!.notificationlist)
-                    displaySortedNotification()
-                }
-                it.status.isError() -> {
-                    notificationViewModel.displayErrorDialog()
-                }
-            }
+        notificationViewModel.notificationListDetails.observe {
+            notificationViewModel.displaySortedNotifications(it.notificationlist)
+            displaySortedNotification()
         }
     }
 
@@ -138,9 +128,9 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun displaySortedNotification() {
-        notificationViewModel.getNotificationMutableLiveData().observe(this, Observer {
+        notificationViewModel.getNotificationMutableLiveData().observe {
             prepareRecyclerView(it)
-        })
+        }
     }
 
     private fun prepareRecyclerView(notificationList: MutableList<Notification>) {

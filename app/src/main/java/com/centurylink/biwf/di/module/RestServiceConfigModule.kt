@@ -124,4 +124,10 @@ class RestServiceConfigModule(
     fun provideIntegrationRestServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): IntegrationRestServices {
         return factory.create()
     }
+
+    @Singleton
+    @Provides
+    fun provideNotificationApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): NotificationService {
+        return factory.create()
+    }
 }

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
@@ -17,7 +16,6 @@ import com.centurylink.biwf.coordinators.DashboardCoordinator
 import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.utility.observe
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -145,24 +143,16 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun getNotificationInformation() {
-        dashboardViewModel.getNotificationDetails().observe(this) {
-            when {
-                it.status.isLoading() -> {
-                }
-                it.status.isSuccessful() -> {
-                    dashboardViewModel.displaySortedNotifications(it.data!!.notificationlist)
-                    displaySortedNotification()
-                }
-                it.status.isError() -> {
-                }
-            }
+        dashboardViewModel.notificationListDetails.observe {
+            dashboardViewModel.displaySortedNotifications(it.notificationlist)
+            displaySortedNotification()
         }
     }
 
     private fun displaySortedNotification() {
-        dashboardViewModel.getNotificationMutableLiveData().observe(viewLifecycleOwner, Observer {
+        dashboardViewModel.getNotificationMutableLiveData().observe {
             addNotificationStack(it)
-        })
+        }
     }
 
     private fun addNotificationStack(notificationList: MutableList<Notification>) {

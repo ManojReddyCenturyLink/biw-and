@@ -9,7 +9,6 @@ import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.network.Status
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -43,8 +42,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         MockitoAnnotations.initMocks(this)
         val notificationSource = NotificationSource()
         notificationSource.notificationlist = notificationList
-        result.value = Resource(Status.SUCCESS,notificationSource,"")
-        every {(notificationRepository.getNotificationDetails())}.returns(result)
+        result.value = Resource(Status.SUCCESS, notificationSource, "")
         viewModel = DashboardViewModel(notificationRepository = notificationRepository)
     }
 

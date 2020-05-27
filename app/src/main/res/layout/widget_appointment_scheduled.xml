@@ -31,7 +31,7 @@
                 android:layout_marginTop="@dimen/above_cardview_elevation"
                 android:text="@string/installation_scheduled"
                 android:textSize="@dimen/text_size_12"
-                app:layout_constraintEnd_toStartOf="@+id/appointment_status_progress_bar"
+                app:layout_constraintEnd_toStartOf="@+id/incProgress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
 
