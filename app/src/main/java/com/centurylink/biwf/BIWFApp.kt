@@ -6,10 +6,10 @@ import androidx.multidex.MultiDex
 import androidx.multidex.MultiDexApplication
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.utility.InitUtility
+import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasAndroidInjector
-import dagger.android.support.DaggerApplication
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -22,6 +22,7 @@ open class BIWFApp : MultiDexApplication(),HasAndroidInjector {
 
     override fun onCreate() {
         super.onCreate()
+        AndroidThreeTen.init(this)
         Timber.plant(Timber.DebugTree())
         //init Dagger dependency injection
         InitUtility.initDependencyInjection(this)
