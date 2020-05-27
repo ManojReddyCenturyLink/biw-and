@@ -1,14 +1,17 @@
 package com.centurylink.biwf.screens.cancelsubscription
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.repos.CancelSubscriptionDetailsRepository
+import com.centurylink.biwf.repos.CaseRepository
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
+import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
 class CancelSubscriptionDetailsViewModel @Inject constructor(
-    private val cancelSubscriptionDetailsRepository: CancelSubscriptionDetailsRepository
+    private val caseRepository: CaseRepository
 ) : BaseViewModel() {
 
     private var cancellationDate: Date? = null
@@ -17,14 +20,11 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var ratingValue: Float? = 0F
     private var cancellationComments: String = ""
 
+    var errorMessageFlow = EventFlow<String>()
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
-
     val performSubmitEvent: EventLiveData<Date> = MutableLiveData()
-
     val changeDateEvent: EventLiveData<Unit> = MutableLiveData()
-
     val errorEvents: EventLiveData<String> = MutableLiveData()
-
     val displayReasonSelectionEvent: EventLiveData<Boolean> = MutableLiveData()
 
     fun onRatingChanged(rating: Float) {
@@ -65,10 +65,20 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         }
     }
 
-    fun performCancellationCall() {
-        cancelSubscriptionDetailsRepository.submitCancellation(
+    private suspend fun performCancel() {
+        val caseDetails = caseRepository.createDeactivationRequest(
             cancellationDate!!,
-            cancellationReason!!, ratingValue!!, cancellationComments!!
+            cancellationReason,
+            cancellationReasonExplanation,
+            ratingValue!!,
+            cancellationComments
         )
+        errorMessageFlow.latestValue = caseDetails
+    }
+
+    fun performCancellationRequest() {
+        viewModelScope.launch {
+            performCancel()
+        }
     }
 }

@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 class SubscriptionStatementViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
-    private val billingRepository: BillingRepository,
     private val userRepository: UserRepository,
     private val zuoraPaymentRepository: ZuoraPaymentRepository
 ) : BaseViewModel() {

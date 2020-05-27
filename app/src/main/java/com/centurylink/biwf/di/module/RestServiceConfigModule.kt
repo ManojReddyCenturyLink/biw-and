@@ -121,6 +121,18 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
+    fun provideZuoraSubscriptionService(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): ZuoraSubscriptionApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCaseApiServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): CaseApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
     fun provideIntegrationRestServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): IntegrationRestServices {
         return factory.create()
     }
