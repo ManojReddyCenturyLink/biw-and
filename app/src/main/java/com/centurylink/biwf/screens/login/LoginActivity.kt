@@ -42,7 +42,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         }
 
         viewModel.myState.observeWith(loginCoordinator)
-
+        if(intent.getBooleanExtra(NAVIGATED_FROM_ACCOUNT_SCREEN,false))viewModel.onLoginClicked()
         initOnClicks()
         handleIntent()
     }
@@ -76,6 +76,14 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     companion object {
         private const val AUTH_RESPONSE_TYPE = "AuthResponseType"
+        private const val NAVIGATED_FROM_ACCOUNT_SCREEN = "navigatedFromAccountScreen"
+
+        fun newIntent(context: Context, boolean: Boolean): Intent {
+            return Intent(context, LoginActivity::class.java).apply {
+                putExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, boolean)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+        }
 
         private val Intent.authResponseType: AuthResponseType?
             get() = extras?.get(AUTH_RESPONSE_TYPE) as? AuthResponseType
