@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.Account
 import com.centurylink.biwf.model.CommunicationPreferences
 import com.centurylink.biwf.model.Subscription
 import com.centurylink.biwf.repos.*
+import com.centurylink.biwf.service.auth.AuthService
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
@@ -28,6 +29,8 @@ class AccountViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var mockContactRepository: ContactRepository
+    @MockK
+    private lateinit var authService: AuthService<*>
 
     @Before
     fun setup() {
@@ -35,7 +38,9 @@ class AccountViewModelTest : ViewModelBaseTest() {
         viewModel = AccountViewModel(
             accountRepository = mockAccountRepository,
             contactRepository = mockContactRepository,
-            userRepository = mockuserRepository
+            userRepository = mockuserRepository,
+            authService = authService
+
         )
     }
 
