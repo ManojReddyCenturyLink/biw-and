@@ -213,6 +213,16 @@ class PrimitiveTypeConverterFactoryTest {
         )
     }
 
+    @Test
+    fun `Date and Time and TimeZone without colons`() {
+        val expectedResult =
+            ZonedDateTime.of(2000, 2, 10, 19, 34, 33, 123000000, ZoneOffset.ofHours(0))
+        val expectedString = "2000-02-10T19:34:33.123+0000"
+
+        val result = gson.fromJson(JsonPrimitive(expectedString), ZonedDateTime::class.java)
+        assertThat(expectedResult, `is`(result))
+    }
+
     private data class TestData(
         val dateTimeZone: ZonedDateTime,
         val dateTime: LocalDateTime,
