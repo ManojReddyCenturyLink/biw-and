@@ -42,6 +42,7 @@
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
 
             <include
+                android:id="@+id/incProgress"
                 layout="@layout/widget_progress_status"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
@@ -52,7 +53,7 @@
                 app:layout_constraintTop_toTopOf="@+id/appointment_status_title" />
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/map_card"
+                android:id="@+id/map_work_begun"
                 android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
@@ -69,7 +70,7 @@
                 android:background="@drawable/background_transparent_whte_gradient"
                 android:paddingTop="60dp"
                 android:paddingEnd="10dp"
-                app:layout_constraintBottom_toBottomOf="@+id/map_card"
+                app:layout_constraintBottom_toBottomOf="@+id/map_work_begun"
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView

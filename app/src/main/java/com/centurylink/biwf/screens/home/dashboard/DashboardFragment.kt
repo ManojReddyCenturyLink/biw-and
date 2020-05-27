@@ -1,9 +1,12 @@
 package com.centurylink.biwf.screens.home.dashboard
 
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -15,7 +18,15 @@ import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.observe
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import javax.inject.Inject
+
 
 class DashboardFragment : BaseFragment() {
 
@@ -34,6 +45,12 @@ class DashboardFragment : BaseFragment() {
     private var unreadNotificationList: MutableList<Notification> = mutableListOf()
 
     private lateinit var binding: FragmentDashboardBinding
+
+    private var mEnrouteMapFragment: SupportMapFragment? = null
+
+    private var mWorkbegunMapFragment: SupportMapFragment? = null
+
+    private val USER_LAT_LNG = LatLng(39.742043, -104.991531)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,20 +75,70 @@ class DashboardFragment : BaseFragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val fm = childFragmentManager
+
+        mEnrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
+        mWorkbegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
+
+        mEnrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
+        mWorkbegunMapFragment?.getMapAsync(mOnMapReadyCallback)
+    }
+
+    private var enrouteOnMapReadyCallback: OnMapReadyCallback =
+        OnMapReadyCallback { googleMap ->
+            googleMap ?: return@OnMapReadyCallback
+            with(googleMap) {
+                //googleMap.isIndoorEnabled = true
+                moveCamera(CameraUpdateFactory.newLatLngZoom(USER_LAT_LNG, 8.0f))
+                addMarker(
+                    MarkerOptions().position(USER_LAT_LNG)
+                        .icon(bitMapFromVector(R.drawable.green_marker))
+                )
+            }
+        }
+
+    private var mOnMapReadyCallback: OnMapReadyCallback =
+        OnMapReadyCallback { googleMap ->
+            googleMap ?: return@OnMapReadyCallback
+            with(googleMap) {
+                //googleMap.isIndoorEnabled = true
+                moveCamera(CameraUpdateFactory.newLatLngZoom(USER_LAT_LNG, 6.0f))
+                addMarker(
+                    MarkerOptions().position(USER_LAT_LNG)
+                        .icon(bitMapFromVector(R.drawable.green_marker))
+                )
+            }
+        }
+
     private fun getAppointmentStatus() {
         dashboardViewModel.appointmentStatusFlow.observe {
             when {
-                it.equals("Scheduled") || it.equals("Dispatched") || it.equals("None")-> {
-                binding.incStarted.root.visibility = View.VISIBLE
+                it.equals("Scheduled") || it.equals("Dispatched") || it.equals("None") -> {
+                    binding.incStarted.root.visibility = View.VISIBLE
                 }
                 it.equals("Enroute") -> {
                     binding.incEnroute.root.visibility = View.VISIBLE
+                    binding.incEnroute.incProgress.progressStateTwo.background =
+                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
                 it.equals("Work Begun") -> {
                     binding.incWorkBegun.root.visibility = View.VISIBLE
+                    binding.incWorkBegun.incProgress.progressStateTwo.background =
+                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
+                    binding.incWorkBegun.incProgress.progressStateThree.background =
+                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
                 it.equals("Completed") -> {
                     binding.incCompleted.root.visibility = View.VISIBLE
+                    binding.incCompleted.incProgress.progressStateTwo.background =
+                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
+                    binding.incCompleted.incProgress.progressStateThree.background =
+                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
+                    binding.incCompleted.incProgress.progressStateFour.background =
+                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
             }
         }
@@ -133,6 +200,24 @@ class DashboardFragment : BaseFragment() {
 
     private fun hideWelcomeCard() {
         binding.incWelcomeCard.root.visibility = View.GONE
+    }
+
+    private fun bitMapFromVector(vectorResID: Int): BitmapDescriptor {
+        val vectorDrawable = ContextCompat.getDrawable(context!!, vectorResID)
+        vectorDrawable!!.setBounds(
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
+        )
+        val bitmap = Bitmap.createBitmap(
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
     companion object {

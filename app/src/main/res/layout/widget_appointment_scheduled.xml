@@ -8,7 +8,6 @@
         app:cardCornerRadius="@dimen/margin_spacing_small">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/appointment_status_installation_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="@dimen/margin_spacing_small"
@@ -37,6 +36,7 @@
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
 
             <include
+                android:id="@+id/incProgress"
                 layout="@layout/widget_progress_status"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"

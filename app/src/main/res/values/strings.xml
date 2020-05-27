@@ -39,7 +39,7 @@
     <string name="change_appointment">Change Appointment</string>
     <string name="fiber_installation_status">Fiber Installation Status</string>
     <string name="installation_scheduled">Installation has been scheduled</string>
-    <string name="text_time_details">Your appointment is between %s and %s</string>
+    <string name="text_time_details">Your appointment is between %1$s and %2$s</string>
     <string name="congratulations">Congratulations!</string>
     <string name="faq_topics">FAQ topics</string>
     <string name="troubleshooting">Troubleshooting</string>
