@@ -11,14 +11,13 @@ import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
-import com.centurylink.biwf.screens.login.LoginViewModel
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import javax.inject.Inject
 
 class AccountFragment : BaseFragment(), AuthServiceHost {
-    override val hostContext: Context = activity!!.baseContext
+    override val hostContext: Context get() = requireActivity()
 
     override val lifecycleOwner: LifecycleOwner = this
 
@@ -32,7 +31,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
     lateinit var accountCoordinator: AccountCoordinator
 
     @Inject
-    lateinit var viewModelFactory: LoginViewModel.Factory
+    lateinit var viewModelFactory: AccountViewModel.Factory
 
     private val viewModel by lazy {
         getViewModel<AccountViewModel>(viewModelFactory.withInput(this))

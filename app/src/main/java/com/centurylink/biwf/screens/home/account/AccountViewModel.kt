@@ -9,7 +9,6 @@ import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.repos.AuthRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.auth.AuthService
@@ -106,9 +105,7 @@ class AccountViewModel internal constructor(
     fun onLogOutClick() {
         viewModelScope.launch {
             val result = authService.revokeToken()
-            if (result) {
-                authService.launchSignInFlow()
-            }
+            if (result) myState.latestValue = AccountCoordinatorDestinations.LOG_IN
         }
     }
 
