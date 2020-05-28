@@ -5,6 +5,7 @@
     <string name="password">Password:</string>
     <string name="personal_info_password">Password</string>
     <string name="log_in">Log In</string>
+    <string name="log_out">Log Out</string>
     <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
     <string name="forgot_password"><u>Forgot Password</u></string>
     <string name="tittle_text_devices">Devices</string>

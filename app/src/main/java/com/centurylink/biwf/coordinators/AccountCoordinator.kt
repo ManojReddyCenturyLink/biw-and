@@ -11,7 +11,12 @@ class AccountCoordinator @Inject constructor(
     override fun navigateTo(destination: AccountCoordinatorDestinations) {
         when (destination) {
             AccountCoordinatorDestinations.PROFILE_INFO -> navigateToPersonalInfoActivity()
+            AccountCoordinatorDestinations.LOG_IN -> navigateToLogInActivity()
         }
+    }
+
+    private fun navigateToLogInActivity() {
+        navigator.navigateToLoginScreen(true)
     }
 
     private fun navigateToPersonalInfoActivity() {
@@ -20,5 +25,5 @@ class AccountCoordinator @Inject constructor(
 }
 
 enum class AccountCoordinatorDestinations {
-    PROFILE_INFO;
+    PROFILE_INFO, LOG_IN;
 }

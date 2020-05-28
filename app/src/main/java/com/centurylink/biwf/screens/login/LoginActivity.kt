@@ -25,7 +25,8 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
     lateinit var navigator: Navigator
 
     private val viewModel by lazy {
-        getViewModel<LoginViewModel>(viewModelFactory.withInput(this))
+        val navFromAccountScreen = intent.getBooleanExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, false)
+        getViewModel<LoginViewModel>(viewModelFactory.withInput(this, navFromAccountScreen))
     }
 
     private lateinit var binding: ActivityLoginBinding
@@ -42,7 +43,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         }
 
         viewModel.myState.observeWith(loginCoordinator)
-
         initOnClicks()
         handleIntent()
     }
@@ -62,7 +62,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 viewModel.onExistingUserLogin()
                 finish()
             }
-
             else -> {
                 Timber.d("Got non-successful AuthResponseType=$authResult")
             }
@@ -76,6 +75,14 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     companion object {
         private const val AUTH_RESPONSE_TYPE = "AuthResponseType"
+        private const val NAVIGATED_FROM_ACCOUNT_SCREEN = "navigatedFromAccountScreen"
+
+        fun newIntent(context: Context, boolean: Boolean): Intent {
+            return Intent(context, LoginActivity::class.java).apply {
+                putExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, boolean)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+        }
 
         private val Intent.authResponseType: AuthResponseType?
             get() = extras?.get(AUTH_RESPONSE_TYPE) as? AuthResponseType
