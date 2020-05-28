@@ -32,6 +32,7 @@ class AccountViewModel internal constructor(
         private val accountRepository: AccountRepository,
         private val contactRepository: ContactRepository,
         private val userRepository: UserRepository,
+        private val sharedPreferences: Preferences,
         private val authServiceFactory: AuthServiceFactory<*>
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
@@ -41,6 +42,7 @@ class AccountViewModel internal constructor(
                     accountRepository,
                     contactRepository,
                     userRepository,
+                    sharedPreferences,
                     authServiceFactory.create(input)
                 )
             }
