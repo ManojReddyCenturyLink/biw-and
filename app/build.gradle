@@ -20,6 +20,7 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         def subDomain = "qa"
@@ -86,7 +87,6 @@ dependencies {
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
-    implementation "androidx.multidex:multidex:$androidxMultidexVersion"
     implementation "androidx.viewpager2:viewpager2:${viewpager2Version}"
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
     implementation "androidx.cardview:cardview:$cardviewVersion"
@@ -132,7 +132,6 @@ dependencies {
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
     testImplementation "io.mockk:mockk:$mockKVersion"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:$mockitoVersion"
     testImplementation "androidx.arch.core:core-testing:$archCoreTestingVersion"
     testImplementation "org.amshove.kluent:kluent-android:$kluentVersion"
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
