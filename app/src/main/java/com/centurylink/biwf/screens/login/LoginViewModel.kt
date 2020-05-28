@@ -21,7 +21,8 @@ import javax.inject.Inject
 class LoginViewModel internal constructor(
     private val accountRepository: AccountRepository,
     private val sharedPreferences: Preferences,
-    private val authService: AuthService<*>
+    private val authService: AuthService<*>,
+    private val navFromAccountScreen: Boolean
 ) : BaseViewModel() {
 
     class Factory @Inject constructor(
@@ -30,12 +31,24 @@ class LoginViewModel internal constructor(
         private val authServiceFactory: AuthServiceFactory<*>
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
+        fun withInput(input: AuthServiceHost, navFromAccountScreen: Boolean): ViewModelProvider.Factory {
+            return viewModelFactory {
+                LoginViewModel(
+                    accountRepository,
+                    sharedPreferences,
+                    authServiceFactory.create(input),
+                    navFromAccountScreen = navFromAccountScreen
+                )
+            }
+        }
+
         override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
             return viewModelFactory {
                 LoginViewModel(
                     accountRepository,
                     sharedPreferences,
-                    authServiceFactory.create(input)
+                    authServiceFactory.create(input),
+                    navFromAccountScreen = false
                 )
             }
         }
@@ -46,6 +59,10 @@ class LoginViewModel internal constructor(
 
     private var userEmail: String? = null
     private var userPassword: String? = null
+
+    init {
+        if (navFromAccountScreen) onLoginClicked()
+    }
 
     fun onEmailTextChanged(email: String) {
         userEmail = email

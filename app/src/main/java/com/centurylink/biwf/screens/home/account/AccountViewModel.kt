@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.account
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.AccountCoordinatorDestinations
@@ -10,19 +11,39 @@ import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
-import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.DateUtils
-import com.centurylink.biwf.utility.EventFlow
-import com.centurylink.biwf.utility.EventLiveData
+import com.centurylink.biwf.service.auth.AuthService
+import com.centurylink.biwf.service.auth.AuthServiceFactory
+import com.centurylink.biwf.service.auth.AuthServiceHost
+import com.centurylink.biwf.utility.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class AccountViewModel @Inject constructor(
+class AccountViewModel internal constructor(
     private val accountRepository: AccountRepository,
     private val contactRepository: ContactRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val authService: AuthService<*>
 ) : BaseViewModel() {
+
+    class Factory @Inject constructor(
+        private val accountRepository: AccountRepository,
+        private val contactRepository: ContactRepository,
+        private val userRepository: UserRepository,
+        private val authServiceFactory: AuthServiceFactory<*>
+    ) : ViewModelFactoryWithInput<AuthServiceHost> {
+
+        override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
+            return viewModelFactory {
+                AccountViewModel(
+                    accountRepository,
+                    contactRepository,
+                    userRepository,
+                    authServiceFactory.create(input)
+                )
+            }
+        }
+    }
 
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
@@ -79,6 +100,13 @@ class AccountViewModel @Inject constructor(
 
     fun onPersonalInfoCardClick() {
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
+    }
+
+    fun onLogOutClick() {
+        viewModelScope.launch {
+            val result = authService.revokeToken()
+            if (result) myState.latestValue = AccountCoordinatorDestinations.LOG_IN
+        }
     }
 
     private suspend fun requestUserInfo() {

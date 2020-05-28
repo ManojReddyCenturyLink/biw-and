@@ -5,16 +5,17 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.centurylink.biwf.R
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
-import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
+import com.centurylink.biwf.screens.login.LoginActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
-import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
-import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
@@ -154,6 +155,13 @@ class Navigator @Inject constructor() : LifecycleObserver {
                 SubscriptionStatementActivity.newIntent(it, bundle),
                 CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
             )
+        }
+    }
+
+    fun navigateToLoginScreen(isAccountScreen: Boolean) {
+        activity?.also {
+            it.startActivity(LoginActivity.newIntent(it, isAccountScreen))
+            activity?.finish()
         }
     }
 

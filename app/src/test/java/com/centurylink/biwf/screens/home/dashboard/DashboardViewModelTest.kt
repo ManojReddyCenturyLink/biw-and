@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.network.Status
+import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import io.mockk.impl.annotations.MockK
@@ -23,6 +24,10 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @MockK
     lateinit var notificationRepository: NotificationRepository
+    @MockK
+    lateinit var appointmentRepository: AppointmentRepository
+
+
     private val notificationList = mutableListOf(
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -43,7 +48,10 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         val notificationSource = NotificationSource()
         notificationSource.notificationlist = notificationList
         result.value = Resource(Status.SUCCESS, notificationSource, "")
-        viewModel = DashboardViewModel(notificationRepository = notificationRepository)
+        viewModel = DashboardViewModel(
+            notificationRepository = notificationRepository,
+            appointmentRepository = appointmentRepository
+        )
     }
 
     @Test
@@ -62,7 +70,6 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     @Test
     fun `retrieve Notification with ViewModel and Repository returns an data`(){
         with(viewModel){
-            getNotificationDetails()
             notificationLiveData.value = notificationList
         }
         Assert.assertTrue(viewModel.notificationLiveData.value?.size==notificationList.size)
