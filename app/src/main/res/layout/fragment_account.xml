@@ -333,8 +333,8 @@
 
             <Button
                 android:id="@+id/log_out_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="32dp"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_margin="64dp"
                 android:background="@drawable/button_thin_border_transparent_background"
