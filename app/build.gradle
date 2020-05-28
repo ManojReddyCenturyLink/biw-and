@@ -81,6 +81,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutineVersion"
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
+    implementation "com.jakewharton.threetenabp:threetenabp:$threeThenABPVersion"
+
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
     implementation "androidx.core:core-ktx:$androidxCoreVersion"
     implementation "androidx.constraintlayout:constraintlayout:$androidxConstraintLayoutVersion"
@@ -88,7 +90,7 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:${viewpager2Version}"
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
     implementation "androidx.cardview:cardview:$cardviewVersion"
-    implementation "androidx.security:security-crypto:1.0.0-rc01"
+    implementation "androidx.security:security-crypto:1.0.0-rc02"
     implementation "com.google.android.material:material:${materialComponentsVersion}"
 
     /* Dagger2 - default dependency */
@@ -140,6 +142,7 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
     testImplementation "com.squareup.okhttp3:mockwebserver:4.4.0"
+    testImplementation "org.threeten:threetenbp:1.4.4"
 }
 
 dokka {
