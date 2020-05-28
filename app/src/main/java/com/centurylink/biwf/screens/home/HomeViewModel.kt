@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home
 
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -44,6 +45,7 @@ class HomeViewModel @Inject constructor(
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
+        requestTestRestFlow()
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {
@@ -87,10 +89,12 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val sumUpResult = integrationServices.calculateSum(12, 25, SumUpInput(10))
             Timber.d("IntegrationService test: sumUp returned $sumUpResult")
-
+            val response = integrationServices.getNotification("notifications")
+            Log.i("JAMMY", "Response " + response)
             testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
                 when (it) {
-                    is Either.Left -> testRestErrorFlow.latestValue = "Encountered error ${it.error}"
+                    is Either.Left -> testRestErrorFlow.latestValue =
+                        "Encountered error ${it.error}"
                     is Either.Right -> testRestFlow.latestValue = it.value.toString()
                 }
             }

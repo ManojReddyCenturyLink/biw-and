@@ -7,5 +7,5 @@ import retrofit2.http.GET
 interface NotificationService {
 
     @GET("notifications.json")
-    fun getNotificationDetails(): FiberServiceResult<NotificationSource>
+    suspend fun getNotificationDetails(): FiberServiceResult<NotificationSource>
 }

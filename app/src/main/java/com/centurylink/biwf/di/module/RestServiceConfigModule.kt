@@ -161,7 +161,7 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideNotificationApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): NotificationService {
+    fun provideNotificationApiServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): NotificationService {
         return factory.create()
     }
 }
