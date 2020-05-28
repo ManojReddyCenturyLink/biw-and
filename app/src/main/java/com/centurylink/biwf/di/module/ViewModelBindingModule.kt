@@ -69,11 +69,6 @@ abstract class ViewModelModule {
     @ViewModelKey(FAQViewModel::class)
     abstract fun bindFAQViewModel(faqModel: FAQViewModel): ViewModel
 
-//    @Binds
-//    @IntoMap
-//    @ViewModelKey(AccountViewModel::class)
-//    abstract fun bindAccountViewModel(accountViewModel: AccountViewModel): ViewModel
-
     @Binds
     @IntoMap
     @ViewModelKey(CancelSubscriptionViewModel::class)

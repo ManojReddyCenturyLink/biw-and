@@ -25,7 +25,8 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
     lateinit var navigator: Navigator
 
     private val viewModel by lazy {
-        getViewModel<LoginViewModel>(viewModelFactory.withInput(this))
+        val navFromAccountScreen = intent.getBooleanExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, false)
+        getViewModel<LoginViewModel>(viewModelFactory.withInput(this, navFromAccountScreen))
     }
 
     private lateinit var binding: ActivityLoginBinding
@@ -42,7 +43,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         }
 
         viewModel.myState.observeWith(loginCoordinator)
-        if(intent.getBooleanExtra(NAVIGATED_FROM_ACCOUNT_SCREEN,false))viewModel.onLoginClicked()
         initOnClicks()
         handleIntent()
     }
@@ -62,7 +62,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 viewModel.onExistingUserLogin()
                 finish()
             }
-
             else -> {
                 Timber.d("Got non-successful AuthResponseType=$authResult")
             }

@@ -1,19 +1,16 @@
 package com.centurylink.biwf.screens.home.account
 
-import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.AccountCoordinatorDestinations
-import com.centurylink.biwf.model.Account
-import com.centurylink.biwf.model.CommunicationPreferences
-import com.centurylink.biwf.model.Subscription
-import com.centurylink.biwf.repos.*
+import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.ContactRepository
+import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.auth.AuthService
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
-import org.amshove.kluent.internal.assertSame
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

@@ -161,6 +161,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToLoginScreen(isAccountScreen: Boolean) {
         activity?.also {
             it.startActivity(LoginActivity.newIntent(it, isAccountScreen))
+            activity?.finish()
         }
     }
 
