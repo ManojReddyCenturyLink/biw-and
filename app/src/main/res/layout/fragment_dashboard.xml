@@ -17,134 +17,134 @@
         android:layout_height="match_parent"
         android:background="@color/background_grey">
 
-        <include
-            android:id="@+id/incStarted"
-            layout="@layout/widget_appointment_scheduled"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/incStarted"
+                layout="@layout/widget_appointment_scheduled"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin_spacing"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/incEnroute"
-            layout="@layout/widget_status_enroute"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/incEnroute"
+                layout="@layout/widget_status_enroute"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin_spacing"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/incWorkBegun"
-            layout="@layout/widget_status_work_begun"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            android:visibility="visible"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/incWorkBegun"
+                layout="@layout/widget_status_work_begun"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin_spacing"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/incCompleted"
-            layout="@layout/widget_installation_completed"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <include
+                android:id="@+id/incCompleted"
+                layout="@layout/widget_installation_completed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin_spacing"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/horizontalBarrier"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:barrierDirection="bottom"
-            app:constraint_referenced_ids="incEnroute,incStarted,incCompleted,incWorkBegun" />
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/horizontalBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="incEnroute,incStarted,incCompleted,incWorkBegun" />
 
-        <include
-            android:id="@+id/incWelcomeCard"
-            layout="@layout/widget_welcome_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier" />
+            <include
+                android:id="@+id/incWelcomeCard"
+                layout="@layout/widget_welcome_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/medium_margin_spacing"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier" />
 
-        <include
-            android:id="@+id/incSpeedTest"
-            layout="@layout/widget_speedtest"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:visibility="@{states? View.GONE : View.VISIBLE}"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incWelcomeCard" />
+            <include
+                android:id="@+id/incSpeedTest"
+                layout="@layout/widget_speedtest"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/incWelcomeCard" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/bottom_card"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/bottom_card_bg"
-            android:elevation="23dp"
-            android:visibility="@{states? View.GONE : View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="@+id/middle_card"
-            app:layout_constraintStart_toStartOf="@+id/middle_card"
-            app:layout_constraintTop_toTopOf="@+id/middle_card">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/bottom_card"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bottom_card_bg"
+                android:elevation="23dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/middle_card"
+                app:layout_constraintStart_toStartOf="@+id/middle_card"
+                app:layout_constraintTop_toTopOf="@+id/middle_card">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/middle_card"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/middle_card_bg"
-            android:elevation="24dp"
-            android:visibility="@{states? View.GONE : View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="@+id/top_card"
-            app:layout_constraintStart_toStartOf="@+id/top_card"
-            app:layout_constraintTop_toTopOf="@+id/top_card">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/middle_card"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/middle_card_bg"
+                android:elevation="24dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="@+id/top_card"
+                app:layout_constraintStart_toStartOf="@+id/top_card"
+                app:layout_constraintTop_toTopOf="@+id/top_card">
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/top_card"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_margin="@dimen/margin_spacing_really_small"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/top_card_bg"
-            android:elevation="25dp"
-            android:visibility="@{states? View.GONE : View.VISIBLE}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:padding="@dimen/margin_spacing_tiny"
-            app:layout_constraintTop_toBottomOf="@+id/incSpeedTest">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/top_card"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_margin="@dimen/margin_spacing_really_small"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/top_card_bg"
+                android:elevation="25dp"
+                android:padding="@dimen/margin_spacing_tiny"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/incSpeedTest">
 
                 <View
                     android:id="@+id/notification_side_bar"
                     android:layout_width="@dimen/margin_spacing_tiny"
                     android:layout_height="0dp"
-                    android:background="@drawable/notification_card_vertical_bar"
                     android:layout_marginBottom="@dimen/cardview_elevation"
+                    android:background="@drawable/notification_card_vertical_bar"
                     app:layout_constraintBottom_toBottomOf="@+id/notification_msg"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -154,11 +154,11 @@
                     style="@style/SubHeading"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:textColor="@color/blue"
                     android:layout_marginStart="@dimen/margin_spacing_tiny"
                     android:layout_marginEnd="@dimen/margin_spacing_tiny"
+                    android:maxLines="1"
                     android:singleLine="true"
+                    android:textColor="@color/blue"
                     app:layout_constraintEnd_toStartOf="@+id/notification_dismiss_button"
                     app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
                     app:layout_constraintTop_toTopOf="parent"
@@ -168,11 +168,11 @@
                     android:id="@+id/notification_msg"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_spacing_tiny"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="@dimen/margin_spacing_tiny"
                     android:ellipsize="marquee"
                     android:maxLines="2"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginStart="@dimen/margin_spacing_tiny"
-                    android:layout_marginEnd="@dimen/margin_spacing_tiny"
                     android:paddingBottom="@dimen/margin_spacing_tiny"
                     android:textColor="@color/blue_dark"
                     android:textSize="12sp"
@@ -185,28 +185,27 @@
                     android:id="@+id/notification_dismiss_button"
                     android:layout_width="wrap_content"
                     android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/above_cardview_elevation"
+                    android:layout_marginEnd="@dimen/above_cardview_elevation"
                     android:background="@drawable/blue_background_rounded_corner"
                     android:contentDescription="@string/notification"
                     android:padding="@dimen/margin_spacing_really_small"
-                    android:layout_marginStart="@dimen/above_cardview_elevation"
-                    android:layout_marginEnd="@dimen/above_cardview_elevation"
                     android:src="@drawable/ic_icon_close_blue"
                     app:layout_constraintBottom_toBottomOf="@+id/notification_side_bar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/notification_side_bar" />
 
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpagerNotification"
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/margin_spacing_really_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/incSpeedTest" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpagerNotification"
-            android:layout_width="0dp"
-            android:layout_height="80dp"
-            android:layout_gravity="center"
-            android:layout_margin="@dimen/margin_spacing_really_small"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incSpeedTest" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

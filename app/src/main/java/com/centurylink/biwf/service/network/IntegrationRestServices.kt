@@ -22,7 +22,7 @@ interface IntegrationRestServices {
     ): SumUpResult
 
     @GET("/sobject/notification/{value1}")
-    suspend fun getNotification(
+    suspend fun getNotificationDetails(
         @Path("value1") value1: String
     ): NotificationSource
 }

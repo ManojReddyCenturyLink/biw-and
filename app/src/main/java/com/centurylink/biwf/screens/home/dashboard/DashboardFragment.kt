@@ -48,7 +48,7 @@ class DashboardFragment : BaseFragment() {
 
     private var mWorkbegunMapFragment: SupportMapFragment? = null
 
-    private val USER_LAT_LNG = LatLng(39.742043, -104.991531)
+    private val latLng = LatLng(39.742043, -104.991531)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,11 +63,9 @@ class DashboardFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
-        /*Added dummy state variable to test layout for different scenarios */
-        binding.states = newUser
         initOnClicks()
         getAppointmentStatus()
-        getNotificationInformation()
+        observeNotificationViews()
         binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
@@ -90,9 +88,9 @@ class DashboardFragment : BaseFragment() {
             googleMap ?: return@OnMapReadyCallback
             with(googleMap) {
                 //googleMap.isIndoorEnabled = true
-                moveCamera(CameraUpdateFactory.newLatLngZoom(USER_LAT_LNG, 8.0f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8.0f))
                 addMarker(
-                    MarkerOptions().position(USER_LAT_LNG)
+                    MarkerOptions().position(latLng)
                         .icon(bitMapFromVector(R.drawable.green_marker))
                 )
             }
@@ -103,9 +101,9 @@ class DashboardFragment : BaseFragment() {
             googleMap ?: return@OnMapReadyCallback
             with(googleMap) {
                 //googleMap.isIndoorEnabled = true
-                moveCamera(CameraUpdateFactory.newLatLngZoom(USER_LAT_LNG, 6.0f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 6.0f))
                 addMarker(
-                    MarkerOptions().position(USER_LAT_LNG)
+                    MarkerOptions().position(latLng)
                         .icon(bitMapFromVector(R.drawable.green_marker))
                 )
             }
@@ -113,23 +111,23 @@ class DashboardFragment : BaseFragment() {
 
     private fun getAppointmentStatus() {
         dashboardViewModel.appointmentStatusFlow.observe {
-            when {
-                it.equals("Scheduled") || it.equals("Dispatched") || it.equals("None") -> {
+            when (it) {
+                "Scheduled", "Dispatched", "None" -> {
                     binding.incStarted.root.visibility = View.VISIBLE
                 }
-                it.equals("Enroute") -> {
+                "Enroute" -> {
                     binding.incEnroute.root.visibility = View.VISIBLE
                     binding.incEnroute.incProgress.progressStateTwo.background =
                         resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
-                it.equals("Work Begun") -> {
+                "Work Begun" -> {
                     binding.incWorkBegun.root.visibility = View.VISIBLE
                     binding.incWorkBegun.incProgress.progressStateTwo.background =
                         resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                     binding.incWorkBegun.incProgress.progressStateThree.background =
                         resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
-                it.equals("Completed") -> {
+                "Completed" -> {
                     binding.incCompleted.root.visibility = View.VISIBLE
                     binding.incCompleted.incProgress.progressStateTwo.background =
                         resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
@@ -142,7 +140,7 @@ class DashboardFragment : BaseFragment() {
         }
     }
 
-    private fun getNotificationInformation() {
+    private fun observeNotificationViews() {
         dashboardViewModel.notificationListDetails.observe {
             dashboardViewModel.displaySortedNotifications(it.notificationlist)
             displaySortedNotification()
@@ -167,8 +165,8 @@ class DashboardFragment : BaseFragment() {
                     binding.bottomCard.visibility = View.GONE
                 }
             }
-            binding.notificationTitle.text = unreadNotificationList.get(0).name
-            binding.notificationMsg.text = unreadNotificationList.get(0).description
+            binding.notificationTitle.text = unreadNotificationList[0].name
+            binding.notificationMsg.text = unreadNotificationList[0].description
         } else {
             binding.topCard.visibility = View.GONE
             binding.middleCard.visibility = View.GONE
@@ -180,11 +178,11 @@ class DashboardFragment : BaseFragment() {
         binding.incStarted.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incWelcomeCard.notificationDismissButton.setOnClickListener { hideWelcomeCard() }
         binding.notificationDismissButton.setOnClickListener {
-            dashboardViewModel.markNotificationAsRead(unreadNotificationList.get(0))
+            dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
             displaySortedNotification()
         }
         binding.topCard.setOnClickListener {
-            dashboardViewModel.navigateToNotificationDetails(unreadNotificationList.get(0))
+            dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
         }
     }
 

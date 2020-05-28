@@ -89,7 +89,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             val sumUpResult = integrationServices.calculateSum(12, 25, SumUpInput(10))
             Timber.d("IntegrationService test: sumUp returned $sumUpResult")
-            val response = integrationServices.getNotification("notifications")
+            val response = integrationServices.getNotificationDetails("notifications")
             Log.i("JAMMY", "Response " + response)
             testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
                 when (it) {

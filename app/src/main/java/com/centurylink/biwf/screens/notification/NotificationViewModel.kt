@@ -54,10 +54,7 @@ class NotificationViewModel @Inject constructor(
 
     private suspend fun requestNotificationDetails() {
         val result = notificationRepository.getNotificationDetails()
-        result.fold(ifLeft = {
-        }) {
-            notificationListDetails.latestValue = it
-        }
+        notificationListDetails.latestValue = result
     }
 
     fun getNotificationDetails() = notificationListDetails

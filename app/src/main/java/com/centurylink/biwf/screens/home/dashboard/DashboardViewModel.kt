@@ -41,13 +41,8 @@ class DashboardViewModel @Inject constructor(
 
     private suspend fun requestNotificationDetails() {
         val result = notificationRepository.getNotificationDetails()
-        result.fold(ifLeft = {
-        }) {
-            notificationListDetails.latestValue = it
-        }
+        notificationListDetails.latestValue = result
     }
-
-    fun getNotificationDetails() = notificationListDetails
 
     fun getChangeAppointment() {
         myState.latestValue = DashboardCoordinatorDestinations.CHANGE_APPOINTMENT
@@ -76,14 +71,6 @@ class DashboardViewModel @Inject constructor(
                 mergedNotificationList.remove(unreadItem)
             }
             notificationLiveData.value = unreadNotificationList
-        }
-    }
-
-    fun callAppointmentStatusApi() {
-        viewModelScope.launch {
-            //ADD API CAll HERE
-            val res = ""
-            appointmentStatusFlow.latestValue = res
         }
     }
 
