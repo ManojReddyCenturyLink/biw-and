@@ -6,7 +6,7 @@ import java.util.*
 
 class DateUtils {
     companion object {
-        const val  STANDARD_FORMAT="yyyy-MM-dd"
+        const val STANDARD_FORMAT = "yyyy-MM-dd"
         fun formatInvoiceDate(dateInput: String): String {
             var formattedDate: String = ""
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
@@ -20,6 +20,7 @@ class DateUtils {
             }
             return formattedDate
         }
+
         fun toSimpleString(date: Date, format: String): String {
             val format = SimpleDateFormat(format)
             return format.format(date)

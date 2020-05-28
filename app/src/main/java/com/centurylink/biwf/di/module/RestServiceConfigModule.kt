@@ -137,6 +137,12 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
+    fun provideAppointmentService(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): AppointmentService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
     fun provideBillingApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): BillingApiServices {
         return factory.create()
     }

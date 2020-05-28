@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.network.Status
+import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import io.mockk.every
@@ -24,6 +25,10 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @MockK
     lateinit var notificationRepository: NotificationRepository
+    @MockK
+    lateinit var appointmentRepository: AppointmentRepository
+
+
     private val notificationList = mutableListOf(
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -45,7 +50,10 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         notificationSource.notificationlist = notificationList
         result.value = Resource(Status.SUCCESS,notificationSource,"")
         every {(notificationRepository.getNotificationDetails())}.returns(result)
-        viewModel = DashboardViewModel(notificationRepository = notificationRepository)
+        viewModel = DashboardViewModel(
+            notificationRepository = notificationRepository,
+            appointmentRepository = appointmentRepository
+        )
     }
 
     @Test
