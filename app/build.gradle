@@ -132,8 +132,6 @@ dependencies {
     //biometrics
     implementation "androidx.biometric:biometric:$biometricVersion"
 
-    implementation 'com.jakewharton.threetenabp:threetenabp:1.2.4'
-
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
     testImplementation "io.mockk:mockk:$mockKVersion"

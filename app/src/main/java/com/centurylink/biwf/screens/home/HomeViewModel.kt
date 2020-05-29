@@ -35,7 +35,7 @@ class HomeViewModel @Inject constructor(
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
-    val displayBioMetricPrompt = EventFlow<List<Int>>()
+    val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
     val refreshBioMetrics = EventFlow<Unit>()
 
     // Example: Expose data through Flow properties.
@@ -46,18 +46,18 @@ class HomeViewModel @Inject constructor(
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
 
-    private val list = listOf(
-        R.string.welcome_to_dashboard,
-        R.string.biometric_dialog_message,
-        R.string.ok,
-        R.string.dont_allow
+    private val dialogMessage = ChoiceDialogMessage(
+        title = R.string.welcome_to_dashboard,
+        message = R.string.biometric_dialog_message,
+        positiveText = R.string.ok,
+        negativeText = R.string.dont_allow
     )
 
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
         if (!sharedPreferences.getHasSeenDialog()) {
-            displayBioMetricPrompt.latestValue = list
+            displayBioMetricPrompt.latestValue = dialogMessage
             sharedPreferences.saveHasSeenDialog()
         }
     }
@@ -147,3 +147,10 @@ class HomeViewModel @Inject constructor(
         return list
     }
 }
+
+data class ChoiceDialogMessage(
+    val title: Int,
+    val message: Int,
+    val positiveText: Int,
+    val negativeText: Int
+)

@@ -116,7 +116,7 @@ class HomeActivity : BaseActivity(), ChoiceDialogFragment.BioMetricDialogCallbac
         binding.vpDashboard.currentItem = 1
     }
 
-    private fun biometricCheck(list: List<Int>) {
+    private fun biometricCheck(list: ChoiceDialogMessage) {
         val biometricManager = BiometricManager.from(this)
 
         when (biometricManager.canAuthenticate()) {
@@ -132,13 +132,13 @@ class HomeActivity : BaseActivity(), ChoiceDialogFragment.BioMetricDialogCallbac
         }
     }
 
-    private fun openBioMetricDialog(list: List<Int>) {
+    private fun openBioMetricDialog(dialogMessage: ChoiceDialogMessage) {
         ChoiceDialogFragment(
-            getString(list[0]),
-            getString(list[1]),
-            getString(list[2]),
-            getString(list[3]))
-            .show(supportFragmentManager, null)
+            getString(dialogMessage.title),
+            getString(dialogMessage.message),
+            getString(dialogMessage.positiveText),
+            getString(dialogMessage.negativeText)
+        ).show(supportFragmentManager, null)
     }
 
     private fun refreshAccountFragment() {

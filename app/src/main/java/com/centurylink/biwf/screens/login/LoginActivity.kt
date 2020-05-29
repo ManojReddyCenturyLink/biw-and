@@ -3,12 +3,10 @@ package com.centurylink.biwf.screens.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import com.centurylink.biwf.BIWFApp
-import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
 import com.centurylink.biwf.coordinators.Navigator
@@ -46,7 +44,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         viewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
             showBioMetricsLogin.observe {
-                biometricCheck()
+                biometricCheck(it)
             }
         }
 
@@ -55,12 +53,12 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         handleIntent()
     }
 
-    private fun biometricCheck() {
+    private fun biometricCheck(biometricPrompt: BiometricPromptMessage) {
         val biometricManager = BiometricManager.from(this)
 
         when (biometricManager.canAuthenticate()) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
-                showBioDialog()
+                showBioDialog(biometricPrompt)
             }
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
             }
@@ -71,7 +69,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         }
     }
 
-    private fun showBioDialog() {
+    private fun showBioDialog(biometricMessage: BiometricPromptMessage) {
         val executor = ContextCompat.getMainExecutor(this)
         val biometricPrompt = BiometricPrompt(this, executor,
             object : BiometricPrompt.AuthenticationCallback() {
@@ -80,12 +78,8 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                     errString: CharSequence
                 ) {
                     super.onAuthenticationError(errorCode, errString)
-                    Toast.makeText(
-                        applicationContext,
-                        "Authentication error: $errString", Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    showBioDialog()
+                    Timber.d("Error  -- $errString")
+                    showBioDialog(biometricMessage)
                 }
 
                 override fun onAuthenticationSucceeded(
@@ -97,18 +91,14 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(
-                        applicationContext, "Authentication failed",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    Timber.d("Authentication Failed")
                 }
             })
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(getString(R.string.biometric_prompt_title))
-            .setSubtitle(getString(R.string.biometric_prompt_message))
-            .setNegativeButtonText(getString(R.string.cancel))
+            .setTitle(getString(biometricMessage.title))
+            .setSubtitle(getString(biometricMessage.subTitle))
+            .setNegativeButtonText(getString(biometricMessage.negativeText))
             .build()
 
         biometricPrompt.authenticate(promptInfo)

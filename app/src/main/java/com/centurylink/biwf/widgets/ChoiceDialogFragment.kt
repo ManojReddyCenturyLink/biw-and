@@ -9,7 +9,6 @@ import com.centurylink.biwf.R
 class ChoiceDialogFragment : DialogFragment() {
 
     private lateinit var callback: BioMetricDialogCallback
-    private lateinit var _context: Context
     private lateinit var title: String
     private lateinit var message: String
     private lateinit var positiveText: String
@@ -18,7 +17,6 @@ class ChoiceDialogFragment : DialogFragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = context as BioMetricDialogCallback
-        _context = context
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,24 +30,15 @@ class ChoiceDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
-        val builder = AlertDialog.Builder(_context)
+        val builder = AlertDialog.Builder(requireActivity(), R.style.choiceDialog)
             .setTitle(title)
             .setMessage(message)
         builder.setPositiveButton(positiveText) { _, _ ->
             callback.onOkBiometricResponse()
             dismiss()
         }
-        builder.setNegativeButton(negativeText) { _, _ ->
-            dismiss()
-        }
-        val dialog = builder.create()
-        dialog.setOnShowListener {
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(resources.getColor(R.color.blue, null))
-            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
-                .setTextColor(resources.getColor(R.color.font_color_medium_grey, null))
-        }
-
-        return dialog
+        builder.setNegativeButton(negativeText) { _, _ -> dismiss() }
+        return builder.create()
     }
 
     interface BioMetricDialogCallback {
