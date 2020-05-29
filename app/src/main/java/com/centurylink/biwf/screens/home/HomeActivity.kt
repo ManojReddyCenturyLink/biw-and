@@ -3,8 +3,8 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.biometric.BiometricManager
 import android.view.View
+import androidx.biometric.BiometricManager
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -20,7 +20,8 @@ import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity(), GetStartedEventClickListener, ChoiceDialogFragment.BioMetricDialogCallback {
+class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListener,
+    ChoiceDialogFragment.BioMetricDialogCallback {
 
     @Inject
     lateinit var homeCoordinator: HomeCoordinator
@@ -143,7 +144,8 @@ class HomeActivity : BaseActivity(), GetStartedEventClickListener, ChoiceDialogF
     }
 
     private fun refreshAccountFragment() {
-        val accountFrag = supportFragmentManager.findFragmentById(R.id.account_container) as AccountFragment?
+        val accountFrag =
+            supportFragmentManager.findFragmentById(R.id.account_container) as AccountFragment?
         accountFrag?.refreshBioMetrics()
     }
 
