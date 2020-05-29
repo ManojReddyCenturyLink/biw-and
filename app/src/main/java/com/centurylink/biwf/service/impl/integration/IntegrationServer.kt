@@ -2,11 +2,15 @@
 
 package com.centurylink.biwf.service.impl.integration
 
+import android.util.Log
 import com.centurylink.biwf.mockintegrationserver.EmbeddedServer
+import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
+import com.centurylink.biwf.service.impl.integration.model.AppointmentPath
 import com.centurylink.biwf.service.impl.integration.model.NotificationPath
 import com.centurylink.biwf.service.impl.integration.model.SumUpParams
+import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.locations.get
 import io.ktor.locations.post
@@ -31,7 +35,15 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
     get<NotificationPath> {
         call.respondOutputStream {
             javaClass.classLoader!!
-                .getResourceAsStream("api-response/notification.json")
+                .getResourceAsStream("api-response/notifications.json")
+                .copyTo(this)
+        }
+    }
+
+    get<AppointmentPath> {
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/appointments.json")
                 .copyTo(this)
         }
     }

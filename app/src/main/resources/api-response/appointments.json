@@ -1,0 +1,40 @@
+{
+   "totalSize":1,
+   "done":true,
+   "records":[
+      {
+         "attributes":{
+            "type":"ServiceAppointment",
+            "url":"/services/data/v46.0/sobjects/ServiceAppointment/08pf00000008dTjAAI"
+         },
+         "Id":"08pf00000008dTjAAI",
+         "ArrivalWindowEndTime":"2020-07-14T22:00:00.000+0000",
+         "ArrivalWindowStartTime":"2020-07-14T20:00:00.000+0000",
+         "Status":"Completed",
+         "Job_Type__c":"Fiber Install - For Installations",
+         "WorkTypeId":"08qf00000008QgpAAE",
+         "Latitude":39.852448,
+         "Longitude":-104.97592,
+         "ServiceResources":{
+            "totalSize":1,
+            "done":true,
+            "records":[
+               {
+                  "attributes":{
+                     "type":"AssignedResource",
+                     "url":"/services/data/v46.0/sobjects/AssignedResource/03rf000000092wJAAQ"
+                  },
+                  "ServiceResource":{
+                     "attributes":{
+                        "type":"ServiceResource",
+                        "url":"/services/data/v46.0/sobjects/ServiceResource/0Hnf00000004FpvCAE"
+                     },
+                     "Id":"0Hnf00000004FpvCAE",
+                     "Name":"Technician 2"
+                  }
+               }
+            ]
+         }
+      }
+   ]
+}
