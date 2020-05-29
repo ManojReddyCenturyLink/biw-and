@@ -76,7 +76,7 @@ class HomeActivity : BaseActivity() {
             )
             networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
         }
-            setupTabsViewPager()
+        setupTabsViewPager()
     }
 
     fun launchSubscriptionActivity() {
@@ -93,21 +93,19 @@ class HomeActivity : BaseActivity() {
         //For future reference to load data and display on screen
         viewModel.loadData()
         binding.vpDashboard.adapter = adapter
-        //viewModel.jobType.observe {
-            if ("it" == resources.getString(R.string.new_user_job_type)) {
-            //if (true) {
+        viewModel.jobType.observe {
+            if (it == resources.getString(R.string.new_user_job_type)) {
                 adapter.submitList(viewModel.upperTabHeaderList)
                 TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
                     TabLayoutMediator.OnConfigureTabCallback
                     { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
-            }
-            else {
+            } else {
                 adapter.submitList(viewModel.lowerTabHeaderList)
                 TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
                     TabLayoutMediator.OnConfigureTabCallback
                     { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
             }
-       // }
+        }
     }
 
     companion object {

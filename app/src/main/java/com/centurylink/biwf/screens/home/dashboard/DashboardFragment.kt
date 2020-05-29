@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.home.dashboard
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +18,7 @@ import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -48,13 +50,15 @@ class DashboardFragment : BaseFragment() {
 
     private var mWorkbegunMapFragment: SupportMapFragment? = null
 
-    private val latLng = LatLng(39.742043, -104.991531)
+    private val originLatLng = LatLng(12.9121, 77.6446)
+    private val destinationLatLng = LatLng(12.9304, 77.6784)
+    lateinit var mMap: GoogleMap
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
         //Service call and check user type
-        newUser = arguments!!.getBoolean(KEY_NEW_USER, newUser)
+        //newUser = arguments!!.getBoolean(KEY_NEW_USER, newUser)
     }
 
     override fun onCreateView(
@@ -73,11 +77,19 @@ class DashboardFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupMap()
+    }
 
+    private fun setupMap() {
         val fm = childFragmentManager
 
         mEnrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
         mWorkbegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
+
+//        val url: String = getDirectionsUrl(originLatLng, destinationLatLng)
+//
+//        // Start downloading json data from Google Directions API
+//        DownloadTask().execute(url)
 
         mEnrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
         mWorkbegunMapFragment?.getMapAsync(mOnMapReadyCallback)
@@ -86,13 +98,18 @@ class DashboardFragment : BaseFragment() {
     private var enrouteOnMapReadyCallback: OnMapReadyCallback =
         OnMapReadyCallback { googleMap ->
             googleMap ?: return@OnMapReadyCallback
+            mMap = googleMap
             with(googleMap) {
-                //googleMap.isIndoorEnabled = true
-                moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 8.0f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 14.0f))
                 addMarker(
-                    MarkerOptions().position(latLng)
+                    MarkerOptions().position(originLatLng)
+                        .icon(bitMapFromVector(R.drawable.blue_marker))
+                )
+                addMarker(
+                    MarkerOptions().position(destinationLatLng)
                         .icon(bitMapFromVector(R.drawable.green_marker))
                 )
+                animateCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 10f))
             }
         }
 
@@ -100,10 +117,9 @@ class DashboardFragment : BaseFragment() {
         OnMapReadyCallback { googleMap ->
             googleMap ?: return@OnMapReadyCallback
             with(googleMap) {
-                //googleMap.isIndoorEnabled = true
-                moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 6.0f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 18.0f))
                 addMarker(
-                    MarkerOptions().position(latLng)
+                    MarkerOptions().position(originLatLng)
                         .icon(bitMapFromVector(R.drawable.green_marker))
                 )
             }
@@ -111,6 +127,7 @@ class DashboardFragment : BaseFragment() {
 
     private fun getAppointmentStatus() {
         dashboardViewModel.dashBoardDetailsInfo.observe {
+            Log.d("2ee", "" + it)
             when (it.toString()) {
                 "Scheduled", "Dispatched", "None" -> {
                     binding.incStarted.root.visibility = View.VISIBLE
@@ -172,6 +189,9 @@ class DashboardFragment : BaseFragment() {
         binding.topCard.setOnClickListener {
             dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
         }
+        binding.incCompleted.getStartedBtn.setOnClickListener {
+            dashboardViewModel.onGetStartedClick()
+        }
     }
 
     private fun hideWelcomeCard() {
@@ -195,6 +215,116 @@ class DashboardFragment : BaseFragment() {
         vectorDrawable.draw(canvas)
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
+
+
+//    private class DownloadTask :
+//        AsyncTask<String?, Void?, String>() {
+//
+//        override fun onPostExecute(result: String) {
+//            super.onPostExecute(result)
+//            val parserTask = ParserTask()
+//            parserTask.execute(result)
+//        }
+//
+//        override fun doInBackground(vararg params: String?): String {
+//            var data = ""
+//            try {
+//                data = downloadUrl(params[0]!!)
+//            } catch (e: Exception) {
+//                Log.d("Background Task", e.toString())
+//            }
+//            return data
+//        }
+//
+//        private fun downloadUrl(strUrl: String): String {
+//            var data = ""
+//            var iStream: InputStream? = null
+//            var urlConnection: HttpURLConnection? = null
+//            try {
+//                val url = URL(strUrl)
+//                urlConnection = url.openConnection() as HttpURLConnection
+//                urlConnection.connect()
+//                iStream = urlConnection.inputStream
+//                val br =
+//                    BufferedReader(InputStreamReader(iStream))
+//                val sb = StringBuffer()
+//                var line: String? = ""
+//                while (br.readLine().also { line = it } != null) {
+//                    sb.append(line)
+//                }
+//                data = sb.toString()
+//                br.close()
+//            } catch (e: java.lang.Exception) {
+//                Log.d("Exception", e.toString())
+//            } finally {
+//                iStream!!.close()
+//                urlConnection!!.disconnect()
+//            }
+//            return data
+//        }
+//    }
+//
+//    private fun getDirectionsUrl(
+//        origin: LatLng,
+//        dest: LatLng
+//    ): String? { // Origin of route
+//        val str_origin = "origin=" + origin.latitude + "," + origin.longitude
+//        // Destination of route
+//        val str_dest = "destination=" + dest.latitude + "," + dest.longitude
+//        //setting transportation mode
+//        val mode = "mode=driving"
+//        val sensor = "sensor=false"
+//        // Building the parameters to the web service
+//        val parameters = "$str_origin&$str_dest&$sensor&$mode"
+//        // Output format
+//        val output = "json"
+//        // Building the url to the web service
+//        return "https://maps.googleapis.com/maps/api/directions/$output?$parameters&key=AIzaSyAoMWNi1LtAdDTvRT26zCwsy7qslHLqQTE"
+//    }
+//
+//
+//    /**
+//     * A class to parse the JSON format
+//     */
+//    private class ParserTask :
+//        AsyncTask<String?, Int?, List<List<HashMap<String, String>>>?>() {
+//
+//        override fun onPostExecute(result: List<List<HashMap<String, String>>>?) {
+//            val points: ArrayList<*> = ArrayList<String>()
+//            val lineOptions = PolylineOptions()
+//            for (i in result!!.indices) {
+//                val path =
+//                    result[i]
+//                for (j in path.indices) {
+//                    val point = path[j]
+//                    val lat = point["lat"]!!.toDouble()
+//                    val lng = point["lng"]!!.toDouble()
+//                    val position = LatLng(lat, lng)
+//                    points.add(position)
+//                }
+//                lineOptions.addAll(points)
+//                lineOptions.width(12f)
+//                lineOptions.color(R.color.online_green)
+//                lineOptions.geodesic(true)
+//            }
+//            // Drawing polyline in the Google Map
+//            if (points.size != 0) mMap.addPolyline(lineOptions)
+//        }
+//
+//        override fun doInBackground(vararg params: String?): List<List<HashMap<String, String>>>? {
+//            val jObject: JSONObject
+//            var routes: List<List<HashMap<String, String>>>? =
+//                null
+//            try {
+//                jObject = JSONObject(params[0])
+//                val parser = DirectionsJSONParser()
+//                routes = parser.parse(jObject)
+//            } catch (e: java.lang.Exception) {
+//                e.printStackTrace()
+//            }
+//            return routes
+//        }
+//    }
 
     companion object {
         const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
