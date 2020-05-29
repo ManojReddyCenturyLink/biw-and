@@ -42,6 +42,7 @@
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/incProgress"
                 layout="@layout/widget_progress_status"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
