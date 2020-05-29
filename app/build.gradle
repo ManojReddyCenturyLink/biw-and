@@ -129,6 +129,9 @@ dependencies {
     // AppAuth
     implementation "net.openid:appauth:0.7.1"
 
+    //biometrics
+    implementation "androidx.biometric:biometric:$biometricVersion"
+
     //Google-map
     implementation "com.google.android.gms:play-services-maps:$googleMapVersion"
 

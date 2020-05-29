@@ -13,6 +13,7 @@ import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -21,11 +22,18 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
     private val appointmentRepository: AppointmentRepository,
+    private val sharedPreferences: Preferences,
     private val integrationServices: IntegrationRestServices
 ) : BaseViewModel() {
 
     val networkStatus: BehaviorStateFlow<OnlineStatusData> = BehaviorStateFlow(OnlineStatusData())
     val myState = EventFlow<HomeCoordinatorDestinations>()
+    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
+    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
+
+    val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
+    val refreshBioMetrics = EventFlow<Unit>()
+
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
@@ -36,11 +44,27 @@ class HomeViewModel @Inject constructor(
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
 
+    private val dialogMessage = ChoiceDialogMessage(
+        title = R.string.welcome_to_dashboard,
+        message = R.string.biometric_dialog_message,
+        positiveText = R.string.ok,
+        negativeText = R.string.dont_allow
+    )
+
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
         requestAppointmentDetails()
         //requestTestRestFlow()
+        if (!sharedPreferences.getHasSeenDialog()) {
+            displayBioMetricPrompt.latestValue = dialogMessage
+            sharedPreferences.saveHasSeenDialog()
+        }
+    }
+
+    fun handleTabBarVisibility(isExistingUser: Boolean) {
+        //just a dummy function to test showing different toolbars
+        activeUserTabBarVisibility.latestValue = isExistingUser
     }
 
     fun onSupportClicked() {
@@ -49,6 +73,14 @@ class HomeViewModel @Inject constructor(
 
     fun onNotificationBellClicked() {
         myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_LIST
+    }
+
+    fun onBiometricYesResponse() {
+        sharedPreferences.apply {
+            saveBioMetrics(value = true)
+            saveHasSeenDialog()
+        }
+        refreshBioMetrics.latestValue = Unit
     }
 
     fun onOnlineToolbarClick() {
@@ -119,3 +151,10 @@ class HomeViewModel @Inject constructor(
         return list
     }
 }
+
+data class ChoiceDialogMessage(
+    val title: Int,
+    val message: Int,
+    val positiveText: Int,
+    val negativeText: Int
+)

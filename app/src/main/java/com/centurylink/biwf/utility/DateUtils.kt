@@ -2,7 +2,7 @@ package com.centurylink.biwf.utility
 
 import android.net.ParseException
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 class DateUtils {
     companion object {
@@ -10,7 +10,7 @@ class DateUtils {
         fun formatInvoiceDate(dateInput: String): String {
             var formattedDate: String = ""
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")
-            val output = SimpleDateFormat("dd/MM/yy")
+            val output = SimpleDateFormat("MM/dd/yy")
             var d: Date? = null
             try {
                 d = input.parse(dateInput)

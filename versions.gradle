@@ -56,6 +56,9 @@ ext {
     //rating
     ratingVersion="1.5.0"
 
+    //biometrics
+    biometricVersion = "1.0.1"
+
     //Test Dependencies
     jUnitVersion = '4.12'
     testRunnerVersion = '1.1.1'

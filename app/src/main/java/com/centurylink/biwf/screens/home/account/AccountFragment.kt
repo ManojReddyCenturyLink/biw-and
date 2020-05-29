@@ -44,17 +44,17 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         retainInstance = false
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAccountBinding.inflate(layoutInflater)
         observeViews()
         initSwitches()
         initClicks()
         viewModel.myState.observeWith(accountCoordinator)
         return binding.root
+    }
+
+    fun refreshBioMetrics() {
+        viewModel.refreshBiometrics()
     }
 
     private fun initSwitches() {
@@ -76,6 +76,9 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
         //Todo: Remove Harding of values once API returns
         viewModel.apply {
+            bioMetricFlow.observe { boolean ->
+                binding.accountBiometricSwitch.isChecked = boolean
+            }
             accountDetailsInfo.observe { uiAccountDetails ->
                 binding.accountFullName.text = uiAccountDetails.name
                 binding.accountStreetAddress.text =

@@ -15,6 +15,7 @@ import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.*
+import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,6 +24,7 @@ class AccountViewModel internal constructor(
     private val accountRepository: AccountRepository,
     private val contactRepository: ContactRepository,
     private val userRepository: UserRepository,
+    private val sharedPreferences: Preferences,
     private val authService: AuthService<*>
 ) : BaseViewModel() {
 
@@ -30,6 +32,7 @@ class AccountViewModel internal constructor(
         private val accountRepository: AccountRepository,
         private val contactRepository: ContactRepository,
         private val userRepository: UserRepository,
+        private val sharedPreferences: Preferences,
         private val authServiceFactory: AuthServiceFactory<*>
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
@@ -39,6 +42,7 @@ class AccountViewModel internal constructor(
                     accountRepository,
                     contactRepository,
                     userRepository,
+                    sharedPreferences,
                     authServiceFactory.create(input)
                 )
             }
@@ -48,6 +52,7 @@ class AccountViewModel internal constructor(
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
     var errorMessageFlow = EventFlow<String>()
+    val bioMetricFlow: Flow<Boolean> = BehaviorStateFlow(sharedPreferences.getBioMetrics() ?: false)
 
     init {
         initApiCalls()
@@ -58,7 +63,7 @@ class AccountViewModel internal constructor(
     val navigateToSubscriptionActivityEvent: EventLiveData<Unit> = MutableLiveData()
 
     fun onBiometricChange(boolean: Boolean) {
-        uiAccountDetails = uiAccountDetails.copy(biometricStatus = boolean)
+        sharedPreferences.saveBioMetrics(boolean)
     }
 
     private fun initApiCalls() {
@@ -100,6 +105,10 @@ class AccountViewModel internal constructor(
 
     fun onPersonalInfoCardClick() {
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
+    }
+
+    fun refreshBiometrics() {
+        bioMetricFlow.latestValue = sharedPreferences.getBioMetrics() ?: false
     }
 
     fun onLogOutClick() {
@@ -155,7 +164,6 @@ class AccountViewModel internal constructor(
             workPhone = accontDetails.phone, serviceCallsAndText = accontDetails.cellPhoneOptInC
         )
     }
-
 
     private fun formatServiceAddress2(accountDetails: AccountDetails): String? {
         return accountDetails.billingAddress?.run {

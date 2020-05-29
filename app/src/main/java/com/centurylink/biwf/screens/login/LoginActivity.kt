@@ -3,6 +3,9 @@ package com.centurylink.biwf.screens.login
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.LoginCoordinator
@@ -40,11 +43,65 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
         viewModel.apply {
             errorEvents.handleEvent { displayToast(it) }
+            showBioMetricsLogin.observe {
+                biometricCheck(it)
+            }
         }
 
         viewModel.myState.observeWith(loginCoordinator)
         initOnClicks()
         handleIntent()
+    }
+
+    private fun biometricCheck(biometricPrompt: BiometricPromptMessage) {
+        val biometricManager = BiometricManager.from(this)
+
+        when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                showBioDialog(biometricPrompt)
+            }
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+            }
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+            }
+        }
+    }
+
+    private fun showBioDialog(biometricMessage: BiometricPromptMessage) {
+        val executor = ContextCompat.getMainExecutor(this)
+        val biometricPrompt = BiometricPrompt(this, executor,
+            object : BiometricPrompt.AuthenticationCallback() {
+                override fun onAuthenticationError(
+                    errorCode: Int,
+                    errString: CharSequence
+                ) {
+                    super.onAuthenticationError(errorCode, errString)
+                    Timber.d("Error  -- $errString")
+                    showBioDialog(biometricMessage)
+                }
+
+                override fun onAuthenticationSucceeded(
+                    result: BiometricPrompt.AuthenticationResult
+                ) {
+                    super.onAuthenticationSucceeded(result)
+                    viewModel.onBiometricSuccess()
+                }
+
+                override fun onAuthenticationFailed() {
+                    super.onAuthenticationFailed()
+                    Timber.d("Authentication Failed")
+                }
+            })
+
+        val promptInfo = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(getString(biometricMessage.title))
+            .setSubtitle(getString(biometricMessage.subTitle))
+            .setNegativeButtonText(getString(biometricMessage.negativeText))
+            .build()
+
+        biometricPrompt.authenticate(promptInfo)
     }
 
     override fun onNewIntent(newIntent: Intent?) {
