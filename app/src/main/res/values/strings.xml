@@ -196,4 +196,5 @@
     <string name="get_started">Get started</string>
     <string name="you_re_all_set">You’re all set!</string>
     <string name="installation_complete">Installation complete</string>
+    <string name="new_user_job_type">Fiber Install - For Installations</string>
 </resources>

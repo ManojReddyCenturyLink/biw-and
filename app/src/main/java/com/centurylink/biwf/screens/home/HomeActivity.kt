@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
@@ -75,7 +76,7 @@ class HomeActivity : BaseActivity() {
             )
             networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
         }
-        setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER", false))
+            setupTabsViewPager()
     }
 
     fun launchSubscriptionActivity() {
@@ -88,21 +89,25 @@ class HomeActivity : BaseActivity() {
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
-    private fun setupTabsViewPager(isExistingUser: Boolean) {
+    private fun setupTabsViewPager() {
         //For future reference to load data and display on screen
         viewModel.loadData()
         binding.vpDashboard.adapter = adapter
-        if (isExistingUser) {
-            adapter.submitList(viewModel.lowerTabHeaderList)
-            TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
-                TabLayoutMediator.OnConfigureTabCallback
-                { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
-        } else {
-            adapter.submitList(viewModel.upperTabHeaderList)
-            TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
-                TabLayoutMediator.OnConfigureTabCallback
-                { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
-        }
+        //viewModel.jobType.observe {
+            if ("it" == resources.getString(R.string.new_user_job_type)) {
+            //if (true) {
+                adapter.submitList(viewModel.upperTabHeaderList)
+                TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
+                    TabLayoutMediator.OnConfigureTabCallback
+                    { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
+            }
+            else {
+                adapter.submitList(viewModel.lowerTabHeaderList)
+                TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
+                    TabLayoutMediator.OnConfigureTabCallback
+                    { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
+            }
+       // }
     }
 
     companion object {

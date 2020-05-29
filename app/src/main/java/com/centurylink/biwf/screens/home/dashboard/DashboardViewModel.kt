@@ -119,6 +119,10 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.CHANGE_APPOINTMENT
     }
 
+    fun onGetStartedClick() {
+        //TODO: update to 3 tabs
+    }
+
     fun displaySortedNotifications(notificationList: List<Notification>) {
         val unreadNotificationList: MutableList<Notification> = notificationList.asSequence()
             .filter { it.isUnRead }

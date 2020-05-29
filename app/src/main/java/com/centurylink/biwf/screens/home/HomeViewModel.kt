@@ -10,11 +10,17 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
+import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
+import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
@@ -25,7 +31,8 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
     private val userRepository: UserRepository,
-    private val integrationServices: IntegrationRestServices
+    private val integrationServices: IntegrationRestServices,
+    private val appointmentRepository: AppointmentRepository
 ) : BaseViewModel() {
 
     val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
@@ -33,6 +40,7 @@ class HomeViewModel @Inject constructor(
     val myState = EventFlow<HomeCoordinatorDestinations>()
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
+    val jobType = BehaviorStateFlow<String>()
 
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
@@ -99,6 +107,20 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private suspend fun requestAppointmentDetails() {
+        val appointmentDetails = appointmentRepository.getAppointmentInfo()
+        appointmentDetails.fold(ifLeft = {
+        }) {
+            updateAppointmentStatus(it)
+        }
+    }
+
+    private fun updateAppointmentStatus(
+        it: AppointmentRecordsInfo
+    ) {
+        jobType.latestValue = it.jobType
     }
 
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {
