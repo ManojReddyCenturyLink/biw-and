@@ -2,9 +2,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <androidx.cardview.widget.CardView
+        android:id="@+id/technician_enroute_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:cardCornerRadius="@dimen/margin_spacing_tiny">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -152,4 +158,15 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
+    <include
+        android:id="@+id/incEnrouteCard"
+        layout="@layout/widget_welcome_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:layout_marginBottom="@dimen/medium_margin_spacing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/technician_enroute_card" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

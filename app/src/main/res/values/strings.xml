@@ -197,4 +197,8 @@
     <string name="you_re_all_set">You’re all set!</string>
     <string name="installation_complete">Installation complete</string>
     <string name="new_user_job_type">Fiber Install - For Installations</string>
+    <string name="technician_on_the_way">We are on the way!</string>
+    <string name="enroute_notification_message">Make sure the area where the modem will be installed is clear for the technician.</string>
+    <string name="work_in_progress">Work in progress…</string>
+    <string name="work_begun_message">Next step is to wait while your technician finishes installing your fiber modem!</string>
 </resources>

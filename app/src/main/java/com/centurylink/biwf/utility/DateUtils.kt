@@ -22,7 +22,7 @@ class DateUtils {
         }
 
         fun formatAppointmentDate(dateInput: String): String {
-            var format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm")
+            var format = SimpleDateFormat("yyyy-MM-dd")
             val d: Date? =  format.parse(dateInput)
             val date = format.format(d)
             format =

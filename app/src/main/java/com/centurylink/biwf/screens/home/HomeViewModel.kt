@@ -1,64 +1,46 @@
 package com.centurylink.biwf.screens.home
 
-import android.util.Log
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
-import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
-import com.centurylink.biwf.model.appointment.ServiceStatus
-import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AppointmentRepository
-import com.centurylink.biwf.repos.UserRepository
-import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
-    private val userRepository: UserRepository,
-    private val integrationServices: IntegrationRestServices,
-    private val appointmentRepository: AppointmentRepository
+    private val appointmentRepository: AppointmentRepository,
+    private val integrationServices: IntegrationRestServices
 ) : BaseViewModel() {
 
-    val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
-    val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
+    val networkStatus: BehaviorStateFlow<OnlineStatusData> = BehaviorStateFlow(OnlineStatusData())
     val myState = EventFlow<HomeCoordinatorDestinations>()
-    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
-    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
-    val jobType = BehaviorStateFlow<String>()
-
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
     val testRestErrorFlow: Flow<String> = BehaviorStateFlow()
-
+    val activeUserTabBarVisibility = BehaviorStateFlow<Boolean>()
+    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
+    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
 
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
-        //todo: requestTestRestFlow()
-    }
-
-    fun handleTabBarVisibility(isExistingUser: Boolean) {
-        //just a dummy function to test showing different toolbars
-        activeUserTabBarVisibility.latestValue = isExistingUser
+        requestAppointmentDetails()
+        //requestTestRestFlow()
     }
 
     fun onSupportClicked() {
@@ -67,13 +49,6 @@ class HomeViewModel @Inject constructor(
 
     fun onNotificationBellClicked() {
         myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_LIST
-    }
-
-    fun onNotificationClicked() {
-        myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
-    }
-
-    fun loadData() {
     }
 
     fun onOnlineToolbarClick() {
@@ -96,9 +71,7 @@ class HomeViewModel @Inject constructor(
     private fun requestTestRestFlow() {
         viewModelScope.launch {
             val sumUpResult = integrationServices.calculateSum(12, 25, SumUpInput(10))
-            Timber.d("IntegrationService test: sumUp returned $sumUpResult")
             val response = integrationServices.getNotificationDetails("notifications")
-            Log.i("JAMMY", "Response " + response)
             testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
                 when (it) {
                     is Either.Left -> testRestErrorFlow.latestValue =
@@ -109,18 +82,15 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestAppointmentDetails() {
-        val appointmentDetails = appointmentRepository.getAppointmentInfo()
-        appointmentDetails.fold(ifLeft = {
-        }) {
-            updateAppointmentStatus(it)
+    private fun requestAppointmentDetails() {
+        viewModelScope.launch {
+            val appointmentDetails = appointmentRepository.getAppointmentInfo()
+            appointmentDetails.fold(ifLeft = {
+            }) {
+                activeUserTabBarVisibility.latestValue =
+                    (it.jobType.equals("Fiber Install - For Installations"))
+            }
         }
-    }
-
-    private fun updateAppointmentStatus(
-        it: AppointmentRecordsInfo
-    ) {
-        jobType.latestValue = it.jobType
     }
 
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {

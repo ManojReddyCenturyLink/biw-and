@@ -13,7 +13,10 @@
             layout="@layout/widget_appointment_scheduled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -24,8 +27,11 @@
             layout="@layout/widget_status_enroute"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            android:visibility="visible"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -35,7 +41,10 @@
             layout="@layout/widget_status_work_begun"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +55,10 @@
             layout="@layout/widget_installation_completed"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,21 +66,10 @@
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/horizontalBarrier"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="incEnroute,incStarted,incCompleted,incWorkBegun" />
-
-        <include
-            android:id="@+id/incWelcomeCard"
-            layout="@layout/widget_welcome_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier" />
 
         <include
             android:id="@+id/incSpeedTest"
@@ -79,7 +80,7 @@
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incWelcomeCard" />
+            app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_card"
@@ -91,7 +92,7 @@
             android:layout_marginBottom="16dp"
             android:background="@drawable/bottom_card_bg"
             android:elevation="23dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/middle_card"
             app:layout_constraintStart_toStartOf="@+id/middle_card"
             app:layout_constraintTop_toTopOf="@+id/middle_card"/>
@@ -105,7 +106,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/middle_card_bg"
             android:elevation="24dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@+id/top_card"
             app:layout_constraintStart_toStartOf="@+id/top_card"
             app:layout_constraintTop_toTopOf="@+id/top_card"/>
@@ -121,7 +122,7 @@
             android:background="@drawable/top_card_bg"
             android:elevation="25dp"
             android:padding="@dimen/margin_spacing_tiny"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/incSpeedTest">

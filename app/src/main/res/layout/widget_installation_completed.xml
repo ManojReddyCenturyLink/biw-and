@@ -5,7 +5,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/margin_spacing_small">
+        app:cardCornerRadius="@dimen/margin_spacing_tiny">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/appointment_status_installation_details"

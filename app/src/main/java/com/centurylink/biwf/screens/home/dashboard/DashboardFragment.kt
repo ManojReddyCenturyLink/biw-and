@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.home.dashboard
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,21 +17,24 @@ import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.*
+import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.appointment_time
+import kotlinx.android.synthetic.main.widget_status_enroute.view.*
+import kotlinx.android.synthetic.main.widget_status_enroute.view.technician_name
+import kotlinx.android.synthetic.main.widget_status_work_begun.view.*
+import kotlinx.android.synthetic.main.widget_welcome_card.view.*
 import javax.inject.Inject
-
 
 class DashboardFragment : BaseFragment() {
 
     override val lifecycleOwner: LifecycleOwner = this
-
-    private var newUser: Boolean = false
 
     @Inject
     lateinit var dashboardCoordinator: DashboardCoordinator
@@ -42,17 +44,16 @@ class DashboardFragment : BaseFragment() {
     private val dashboardViewModel by lazy {
         ViewModelProvider(this, factory).get(DashboardViewModel::class.java)
     }
-    private var unreadNotificationList: MutableList<Notification> = mutableListOf()
 
     private lateinit var binding: FragmentDashboardBinding
+    private lateinit var getStartedClickListener: GetStartedEventClickListener
 
-    private var mEnrouteMapFragment: SupportMapFragment? = null
+    private var unreadNotificationList: MutableList<Notification> = mutableListOf()
+    private var enrouteMapFragment: SupportMapFragment? = null
+    private var workBegunMapFragment: SupportMapFragment? = null
 
-    private var mWorkbegunMapFragment: SupportMapFragment? = null
-
-    private val originLatLng = LatLng(12.9121, 77.6446)
-    private val destinationLatLng = LatLng(12.9304, 77.6784)
-    lateinit var mMap: GoogleMap
+    private var originLatLng = LatLng(0.0, 0.0)
+    private var destinationLatLng = LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +70,6 @@ class DashboardFragment : BaseFragment() {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
         initOnClicks()
         getAppointmentStatus()
-        observeNotificationViews()
         binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
@@ -83,31 +83,25 @@ class DashboardFragment : BaseFragment() {
     private fun setupMap() {
         val fm = childFragmentManager
 
-        mEnrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
-        mWorkbegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
+        enrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
+        workBegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
 
-//        val url: String = getDirectionsUrl(originLatLng, destinationLatLng)
-//
-//        // Start downloading json data from Google Directions API
-//        DownloadTask().execute(url)
-
-        mEnrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
-        mWorkbegunMapFragment?.getMapAsync(mOnMapReadyCallback)
+        enrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
+        workBegunMapFragment?.getMapAsync(mOnMapReadyCallback)
     }
 
     private var enrouteOnMapReadyCallback: OnMapReadyCallback =
         OnMapReadyCallback { googleMap ->
             googleMap ?: return@OnMapReadyCallback
-            mMap = googleMap
             with(googleMap) {
-                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 14.0f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
                 addMarker(
                     MarkerOptions().position(originLatLng)
-                        .icon(bitMapFromVector(R.drawable.blue_marker))
+                        .icon(bitMapFromVector(R.drawable.green_marker))
                 )
                 addMarker(
                     MarkerOptions().position(destinationLatLng)
-                        .icon(bitMapFromVector(R.drawable.green_marker))
+                        .icon(bitMapFromVector(R.drawable.blue_marker))
                 )
                 animateCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 10f))
             }
@@ -127,20 +121,46 @@ class DashboardFragment : BaseFragment() {
 
     private fun getAppointmentStatus() {
         dashboardViewModel.dashBoardDetailsInfo.observe {
-            Log.d("2ee", "" + it)
-            when (it.toString()) {
-                "Scheduled", "Dispatched", "None" -> {
-                    binding.incStarted.root.visibility = View.VISIBLE
+            if (it is DashboardViewModel.AppointmentScheduleState) {
+                incStarted.visibility = View.VISIBLE
+                incStarted.appointment_date_time_card.appointment_date.text =
+                    it.serviceAppointmentDate
+                incStarted.appointment_date_time_card.appointment_time.text = getString(
+                    R.string.text_time_details,
+                    it.serviceAppointmentStartTime,
+                    it.serviceAppointmentEndTime
+                )
+                incStarted.incWelcomeCard.msg_dismiss_button.setOnClickListener {
+                    incStarted.incWelcomeCard.visibility = View.GONE
                 }
-                "Enroute" -> {
-                    binding.incEnroute.root.visibility = View.VISIBLE
+            }
+            if (it is DashboardViewModel.AppointmentEngineerStatus) {
+                incEnroute.visibility = View.VISIBLE
+                incEnroute.technician_name.text = it.serviceEngineerName
+                incEnroute.appointment_time.text = it.serviceAppointmentTime
+                incEnroute.incEnrouteCard.title.text =
+                    resources.getString(R.string.technician_on_the_way)
+                incEnroute.incEnrouteCard.msg.text =
+                    resources.getString(R.string.enroute_notification_message)
+                incEnroute.incEnrouteCard.msg_dismiss_button.setOnClickListener {
+                    incEnroute.incEnrouteCard.visibility = View.GONE
                 }
-                "Work Begun" -> {
-                    binding.incWorkBegun.root.visibility = View.VISIBLE
+                originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
+                //Currently not getting technician location details, so passing hardcoded Lat long for UI testing purpose
+                destinationLatLng = LatLng(39.902448, -104.97592)
+            }
+            if (it is DashboardViewModel.AppointmentEngineerWIP) {
+                incWorkBegun.visibility = View.VISIBLE
+                incWorkBegun.technician_name.text = it.serviceEngineerName
+                incWorkBegun.incWipCard.title.text = resources.getString(R.string.work_in_progress)
+                incWorkBegun.incWipCard.msg.text = resources.getString(R.string.work_begun_message)
+                incWorkBegun.incWipCard.msg_dismiss_button.setOnClickListener {
+                    incWorkBegun.incWipCard.visibility = View.GONE
                 }
-                "Completed" -> {
-                    binding.incCompleted.root.visibility = View.VISIBLE
-                }
+                originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
+            }
+            if (it is DashboardViewModel.AppointmentComplete) {
+                incCompleted.visibility = View.VISIBLE
             }
         }
     }
@@ -161,6 +181,9 @@ class DashboardFragment : BaseFragment() {
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
         unreadNotificationList = notificationList
         if (unreadNotificationList.isNotEmpty()) {
+            binding.topCard.visibility = View.VISIBLE
+            binding.middleCard.visibility = View.VISIBLE
+            binding.bottomCard.visibility = View.VISIBLE
             when (unreadNotificationList.size) {
                 1 -> {
                     binding.middleCard.visibility = View.GONE
@@ -172,16 +195,11 @@ class DashboardFragment : BaseFragment() {
             }
             binding.notificationTitle.text = unreadNotificationList[0].name
             binding.notificationMsg.text = unreadNotificationList[0].description
-        } else {
-            binding.topCard.visibility = View.GONE
-            binding.middleCard.visibility = View.GONE
-            binding.bottomCard.visibility = View.GONE
         }
     }
 
     private fun initOnClicks() {
         binding.incStarted.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
-        binding.incWelcomeCard.notificationDismissButton.setOnClickListener { hideWelcomeCard() }
         binding.notificationDismissButton.setOnClickListener {
             dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
             displaySortedNotification()
@@ -190,12 +208,11 @@ class DashboardFragment : BaseFragment() {
             dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
         }
         binding.incCompleted.getStartedBtn.setOnClickListener {
-            dashboardViewModel.onGetStartedClick()
+            getStartedClickListener.onGetStartedClick(false)
+            incCompleted.visibility = View.GONE
+            incSpeedTest.visibility = View.VISIBLE
+            observeNotificationViews()
         }
-    }
-
-    private fun hideWelcomeCard() {
-        binding.incWelcomeCard.root.visibility = View.GONE
     }
 
     private fun bitMapFromVector(vectorResID: Int): BitmapDescriptor {
@@ -216,115 +233,9 @@ class DashboardFragment : BaseFragment() {
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
-
-//    private class DownloadTask :
-//        AsyncTask<String?, Void?, String>() {
-//
-//        override fun onPostExecute(result: String) {
-//            super.onPostExecute(result)
-//            val parserTask = ParserTask()
-//            parserTask.execute(result)
-//        }
-//
-//        override fun doInBackground(vararg params: String?): String {
-//            var data = ""
-//            try {
-//                data = downloadUrl(params[0]!!)
-//            } catch (e: Exception) {
-//                Log.d("Background Task", e.toString())
-//            }
-//            return data
-//        }
-//
-//        private fun downloadUrl(strUrl: String): String {
-//            var data = ""
-//            var iStream: InputStream? = null
-//            var urlConnection: HttpURLConnection? = null
-//            try {
-//                val url = URL(strUrl)
-//                urlConnection = url.openConnection() as HttpURLConnection
-//                urlConnection.connect()
-//                iStream = urlConnection.inputStream
-//                val br =
-//                    BufferedReader(InputStreamReader(iStream))
-//                val sb = StringBuffer()
-//                var line: String? = ""
-//                while (br.readLine().also { line = it } != null) {
-//                    sb.append(line)
-//                }
-//                data = sb.toString()
-//                br.close()
-//            } catch (e: java.lang.Exception) {
-//                Log.d("Exception", e.toString())
-//            } finally {
-//                iStream!!.close()
-//                urlConnection!!.disconnect()
-//            }
-//            return data
-//        }
-//    }
-//
-//    private fun getDirectionsUrl(
-//        origin: LatLng,
-//        dest: LatLng
-//    ): String? { // Origin of route
-//        val str_origin = "origin=" + origin.latitude + "," + origin.longitude
-//        // Destination of route
-//        val str_dest = "destination=" + dest.latitude + "," + dest.longitude
-//        //setting transportation mode
-//        val mode = "mode=driving"
-//        val sensor = "sensor=false"
-//        // Building the parameters to the web service
-//        val parameters = "$str_origin&$str_dest&$sensor&$mode"
-//        // Output format
-//        val output = "json"
-//        // Building the url to the web service
-//        return "https://maps.googleapis.com/maps/api/directions/$output?$parameters&key=AIzaSyAoMWNi1LtAdDTvRT26zCwsy7qslHLqQTE"
-//    }
-//
-//
-//    /**
-//     * A class to parse the JSON format
-//     */
-//    private class ParserTask :
-//        AsyncTask<String?, Int?, List<List<HashMap<String, String>>>?>() {
-//
-//        override fun onPostExecute(result: List<List<HashMap<String, String>>>?) {
-//            val points: ArrayList<*> = ArrayList<String>()
-//            val lineOptions = PolylineOptions()
-//            for (i in result!!.indices) {
-//                val path =
-//                    result[i]
-//                for (j in path.indices) {
-//                    val point = path[j]
-//                    val lat = point["lat"]!!.toDouble()
-//                    val lng = point["lng"]!!.toDouble()
-//                    val position = LatLng(lat, lng)
-//                    points.add(position)
-//                }
-//                lineOptions.addAll(points)
-//                lineOptions.width(12f)
-//                lineOptions.color(R.color.online_green)
-//                lineOptions.geodesic(true)
-//            }
-//            // Drawing polyline in the Google Map
-//            if (points.size != 0) mMap.addPolyline(lineOptions)
-//        }
-//
-//        override fun doInBackground(vararg params: String?): List<List<HashMap<String, String>>>? {
-//            val jObject: JSONObject
-//            var routes: List<List<HashMap<String, String>>>? =
-//                null
-//            try {
-//                jObject = JSONObject(params[0])
-//                val parser = DirectionsJSONParser()
-//                routes = parser.parse(jObject)
-//            } catch (e: java.lang.Exception) {
-//                e.printStackTrace()
-//            }
-//            return routes
-//        }
-//    }
+    fun setListener(getStartedClickListener: GetStartedEventClickListener) {
+        this.getStartedClickListener = getStartedClickListener
+    }
 
     companion object {
         const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
@@ -333,5 +244,12 @@ class DashboardFragment : BaseFragment() {
         operator fun invoke(newUser: Boolean) = DashboardFragment().apply {
             arguments = Bundle().apply { putBoolean(KEY_NEW_USER, newUser) }
         }
+    }
+
+    interface GetStartedEventClickListener {
+        /**
+         * Handle click event
+         */
+        fun onGetStartedClick(newUser: Boolean)
     }
 }

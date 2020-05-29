@@ -3,19 +3,20 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListener {
 
     @Inject
     lateinit var homeCoordinator: HomeCoordinator
@@ -27,7 +28,7 @@ class HomeActivity : BaseActivity() {
     private val viewModel by lazy {
         ViewModelProvider(this, factory).get(HomeViewModel::class.java)
     }
-    private val adapter by lazy { TabsPagerRecyclerAdapter(this) }
+    private val adapter by lazy { TabsPagerRecyclerAdapter(this, this) }
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +47,10 @@ class HomeActivity : BaseActivity() {
             testRestFlow.observe { Timber.d(it) }
             testRestErrorFlow.observe { Timber.e(it) }
         }
+    }
+
+    override fun onGetStartedClick(newUser: Boolean) {
+        //her handle navigation functions and Tab visibility.
     }
 
     /**
@@ -67,16 +72,10 @@ class HomeActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER", false))
-        viewModel.apply {
-            activeUserTabBarVisibility.bindToVisibility(
-                binding.homeUpperTabs,
-                binding.homeLowerTabs,
-                binding.homeOnlineStatusBar
-            )
-            networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
+        viewModel.activeUserTabBarVisibility.observe {
+            setupTabsViewPager(it)
         }
-        setupTabsViewPager()
+        viewModel.networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
     }
 
     fun launchSubscriptionActivity() {
@@ -89,22 +88,21 @@ class HomeActivity : BaseActivity() {
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
-    private fun setupTabsViewPager() {
-        //For future reference to load data and display on screen
-        viewModel.loadData()
+    private fun setupTabsViewPager(it: Boolean) {
+        binding.homeUpperTabs.visibility = if (it) View.VISIBLE else View.GONE
+        binding.homeLowerTabs.visibility = if (it) View.GONE else View.VISIBLE
+        binding.homeOnlineStatusBar.visibility = if (it) View.GONE else View.VISIBLE
         binding.vpDashboard.adapter = adapter
-        viewModel.jobType.observe {
-            if (it == resources.getString(R.string.new_user_job_type)) {
-                adapter.submitList(viewModel.upperTabHeaderList)
-                TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
-                    TabLayoutMediator.OnConfigureTabCallback
-                    { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
-            } else {
-                adapter.submitList(viewModel.lowerTabHeaderList)
-                TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
-                    TabLayoutMediator.OnConfigureTabCallback
-                    { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
-            }
+        if (it) {
+            adapter.submitList(viewModel.upperTabHeaderList)
+            TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
+                TabLayoutMediator.OnConfigureTabCallback
+                { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
+        } else {
+            adapter.submitList(viewModel.lowerTabHeaderList)
+            TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
+                TabLayoutMediator.OnConfigureTabCallback
+                { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
         }
     }
 

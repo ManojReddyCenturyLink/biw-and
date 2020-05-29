@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -54,7 +53,6 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            Log.i("JAMMY","Request "+it)
             updateAppointmentStatus(it)
         }
     }
@@ -63,7 +61,7 @@ class DashboardViewModel @Inject constructor(
         it: AppointmentRecordsInfo
     ) {
         when (it.serviceStatus) {
-            ServiceStatus.SCHEDULED -> {
+            ServiceStatus.SCHEDULED, ServiceStatus.DISPATCHED, ServiceStatus.NONE -> {
                 val appointmentState =
                     AppointmentScheduleState(
                         jobType = it.jobType,
@@ -84,7 +82,11 @@ class DashboardViewModel @Inject constructor(
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
                     serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
-                    serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString())
+                    serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString()),
+                    serviceAppointmentTime = DateUtils.formatAppointmentETA(
+                        it.serviceAppointmentStartDate.toString(),
+                        it.serviceAppointmentEndTime.toString()
+                    )
                 )
                 dashBoardDetailsInfo.latestValue = appointmentEngineerStatus
             }
@@ -117,17 +119,12 @@ class DashboardViewModel @Inject constructor(
         notificationDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            Log.i("JAMMY","Notification Source "+it)
             notificationListDetails.latestValue = it
         }
     }
 
     fun getChangeAppointment() {
         myState.latestValue = DashboardCoordinatorDestinations.CHANGE_APPOINTMENT
-    }
-
-    fun onGetStartedClick() {
-        //TODO: update to 3 tabs
     }
 
     fun displaySortedNotifications(notificationList: List<Notification>) {
@@ -160,6 +157,7 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
+    /*For testing purpose, will remove later*/
     fun timerSetup() {
         // TODO Temporary code to change the state
         viewModelScope.launch {
@@ -183,6 +181,7 @@ class DashboardViewModel @Inject constructor(
         val serviceLongitude: String,
         val serviceAppointmentStartTime: String,
         val serviceAppointmentEndTime: String,
+        val serviceAppointmentTime: String,
         val serviceEngineerName: String,
         val serviceEngineerProfilePic: String
     ) : UiDashboardAppointmentInformation()
