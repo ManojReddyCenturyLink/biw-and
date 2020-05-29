@@ -68,6 +68,18 @@
         <item name="android:windowMinWidthMinor">95%</item>
     </style>
 
+    <style name="choiceDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="buttonBarPositiveButtonStyle">@style/positiveButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/negativeButton</item>
+    </style>
+
+    <style name= "positiveButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/blue</item>
+    </style>
+    <style name= "negativeButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/font_color_medium_grey</item>
+    </style>
+
     <style name="TextViewLabel">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/font_color_medium_grey</item>

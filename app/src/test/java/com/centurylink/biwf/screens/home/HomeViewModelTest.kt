@@ -3,6 +3,8 @@ package com.centurylink.biwf.screens.home
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.utility.preferences.Preferences
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
@@ -20,10 +22,13 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var userRepository: UserRepository
+    @MockK
+    private lateinit var mockPreferences: Preferences
 
     @Before
     fun setup() {
-        viewModel = HomeViewModel(mockk(), userRepository, mockk())
+        every { mockPreferences.getHasSeenDialog() } returns true
+        viewModel = HomeViewModel(mockk(), userRepository, mockPreferences, mockk())
     }
 
     @Test

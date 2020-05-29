@@ -129,6 +129,9 @@ dependencies {
     // AppAuth
     implementation "net.openid:appauth:0.7.1"
 
+    //biometrics
+    implementation "androidx.biometric:biometric:$biometricVersion"
+
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
     testImplementation "io.mockk:mockk:$mockKVersion"

@@ -1,4 +1,5 @@
 <resources>
+    <!-- Login Screen -->
     <string name="app_name">BiWF</string>
     <string name="login_card_title">Log In to Your Account</string>
     <string name="email">Email:</string>
@@ -14,6 +15,9 @@
     <string name="notification">Notification</string>
     <string name="forgot_password_activity">Forgot Password Activity</string>
     <string name="placeholder_text_1">1</string>
+    <string name="biometric_prompt_title">Biometric login for BIWF</string>
+    <string name="biometric_prompt_message">Log in using your biometric credential</string>
+    <string name="cancel">Cancel</string>
 
     <string name="support">Support</string>
     <string name="call_us"><u>Call us at (123) 456-7890</u></string>
@@ -54,6 +58,10 @@
     <string name="mbps_download">Mbps \ndownload</string>
     <string name="live_chat">Live chat</string>
     <string name="contact_us">Contact us</string>
+    <string name="welcome_to_dashboard">Welcome to your Dashboard!</string>
+    <string name="biometric_dialog_message">Do you want to enable biometrics for login as blazing fast as your WiFi?</string>
+    <string name="dont_allow">Don\'t Allow</string>
+    <string name="ok">OK</string>
 
     <!--FAQ Screen  -->
     <string name="faq_title">Network Connection</string>
@@ -70,7 +78,7 @@
     <string name="marketing_emails_description">I would like to receive emails about offers and marketing from CenturyLink at the email address provided</string>
     <string name="marketing_calls_description">I would like to receive calls and text messages about offers and marketing from CenturyLink at the number provided. I consent to the use of autodialers or artificial or prerecorded voice for the calls and text messages. </string>
     <string name="login_settings">Login settings</string>
-    <string name="biometric_label">Use face-ID to login</string>
+    <string name="biometric_label">Use biometrics to login</string>
     <string name="communication_preferences">Communication preferences</string>
     <string name="service_calls_and_texts">Services calls and texts</string>
     <string name="marketing_emails">Marketing emails</string>

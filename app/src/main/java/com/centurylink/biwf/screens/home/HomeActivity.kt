@@ -3,18 +3,22 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.biometric.BiometricManager
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityHomeBinding
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity() {
+class HomeActivity : BaseActivity(), ChoiceDialogFragment.BioMetricDialogCallback {
 
     @Inject
     lateinit var homeCoordinator: HomeCoordinator
@@ -44,6 +48,8 @@ class HomeActivity : BaseActivity() {
         viewModel.apply {
             testRestFlow.observe { Timber.d(it) }
             testRestErrorFlow.observe { Timber.e(it) }
+            displayBioMetricPrompt.observe { biometricCheck(it) }
+            refreshBioMetrics.observe { refreshAccountFragment() }
         }
     }
 
@@ -65,6 +71,14 @@ class HomeActivity : BaseActivity() {
         }
     }
 
+    override fun onOkBiometricResponse() {
+        viewModel.onBiometricYesResponse()
+    }
+
+    fun launchSubscriptionActivity() {
+        viewModel.onSubscriptionActivityClick()
+    }
+
     private fun initViews() {
         viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER", false))
         viewModel.apply {
@@ -76,10 +90,6 @@ class HomeActivity : BaseActivity() {
             networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
         }
         setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER", false))
-    }
-
-    fun launchSubscriptionActivity() {
-        viewModel.onSubscriptionActivityClick()
     }
 
     private fun initOnClicks() {
@@ -103,6 +113,37 @@ class HomeActivity : BaseActivity() {
                 TabLayoutMediator.OnConfigureTabCallback
                 { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
         }
+        binding.vpDashboard.currentItem = 1
+    }
+
+    private fun biometricCheck(list: ChoiceDialogMessage) {
+        val biometricManager = BiometricManager.from(this)
+
+        when (biometricManager.canAuthenticate()) {
+            BiometricManager.BIOMETRIC_SUCCESS -> {
+                openBioMetricDialog(list)
+            }
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+            }
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+            }
+            BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+            }
+        }
+    }
+
+    private fun openBioMetricDialog(dialogMessage: ChoiceDialogMessage) {
+        ChoiceDialogFragment(
+            getString(dialogMessage.title),
+            getString(dialogMessage.message),
+            getString(dialogMessage.positiveText),
+            getString(dialogMessage.negativeText)
+        ).show(supportFragmentManager, null)
+    }
+
+    private fun refreshAccountFragment() {
+        val accountFrag = supportFragmentManager.findFragmentById(R.id.account_container) as AccountFragment?
+        accountFrag?.refreshBioMetrics()
     }
 
     companion object {
