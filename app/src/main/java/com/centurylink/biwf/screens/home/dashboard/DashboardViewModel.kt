@@ -1,8 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -11,11 +9,11 @@ import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
-import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -30,15 +28,14 @@ class DashboardViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
-    var notificationListDetails = BehaviorStateFlow<NotificationSource>()
-    val notificationLiveData: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
+    val notificationListDetails = BehaviorStateFlow<NotificationSource>()
+    val notifications: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
             "", "", true, ""
         )
-    var appointmentStatusFlow = BehaviorStateFlow<String>()
 
     init {
         initApis()
@@ -47,6 +44,7 @@ class DashboardViewModel @Inject constructor(
     private fun initApis() {
         viewModelScope.launch {
             requestAppointmentDetails()
+            //TODO: requestNotificationDetails()
         }
     }
 
@@ -68,12 +66,9 @@ class DashboardViewModel @Inject constructor(
                     AppointmentScheduleState(
                         jobType = it.jobType,
                         status = it.serviceStatus,
-                        serviceAppointmentDate = it.serviceAppointmentStartDate.toLocalDate()
-                            .toString(),
-                        serviceAppointmentStartTime = it.serviceAppointmentStartDate.toLocalTime()
-                            .toString(),
-                        serviceAppointmentEndTime = it.serviceAppointmentEndTime.toLocalTime()
-                            .toString()
+                        serviceAppointmentDate = DateUtils.formatAppointmentDate(it.serviceAppointmentStartDate.toString()),
+                        serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
+                        serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString())
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
 
@@ -86,10 +81,8 @@ class DashboardViewModel @Inject constructor(
                     serviceLatitude = it.serviceLatitude!!,
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
-                    serviceAppointmentStartTime = it.serviceAppointmentStartDate.toLocalTime()
-                        .toString(),
-                    serviceAppointmentEndTime = it.serviceAppointmentEndTime.toLocalTime()
-                        .toString()
+                    serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
+                    serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString())
                 )
                 dashBoardDetailsInfo.latestValue = appointmentEngineerStatus
             }
@@ -117,16 +110,6 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    init {
-        initApi()
-    }
-
-    private fun initApi() {
-        viewModelScope.launch {
-            requestNotificationDetails()
-        }
-    }
-
     private suspend fun requestNotificationDetails() {
         val result = notificationRepository.getNotificationDetails()
         notificationListDetails.latestValue = result
@@ -141,11 +124,7 @@ class DashboardViewModel @Inject constructor(
             .filter { it.isUnRead }
             .toMutableList()
         mergedNotificationList.addAll(unreadNotificationList)
-        notificationLiveData.value = unreadNotificationList
-    }
-
-    fun getNotificationMutableLiveData(): BehaviorStateFlow<MutableList<Notification>> {
-        return notificationLiveData
+        notifications.value = unreadNotificationList
     }
 
     fun markNotificationAsRead(notificationItem: Notification) {
@@ -158,7 +137,7 @@ class DashboardViewModel @Inject constructor(
             if (unreadNotificationList.size == 1) {
                 mergedNotificationList.remove(unreadItem)
             }
-            notificationLiveData.value = unreadNotificationList
+            notifications.value = unreadNotificationList
         }
     }
 
@@ -179,7 +158,6 @@ class DashboardViewModel @Inject constructor(
             }
         }
     }
-
 
     abstract class UiDashboardAppointmentInformation
 

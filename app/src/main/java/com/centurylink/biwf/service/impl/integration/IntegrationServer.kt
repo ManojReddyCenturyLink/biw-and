@@ -2,19 +2,17 @@
 
 package com.centurylink.biwf.service.impl.integration
 
-import com.centurylink.biwf.Either
 import com.centurylink.biwf.mockintegrationserver.EmbeddedServer
-import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
 import com.centurylink.biwf.service.impl.integration.model.NotificationPath
 import com.centurylink.biwf.service.impl.integration.model.SumUpParams
-import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.locations.get
 import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
+import io.ktor.response.respondOutputStream
 import timber.log.Timber
 
 /**
@@ -31,14 +29,11 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
     }
 
     get<NotificationPath> {
-        val fileName = "notifications.json"
-        val inputStream = javaClass.classLoader!!
-            .getResourceAsStream("api-response/$fileName")
-        val myJson = LocalJsonParser.inputStreamToString(inputStream)
-        val notificationSource: NotificationSource =
-            Gson().fromJson(myJson, NotificationSource::class.java)
-        Either.Right(notificationSource)
-        call.respond(notificationSource)
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/notification.json")
+                .copyTo(this)
+        }
     }
 }
 

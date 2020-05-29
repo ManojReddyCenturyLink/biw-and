@@ -25,14 +25,51 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <include
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/incProgress"
                 layout="@layout/widget_progress_status"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/installation_complete_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/installation_complete_title" />
+                app:layout_constraintTop_toTopOf="@+id/installation_complete_title" >
+
+                <View
+                    android:id="@+id/progress_state_one"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/progress_state_two"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    app:layout_constraintStart_toEndOf="@+id/progress_state_one"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/progress_state_three"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    app:layout_constraintStart_toEndOf="@+id/progress_state_two"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/progress_state_four"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    app:layout_constraintStart_toEndOf="@+id/progress_state_three"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/appointment_date_time_card"

@@ -70,9 +70,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     @Test
     fun `retrieve Notification with ViewModel and Repository returns an data`(){
         with(viewModel){
-            notificationLiveData.value = notificationList
+            notifications.value = notificationList
         }
-        Assert.assertTrue(viewModel.notificationLiveData.value?.size==notificationList.size)
+        Assert.assertTrue(viewModel.notifications.value.size ==notificationList.size)
     }
 
     @Test

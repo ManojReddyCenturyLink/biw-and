@@ -45,7 +45,7 @@ class HomeViewModel @Inject constructor(
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
-        requestTestRestFlow()
+        //todo: requestTestRestFlow()
     }
 
     fun handleTabBarVisibility(isExistingUser: Boolean) {

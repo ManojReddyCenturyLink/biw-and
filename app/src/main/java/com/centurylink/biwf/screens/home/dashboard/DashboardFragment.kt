@@ -110,31 +110,19 @@ class DashboardFragment : BaseFragment() {
         }
 
     private fun getAppointmentStatus() {
-        dashboardViewModel.appointmentStatusFlow.observe {
-            when (it) {
+        dashboardViewModel.dashBoardDetailsInfo.observe {
+            when (it.toString()) {
                 "Scheduled", "Dispatched", "None" -> {
                     binding.incStarted.root.visibility = View.VISIBLE
                 }
                 "Enroute" -> {
                     binding.incEnroute.root.visibility = View.VISIBLE
-                    binding.incEnroute.incProgress.progressStateTwo.background =
-                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
                 "Work Begun" -> {
                     binding.incWorkBegun.root.visibility = View.VISIBLE
-                    binding.incWorkBegun.incProgress.progressStateTwo.background =
-                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
-                    binding.incWorkBegun.incProgress.progressStateThree.background =
-                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
                 "Completed" -> {
                     binding.incCompleted.root.visibility = View.VISIBLE
-                    binding.incCompleted.incProgress.progressStateTwo.background =
-                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
-                    binding.incCompleted.incProgress.progressStateThree.background =
-                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
-                    binding.incCompleted.incProgress.progressStateFour.background =
-                        resources.getDrawable(R.drawable.dark_blue_background_rounded_corner)
                 }
             }
         }
@@ -148,7 +136,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun displaySortedNotification() {
-        dashboardViewModel.getNotificationMutableLiveData().observe {
+        dashboardViewModel.notifications.observe {
             addNotificationStack(it)
         }
     }
