@@ -44,7 +44,7 @@ class DashboardViewModel @Inject constructor(
     private fun initApis() {
         viewModelScope.launch {
             requestAppointmentDetails()
-            //TODO: requestNotificationDetails()
+            requestNotificationDetails()
         }
     }
 
@@ -111,8 +111,12 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestNotificationDetails() {
-        val result = notificationRepository.getNotificationDetails()
-        notificationListDetails.latestValue = result
+        val notificationDetails = notificationRepository.getNotificationDetails()
+        notificationDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            notificationListDetails.latestValue = it
+        }
     }
 
     fun getChangeAppointment() {
