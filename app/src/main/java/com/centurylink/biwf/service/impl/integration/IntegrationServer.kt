@@ -2,9 +2,8 @@
 
 package com.centurylink.biwf.service.impl.integration
 
-import com.centurylink.biwf.Either
+import android.util.Log
 import com.centurylink.biwf.mockintegrationserver.EmbeddedServer
-import com.centurylink.biwf.model.appointment.Appointments
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
@@ -17,6 +16,7 @@ import io.ktor.locations.get
 import io.ktor.locations.post
 import io.ktor.request.receive
 import io.ktor.response.respond
+import io.ktor.response.respondOutputStream
 import timber.log.Timber
 
 /**
@@ -33,23 +33,19 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
     }
 
     get<NotificationPath> {
-        val fileName = "notifications.json"
-        val inputStream = javaClass.classLoader!!
-            .getResourceAsStream("api-response/$fileName")
-        val myJson = LocalJsonParser.inputStreamToString(inputStream)
-        val notificationSource: NotificationSource =
-            Gson().fromJson(myJson, NotificationSource::class.java)
-        call.respond(Either.Right(notificationSource))
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/notifications.json")
+                .copyTo(this)
+        }
     }
 
     get<AppointmentPath> {
-        val fileName = "appointments.json"
-        val inputStream = javaClass.classLoader!!
-            .getResourceAsStream("api-response/$fileName")
-        val myJson = LocalJsonParser.inputStreamToString(inputStream)
-        val appointments: Appointments =
-            Gson().fromJson(myJson, Appointments::class.java)
-        call.respond(Either.Right(appointments))
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/appointments.json")
+                .copyTo(this)
+        }
     }
 }
 

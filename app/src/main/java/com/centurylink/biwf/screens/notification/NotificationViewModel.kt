@@ -16,7 +16,7 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository
 ) : BaseViewModel() {
-
+    var errorMessageFlow = EventFlow<String>()
     val errorEvents: EventFlow<String> = EventFlow()
     val displayClearAllEvent: EventFlow<Unit> = EventFlow()
     val myState = EventFlow<NotificationCoordinatorDestinations>()
@@ -46,8 +46,12 @@ class NotificationViewModel @Inject constructor(
     }
 
     private suspend fun requestNotificationDetails() {
-        val result = notificationRepository.getNotificationDetails()
-        notificationListDetails.latestValue = result
+        val notificationDetails = notificationRepository.getNotificationDetails()
+        notificationDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            notificationListDetails.latestValue = it
+        }
     }
 
     fun getNotificationDetails() = notificationListDetails

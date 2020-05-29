@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -53,6 +54,7 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            Log.i("JAMMY","Request "+it)
             updateAppointmentStatus(it)
         }
     }
@@ -115,6 +117,7 @@ class DashboardViewModel @Inject constructor(
         notificationDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            Log.i("JAMMY","Notification Source "+it)
             notificationListDetails.latestValue = it
         }
     }

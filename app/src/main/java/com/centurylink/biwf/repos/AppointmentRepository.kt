@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
@@ -75,6 +76,7 @@ class AppointmentRepository @Inject constructor(
         val result: FiberServiceResult<Appointments> =
             integrationRestServices.getAppointmentDetails("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
+
             val appointmentRecords = it.records.elementAtOrElse(0) { null }
             appointmentRecords?.let { it ->
                 val serviceRecords = it.serviceResources?.records?.elementAtOrElse(0) { null }
