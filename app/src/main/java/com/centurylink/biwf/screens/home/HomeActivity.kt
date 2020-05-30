@@ -56,10 +56,6 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         }
     }
 
-    override fun onGetStartedClick(newUser: Boolean) {
-        //her handle navigation functions and Tab visibility.
-    }
-
     /**
      * Comparing the number of entries currently in the back stack to handle Back Press
      */
@@ -82,40 +78,44 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         viewModel.onBiometricYesResponse()
     }
 
+    override fun onGetStartedClick(isJobTypeInstallation: Boolean) {
+        setupTabsViewPager(isJobTypeInstallation, true)
+    }
+
     fun launchSubscriptionActivity() {
         viewModel.onSubscriptionActivityClick()
     }
 
     private fun initViews() {
         viewModel.activeUserTabBarVisibility.observe {
-            setupTabsViewPager(it)
+            setupTabsViewPager(it, viewModel.isExistingUser.value)
         }
         viewModel.networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
     }
 
     private fun initOnClicks() {
         binding.homeOnlineStatusBar.setOnClickListener { viewModel.onOnlineToolbarClick() }
-        binding.iBtnNotification.setOnClickListener { viewModel.onNotificationBellClicked() }
+        binding.iBtnNotificationTop.setOnClickListener { viewModel.onNotificationBellClicked() }
+        binding.iBtnNotificationBottom.setOnClickListener { viewModel.onNotificationBellClicked() }
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
-    private fun setupTabsViewPager(it: Boolean) {
-        binding.homeUpperTabs.visibility = if (it) View.VISIBLE else View.GONE
-        binding.homeLowerTabs.visibility = if (it) View.GONE else View.VISIBLE
-        binding.homeOnlineStatusBar.visibility = if (it) View.GONE else View.VISIBLE
+    private fun setupTabsViewPager(isJobTypeInstallation: Boolean, isExistingUser: Boolean) {
+        binding.iBtnNotificationBottom.visibility = if (isExistingUser) View.GONE else View.VISIBLE
+        binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
+        binding.homeOnlineStatusBar.visibility = if (isExistingUser) View.VISIBLE else View.GONE
+
         binding.vpDashboard.adapter = adapter
-        if (it) {
-            adapter.submitList(viewModel.upperTabHeaderList)
-            TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
-                TabLayoutMediator.OnConfigureTabCallback
-                { tab, position -> tab.setText(viewModel.upperTabHeaderList[position].titleRes) }).attach()
-        } else {
+        if(isExistingUser){
             adapter.submitList(viewModel.lowerTabHeaderList)
-            TabLayoutMediator(binding.homeLowerTabs, binding.vpDashboard,
-                TabLayoutMediator.OnConfigureTabCallback
-                { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
+        }else{
+            adapter.submitList(viewModel.upperTabHeaderList)
         }
-        binding.vpDashboard.currentItem = 1
+        TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
+            TabLayoutMediator.OnConfigureTabCallback
+            { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
+
+        binding.vpDashboard.currentItem = 0
     }
 
     private fun biometricCheck(list: ChoiceDialogMessage) {

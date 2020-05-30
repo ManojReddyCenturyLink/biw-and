@@ -40,6 +40,8 @@ class HomeViewModel @Inject constructor(
     val activeUserTabBarVisibility = BehaviorStateFlow<Boolean>()
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
+    val isExistingUser = BehaviorStateFlow<Boolean>()
+
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
 
@@ -53,6 +55,7 @@ class HomeViewModel @Inject constructor(
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
+        isExistingUser.value = sharedPreferences.getUserType() ?: false
 
         //requestTestRestFlow()
         if (!sharedPreferences.getHasSeenDialog()) {
@@ -62,7 +65,7 @@ class HomeViewModel @Inject constructor(
         initApis()
     }
 
-    private fun initApis(){
+    private fun initApis() {
         viewModelScope.launch {
             requestUserInfo()
             requestUserDetails()
@@ -128,7 +131,7 @@ class HomeViewModel @Inject constructor(
             appointmentDetails.fold(ifLeft = {
             }) {
                 activeUserTabBarVisibility.latestValue =
-                    (it.jobType.equals("Fiber Install - For Installations"))
+                    (it.jobType == "Fiber Install - For Installations")
             }
         }
     }

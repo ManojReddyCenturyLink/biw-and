@@ -50,6 +50,14 @@ class Preferences(private val store: KeyValueStore) {
         store.putBoolean(BIOMETRIC, value)
     }
 
+    fun getUserType(): Boolean? {
+        return store.getBoolean(EXISTING_USER)
+    }
+
+    fun saveUserType(value: Boolean) {
+        store.putBoolean(EXISTING_USER, value)
+    }
+
     fun getHasSeenDialog(): Boolean {
         return store.getBoolean(HAS_SEEN_PROMPT)!!
     }
@@ -65,5 +73,6 @@ class Preferences(private val store: KeyValueStore) {
         const val PLAN_NAME = "PLAN_NAME"
         const val BIOMETRIC = "BIOMETRICS"
         const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
+        const val EXISTING_USER = "EXISTING_USER"
     }
 }

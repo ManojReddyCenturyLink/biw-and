@@ -69,14 +69,23 @@ class DashboardFragment : BaseFragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
         initOnClicks()
-        getAppointmentStatus()
         binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
     }
 
+    private fun initViews() {
+        if (dashboardViewModel.isExistingUser.value){
+            incSpeedTest.visibility = View.VISIBLE
+            observeNotificationViews()
+        }else{
+            getAppointmentStatus()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initViews()
         setupMap()
     }
 
@@ -208,10 +217,9 @@ class DashboardFragment : BaseFragment() {
             dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
         }
         binding.incCompleted.getStartedBtn.setOnClickListener {
+            dashboardViewModel.getStartedClicked()
             getStartedClickListener.onGetStartedClick(false)
             incCompleted.visibility = View.GONE
-            incSpeedTest.visibility = View.VISIBLE
-            observeNotificationViews()
         }
     }
 

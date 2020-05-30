@@ -15,6 +15,7 @@ import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -22,14 +23,16 @@ import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
-    private val appointmentRepository: AppointmentRepository
-) : BaseViewModel() {
+    private val appointmentRepository: AppointmentRepository,
+    private val sharedPreferences: Preferences
+    ) : BaseViewModel() {
     var appointmentCounter = 0
     var errorMessageFlow = EventFlow<String>()
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
     val notificationListDetails = BehaviorStateFlow<NotificationSource>()
     val notifications: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
+    val isExistingUser = BehaviorStateFlow<Boolean>()
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private val unreadItem: Notification =
         Notification(
@@ -39,6 +42,7 @@ class DashboardViewModel @Inject constructor(
 
     init {
         initApis()
+        isExistingUser.value = sharedPreferences.getUserType() ?: false
     }
 
     private fun initApis() {
@@ -166,6 +170,10 @@ class DashboardViewModel @Inject constructor(
                 delay(10000)
             }
         }
+    }
+
+    fun getStartedClicked() {
+        sharedPreferences.saveUserType(true)
     }
 
     abstract class UiDashboardAppointmentInformation

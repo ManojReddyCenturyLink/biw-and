@@ -1,19 +1,27 @@
 package com.centurylink.biwf.screens.home
 
+import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
+import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
+import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.user.UserDetails
+import com.centurylink.biwf.model.user.UserInfo
+import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.preferences.Preferences
+import io.mockk.coEvery
 import io.mockk.every
-import com.centurylink.biwf.repos.AppointmentRepository
 import io.mockk.impl.annotations.MockK
 import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
+import org.amshove.kluent.shouldEqual
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.threeten.bp.LocalDateTime
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class HomeViewModelTest : ViewModelBaseTest() {
@@ -22,6 +30,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var appointmentRepository: AppointmentRepository
+    @MockK
     private lateinit var userRepository: UserRepository
     @MockK
     private lateinit var mockPreferences: Preferences
@@ -29,7 +38,28 @@ class HomeViewModelTest : ViewModelBaseTest() {
     @Before
     fun setup() {
         every { mockPreferences.getHasSeenDialog() } returns true
-        viewModel = HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk())
+        every { mockPreferences.getUserType() } returns true
+        coEvery { userRepository.getUserInfo() } returns Either.Right(
+            UserInfo()
+        )
+        coEvery { userRepository.getUserDetails() } returns Either.Right(
+            UserDetails()
+        )
+        coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Right(
+            AppointmentRecordsInfo(
+                serviceAppointmentStartDate = LocalDateTime.now(),
+                serviceAppointmentEndTime = LocalDateTime.now(),
+                serviceEngineerName = "",
+                serviceEngineerProfilePic = "",
+                serviceStatus = ServiceStatus.COMPLETED,
+                serviceLatitude = "",
+                serviceLongitude = "",
+                jobType = "",
+                appointmentId = ""
+            )
+        )
+        viewModel =
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository)
     }
 
     @Test
@@ -37,7 +67,6 @@ class HomeViewModelTest : ViewModelBaseTest() {
         launch {
             viewModel.onSupportClicked()
         }
-
         Assert.assertEquals(
             "Support Screen wasn't Launched",
             HomeCoordinatorDestinations.SUPPORT,
@@ -45,10 +74,8 @@ class HomeViewModelTest : ViewModelBaseTest() {
         )
     }
 
-//    Need to revisit
-//    @Test
-//    fun onStart_displayNonOnboardedTabBar() {
-//        // Will rename this test once we have this feature in place
-//        viewModel.activeUserTabBarVisibility.value shouldEqual false
-//    }
+    @Test
+    fun onStart_displayNewUserTabBar() {
+        viewModel.activeUserTabBarVisibility.value shouldEqual false
+    }
 }
