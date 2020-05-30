@@ -9,6 +9,7 @@ import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
@@ -23,14 +24,15 @@ class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
-    private val integrationServices: IntegrationRestServices
+    private val integrationServices: IntegrationRestServices,
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
     val networkStatus: BehaviorStateFlow<OnlineStatusData> = BehaviorStateFlow(OnlineStatusData())
     val myState = EventFlow<HomeCoordinatorDestinations>()
     val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
     val refreshBioMetrics = EventFlow<Unit>()
-
+    var errorMessageFlow = EventFlow<String>()
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
@@ -51,11 +53,20 @@ class HomeViewModel @Inject constructor(
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
-        requestAppointmentDetails()
+
         //requestTestRestFlow()
         if (!sharedPreferences.getHasSeenDialog()) {
             displayBioMetricPrompt.latestValue = dialogMessage
             sharedPreferences.saveHasSeenDialog()
+        }
+        initApis()
+    }
+
+    private fun initApis(){
+        viewModelScope.launch {
+            requestUserInfo()
+            requestUserDetails()
+            requestAppointmentDetails()
         }
     }
 
@@ -120,6 +131,22 @@ class HomeViewModel @Inject constructor(
                     (it.jobType.equals("Fiber Install - For Installations"))
             }
         }
+    }
+
+    private suspend fun requestUserDetails() {
+        val userDetails = userRepository.getUserDetails()
+        userDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+
+        }
+    }
+
+    private suspend fun requestUserInfo() {
+        val userInfo = userRepository.getUserInfo()
+        userInfo.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {}
     }
 
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {

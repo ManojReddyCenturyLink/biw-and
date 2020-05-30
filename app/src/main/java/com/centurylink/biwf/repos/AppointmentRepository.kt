@@ -26,10 +26,12 @@ class AppointmentRepository @Inject constructor(
     }
 
     suspend fun getAppointmentInfo(): Either<String, AppointmentRecordsInfo> {
+
         val query =
             "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude, (SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s'"
         val accountId = getAccountId()
         if (accountId.isNullOrEmpty()) {
+            Log.i("JAMMY","Account Id is Empty")
             return Either.Left("Account ID is not available")
         }
         val finalQuery = String.format(query, accountId)
