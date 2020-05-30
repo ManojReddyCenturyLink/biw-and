@@ -43,7 +43,6 @@ class OAuthHttpClient @Inject constructor(
  */
 private fun addAccessTokenHeader(service: TokenService, chain: Interceptor.Chain): Response {
     val accessTokenHeader = service.accessTokenHeader
-    Log.i("JAMMY","accessTokenHeader"+accessTokenHeader)
     return if (accessTokenHeader.isNotEmpty()) {
         val request = chain.request()
             .newBuilder()
