@@ -9,6 +9,7 @@ import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +21,8 @@ class NotificationViewModel @Inject constructor(
     val errorEvents: EventFlow<String> = EventFlow()
     val displayClearAllEvent: EventFlow<Unit> = EventFlow()
     val myState = EventFlow<NotificationCoordinatorDestinations>()
-    val notifications: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
+    val notifications: Flow<MutableList<Notification>> = BehaviorStateFlow()
+    val notificationListDetails :Flow<NotificationSource> = BehaviorStateFlow<NotificationSource>()
     private val unreadItem: Notification =
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -33,7 +35,6 @@ class NotificationViewModel @Inject constructor(
         )
 
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
-    val notificationListDetails = BehaviorStateFlow<NotificationSource>()
 
     init {
         initApi()
@@ -54,8 +55,6 @@ class NotificationViewModel @Inject constructor(
         }
     }
 
-    fun getNotificationDetails() = notificationListDetails
-
     fun notificationItemClicked(notificationItem: Notification) {
         if (notificationItem.isUnRead) {
             mergedNotificationList.remove(notificationItem)
@@ -73,7 +72,7 @@ class NotificationViewModel @Inject constructor(
                 mergedNotificationList.remove(unreadItem)
             }
 
-            notifications.value = mergedNotificationList
+            notifications.latestValue = mergedNotificationList
         }
         navigatetoNotifcationDetails(notificationItem)
     }
@@ -91,7 +90,7 @@ class NotificationViewModel @Inject constructor(
         mergedNotificationList.remove(unreadItem)
         mergedNotificationList.remove(readItem)
         mergedNotificationList.add(0, readItem)
-        notifications.value = mergedNotificationList
+        notifications.latestValue = mergedNotificationList
     }
 
     fun displaySortedNotifications(notificationList: List<Notification>) {
@@ -109,13 +108,13 @@ class NotificationViewModel @Inject constructor(
         }
         mergedNotificationList.addAll(unreadNotificationList)
         mergedNotificationList.addAll(unreadNotificationList.size, readNotificationList)
-        notifications.value = mergedNotificationList
+        notifications.latestValue = mergedNotificationList
     }
 
     fun clearAllReadNotifications() {
         mergedNotificationList = mergedNotificationList.filter { it.isUnRead }.toMutableList()
         mergedNotificationList.remove(readItem)
-        notifications.value = mergedNotificationList
+        notifications.latestValue = mergedNotificationList
     }
 
     fun displayClearAllDialogs() {
@@ -128,9 +127,5 @@ class NotificationViewModel @Inject constructor(
         viewModelScope.launch {
             errorEvents.postValue("Server error!Try again later")
         }
-    }
-
-    fun getNotificationMutableLiveData(): BehaviorStateFlow<MutableList<Notification>> {
-        return notifications
     }
 }

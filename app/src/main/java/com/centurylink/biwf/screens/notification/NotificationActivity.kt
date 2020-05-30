@@ -97,7 +97,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun getNotificationInformation() {
-        notificationViewModel.getNotificationDetails().observe {
+        notificationViewModel.notificationListDetails.observe {
             notificationViewModel.displaySortedNotifications(it.notificationlist)
             displaySortedNotification()
         }
@@ -126,7 +126,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun displaySortedNotification() {
-        notificationViewModel.getNotificationMutableLiveData().observe {
+        notificationViewModel.notifications.observe {
             prepareRecyclerView(it)
         }
     }
