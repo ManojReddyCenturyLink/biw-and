@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
 
     val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
     val refreshBioMetrics = EventFlow<Unit>()
-
+    var errorMessageFlow = EventFlow<String>()
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
@@ -59,6 +59,14 @@ class HomeViewModel @Inject constructor(
         if (!sharedPreferences.getHasSeenDialog()) {
             displayBioMetricPrompt.latestValue = dialogMessage
             sharedPreferences.saveHasSeenDialog()
+        }
+        initApis()
+    }
+
+    private fun initApis() {
+        viewModelScope.launch {
+            requestUserInfo()
+            requestUserDetails()
         }
     }
 
@@ -119,6 +127,21 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private suspend fun requestUserDetails() {
+        val userDetails = userRepository.getUserDetails()
+        userDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+        }
+    }
+
+    private suspend fun requestUserInfo() {
+        val userInfo = userRepository.getUserInfo()
+        userInfo.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {}
     }
 
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {

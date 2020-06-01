@@ -58,6 +58,14 @@ class Preferences(private val store: KeyValueStore) {
         store.putBoolean(HAS_SEEN_PROMPT, true)
     }
 
+    fun isLoggedInUser(): Boolean? {
+        return store.getBoolean(IS_LOGGED_IN_USER)
+    }
+
+    fun saveUserLoggedInStatus(value: Boolean) {
+        store.putBoolean(IS_LOGGED_IN_USER, value)
+    }
+
     companion object {
         const val USER_ID = "USER_ID"
         const val ACCOUNT_ID = "ACCOUNT_ID"
@@ -65,5 +73,6 @@ class Preferences(private val store: KeyValueStore) {
         const val PLAN_NAME = "PLAN_NAME"
         const val BIOMETRIC = "BIOMETRICS"
         const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
+        const val IS_LOGGED_IN_USER = "IS_LOGGED_IN_USER"
     }
 }
