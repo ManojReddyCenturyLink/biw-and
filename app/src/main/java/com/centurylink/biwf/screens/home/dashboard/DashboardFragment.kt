@@ -52,14 +52,13 @@ class DashboardFragment : BaseFragment() {
     private var enrouteMapFragment: SupportMapFragment? = null
     private var workBegunMapFragment: SupportMapFragment? = null
 
-    private var originLatLng = LatLng(0.0, 0.0)
-    private var destinationLatLng = LatLng(0.0, 0.0)
+    //TODO: Passing hardcoded Lat long for UI testing purpose
+    private var originLatLng = LatLng(39.902448, -104.97592) //LatLng(0.0, 0.0)
+    private var destinationLatLng = LatLng(39.902448, -104.97592) //LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
-        //Service call and check user type
-        //newUser = arguments!!.getBoolean(KEY_NEW_USER, newUser)
     }
 
     override fun onCreateView(
@@ -75,7 +74,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun initViews() {
-        if (dashboardViewModel.isExistingUser.value){
+        if (dashboardViewModel.isExistingUser.value) {
             incSpeedTest.visibility = View.VISIBLE
             observeNotificationViews()
         }else{
@@ -131,16 +130,16 @@ class DashboardFragment : BaseFragment() {
     private fun getAppointmentStatus() {
         dashboardViewModel.dashBoardDetailsInfo.observe {
             if (it is DashboardViewModel.AppointmentScheduleState) {
-                incStarted.visibility = View.VISIBLE
-                incStarted.appointment_date_time_card.appointment_date.text =
+                incScheduled.visibility = View.VISIBLE
+                incScheduled.appointment_date_time_card.appointment_date.text =
                     it.serviceAppointmentDate
-                incStarted.appointment_date_time_card.appointment_time.text = getString(
+                incScheduled.appointment_date_time_card.appointment_time.text = getString(
                     R.string.text_time_details,
                     it.serviceAppointmentStartTime,
                     it.serviceAppointmentEndTime
                 )
-                incStarted.incWelcomeCard.msg_dismiss_button.setOnClickListener {
-                    incStarted.incWelcomeCard.visibility = View.GONE
+                incScheduled.incWelcomeCard.msg_dismiss_button.setOnClickListener {
+                    incScheduled.incWelcomeCard.visibility = View.GONE
                 }
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
@@ -208,7 +207,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun initOnClicks() {
-        binding.incStarted.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
+        binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.notificationDismissButton.setOnClickListener {
             dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
             displaySortedNotification()
@@ -221,6 +220,23 @@ class DashboardFragment : BaseFragment() {
             getStartedClickListener.onGetStartedClick(false)
             incCompleted.visibility = View.GONE
         }
+        //TODO: Adding for testing purpose, will remove later
+        binding.incScheduled.appointmentStatusTitle.setOnClickListener {
+            incScheduled.visibility = View.GONE
+            incEnroute.visibility = View.VISIBLE
+        }
+        binding.incEnroute.appointmentStatusTitle.setOnClickListener {
+            incScheduled.visibility = View.GONE
+            incEnroute.visibility = View.GONE
+            incWorkBegun.visibility = View.VISIBLE
+        }
+        binding.incWorkBegun.appointmentStatusTitle.setOnClickListener {
+            incScheduled.visibility = View.GONE
+            incEnroute.visibility = View.GONE
+            incWorkBegun.visibility = View.GONE
+            incCompleted.visibility = View.VISIBLE
+        }
+
     }
 
     private fun bitMapFromVector(vectorResID: Int): BitmapDescriptor {

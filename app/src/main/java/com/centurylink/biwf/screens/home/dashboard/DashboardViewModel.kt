@@ -161,13 +161,12 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
-    /*For testing purpose, will remove later*/
+    /*For checking Technician progress*/
     fun timerSetup() {
-        // TODO Temporary code to change the state
         viewModelScope.launch {
-            delay(2000)
+            delay(300000)
             while (true) {
-                delay(10000)
+                requestAppointmentDetails()
             }
         }
     }

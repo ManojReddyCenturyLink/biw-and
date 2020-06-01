@@ -9,7 +9,7 @@
         android:background="@color/background_grey">
 
         <include
-            android:id="@+id/incStarted"
+            android:id="@+id/incScheduled"
             layout="@layout/widget_appointment_scheduled"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="incEnroute,incStarted,incCompleted,incWorkBegun" />
+            app:constraint_referenced_ids="incEnroute,incScheduled,incCompleted,incWorkBegun" />
 
         <include
             android:id="@+id/incSpeedTest"
