@@ -18,6 +18,7 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -30,6 +31,9 @@ class HomeViewModel @Inject constructor(
 
     val networkStatus: BehaviorStateFlow<OnlineStatusData> = BehaviorStateFlow(OnlineStatusData())
     val myState = EventFlow<HomeCoordinatorDestinations>()
+    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
+    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
+
     val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
     val refreshBioMetrics = EventFlow<Unit>()
     var errorMessageFlow = EventFlow<String>()
@@ -38,9 +42,9 @@ class HomeViewModel @Inject constructor(
     val testRestFlow: Flow<String> = BehaviorStateFlow()
     val testRestErrorFlow: Flow<String> = BehaviorStateFlow()
     val activeUserTabBarVisibility = BehaviorStateFlow<Boolean>()
+    val isExistingUser = BehaviorStateFlow<Boolean>()
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
-    val isExistingUser = BehaviorStateFlow<Boolean>()
 
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false

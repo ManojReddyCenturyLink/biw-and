@@ -150,9 +150,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
     }
 
     companion object {
-        fun newIntent(context: Context, boolean: Boolean): Intent {
+        fun newIntent(context: Context): Intent {
             return Intent(context, HomeActivity::class.java)
-                .putExtra("EXISTING_USER", boolean)
         }
     }
 }

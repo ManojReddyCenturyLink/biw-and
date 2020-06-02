@@ -41,6 +41,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         every { mockSharedPreferences.saveUserId("USER_ID") } just runs
         every { mockSharedPreferences.removeUserId() } just runs
         every { mockSharedPreferences.getBioMetrics() } returns true
+        every { mockSharedPreferences.isLoggedInUser() } returns true
         viewModel = LoginViewModel(
             accountRepository = mockAccountRepository,
             sharedPreferences = mockSharedPreferences,
@@ -57,8 +58,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
             viewModel.onPasswordTextChanged("passcode")
             viewModel.onLoginClicked()
         }
-
-        assertSame("Not the same", LoginCoordinatorDestinations.HOME_NEW_USER, viewModel.myState.first())
+        assertSame("Not the same", LoginCoordinatorDestinations.HOME, viewModel.myState.first())
     }
 
     @Ignore
