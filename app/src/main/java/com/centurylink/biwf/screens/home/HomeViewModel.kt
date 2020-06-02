@@ -31,9 +31,6 @@ class HomeViewModel @Inject constructor(
 
     val networkStatus: BehaviorStateFlow<OnlineStatusData> = BehaviorStateFlow(OnlineStatusData())
     val myState = EventFlow<HomeCoordinatorDestinations>()
-    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
-    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
-
     val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
     val refreshBioMetrics = EventFlow<Unit>()
     var errorMessageFlow = EventFlow<String>()
