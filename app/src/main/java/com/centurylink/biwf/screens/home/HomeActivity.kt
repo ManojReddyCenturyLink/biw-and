@@ -80,7 +80,8 @@ class HomeActivity : BaseActivity(), ChoiceDialogFragment.BioMetricDialogCallbac
     }
 
     private fun initViews() {
-        viewModel.handleTabBarVisibility(intent.getBooleanExtra("EXISTING_USER", false))
+        //This is handled in BMA-253, we don't need to pass value from intent as services are available now
+        viewModel.handleTabBarVisibility(true)
         viewModel.apply {
             activeUserTabBarVisibility.bindToVisibility(
                 binding.homeUpperTabs,
@@ -89,7 +90,8 @@ class HomeActivity : BaseActivity(), ChoiceDialogFragment.BioMetricDialogCallbac
             )
             networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
         }
-        setupTabsViewPager(intent.getBooleanExtra("EXISTING_USER", false))
+        //This is handled in BMA-253, we don't need to pass value from intent as services are available now
+        setupTabsViewPager(true)
     }
 
     private fun initOnClicks() {
@@ -147,9 +149,8 @@ class HomeActivity : BaseActivity(), ChoiceDialogFragment.BioMetricDialogCallbac
     }
 
     companion object {
-        fun newIntent(context: Context, boolean: Boolean): Intent {
+        fun newIntent(context: Context): Intent {
             return Intent(context, HomeActivity::class.java)
-                .putExtra("EXISTING_USER", boolean)
         }
     }
 }

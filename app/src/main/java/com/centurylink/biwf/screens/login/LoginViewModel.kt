@@ -34,7 +34,10 @@ class LoginViewModel internal constructor(
         private val authServiceFactory: AuthServiceFactory<*>
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
-        fun withInput(input: AuthServiceHost, navFromAccountScreen: Boolean): ViewModelProvider.Factory {
+        fun withInput(
+            input: AuthServiceHost,
+            navFromAccountScreen: Boolean
+        ): ViewModelProvider.Factory {
             return viewModelFactory {
                 LoginViewModel(
                     accountRepository,
@@ -71,10 +74,13 @@ class LoginViewModel internal constructor(
 
     init {
         val showBiometrics = sharedPreferences.getBioMetrics() ?: false
+        val isLoggedInUser = sharedPreferences.isLoggedInUser() ?: false
         if (navFromAccountScreen) {
             onLoginClicked()
-        } else if (showBiometrics) {
+        } else if (showBiometrics && isLoggedInUser) {
             showBioMetricsLogin.latestValue = biometricPromptMessage
+        } else if (isLoggedInUser) {
+            onLoginSuccess()
         }
     }
 
@@ -96,8 +102,9 @@ class LoginViewModel internal constructor(
         }
     }
 
-    fun onExistingUserLogin() {
-        myState.latestValue = LoginCoordinatorDestinations.HOME_EXISTING_USER
+    fun onLoginSuccess() {
+        myState.latestValue = LoginCoordinatorDestinations.HOME
+        sharedPreferences.saveUserLoggedInStatus(true)
     }
 
     fun onForgotPasswordClicked() {
@@ -106,10 +113,6 @@ class LoginViewModel internal constructor(
 
     fun onLearnMoreClicked() {
         myState.latestValue = LoginCoordinatorDestinations.LEARN_MORE
-    }
-
-    fun onBiometricSuccess() {
-        myState.latestValue = LoginCoordinatorDestinations.HOME_EXISTING_USER
     }
 }
 

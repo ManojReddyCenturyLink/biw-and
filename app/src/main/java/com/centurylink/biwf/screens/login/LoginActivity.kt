@@ -86,7 +86,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                     result: BiometricPrompt.AuthenticationResult
                 ) {
                     super.onAuthenticationSucceeded(result)
-                    viewModel.onBiometricSuccess()
+                    viewModel.onLoginSuccess()
                 }
 
                 override fun onAuthenticationFailed() {
@@ -116,7 +116,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
             null -> return
 
             AuthResponseType.AUTHORIZED -> {
-                viewModel.onExistingUserLogin()
+                viewModel.onLoginSuccess()
                 finish()
             }
             else -> {
@@ -149,7 +149,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 putExtra(AUTH_RESPONSE_TYPE, result)
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
             }
-
             context.startActivity(intent)
         }
     }

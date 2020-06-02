@@ -112,9 +112,11 @@ class AccountViewModel internal constructor(
     }
 
     fun onLogOutClick() {
+        sharedPreferences.saveUserLoggedInStatus(false)
         viewModelScope.launch {
             val result = authService.revokeToken()
-            if (result) myState.latestValue = AccountCoordinatorDestinations.LOG_IN
+            if (result)
+            myState.latestValue = AccountCoordinatorDestinations.LOG_IN
         }
     }
 

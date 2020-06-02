@@ -47,9 +47,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
-    fun navigateToHomeScreen(userType: Boolean) {
+    fun navigateToHomeScreen() {
         activity?.also {
-            it.startActivity(HomeActivity.newIntent(it, userType))
+            it.startActivity(HomeActivity.newIntent(it))
+            activity?.finish()
         }
     }
 
