@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.repos.CaseRepository
-import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -22,7 +20,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
     private var cancellationComments: String = ""
-    private var recordTypeId:String="";
+    private var recordTypeId: String = ""
     var errorMessageFlow = EventFlow<String>()
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
     val performSubmitEvent: EventLiveData<Date> = MutableLiveData()
@@ -34,10 +32,10 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         ratingValue = rating
     }
 
-    init{
-       viewModelScope.launch {
-           requestRecordId()
-       }
+    init {
+        viewModelScope.launch {
+            requestRecordId()
+        }
     }
 
     fun onCancellationReason(cancellationReasonData: String) {
@@ -81,9 +79,13 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             cancellationReasonExplanation,
             ratingValue!!,
             cancellationComments,
-            recordTypeId!!
+            recordTypeId
         )
-        errorMessageFlow.latestValue = caseDetails
+        caseDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            Log.i("JAMMY", "DEACTIVIATION " + it.success)
+        }
     }
 
     private suspend fun requestRecordId() {
@@ -92,7 +94,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             recordTypeId = it
-            Log.i("JAMMY","Record ID "+it)
+            Log.i("JAMMY", "Record ID " + it)
         }
     }
 

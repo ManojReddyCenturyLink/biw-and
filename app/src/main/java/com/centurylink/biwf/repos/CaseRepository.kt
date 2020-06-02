@@ -4,6 +4,7 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.CaseCreate
+import com.centurylink.biwf.model.cases.CaseResponse
 import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.service.network.CaseApiService
@@ -33,8 +34,8 @@ class CaseRepository @Inject constructor(
         cancellationReason: String?,
         cancellationReasonExpln: String?,
         rating: Float?, comments: String?,
-        recordTypeId:String
-    ): String {
+        recordTypeId: String
+    ): Either<String, CaseResponse> {
         val caseCreate = CaseCreate(
             contactId = getContactId() ?: "",
             cancellationReason = cancellationReason ?: "",
@@ -47,12 +48,9 @@ class CaseRepository @Inject constructor(
             experience = String.format("%.0f", rating),
             recordTypeId = recordTypeId
         )
-        val result: FiberServiceResult<Unit> =
+        val result: FiberServiceResult<CaseResponse> =
             caseApiService.submitCaseForSubscription(caseCreate)
-        return result.fold(
-            ifLeft = { it.message?.message.toString() },
-            ifRight = { "" }
-        )
+        return result.mapLeft { it.message?.message.toString() }
     }
 
     suspend fun getCaseId(): Either<String, Cases> {
