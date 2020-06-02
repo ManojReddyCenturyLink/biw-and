@@ -1,6 +1,7 @@
 package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.Either
+import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.CaseCreate
 import com.centurylink.biwf.model.cases.Cases
@@ -31,10 +32,10 @@ class CaseRepository @Inject constructor(
         cancellationDate: Date,
         cancellationReason: String?,
         cancellationReasonExpln: String?,
-        rating: Float?, comments: String?
+        rating: Float?, comments: String?,
+        recordTypeId:String
     ): String {
         val caseCreate = CaseCreate(
-            accountId = getAccountId() ?: "",
             contactId = getContactId() ?: "",
             cancellationReason = cancellationReason ?: "",
             cancelReasonComments = cancellationReasonExpln ?: "",
@@ -43,7 +44,8 @@ class CaseRepository @Inject constructor(
                 DateUtils.STANDARD_FORMAT
             ),
             notes = comments ?: "",
-            experience = String.format("%.0f", rating)
+            experience = String.format("%.0f", rating),
+            recordTypeId = recordTypeId
         )
         val result: FiberServiceResult<Unit> =
             caseApiService.submitCaseForSubscription(caseCreate)
@@ -58,10 +60,17 @@ class CaseRepository @Inject constructor(
         return result.mapLeft { it.message?.message.toString() }
     }
 
-    suspend fun getRecordTypeId(): Either<String, RecordId> {
+    suspend fun getRecordTypeId(): Either<String, String> {
         val query =
             "SELECT Id FROM RecordType WHERE SobjectType = 'Case' AND DeveloperName ='Fiber'"
         val result: FiberServiceResult<RecordId> = caseApiService.getRecordTpeId(query)
-        return result.mapLeft { it.message?.message.toString() }
+        return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
+            val id = it.records.elementAtOrElse(0) { null }?.Id
+            if (id.isNullOrEmpty()) {
+                Either.Left("Record Id  Records is Empty")
+            } else {
+                Either.Right(id)
+            }
+        }
     }
 }

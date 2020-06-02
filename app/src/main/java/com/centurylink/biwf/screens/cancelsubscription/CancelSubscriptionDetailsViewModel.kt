@@ -1,11 +1,14 @@
 package com.centurylink.biwf.screens.cancelsubscription
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.repos.CaseRepository
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -19,7 +22,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
     private var cancellationComments: String = ""
-
+    private var recordTypeId:String="";
     var errorMessageFlow = EventFlow<String>()
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
     val performSubmitEvent: EventLiveData<Date> = MutableLiveData()
@@ -29,6 +32,12 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
 
     fun onRatingChanged(rating: Float) {
         ratingValue = rating
+    }
+
+    init{
+       viewModelScope.launch {
+           requestRecordId()
+       }
     }
 
     fun onCancellationReason(cancellationReasonData: String) {
@@ -71,9 +80,20 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             cancellationReason,
             cancellationReasonExplanation,
             ratingValue!!,
-            cancellationComments
+            cancellationComments,
+            recordTypeId!!
         )
         errorMessageFlow.latestValue = caseDetails
+    }
+
+    private suspend fun requestRecordId() {
+        val subscriptionDate = caseRepository.getRecordTypeId()
+        subscriptionDate.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            recordTypeId = it
+            Log.i("JAMMY","Record ID "+it)
+        }
     }
 
     fun performCancellationRequest() {
@@ -81,4 +101,5 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             performCancel()
         }
     }
+
 }
