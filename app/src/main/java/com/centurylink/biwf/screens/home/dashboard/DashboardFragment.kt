@@ -54,7 +54,7 @@ class DashboardFragment : BaseFragment() {
 
     //TODO: Passing hardcoded Lat long for UI testing purpose
     private var originLatLng = LatLng(39.902448, -104.97592) //LatLng(0.0, 0.0)
-    private var destinationLatLng = LatLng(39.902448, -104.97592) //LatLng(0.0, 0.0)
+    private var destinationLatLng = LatLng(39.992448, -104.99592) //LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +119,7 @@ class DashboardFragment : BaseFragment() {
         OnMapReadyCallback { googleMap ->
             googleMap ?: return@OnMapReadyCallback
             with(googleMap) {
-                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 18.0f))
+                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
                 addMarker(
                     MarkerOptions().position(originLatLng)
                         .icon(bitMapFromVector(R.drawable.green_marker))
