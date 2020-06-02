@@ -4,6 +4,7 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.CaseCreate
 import com.centurylink.biwf.model.cases.Cases
+import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.service.network.CaseApiService
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -54,6 +55,13 @@ class CaseRepository @Inject constructor(
 
     suspend fun getCaseId(): Either<String, Cases> {
         val result: FiberServiceResult<Cases> = caseApiService.getCaseNumber()
+        return result.mapLeft { it.message?.message.toString() }
+    }
+
+    suspend fun getRecordTypeId(): Either<String, RecordId> {
+        val query =
+            "SELECT Id FROM RecordType WHERE SobjectType = 'Case' AND DeveloperName ='Fiber'"
+        val result: FiberServiceResult<RecordId> = caseApiService.getRecordTpeId(query)
         return result.mapLeft { it.message?.message.toString() }
     }
 }
