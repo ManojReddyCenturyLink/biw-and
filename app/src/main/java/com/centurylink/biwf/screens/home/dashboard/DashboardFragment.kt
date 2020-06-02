@@ -222,19 +222,23 @@ class DashboardFragment : BaseFragment() {
         }
         //TODO: Adding for testing purpose, will remove later
         binding.incScheduled.appointmentStatusTitle.setOnClickListener {
-            incScheduled.visibility = View.GONE
-            incEnroute.visibility = View.VISIBLE
+            dashboardViewModel.navigateTOEnroute()
+            //incScheduled.visibility = View.GONE
+            //incEnroute.visibility = View.VISIBLE
+
         }
         binding.incEnroute.appointmentStatusTitle.setOnClickListener {
-            incScheduled.visibility = View.GONE
-            incEnroute.visibility = View.GONE
-            incWorkBegun.visibility = View.VISIBLE
+            dashboardViewModel.navogateToWIP()
+           // incScheduled.visibility = View.GONE
+            //incEnroute.visibility = View.GONE
+            //incWorkBegun.visibility = View.VISIBLE
         }
         binding.incWorkBegun.appointmentStatusTitle.setOnClickListener {
-            incScheduled.visibility = View.GONE
-            incEnroute.visibility = View.GONE
-            incWorkBegun.visibility = View.GONE
-            incCompleted.visibility = View.VISIBLE
+            dashboardViewModel.navigateToComplete()
+            //incScheduled.visibility = View.GONE
+            //incEnroute.visibility = View.GONE
+            //incWorkBegun.visibility = View.GONE
+            //incCompleted.visibility = View.VISIBLE
         }
 
     }

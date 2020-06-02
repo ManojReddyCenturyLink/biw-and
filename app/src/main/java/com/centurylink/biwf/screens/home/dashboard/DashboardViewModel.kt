@@ -34,6 +34,11 @@ class DashboardViewModel @Inject constructor(
     val notifications: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
     val isExistingUser = BehaviorStateFlow<Boolean>()
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
+
+    private lateinit var appointmentEngineerStatusmock :AppointmentEngineerStatus
+    private lateinit var appointmentEngineerWIPmock : AppointmentEngineerWIP
+    private lateinit var appointmentCompletemock : AppointmentComplete
+
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
@@ -75,6 +80,7 @@ class DashboardViewModel @Inject constructor(
                         serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString())
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
+                mockAppointmentResponse(it)
 
             }
             ServiceStatus.EN_ROUTE -> {
@@ -116,6 +122,46 @@ class DashboardViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Status not found"
             }
         }
+    }
+
+    private fun mockAppointmentResponse(it:AppointmentRecordsInfo){
+        val appointmentEngineerStatusmock = AppointmentEngineerStatus(
+            jobType = it.jobType,
+            status = it.serviceStatus!!,
+            serviceLongitude = it.serviceLongitude!!,
+            serviceLatitude = it.serviceLatitude!!,
+            serviceEngineerName = it.serviceEngineerName,
+            serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
+            serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
+            serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString()),
+            serviceAppointmentTime = DateUtils.formatAppointmentETA(
+                it.serviceAppointmentStartDate.toString(),
+                it.serviceAppointmentEndTime.toString()
+            )
+        )
+        val appointmentEngineerWIPmock = AppointmentEngineerWIP(
+            jobType = it.jobType,
+            status = it.serviceStatus!!,
+            serviceLongitude = it.serviceLongitude!!,
+            serviceLatitude = it.serviceLatitude!!,
+            serviceEngineerName = it.serviceEngineerName,
+            serviceEngineerProfilePic = it.serviceEngineerProfilePic!!
+        )
+
+        val appointmentCompletemock = AppointmentComplete(
+            jobType = it.jobType!!,
+            status = it.serviceStatus
+        )
+    }
+
+    fun navogateToWIP(){
+        dashBoardDetailsInfo.latestValue = appointmentEngineerWIPmock
+    }
+    fun navigateTOEnroute(){
+        dashBoardDetailsInfo.latestValue = appointmentEngineerStatusmock
+    }
+    fun navigateToComplete(){
+        dashBoardDetailsInfo.latestValue = appointmentCompletemock
     }
 
     private suspend fun requestNotificationDetails() {
