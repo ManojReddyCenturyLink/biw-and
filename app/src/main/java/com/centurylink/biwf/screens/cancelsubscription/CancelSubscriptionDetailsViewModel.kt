@@ -19,7 +19,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
     private var cancellationComments: String = ""
-
+    private var recordTypeId: String = ""
     var errorMessageFlow = EventFlow<String>()
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
     val performSubmitEvent: EventLiveData<Date> = MutableLiveData()
@@ -29,6 +29,12 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
 
     fun onRatingChanged(rating: Float) {
         ratingValue = rating
+    }
+
+    init {
+        viewModelScope.launch {
+            requestRecordId()
+        }
     }
 
     fun onCancellationReason(cancellationReasonData: String) {
@@ -71,9 +77,22 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             cancellationReason,
             cancellationReasonExplanation,
             ratingValue!!,
-            cancellationComments
+            cancellationComments,
+            recordTypeId
         )
-        errorMessageFlow.latestValue = caseDetails
+        caseDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+        }
+    }
+
+    private suspend fun requestRecordId() {
+        val subscriptionDate = caseRepository.getRecordTypeId()
+        subscriptionDate.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            recordTypeId = it
+        }
     }
 
     fun performCancellationRequest() {
@@ -81,4 +100,5 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             performCancel()
         }
     }
+
 }
