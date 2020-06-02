@@ -63,7 +63,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         if (supportFragmentManager.backStackEntryCount > 0) {
             supportFragmentManager.popBackStack()
         } else {
-            super.onBackPressed()
+            finishAffinity()
         }
     }
 
