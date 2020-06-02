@@ -1,8 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -11,44 +9,51 @@ import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
-import com.centurylink.biwf.network.Resource
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor(
-    notificationRepository: NotificationRepository,
-    private val appointmentRepository: AppointmentRepository
-) : BaseViewModel() {
+    private val notificationRepository: NotificationRepository,
+    private val appointmentRepository: AppointmentRepository,
+    private val sharedPreferences: Preferences
+    ) : BaseViewModel() {
     var appointmentCounter = 0
     var errorMessageFlow = EventFlow<String>()
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
-    private var notificationListDetails: LiveData<Resource<NotificationSource>> =
-        notificationRepository.getNotificationDetails()
-    val notificationLiveData: MutableLiveData<MutableList<Notification>> = MutableLiveData()
+    val notificationListDetails = BehaviorStateFlow<NotificationSource>()
+    val notifications: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
+    val isExistingUser = BehaviorStateFlow<Boolean>()
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
+
+    private lateinit var appointmentEngineerStatusmock :AppointmentEngineerStatus
+    private lateinit var appointmentEngineerWIPmock : AppointmentEngineerWIP
+    private lateinit var appointmentCompletemock : AppointmentComplete
+
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
             "", "", true, ""
         )
 
-    fun getNotificationDetails() = notificationListDetails
-
     init {
         initApis()
+        isExistingUser.value = sharedPreferences.getUserType() ?: false
     }
 
     private fun initApis() {
         viewModelScope.launch {
             requestAppointmentDetails()
+            requestNotificationDetails()
         }
     }
 
@@ -65,20 +70,17 @@ class DashboardViewModel @Inject constructor(
         it: AppointmentRecordsInfo
     ) {
         when (it.serviceStatus) {
-            ServiceStatus.SCHEDULED -> {
+            ServiceStatus.SCHEDULED, ServiceStatus.DISPATCHED, ServiceStatus.NONE -> {
                 val appointmentState =
                     AppointmentScheduleState(
                         jobType = it.jobType,
                         status = it.serviceStatus,
-                        serviceAppointmentDate = it.serviceAppointmentStartDate.toLocalDate()
-                            .toString(),
-                        serviceAppointmentStartTime = it.serviceAppointmentStartDate.toLocalTime()
-                            .toString(),
-                        serviceAppointmentEndTime = it.serviceAppointmentEndTime.toLocalTime()
-                            .toString()
+                        serviceAppointmentDate = DateUtils.formatAppointmentDate(it.serviceAppointmentStartDate.toString()),
+                        serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
+                        serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString())
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
-
+                mockAppointmentResponse(it)
             }
             ServiceStatus.EN_ROUTE -> {
                 val appointmentEngineerStatus = AppointmentEngineerStatus(
@@ -88,10 +90,12 @@ class DashboardViewModel @Inject constructor(
                     serviceLatitude = it.serviceLatitude!!,
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
-                    serviceAppointmentStartTime = it.serviceAppointmentStartDate.toLocalTime()
-                        .toString(),
-                    serviceAppointmentEndTime = it.serviceAppointmentEndTime.toLocalTime()
-                        .toString()
+                    serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
+                    serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString()),
+                    serviceAppointmentTime = DateUtils.formatAppointmentETA(
+                        it.serviceAppointmentStartDate.toString(),
+                        it.serviceAppointmentEndTime.toString()
+                    )
                 )
                 dashBoardDetailsInfo.latestValue = appointmentEngineerStatus
             }
@@ -119,6 +123,55 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    private fun mockAppointmentResponse(it:AppointmentRecordsInfo){
+        appointmentEngineerStatusmock = AppointmentEngineerStatus(
+            jobType = it.jobType,
+            status = it.serviceStatus!!,
+            serviceLongitude = it.serviceLongitude!!,
+            serviceLatitude = it.serviceLatitude!!,
+            serviceEngineerName = it.serviceEngineerName,
+            serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
+            serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
+            serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString()),
+            serviceAppointmentTime = DateUtils.formatAppointmentETA(
+                it.serviceAppointmentStartDate.toString(),
+                it.serviceAppointmentEndTime.toString()
+            )
+        )
+        appointmentEngineerWIPmock = AppointmentEngineerWIP(
+            jobType = it.jobType,
+            status = it.serviceStatus!!,
+            serviceLongitude = it.serviceLongitude!!,
+            serviceLatitude = it.serviceLatitude!!,
+            serviceEngineerName = it.serviceEngineerName,
+            serviceEngineerProfilePic = it.serviceEngineerProfilePic!!
+        )
+
+        appointmentCompletemock = AppointmentComplete(
+            jobType = it.jobType!!,
+            status = it.serviceStatus
+        )
+    }
+
+    fun navigateToWIP(){
+        dashBoardDetailsInfo.latestValue = appointmentEngineerWIPmock
+    }
+    fun navigateToEnroute(){
+        dashBoardDetailsInfo.latestValue = appointmentEngineerStatusmock
+    }
+    fun navigateToComplete(){
+        dashBoardDetailsInfo.latestValue = appointmentCompletemock
+    }
+
+    private suspend fun requestNotificationDetails() {
+        val notificationDetails = notificationRepository.getNotificationDetails()
+        notificationDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            notificationListDetails.latestValue = it
+        }
+    }
+
     fun getChangeAppointment() {
         myState.latestValue = DashboardCoordinatorDestinations.CHANGE_APPOINTMENT
     }
@@ -128,11 +181,7 @@ class DashboardViewModel @Inject constructor(
             .filter { it.isUnRead }
             .toMutableList()
         mergedNotificationList.addAll(unreadNotificationList)
-        notificationLiveData.value = unreadNotificationList
-    }
-
-    fun getNotificationMutableLiveData(): MutableLiveData<MutableList<Notification>> {
-        return notificationLiveData
+        notifications.value = unreadNotificationList
     }
 
     fun markNotificationAsRead(notificationItem: Notification) {
@@ -145,7 +194,7 @@ class DashboardViewModel @Inject constructor(
             if (unreadNotificationList.size == 1) {
                 mergedNotificationList.remove(unreadItem)
             }
-            notificationLiveData.value = unreadNotificationList
+            notifications.value = unreadNotificationList
         }
     }
 
@@ -157,16 +206,19 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
+    /*For checking Technician progress*/
     fun timerSetup() {
-        // TODO Temporary code to change the state
         viewModelScope.launch {
-            delay(2000)
+            delay(300000)
             while (true) {
-                delay(10000)
+                requestAppointmentDetails()
             }
         }
     }
 
+    fun getStartedClicked() {
+        sharedPreferences.saveUserType(true)
+    }
 
     abstract class UiDashboardAppointmentInformation
 
@@ -181,6 +233,7 @@ class DashboardViewModel @Inject constructor(
         val serviceLongitude: String,
         val serviceAppointmentStartTime: String,
         val serviceAppointmentEndTime: String,
+        val serviceAppointmentTime: String,
         val serviceEngineerName: String,
         val serviceEngineerProfilePic: String
     ) : UiDashboardAppointmentInformation()

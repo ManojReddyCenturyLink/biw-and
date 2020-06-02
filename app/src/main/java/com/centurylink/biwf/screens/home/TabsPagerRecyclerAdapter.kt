@@ -19,7 +19,7 @@ import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 
 @Suppress("UNCHECKED_CAST")
-class TabsPagerRecyclerAdapter(private val mContext: Context) :
+class TabsPagerRecyclerAdapter(private val mContext: Context, private val getStartedEventClickListener: DashboardFragment.GetStartedEventClickListener) :
     ListAdapter<TabsBaseItem, TabsPagerRecyclerAdapter.BaseViewHolder>(
         TabAdapterDiffUtil()
     ) {
@@ -118,7 +118,8 @@ class TabsPagerRecyclerAdapter(private val mContext: Context) :
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
             val newUser = getItem(adapterPosition).bundle.getBoolean("NEW_USER",false)
-            val myFragment: Fragment = DashboardFragment(newUser)
+            val myFragment: DashboardFragment = DashboardFragment(newUser)
+            myFragment.setListener(getStartedEventClickListener)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.container, myFragment).commit()
         }

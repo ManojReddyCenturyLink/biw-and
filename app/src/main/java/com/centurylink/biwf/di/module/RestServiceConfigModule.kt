@@ -93,6 +93,9 @@ class RestServiceConfigModule(
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(integrationServerService.baseUrl)
+            .addCallAdapterFactory(EitherCallAdapterFactory())
+            .addConverterFactory(EitherConverterFactory())
+            .addConverterFactory(FiberErrorConverterFactory())
             .addConverterFactory(jsonConverters)
             .addConverterFactory(primitiveTypeConverters)
             .build()
@@ -162,6 +165,12 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun provideIntegrationRestServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): IntegrationRestServices {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideNotificationApiServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): NotificationService {
         return factory.create()
     }
 }

@@ -2,54 +2,71 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-<androidx.cardview.widget.CardView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardCornerRadius="@dimen/margin_spacing_tiny">
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/welcome_card_msg"
+        android:id="@+id/layout_card_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/grey_card_bg"
-        android:padding="@dimen/margin_spacing_small"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_height="80dp"
+        android:background="@drawable/top_card_bg"
+        android:padding="@dimen/margin_spacing_tiny"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incSpeedTest">
 
-        <TextView
-            android:id="@+id/welcome_card_status_title"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:text="@string/congratulations"
-            android:textStyle="bold"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_16"
-            app:layout_constraintEnd_toStartOf="@+id/welcome_card_cancel_button"
+        <View
+            android:id="@+id/notification_side_bar"
+            android:layout_width="@dimen/margin_spacing_tiny"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/cardview_elevation"
+            android:background="@drawable/notification_card_vertical_bar"
+            app:layout_constraintBottom_toBottomOf="@+id/msg"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/welcome_card_content"
-            android:layout_width="@dimen/padding_0"
+            android:id="@+id/title"
+            style="@style/SubHeading"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_really_small"
-            android:textColor="@color/grey_light"
+            android:layout_marginStart="@dimen/margin_spacing_tiny"
+            android:layout_marginEnd="@dimen/margin_spacing_tiny"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@string/congratulations"
+            android:textColor="@color/blue"
+            app:layout_constraintEnd_toStartOf="@+id/msg_dismiss_button"
+            app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/msg"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_tiny"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/margin_spacing_tiny"
+            android:ellipsize="marquee"
+            android:maxLines="2"
+            android:paddingBottom="@dimen/margin_spacing_tiny"
             android:text="@string/welcome_msg"
-            android:textSize="@dimen/text_size_12"
-            app:layout_constraintEnd_toEndOf="@+id/welcome_card_cancel_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/welcome_card_status_title" />
+            android:textColor="@color/blue_dark"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@+id/msg_dismiss_button"
+            app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
+            app:layout_constraintTop_toBottomOf="@+id/title" />
 
         <ImageView
-            android:id="@+id/welcome_card_cancel_button"
+            android:id="@+id/msg_dismiss_button"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/margin_spacing_really_small"
-            android:tint="@color/grey_light"
-            android:src="@drawable/ic_close"
-            app:layout_constraintBottom_toBottomOf="@+id/welcome_card_status_title"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/above_cardview_elevation"
+            android:layout_marginEnd="@dimen/above_cardview_elevation"
+            android:background="@drawable/blue_background_rounded_corner"
+            android:contentDescription="@string/notification"
+            android:padding="@dimen/margin_spacing_really_small"
+            android:src="@drawable/ic_icon_close_blue"
+            app:layout_constraintBottom_toBottomOf="@+id/notification_side_bar"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/welcome_card_status_title"
-            android:contentDescription="@string/content_description_holder" />
+            app:layout_constraintTop_toTopOf="@+id/notification_side_bar" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.cardview.widget.CardView>
 </layout>

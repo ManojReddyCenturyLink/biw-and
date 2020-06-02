@@ -1,8 +1,6 @@
 package com.centurylink.biwf.screens.home
 
 import androidx.core.os.bundleOf
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.R
@@ -10,6 +8,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.sumup.SumUpInput
+import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
@@ -24,17 +23,14 @@ import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
-    private val userRepository: UserRepository,
+    private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
-    private val integrationServices: IntegrationRestServices
+    private val integrationServices: IntegrationRestServices,
+    private val userRepository: UserRepository
 ) : BaseViewModel() {
 
-    val activeUserTabBarVisibility: LiveData<Boolean> = MutableLiveData(false)
-    val networkStatus: LiveData<OnlineStatusData> = MutableLiveData(OnlineStatusData())
+    val networkStatus: BehaviorStateFlow<OnlineStatusData> = BehaviorStateFlow(OnlineStatusData())
     val myState = EventFlow<HomeCoordinatorDestinations>()
-    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
-    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
-
     val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
     val refreshBioMetrics = EventFlow<Unit>()
     var errorMessageFlow = EventFlow<String>()
@@ -42,6 +38,10 @@ class HomeViewModel @Inject constructor(
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
     val testRestErrorFlow: Flow<String> = BehaviorStateFlow()
+    val activeUserTabBarVisibility = BehaviorStateFlow<Boolean>()
+    val isExistingUser = BehaviorStateFlow<Boolean>()
+    var upperTabHeaderList = mutableListOf<TabsBaseItem>()
+    var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
 
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
@@ -56,6 +56,9 @@ class HomeViewModel @Inject constructor(
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
+        isExistingUser.value = sharedPreferences.getUserType() ?: false
+
+        //requestTestRestFlow()
         if (!sharedPreferences.getHasSeenDialog()) {
             displayBioMetricPrompt.latestValue = dialogMessage
             sharedPreferences.saveHasSeenDialog()
@@ -67,6 +70,7 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             requestUserInfo()
             requestUserDetails()
+            requestAppointmentDetails()
         }
     }
 
@@ -81,13 +85,6 @@ class HomeViewModel @Inject constructor(
 
     fun onNotificationBellClicked() {
         myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_LIST
-    }
-
-    fun onNotificationClicked() {
-        myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_DETAILS
-    }
-
-    fun loadData() {
     }
 
     fun onBiometricYesResponse() {
@@ -118,13 +115,24 @@ class HomeViewModel @Inject constructor(
     private fun requestTestRestFlow() {
         viewModelScope.launch {
             val sumUpResult = integrationServices.calculateSum(12, 25, SumUpInput(10))
-            Timber.d("IntegrationService test: sumUp returned $sumUpResult")
-
+            val response = integrationServices.getNotificationDetails("notifications")
             testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
                 when (it) {
-                    is Either.Left -> testRestErrorFlow.latestValue = "Encountered error ${it.error}"
+                    is Either.Left -> testRestErrorFlow.latestValue =
+                        "Encountered error ${it.error}"
                     is Either.Right -> testRestFlow.latestValue = it.value.toString()
                 }
+            }
+        }
+    }
+
+    private fun requestAppointmentDetails() {
+        viewModelScope.launch {
+            val appointmentDetails = appointmentRepository.getAppointmentInfo()
+            appointmentDetails.fold(ifLeft = {
+            }) {
+                activeUserTabBarVisibility.latestValue =
+                    (it.jobType == "Fiber Install - For Installations")
             }
         }
     }
@@ -134,6 +142,7 @@ class HomeViewModel @Inject constructor(
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+
         }
     }
 

@@ -53,6 +53,10 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         handleIntent()
     }
 
+    override fun onBackPressed() {
+        finish()
+    }
+
     private fun biometricCheck(biometricPrompt: BiometricPromptMessage) {
         val biometricManager = BiometricManager.from(this)
 
@@ -137,7 +141,9 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         fun newIntent(context: Context, boolean: Boolean): Intent {
             return Intent(context, LoginActivity::class.java).apply {
                 putExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, boolean)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
         }
 
@@ -147,7 +153,9 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         fun reportLoginResult(context: Context, result: AuthResponseType) {
             val intent = Intent(context, LoginActivity::class.java).apply {
                 putExtra(AUTH_RESPONSE_TYPE, result)
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             context.startActivity(intent)
         }

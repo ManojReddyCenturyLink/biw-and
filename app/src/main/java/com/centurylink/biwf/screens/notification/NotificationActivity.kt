@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +19,6 @@ import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.screens.notification.adapter.NotificationAdapter
 import com.centurylink.biwf.screens.notification.adapter.NotificationItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.utility.observe
 import javax.inject.Inject
 
 
@@ -53,8 +51,8 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         setHeightofActivity()
 
         notificationViewModel.apply {
-            errorEvents.handleEvent { displayToast(it) }
-            displayClearAllEvent.handleEvent { displayClearAllDialog() }
+            errorEvents.observe { displayToast(it) }
+            displayClearAllEvent.observe { displayClearAllDialog() }
         }
         notificationViewModel.myState.observeWith(notificationCoordinator)
 
@@ -99,19 +97,9 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun getNotificationInformation() {
-        notificationViewModel.getNotificationDetails().observe(this) {
-            when {
-                it.status.isLoading() -> {
-
-                }
-                it.status.isSuccessful() -> {
-                    notificationViewModel.displaySortedNotifications(it.data!!.notificationlist)
-                    displaySortedNotification()
-                }
-                it.status.isError() -> {
-                    notificationViewModel.displayErrorDialog()
-                }
-            }
+        notificationViewModel.notificationListDetails.observe {
+            notificationViewModel.displaySortedNotifications(it.notificationlist)
+            displaySortedNotification()
         }
     }
 
@@ -138,9 +126,9 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun displaySortedNotification() {
-        notificationViewModel.getNotificationMutableLiveData().observe(this, Observer {
+        notificationViewModel.notifications.observe {
             prepareRecyclerView(it)
-        })
+        }
     }
 
     private fun prepareRecyclerView(notificationList: MutableList<Notification>) {

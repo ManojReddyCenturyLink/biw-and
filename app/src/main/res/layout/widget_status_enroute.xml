@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <androidx.cardview.widget.CardView
+        android:id="@+id/technician_enroute_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="@dimen/margin_spacing_tiny">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/appointment_status_installation_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:layout_marginBottom="26dp"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/appointment_status_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                android:text="@string/fiber_installation_status"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size_16"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/appointment_status_progress_state"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginTop="@dimen/above_cardview_elevation"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                android:text="@string/a_technician_is_on_the_way"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintEnd_toStartOf="@+id/incProgress"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/incProgress"
+                layout="@layout/widget_progress_status"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_small"
+                app:layout_constraintBottom_toBottomOf="@+id/appointment_status_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/appointment_status_title">
+
+                <View
+                    android:id="@+id/progress_state_one"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/progress_state_two"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    app:layout_constraintStart_toEndOf="@+id/progress_state_one"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/progress_state_three"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/blue_background_rounded_corner"
+                    app:layout_constraintStart_toEndOf="@+id/progress_state_two"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:id="@+id/progress_state_four"
+                    android:layout_width="20dp"
+                    android:layout_height="12dp"
+                    android:layout_marginStart="6dp"
+                    android:background="@drawable/blue_background_rounded_corner"
+                    app:layout_constraintStart_toEndOf="@+id/progress_state_three"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/map_enroute_status"
+                android:name="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:clickable="true"
+                android:focusable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/appointment_status_progress_state" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/background_transparent_white_gradient"
+                android:paddingTop="60dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/map_enroute_status"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <TextView
+                    android:id="@+id/technician_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_spacing_small"
+                    android:layout_marginEnd="@dimen/margin_spacing_small"
+                    android:text="Jonathan"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/appointment_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_spacing_small"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="@dimen/margin_spacing_small"
+                    android:text="@string/estimated_arrival_window"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/technician_name" />
+
+                <TextView
+                    android:id="@+id/appointment_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_spacing_small"
+                    android:layout_marginEnd="@dimen/margin_spacing_small"
+                    android:paddingTop="4dp"
+                    android:text="8-10AM"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="21sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/technician_name" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+    <include
+        android:id="@+id/incEnrouteCard"
+        layout="@layout/widget_welcome_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:layout_marginBottom="@dimen/medium_margin_spacing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/technician_enroute_card" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
