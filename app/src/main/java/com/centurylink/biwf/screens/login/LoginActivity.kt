@@ -142,8 +142,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
             return Intent(context, LoginActivity::class.java).apply {
                 putExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, boolean)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
         }
 
@@ -154,8 +152,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
             val intent = Intent(context, LoginActivity::class.java).apply {
                 putExtra(AUTH_RESPONSE_TYPE, result)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             context.startActivity(intent)
         }
