@@ -54,7 +54,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
     }
 
     override fun onBackPressed() {
-        finish()
+        finishAffinity()
     }
 
     private fun biometricCheck(biometricPrompt: BiometricPromptMessage) {
