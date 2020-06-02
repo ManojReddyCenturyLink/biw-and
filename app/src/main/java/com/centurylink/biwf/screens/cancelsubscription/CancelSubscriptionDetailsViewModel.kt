@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.cancelsubscription
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
@@ -84,7 +83,6 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         caseDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            Log.i("JAMMY", "DEACTIVIATION " + it.success)
         }
     }
 
@@ -94,7 +92,6 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             recordTypeId = it
-            Log.i("JAMMY", "Record ID " + it)
         }
     }
 
