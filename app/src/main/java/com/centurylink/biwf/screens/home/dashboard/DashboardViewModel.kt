@@ -81,7 +81,6 @@ class DashboardViewModel @Inject constructor(
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
                 mockAppointmentResponse(it)
-
             }
             ServiceStatus.EN_ROUTE -> {
                 val appointmentEngineerStatus = AppointmentEngineerStatus(
@@ -125,7 +124,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun mockAppointmentResponse(it:AppointmentRecordsInfo){
-        val appointmentEngineerStatusmock = AppointmentEngineerStatus(
+        appointmentEngineerStatusmock = AppointmentEngineerStatus(
             jobType = it.jobType,
             status = it.serviceStatus!!,
             serviceLongitude = it.serviceLongitude!!,
@@ -139,7 +138,7 @@ class DashboardViewModel @Inject constructor(
                 it.serviceAppointmentEndTime.toString()
             )
         )
-        val appointmentEngineerWIPmock = AppointmentEngineerWIP(
+        appointmentEngineerWIPmock = AppointmentEngineerWIP(
             jobType = it.jobType,
             status = it.serviceStatus!!,
             serviceLongitude = it.serviceLongitude!!,
@@ -148,16 +147,16 @@ class DashboardViewModel @Inject constructor(
             serviceEngineerProfilePic = it.serviceEngineerProfilePic!!
         )
 
-        val appointmentCompletemock = AppointmentComplete(
+        appointmentCompletemock = AppointmentComplete(
             jobType = it.jobType!!,
             status = it.serviceStatus
         )
     }
 
-    fun navogateToWIP(){
+    fun navigateToWIP(){
         dashBoardDetailsInfo.latestValue = appointmentEngineerWIPmock
     }
-    fun navigateTOEnroute(){
+    fun navigateToEnroute(){
         dashBoardDetailsInfo.latestValue = appointmentEngineerStatusmock
     }
     fun navigateToComplete(){

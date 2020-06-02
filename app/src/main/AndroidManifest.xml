@@ -21,7 +21,7 @@
         <activity
             android:name=".screens.login.LoginActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleInstance"
+            android:launchMode="singleTask"
             android:configChanges="fontScale|locale|orientation|screenLayout|screenSize|uiMode"
             tools:ignore="LockedOrientationActivity"
             >
@@ -130,6 +130,6 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="InsertKeyHere" />
+            android:value="AIzaSyARNegQ6g1SR7cHz_7LAQ7WbnP01nOi6YI" />
     </application>
 </manifest>

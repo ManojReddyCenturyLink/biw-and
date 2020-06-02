@@ -100,6 +100,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
+    //isJobTypeInstallation will be used while implementing Service type installation status
     private fun setupTabsViewPager(isJobTypeInstallation: Boolean, isExistingUser: Boolean) {
         binding.iBtnNotificationBottom.visibility = if (isExistingUser) View.GONE else View.VISIBLE
         binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
@@ -114,7 +115,6 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
             TabLayoutMediator.OnConfigureTabCallback
             { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
-
         binding.vpDashboard.currentItem = 0
     }
 

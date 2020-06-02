@@ -77,7 +77,7 @@ class DashboardFragment : BaseFragment() {
         if (dashboardViewModel.isExistingUser.value) {
             incSpeedTest.visibility = View.VISIBLE
             observeNotificationViews()
-        }else{
+        } else {
             getAppointmentStatus()
         }
     }
@@ -144,6 +144,7 @@ class DashboardFragment : BaseFragment() {
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
                 incEnroute.visibility = View.VISIBLE
+                incScheduled.visibility = View.GONE
                 incEnroute.technician_name.text = it.serviceEngineerName
                 incEnroute.appointment_time.text = it.serviceAppointmentTime
                 incEnroute.incEnrouteCard.title.text =
@@ -159,6 +160,7 @@ class DashboardFragment : BaseFragment() {
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
                 incWorkBegun.visibility = View.VISIBLE
+                incEnroute.visibility = View.GONE
                 incWorkBegun.technician_name.text = it.serviceEngineerName
                 incWorkBegun.incWipCard.title.text = resources.getString(R.string.work_in_progress)
                 incWorkBegun.incWipCard.msg.text = resources.getString(R.string.work_begun_message)
@@ -169,6 +171,7 @@ class DashboardFragment : BaseFragment() {
             }
             if (it is DashboardViewModel.AppointmentComplete) {
                 incCompleted.visibility = View.VISIBLE
+                incWorkBegun.visibility = View.GONE
             }
         }
     }
@@ -222,25 +225,20 @@ class DashboardFragment : BaseFragment() {
         }
         //TODO: Adding for testing purpose, will remove later
         binding.incScheduled.appointmentStatusTitle.setOnClickListener {
-            dashboardViewModel.navigateTOEnroute()
-            //incScheduled.visibility = View.GONE
-            //incEnroute.visibility = View.VISIBLE
-
+            dashboardViewModel.navigateToEnroute()
+            incEnroute.visibility = View.VISIBLE
+            incScheduled.visibility = View.GONE
         }
         binding.incEnroute.appointmentStatusTitle.setOnClickListener {
-            dashboardViewModel.navogateToWIP()
-           // incScheduled.visibility = View.GONE
-            //incEnroute.visibility = View.GONE
-            //incWorkBegun.visibility = View.VISIBLE
+            dashboardViewModel.navigateToWIP()
+            incWorkBegun.visibility = View.VISIBLE
+            incEnroute.visibility = View.GONE
         }
         binding.incWorkBegun.appointmentStatusTitle.setOnClickListener {
             dashboardViewModel.navigateToComplete()
-            //incScheduled.visibility = View.GONE
-            //incEnroute.visibility = View.GONE
-            //incWorkBegun.visibility = View.GONE
-            //incCompleted.visibility = View.VISIBLE
+            incCompleted.visibility = View.VISIBLE
+            incWorkBegun.visibility = View.GONE
         }
-
     }
 
     private fun bitMapFromVector(vectorResID: Int): BitmapDescriptor {
