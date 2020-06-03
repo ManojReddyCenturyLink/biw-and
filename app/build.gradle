@@ -10,6 +10,16 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 
+ext.localProperties = new Properties()
+def propFile = rootProject.file('local.properties')
+if (propFile.exists()) {
+    localProperties.load(propFile.newDataInputStream())
+}
+ext.getLocalProperty = { propertyName ->
+    def property = localProperties.getProperty(propertyName)
+    return property == null ? "" : property
+}
+
 android {
 
     compileSdkVersion 29
@@ -35,11 +45,37 @@ android {
         buildConfigField "String", "CLIENT_ID", "\"$clientId\""
         buildConfigField "String", "SCOPE", "\"$scope\""
         buildConfigField "String", "REDIRECT_URL", "\"$redirectUrl\""
+
+        manifestPlaceholders = [mapsApiKey:"AIzaSyARNegQ6g1SR7cHz_7LAQ7WbnP01nOi6YI"]
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("${project.rootDir}/debug.keystore")
+            storePassword "password"
+            keyAlias "debug"
+            keyPassword "password"
+        }
+
+        release {
+            def fileName = getLocalProperty("release_store_file")
+            if (!fileName.isEmpty()) {
+                storeFile file(fileName)
+                storePassword getLocalProperty("release_store_password")
+                keyAlias getLocalProperty("release_key_alias")
+                keyPassword getLocalProperty("release_key_password")
+            }
+        }
+    }
+
     buildTypes {
         release {
+            def releaseMapsApiKey = getLocalProperty("release_maps_api_key")
+            manifestPlaceholders = [mapsApiKey:"$releaseMapsApiKey"]
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
