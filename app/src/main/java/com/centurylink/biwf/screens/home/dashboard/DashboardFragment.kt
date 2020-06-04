@@ -52,9 +52,8 @@ class DashboardFragment : BaseFragment() {
     private var enrouteMapFragment: SupportMapFragment? = null
     private var workBegunMapFragment: SupportMapFragment? = null
 
-    //TODO: Passing hardcoded Lat long for UI testing purpose
-    private var originLatLng = LatLng(39.902448, -104.97592) //LatLng(0.0, 0.0)
-    private var destinationLatLng = LatLng(39.992448, -104.99592) //LatLng(0.0, 0.0)
+    private var originLatLng = LatLng(0.0, 0.0)
+    //private var destinationLatLng = LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +87,22 @@ class DashboardFragment : BaseFragment() {
         setupMap()
     }
 
+    private fun initOnClicks() {
+        binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
+        binding.notificationDismissButton.setOnClickListener {
+            dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
+            displaySortedNotification()
+        }
+        binding.topCard.setOnClickListener {
+            dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
+        }
+        binding.incCompleted.getStartedBtn.setOnClickListener {
+            dashboardViewModel.getStartedClicked()
+            getStartedClickListener.onGetStartedClick(false)
+            incCompleted.visibility = View.GONE
+        }
+    }
+
     private fun setupMap() {
         val fm = childFragmentManager
 
@@ -105,12 +120,13 @@ class DashboardFragment : BaseFragment() {
                 moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
                 addMarker(
                     MarkerOptions().position(originLatLng)
-                        .icon(bitMapFromVector(R.drawable.green_marker))
-                )
-                addMarker(
-                    MarkerOptions().position(destinationLatLng)
                         .icon(bitMapFromVector(R.drawable.blue_marker))
                 )
+                /*We’re not going to be getting technician values until after MVP, so commenting for now
+                addMarker(
+                    MarkerOptions().position(destinationLatLng)
+                        .icon(bitMapFromVector(R.drawable.green_marker))
+                )*/
                 animateCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 10f))
             }
         }
@@ -122,7 +138,7 @@ class DashboardFragment : BaseFragment() {
                 moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
                 addMarker(
                     MarkerOptions().position(originLatLng)
-                        .icon(bitMapFromVector(R.drawable.green_marker))
+                        .icon(bitMapFromVector(R.drawable.blue_marker))
                 )
             }
         }
@@ -155,8 +171,6 @@ class DashboardFragment : BaseFragment() {
                     incEnroute.incEnrouteCard.visibility = View.GONE
                 }
                 originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
-                //Currently not getting technician location details, so passing hardcoded Lat long for UI testing purpose
-                destinationLatLng = LatLng(39.902448, -104.97592)
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
                 incWorkBegun.visibility = View.VISIBLE
@@ -206,38 +220,6 @@ class DashboardFragment : BaseFragment() {
             }
             binding.notificationTitle.text = unreadNotificationList[0].name
             binding.notificationMsg.text = unreadNotificationList[0].description
-        }
-    }
-
-    private fun initOnClicks() {
-        binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
-        binding.notificationDismissButton.setOnClickListener {
-            dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
-            displaySortedNotification()
-        }
-        binding.topCard.setOnClickListener {
-            dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
-        }
-        binding.incCompleted.getStartedBtn.setOnClickListener {
-            dashboardViewModel.getStartedClicked()
-            getStartedClickListener.onGetStartedClick(false)
-            incCompleted.visibility = View.GONE
-        }
-        //TODO: Adding for testing purpose, will remove later
-        binding.incScheduled.appointmentStatusTitle.setOnClickListener {
-            dashboardViewModel.navigateToEnroute()
-            incEnroute.visibility = View.VISIBLE
-            incScheduled.visibility = View.GONE
-        }
-        binding.incEnroute.appointmentStatusTitle.setOnClickListener {
-            dashboardViewModel.navigateToWIP()
-            incWorkBegun.visibility = View.VISIBLE
-            incEnroute.visibility = View.GONE
-        }
-        binding.incWorkBegun.appointmentStatusTitle.setOnClickListener {
-            dashboardViewModel.navigateToComplete()
-            incCompleted.visibility = View.VISIBLE
-            incWorkBegun.visibility = View.GONE
         }
     }
 
