@@ -46,7 +46,7 @@ android {
         buildConfigField "String", "SCOPE", "\"$scope\""
         buildConfigField "String", "REDIRECT_URL", "\"$redirectUrl\""
 
-        manifestPlaceholders = [mapsApiKey:"AIzaSyARNegQ6g1SR7cHz_7LAQ7WbnP01nOi6YI"]
+        manifestPlaceholders = [mapsApiKey: "AIzaSyARNegQ6g1SR7cHz_7LAQ7WbnP01nOi6YI"]
     }
 
     signingConfigs {
@@ -71,7 +71,7 @@ android {
     buildTypes {
         release {
             def releaseMapsApiKey = getLocalProperty("release_maps_api_key")
-            manifestPlaceholders = [mapsApiKey:"$releaseMapsApiKey"]
+            manifestPlaceholders = [mapsApiKey: "$releaseMapsApiKey"]
 
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -88,13 +88,9 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
-    viewBinding {
-        enabled = true
-    }
-
-    dataBinding {
-        enabled = true
-        enabledForTests = true
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
     }
 
     androidExtensions {
