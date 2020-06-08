@@ -50,7 +50,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToHomeScreen() {
         activity?.also {
             it.startActivity(HomeActivity.newIntent(it))
-            activity?.finish()
+            it?.finish()
         }
     }
 
