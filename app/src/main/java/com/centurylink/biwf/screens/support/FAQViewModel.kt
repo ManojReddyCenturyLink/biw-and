@@ -38,7 +38,7 @@ class FAQViewModel @Inject constructor(
         }
     }
 
-    suspend fun requestFaqDetails() {
+    private suspend fun requestFaqDetails() {
         val faqDetails = faqRepository.getFAQQuestionDetails(recordTypeId)
         faqDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
