@@ -52,10 +52,9 @@ class SupportViewModel @Inject constructor(
         }
     }
 
-    fun updateFaqDetails(faq: Faq) {
+    private fun updateFaqDetails(faq: Faq) {
         var questionMap: List<String> = faq.records.map { it.sectionC!! }.distinct()
-        val uifaqQuestionDetails = UiFAQQuestionsSections(questionMap)
-        faqSectionInfo.latestValue = uifaqQuestionDetails
+        faqSectionInfo.latestValue = UiFAQQuestionsSections(questionMap)
     }
 
     fun navigateToFAQList(faqSectionSelected: String) {

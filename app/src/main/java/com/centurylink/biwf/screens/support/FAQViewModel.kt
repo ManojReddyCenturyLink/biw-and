@@ -20,8 +20,8 @@ class FAQViewModel @Inject constructor(
     val faqDetailsInfo: Flow<UiFAQQuestionsDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<FAQCoordinatorDestinations>()
-    var sectionSelected: String = ""
-    var recordTypeId: String = ""
+    private var sectionSelected: String = ""
+    private var recordTypeId: String = ""
 
     init {
         initApis()
@@ -31,7 +31,7 @@ class FAQViewModel @Inject constructor(
         sectionSelected = selectedSection
     }
 
-    fun initApis() {
+    private fun initApis() {
         viewModelScope.launch {
             requestRecordId()
             requestFaqDetails()
@@ -56,12 +56,11 @@ class FAQViewModel @Inject constructor(
         }
     }
 
-    fun updateFaqDetails(faq: Faq) {
+    private fun updateFaqDetails(faq: Faq) {
         val questionMap =
-            faq.records.filter { it.sectionC!!.equals(sectionSelected, true) }.toList()
+            faq.records.filter { it.sectionC!!.equals(sectionSelected, true) }
                 .associateTo(HashMap(), { it.title!! to it.articleContent!! })
-        val uifaqQuestionDetails = UiFAQQuestionsDetails(questionMap)
-        faqDetailsInfo.latestValue = uifaqQuestionDetails
+        faqDetailsInfo.latestValue = UiFAQQuestionsDetails(questionMap)
     }
 
     fun navigateToScheduleCallback() {
@@ -69,6 +68,6 @@ class FAQViewModel @Inject constructor(
     }
 
     data class UiFAQQuestionsDetails(
-        val questionMap: HashMap<String, String> = HashMap<String, String>()
+        val questionMap: HashMap<String, String> = HashMap()
     )
 }
