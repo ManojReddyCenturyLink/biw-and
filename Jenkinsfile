@@ -27,7 +27,11 @@ pipeline {
                 not { changeRequest() }
             }
             steps {
-                gradlew(args: ['clean', 'assemble'], name: NAME)
+                gradlew(args: ['clean', 'assemble'],
+                        localProperties: "9273c873-f51f-492a-b902-8e775375a56b",
+                        keystore: "54fa0f17-1c30-450b-b9fc-f3856241f596",
+                        keystoreName: "release.keystore",
+                        name: NAME)
             }
             post {
                 success {
