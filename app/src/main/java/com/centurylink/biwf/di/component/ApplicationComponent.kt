@@ -10,7 +10,6 @@ import com.centurylink.biwf.di.module.AppModule
 import com.centurylink.biwf.di.module.AuthServiceConfigModule
 import com.centurylink.biwf.di.module.AuthServiceModule
 import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
-import com.centurylink.biwf.di.module.RepositoryModule
 import com.centurylink.biwf.di.module.RestServiceConfigModule
 import com.centurylink.biwf.di.module.RestServiceModule
 import com.centurylink.biwf.di.module.SharedPreferencesModule
@@ -45,7 +44,6 @@ import javax.inject.Singleton
         (DaggerViewModelFactoryModule::class),
         (AndroidInjectionModule::class),
         (AppModule::class),
-        (RepositoryModule::class),
         (CancelSubscriptionDetailsInjectorModule::class),
         (SharedPreferencesModule::class),
         (AuthServiceConfigModule::class),
