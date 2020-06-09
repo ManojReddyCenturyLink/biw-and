@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,13 +11,11 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
-import com.centurylink.biwf.model.support.FaqTopicsItem
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.utility.observe
 import com.salesforce.android.chat.core.ChatConfiguration
 import com.salesforce.android.chat.ui.ChatUI
 import com.salesforce.android.chat.ui.ChatUIClient
@@ -115,20 +112,6 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             .onResult { _, uiClient ->
                 chatUIClient = uiClient
             }
-    }
-
-    private fun getNotificationInformation() {
-        supportViewModel.getResponseData().observe(this) {
-            when {
-                it.status.isLoading() -> {
-                }
-                it.status.isSuccessful() -> {
-                    supportViewModel.displaySortedNotifications(it.data!!.faqTopics)
-                }
-                it.status.isError() -> {
-                }
-            }
-        }
     }
 
     private fun prepareRecyclerView(list: List<String>) {
