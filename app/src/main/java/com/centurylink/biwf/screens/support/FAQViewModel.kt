@@ -4,7 +4,8 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.FAQCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
-import com.centurylink.biwf.repos.*
+import com.centurylink.biwf.repos.CaseRepository
+import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
@@ -20,7 +21,7 @@ class FAQViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<FAQCoordinatorDestinations>()
     var sectionSelected: String = ""
-    var recordTypeId:String=""
+    var recordTypeId: String = ""
 
     init {
         initApis()
