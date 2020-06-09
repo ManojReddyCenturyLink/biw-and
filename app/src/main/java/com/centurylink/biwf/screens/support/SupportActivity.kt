@@ -24,8 +24,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     @Inject
     lateinit var supportCoordinator: SupportCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -47,7 +49,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     }
 
-    private fun observeViews(){
+    private fun observeViews() {
         supportViewModel.apply {
             faqSectionInfo.observe {
                 prepareRecyclerView(it.questionMap)

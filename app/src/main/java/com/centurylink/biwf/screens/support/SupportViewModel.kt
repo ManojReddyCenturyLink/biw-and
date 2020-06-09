@@ -21,7 +21,7 @@ class SupportViewModel @Inject constructor(
     val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<SupportCoordinatorDestinations>()
-    var recordTypeId: String = ""
+    private var recordTypeId: String = ""
 
     init {
         initApis()
@@ -53,7 +53,7 @@ class SupportViewModel @Inject constructor(
     }
 
     private fun updateFaqDetails(faq: Faq) {
-        var questionMap: List<String> = faq.records.map { it.sectionC!! }.distinct()
+        val questionMap: List<String> = faq.records.map { it.sectionC!! }.distinct()
         faqSectionInfo.latestValue = UiFAQQuestionsSections(questionMap)
     }
 
