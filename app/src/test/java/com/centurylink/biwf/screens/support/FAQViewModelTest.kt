@@ -1,23 +1,15 @@
 package com.centurylink.biwf.screens.support
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.model.support.FAQ
 import com.centurylink.biwf.model.support.QuestionFAQ
 import com.centurylink.biwf.model.support.Videofaq
-import com.centurylink.biwf.network.Resource
-import com.centurylink.biwf.network.Status
 import com.centurylink.biwf.repos.CaseRepository
 import com.centurylink.biwf.repos.FAQRepository
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.amshove.kluent.shouldEqual
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
-import org.junit.Test
 import org.mockito.MockitoAnnotations
 
 class FAQViewModelTest : ViewModelBaseTest() {
@@ -33,7 +25,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: FAQViewModel
 
-    val result = MediatorLiveData<Resource<FAQ>>()
+
 
     @Before
     fun setup() {

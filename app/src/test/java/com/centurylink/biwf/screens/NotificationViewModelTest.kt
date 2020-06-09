@@ -1,12 +1,9 @@
 package com.centurylink.biwf.screens
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MediatorLiveData
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
-import com.centurylink.biwf.network.Resource
-import com.centurylink.biwf.network.Status
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationViewModel
@@ -37,14 +34,13 @@ class NotificationViewModelTest : ViewModelBaseTest() {
     val rule = InstantTaskExecutorRule()
 
     private lateinit var viewModel: NotificationViewModel
-    val result = MediatorLiveData<Resource<NotificationSource>>()
+
 
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
         var notificationSource: NotificationSource = NotificationSource()
         notificationSource.notificationlist = notifiCationList;
-        result.value = Resource(Status.SUCCESS, notificationSource, "");
         viewModel = NotificationViewModel(notificationRepository)
     }
 
