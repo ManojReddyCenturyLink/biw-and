@@ -25,9 +25,10 @@
     <TextView
         android:id="@+id/faq_header_group_title"
         android:layout_width="0dp"
+        android:fontFamily="@font/arial_mt"
         android:layout_height="wrap_content"
         android:paddingStart="12dp"
-        android:textColor="@color/blue_light"
+        android:textColor="@color/black"
         android:textSize="@dimen/small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/faq_header_arrow"
