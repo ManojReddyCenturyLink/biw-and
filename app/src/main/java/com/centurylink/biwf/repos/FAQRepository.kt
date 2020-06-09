@@ -4,14 +4,12 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.service.network.FaqApiService
-import com.centurylink.biwf.service.network.IntegrationRestServices
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FAQRepository @Inject constructor(
-    private val faqService: FaqApiService,
-    private val integrationRestServices: IntegrationRestServices
+    private val faqService: FaqApiService
 ) {
     suspend fun getFAQQuestionDetails(recordTypeId: String): Either<String, Faq> {
         if (recordTypeId.isNullOrEmpty()) {

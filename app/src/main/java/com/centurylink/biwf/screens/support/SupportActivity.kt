@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +24,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     @Inject
     lateinit var supportCoordinator: SupportCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -43,12 +44,12 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         setContentView(binding.root)
         navigator.observe(this)
         supportViewModel.myState.observeWith(supportCoordinator)
-        init()
+        initViews()
         observeViews()
 
     }
 
-    private fun observeViews(){
+    private fun observeViews() {
         supportViewModel.apply {
             faqSectionInfo.observe {
                 prepareRecyclerView(it.questionMap)
@@ -83,7 +84,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         finish()
     }
 
-    private fun init() {
+    private fun initViews() {
         binding.supportFaqTopicsRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.doneButtonSupport.setOnClickListener { finish() }
@@ -91,7 +92,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding.incTroubleshooting.apply {
             restartModemButton.setOnClickListener { supportViewModel.restartModem() }
             runSpeedTestButton.setOnClickListener { supportViewModel.runSpeedTest() }
-            supportVisitWebsite.setOnClickListener { }
+            supportVisitWebsite.setOnClickListener {
+                //TODO Add Website feature when url is available
+            }
         }
 
         binding.incContactUs.liveChatTextview.setOnClickListener { }
