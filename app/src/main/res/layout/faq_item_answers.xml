@@ -7,14 +7,15 @@
     <TextView
         android:id="@+id/faq_answers"
         android:layout_width="match_parent"
+        android:fontFamily="@font/arial_mt"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/medium_margin_spacing"
         android:layout_marginRight="@dimen/medium_margin_spacing"
         android:gravity="start"
         android:lineSpacingExtra="3dp"
         android:paddingBottom="10dp"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/xxs_text_size"
+        android:textColor="@color/black"
+        android:textSize="@dimen/text_size_16"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

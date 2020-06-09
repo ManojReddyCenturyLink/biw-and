@@ -173,4 +173,10 @@ class RestServiceConfigModule(
     fun provideNotificationApiServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): NotificationService {
         return factory.create()
     }
+
+    @Singleton
+    @Provides
+    fun provideFaqApiServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): FaqApiService {
+        return factory.create()
+    }
 }

@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
 import com.centurylink.biwf.service.impl.integration.model.AppointmentPath
+import com.centurylink.biwf.service.impl.integration.model.FaqPath
 import com.centurylink.biwf.service.impl.integration.model.NotificationPath
 import com.centurylink.biwf.service.impl.integration.model.SumUpParams
 import com.google.gson.Gson
@@ -44,6 +45,14 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
         call.respondOutputStream {
             javaClass.classLoader!!
                 .getResourceAsStream("api-response/appointments.json")
+                .copyTo(this)
+        }
+    }
+
+    get<FaqPath> {
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/faqnosection.json")
                 .copyTo(this)
         }
     }

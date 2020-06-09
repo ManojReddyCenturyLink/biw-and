@@ -1,12 +1,15 @@
 package com.centurylink.biwf.screens.support.adapter
 
 import android.content.Context
+import android.text.Html
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import com.centurylink.biwf.R
 
 
@@ -43,7 +46,7 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
             convertView = layoutInflater.inflate(R.layout.faq_item_answers, null)
         }
         val expandedListTextView = convertView!!.findViewById<TextView>(R.id.faq_answers)
-        expandedListTextView.text = expandedListText
+        expandedListTextView.text = HtmlCompat.fromHtml(expandedListText, HtmlCompat.FROM_HTML_MODE_LEGACY)
         return convertView
     }
 

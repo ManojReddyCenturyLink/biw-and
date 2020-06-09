@@ -2,6 +2,7 @@ package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.appointment.Appointments
+import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
@@ -33,4 +34,8 @@ interface IntegrationRestServices {
         @Path("value1") value1: String
     ): FiberServiceResult<Appointments>
 
+    @GET("/sobject/faq/{value1}")
+    suspend fun getFaqDetails(
+        @Path("value1") value1: String
+    ): FiberServiceResult<Faq>
 }

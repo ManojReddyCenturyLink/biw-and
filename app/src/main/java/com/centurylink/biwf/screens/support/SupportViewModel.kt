@@ -1,32 +1,66 @@
 package com.centurylink.biwf.screens.support
 
 import android.os.Bundle
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.SupportCoordinatorDestinations
-import com.centurylink.biwf.model.support.FaqModel
-import com.centurylink.biwf.model.support.FaqTopicsItem
-import com.centurylink.biwf.network.Resource
-import com.centurylink.biwf.repos.SupportRepository
+import com.centurylink.biwf.model.faq.Faq
+import com.centurylink.biwf.repos.CaseRepository
+import com.centurylink.biwf.repos.FAQRepository
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class SupportViewModel @Inject constructor(supportRepository: SupportRepository) : BaseViewModel() {
+class SupportViewModel @Inject constructor(
+    private val faqRepository: FAQRepository,
+    private val caseRepository: CaseRepository
+) : BaseViewModel() {
 
-    val faqLiveData: MutableLiveData<MutableList<FaqTopicsItem>> = MutableLiveData()
-    private var faqListDetails: LiveData<Resource<FaqModel>> = supportRepository.getFAQDetails()
+    val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()
+    var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<SupportCoordinatorDestinations>()
+    var recordTypeId: String = ""
 
-    fun getResponseData() = faqListDetails
-
-    fun displaySortedNotifications(it: List<FaqTopicsItem>) {
-        faqLiveData.value = it as MutableList<FaqTopicsItem>
+    init {
+        initApis()
     }
 
-    fun navigateToFAQList(faqtopicsItem: FaqTopicsItem) {
+    private fun initApis() {
+        viewModelScope.launch {
+            requestRecordId()
+            requestFaqDetailsInfo()
+        }
+    }
+
+    private suspend fun requestFaqDetailsInfo() {
+        val faqDetails = faqRepository.getFAQQuestionDetails(recordTypeId)
+        faqDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            updateFaqDetails(it)
+        }
+    }
+
+    private suspend fun requestRecordId() {
+        val subscriptionDate = caseRepository.getRecordTypeId()
+        subscriptionDate.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            recordTypeId = it
+        }
+    }
+
+    fun updateFaqDetails(faq: Faq) {
+        var questionMap: List<String> = faq.records.map { it.sectionC!! }.distinct()
+        val uifaqQuestionDetails = UiFAQQuestionsSections(questionMap)
+        faqSectionInfo.latestValue = uifaqQuestionDetails
+    }
+
+    fun navigateToFAQList(faqSectionSelected: String) {
         val bundle = Bundle()
-        bundle.putString(FAQActivity.FAQ_TITLE, faqtopicsItem.type)
+        bundle.putString(FAQActivity.FAQ_TITLE, faqSectionSelected)
         SupportCoordinatorDestinations.bundle = bundle
         myState.latestValue = SupportCoordinatorDestinations.FAQ
     }
@@ -38,4 +72,8 @@ class SupportViewModel @Inject constructor(supportRepository: SupportRepository)
     fun launchScheduleCallback() {
         myState.latestValue = SupportCoordinatorDestinations.SCHEDULE_CALLBACK
     }
+
+    data class UiFAQQuestionsSections(
+        val questionMap: List<String> = emptyList()
+    )
 }

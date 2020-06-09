@@ -1,23 +1,25 @@
 package com.centurylink.biwf.repos
 
-import androidx.lifecycle.LiveData
-import com.centurylink.biwf.model.support.FAQ
-import com.centurylink.biwf.network.NetworkResource
-import com.centurylink.biwf.network.Resource
-import com.centurylink.biwf.service.network.ApiServices
+import com.centurylink.biwf.Either
+import com.centurylink.biwf.model.FiberServiceResult
+import com.centurylink.biwf.model.faq.Faq
+import com.centurylink.biwf.service.network.FaqApiService
+import com.centurylink.biwf.service.network.IntegrationRestServices
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class FAQRepository @Inject constructor(
-    private val apiServices: ApiServices
+    private val faqService: FaqApiService,
+    private val integrationRestServices: IntegrationRestServices
 ) {
-    fun getFAQDetails():
-            LiveData<Resource<FAQ>> {
-        return object : NetworkResource<FAQ>() {
-            override fun createCall(): LiveData<Resource<FAQ>> {
-                return apiServices.getFAQDetails()
-            }
-        }.asLiveData()
+    suspend fun getFAQQuestionDetails(recordTypeId: String): Either<String, Faq> {
+        if (recordTypeId.isNullOrEmpty()) {
+            Either.Left("RecordType Id is Empty")
+        }
+        val query =
+            "SELECT ArticleNumber, ArticleTotalViewCount, Article_Content__c, Article_Url__c, Id, Language, Section__c, Title FROM Knowledge__kav WHERE IsDeleted=false AND PublishStatus='Online' AND ValidationStatus='Validated'AND RecordTypeId='012f0000000l1hsAAA'"
+        val result: FiberServiceResult<Faq> = faqService.getFaqDetails(query)
+        return result.mapLeft { it.message?.message.toString() }
     }
 }

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,10 +17,8 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
 import com.centurylink.biwf.model.support.Videofaq
 import com.centurylink.biwf.screens.support.adapter.ExpandableContentAdapter
-import com.centurylink.biwf.screens.support.adapter.FAQVideoViewAdapter
 import com.centurylink.biwf.screens.support.adapter.VideoItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.utility.observe
 import javax.inject.Inject
 
 
@@ -39,38 +36,34 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
     private val faqViewModel by lazy {
         ViewModelProvider(this, factory).get(FAQViewModel::class.java)
     }
+
     private lateinit var binding: ActivityFaqBinding
-    private var videoList: List<Videofaq> = mutableListOf()
-    private var questionList: HashMap<String, String> = HashMap()
-    private lateinit var videoAdapter: FAQVideoViewAdapter
+
     private lateinit var questionAdapter: ExpandableContentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.TransparentActivity)
         super.onCreate(savedInstanceState)
         binding = ActivityFaqBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        faqViewModel.setFilteredSelection(intent.getStringExtra(FAQ_TITLE)!!)
         navigator.observe(this)
-        setHeightofActivity()
-
-        faqViewModel.apply {
-            errorEvents.handleEvent { displayToast(it) }
-            faqVideoData.observe(this@FAQActivity, Observer {
-                prepareVideoRecyclerView(it)
-            })
-            faqQuestionsData.observe(this@FAQActivity, Observer {
-                prepareQuestionRecyclerView(it)
-            })
-        }
         faqViewModel.myState.observeWith(faqCoordinator)
 
         initHeaders()
         initView()
-        getFAQInformation()
+        observeViews()
     }
 
     override fun onBackPressed() {
         finish()
+    }
+
+    private fun observeViews() {
+        faqViewModel.apply {
+            faqDetailsInfo.observe {
+                prepareQuestionRecyclerView(it.questionMap)
+            }
+        }
     }
 
     override fun onVideoItemClicked(videoFAQ: Videofaq) {
@@ -90,45 +83,28 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
 
     private fun initHeaders() {
         val screenTitle: String = intent.getStringExtra(FAQ_TITLE)!!
-        binding.activityHeaderView.subHeaderTitle.text = screenTitle
-        binding.activityHeaderView.subHeaderLeftIcon.setOnClickListener { this.finish() }
-        binding.activityHeaderView.subHeaderRightIcon.setOnClickListener {
-            setResult(Activity.RESULT_OK)
-            this.finish()
-        }
-    }
-
-    private fun getFAQInformation() {
-        faqViewModel.getFAQDetails().observe(this) {
-            when {
-                it.status.isLoading() -> {
-                }
-                it.status.isSuccessful() -> {
-                    faqViewModel.sortQuestionsAndVideos(it.data!!.videolist, it.data!!.questionlist)
-                    displaySortedFAQ()
-                }
-                it.status.isError() -> {
-
-                }
+        binding.activityHeaderView.apply {
+            subheaderCenterTitle.text = screenTitle
+            subHeaderLeftIcon.setOnClickListener { finish() }
+            subheaderRightActionTitle.text = getText(R.string.done)
+            subheaderRightActionTitle.setOnClickListener {
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         }
     }
 
-    private fun prepareVideoRecyclerView(videolist: List<Videofaq>) {
-        videoList = videolist
-        videoAdapter = FAQVideoViewAdapter(videoList, this)
-        binding.faqVideoList.adapter = videoAdapter
-    }
 
     private fun prepareQuestionRecyclerView(questionlist: HashMap<String, String>) {
-        questionList = questionlist
-        questionAdapter = ExpandableContentAdapter(questionList)
+        questionAdapter = ExpandableContentAdapter(questionlist)
         binding.questionsAnswersListView.setAdapter(questionAdapter)
     }
 
     private fun initView() {
-        binding.faqContactUs.contactUsHeading.visibility = View.GONE
-        binding.faqContactUs.scheduleCallbackRow.setOnClickListener { faqViewModel.navigateToScheduleCallback() }
+        binding.faqContactUs.apply {
+            contactUsHeading.visibility = View.GONE
+            scheduleCallbackRow.setOnClickListener { faqViewModel.navigateToScheduleCallback() }
+        }
         binding.faqVideoList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
         val myDivider = DividerItemDecoration(this, DividerItemDecoration.HORIZONTAL)
@@ -137,8 +113,6 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         binding.questionsAnswersListView.isNestedScrollingEnabled = false
         binding.faqVideoList.addItemDecoration(myDivider)
     }
-
-    private fun displaySortedFAQ() {}
 
     companion object {
         const val FAQ_TITLE: String = "FaqTitle"
