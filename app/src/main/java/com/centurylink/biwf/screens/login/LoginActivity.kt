@@ -22,8 +22,10 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     @Inject
     lateinit var loginCoordinator: LoginCoordinator
+
     @Inject
     lateinit var viewModelFactory: LoginViewModel.Factory
+
     @Inject
     lateinit var navigator: Navigator
 

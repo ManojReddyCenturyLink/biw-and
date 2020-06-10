@@ -11,13 +11,15 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
-
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-
+import com.salesforce.android.chat.core.ChatConfiguration
+import com.salesforce.android.chat.ui.ChatUI
+import com.salesforce.android.chat.ui.ChatUIClient
+import com.salesforce.android.chat.ui.ChatUIConfiguration
 import javax.inject.Inject
 
 class SupportActivity : BaseActivity(), SupportItemClickListener {
@@ -37,6 +39,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     private lateinit var adapter: SupportFAQAdapter
     private lateinit var binding: ActivitySupportBinding
+    private lateinit var chatUIClient: ChatUIClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         setContentView(binding.root)
         navigator.observe(this)
         supportViewModel.myState.observeWith(supportCoordinator)
+        initLiveChat()
         initViews()
         observeViews()
 
@@ -97,10 +101,18 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             }
         }
 
-        binding.incContactUs.liveChatTextview.setOnClickListener { }
+        binding.incContactUs.liveChatTextview.setOnClickListener { chatUIClient?.startChatSession(this) }
         binding.incContactUs.scheduleCallbackRow.setOnClickListener { supportViewModel.launchScheduleCallback() }
     }
 
+    private fun initLiveChat() {
+        val chatConfiguration = ChatConfiguration.Builder(ORG_ID, BUTTON_ID, DEPLOYMENT_ID, AGENT_POD).build()
+
+        ChatUI.configure(ChatUIConfiguration.create(chatConfiguration)).createClient(this)
+            .onResult { _, uiClient ->
+                chatUIClient = uiClient
+            }
+    }
 
     private fun prepareRecyclerView(list: List<String>) {
         adapter = SupportFAQAdapter(this, this, list)
@@ -109,6 +121,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     companion object {
         const val REQUEST_TO_HOME: Int = 12200
+        const val AGENT_POD = "d.la1-c1cs-ord.salesforceliveagent.com"
+        const val ORG_ID = "00Df0000002HOQc"
+        const val DEPLOYMENT_ID = "572f0000000Cauc"
+        const val BUTTON_ID = "573f000000000zz"
 
         fun newIntent(context: Context): Intent {
             return Intent(context, SupportActivity::class.java)
