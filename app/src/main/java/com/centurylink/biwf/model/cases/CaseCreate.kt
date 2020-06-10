@@ -5,19 +5,19 @@ data class CaseCreate(
     @SerializedName("ContactId")
     val contactId: String = "",
     @SerializedName("Case_Type__c")
-    val caseType: String = "Deactivation",
+    val case_Type__c: String = "Deactivation",
     @SerializedName("Origin")
     val origin: String = "Web",
     @SerializedName("Cancellation_Reason__c")
-    val cancellationReason: String = "",
+    val cancellation_Reason__c: String = "",
     @SerializedName("CancelReason_Comments__c")
-    val cancelReasonComments: String = "",
+    val cancelReason_Comments__c: String = "",
     @SerializedName("Notes__c")
-    val notes: String="",
+    val notes__c: String="",
     @SerializedName("Experience__c")
-    var experience: String="0",
+    var experience__c: String="0",
     @SerializedName("Cancellation_Date_Holder__c")
-    val cancellationDateHolder: String="",
+    val cancellation_Date_Holder__c: String="",
     @SerializedName("RecordTypeId")
     val recordTypeId: String=""
 )
