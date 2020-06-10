@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations
 
 class NotificationViewModelTest : ViewModelBaseTest() {
 
+    private lateinit var viewModel: NotificationViewModel
     private val notifiCationList = mutableListOf(
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -33,9 +34,6 @@ class NotificationViewModelTest : ViewModelBaseTest() {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
-    private lateinit var viewModel: NotificationViewModel
-
-
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
@@ -43,51 +41,6 @@ class NotificationViewModelTest : ViewModelBaseTest() {
         notificationSource.notificationlist = notifiCationList;
         viewModel = NotificationViewModel(notificationRepository)
     }
-
-//    @Test
-//    fun  onNotificationSuccess(){
-//        runBlockingTest {
-//            launch {
-//                every {(notificationRepository.getNotificationDetails())}.returns(result)
-//            }
-//            var data : BehaviorStateFlow<NotificationSource> = viewModel.getNotificationDetails()
-//            data.value shouldEqual(Status.SUCCESS)
-//        }
-//    }
-
-//    Revisit
-//    @Test
-//    fun ondisplayingClearAllDialog(){
-//        viewModel.displayClearAllDialogs()
-//        viewModel.displayClearAllEvent.event() shouldEqual(Unit)
-//    }
-
-//    Revisit
-//    @Test
-//    fun displayErrorDialogonServerError(){
-//        viewModel.displayErrorDialog()
-//        viewModel.errorEvents.event()shouldEqual ("Server error!Try again later")
-//    }
-
-//    @Test
-//    fun `retrieve Notification with ViewModel and Repository returns an data`(){
-//        with(viewModel){
-//            notificationListDetails
-//            notifications.value = notifiCationList
-//        }
-//        Assert.assertTrue(viewModel.notifications.value.size ==notifiCationList.size)
-//    }
-//
-//    @Test
-//    fun `retrieve Notification and check Headers for Read and unread`(){
-//        with(viewModel){
-//            notificationListDetails
-//            notifications.value = notifiCationList
-//        }
-//        var notificationlist:MutableList<Notification> = viewModel.notifications.value!!
-//        Assert.assertTrue(notificationlist.size>0)
-//        Assert.assertTrue(notificationlist.get(0).id.equals(NotificationActivity.KEY_UNREAD_HEADER))
-//    }
 }
 
 
