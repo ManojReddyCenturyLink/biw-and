@@ -29,6 +29,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
+    private var dialog: Dialog? = null
+
     private val cancelSubscriptionDetailsModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionDetailsViewModel::class.java)
     }
@@ -54,6 +56,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         setContentView(binding.root)
         initHeaders()
         initTextWatchers()
+        observeViews()
         initSpinner()
         initRatingView()
     }
@@ -188,28 +191,37 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancellationDateLabel.setTextColor(getColor(R.color.offline_red))
     }
 
+    private fun observeViews() {
+        cancelSubscriptionDetailsModel.apply {
+            successDeactivation.observe {
+                dialog?.cancel()
+                setResult(REQUEST_TO_ACCOUNT)
+                finish()
+            }
+        }
+    }
+
     private fun showCancellationDialog(date: Date) {
         val formattedDate =
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
-        val dialog = Dialog(this, R.style.mycustomDialog)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(dialogbinding.root)
+        dialog = Dialog(this, R.style.mycustomDialog)
+        dialog?.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(dialogbinding.root)
+        }
         dialogbinding.cancelSubscriptionDialogDetails.text =
             getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
-            dialog.dismiss()
+            dialog?.dismiss()
             setResult(REQUEST_TO_ACCOUNT)
             finish()
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationRequest()
-            dialog.dismiss()
-            setResult(REQUEST_TO_ACCOUNT)
-            finish()
         }
-        dialog.show()
+        dialog?.show()
     }
 
     companion object {

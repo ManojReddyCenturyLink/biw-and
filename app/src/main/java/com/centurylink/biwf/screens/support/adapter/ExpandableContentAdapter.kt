@@ -72,7 +72,7 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
         val dividerView = convertView.findViewById<View>(R.id.faq_dividers_view)
         questionTextView.text = listTitle
         if (isExpanded) {
-            questionIcon.setImageResource(R.drawable.ic_icon_down)
+            questionIcon.setImageResource(R.drawable.ic_faq_down)
             dividerView.visibility = View.INVISIBLE
         } else {
             questionIcon.setImageResource(R.drawable.ic_icon_right)
