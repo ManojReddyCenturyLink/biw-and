@@ -29,7 +29,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private lateinit var dialog:Dialog
+    private var dialog: Dialog? = null
 
     private val cancelSubscriptionDetailsModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionDetailsViewModel::class.java)
@@ -187,7 +187,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     private fun observeViews() {
         cancelSubscriptionDetailsModel.apply {
             successDeactivation.observe {
-                dialog.cancel()
+                dialog?.cancel()
                 setResult(REQUEST_TO_ACCOUNT)
                 finish()
             }
@@ -199,22 +199,23 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
         dialog = Dialog(this, R.style.mycustomDialog)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(dialogbinding.root)
+        dialog?.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(dialogbinding.root)
+        }
         dialogbinding.cancelSubscriptionDialogDetails.text =
             getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
-            dialog.dismiss()
+            dialog?.dismiss()
             setResult(REQUEST_TO_ACCOUNT)
             finish()
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationRequest()
         }
-        dialog.show()
+        dialog?.show()
     }
-
 
     companion object {
         const val REQUEST_TO_CANCEL_SUBSCRIPTION: Int = 44011
