@@ -51,7 +51,7 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         binding = ActivityFaqBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.observe(this)
-        setHeightofActivity()
+        setActivityHeight()
 
         faqViewModel.apply {
             errorEvents.handleEvent { displayToast(it) }

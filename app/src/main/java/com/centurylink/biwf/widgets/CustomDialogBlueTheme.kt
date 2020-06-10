@@ -10,7 +10,7 @@ import androidx.fragment.app.DialogFragment
 import com.centurylink.biwf.R
 import kotlinx.android.synthetic.main.widget_popup.view.*
 
-class CustomDialog : DialogFragment() {
+class CustomDialogBlueTheme : DialogFragment() {
 
     lateinit var title: String
     lateinit var message: String
@@ -47,8 +47,8 @@ class CustomDialog : DialogFragment() {
         private const val KEY_MESSAGE = "message"
         private const val KEY_IS_ERROR = "is-error"
 
-        operator fun invoke(title: String, message: String, isErrorPopup: Boolean): CustomDialog {
-            return CustomDialog().apply {
+        operator fun invoke(title: String, message: String, isErrorPopup: Boolean): CustomDialogBlueTheme {
+            return CustomDialogBlueTheme().apply {
                 arguments = Bundle().apply {
                     putString(KEY_TITLE, title)
                     putString(KEY_MESSAGE, message)

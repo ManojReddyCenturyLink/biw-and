@@ -48,7 +48,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         binding = ActivityNotificationBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.observe(this)
-        setHeightofActivity()
+        setActivityHeight()
 
         notificationViewModel.apply {
             errorEvents.observe { displayToast(it) }
