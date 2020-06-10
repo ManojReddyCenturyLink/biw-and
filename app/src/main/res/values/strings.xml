@@ -68,7 +68,7 @@
     <string name="faq_title">Network Connection</string>
     <string name="faq_subsection_helpful_videos">Helpful videos</string>
     <string name="frequently_asked_questions">Frequently asked questions</string>
-    <string name="frequently_questions_cant_find">Can’t find the answer to your question? \n Try contacting us. We’d love to help!</string>
+    <string name="frequently_questions_cant_find">Can\'t find the answer to your question?</string>
     <string name="support_live_chat">Live chat</string>
     <string name="support_schedule_a_callback">Schedule a callback</string>
 

@@ -7,7 +7,7 @@
 
     <include
         android:id="@+id/activity_header_view"
-        layout="@layout/widget_sub_header_component"
+        layout="@layout/widget_subheader_with_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,6 +33,7 @@
                 android:layout_marginBottom="24dp"
                 android:gravity="center_vertical"
                 android:text="@string/faq_subsection_helpful_videos"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -43,11 +44,13 @@
                 android:layout_marginLeft="@dimen/medium_margin_spacing"
                 android:layout_marginTop="24dp"
                 android:layout_marginRight="@dimen/medium_margin_spacing"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/faq_video_title" />
 
             <TextView
                 android:id="@+id/faq_content_title"
                 style="@style/SubHeading"
+                android:fontFamily="@font/arial_bold_mt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/medium_margin_spacing"
@@ -85,8 +88,9 @@
                 android:layout_marginTop="24dp"
                 android:gravity="center_horizontal"
                 android:paddingTop="0dp"
+                android:fontFamily="@font/arial_bold_mt"
                 android:text="@string/frequently_questions_cant_find"
-                android:textColor="@color/blue_light"
+                android:textColor="@color/blue_dark"
                 android:textSize="@dimen/small_title_text_size"
                 app:layout_constraintTop_toBottomOf="@+id/questions_answers_list_view" />
 

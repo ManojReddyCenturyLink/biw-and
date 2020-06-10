@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
-import com.centurylink.biwf.model.support.FaqTopicsItem
 import kotlinx.android.synthetic.main.widget_recyclerview_list.view.*
 
 /**
@@ -17,7 +16,7 @@ import kotlinx.android.synthetic.main.widget_recyclerview_list.view.*
 class SupportFAQAdapter(
     private val mContext: Context,
     private val faqItemClickListener: SupportItemClickListener,
-    private var faqListItems: MutableList<FaqTopicsItem>
+    private var faqListItems: List<String>
 ) : RecyclerView.Adapter<CustomViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
@@ -35,8 +34,8 @@ class SupportFAQAdapter(
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val item: FaqTopicsItem = faqListItems[position]
-        holder.header.text = item.type
+        val item: String = faqListItems[position]
+        holder.header.text = item
         holder.content.setOnClickListener { faqItemClickListener.onFaqItemClick(item) }
     }
 }
@@ -52,6 +51,6 @@ interface SupportItemClickListener {
      * Handle click event on Faq questions click
      *
      */
-    fun onFaqItemClick(item: FaqTopicsItem)
+    fun onFaqItemClick(item: String)
 
 }
