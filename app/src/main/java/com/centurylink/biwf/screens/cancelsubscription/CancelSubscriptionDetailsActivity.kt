@@ -20,8 +20,7 @@ import com.centurylink.biwf.screens.cancelsubscription.adapter.CancellationReaso
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 
@@ -29,6 +28,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
+    private lateinit var dialog:Dialog
 
     private val cancelSubscriptionDetailsModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionDetailsViewModel::class.java)
@@ -48,6 +49,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         setContentView(binding.root)
         initHeaders()
         initTextWatchers()
+        observeViews()
         initSpinner()
         initRatingView()
     }
@@ -182,11 +184,21 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancellationDateLabel.setTextColor(getColor(R.color.offline_red))
     }
 
+    private fun observeViews() {
+        cancelSubscriptionDetailsModel.apply {
+            successDeactivation.observe {
+                dialog.cancel()
+                setResult(REQUEST_TO_ACCOUNT)
+                finish()
+            }
+        }
+    }
+
     private fun showCancellationDialog(date: Date) {
         val formattedDate =
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
-        val dialog = Dialog(this, R.style.mycustomDialog)
+        dialog = Dialog(this, R.style.mycustomDialog)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(dialogbinding.root)
@@ -199,12 +211,10 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             cancelSubscriptionDetailsModel.performCancellationRequest()
-            dialog.dismiss()
-            setResult(REQUEST_TO_ACCOUNT)
-            finish()
         }
         dialog.show()
     }
+
 
     companion object {
         const val REQUEST_TO_CANCEL_SUBSCRIPTION: Int = 44011

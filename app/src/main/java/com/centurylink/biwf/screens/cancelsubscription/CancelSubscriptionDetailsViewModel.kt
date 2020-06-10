@@ -21,6 +21,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private var cancellationComments: String = ""
     private var recordTypeId: String = ""
     var errorMessageFlow = EventFlow<String>()
+    var successDeactivation = EventFlow<Boolean>()
     val cancelSubscriptionDateEvent: EventLiveData<Date> = MutableLiveData()
     val performSubmitEvent: EventLiveData<Date> = MutableLiveData()
     val changeDateEvent: EventLiveData<Unit> = MutableLiveData()
@@ -83,6 +84,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
         caseDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            successDeactivation.latestValue = it.success
         }
     }
 
