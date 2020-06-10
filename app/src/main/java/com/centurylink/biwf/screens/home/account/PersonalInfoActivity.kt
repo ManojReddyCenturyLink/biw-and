@@ -19,12 +19,15 @@ import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
-class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallback {
+class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallback,
+    CustomDialogBlueTheme.ErrorDialogCallback {
 
     @Inject
     lateinit var personalInfoCoordinator: PersonalInfoCoordinator
+
     @Inject
     lateinit var navigator: Navigator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
@@ -49,8 +52,11 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     }
 
     private fun showPopUp() {
-        CustomDialogGreyTheme(getString(R.string.save_changes_msg), "", getString(R.string.save), getString(
-                    R.string.discard)).show(
+        CustomDialogGreyTheme(
+            getString(R.string.save_changes_msg), "", getString(R.string.save), getString(
+                R.string.discard
+            )
+        ).show(
             fragmentManager,
             PersonalInfoActivity::class.simpleName
         )
@@ -72,16 +78,41 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             if (it.isEmpty()) {
                 finish()
             } else {
-                CustomDialogBlueTheme(getString(R.string.error), it, true).show(
-                    fragmentManager,
-                    callingActivity?.className
-                )
+                val msg = it
+                if (msg.contains(
+                        getString(R.string.error_repeated_password),
+                        ignoreCase = true
+                    ) || msg.contains(getString(R.string.error_invalid_password), ignoreCase = true)
+                ) {
+                    CustomDialogBlueTheme(
+                        getString(R.string.error),
+                        it,
+                        getString(R.string.discard_changes_and_close),
+                        false
+                    ).show(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                } else {
+                    CustomDialogBlueTheme(
+                        getString(R.string.error_title),
+                        getString(R.string.password_reset_error_msg),
+                        getString(
+                            R.string.discard_changes_and_close
+                        ),
+                        false
+                    ).show(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                }
             }
         }
         binding.ivQuestion.setOnClickListener {
             CustomDialogBlueTheme(
                 getString(R.string.how_do_i_change_my_email),
                 getString(R.string.personal_info_popup_msg),
+                getString(R.string.ok_lowercase),
                 false
             ).show(fragmentManager, callingActivity?.className)
         }
@@ -176,6 +207,14 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 validateInfoAndUpdatePassword()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                finish()
+            }
+        }
+    }
+
+    override fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
                 finish()
             }
         }

@@ -22,8 +22,10 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
 
     @Inject
     lateinit var scheduleCallbackCoordinator: ScheduleCallbackCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -39,8 +41,14 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         scheduleCallbackViewModel.myState.observeWith(scheduleCallbackCoordinator)
         setContentView(binding.root)
         navigator.observe(this)
-
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.scheduleCallbackLayout,
+            binding.retryOverlay.root
+        )
         scheduleCallbackViewModel.apply {
+            progressViewFlow.observe { showProgress(it) }
             prepareRecyclerView(topicList)
         }
 

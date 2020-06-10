@@ -18,12 +18,14 @@ class CancelSubscriptionViewModel @Inject constructor(
     val cancelSubscriptionDate: Flow<UiCancelSubscriptionDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<CancelSubscriptionCoordinatorDestinations>()
+    var progressViewFlow = EventFlow<Boolean>()
 
     init {
         initApis()
     }
 
     private fun initApis() {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestSubscriptionDate()
         }
@@ -37,6 +39,7 @@ class CancelSubscriptionViewModel @Inject constructor(
             cancelSubscriptionDate.latestValue = UiCancelSubscriptionDetails(
                 subscriptionEndDate = DateUtils.toSimpleString(it, DateUtils.STANDARD_FORMAT)
             )
+            progressViewFlow.latestValue = false
         }
     }
 

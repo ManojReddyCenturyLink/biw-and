@@ -20,8 +20,7 @@ import com.centurylink.biwf.screens.cancelsubscription.adapter.CancellationReaso
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 
@@ -38,7 +37,14 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionDetailsBinding.inflate(layoutInflater)
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.cancelSubscriptionDetailsView,
+            binding.retryOverlay.root
+        )
         cancelSubscriptionDetailsModel.apply {
+            progressViewFlow.observe { showProgress(it) }
             errorEvents.handleEvent { displayDateError() }
             performSubmitEvent.handleEvent { showCancellationDialog(it) }
             cancelSubscriptionDateEvent.handleEvent { updateCancellationDate(it) }

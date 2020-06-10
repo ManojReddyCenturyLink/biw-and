@@ -12,6 +12,9 @@ class ScheduleCallbackViewModel @Inject constructor() : BaseViewModel() {
     val myState = EventFlow<ScheduleCallbackCoordinatorDestinations>()
     val topicList: List<TopicList> = dummyList()
 
+    //currently we are hard coding data, once api will be there will update its value.
+    var progressViewFlow = EventFlow<Boolean>()
+
     fun launchCallDialer() {
         myState.latestValue = ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
     }
