@@ -42,7 +42,12 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         setContentView(binding.root)
         navigator.observe(this)
         viewModel.myState.observeWith(homeCoordinator)
-
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.main,
+            binding.retryOverlay.root
+        )
         initViews()
         initOnClicks()
 
@@ -82,11 +87,22 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         setupTabsViewPager(isJobTypeInstallation, true)
     }
 
+    override fun retryClicked() {
+        showProgress(true)
+        viewModel.initApis()
+    }
+
     fun launchSubscriptionActivity() {
         viewModel.onSubscriptionActivityClick()
     }
 
     private fun initViews() {
+        viewModel.progressViewFlow.observe {
+            showProgress(it)
+        }
+        viewModel.errorMessageFlow.observe {
+            showRetry(it.isNotEmpty())
+        }
         viewModel.activeUserTabBarVisibility.observe {
             setupTabsViewPager(it, viewModel.isExistingUser.value)
         }

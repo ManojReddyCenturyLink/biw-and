@@ -42,6 +42,7 @@ class CancelSubscriptionActivity : BaseActivity() {
         )
         cancelSubscriptionModel.apply {
             progressViewFlow.observe { showProgress(it) }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             cancelSubscriptionDate.observe { displayCancellationValidity(it.subscriptionEndDate!!) }
         }
         cancelSubscriptionModel.myState.observeWith(cancelSubscriptionCoordinator)

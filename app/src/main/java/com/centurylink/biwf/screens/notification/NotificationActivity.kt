@@ -51,7 +51,6 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         setActivityHeight()
 
         notificationViewModel.apply {
-            errorEvents.observe { displayToast(it) }
             displayClearAllEvent.observe { displayClearAllDialog() }
         }
         notificationViewModel.myState.observeWith(notificationCoordinator)

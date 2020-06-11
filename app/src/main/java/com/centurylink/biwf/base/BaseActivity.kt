@@ -62,27 +62,20 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
     }
 
     fun showProgress(showProgress: Boolean) {
-        if (this.progressView != null && layoutView != null) {
-            this.progressView?.visibility = if (showProgress) View.VISIBLE else View.GONE
-            this.layoutView?.visibility = if (showProgress) View.INVISIBLE else View.VISIBLE
-        }
-        if (this.retryOverlayView != null)
-            this.retryOverlayView?.visibility = View.GONE
+        this.progressView?.visibility = if (showProgress) View.VISIBLE else View.GONE
+        this.layoutView?.visibility = if (showProgress) View.GONE else View.VISIBLE
+        this.retryOverlayView?.visibility = View.GONE
     }
 
     fun showRetry(showReload: Boolean) {
-        if (this.retryOverlayView != null && this.progressView != null && layoutView != null) {
-            this.progressView?.visibility = View.GONE
-            this.retryOverlayView?.visibility = if (showReload) View.VISIBLE else View.GONE
-            this.layoutView?.visibility = if (showReload) View.GONE else View.VISIBLE
-        }
+        this.progressView?.visibility = View.GONE
+        this.retryOverlayView?.visibility = if (showReload) View.VISIBLE else View.GONE
+        this.layoutView?.visibility = if (showReload) View.GONE else View.VISIBLE
     }
 
     fun hideProgress() {
-        if (this.progressView != null)
-            this.progressView?.visibility = View.GONE
-        if (this.retryOverlayView != null)
-            this.retryOverlayView?.visibility = View.GONE
+        this.progressView?.visibility = View.GONE
+        this.retryOverlayView?.visibility = View.GONE
         this.layoutView?.visibility = View.VISIBLE
     }
 

@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -18,13 +19,15 @@ import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.databinding.DialogCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.screens.cancelsubscription.adapter.CancellationReasonAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
 
 
-class CancelSubscriptionDetailsActivity : BaseActivity() {
+class CancelSubscriptionDetailsActivity : BaseActivity(),
+    CustomDialogBlueTheme.ErrorDialogCallback {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
@@ -35,6 +38,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         ViewModelProvider(this, factory).get(CancelSubscriptionDetailsViewModel::class.java)
     }
     private lateinit var binding: ActivityCancelSubscriptionDetailsBinding
+    private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -194,7 +198,6 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     private fun observeViews() {
         cancelSubscriptionDetailsModel.apply {
             successDeactivation.observe {
-                dialog?.cancel()
                 setResult(REQUEST_TO_ACCOUNT)
                 finish()
             }
@@ -219,7 +222,24 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             finish()
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
+            dialog?.dismiss()
             cancelSubscriptionDetailsModel.performCancellationRequest()
+            cancelSubscriptionDetailsModel.errorMessageFlow.observe {
+                if (it.isNotEmpty()) {
+                    showProgress(false)
+                    CustomDialogBlueTheme(
+                        getString(R.string.error_title),
+                        getString(R.string.password_reset_error_msg),
+                        getString(
+                            R.string.discard_changes_and_close
+                        ),
+                        true
+                    ).show(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                }
+            }
         }
         dialog?.show()
     }
@@ -229,6 +249,15 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         const val REQUEST_TO_ACCOUNT: Int = 43611
         fun newIntent(context: Context): Intent {
             return Intent(context, CancelSubscriptionDetailsActivity::class.java)
+        }
+    }
+
+    override fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
 }

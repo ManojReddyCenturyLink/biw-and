@@ -15,8 +15,35 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/main_background_color"
-            android:paddingBottom="100dp"
-            >
+            android:paddingBottom="100dp">
+
+            <include
+                android:id="@+id/progress_overlay"
+                layout="@layout/widget_loading_overlay_grey_bg"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="@dimen/padding_0"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/account_top_spacer" />
+
+            <include
+                android:id="@+id/retry_overlay"
+                layout="@layout/widget_retry_overlay_grey_bg"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="@dimen/padding_0"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/account_top_spacer" />
+
+            <androidx.constraintlayout.widget.Group
+                android:id="@+id/viewGroup"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:constraint_referenced_ids="account_subscription_card, account_personal_info_card, account_settings_title, account_settings_title_line_break, account_login_settings_label, account_biometric_label, account_biometric_switch, account_preferences_line_break, account_communication_preferences_label, account_service_calls_label, account_service_calls_switch, account_service_calls_description, account_marketing_emails_label, account_marketing_emails_switch, account_marketing_emails_description, account_marketing_calls_label, account_marketing_calls_switch, account_marketing_calls_description, log_out_button" />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/account_left_guideline"
@@ -51,12 +78,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32sp"
                 android:fontFamily="@font/arial_bold_mt"
+                android:text="@string/placeholder_text"
                 android:textColor="@color/title_color_blue"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="DeAnthonee King"
                 />
 
             <TextView
@@ -66,8 +93,8 @@
                 android:layout_marginTop="12dp"
                 android:fontFamily="@font/arial_mt"
                 android:text="@string/service_address"
-                android:textSize="16sp"
                 android:textColor="@color/text_label_color"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_full_name"
                 />
@@ -81,7 +108,7 @@
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_service_label"
-                tools:text="3004 Parkington Place SE"
+                android:text="@string/placeholder_text"
                 />
 
             <TextView
@@ -95,7 +122,6 @@
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_street_address"
                 app:layout_constraintVertical_bias="0"
-                tools:text="Port Orchard, WA 98366"
                 />
 
             <View

@@ -43,7 +43,20 @@
             app:layout_constraintTop_toBottomOf="@id/popup_title" />
 
         <Button
-            android:id="@+id/popup_ok_button"
+            android:id="@+id/popup_positive_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_large"
+            android:background="@drawable/rounded_button_background"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/popup_message" />
+
+        <Button
+            android:id="@+id/popup_neutral_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_large"

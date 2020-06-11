@@ -28,7 +28,7 @@ class SupportViewModel @Inject constructor(
         initApis()
     }
 
-    private fun initApis() {
+    fun initApis() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestRecordId()
