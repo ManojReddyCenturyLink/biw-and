@@ -25,9 +25,6 @@ class FAQViewModelTest : ViewModelBaseTest() {
     @MockK
     lateinit var faqRepository: FAQRepository
 
-    @MockK
-    lateinit var caseRepository: CaseRepository
-
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
@@ -41,7 +38,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
         mockFAQ()
         mockQuestionAndAnswers()
         var faqSource: FAQ = mockFAQ()
-        viewModel = FAQViewModel(faqRepository,caseRepository)
+        viewModel = FAQViewModel(faqRepository)
         //TODO Need to Revisit after Livedata cleanup
     }
 
