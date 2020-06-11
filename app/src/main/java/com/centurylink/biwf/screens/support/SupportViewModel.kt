@@ -14,8 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SupportViewModel @Inject constructor(
-    private val faqRepository: FAQRepository,
-    private val caseRepository: CaseRepository
+    private val faqRepository: FAQRepository
 ) : BaseViewModel() {
 
     val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()
@@ -48,7 +47,7 @@ class SupportViewModel @Inject constructor(
     }
 
     private suspend fun requestRecordId() {
-        val subscriptionDate = caseRepository.getRecordTypeId()
+        val subscriptionDate = faqRepository.getKnowledgeRecordTypeId()
         subscriptionDate.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
