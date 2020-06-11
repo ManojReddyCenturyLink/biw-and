@@ -36,7 +36,7 @@ class NotificationDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityNotifcationDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setHeightofActivity()
+        setActivityHeight()
         initFragment()
         initView()
     }

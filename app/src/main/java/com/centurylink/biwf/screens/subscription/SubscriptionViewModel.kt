@@ -33,13 +33,15 @@ class SubscriptionViewModel @Inject constructor(
     val planName: Flow<String> = BehaviorStateFlow()
     val planDetails: Flow<String> = BehaviorStateFlow()
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
+    var progressViewFlow = EventFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
 
     init {
+        progressViewFlow.latestValue = true
         initApis()
     }
 
-    private fun initApis() {
+    fun initApis() {
         viewModelScope.launch {
             requestAccountDetails()
             requestInvoiceList()
@@ -162,6 +164,7 @@ class SubscriptionViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             invoicesListResponse.latestValue = it
+            progressViewFlow.latestValue = false
         }
     }
 

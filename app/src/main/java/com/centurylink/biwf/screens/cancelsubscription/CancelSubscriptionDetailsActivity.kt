@@ -39,7 +39,14 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionDetailsBinding.inflate(layoutInflater)
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.cancelSubscriptionDetailsView,
+            binding.retryOverlay.root
+        )
         cancelSubscriptionDetailsModel.apply {
+            progressViewFlow.observe { showProgress(it) }
             errorEvents.handleEvent { displayDateError() }
             performSubmitEvent.handleEvent { showCancellationDialog(it) }
             cancelSubscriptionDateEvent.handleEvent { updateCancellationDate(it) }

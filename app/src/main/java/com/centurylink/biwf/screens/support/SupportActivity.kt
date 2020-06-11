@@ -46,6 +46,16 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding = ActivitySupportBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.observe(this)
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.supportScrollView,
+            binding.retryOverlay.root
+        )
+        supportViewModel.apply {
+            progressViewFlow.observe { showProgress(it) }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+        }
         supportViewModel.myState.observeWith(supportCoordinator)
         initLiveChat()
         initViews()
@@ -101,12 +111,17 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             }
         }
 
-        binding.incContactUs.liveChatTextview.setOnClickListener { chatUIClient?.startChatSession(this) }
+        binding.incContactUs.liveChatTextview.setOnClickListener {
+            chatUIClient?.startChatSession(
+                this
+            )
+        }
         binding.incContactUs.scheduleCallbackRow.setOnClickListener { supportViewModel.launchScheduleCallback() }
     }
 
     private fun initLiveChat() {
-        val chatConfiguration = ChatConfiguration.Builder(ORG_ID, BUTTON_ID, DEPLOYMENT_ID, AGENT_POD).build()
+        val chatConfiguration =
+            ChatConfiguration.Builder(ORG_ID, BUTTON_ID, DEPLOYMENT_ID, AGENT_POD).build()
 
         ChatUI.configure(ChatUIConfiguration.create(chatConfiguration)).createClient(this)
             .onResult { _, uiClient ->

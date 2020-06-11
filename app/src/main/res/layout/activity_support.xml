@@ -50,7 +50,25 @@
             app:layout_constraintTop_toBottomOf="@+id/done_button_support"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/widget_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader" />
+
+    <include
+        android:id="@+id/retry_overlay"
+        layout="@layout/widget_retry_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader" />
+
     <ScrollView
+        android:id="@+id/support_scroll_view"
         android:layout_width="@dimen/padding_0"
         android:layout_height="@dimen/padding_0"
         android:scrollbars="none"

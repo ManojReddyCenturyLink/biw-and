@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.repos.BillingRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
@@ -22,11 +21,13 @@ class SubscriptionStatementViewModel @Inject constructor(
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
+    var progressViewFlow = EventFlow<Boolean>()
     var uiStatementDetails = UiStatementDetails()
     var invoicedId: String? = null
     var processedDate: String? = null
 
     init {
+        progressViewFlow.latestValue = true
         initAPiCalls()
     }
 
@@ -35,7 +36,7 @@ class SubscriptionStatementViewModel @Inject constructor(
         processedDate = process
     }
 
-    private fun initAPiCalls() {
+    fun initAPiCalls() {
         viewModelScope.launch {
             requestUserDetails()
             requestAccountDetails()
@@ -81,6 +82,7 @@ class SubscriptionStatementViewModel @Inject constructor(
                 totalCost = String.format("%.1f", totalCost)
             )
             statementDetailsInfo.latestValue = uiStatementDetails
+            progressViewFlow.latestValue = false
         }
     }
 

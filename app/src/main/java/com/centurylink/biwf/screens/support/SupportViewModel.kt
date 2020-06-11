@@ -22,12 +22,14 @@ class SupportViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<SupportCoordinatorDestinations>()
     private var recordTypeId: String = ""
+    var progressViewFlow = EventFlow<Boolean>()
 
     init {
         initApis()
     }
 
     private fun initApis() {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestRecordId()
             requestFaqDetailsInfo()
@@ -35,11 +37,13 @@ class SupportViewModel @Inject constructor(
     }
 
     private suspend fun requestFaqDetailsInfo() {
+        progressViewFlow.latestValue = true
         val faqDetails = faqRepository.getFAQQuestionDetails(recordTypeId)
         faqDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
             updateFaqDetails(it)
+            progressViewFlow.latestValue = false
         }
     }
 
@@ -49,6 +53,7 @@ class SupportViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             recordTypeId = it
+            progressViewFlow.latestValue = false
         }
     }
 

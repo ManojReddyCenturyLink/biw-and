@@ -42,9 +42,16 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         binding = ActivitySubscriptionBinding.inflate(layoutInflater)
         setContentView(binding.root)
         (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.statementView,
+            binding.retryOverlay.root
+        )
         navigator.observe(this)
         subscriptionViewModel.apply {
-            errorMessageFlow.observe { displayToast(it) }
+            progressViewFlow.observe { showProgress(it) }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             myState.observeWith(subscriptionCoordinator)
             checkboxState.observe { binding.billingInfoWidget.billingInfoCheckbox.isActivated = it }
             uiFlowable.observe { uiObject ->
@@ -105,6 +112,11 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         }
     }
 
+    override fun retryClicked() {
+        showProgress(true)
+        subscriptionViewModel.initApis()
+    }
+
     private fun initViews() {
         binding.previousStatementRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -126,6 +138,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         subscriptionViewModel.invoicesListResponse.observe { list ->
             paymentInvoicesAdapter = PaymentInvoicesAdapter(this, this, list)
             binding.previousStatementRecyclerview.adapter = paymentInvoicesAdapter
+            hideProgress()
         }
     }
 

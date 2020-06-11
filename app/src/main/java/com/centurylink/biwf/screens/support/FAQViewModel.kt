@@ -18,8 +18,9 @@ class FAQViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val faqDetailsInfo: Flow<UiFAQQuestionsDetails> = BehaviorStateFlow()
-    var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<FAQCoordinatorDestinations>()
+    var errorMessageFlow = EventFlow<String>()
+    var progressViewFlow = EventFlow<Boolean>()
     private var sectionSelected: String = ""
     private var recordTypeId: String = ""
 
@@ -32,18 +33,10 @@ class FAQViewModel @Inject constructor(
     }
 
     private fun initApis() {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestRecordId()
             requestFaqDetails()
-        }
-    }
-
-    private suspend fun requestFaqDetails() {
-        val faqDetails = faqRepository.getFAQQuestionDetails(recordTypeId)
-        faqDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            updateFaqDetails(it)
         }
     }
 
@@ -53,6 +46,16 @@ class FAQViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             recordTypeId = it
+        }
+    }
+
+    private suspend fun requestFaqDetails() {
+        val faqDetails = faqRepository.getFAQQuestionDetails(recordTypeId)
+        faqDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            updateFaqDetails(it)
+            progressViewFlow.latestValue = false
         }
     }
 

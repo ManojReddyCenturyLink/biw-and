@@ -45,6 +45,16 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityFaqBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.faqListLayout,
+            binding.retryOverlay.root
+        )
+        faqViewModel.apply {
+            progressViewFlow.observe { showProgress(it) }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+        }
         faqViewModel.setFilteredSelection(intent.getStringExtra(FAQ_TITLE)!!)
         navigator.observe(this)
         faqViewModel.myState.observeWith(faqCoordinator)
@@ -93,7 +103,6 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
             }
         }
     }
-
 
     private fun prepareQuestionRecyclerView(questionlist: HashMap<String, String>) {
         questionAdapter = ExpandableContentAdapter(questionlist)
