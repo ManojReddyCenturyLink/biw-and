@@ -27,7 +27,7 @@ class FAQRepository @Inject constructor(
     suspend fun getKnowledgeRecordTypeId(): Either<String, String> {
         val query =
             "SELECT Id FROM RecordType WHERE SobjectType = 'Knowledge__kav' AND DeveloperName ='Fiber'"
-        val result: FiberServiceResult<RecordId> = faqService.getRecordTpeId(query)
+        val result: FiberServiceResult<RecordId> = faqService.getRecordTypeId(query)
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val id = it.records.elementAtOrElse(0) { null }?.Id
             if (id.isNullOrEmpty()) {

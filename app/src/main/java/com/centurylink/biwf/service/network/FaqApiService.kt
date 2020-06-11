@@ -12,5 +12,5 @@ interface FaqApiService {
     suspend fun getFaqDetails(@Query("q") id: String): FiberServiceResult<Faq>
 
     @GET("query")
-    suspend fun getRecordTpeId(@Query("q") id: String): FiberServiceResult<RecordId>
+    suspend fun getRecordTypeId(@Query("q") id: String): FiberServiceResult<RecordId>
 }
