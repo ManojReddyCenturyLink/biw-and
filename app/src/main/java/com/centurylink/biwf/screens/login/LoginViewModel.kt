@@ -64,8 +64,6 @@ class LoginViewModel internal constructor(
     val errorEvents: EventLiveData<String> = MutableLiveData()
     val showBioMetricsLogin: Flow<BiometricPromptMessage> = BehaviorStateFlow()
 
-    private var userEmail: String? = null
-    private var userPassword: String? = null
     private val biometricPromptMessage = BiometricPromptMessage(
         title = R.string.biometric_prompt_title,
         subTitle = R.string.biometric_prompt_message,
@@ -75,21 +73,16 @@ class LoginViewModel internal constructor(
     init {
         val showBiometrics = sharedPreferences.getBioMetrics() ?: false
         val isLoggedInUser = sharedPreferences.isLoggedInUser() ?: false
+
         if (navFromAccountScreen) {
             onLoginClicked()
         } else if (showBiometrics && isLoggedInUser) {
             showBioMetricsLogin.latestValue = biometricPromptMessage
         } else if (isLoggedInUser) {
             onLoginSuccess()
+        } else {
+            onLoginClicked()
         }
-    }
-
-    fun onEmailTextChanged(email: String) {
-        userEmail = email
-    }
-
-    fun onPasswordTextChanged(password: String) {
-        userPassword = password
     }
 
     fun onLoginClicked() {
@@ -105,14 +98,6 @@ class LoginViewModel internal constructor(
     fun onLoginSuccess() {
         myState.latestValue = LoginCoordinatorDestinations.HOME
         sharedPreferences.saveUserLoggedInStatus(true)
-    }
-
-    fun onForgotPasswordClicked() {
-        myState.latestValue = LoginCoordinatorDestinations.FORGOT_PASSWORD
-    }
-
-    fun onLearnMoreClicked() {
-        myState.latestValue = LoginCoordinatorDestinations.LEARN_MORE
     }
 }
 

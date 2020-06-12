@@ -50,7 +50,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         }
 
         viewModel.myState.observeWith(loginCoordinator)
-        initOnClicks()
         handleIntent()
     }
 
@@ -84,7 +83,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 ) {
                     super.onAuthenticationError(errorCode, errString)
                     Timber.d("Error  -- $errString")
-                    showBioDialog(biometricMessage)
+                    viewModel.onLoginClicked()
                 }
 
                 override fun onAuthenticationSucceeded(
@@ -126,13 +125,9 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
             }
             else -> {
                 Timber.d("Got non-successful AuthResponseType=$authResult")
+                finish()
             }
         }
-    }
-
-    private fun initOnClicks() {
-        binding.loginButton.setOnClickListener { viewModel.onLoginClicked() }
-        binding.loginLearnMore.setOnClickListener { viewModel.onLearnMoreClicked() }
     }
 
     companion object {
