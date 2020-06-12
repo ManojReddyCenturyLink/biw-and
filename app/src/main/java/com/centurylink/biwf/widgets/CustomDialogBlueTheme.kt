@@ -43,17 +43,23 @@ class CustomDialogBlueTheme : DialogFragment() {
         val rootView: View = inflater.inflate(R.layout.widget_popup, container, false)
         rootView.popup_title.text = title
         rootView.popup_message.text = message
-        rootView.popup_ok_button.text = buttonText
-        rootView.popup_ok_button.setOnClickListener {
-            dismiss()
-            callback.onErrorDialogCallback(AlertDialog.BUTTON_POSITIVE)
-        }
         rootView.popup_cancel_btn.setOnClickListener {
             dismiss()
             callback.onErrorDialogCallback(AlertDialog.BUTTON_NEGATIVE)
         }
         if (isErrorPopup) {
-            rootView.popup_cancel_btn.visibility = View.GONE
+            rootView.popup_positive_button.text = buttonText
+            rootView.popup_neutral_button.visibility = View.GONE
+            rootView.popup_positive_button.setOnClickListener {
+                dismiss()
+                callback.onErrorDialogCallback(AlertDialog.BUTTON_POSITIVE)
+            }
+        } else {
+            rootView.popup_neutral_button.text = buttonText
+            rootView.popup_positive_button.visibility = View.GONE
+            rootView.popup_neutral_button.setOnClickListener {
+                dismiss()
+            }
         }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         return rootView

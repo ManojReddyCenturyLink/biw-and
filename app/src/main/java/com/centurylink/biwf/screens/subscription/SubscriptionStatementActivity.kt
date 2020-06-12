@@ -78,7 +78,6 @@ class SubscriptionStatementActivity : BaseActivity() {
 
     private fun observeViews() {
         subscriptionStatementViewModel.apply {
-            errorMessageFlow.observe { displayToast(it) }
             statementDetailsInfo.observe { uiAccountInfo ->
                 binding.subscriptionStatementProcessedDate.visibility = View.VISIBLE
                 binding.subscriptionStatementProcessedDate.text =

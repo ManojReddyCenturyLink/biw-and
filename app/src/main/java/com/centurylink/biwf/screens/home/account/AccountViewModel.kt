@@ -50,9 +50,10 @@ class AccountViewModel internal constructor(
     }
 
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
-    var uiAccountDetails: UiAccountDetails = UiAccountDetails()
     var errorMessageFlow = EventFlow<String>()
     val bioMetricFlow: Flow<Boolean> = BehaviorStateFlow(sharedPreferences.getBioMetrics() ?: false)
+    var uiAccountDetails: UiAccountDetails = UiAccountDetails()
+    var progressViewFlow = EventFlow<Boolean>()
 
     init {
         initApiCalls()
@@ -66,8 +67,9 @@ class AccountViewModel internal constructor(
         sharedPreferences.saveBioMetrics(boolean)
     }
 
-    private fun initApiCalls() {
+    fun initApiCalls() {
         viewModelScope.launch {
+            progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
             requestAccountDetails()
@@ -151,6 +153,7 @@ class AccountViewModel internal constructor(
             errorMessageFlow.latestValue = it
         }) {
             updateUIAccountDetailsFromContacts(it)
+            progressViewFlow.latestValue = false
         }
     }
 

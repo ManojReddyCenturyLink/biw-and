@@ -79,16 +79,15 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 finish()
             } else {
                 val msg = it
-                if (msg.contains(
-                        getString(R.string.error_repeated_password),
-                        ignoreCase = true
-                    ) || msg.contains(getString(R.string.error_invalid_password), ignoreCase = true)
+                if (msg.contains(getString(R.string.error_repeated_password), ignoreCase = true) ||
+                    msg.contains(getString(R.string.error_invalid_password), ignoreCase = true) ||
+                    msg.contains(getString(R.string.error_password_length), ignoreCase = true)
                 ) {
                     CustomDialogBlueTheme(
-                        getString(R.string.error),
+                        getString(R.string.error_title),
                         it,
                         getString(R.string.discard_changes_and_close),
-                        false
+                        true
                     ).show(
                         fragmentManager,
                         callingActivity?.className
@@ -100,7 +99,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                         getString(
                             R.string.discard_changes_and_close
                         ),
-                        false
+                        true
                     ).show(
                         fragmentManager,
                         callingActivity?.className

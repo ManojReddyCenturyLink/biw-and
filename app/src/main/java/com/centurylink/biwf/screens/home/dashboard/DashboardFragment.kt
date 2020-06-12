@@ -66,10 +66,32 @@ class DashboardFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_dashboard, container, false)
+        setApiProgressViews(
+            binding.dashboardViews,
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.retryOverlay.root
+        )
+        dashboardViewModel.progressViewFlow.observe {
+            showProgress(it)
+        }
+        dashboardViewModel.errorMessageFlow.observe {
+            showRetry(it.isNotEmpty())
+        }
         initOnClicks()
         binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViews()
+        setupMap()
+    }
+
+    override fun retryClicked() {
+        dashboardViewModel.initApis()
     }
 
     private fun initViews() {
@@ -79,12 +101,6 @@ class DashboardFragment : BaseFragment() {
         } else {
             getAppointmentStatus()
         }
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initViews()
-        setupMap()
     }
 
     private fun initOnClicks() {

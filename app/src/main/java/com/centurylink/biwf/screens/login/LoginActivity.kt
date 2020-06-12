@@ -44,7 +44,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         navigator.observe(this)
 
         viewModel.apply {
-            errorEvents.handleEvent { displayToast(it) }
             showBioMetricsLogin.observe {
                 biometricCheck(it)
             }

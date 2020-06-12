@@ -68,6 +68,11 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         finish()
     }
 
+    override fun retryClicked() {
+        showProgress(true)
+        faqViewModel.initApis()
+    }
+
     private fun observeViews() {
         faqViewModel.apply {
             faqDetailsInfo.observe {

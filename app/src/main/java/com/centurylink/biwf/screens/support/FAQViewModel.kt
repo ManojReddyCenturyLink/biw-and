@@ -31,7 +31,7 @@ class FAQViewModel @Inject constructor(
         sectionSelected = selectedSection
     }
 
-    private fun initApis() {
+    fun initApis() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestRecordId()

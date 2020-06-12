@@ -60,15 +60,6 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         initLiveChat()
         initViews()
         observeViews()
-
-    }
-
-    private fun observeViews() {
-        supportViewModel.apply {
-            faqSectionInfo.observe {
-                prepareRecyclerView(it.questionMap)
-            }
-        }
     }
 
     override fun onFaqItemClick(item: String) {
@@ -96,6 +87,19 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    override fun retryClicked() {
+        showProgress(true)
+        supportViewModel.initApis()
+    }
+
+    private fun observeViews() {
+        supportViewModel.apply {
+            faqSectionInfo.observe {
+                prepareRecyclerView(it.questionMap)
+            }
+        }
     }
 
     private fun initViews() {
