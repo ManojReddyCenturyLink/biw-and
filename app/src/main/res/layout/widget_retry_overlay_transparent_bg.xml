@@ -22,7 +22,7 @@
             android:layout_height="@dimen/margin_spacing_large"
             android:layout_gravity="center"
             android:duplicateParentState="true"
-            android:indeterminateDrawable="@drawable/icon_reload" />
+            android:indeterminateDrawable="@drawable/ic_icon_reload" />
 
         <TextView
             android:id="@+id/retry_text_view"

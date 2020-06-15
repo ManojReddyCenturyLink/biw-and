@@ -49,6 +49,10 @@ class CancelSubscriptionActivity : BaseActivity() {
         initHeaders()
     }
 
+    override fun retryClicked() {
+        cancelSubscriptionModel.initApis()
+    }
+
     override fun onBackPressed() {
         finish()
     }
