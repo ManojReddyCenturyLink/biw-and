@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.FAQCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
-import com.centurylink.biwf.repos.CaseRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -60,7 +59,7 @@ class FAQViewModel @Inject constructor(
 
     private fun updateFaqDetails(faq: Faq) {
         val questionMap =
-            faq.records.filter { it.sectionC!!.equals(sectionSelected, true) }
+            faq.records.filter { !it.sectionC.isNullOrEmpty() && it.sectionC.equals(sectionSelected, true) }
                 .associateTo(HashMap(), { it.title!! to it.articleContent!! })
         faqDetailsInfo.latestValue = UiFAQQuestionsDetails(questionMap)
     }
