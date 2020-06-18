@@ -15,14 +15,12 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.FAQCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
-import com.centurylink.biwf.model.support.Videofaq
 import com.centurylink.biwf.screens.support.adapter.ExpandableContentAdapter
-import com.centurylink.biwf.screens.support.adapter.VideoItemClickListener
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
 
-class FAQActivity : BaseActivity(), VideoItemClickListener {
+class FAQActivity : BaseActivity() {
 
     @Inject
     lateinit var faqCoordinator: FAQCoordinator
@@ -58,7 +56,6 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
         faqViewModel.setFilteredSelection(intent.getStringExtra(FAQ_TITLE)!!)
         navigator.observe(this)
         faqViewModel.myState.observeWith(faqCoordinator)
-
         initHeaders()
         initView()
         observeViews()
@@ -79,9 +76,6 @@ class FAQActivity : BaseActivity(), VideoItemClickListener {
                 prepareQuestionRecyclerView(it.questionMap)
             }
         }
-    }
-
-    override fun onVideoItemClicked(videoFAQ: Videofaq) {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
