@@ -59,7 +59,7 @@ class SubscriptionStatementViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             uiStatementDetails = uiStatementDetails.copy(
-                paymentMethod = it.paymentMethodName ?: "Visa ******* 2453",
+                paymentMethod = it.paymentMethodName,
                 billingAddress = formatBillingAddress(it) ?: ""
             )
         }
@@ -75,7 +75,7 @@ class SubscriptionStatementViewModel @Inject constructor(
             val salesTaxCost: Double = it.salesTaxAmount?.replace("$", "")?.toDouble() ?: 0.0
             val totalCost: Double = planCost + salesTaxCost
             uiStatementDetails = uiStatementDetails.copy(
-                planName = it.productPlanNameC ?: "Fiber Internet",
+                planName = it.productPlanNameC,
                 successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
                 planCost = String.format("%.1f", planCost),
                 salesTaxCost = String.format("%.1f", salesTaxCost),

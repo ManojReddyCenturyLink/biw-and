@@ -1,0 +1,37 @@
+{
+   "totalSize": 1,
+   "done": true,
+   "records": [
+      {
+         "attributes": {
+            "type": "ServiceAppointment",
+            "url": "/services/data/v46.0/sobjects/ServiceAppointment/08pf00000008gvRAAQ"
+         },
+         "Id": "08pf00000008gvRAAQ",
+         "Status": "Scheduled",
+         "Job_Type__c": "Fiber Repair - No Service",
+         "WorkTypeId": "08qf00000008QgoAAE",
+         "Latitude": 39.852448,
+         "Longitude": -104.97592,
+         "ServiceResources": {
+            "totalSize": 1,
+            "done": true,
+            "records": [
+               {
+                  "attributes": {
+                     "type": "AssignedResource",
+                     "url": "/services/data/v46.0/sobjects/AssignedResource/03rf00000009415AAA"
+                  },
+                  "ServiceResource": {
+                     "attributes": {
+                        "type": "ServiceResource",
+                        "url": "/services/data/v46.0/sobjects/ServiceResource/0Hnf00000004FpqCAE"
+                     },
+                     "Name": "Kathy Tech"
+                  }
+               }
+            ]
+         }
+      }
+   ]
+}

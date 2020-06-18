@@ -1,12 +1,10 @@
-package com.centurylink.biwf.screens
+package com.centurylink.biwf.screens.notification
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.NotificationRepository
-import com.centurylink.biwf.screens.notification.NotificationActivity
-import com.centurylink.biwf.screens.notification.NotificationViewModel
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Rule
@@ -38,7 +36,7 @@ class NotificationViewModelTest : ViewModelBaseTest() {
     fun setup() {
         MockitoAnnotations.initMocks(this)
         var notificationSource: NotificationSource = NotificationSource()
-        notificationSource.notificationlist = notifiCationList;
+        notificationSource.notificationlist = notifiCationList
         viewModel = NotificationViewModel(notificationRepository)
     }
 }

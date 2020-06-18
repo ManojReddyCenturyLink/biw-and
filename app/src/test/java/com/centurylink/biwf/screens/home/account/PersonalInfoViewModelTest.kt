@@ -5,6 +5,7 @@ import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.TestCoroutineRule
+import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -26,6 +27,7 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this, relaxed = true)
         viewModel = PersonalInfoViewModel(
             userRepository = mockUserRepository
         )

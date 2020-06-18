@@ -21,7 +21,7 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
         "I can’t sign into my account",
         "I have questions about my account",
         "I need something not listed here"
-    ).map (::TopicList)
+    ).map(::TopicList)
 
     private lateinit var viewModel: ScheduleCallbackViewModel
 
@@ -47,7 +47,7 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     @Test
     fun onItemClicked_navigateToAdditionalInfoActivity() = runBlockingTest {
         launch {
-            viewModel.navigateAdditionalInfoScreen(dummyList[0])
+            viewModel.navigateAdditionalInfoScreen(dummyList[3])
         }
 
         Assert.assertEquals(
