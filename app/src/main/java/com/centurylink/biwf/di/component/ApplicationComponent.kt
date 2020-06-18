@@ -2,10 +2,7 @@ package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.di.activityinjector.*
-import com.centurylink.biwf.di.fragmentinjector.AccountFragmentInjectorModule
-import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
-import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
-import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
+import com.centurylink.biwf.di.fragmentinjector.*
 import com.centurylink.biwf.di.module.AppModule
 import com.centurylink.biwf.di.module.AuthServiceConfigModule
 import com.centurylink.biwf.di.module.AuthServiceModule
@@ -50,6 +47,7 @@ import javax.inject.Singleton
         (AuthServiceModule::class),
         (RestServiceConfigModule::class),
         (RestServiceModule::class),
+        (DevicesFragmentInjectorModule::class),
         (AppAuthResponseServiceInjectorModule::class)
     ]
 )
