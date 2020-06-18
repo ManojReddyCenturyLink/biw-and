@@ -25,7 +25,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
     @Before
     fun setup() {
         MockitoAnnotations.initMocks(this)
-        viewModel = FAQViewModel(faqRepository,caseRepository)
+        viewModel = FAQViewModel(faqRepository)
         //TODO Need to Revisit after Livedata cleanup
     }
 }
