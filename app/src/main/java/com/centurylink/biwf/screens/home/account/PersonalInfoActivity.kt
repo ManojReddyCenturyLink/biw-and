@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -14,15 +15,19 @@ import com.centurylink.biwf.coordinators.PersonalInfoCoordinator
 import com.centurylink.biwf.databinding.ActivityPersonalInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
-import com.centurylink.biwf.widgets.CustomDialog
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
+import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
-class PersonalInfoActivity : BaseActivity() {
+class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallback,
+    CustomDialogBlueTheme.ErrorDialogCallback {
 
     @Inject
     lateinit var personalInfoCoordinator: PersonalInfoCoordinator
+
     @Inject
     lateinit var navigator: Navigator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
@@ -30,6 +35,7 @@ class PersonalInfoActivity : BaseActivity() {
         ViewModelProvider(this, factory).get(PersonalInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityPersonalInfoBinding
+    private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,19 +47,29 @@ class PersonalInfoActivity : BaseActivity() {
         initTextWatchers()
     }
 
+    override fun onBackPressed() {
+        showPopUp()
+    }
+
+    private fun showPopUp() {
+        CustomDialogGreyTheme(
+            getString(R.string.save_changes_msg), "", getString(R.string.save), getString(
+                R.string.discard
+            )
+        ).show(
+            fragmentManager,
+            PersonalInfoActivity::class.simpleName
+        )
+    }
+
     private fun initViews() {
         val screenTitle: String = getString(R.string.personal_info)
-        val fm = supportFragmentManager
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                val errors = personalInfoViewModel.validateInput()
-                if (!errors.hasErrors()) {
-                    personalInfoViewModel.callUpdatePasswordApi()
-
-                }
+                validateInfoAndUpdatePassword()
             }
         }
         binding.errors = personalInfoViewModel.error
@@ -62,15 +78,42 @@ class PersonalInfoActivity : BaseActivity() {
             if (it.isEmpty()) {
                 finish()
             } else {
-                CustomDialog(getString(R.string.error), it, true).show(fm, callingActivity?.className)
+                val msg = it
+                if (msg.contains(getString(R.string.error_repeated_password), ignoreCase = true) ||
+                    msg.contains(getString(R.string.error_invalid_password), ignoreCase = true) ||
+                    msg.contains(getString(R.string.error_password_length), ignoreCase = true)
+                ) {
+                    CustomDialogBlueTheme(
+                        getString(R.string.error_title),
+                        it,
+                        getString(R.string.discard_changes_and_close),
+                        true
+                    ).show(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                } else {
+                    CustomDialogBlueTheme(
+                        getString(R.string.error_title),
+                        getString(R.string.password_reset_error_msg),
+                        getString(
+                            R.string.discard_changes_and_close
+                        ),
+                        true
+                    ).show(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                }
             }
         }
         binding.ivQuestion.setOnClickListener {
-            CustomDialog(
+            CustomDialogBlueTheme(
                 getString(R.string.how_do_i_change_my_email),
                 getString(R.string.personal_info_popup_msg),
+                getString(R.string.ok_lowercase),
                 false
-            ).show(fm, callingActivity?.className)
+            ).show(fragmentManager, callingActivity?.className)
         }
         binding.ivPasswordVisibility.setOnClickListener {
             toggleTextVisibility(
@@ -83,6 +126,14 @@ class PersonalInfoActivity : BaseActivity() {
                 personalInfoViewModel.toggleConfirmPasswordVisibility(),
                 CONFIRM_PASSWORD_LAYOUT
             )
+        }
+    }
+
+    private fun validateInfoAndUpdatePassword() {
+        val errors = personalInfoViewModel.validateInput()
+        if (!errors.hasErrors()) {
+            personalInfoViewModel.callUpdatePasswordApi()
+
         }
     }
 
@@ -146,6 +197,25 @@ class PersonalInfoActivity : BaseActivity() {
         const val CONFIRM_PASSWORD_LAYOUT = "CONFIRM_PASSWORD_LAYOUT"
         fun newIntent(context: Context): Intent {
             return Intent(context, PersonalInfoActivity::class.java)
+        }
+    }
+
+    override fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                validateInfoAndUpdatePassword()
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+                finish()
+            }
+        }
+    }
+
+    override fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                finish()
+            }
         }
     }
 }

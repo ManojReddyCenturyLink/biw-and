@@ -13,13 +13,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FAQViewModel @Inject constructor(
-    private val faqRepository: FAQRepository,
-    private val caseRepository: CaseRepository
+    private val faqRepository: FAQRepository
 ) : BaseViewModel() {
 
     val faqDetailsInfo: Flow<UiFAQQuestionsDetails> = BehaviorStateFlow()
-    var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<FAQCoordinatorDestinations>()
+    var errorMessageFlow = EventFlow<String>()
+    var progressViewFlow = EventFlow<Boolean>()
     private var sectionSelected: String = ""
     private var recordTypeId: String = ""
 
@@ -31,10 +31,20 @@ class FAQViewModel @Inject constructor(
         sectionSelected = selectedSection
     }
 
-    private fun initApis() {
+    fun initApis() {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestRecordId()
             requestFaqDetails()
+        }
+    }
+
+    private suspend fun requestRecordId() {
+        val subscriptionDate = faqRepository.getKnowledgeRecordTypeId()
+        subscriptionDate.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            recordTypeId = it
         }
     }
 
@@ -44,15 +54,7 @@ class FAQViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             updateFaqDetails(it)
-        }
-    }
-
-    private suspend fun requestRecordId() {
-        val subscriptionDate = caseRepository.getRecordTypeId()
-        subscriptionDate.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            recordTypeId = it
+            progressViewFlow.latestValue = false
         }
     }
 

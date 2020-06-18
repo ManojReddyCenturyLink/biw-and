@@ -12,7 +12,25 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/widget_loading_overlay_transparent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+
+    <include
+        android:id="@+id/retry_overlay"
+        layout="@layout/widget_retry_overlay_transparent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/statement_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -84,8 +102,8 @@
                 android:text="@string/statement_payment_email"
                 android:textColor="@color/text_label_color"
                 android:textSize="@dimen/text_size_16"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/subscription_statement_email_content"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_payment_method_content" />
 
             <TextView
@@ -117,8 +135,8 @@
                 android:id="@+id/subscription_statement_billing_address_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/sf_regular"
                 android:layout_marginTop="4dp"
+                android:fontFamily="@font/sf_regular"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_16"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_statement_billing_address_label" />
@@ -132,17 +150,19 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_statement_billing_address_content" />
+
             <TextView
                 android:id="@+id/subscription_statement_payment_breakdown_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_large"
                 android:fontFamily="@font/arial_bold_mt"
                 android:gravity="start"
-                android:layout_marginTop="@dimen/margin_spacing_large"
                 android:text="@string/statement_payment_breakdown"
                 android:textColor="@color/blue_dark"
                 android:textSize="@dimen/small_subcontent_title_text_size"
                 app:layout_constraintTop_toBottomOf="@+id/statement_seprator_view" />
+
             <TextView
                 android:id="@+id/subscription_statement_plan_name"
                 android:layout_width="match_parent"
@@ -152,9 +172,9 @@
                 android:gravity="start"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_size_h4"
-                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_breakdown_header"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_breakdown_header" />
+
             <TextView
                 android:id="@+id/subscription_statement_plan_cost"
                 android:layout_width="match_parent"
@@ -164,9 +184,9 @@
                 android:gravity="end"
                 android:textColor="@color/black"
                 android:textSize="@dimen/small_title_text_size"
-                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_breakdown_header"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_breakdown_header" />
+
             <View
                 android:id="@+id/statement_seprator_planname"
                 android:layout_width="match_parent"
@@ -187,9 +207,9 @@
                 android:text="@string/statement_payment_total"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_size_h4"
-                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname" />
+
             <TextView
                 android:id="@+id/subscription_statement_sales_tax_cost"
                 android:layout_width="match_parent"
@@ -199,9 +219,9 @@
                 android:gravity="end"
                 android:textColor="@color/black"
                 android:textSize="@dimen/small_title_text_size"
-                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname" />
+
             <TextView
                 android:id="@+id/subscription_statement_promo_label"
                 android:layout_width="match_parent"
@@ -210,39 +230,39 @@
                 android:fontFamily="@font/arial_bold_mt"
                 android:gravity="start"
                 android:text="Promo code - XXXXXX "
-                android:visibility="gone"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_size_h4"
-                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_sales_tax_label"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_sales_tax_label" />
+
             <TextView
                 android:id="@+id/subscription_statement_promo_subheader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/arial_mt"
                 android:gravity="start"
-                android:visibility="gone"
                 android:text="@string/statement_payment_promo_info"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_12"
-                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label" />
+
             <TextView
                 android:id="@+id/subscription_statement_promo_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/arial_mt"
                 android:gravity="end"
-                android:textColor="@color/black"
-                android:visibility="gone"
                 android:paddingBottom="10dp"
+                android:textColor="@color/black"
                 android:textSize="@dimen/small_title_text_size"
+                android:visibility="gone"
                 app:layout_constraintBaseline_toBaselineOf="@+id/subscription_statement_promo_subheader"
-                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label" />
+
             <View
                 android:id="@+id/statement_seprator_salesTax"
                 android:layout_width="match_parent"
@@ -252,6 +272,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_subheader" />
+
             <TextView
                 android:id="@+id/subscription_statement_total_label"
                 android:layout_width="match_parent"
@@ -262,9 +283,9 @@
                 android:text="@string/statement_total"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_size_h4"
-                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_salesTax"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_salesTax" />
+
             <TextView
                 android:id="@+id/subscription_statement_total_cost"
                 android:layout_width="match_parent"
@@ -274,9 +295,8 @@
                 android:gravity="end"
                 android:textColor="@color/black"
                 android:textSize="@dimen/small_title_text_size"
-                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_salesTax"
                 app:layout_constraintStart_toStartOf="parent"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_salesTax" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

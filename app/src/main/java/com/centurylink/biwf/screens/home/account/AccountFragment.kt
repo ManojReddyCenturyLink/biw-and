@@ -46,11 +46,22 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentAccountBinding.inflate(layoutInflater)
+        setApiProgressViews(
+            binding.viewGroup,
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.retryOverlay.root
+        )
         observeViews()
         initSwitches()
         initClicks()
         viewModel.myState.observeWith(accountCoordinator)
         return binding.root
+    }
+
+    override fun retryClicked() {
+        showProgress(true)
+        viewModel.initApiCalls()
     }
 
     fun refreshBioMetrics() {
@@ -76,6 +87,12 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
         //Todo: Remove Harding of values once API returns
         viewModel.apply {
+            progressViewFlow.observe {
+                showProgress(it)
+            }
+            errorMessageFlow.observe {
+                showRetry(it.isNotEmpty())
+            }
             bioMetricFlow.observe { boolean ->
                 binding.accountBiometricSwitch.isChecked = boolean
             }

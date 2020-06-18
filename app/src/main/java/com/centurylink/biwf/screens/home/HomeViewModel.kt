@@ -18,7 +18,6 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class HomeViewModel @Inject constructor(
@@ -42,6 +41,7 @@ class HomeViewModel @Inject constructor(
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
+    var progressViewFlow = EventFlow<Boolean>()
 
     // dummy variable that helps toggle between online states. Will remove when implementing real online status
     var dummyOnline = false
@@ -66,8 +66,9 @@ class HomeViewModel @Inject constructor(
         initApis()
     }
 
-    private fun initApis() {
+    fun initApis() {
         viewModelScope.launch {
+            progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
             requestAppointmentDetails()
@@ -133,6 +134,7 @@ class HomeViewModel @Inject constructor(
             }) {
                 activeUserTabBarVisibility.latestValue =
                     (it.jobType == "Fiber Install - For Installations")
+                progressViewFlow.latestValue = false
             }
         }
     }

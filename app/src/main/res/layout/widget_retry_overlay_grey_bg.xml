@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_grey">
+
+    <LinearLayout
+        android:id="@+id/retry_view_layout"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:id="@+id/retry_icon"
+            android:layout_width="@dimen/margin_spacing_large"
+            android:layout_height="@dimen/margin_spacing_large"
+            android:layout_gravity="center"
+            android:duplicateParentState="true"
+            android:indeterminateDrawable="@drawable/ic_icon_reload" />
+
+        <TextView
+            android:id="@+id/retry_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:duplicateParentState="true"
+            android:text="@string/error_loading_information_ntap_to_retry"
+            android:textAlignment="center"
+            android:textColor="@color/font_color_medium_grey" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

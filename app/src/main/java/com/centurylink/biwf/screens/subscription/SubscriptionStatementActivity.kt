@@ -40,8 +40,23 @@ class SubscriptionStatementActivity : BaseActivity() {
             intent.getStringExtra(SUBSCRIPTION_STATEMENT_INVOICE_ID),
             intent.getStringExtra(SUBSCRIPTION_STATEMENT_DATE)
         )
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.statementView,
+            binding.retryOverlay.root
+        )
+        subscriptionStatementViewModel.apply {
+            progressViewFlow.observe { showProgress(it) }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+        }
         initHeaders()
         observeViews()
+    }
+
+    override fun retryClicked() {
+        showProgress(true)
+        subscriptionStatementViewModel.initAPiCalls()
     }
 
     override fun onBackPressed() {
@@ -63,7 +78,6 @@ class SubscriptionStatementActivity : BaseActivity() {
 
     private fun observeViews() {
         subscriptionStatementViewModel.apply {
-            errorMessageFlow.observe { displayToast(it) }
             statementDetailsInfo.observe { uiAccountInfo ->
                 binding.subscriptionStatementProcessedDate.visibility = View.VISIBLE
                 binding.subscriptionStatementProcessedDate.text =
@@ -83,6 +97,7 @@ class SubscriptionStatementActivity : BaseActivity() {
                 binding.subscriptionStatementBillingAddressContent.text =
                     uiAccountInfo.billingAddress
             }
+            hideProgress()
         }
     }
 

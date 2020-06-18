@@ -43,6 +43,16 @@ class FAQActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityFaqBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.faqListLayout,
+            binding.retryOverlay.root
+        )
+        faqViewModel.apply {
+            progressViewFlow.observe { showProgress(it) }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+        }
         faqViewModel.setFilteredSelection(intent.getStringExtra(FAQ_TITLE)!!)
         navigator.observe(this)
         faqViewModel.myState.observeWith(faqCoordinator)
@@ -53,6 +63,11 @@ class FAQActivity : BaseActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    override fun retryClicked() {
+        showProgress(true)
+        faqViewModel.initApis()
     }
 
     private fun observeViews() {
@@ -87,7 +102,6 @@ class FAQActivity : BaseActivity() {
             }
         }
     }
-
 
     private fun prepareQuestionRecyclerView(questionlist: HashMap<String, String>) {
         questionAdapter = ExpandableContentAdapter(questionlist)

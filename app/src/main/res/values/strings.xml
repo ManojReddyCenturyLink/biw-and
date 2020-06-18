@@ -47,7 +47,7 @@
     <string name="installation_scheduled">Installation has been scheduled</string>
     <string name="text_time_details">Your appointment is between %1$s and %2$s</string>
     <string name="congratulations">Congratulations!</string>
-    <string name="faq_topics">FAQ topics</string>
+    <string name="faq_topics">Frequently asked questions</string>
     <string name="troubleshooting">Troubleshooting</string>
     <string name="edit"><u>edit</u></string>
     <string name="visit_website">Visit website</string>
@@ -63,6 +63,7 @@
     <string name="biometric_dialog_message">Do you want to enable biometrics for login as blazing fast as your WiFi?</string>
     <string name="dont_allow">Don\'t Allow</string>
     <string name="ok">OK</string>
+    <string name="ok_lowercase">Ok</string>
 
     <!--FAQ Screen  -->
     <string name="faq_title">Network Connection</string>
@@ -210,4 +211,16 @@
     <string name="enroute_notification_message">Make sure the area where the modem will be installed is clear for the technician.</string>
     <string name="work_in_progress">Work in progress…</string>
     <string name="work_begun_message">Next step is to wait while your technician finishes installing your fiber modem!</string>
+    <string name="error_loading_information_ntap_to_retry">Error loading information.\nTap to retry.</string>
+    <string name="error_invalid_password">Your password must include letters, numbers and at least one of these special characters:</string>
+    <string name="error_repeated_password">invalid repeated password</string>
+    <string name="error_password_length">Your password must be at least 8 characters long.</string>
+    <string name="error_title">An error has occurred.</string>
+    <string name="loading">Loading</string>
+    <string name="save_changes_msg">Do you want to save your changes?</string>
+    <string name="save">SAVE</string>
+    <string name="discard">DISCARD</string>
+    <string name="password_reset_error_msg">We’re very sorry for the inconvenience, but we were unable to save your changes. Please try again later.</string>
+    <string name="discard_changes_and_close">Discard changes and close</string>
+    <string name="placeholder_text">- -</string>
 </resources>

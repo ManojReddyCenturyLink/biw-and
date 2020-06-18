@@ -11,6 +11,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.Window
 import android.widget.AdapterView
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -18,27 +19,38 @@ import com.centurylink.biwf.databinding.ActivityCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.databinding.DialogCancelSubscriptionDetailsBinding
 import com.centurylink.biwf.screens.cancelsubscription.adapter.CancellationReasonAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.willy.ratingbar.BaseRatingBar
 import java.text.DateFormat
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 import javax.inject.Inject
 
 
-class CancelSubscriptionDetailsActivity : BaseActivity() {
+class CancelSubscriptionDetailsActivity : BaseActivity(),
+    CustomDialogBlueTheme.ErrorDialogCallback {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
+    private var dialog: Dialog? = null
 
     private val cancelSubscriptionDetailsModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionDetailsViewModel::class.java)
     }
     private lateinit var binding: ActivityCancelSubscriptionDetailsBinding
+    private val fragmentManager = supportFragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCancelSubscriptionDetailsBinding.inflate(layoutInflater)
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.cancelSubscriptionDetailsView,
+            binding.retryOverlay.root
+        )
         cancelSubscriptionDetailsModel.apply {
+            progressViewFlow.observe { showProgress(it) }
             errorEvents.handleEvent { displayDateError() }
             performSubmitEvent.handleEvent { showCancellationDialog(it) }
             cancelSubscriptionDateEvent.handleEvent { updateCancellationDate(it) }
@@ -48,6 +60,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         setContentView(binding.root)
         initHeaders()
         initTextWatchers()
+        observeViews()
         initSpinner()
         initRatingView()
     }
@@ -182,28 +195,53 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancellationDateLabel.setTextColor(getColor(R.color.offline_red))
     }
 
+    private fun observeViews() {
+        cancelSubscriptionDetailsModel.apply {
+            successDeactivation.observe {
+                setResult(REQUEST_TO_ACCOUNT)
+                finish()
+            }
+        }
+    }
+
     private fun showCancellationDialog(date: Date) {
         val formattedDate =
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
-        val dialog = Dialog(this, R.style.mycustomDialog)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setCancelable(false)
-        dialog.setContentView(dialogbinding.root)
+        dialog = Dialog(this, R.style.mycustomDialog)
+        dialog?.apply {
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
+            setCancelable(false)
+            setContentView(dialogbinding.root)
+        }
         dialogbinding.cancelSubscriptionDialogDetails.text =
             getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
-            dialog.dismiss()
+            dialog?.dismiss()
             setResult(REQUEST_TO_ACCOUNT)
             finish()
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
+            dialog?.dismiss()
             cancelSubscriptionDetailsModel.performCancellationRequest()
-            dialog.dismiss()
-            setResult(REQUEST_TO_ACCOUNT)
-            finish()
+            cancelSubscriptionDetailsModel.errorMessageFlow.observe {
+                if (it.isNotEmpty()) {
+                    showProgress(false)
+                    CustomDialogBlueTheme(
+                        getString(R.string.error_title),
+                        getString(R.string.password_reset_error_msg),
+                        getString(
+                            R.string.discard_changes_and_close
+                        ),
+                        true
+                    ).show(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                }
+            }
         }
-        dialog.show()
+        dialog?.show()
     }
 
     companion object {
@@ -211,6 +249,15 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         const val REQUEST_TO_ACCOUNT: Int = 43611
         fun newIntent(context: Context): Intent {
             return Intent(context, CancelSubscriptionDetailsActivity::class.java)
+        }
+    }
+
+    override fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         }
     }
 }

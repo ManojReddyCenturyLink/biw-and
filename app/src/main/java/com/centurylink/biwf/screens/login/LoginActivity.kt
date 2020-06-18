@@ -22,8 +22,10 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     @Inject
     lateinit var loginCoordinator: LoginCoordinator
+
     @Inject
     lateinit var viewModelFactory: LoginViewModel.Factory
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -42,14 +44,12 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         navigator.observe(this)
 
         viewModel.apply {
-            errorEvents.handleEvent { displayToast(it) }
             showBioMetricsLogin.observe {
                 biometricCheck(it)
             }
         }
 
         viewModel.myState.observeWith(loginCoordinator)
-        initOnClicks()
         handleIntent()
     }
 
@@ -83,7 +83,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 ) {
                     super.onAuthenticationError(errorCode, errString)
                     Timber.d("Error  -- $errString")
-                    showBioDialog(biometricMessage)
+                    viewModel.onLoginClicked()
                 }
 
                 override fun onAuthenticationSucceeded(
@@ -125,13 +125,9 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
             }
             else -> {
                 Timber.d("Got non-successful AuthResponseType=$authResult")
+                finish()
             }
         }
-    }
-
-    private fun initOnClicks() {
-        binding.loginButton.setOnClickListener { viewModel.onLoginClicked() }
-        binding.loginLearnMore.setOnClickListener { viewModel.onLearnMoreClicked() }
     }
 
     companion object {

@@ -32,6 +32,7 @@ class DashboardViewModel @Inject constructor(
     val notifications: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
+    var progressViewFlow = EventFlow<Boolean>()
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
@@ -44,8 +45,9 @@ class DashboardViewModel @Inject constructor(
         isExistingUser.value = sharedPreferences.getUserType() ?: false
     }
 
-    private fun initApis() {
+    fun initApis() {
         viewModelScope.launch {
+            progressViewFlow.latestValue = true
             requestAppointmentDetails()
             requestNotificationDetails()
         }
@@ -57,6 +59,7 @@ class DashboardViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             updateAppointmentStatus(it)
+            progressViewFlow.latestValue = false
         }
     }
 

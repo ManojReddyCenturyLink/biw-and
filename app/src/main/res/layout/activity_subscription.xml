@@ -1,220 +1,229 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".screens.subscription.SubscriptionActivity"
-    >
+    android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
+        android:id="@+id/incProfileHeader"
+        layout="@layout/widget_subheader_with_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
-
-        <include
-            android:id="@+id/incProfileHeader"
-            layout="@layout/widget_subheader_with_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <include
-            android:id="@+id/subscription_info_widget"
-            layout="@layout/widget_subscription_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/incProfileHeader"
-            />
-
-        <ImageView
-            android:id="@+id/subscription_line_break"
-            android:layout_width="0dp"
-            android:layout_height="2dp"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginEnd="@dimen/medium_margin_spacing"
-            android:contentDescription="@string/content_description_holder"
-            android:elevation="@dimen/above_cardview_elevation"
-            android:src="@drawable/ic_real_dividing_line"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subscription_info_widget"
-            />
-
-        <TextView
-            android:id="@+id/subscription_payment_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginTop="@dimen/margin_spacing_large"
-            android:fontFamily="@font/arial_bold_mt"
-            android:text="Payment information"
-            android:textColor="@color/title_color_blue"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subscription_line_break"
-            />
-
-        <include
-            android:id="@+id/payment_info_widget"
-            layout="@layout/widget_payment_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/subscription_payment_label"
-            />
-
-        <TextView
-            android:id="@+id/subscription_billing_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginTop="@dimen/margin_spacing_large"
-            android:fontFamily="@font/arial_bold_mt"
-            android:text="Billing address"
-            android:textColor="@color/title_color_blue"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/payment_info_widget"
-            />
-
-        <include
-            android:id="@+id/billing_info_widget"
-            layout="@layout/widget_billing_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/subscription_billing_label"
-            />
-
-
-        <TextView
-            android:id="@+id/previous_statement_heading"
-            style="@style/SubHeading"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:paddingTop="@dimen/medium_margin_spacing"
-            android:text="@string/previous_statements"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/billing_info_widget"
-            />
-
-        <View
-            android:id="@+id/previous_statement_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@color/light_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/previous_statement_heading"
-            />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/previous_statement_recyclerview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/previous_statement_view"
-            />
-
-    <Button
-        android:id="@+id/view_older_statements_btn"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="32dp"
-        android:layout_marginTop="@dimen/medium_margin_spacing"
-        android:background="@drawable/button_thin_border_background"
-        android:gravity="center"
-        android:paddingStart="@dimen/margin_spacing_really_small"
-        android:paddingEnd="@dimen/margin_spacing_really_small"
-        android:text="@string/view_older_statements"
-        android:visibility="gone"
-        android:textAllCaps="false"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/extra_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/previous_statement_recyclerview" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/my_subscription_heading"
-            style="@style/SubHeading"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginTop="48dp"
-            android:text="@string/my_subscription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view_older_statements_btn"
-            />
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/widget_loading_overlay_transparent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incProfileHeader" />
 
-        <View
-            android:id="@+id/my_subscription_heading_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@color/light_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_subscription_heading"
-            />
+    <include
+        android:id="@+id/retry_overlay"
+        layout="@layout/widget_retry_overlay_transparent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incProfileHeader" />
+
+    <ScrollView
+        android:id="@+id/statement_view"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:fillViewport="true"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incProfileHeader">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/manage_my_subscription_row"
+            android:id="@+id/statement_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:layout_marginEnd="@dimen/margin_spacing_tiny"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_subscription_heading_view"
-            >
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/incProfileHeader">
 
-            <TextView
-                android:id="@+id/schedule_callback_textview"
-                android:layout_width="@dimen/padding_0"
+            <include
+                android:id="@+id/subscription_info_widget"
+                layout="@layout/widget_subscription_info"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/manage_my_subscription"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_16"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/schedule_callback_navigate"
-                android:layout_width="@dimen/close_icon_size"
-                android:layout_height="@dimen/close_icon_size"
+                android:id="@+id/subscription_line_break"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_marginStart="@dimen/medium_margin_spacing"
+                android:layout_marginEnd="@dimen/medium_margin_spacing"
                 android:contentDescription="@string/content_description_holder"
-                android:padding="@dimen/margin_spacing_tiny"
-                android:scaleX="-1"
-                android:src="@drawable/ic_back"
-                android:tint="@color/blue"
-                app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
+                android:elevation="@dimen/above_cardview_elevation"
+                android:src="@drawable/ic_real_dividing_line"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subscription_info_widget" />
+
+            <TextView
+                android:id="@+id/subscription_payment_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin_spacing"
+                android:layout_marginTop="@dimen/margin_spacing_large"
+                android:fontFamily="@font/arial_bold_mt"
+                android:text="Payment information"
+                android:textColor="@color/title_color_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subscription_line_break" />
+
+            <include
+                android:id="@+id/payment_info_widget"
+                layout="@layout/widget_payment_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/subscription_payment_label" />
+
+            <TextView
+                android:id="@+id/subscription_billing_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin_spacing"
+                android:layout_marginTop="@dimen/margin_spacing_large"
+                android:fontFamily="@font/arial_bold_mt"
+                android:text="Billing address"
+                android:textColor="@color/title_color_blue"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/payment_info_widget" />
+
+            <include
+                android:id="@+id/billing_info_widget"
+                layout="@layout/widget_billing_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/subscription_billing_label" />
+
+
+            <TextView
+                android:id="@+id/previous_statement_heading"
+                style="@style/SubHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin_spacing"
+                android:paddingTop="@dimen/medium_margin_spacing"
+                android:text="@string/previous_statements"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/billing_info_widget" />
+
+            <View
+                android:id="@+id/previous_statement_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cardview_elevation"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/previous_statement_heading" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/previous_statement_recyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/previous_statement_view" />
+
+            <Button
+                android:id="@+id/view_older_statements_btn"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:background="@drawable/button_thin_border_background"
+                android:gravity="center"
+                android:paddingStart="@dimen/margin_spacing_really_small"
+                android:paddingEnd="@dimen/margin_spacing_really_small"
+                android:text="@string/view_older_statements"
+                android:textAllCaps="false"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/extra_small_text_size"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/previous_statement_recyclerview" />
+
+            <TextView
+                android:id="@+id/my_subscription_heading"
+                style="@style/SubHeading"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin_spacing"
+                android:layout_marginTop="48dp"
+                android:text="@string/my_subscription"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view_older_statements_btn" />
+
+            <View
+                android:id="@+id/my_subscription_heading_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cardview_elevation"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/my_subscription_heading" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/manage_my_subscription_row"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/medium_margin_spacing"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:layout_marginEnd="@dimen/margin_spacing_tiny"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/my_subscription_heading_view">
+
+                <TextView
+                    android:id="@+id/schedule_callback_textview"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="wrap_content"
+                    android:text="@string/manage_my_subscription"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/schedule_callback_navigate"
+                    android:layout_width="@dimen/close_icon_size"
+                    android:layout_height="@dimen/close_icon_size"
+                    android:contentDescription="@string/content_description_holder"
+                    android:padding="@dimen/margin_spacing_tiny"
+                    android:scaleX="-1"
+                    android:src="@drawable/ic_back"
+                    android:tint="@color/blue"
+                    app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cardview_elevation"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@color/light_grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/manage_my_subscription_row" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@color/light_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/manage_my_subscription_row"
-            />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

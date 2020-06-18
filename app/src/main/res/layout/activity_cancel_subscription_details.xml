@@ -13,7 +13,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/widget_loading_overlay_transparent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+
+    <include
+        android:id="@+id/retry_overlay"
+        layout="@layout/widget_retry_overlay_transparent_bg"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/cancel_subscription_details_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
@@ -23,10 +42,11 @@
             android:id="@+id/cancel_subscription_details_contents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
             android:layout_marginStart="@dimen/medium_margin_spacing"
             android:layout_marginTop="@dimen/margin_spacing_large"
-            android:layout_marginEnd="@dimen/medium_margin_spacing">
+            android:layout_marginEnd="@dimen/medium_margin_spacing"
+            android:layout_marginBottom="100dp">
+
             <TextView
                 android:id="@+id/cancel_subscription_details_header"
                 android:layout_width="match_parent"
@@ -114,9 +134,9 @@
                 android:layout_height="@dimen/text_entry_height"
                 android:layout_marginTop="3dp"
                 android:background="@drawable/background_thin_border"
+                android:focusable="true"
                 android:gravity="left"
                 android:spinnerMode="dialog"
-                android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_reason_label" />
@@ -168,10 +188,10 @@
                 android:gravity="top|start"
                 android:hint="Placeholder"
                 android:inputType="textMultiLine"
-                android:textColor="@color/title_color_blue"
                 android:maxLength="150"
                 android:padding="@dimen/margin_spacing_tiny"
                 android:scrollbars="vertical"
+                android:textColor="@color/title_color_blue"
                 android:textSize="18sp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_specify_reason_label" />
@@ -205,10 +225,10 @@
                 android:id="@+id/cancellation_service_rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_tiny"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_specify_service_label"
                 app:srb_clearRatingEnabled="true"
                 app:srb_clickable="true"
-                android:layout_marginTop="@dimen/margin_spacing_tiny"
                 app:srb_drawableEmpty="@drawable/ic_empty_stars"
                 app:srb_drawableFilled="@drawable/ic_filled_star"
                 app:srb_isIndicator="false"
@@ -225,8 +245,8 @@
                 android:id="@+id/cancellation_specify_comments_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_mt"
                 android:layout_marginTop="@dimen/margin_spacing_large"
+                android:fontFamily="@font/arial_mt"
                 android:text="@string/cancel_subscription_details_comments"
                 android:textColor="@color/font_color_medium_grey"
                 android:textSize="@dimen/text_size_12"
@@ -255,10 +275,10 @@
                 android:gravity="top|start"
                 android:hint="@string/cancel_subscription_details_experience_request"
                 android:inputType="textMultiLine"
-                android:textColor="@color/title_color_blue"
                 android:maxLength="150"
                 android:padding="@dimen/margin_spacing_tiny"
                 android:scrollbars="vertical"
+                android:textColor="@color/title_color_blue"
                 android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_specify_comments_label" />
 
@@ -267,16 +287,16 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_button_background"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:background="@drawable/rounded_button_background"
                 android:paddingStart="@dimen/medium_margin_spacing"
                 android:paddingEnd="@dimen/medium_margin_spacing"
                 android:text="@string/cancel_subscription_details_submit"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="@dimen/extra_small_text_size"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_comments_reason_input" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
