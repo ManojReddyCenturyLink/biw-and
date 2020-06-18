@@ -56,7 +56,7 @@ class SupportViewModel @Inject constructor(
     }
 
     private fun updateFaqDetails(faq: Faq) {
-        val questionMap: List<String> = faq.records.map { it.sectionC }.filterNotNull().distinct()
+        val questionMap: List<String> = faq.records.mapNotNull { it.sectionC }.distinct()
         faqSectionInfo.latestValue = UiFAQQuestionsSections(questionMap)
     }
 
