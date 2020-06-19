@@ -7,10 +7,7 @@ import com.centurylink.biwf.mockintegrationserver.EmbeddedServer
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
-import com.centurylink.biwf.service.impl.integration.model.AppointmentPath
-import com.centurylink.biwf.service.impl.integration.model.FaqPath
-import com.centurylink.biwf.service.impl.integration.model.NotificationPath
-import com.centurylink.biwf.service.impl.integration.model.SumUpParams
+import com.centurylink.biwf.service.impl.integration.model.*
 import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.locations.get
@@ -53,6 +50,14 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
         call.respondOutputStream {
             javaClass.classLoader!!
                 .getResourceAsStream("api-response/faqnosection.json")
+                .copyTo(this)
+        }
+    }
+
+    get<DevicesPath> {
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/devicedetails.json")
                 .copyTo(this)
         }
     }

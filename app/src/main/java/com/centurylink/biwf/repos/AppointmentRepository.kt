@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
