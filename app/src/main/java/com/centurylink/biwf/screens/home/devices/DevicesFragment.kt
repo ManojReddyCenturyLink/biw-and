@@ -38,10 +38,9 @@ class DevicesFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
-        Log.i("JAMMY","onCreateonCreateonCreateonCreate")
         devicesViewModel.apply {
             devicesListFlow.observe {
-
+                Log.i("JAMMY","Devices List flow "+it)
             }
         }
     }
@@ -53,6 +52,5 @@ class DevicesFragment : BaseFragment() {
     ): View? {
         binding = FragmentDevicesBinding.inflate(inflater)
         return binding.root
-        Log.i("JAMMY","onCreateonCreateonCreateonCreate")
     }
 }
