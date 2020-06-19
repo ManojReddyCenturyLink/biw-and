@@ -28,7 +28,7 @@ class DevicesFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDevicesBinding
 
-    private val deviceViewModel by lazy {
+    private val devicesViewModel by lazy {
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
     }
 
@@ -45,5 +45,4 @@ class DevicesFragment : BaseFragment() {
         binding = FragmentDevicesBinding.inflate(inflater)
         return binding.root
     }
-
 }

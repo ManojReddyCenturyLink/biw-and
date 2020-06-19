@@ -11,6 +11,7 @@
             layout="@layout/widget_loading_overlay_grey_bg"
             android:layout_width="@dimen/padding_0"
             android:layout_height="@dimen/padding_0"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +35,15 @@
             android:background="@color/background_grey"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
+            <ExpandableListView
+                android:id="@+id/devices_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:groupIndicator="@null"
+                android:listSelector="@android:color/transparent"
+                android:visibility="visible"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
