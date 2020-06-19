@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/activity_curved_bg">
+
+        <include
+            android:id="@+id/activity_header_view"
+            layout="@layout/widget_subheader_with_back"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <include
+            android:id="@+id/progress_overlay"
+            layout="@layout/widget_loading_overlay_transparent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+
+        <include
+            android:id="@+id/retry_overlay"
+            layout="@layout/widget_retry_overlay_transparent_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/padding_0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_traffic_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/medium_margin_spacing"
+            app:layout_constraintTop_toBottomOf="@+id/activity_header_view">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/troubleshooting_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/last_speed_test">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/vertical_guideline"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_percent=".50" />
+
+                <TextView
+                    android:id="@+id/daily_usage_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Usage today"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintStart_toStartOf="@+id/daily_upload_speed"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/daily_upload_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="-0.04"
+                    android:text="@string/fake_speed_test_download_speed"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_48"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/daily_usage_text" />
+
+                <TextView
+                    android:id="@+id/download_speed_unit"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/margin_spacing_tiny"
+                    android:text="MB"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
+                    app:layout_constraintStart_toEndOf="@+id/daily_upload_speed" />
+
+                <TextView
+                    android:id="@+id/monthly_usage_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Usage this month"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/monthlu_upload_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="-0.04"
+                    android:text="@string/speed_test_upload_fake_speed"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_48"
+                    app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                    app:layout_constraintTop_toTopOf="@+id/daily_upload_speed" />
+
+                <TextView
+                    android:id="@+id/upload_speed_unit"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="@dimen/margin_22"
+                    android:paddingBottom="@dimen/margin_spacing_tiny"
+                    android:text="GB"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
+                    app:layout_constraintStart_toEndOf="@+id/monthlu_upload_speed" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/support_visit_website"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:background="@drawable/button_thin_border_background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+
+            <TextView
+                android:id="@+id/connection_status_btn_text"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                android:drawableEnd="@drawable/ic_3_bars"
+                android:drawablePadding="@dimen/cardview_elevation"
+                android:text="Device connected"
+                android:textAllCaps="false"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/text_size_16"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+
+            <TextView
+                android:id="@+id/tap_to_retry_text"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_tiny"
+                android:text="tap to pause connection"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/support_visit_website" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

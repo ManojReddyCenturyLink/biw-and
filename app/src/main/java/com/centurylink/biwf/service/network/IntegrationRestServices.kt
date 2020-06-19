@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.network
 
+import UsageDetails
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.appointment.Appointments
 import com.centurylink.biwf.model.faq.Faq
@@ -38,4 +39,11 @@ interface IntegrationRestServices {
     suspend fun getFaqDetails(
         @Path("value1") value1: String
     ): FiberServiceResult<Faq>
+
+    // https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/api/v2/wifi/diags/station/traffic
+    //TODO: Reacheck:  /api/v2/wifi/diags/station/{apiPath}
+    @GET("/wifi/diags/station/{apiPath}")
+    suspend fun getUsageDetails(
+        @Path("apiPath") value1: String
+    ): FiberServiceResult<UsageDetails>
 }
