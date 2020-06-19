@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.coEvery
@@ -32,6 +33,8 @@ class HomeViewModelTest : ViewModelBaseTest() {
     private lateinit var appointmentRepository: AppointmentRepository
     @MockK
     private lateinit var userRepository: UserRepository
+    @MockK
+    private lateinit var assiaRepository: AssiaRepository
     @MockK
     private lateinit var mockPreferences: Preferences
 
@@ -59,7 +62,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
             )
         )
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository)
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository, assiaRepository)
         //Need to Revisit Tests
     }
 }

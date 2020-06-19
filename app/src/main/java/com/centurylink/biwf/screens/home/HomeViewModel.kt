@@ -9,13 +9,13 @@ import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.preferences.Preferences
-import com.centurylink.biwf.widgets.OnlineStatusData
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -25,14 +25,16 @@ class HomeViewModel @Inject constructor(
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
     private val integrationServices: IntegrationRestServices,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val assiaRepository: AssiaRepository
 ) : BaseViewModel() {
 
-    val networkStatus: BehaviorStateFlow<OnlineStatusData> = BehaviorStateFlow(OnlineStatusData())
+    val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val myState = EventFlow<HomeCoordinatorDestinations>()
     val displayBioMetricPrompt = EventFlow<ChoiceDialogMessage>()
     val refreshBioMetrics = EventFlow<Unit>()
     var errorMessageFlow = EventFlow<String>()
+
     // Example: Expose data through Flow properties.
     // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
@@ -58,7 +60,6 @@ class HomeViewModel @Inject constructor(
         lowerTabHeaderList = initList(false)
         isExistingUser.value = sharedPreferences.getUserType() ?: false
 
-        //requestTestRestFlow()
         if (!sharedPreferences.getHasSeenDialog()) {
             displayBioMetricPrompt.latestValue = dialogMessage
             sharedPreferences.saveHasSeenDialog()
@@ -71,13 +72,9 @@ class HomeViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
+            requestModemInfo()
             requestAppointmentDetails()
         }
-    }
-
-    fun handleTabBarVisibility(isExistingUser: Boolean) {
-        //just a dummy function to test showing different toolbars
-        activeUserTabBarVisibility.latestValue = isExistingUser
     }
 
     fun onSupportClicked() {
@@ -97,14 +94,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onOnlineToolbarClick() {
-        // dummy function to show the different states of the user Online / Offline
-        if (dummyOnline) {
-            networkStatus.latestValue = OnlineStatusData()
-        } else {
-            val onlineStatusData = OnlineStatusData(isOnline = true, networkName = "Fake Network")
-            networkStatus.latestValue = onlineStatusData
-        }
-        dummyOnline = !dummyOnline
+        myState.latestValue = HomeCoordinatorDestinations.NETWORK_STATUS
     }
 
     fun onSubscriptionActivityClick() {
@@ -146,6 +136,11 @@ class HomeViewModel @Inject constructor(
         }) {
 
         }
+    }
+
+    private suspend fun requestModemInfo() {
+        val modemInfo = assiaRepository.getModemInfo().modemInfo
+        networkStatus.latestValue = modemInfo.isAlive
     }
 
     private suspend fun requestUserInfo() {

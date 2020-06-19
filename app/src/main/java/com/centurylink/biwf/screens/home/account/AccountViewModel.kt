@@ -16,6 +16,7 @@ import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.*
 import com.centurylink.biwf.utility.preferences.Preferences
+import com.centurylink.biwf.utility.viewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import timber.log.Timber
