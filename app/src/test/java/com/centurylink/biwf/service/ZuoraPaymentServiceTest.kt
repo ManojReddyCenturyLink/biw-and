@@ -25,7 +25,10 @@ class ZuoraPaymentServiceTest : BaseServiceTest() {
     fun testGetZuoraPaymentDetailsSuccess() = runBlocking {
         enqueueResponse("zuorapayment.json")
         val posts: FiberServiceResult<PaymentList> = zuoraService.getZuoraPaymentDetails("12233")
-        Assert.assertEquals(posts.map { it.records[0].zuoraInvoiceC }, Either.Right("a1if0000002aKSbAAM"))
+        Assert.assertEquals(
+            posts.map { it.records[0].zuoraInvoiceC },
+            Either.Right("a1if0000002aKSbAAM")
+        )
         Assert.assertEquals(posts.map { it.records[0].id }, Either.Right("a1Qf0000000aRQjEAM"))
     }
 

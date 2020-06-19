@@ -1,0 +1,324 @@
+{
+   "objectDescribe": {
+      "activateable": false,
+      "createable": true,
+      "custom": false,
+      "customSetting": false,
+      "deepCloneable": false,
+      "deletable": false,
+      "deprecatedAndHidden": false,
+      "feedEnabled": true,
+      "hasSubtypes": false,
+      "isInterface": false,
+      "isSubtype": false,
+      "keyPrefix": "500",
+      "label": "Case",
+      "labelPlural": "Cases",
+      "layoutable": true,
+      "mergeable": false,
+      "mruEnabled": true,
+      "name": "Case",
+      "queryable": true,
+      "replicateable": true,
+      "retrieveable": true,
+      "searchable": true,
+      "triggerable": true,
+      "undeletable": false,
+      "updateable": false,
+      "urls": {
+         "compactLayouts": "/services/data/v48.0/sobjects/Case/describe/compactLayouts",
+         "rowTemplate": "/services/data/v48.0/sobjects/Case/{ID}",
+         "approvalLayouts": "/services/data/v48.0/sobjects/Case/describe/approvalLayouts",
+         "caseArticleSuggestions": "/services/data/v48.0/sobjects/Case/suggestedArticles",
+         "caseRowArticleSuggestions": "/services/data/v48.0/sobjects/Case/{ID}/suggestedArticles",
+         "defaultValues": "/services/data/v48.0/sobjects/Case/defaultValues?recordTypeId&fields",
+         "listviews": "/services/data/v48.0/sobjects/Case/listviews",
+         "describe": "/services/data/v48.0/sobjects/Case/describe",
+         "quickActions": "/services/data/v48.0/sobjects/Case/quickActions",
+         "layouts": "/services/data/v48.0/sobjects/Case/describe/layouts",
+         "sobject": "/services/data/v48.0/sobjects/Case"
+      }
+   },
+   "recentItems": [
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009ZtpSAAS"
+         },
+         "Id": "500f0000009ZtpSAAS",
+         "CaseNumber": "00011023"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AB92AAG"
+         },
+         "Id": "500f0000009AB92AAG",
+         "CaseNumber": "00012318"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AAPYAA4"
+         },
+         "Id": "500f0000009AAPYAA4",
+         "CaseNumber": "00012300"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AAP9AAO"
+         },
+         "Id": "500f0000009AAP9AAO",
+         "CaseNumber": "00012298"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AANdAAO"
+         },
+         "Id": "500f0000009AANdAAO",
+         "CaseNumber": "00012297"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AA4VAAW"
+         },
+         "Id": "500f0000009AA4VAAW",
+         "CaseNumber": "00012284"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AA4BAAW"
+         },
+         "Id": "500f0000009AA4BAAW",
+         "CaseNumber": "00012283"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AA3hAAG"
+         },
+         "Id": "500f0000009AA3hAAG",
+         "CaseNumber": "00012279"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009AA3DAAW"
+         },
+         "Id": "500f0000009AA3DAAW",
+         "CaseNumber": "00012273"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9spAAC"
+         },
+         "Id": "500f0000009A9spAAC",
+         "CaseNumber": "00012272"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9e3AAC"
+         },
+         "Id": "500f0000009A9e3AAC",
+         "CaseNumber": "00012249"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9dPAAS"
+         },
+         "Id": "500f0000009A9dPAAS",
+         "CaseNumber": "00012245"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9dAAAS"
+         },
+         "Id": "500f0000009A9dAAAS",
+         "CaseNumber": "00012244"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9clAAC"
+         },
+         "Id": "500f0000009A9clAAC",
+         "CaseNumber": "00012243"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9cRAAS"
+         },
+         "Id": "500f0000009A9cRAAS",
+         "CaseNumber": "00012242"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9c2AAC"
+         },
+         "Id": "500f0000009A9c2AAC",
+         "CaseNumber": "00012241"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9bxAAC"
+         },
+         "Id": "500f0000009A9bxAAC",
+         "CaseNumber": "00012240"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9YPAA0"
+         },
+         "Id": "500f0000009A9YPAA0",
+         "CaseNumber": "00012238"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9YFAA0"
+         },
+         "Id": "500f0000009A9YFAA0",
+         "CaseNumber": "00012237"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009A9XRAA0"
+         },
+         "Id": "500f0000009A9XRAA0",
+         "CaseNumber": "00012233"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099mM7AAI"
+         },
+         "Id": "500f00000099mM7AAI",
+         "CaseNumber": "00011886"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099mL9AAI"
+         },
+         "Id": "500f00000099mL9AAI",
+         "CaseNumber": "00011883"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099mKkAAI"
+         },
+         "Id": "500f00000099mKkAAI",
+         "CaseNumber": "00011882"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099m68AAA"
+         },
+         "Id": "500f00000099m68AAA",
+         "CaseNumber": "00011874"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099m0AAAQ"
+         },
+         "Id": "500f00000099m0AAAQ",
+         "CaseNumber": "00011872"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099lryAAA"
+         },
+         "Id": "500f00000099lryAAA",
+         "CaseNumber": "00011871"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099budAAA"
+         },
+         "Id": "500f00000099budAAA",
+         "CaseNumber": "00011781"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099adbAAA"
+         },
+         "Id": "500f00000099adbAAA",
+         "CaseNumber": "00011775"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099adWAAQ"
+         },
+         "Id": "500f00000099adWAAQ",
+         "CaseNumber": "00011774"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f00000099aciAAA"
+         },
+         "Id": "500f00000099aciAAA",
+         "CaseNumber": "00011772"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009aTg9AAE"
+         },
+         "Id": "500f0000009aTg9AAE",
+         "CaseNumber": "00011692"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009aSvgAAE"
+         },
+         "Id": "500f0000009aSvgAAE",
+         "CaseNumber": "00011691"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009aSvWAAU"
+         },
+         "Id": "500f0000009aSvWAAU",
+         "CaseNumber": "00011690"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009aSvRAAU"
+         },
+         "Id": "500f0000009aSvRAAU",
+         "CaseNumber": "00011689"
+      },
+      {
+         "attributes": {
+            "type": "Case",
+            "url": "/services/data/v48.0/sobjects/Case/500f0000009IU4uAAG"
+         },
+         "Id": "500f0000009IU4uAAG",
+         "CaseNumber": "00010822"
+      }
+   ]
+}

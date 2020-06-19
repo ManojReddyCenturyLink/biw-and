@@ -1,0 +1,342 @@
+{
+    "totalSize": 24,
+    "done": true,
+    "records": [
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000009Z9nAAE"
+            },
+            "ArticleNumber": "000001063",
+            "ArticleTotalViewCount": 24,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">You can access your account 24/7 by logging into [[</span><a href=\"https://qa-qa101.cs16.force.com/fiber/s/login\" style=\"box-sizing: border-box;background-color: rgb(255, 255, 255);color: var(--lwc-brandTextLink,rgb(0, 109, 204));text-decoration: none;transition: color 0.1s linear 0s;cursor: pointer;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;\" target=\"_blank\">BIWFAccountManagement.com</a><span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">]].</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=How-do-I-access-my-CenturyLink-account",
+            "Id": "ka0f00000009Z9nAAE",
+            "Language": "en_US",
+            "Section__c": "Manage my account",
+            "Title": "How do I access my CenturyLink account?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005syMAAQ"
+            },
+            "ArticleNumber": "000001152",
+            "ArticleTotalViewCount": 14,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Prices vary by Streaming TV provider.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=cost-streamtv-fiber",
+            "Id": "ka0f00000005syMAAQ",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "How much does it cost to stream TV live?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005syHAAQ"
+            },
+            "ArticleNumber": "000001166",
+            "ArticleTotalViewCount": 14,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Our online TV providers offer a set trial period where you can try the service for free before you decide to purchase.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=free-trial-period-fiber",
+            "Id": "ka0f00000005syHAAQ",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "What is a free trial period?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005syCAAQ"
+            },
+            "ArticleNumber": "000001147",
+            "ArticleTotalViewCount": 13,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Your online TV provider will bill your designated payment method automatically every month.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=billed-stream-service-fiber",
+            "Id": "ka0f00000005syCAAQ",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "How will I be billed for my Streaming TV service?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sy7AAA"
+            },
+            "ArticleNumber": "000001162",
+            "ArticleTotalViewCount": 13,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">A minimum speed of 20 Mbps is recommended to ensure reliable HD streaming.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=internet-speed-stream-fiber",
+            "Id": "ka0f00000005sy7AAA",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "What Internet speed do I need for live TV streaming?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxxAAA"
+            },
+            "ArticleNumber": "000001146",
+            "ArticleTotalViewCount": 14,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">While CenturyLink does not directly provide these services, we have partnered with a variety of streaming TV providers who can provide you with this service. </span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=centurylink-service-fiber",
+            "Id": "ka0f00000005sxxAAA",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "Is CenturyLink providing this service?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxsAAA"
+            },
+            "ArticleNumber": "000001167",
+            "ArticleTotalViewCount": 13,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">With a cloud DVR, you can record your favorite TV shows and watch them whenever you want. With more storage and the ability to record multiple shows at once, you will never miss a sporting event, movie or TV show again! Best of all, there is no additional equipment needed to utilize a cloud DVR.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=cloud-dvr-fiber",
+            "Id": "ka0f00000005sxsAAA",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "What is Cloud DVR?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxnAAA"
+            },
+            "ArticleNumber": "000001145",
+            "ArticleTotalViewCount": 13,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Concurrent streams means you are streaming TV to multiple devices at the same time.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=concurrent-streams-fiber",
+            "Id": "ka0f00000005sxnAAA",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "What does concurrent streams mean?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxiAAA"
+            },
+            "ArticleNumber": "000001156",
+            "ArticleTotalViewCount": 13,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Local channel availability varies by market per provider. Be sure to look closely at which online TV provider carries the channels you want to watch.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=stream-local-channels-fiber",
+            "Id": "ka0f00000005sxiAAA",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "Can I stream local channels?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxdAAA"
+            },
+            "ArticleNumber": "000001153",
+            "ArticleTotalViewCount": 16,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Channel availability varies per streaming TV partner. We recommend choosing the provider that carries the channels you watch most!</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=channels-stream-fiber",
+            "Id": "ka0f00000005sxdAAA",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "What channels can I stream?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxYAAQ"
+            },
+            "ArticleNumber": "000001155",
+            "ArticleTotalViewCount": 16,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Most online TV subscription services are available on a month-to-month basis with no contract as long as you are subscribed. That means you can stream TV for as long as you want.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=long-term-commitment-fiber",
+            "Id": "ka0f00000005sxYAAQ",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "Do I have to sign up for a long-term commitment?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxTAAQ"
+            },
+            "ArticleNumber": "000001159",
+            "ArticleTotalViewCount": 21,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Customers can access their Streaming TV services on different devices - mobile devices, tablets, or streaming hardware which connects to a larger screen TV or monitor such as ROKU, Amazon Fire TV stick etc. There is no professional install required. *Specific device compatibility varies by provider. </span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=equipment-stream-fiber",
+            "Id": "ka0f00000005sxTAAQ",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "What equipment do I need to stream live TV? Is there anything to install?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sxOAAQ"
+            },
+            "ArticleNumber": "000001163",
+            "ArticleTotalViewCount": 26,
+            "Article_Content__c": "<span style=\"color: #080707;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;\">Live Streaming TV is Live TV channels or Video On Demand that is accessed over the Internet, rather than using a television signal. Best of all, you can watch your favorite channels from a range of Internet connected devices. </span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=streaming-tv-fiber",
+            "Id": "ka0f00000005sxOAAQ",
+            "Language": "en_US",
+            "Section__c": "Marketplace",
+            "Title": "What is Streaming TV?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGoAAI"
+            },
+            "ArticleNumber": "000001052",
+            "ArticleTotalViewCount": 10,
+            "Article_Content__c": "<ol style=\"box-sizing: border-box;margin-top: 0px;margin-right: 0px;margin-bottom: var(--lwc-spacingSmall,0.75rem);margin-left: var(--lwc-spacingLarge,1.5rem);padding: 0px;list-style: decimal;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\"><li style=\"box-sizing: border-box;\">To optimize the in-home WiFi network throughput using WiFi extenders or mesh devices, confirm the WiFi radio type is consistent with the CenturyLink gateway. Once completed, consult the respective WiFi extender or mesh user manual(s) to validate the overall rate or speed at which data is delivered and ensure proper configuration and adherence to the equipment placement recommendations within the residence.</li><li style=\"box-sizing: border-box;\">Place the WiFi enabled CenturyLink gateway in a centralized location within the residence to maximize the coverage and away from any devices that generate signal frequencies (such as microwave ovens, etc.)</li><li style=\"box-sizing: border-box;\">Ensure the gateway has an unobstructed path to where most of the wireless devices will be operating</li><li style=\"box-sizing: border-box;\">Minimize the number of wireless devices connecting to the gateway, and turn off any devices that are not in use</li><li style=\"box-sizing: border-box;\">Use the 802.11ax radios with the 5GHz channel enabled</li></ol>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=How-do-I-optimize-the-wireless-performance",
+            "Id": "ka0f00000005sGoAAI",
+            "Language": "en_US",
+            "Section__c": "Using my internet",
+            "Title": "How do I optimize the wireless performance?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGjAAI"
+            },
+            "ArticleNumber": "000001054",
+            "ArticleTotalViewCount": 25,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">CenturyLink highly recommends the use of the CenturyLink provided gateway for the in-home fiber internet service to ensure maximum speeds/data throughput. In circumstances where customers desire to place an additional gateway behind the CenturyLink gateway, the bridge mode needs to be enabled on the CenturyLink gateway.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=How-do-I-maximize-the-in-home-fiber-internet-service",
+            "Id": "ka0f00000005sGjAAI",
+            "Language": "en_US",
+            "Section__c": "Using my internet",
+            "Title": "How do I maximize the in-home fiber internet service?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGeAAI"
+            },
+            "ArticleNumber": "000001056",
+            "ArticleTotalViewCount": 15,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">Many factors inside your home can affect your CenturyLink Internet service and influence the actual speed you experience at any given time. These include:</span><br style=\"box-sizing: border-box;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\">\n<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\"> </span>\n<ul style=\"box-sizing: border-box;margin-top: 0px;margin-right: 0px;margin-bottom: var(--lwc-spacingSmall,0.75rem);margin-left: var(--lwc-spacingLarge,1.5rem);padding: 0px;list-style: disc;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\"><li style=\"box-sizing: border-box;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\">Devices</b> <span style=\"box-sizing: border-box;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">– </span>each device (laptop, tablet, gaming console, and smart devices such as TVs, phones, Google Home<span style=\"box-sizing: border-box;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">®</span>, Amazon Echo<span style=\"box-sizing: border-box;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">®</span>, etc.) you use has a maximum internet speed it can reach. And, that speed may not be as fast as your possible internet speed. For example, if your laptop only supports 100Mbps, it will not be able to reach the maximum fiber internet speed.</li><li style=\"box-sizing: border-box;\">Processor type, operating system, and browser version are also some of the many attributes impacting the overall rate or speed at which data is delivered.</li><li style=\"box-sizing: border-box;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\">Number of devices connected to WiFi </b><span style=\"box-sizing: border-box;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">–</span><span> </span>when multiple devices are connected to your network, wired or wirelessly, they will share the internet connection. Each will use a portion of your allotted speed, which affects the speed each device experiences.</li><li style=\"box-sizing: border-box;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\">Distance between the device and your WiFi gateway </b><span style=\"box-sizing: border-box;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">–</span><span> </span>the farther away the connected device is from the WiFi gateway, and the more obstructions (walls, floors, etc.) between them, the slower the speed. You will experience the best WiFi signal closest to your gateway, with fewer devices running.</li><li style=\"box-sizing: border-box;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\">Other WiFi networks </b><span style=\"box-sizing: border-box;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">–</span><span> </span>multiple WiFi networks working in close proximity can cause signal interference and performance issues.</li><li style=\"box-sizing: border-box;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\">Other websites and networks you visit </b><span style=\"box-sizing: border-box;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">–</span><span> </span>even though you purchased a specific internet speed through CenturyLink, other websites you visit or interact with may not provide their services at the same speed. As you surf the Internet, please consider the following:\n\t<ul style=\"box-sizing: border-box;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;margin-left: var(--lwc-spacingLarge,1.5rem);padding: 0px;list-style: circle;\"><li style=\"box-sizing: border-box;\">Website server capacity can impact your Internet speeds</li><li style=\"box-sizing: border-box;\">Website owners may use other Internet Service Providers (ISPs) to deliver content to you, which can also impact your Internet speeds</li><li style=\"box-sizing: border-box;\">Visiting websites during peak hours may also result in lower Internet speeds</li></ul>\n\t</li></ul>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=What-affects-my-fiber-internet-performance",
+            "Id": "ka0f00000005sGeAAI",
+            "Language": "en_US",
+            "Section__c": "Using my internet",
+            "Title": "What affects my fiber internet performance?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGaAAI"
+            },
+            "ArticleNumber": "000001053",
+            "ArticleTotalViewCount": 14,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">Yes. Standard based WiFi extenders or mesh devices (i.e. </span><span style=\"box-sizing: border-box;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;background-position: initial;background-size: initial;background-repeat: initial;background-attachment: initial;background-origin: initial;background-clip: initial;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">– </span><span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">those labeled as compliant with IEEE 802.11ax industry standards) are compatible with the CenturyLink gateway and can be used to extend wireless coverage within the residence.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=Can-I-use-WiFi-extenders-or-mesh-devices",
+            "Id": "ka0f00000005sGaAAI",
+            "Language": "en_US",
+            "Section__c": "Installation & hardware",
+            "Title": "Can I use WiFi extenders or mesh devices?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGZAAY"
+            },
+            "ArticleNumber": "000001055",
+            "ArticleTotalViewCount": 11,
+            "Article_Content__c": "<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\">Personal Computer/ Windows based device minimum recommendations<br style=\"box-sizing: border-box;\">\n </p>\n\n<ul style=\"box-sizing: border-box;margin-top: 0px;margin-right: 0px;margin-bottom: var(--lwc-spacingSmall,0.75rem);margin-left: var(--lwc-spacingLarge,1.5rem);padding: 0px;list-style: disc;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\"><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Operating System: Windows 10 (64 bit)</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Processor: Intel<span style=\"box-sizing: border-box;line-height: 16.1px;color: black;\">® </span>Core<span style=\"box-sizing: border-box;line-height: 16.1px;color: black;\">™ </span>i5-3320M CPU @ 2.60GHz (4 CPUs)</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Memory: 16 GB of RAM or greater</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Network interface card: 1Gbps enabled Ethernet port</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Browsers:</p>\n\n\t<ul style=\"box-sizing: border-box;margin-top: 0px;margin-right: 0px;margin-bottom: 0px;margin-left: var(--lwc-spacingLarge,1.5rem);padding: 0px;list-style: circle;\"><li style=\"box-sizing: border-box;\">\n\t\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Firefox 55 and above</p>\n\t\t</li><li style=\"box-sizing: border-box;\">\n\t\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Google Chrome 70.0.3538.77 and above</p>\n\t\t</li><li style=\"box-sizing: border-box;\">\n\t\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Internet Explorer 11</p>\n\t\t</li></ul>\n\t</li></ul>\n\n<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\">macOS minimum recommendations<br style=\"box-sizing: border-box;\">\n </p>\n\n<ul style=\"box-sizing: border-box;margin-top: 0px;margin-right: 0px;margin-bottom: var(--lwc-spacingSmall,0.75rem);margin-left: var(--lwc-spacingLarge,1.5rem);padding: 0px;list-style: disc;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\"><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Quad-Core Intel Core i7 (or faster) processor</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Memory: 16 GB of RAM</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Operating System: OS X 10.13.6 and above</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Browser: Safari 11.1.2 and above</p>\n\t</li><li style=\"box-sizing: border-box;\">\n\t<p style=\"box-sizing: border-box;margin: 0px;padding: 0px;\">Network interface card: 1Gbps enabled Ethernet port</p>\n\t</li></ul>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=What-are-the-hardware-recommendations-for-my-connected-devices",
+            "Id": "ka0f00000005sGZAAY",
+            "Language": "en_US",
+            "Section__c": "Installation & hardware",
+            "Title": "What are the hardware recommendations for my connected devices?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGUAAY"
+            },
+            "ArticleNumber": "000001057",
+            "ArticleTotalViewCount": 12,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">If you cancel your order for service </span><u style=\"box-sizing: border-box;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);\">within three days of the service installation date provided,</u><span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\"> you may forfeit your first month&#39;s payment for services and any one-time, non-recurring charges, if applicable.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=What-if-I-cancel-service-before-my-installation-date",
+            "Id": "ka0f00000005sGUAAY",
+            "Language": "en_US",
+            "Section__c": "Installation & hardware",
+            "Title": "What if I cancel service before my installation date?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGKAAY"
+            },
+            "ArticleNumber": "000001061",
+            "ArticleTotalViewCount": 5,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">You can view your monthly bill and payment receipt online 24/7 from the account management portal. Once you log in, go to My Payments and view your entire payment history.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=How-do-I-view-my-bill",
+            "Id": "ka0f00000005sGKAAY",
+            "Language": "en_US",
+            "Section__c": "Billing & payments",
+            "Title": "How do I view my bill?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sGAAAY"
+            },
+            "ArticleNumber": "000001058",
+            "ArticleTotalViewCount": 10,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">There is no contract or term commitment, so you can cancel your service at any time. Log in to the account management portal, go to My Account and select cancel my subscription. Choose the date you want to end your service, and we&#39;ll take care of the rest. We will email a notification acknowledging your request as well as a confirmation email when your service has been cancelled.</span><br style=\"box-sizing: border-box;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\">\n<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">Please note: you will not receive a payment refund, credit or proration if you decide to cancel your service before your monthly subscription end date.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=How-do-I-cancel-my-service",
+            "Id": "ka0f00000005sGAAAY",
+            "Language": "en_US",
+            "Section__c": "Manage my account",
+            "Title": "How do I cancel my service?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sG5AAI"
+            },
+            "ArticleNumber": "000001059",
+            "ArticleTotalViewCount": 12,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">Log in to the account management portal and go to My Account. Enter a new password in the account password field, click update my account</span><span style=\"box-sizing: border-box;font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;color: black;\">.</span>\n<p class=\"MsoNormal\" style=\"box-sizing: border-box;margin: 0in 0in 0.0001pt 0.5in;padding: 0px;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;line-height: normal;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\"><span style=\"box-sizing: border-box;color: black;\">Password rules:</span></b><span style=\"box-sizing: border-box;color: black;\"><span> </span></span>Your password must be at least 8 characters and include one letter, one number and one special character (!@#$%^&amp;*()_+-{}|[]\\:&quot;;&#39;,./&lt;&gt;.?).</p>\n<span style=\"box-sizing: border-box;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;font-size: 11pt;line-height: 16.8667px;font-family: Calibri, sans-serif;color: black;\">I</span><span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">f you receive an error message stating </span><i style=\"box-sizing: border-box;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\">&quot;Your password cannot be reset at this time.&quot;</b></i><span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">, that means a technical limitation is preventing multiple changes to your password in a 24-hour period. You will be allowed to change your password again after 24 hours.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=How-do-I-change-my-account-password",
+            "Id": "ka0f00000005sG5AAI",
+            "Language": "en_US",
+            "Section__c": "Manage my account",
+            "Title": "How do I change my account password?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005s6LAAQ"
+            },
+            "ArticleNumber": "000001060",
+            "ArticleTotalViewCount": 15,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">The technician will install the fiber-optic cable and optical network terminal (ONT). The technician will also provide a modem and perform a speed test to ensure you are receiving the best possible internet speed. An installation takes about 3 hours to complete. </span><i style=\"box-sizing: border-box;color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;\"><b style=\"box-sizing: border-box;font-weight: var(--lwc-fontWeightBold,700);\">Important: </b>Someone 18 or older must be present during the service installation.</i>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=What-should-I-expect-with-my-installation",
+            "Id": "ka0f00000005s6LAAQ",
+            "Language": "en_US",
+            "Section__c": "Installation & hardware",
+            "Title": "What should I expect with my installation?"
+        },
+        {
+            "attributes": {
+                "type": "Knowledge__kav",
+                "url": "/services/data/v46.0/sobjects/Knowledge__kav/ka0f00000005sAbAAI"
+            },
+            "ArticleNumber": "000001062",
+            "ArticleTotalViewCount": 9,
+            "Article_Content__c": "<span style=\"color: rgb(8, 7, 7);font-family: &quot;Salesforce Sans&quot;, Arial, sans-serif;font-size: 14px;font-style: normal;font-variant-ligatures: normal;font-variant-caps: normal;font-weight: 400;letter-spacing: normal;orphans: 2;text-align: start;text-indent: 0px;text-transform: none;white-space: normal;widows: 2;word-spacing: 0px;-webkit-text-stroke-width: 0px;background-color: rgb(255, 255, 255);text-decoration-style: initial;text-decoration-color: initial;display: inline !important;float: none;\">Prepayment makes it easy for you to set up your monthly subscription, and it eliminates the need for a deposit or credit check. Service will begin on the same day it&#39;s installed and will automatically renew each month after the installation date.</span>",
+            "Article_Url__c": "https://qa-qa101.cs16.force.com/fiber/s/article-summary?name=Why-is-prepayment-required",
+            "Id": "ka0f00000005sAbAAI",
+            "Language": "en_US",
+            "Section__c": "Billing & payments",
+            "Title": "Why is prepayment required?"
+        }
+    ]
+}
