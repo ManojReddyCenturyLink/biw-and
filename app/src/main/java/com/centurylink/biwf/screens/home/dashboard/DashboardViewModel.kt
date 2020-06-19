@@ -48,7 +48,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestAppointmentDetails()
-            requestNotificationDetails()
+           // requestNotificationDetails()
         }
     }
 

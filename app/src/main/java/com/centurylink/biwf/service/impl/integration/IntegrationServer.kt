@@ -4,11 +4,9 @@ package com.centurylink.biwf.service.impl.integration
 
 import android.util.Log
 import com.centurylink.biwf.mockintegrationserver.EmbeddedServer
-import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
 import com.centurylink.biwf.service.impl.integration.model.*
-import com.google.gson.Gson
 import io.ktor.application.call
 import io.ktor.locations.get
 import io.ktor.locations.post
@@ -55,6 +53,7 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
     }
 
     get<DevicesPath> {
+        Log.i("JAMMY","GEt devices !!")
         call.respondOutputStream {
             javaClass.classLoader!!
                 .getResourceAsStream("api-response/devicedetails.json")

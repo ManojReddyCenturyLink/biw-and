@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DevicesCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentDevicesBinding
+import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
@@ -28,6 +30,7 @@ class DevicesFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDevicesBinding
 
+
     private val devicesViewModel by lazy {
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
     }
@@ -35,6 +38,12 @@ class DevicesFragment : BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
+        Log.i("JAMMY","onCreateonCreateonCreateonCreate")
+        devicesViewModel.apply {
+            devicesListFlow.observe {
+
+            }
+        }
     }
 
     override fun onCreateView(
@@ -44,5 +53,6 @@ class DevicesFragment : BaseFragment() {
     ): View? {
         binding = FragmentDevicesBinding.inflate(inflater)
         return binding.root
+        Log.i("JAMMY","onCreateonCreateonCreateonCreate")
     }
 }

@@ -13,7 +13,7 @@ class DevicesRepository @Inject constructor(
 ) {
     suspend fun getDevicesDetails(): Either<String, DevicesInfo> {
         val result: FiberServiceResult<DevicesInfo> =
-            deviceApiService.getDevicesDetails("")
+            deviceApiService.getDevicesDetails("ZZZZZZ")
         return result.mapLeft { it.message?.message.toString() }
     }
 }

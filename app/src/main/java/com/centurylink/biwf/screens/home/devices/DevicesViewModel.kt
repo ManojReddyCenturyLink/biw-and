@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home.devices
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.devices.DevicesData
@@ -22,11 +23,13 @@ class DevicesViewModel @Inject constructor(
     var devicesListFlow: Flow<UIDevicesTypeDetails> = BehaviorStateFlow()
 
     init {
+
         initApis()
     }
 
     fun initApis() {
         viewModelScope.launch {
+            Log.i("JAMMY","Init APIA DEVICES")
             requestDevices()
         }
     }

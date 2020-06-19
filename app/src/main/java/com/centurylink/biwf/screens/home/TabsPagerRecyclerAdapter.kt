@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -113,6 +114,7 @@ class TabsPagerRecyclerAdapter(private val mContext: Context, private val getSta
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
             val myFragment: DevicesFragment = DevicesFragment()
+            Log.i("JAMMY","MY FRAGMENT "+myFragment)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.devices_container, myFragment).commit()
         }
