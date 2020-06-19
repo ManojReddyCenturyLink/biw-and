@@ -18,6 +18,7 @@ import com.centurylink.biwf.utility.*
 import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 class AccountViewModel internal constructor(
@@ -114,11 +115,14 @@ class AccountViewModel internal constructor(
     }
 
     fun onLogOutClick() {
-        sharedPreferences.saveUserLoggedInStatus(false)
         viewModelScope.launch {
             val result = authService.revokeToken()
-            if (result)
-            myState.latestValue = AccountCoordinatorDestinations.LOG_IN
+            if (result) {
+                sharedPreferences.saveBioMetrics(false)
+                myState.latestValue = AccountCoordinatorDestinations.LOG_IN
+            } else {
+                Timber.e("Auth Token Revoke Failed")
+            }
         }
     }
 

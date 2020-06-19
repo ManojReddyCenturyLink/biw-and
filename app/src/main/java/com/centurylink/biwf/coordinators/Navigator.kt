@@ -50,7 +50,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToHomeScreen() {
         activity?.also {
             it.startActivity(HomeActivity.newIntent(it))
-            it?.finish()
+            it.finishAffinity()
         }
     }
 
@@ -159,9 +159,9 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
-    fun navigateToLoginScreen(isAccountScreen: Boolean) {
+    fun navigateToLoginScreen() {
         activity?.also {
-            it.startActivity(LoginActivity.newIntent(it, isAccountScreen))
+            it.startActivity(LoginActivity.newIntent(it))
             activity?.finish()
         }
     }
