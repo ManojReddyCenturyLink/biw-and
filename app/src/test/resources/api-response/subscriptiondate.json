@@ -1,0 +1,18 @@
+{
+   "totalSize": 1,
+   "done": true,
+   "records": [
+      {
+         "attributes": {
+            "type": "Zuora__Subscription__c",
+            "url": "/services/data/v46.0/sobjects/Zuora__Subscription__c/a1df0000001GmxMAAS"
+         },
+         "Id": "a1df0000001GmxMAAS",
+         "Name": "A-S00001934",
+         "Zuora__SubscriptionStartDate__c": "2020-07-14",
+         "Zuora__SubscriptionEndDate__c": "2020-06-01",
+         "Zuora__NextRenewalDate__c": "2020-06-01",
+         "Zuora__NextChargeDate__c": "2020-06-01"
+      }
+   ]
+}

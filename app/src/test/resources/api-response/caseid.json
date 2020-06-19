@@ -1,0 +1,13 @@
+{
+   "totalSize":1,
+   "done":true,
+   "records":[
+      {
+         "attributes":{
+            "type":"Zuora__Payment__c",
+            "url":"/services/data/v46.0/sobjects/Zuora__Payment__c/a1Qf0000000aRQjEAM"
+         },
+         "Id":"a1Qf0000000aRQjEAM"
+      }
+   ]
+}

@@ -78,38 +78,6 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             appointmentRepository = appointmentRepository,
             sharedPreferences = mockPreferences
         )
-    }
-
-    @Test
-    fun onChangeAppointmentClicked_navigateToChangeAppointmentScreen() = runBlockingTest {
-        launch {
-            viewModel.getChangeAppointment()
-        }
-        Assert.assertEquals(
-            "Change Appointment Screen wasn't Launched",
-            DashboardCoordinatorDestinations.CHANGE_APPOINTMENT,
-            viewModel.myState.first()
-        )
-    }
-
-    @Test
-    fun `retrieve Notification with ViewModel and Repository returns an data`() {
-        with(viewModel) {
-            notifications.value = notificationList
-        }
-        Assert.assertTrue(viewModel.notifications.value.size == notificationList.size)
-    }
-
-    @Test
-    fun onNotificationClicked_navigateToNotificationDetailsScreen() = runBlockingTest {
-        launch {
-            viewModel.navigateToNotificationDetails(notificationList[0])
-        }
-
-        Assert.assertEquals(
-            "Notification Details Screen wasn't Launched",
-            DashboardCoordinatorDestinations.NOTIFICATION_DETAILS,
-            viewModel.myState.first()
-        )
+        // Need to Revisit Test cases
     }
 }

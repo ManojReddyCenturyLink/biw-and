@@ -20,12 +20,6 @@ class ZouraSubscriptionRepository @Inject constructor(
         return preferences.getValueByID(com.centurylink.biwf.utility.preferences.Preferences.ACCOUNT_ID)
     }
 
-    suspend fun getSubscriptionDetails(): Either<String, Unit> {
-        val result: FiberServiceResult<Unit> =
-            zuoraSubscriptionApiService.getSubscriptionDetails(getAccountId()!!)
-        return result.mapLeft { it.message?.message.toString() }
-    }
-
     suspend fun getSubscriptionDate(): Either<String, Date> {
         val query =
             "SELECT Id, Name, Zuora__SubscriptionStartDate__c, Zuora__SubscriptionEndDate__c, Zuora__NextRenewalDate__c, Zuora__NextChargeDate__c FROM Zuora__Subscription__c WHERE Zuora__Account__c='%s'"
