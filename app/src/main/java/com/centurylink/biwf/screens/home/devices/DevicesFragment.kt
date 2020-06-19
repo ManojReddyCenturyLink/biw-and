@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,8 @@ import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DevicesCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentDevicesBinding
-import com.centurylink.biwf.screens.support.FAQViewModel
+import com.centurylink.biwf.model.devices.DevicesData
+import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
@@ -30,6 +30,7 @@ class DevicesFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDevicesBinding
 
+    private lateinit var deviceAdapter: DeviceListAdapter
 
     private val devicesViewModel by lazy {
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
@@ -40,9 +41,14 @@ class DevicesFragment : BaseFragment() {
         retainInstance = false
         devicesViewModel.apply {
             devicesListFlow.observe {
-                Log.i("JAMMY","Devices List flow "+it)
+                populateDeviceList(it.deviceSortMap)
             }
         }
+    }
+
+    private fun populateDeviceList(questionlist: HashMap<DeviceStatus, List<DevicesData>>) {
+        deviceAdapter = DeviceListAdapter(questionlist)
+        binding.devicesList.setAdapter(deviceAdapter)
     }
 
     override fun onCreateView(

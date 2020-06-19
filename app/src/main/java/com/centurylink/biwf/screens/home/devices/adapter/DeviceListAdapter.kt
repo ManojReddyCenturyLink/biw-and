@@ -1,42 +1,69 @@
 package com.centurylink.biwf.screens.home.devices.adapter
 
+import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
+import android.widget.TextView
+import com.centurylink.biwf.R
+import com.centurylink.biwf.model.devices.DevicesData
+import com.centurylink.biwf.screens.home.devices.DeviceStatus
 
-class DeviceListAdapter (private val answerList: HashMap<String, String>) :
+class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<DevicesData>>) :
     BaseExpandableListAdapter() {
-    override fun getGroup(groupPosition: Int): Any {
-        TODO("Not yet implemented")
+
+    override fun getGroup(groupPosition: Int): DeviceStatus {
+        when (groupPosition) {
+            0 -> return DeviceStatus.CONNECTED_DEVICES
+            1 -> return DeviceStatus.BLOCKED_DEVICES
+        }
+        return DeviceStatus.CONNECTED_DEVICES
     }
 
     override fun isChildSelectable(groupPosition: Int, childPosition: Int): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun hasStableIds(): Boolean {
-        TODO("Not yet implemented")
+        return true
     }
 
     override fun getGroupView(
-        groupPosition: Int,
-        isExpanded: Boolean,
-        convertView: View?,
-        parent: ViewGroup?
+        groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?
     ): View {
-        TODO("Not yet implemented")
+        var convertView = convertView
+        return if (groupPosition == 0) {
+            val layoutInflater =
+                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            convertView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, null)
+            convertView
+        } else {
+            val layoutInflater =
+                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            convertView = layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, null)
+            convertView
+        }
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
-        TODO("Not yet implemented")
+        when (groupPosition) {
+            0 -> return deviceList[DeviceStatus.CONNECTED_DEVICES]!!.size
+            1 -> return deviceList[DeviceStatus.BLOCKED_DEVICES]!!.size
+        }
+        return 0
     }
 
-    override fun getChild(groupPosition: Int, childPosition: Int): Any {
-        TODO("Not yet implemented")
+    override fun getChild(groupPosition: Int, childPosition: Int): DevicesData {
+        return if (groupPosition == 0) {
+            deviceList[DeviceStatus.CONNECTED_DEVICES]!![childPosition]
+        } else {
+            deviceList[DeviceStatus.CONNECTED_DEVICES]!![childPosition]
+        }
     }
 
     override fun getGroupId(groupPosition: Int): Long {
-        TODO("Not yet implemented")
+        return 0
     }
 
     override fun getChildView(
@@ -46,15 +73,31 @@ class DeviceListAdapter (private val answerList: HashMap<String, String>) :
         convertView: View?,
         parent: ViewGroup?
     ): View {
-        TODO("Not yet implemented")
+        var convertView = convertView
+        if (groupPosition == 0) {
+            if (convertView == null) {
+                val layoutInflater =
+                    parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+                convertView = layoutInflater.inflate(R.layout.layout_connected_devices, null)
+                val deviceName =
+                    convertView!!.findViewById<TextView>(R.id.device_name)
+            }
+            return convertView
+        } else {
+            val layoutInflater =
+                parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            convertView = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
+            val deviceName =
+                convertView!!.findViewById<TextView>(R.id.device_name)
+            return convertView
+        }
     }
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {
-        TODO("Not yet implemented")
+        return groupPosition.toLong()
     }
 
     override fun getGroupCount(): Int {
-        TODO("Not yet implemented")
+        return deviceList.size
     }
-
 }
