@@ -113,9 +113,9 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             val layoutInflater =
                 parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView1 = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
-            val blockeddeviceName =
+            val blockedDeviceName =
                 convertView1!!.findViewById<TextView>(R.id.blocked_device_name)
-            blockeddeviceName.text = blockedData.hostName
+            blockedDeviceName.text = blockedData.hostName
         }
         return convertView1!!
     }
