@@ -33,10 +33,10 @@ class AppointmentRepository @Inject constructor(
             return Either.Left("Account ID is not available")
         }
         val finalQuery = String.format(query, accountId)
-    //      val result: FiberServiceResult<Appointments> =
-      //      appointmentService.getAppointmentDetails(finalQuery)
-        val result: FiberServiceResult<Appointments> =
-            integrationRestServices.getAppointmentDetails("appointmentDetails")
+          val result: FiberServiceResult<Appointments> =
+            appointmentService.getAppointmentDetails(finalQuery)
+      //  val result: FiberServiceResult<Appointments> =
+        //    integrationRestServices.getAppointmentDetails("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val appointmentRecords = it.records.elementAtOrElse(0) { null }
             appointmentRecords?.let { it ->
