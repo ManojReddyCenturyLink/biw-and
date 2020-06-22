@@ -44,6 +44,8 @@
                 android:listSelector="@android:color/transparent"
                 android:visibility="visible"
                 android:dividerHeight="@dimen/margin_spacing_tiny"
+                android:divider="#FFFFFF"
+                android:childDivider="#FFFFFF"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />

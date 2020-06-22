@@ -76,6 +76,7 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
         parent: ViewGroup?
     ): View {
         var convertView = convertView
+        val devicesData = getChild(groupPosition,childPosition)
         if (groupPosition == 0) {
             if (convertView == null) {
                 val layoutInflater =
@@ -83,6 +84,8 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
                 convertView = layoutInflater.inflate(R.layout.layout_connected_devices, null)
                 val deviceName =
                     convertView!!.findViewById<TextView>(R.id.device_name)
+                deviceName.text =devicesData.hostName
+
             }
             return convertView
         } else {
@@ -90,7 +93,8 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
                 parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
             val deviceName =
-                convertView!!.findViewById<TextView>(R.id.device_name)
+                convertView!!.findViewById<TextView>(R.id.blocked_device_name)
+            deviceName.text =devicesData.hostName
             return convertView
         }
     }
