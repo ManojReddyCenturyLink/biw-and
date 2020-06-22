@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:background="@color/white"
         android:layout_height="match_parent">
 
         <include
@@ -32,17 +32,20 @@
             android:id="@+id/dashboard_views"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/background_grey"
+            android:background="@color/white"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ExpandableListView
                 android:id="@+id/devices_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:layout_margin="@dimen/medium_margin_spacing"
                 android:groupIndicator="@null"
                 android:listSelector="@android:color/transparent"
                 android:visibility="visible"
+                android:dividerHeight="@dimen/margin_spacing_tiny"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

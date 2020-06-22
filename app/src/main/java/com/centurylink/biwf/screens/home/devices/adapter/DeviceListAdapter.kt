@@ -10,6 +10,7 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
 
+
 class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<DevicesData>>) :
     BaseExpandableListAdapter() {
 
@@ -42,6 +43,7 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             val layoutInflater =
                 parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, null)
+
             convertView
         }
     }

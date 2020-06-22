@@ -225,13 +225,8 @@
     <string name="placeholder_text">- -</string>
 
     <!--Connected Devices  Detail Dialog Screen -->
-    <plurals
-        name="tutorials">
-        <item quantity="zero">no Tutorial </item>
-        <item quantity="one">Device Connected </item>
-        <item quantity="other">Devices Connected</item>
-    </plurals>
 
+    <string name="connected_devices">%d Connected devices</string>
     <string name="removed_devices">Removed devices</string>
     <string name="devices_tap_restore_access">tap to restore access</string>
 </resources>

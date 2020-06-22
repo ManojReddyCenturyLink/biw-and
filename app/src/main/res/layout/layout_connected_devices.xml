@@ -2,24 +2,21 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:background="@drawable/background_thin_border">
 
         <TextView
             android:id="@+id/device_name"
             android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginTop="@dimen/medium_margin_spacing"
-            android:layout_marginEnd="@dimen/medium_margin_spacing"
-            android:background="@drawable/background_thin_border"
-            android:padding="@dimen/margin_spacing_tiny"
-            android:text="Jane's laptop"
-            android:textColor="@color/black"
+            android:layout_height="54dp"
+            tools:text="Jane's laptop"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/blue_dark"
             android:textSize="@dimen/text_size_16"
+            android:fontFamily="@font/arial_mt"
+            android:paddingLeft="@dimen/margin_spacing_really_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
