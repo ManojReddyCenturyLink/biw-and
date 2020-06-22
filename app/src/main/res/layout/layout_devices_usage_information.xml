@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,18 +17,22 @@
         <include
             android:id="@+id/progress_overlay"
             layout="@layout/widget_loading_overlay_transparent_bg"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/padding_0"
             android:layout_height="@dimen/padding_0"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
 
         <include
             android:id="@+id/retry_overlay"
             layout="@layout/widget_retry_overlay_transparent_bg"
-            android:layout_width="match_parent"
+            android:layout_width="@dimen/padding_0"
             android:layout_height="@dimen/padding_0"
             android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
 
@@ -69,11 +74,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:letterSpacing="-0.04"
-                    android:text="@string/fake_speed_test_download_speed"
+                    tools:text="786"
                     android:textColor="@color/blue_dark"
                     android:textSize="@dimen/text_size_48"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/daily_usage_text" />
+                    app:layout_constraintTop_toBottomOf="@+id/daily_usage_text"
+                    app:layout_constraintEnd_toStartOf="@+id/download_speed_unit"/>
 
                 <TextView
                     android:id="@+id/download_speed_unit"
@@ -81,10 +87,12 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/margin_spacing_tiny"
                     android:text="MB"
+                    android:layout_marginStart="@dimen/cardview_elevation"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12"
                     app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
-                    app:layout_constraintStart_toEndOf="@+id/daily_upload_speed" />
+                    app:layout_constraintStart_toEndOf="@+id/daily_upload_speed"
+                    app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"/>
 
                 <TextView
                     android:id="@+id/monthly_usage_text"
@@ -97,11 +105,11 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/monthlu_upload_speed"
+                    android:id="@+id/monthly_upload_speed"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:letterSpacing="-0.04"
-                    android:text="@string/speed_test_upload_fake_speed"
+                    tools:text="12"
                     android:textColor="@color/blue_dark"
                     android:textSize="@dimen/text_size_48"
                     app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
@@ -111,18 +119,18 @@
                     android:id="@+id/upload_speed_unit"
                     android:layout_width="@dimen/padding_0"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="@dimen/margin_22"
                     android:paddingBottom="@dimen/margin_spacing_tiny"
+                    android:layout_marginStart="@dimen/cardview_elevation"
                     android:text="GB"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12"
                     app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
-                    app:layout_constraintStart_toEndOf="@+id/monthlu_upload_speed" />
+                    app:layout_constraintStart_toEndOf="@+id/monthly_upload_speed" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
-                android:id="@+id/support_visit_website"
+                android:id="@+id/device_connected_btn"
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
@@ -144,7 +152,6 @@
                 android:textAllCaps="false"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
@@ -160,7 +167,7 @@
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/support_visit_website" />
+                app:layout_constraintTop_toBottomOf="@+id/connection_status_btn_text" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

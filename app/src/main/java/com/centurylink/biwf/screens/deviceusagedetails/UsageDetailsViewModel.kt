@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinatorDestinations
 import com.centurylink.biwf.repos.NetworkUsageRepository
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -15,11 +16,11 @@ class UsageDetailsViewModel @Inject constructor(
     val myState = EventFlow<UsageDetailsCoordinatorDestinations>()
     var progressViewFlow = EventFlow<Boolean>()
     val errorMessageFlow = EventFlow<String>()
-    val usageValueMonthly = EventFlow<Double>()
-    val usageValueDaily = EventFlow<Int>()
+    val usageValueMonthly : BehaviorStateFlow<String> = BehaviorStateFlow()
+    val usageValueDaily : BehaviorStateFlow<String> = BehaviorStateFlow()
 
     init {
-        progressViewFlow.latestValue = true
+        progressViewFlow.latestValue = false //TODO: assign as true after api integration
         initApis()
     }
 
@@ -30,12 +31,15 @@ class UsageDetailsViewModel @Inject constructor(
         }
     }
 
+    fun onDevicesConnectedClicked() {
+    }
+
     private suspend fun requestDailyUsageDetails() {
         val usageDetails = networkUsageRepository.getDailyUsageDetails()
         usageDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }, ifRight = {
-            usageValueDaily.postValue(it)
+            usageValueDaily.latestValue = it.toString().substring(0,3)
         })
     }
 
@@ -45,7 +49,7 @@ class UsageDetailsViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }, ifRight = {
             progressViewFlow.latestValue = false
-            usageValueMonthly.postValue(it)
+            usageValueMonthly.latestValue = it.toString().substring(0,4)
         })
     }
 }

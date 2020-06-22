@@ -6,14 +6,7 @@ import com.centurylink.biwf.di.fragmentinjector.AccountFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
-import com.centurylink.biwf.di.module.AppModule
-import com.centurylink.biwf.di.module.AuthServiceConfigModule
-import com.centurylink.biwf.di.module.AuthServiceModule
-import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
-import com.centurylink.biwf.di.module.RepositoryModule
-import com.centurylink.biwf.di.module.RestServiceConfigModule
-import com.centurylink.biwf.di.module.RestServiceModule
-import com.centurylink.biwf.di.module.SharedPreferencesModule
+import com.centurylink.biwf.di.module.*
 import com.centurylink.biwf.di.serviceinjector.AppAuthResponseServiceInjectorModule
 import dagger.BindsInstance
 import dagger.Component
@@ -38,6 +31,7 @@ import javax.inject.Singleton
         (ScheduleCallbackInjectorModule::class),
         (AdditionalInfoActivityInjectorModule::class),
         (SubscriptionActivityInjectorModule::class),
+        (UsageDetailsActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DashboardFragmentInjectorModule::class),
         (AccountFragmentInjectorModule::class),

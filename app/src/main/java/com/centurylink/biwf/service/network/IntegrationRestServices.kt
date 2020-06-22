@@ -1,12 +1,12 @@
 package com.centurylink.biwf.service.network
 
-import UsageDetails
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.appointment.Appointments
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
+import com.centurylink.biwf.model.usagedetails.UsageDetails
 import retrofit2.http.*
 
 /**
@@ -40,8 +40,7 @@ interface IntegrationRestServices {
         @Path("value1") value1: String
     ): FiberServiceResult<Faq>
 
-    // https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/api/v2/wifi/diags/station/traffic
-    //TODO: Reacheck:  /api/v2/wifi/diags/station/{apiPath}
+    //reference: https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/api/v2/wifi/diags/station/traffic
     @GET("/wifi/diags/station/{apiPath}")
     suspend fun getUsageDetails(
         @Path("apiPath") value1: String

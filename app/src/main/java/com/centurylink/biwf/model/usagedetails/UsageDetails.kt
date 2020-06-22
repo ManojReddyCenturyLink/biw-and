@@ -1,3 +1,5 @@
+package com.centurylink.biwf.model.usagedetails
+
 import com.google.gson.annotations.SerializedName
 
 data class UsageDetails(

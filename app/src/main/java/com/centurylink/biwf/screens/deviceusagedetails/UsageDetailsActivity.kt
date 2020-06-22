@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
-import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
@@ -34,14 +33,13 @@ class UsageDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = LayoutDevicesUsageInformationBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        (applicationContext as BIWFApp).dispatchingAndroidInjector.inject(this)
+        navigator.observe(this)
         setApiProgressViews(
             binding.progressOverlay.root,
             binding.retryOverlay.retryViewLayout,
             binding.layoutTrafficDetails,
             binding.retryOverlay.root
         )
-        navigator.observe(this)
         usageDetailsViewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
@@ -73,8 +71,13 @@ class UsageDetailsActivity : BaseActivity() {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
         }
-        binding.dailyUploadSpeed.text = usageDetailsViewModel.usageValueDaily.toString()
-        binding.monthluUploadSpeed.text = usageDetailsViewModel.usageValueMonthly.toString()
+        binding.deviceConnectedBtn.setOnClickListener { usageDetailsViewModel.onDevicesConnectedClicked() }
+        usageDetailsViewModel.usageValueDaily.observe {
+            binding.dailyUploadSpeed.text = it
+        }
+        usageDetailsViewModel.usageValueMonthly.observe {
+            binding.monthlyUploadSpeed.text = it
+        }
     }
 
     companion object {

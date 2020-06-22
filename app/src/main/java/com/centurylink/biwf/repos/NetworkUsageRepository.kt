@@ -1,10 +1,10 @@
 package com.centurylink.biwf.repos
 
-import NetworkListItem
-import UsageDetails
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
+import com.centurylink.biwf.model.usagedetails.NetworkListItem
+import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
@@ -16,7 +16,7 @@ class NetworkUsageRepository @Inject constructor(
     private val integrationRestServices: IntegrationRestServices
 ) {
 
-    suspend fun getDailyUsageDetails(): Either<String, Int> {
+    suspend fun getDailyUsageDetails(): Either<String, Double> {
 
         /*Header Parameters*/
         val oauth = "bearer 51d22afa-e14d-46d2-8a12-8a303dc12c1c"
@@ -34,7 +34,7 @@ class NetworkUsageRepository @Inject constructor(
                 if (it.isEmpty()) {
                     Either.Left("Records are Empty")
                 } else {
-                    var upLinkPackets: Int
+                    var upLinkTraffic: Double
                     val usageList = it[0]
                     val networkListItem = NetworkListItem(
                         upLinkTraffic = usageList.upLinkTraffic,
@@ -47,8 +47,8 @@ class NetworkUsageRepository @Inject constructor(
                         timestamp = usageList.timestamp,
                         trafficPattern = usageList.trafficPattern
                     )
-                    upLinkPackets = networkListItem.upLinkPackets
-                    Either.Right(upLinkPackets)
+                    upLinkTraffic = networkListItem.upLinkTraffic
+                    Either.Right(upLinkTraffic)
                 }
             } ?: Either.Left("Records are Empty")
         }
@@ -72,7 +72,7 @@ class NetworkUsageRepository @Inject constructor(
                 if (it.isEmpty()) {
                     Either.Left("Records are Empty")
                 } else {
-                    var upLinkPackets: Double = 0.0
+                    var upLinkTraffic: Double = 0.0
                     it.forEach {
                         val usageList = it
                         val networkListItem = NetworkListItem(
@@ -86,10 +86,9 @@ class NetworkUsageRepository @Inject constructor(
                             timestamp = usageList.timestamp,
                             trafficPattern = usageList.trafficPattern
                         )
-                        upLinkPackets += networkListItem.upLinkPackets
-                        //TODO: convert upLinkPackets to Gb/Tb
+                        upLinkTraffic += networkListItem.upLinkTraffic / 1000
                     }
-                    Either.Right(upLinkPackets)
+                    Either.Right(upLinkTraffic)
                 }
             } ?: Either.Left("Records are Empty")
         }
