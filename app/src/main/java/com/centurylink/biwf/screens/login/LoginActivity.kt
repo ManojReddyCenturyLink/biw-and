@@ -30,8 +30,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
     lateinit var navigator: Navigator
 
     private val viewModel by lazy {
-        val navFromAccountScreen = intent.getBooleanExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, false)
-        getViewModel<LoginViewModel>(viewModelFactory.withInput(this, navFromAccountScreen))
+        getViewModel<LoginViewModel>(viewModelFactory.withInput(this))
     }
 
     private lateinit var binding: ActivityLoginBinding
@@ -83,14 +82,14 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 ) {
                     super.onAuthenticationError(errorCode, errString)
                     Timber.d("Error  -- $errString")
-                    viewModel.onLoginClicked()
+                    viewModel.onBiometricFailure()
                 }
 
                 override fun onAuthenticationSucceeded(
                     result: BiometricPrompt.AuthenticationResult
                 ) {
                     super.onAuthenticationSucceeded(result)
-                    viewModel.onLoginSuccess()
+                    viewModel.onBiometricSuccess()
                 }
 
                 override fun onAuthenticationFailed() {
@@ -123,6 +122,10 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 viewModel.onLoginSuccess()
                 finish()
             }
+            AuthResponseType.CANCELLED -> {
+                Timber.d("User cancelled login attempt")
+                finish()
+            }
             else -> {
                 Timber.d("Got non-successful AuthResponseType=$authResult")
                 finish()
@@ -132,11 +135,9 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     companion object {
         private const val AUTH_RESPONSE_TYPE = "AuthResponseType"
-        private const val NAVIGATED_FROM_ACCOUNT_SCREEN = "navigatedFromAccountScreen"
 
-        fun newIntent(context: Context, boolean: Boolean): Intent {
+        fun newIntent(context: Context): Intent {
             return Intent(context, LoginActivity::class.java).apply {
-                putExtra(NAVIGATED_FROM_ACCOUNT_SCREEN, boolean)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             }
         }
