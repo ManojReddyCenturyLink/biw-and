@@ -114,7 +114,6 @@ class TabsPagerRecyclerAdapter(private val mContext: Context, private val getSta
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
             val myFragment: DevicesFragment = DevicesFragment()
-            Log.i("JAMMY","MY FRAGMENT "+myFragment)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.devices_container, myFragment).commit()
         }
