@@ -9,11 +9,13 @@
         android:id="@+id/devices_remove_devices"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:fontFamily="@font/arial_bold_mt"
         app:layout_constraintStart_toStartOf="parent"
         android:textStyle="bold"
+        android:layout_marginLeft="12dp"
         android:textSize="@dimen/small_title_text_size"
         android:gravity="center_vertical"
-        android:textColor="@color/black"
+        android:textColor="@color/blue_dark"
         app:layout_constraintTop_toTopOf="parent"
         android:text="@string/removed_devices" />
     <TextView
