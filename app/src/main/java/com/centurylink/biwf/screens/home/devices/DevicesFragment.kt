@@ -50,7 +50,7 @@ class DevicesFragment : BaseFragment() {
         deviceAdapter = DeviceListAdapter(questionlist)
         binding.devicesList.setAdapter(deviceAdapter)
         binding.devicesList.expandGroup(1)
-        binding.devicesList.setOnGroupClickListener { parent, v, groupPosition, id ->
+        binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
             if (groupPosition == 1) {
                 binding.devicesList.expandGroup(1)
                 return@setOnGroupClickListener true
