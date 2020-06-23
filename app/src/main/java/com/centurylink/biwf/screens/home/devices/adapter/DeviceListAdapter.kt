@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.devices.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +16,9 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
 
     override fun getGroup(groupPosition: Int): DeviceStatus {
         return if (groupPosition == 0) {
-            DeviceStatus.CONNECTED_DEVICES
+            DeviceStatus.CONNECTED
         } else {
-            DeviceStatus.BLOCKED_DEVICES
+            DeviceStatus.BLOCKED
         }
     }
 
@@ -35,10 +34,10 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
         groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?
     ): View {
         var convertView = convertView
+        val layoutInflater =
+            parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         return if (groupPosition == 0) {
-            val layoutInflater =
-                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, null)
+            convertView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, parent)
             val deviceCount =
                 convertView!!.findViewById<TextView>(R.id.devices_group_count)
             val listStatusIcon =
@@ -55,26 +54,24 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             }
             convertView
         } else {
-            val layoutInflater =
-                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, null)
+            convertView = layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, parent)
             convertView
         }
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
         return if (groupPosition == 0) {
-            deviceList[DeviceStatus.CONNECTED_DEVICES]!!.size
+            deviceList[DeviceStatus.CONNECTED]!!.size
         } else {
-            deviceList[DeviceStatus.BLOCKED_DEVICES]!!.size
+            deviceList[DeviceStatus.BLOCKED]!!.size
         }
     }
 
     override fun getChild(groupPosition: Int, childPosition: Int): DevicesData {
         return if (groupPosition == 0) {
-            deviceList[DeviceStatus.CONNECTED_DEVICES]!![childPosition]
+            deviceList[DeviceStatus.CONNECTED]!![childPosition]
         } else {
-            deviceList[DeviceStatus.BLOCKED_DEVICES]!![childPosition]
+            deviceList[DeviceStatus.BLOCKED]!![childPosition]
         }
     }
 
@@ -89,7 +86,6 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
         convertView: View?,
         parent: ViewGroup?
     ): View {
-        var convertView = convertView
         return displayChildView(groupPosition, convertView, childPosition, parent)
     }
 
@@ -99,25 +95,23 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
         childPosition: Int,
         parent: ViewGroup?
     ): View {
-        var convertView1 = convertView
+        var recyclerChildView = convertView
+        val layoutInflater =
+            parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         if (groupPosition == 0) {
             val connectedData = getChild(groupPosition, childPosition)
-            val layoutInflater =
-                parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView1 = layoutInflater.inflate(R.layout.layout_connected_devices, null)
+            recyclerChildView = layoutInflater.inflate(R.layout.layout_connected_devices, parent)
             val deviceName =
-                convertView1!!.findViewById<TextView>(R.id.device_name)
+                recyclerChildView!!.findViewById<TextView>(R.id.device_name)
             deviceName.text = connectedData.hostName
         } else if (groupPosition == 1) {
             val blockedData = getChild(groupPosition, childPosition)
-            val layoutInflater =
-                parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView1 = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
+            recyclerChildView = layoutInflater.inflate(R.layout.layout_blocked_devices, parent)
             val blockedDeviceName =
-                convertView1!!.findViewById<TextView>(R.id.blocked_device_name)
+                recyclerChildView!!.findViewById<TextView>(R.id.blocked_device_name)
             blockedDeviceName.text = blockedData.hostName
         }
-        return convertView1!!
+        return recyclerChildView!!
     }
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {

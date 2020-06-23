@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.home.devices
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.devices.DevicesData
@@ -45,8 +44,8 @@ class DevicesViewModel @Inject constructor(
         val removedList = deviceInfo.devicesDataList.filter { it.blocked }
         val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }
         val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
-        deviceMap[DeviceStatus.CONNECTED_DEVICES] = connectedList
-        deviceMap[DeviceStatus.BLOCKED_DEVICES] = removedList
+        deviceMap[DeviceStatus.CONNECTED] = connectedList
+        deviceMap[DeviceStatus.BLOCKED] = removedList
         devicesListFlow.latestValue = UIDevicesTypeDetails(deviceMap)
     }
 

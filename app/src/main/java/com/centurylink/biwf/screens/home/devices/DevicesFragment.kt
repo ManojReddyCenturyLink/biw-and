@@ -46,8 +46,8 @@ class DevicesFragment : BaseFragment() {
         }
     }
 
-    private fun populateDeviceList(questionlist: HashMap<DeviceStatus, List<DevicesData>>) {
-        deviceAdapter = DeviceListAdapter(questionlist)
+    private fun populateDeviceList(deviceList: HashMap<DeviceStatus, List<DevicesData>>) {
+        deviceAdapter = DeviceListAdapter(deviceList)
         binding.devicesList.setAdapter(deviceAdapter)
         binding.devicesList.expandGroup(1)
         binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
