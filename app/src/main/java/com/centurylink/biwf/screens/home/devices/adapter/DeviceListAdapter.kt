@@ -33,15 +33,15 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
     override fun getGroupView(
         groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?
     ): View {
-        var convertView = convertView
+        var recyclerGroupView = convertView
         val layoutInflater =
             parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         return if (groupPosition == 0) {
-            convertView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, parent)
+            recyclerGroupView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, parent)
             val deviceCount =
-                convertView!!.findViewById<TextView>(R.id.devices_group_count)
+                recyclerGroupView!!.findViewById<TextView>(R.id.devices_group_count)
             val listStatusIcon =
-                convertView.findViewById<ImageView>(R.id.devices_header_arrow)
+                recyclerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
             deviceCount.text = parent.context!!.getString(
                 R.string.connected_devices,
                 getChildrenCount(groupPosition)
@@ -52,10 +52,10 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             } else {
                 listStatusIcon.setImageResource(R.drawable.ic_icon_right)
             }
-            convertView
+            recyclerGroupView
         } else {
-            convertView = layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, parent)
-            convertView
+            recyclerGroupView = layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, parent)
+            recyclerGroupView
         }
     }
 
