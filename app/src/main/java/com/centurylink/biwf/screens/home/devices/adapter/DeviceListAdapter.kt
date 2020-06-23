@@ -33,15 +33,15 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
     override fun getGroupView(
         groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?
     ): View {
-        var recyclerGroupView = convertView
-        val layoutInflater =
-            parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        var recylerGroupView = convertView
         return if (groupPosition == 0) {
-            recyclerGroupView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, parent)
+            val layoutInflater =
+                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            recylerGroupView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, null)
             val deviceCount =
-                recyclerGroupView!!.findViewById<TextView>(R.id.devices_group_count)
+                recylerGroupView!!.findViewById<TextView>(R.id.devices_group_count)
             val listStatusIcon =
-                recyclerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
+                recylerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
             deviceCount.text = parent.context!!.getString(
                 R.string.connected_devices,
                 getChildrenCount(groupPosition)
@@ -52,10 +52,13 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             } else {
                 listStatusIcon.setImageResource(R.drawable.ic_icon_right)
             }
-            recyclerGroupView
+            recylerGroupView
         } else {
-            recyclerGroupView = layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, parent)
-            recyclerGroupView
+            val layoutInflater =
+                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            recylerGroupView =
+                layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, null)
+            recylerGroupView
         }
     }
 
@@ -100,13 +103,13 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         if (groupPosition == 0) {
             val connectedData = getChild(groupPosition, childPosition)
-            recyclerChildView = layoutInflater.inflate(R.layout.layout_connected_devices, parent)
+            recyclerChildView = layoutInflater.inflate(R.layout.layout_connected_devices, null)
             val deviceName =
                 recyclerChildView!!.findViewById<TextView>(R.id.device_name)
             deviceName.text = connectedData.hostName
         } else if (groupPosition == 1) {
             val blockedData = getChild(groupPosition, childPosition)
-            recyclerChildView = layoutInflater.inflate(R.layout.layout_blocked_devices, parent)
+            recyclerChildView = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
             val blockedDeviceName =
                 recyclerChildView!!.findViewById<TextView>(R.id.blocked_device_name)
             blockedDeviceName.text = blockedData.hostName
