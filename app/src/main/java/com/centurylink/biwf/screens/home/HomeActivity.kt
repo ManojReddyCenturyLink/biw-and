@@ -25,8 +25,10 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
 
     @Inject
     lateinit var homeCoordinator: HomeCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -123,9 +125,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         binding.homeOnlineStatusBar.visibility = if (isExistingUser) View.VISIBLE else View.GONE
 
         binding.vpDashboard.adapter = adapter
-        if(isExistingUser){
+        if (isExistingUser) {
             adapter.submitList(viewModel.lowerTabHeaderList)
-        }else{
+        } else {
             adapter.submitList(viewModel.upperTabHeaderList)
         }
         TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,

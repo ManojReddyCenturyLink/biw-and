@@ -8,7 +8,10 @@ import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.LiveEvent
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
     // Works exactly the same way as MutableLiveData.value
@@ -34,13 +37,25 @@ abstract class BaseViewModel : ViewModel() {
             (this as BehaviorStateFlow<T>).value = value
         }
 
-    protected var <T: Any> EventFlow<T>.latestValue: T
-        get() { throw IllegalStateException("Cannot read EventFlow value") }
+    protected var <T : Any> EventFlow<T>.latestValue: T
+        get() {
+            throw IllegalStateException("Cannot read EventFlow value")
+        }
         set(value) {
-            with (this) { viewModelScope.value = value }
+            with(this) { viewModelScope.value = value }
         }
 
     protected fun <T : Any> EventLiveData<T>.emit(event: T) {
         this.latestValue = LiveEvent(event)
+    }
+
+    fun CoroutineScope.interval(initialDelay: Long, delay: Long, action: suspend () -> Unit) {
+        launch {
+            kotlinx.coroutines.delay(initialDelay)
+            while (isActive) {
+                action()
+                kotlinx.coroutines.delay(delay)
+            }
+        }
     }
 }

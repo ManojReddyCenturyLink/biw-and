@@ -25,7 +25,6 @@ class NetworkStatusActivity : BaseActivity() {
         bindings = ActivityNetworkStatusBinding.inflate(layoutInflater)
         setContentView(bindings.root)
 
-        initClicks()
         viewModel.apply {
             modemInfoFlow.observe {
                 bindings.networkStatusModemSerialNumber.text = getString(R.string.serial_number, it.deviceId)
@@ -50,7 +49,12 @@ class NetworkStatusActivity : BaseActivity() {
 
         }
 
+        initClicks()
+    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 
     private fun initClicks() {
