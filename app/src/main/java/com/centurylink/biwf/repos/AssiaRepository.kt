@@ -10,7 +10,7 @@ import javax.inject.Singleton
 class AssiaRepository @Inject constructor(
     private val assiaService: AssiaService
 ) {
-
+    //todo will be removed post-Apigee
     suspend fun getAssiaToken(): AssiaToken {
         return assiaService.getAssiaTokenWithTokenObject()
     }
