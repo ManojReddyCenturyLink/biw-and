@@ -110,10 +110,10 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
     }
 
     private fun initOnClicks() {
-        binding.homeOnlineStatusBar.setOnClickListener { viewModel.onOnlineToolbarClick() }
         binding.iBtnNotificationTop.setOnClickListener { viewModel.onNotificationBellClicked() }
         binding.iBtnNotificationBottom.setOnClickListener { viewModel.onNotificationBellClicked() }
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
+        binding.homeOnlineStatusBar.setOnClickListener { viewModel.onOnlineToolbarClick() }
     }
 
     //isJobTypeInstallation will be used while implementing Service type installation status

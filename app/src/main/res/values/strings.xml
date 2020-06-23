@@ -224,7 +224,22 @@
     <string name="discard_changes_and_close">Discard changes and close</string>
     <string name="placeholder_text">- -</string>
 
-    <!--Connected Devices  Detail Dialog Screen -->
+    <!-- Network Status Screen-->
+    <string name="offline">Offline</string>
+    <string name="network_status">Network Status</string>
+    <string name="lowercase_online">online</string>
+    <string name="lowercase_offline">offline</string>
+    <string name="serial_number">Serial number %s</string>
+    <string name="you_are_connected_to_the_internet">You are connected to the internet</string>
+    <string name="cant_establish_internet_connection">Can\'t establish connection to the internet</string>
+    <string name="wifi_network_enabled">Wifi network enabled</string>
+    <string name="wifi_network_disabled">Wifi network disabled</string>
+    <string name="tap_to_disable_network">tap to disable network</string>
+    <string name="tap_to_enable_network">tap to enable network</string>
+    <string name="guest_network_enabled">Guest network enabled</string>
+    <string name="guest_network_disabled">Guest network disabled</string>
+    <string name="tap_to_disable_guest_network">tap to disabled guest network</string>
+    <string name="tap_to_enable_guest_network">tap to enable guest network</string>
 
     <string name="connected_devices">%d Connected devices</string>
     <string name="removed_devices">Removed devices</string>

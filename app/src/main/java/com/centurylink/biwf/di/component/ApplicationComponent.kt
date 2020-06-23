@@ -34,6 +34,7 @@ import javax.inject.Singleton
         (ScheduleCallbackInjectorModule::class),
         (AdditionalInfoActivityInjectorModule::class),
         (SubscriptionActivityInjectorModule::class),
+        (NetworkStatusActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DashboardFragmentInjectorModule::class),
         (AccountFragmentInjectorModule::class),

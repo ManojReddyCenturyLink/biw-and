@@ -15,7 +15,12 @@ class HomeCoordinator @Inject constructor(): Coordinator<HomeCoordinatorDestinat
             HomeCoordinatorDestinations.NOTIFICATION_LIST -> navigateToNotificationList()
             HomeCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNavigationDetails()
             HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY -> navigateToSubscriptionActivity()
+            HomeCoordinatorDestinations.NETWORK_STATUS -> navigateToNetworkStatusActivity()
         }
+    }
+
+    private fun navigateToNetworkStatusActivity() {
+        navigator.navigateToNetworkStatus()
     }
 
     private fun navigateToNotificationList() {
@@ -36,5 +41,5 @@ class HomeCoordinator @Inject constructor(): Coordinator<HomeCoordinatorDestinat
 }
 
 enum class HomeCoordinatorDestinations {
-    SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, SUBSCRIPTION_ACTIVITY
+    SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, SUBSCRIPTION_ACTIVITY, NETWORK_STATUS
 }
