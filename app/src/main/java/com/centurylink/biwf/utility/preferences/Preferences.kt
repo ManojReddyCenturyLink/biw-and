@@ -66,6 +66,14 @@ class Preferences(private val store: KeyValueStore) {
         store.putBoolean(HAS_SEEN_PROMPT, true)
     }
 
+    fun saveAssiaId(assiaId: String) {
+        store.put(ASSIA_ID, assiaId)
+    }
+
+    fun getAssiaId(): String {
+        return store.get(ASSIA_ID) ?: "C4000XG1950000871"
+    }
+
     companion object {
         const val USER_ID = "USER_ID"
         const val ACCOUNT_ID = "ACCOUNT_ID"
@@ -74,5 +82,6 @@ class Preferences(private val store: KeyValueStore) {
         const val BIOMETRIC = "BIOMETRICS"
         const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
         const val EXISTING_USER = "EXISTING_USER"
+        const val ASSIA_ID = "ASSIA_ID"
     }
 }
