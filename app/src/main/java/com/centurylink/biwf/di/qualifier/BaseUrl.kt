@@ -10,5 +10,6 @@ annotation class BaseUrl(val type: BaseUrlType)
 enum class BaseUrlType {
     FIBER_SERVICES,
     AWS_BUCKET_SERVICES,
+    ASSIA_SERVICES,
     LOCAL_INTEGRATION
 }

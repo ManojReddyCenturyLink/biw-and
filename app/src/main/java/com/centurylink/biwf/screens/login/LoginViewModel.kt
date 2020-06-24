@@ -10,6 +10,7 @@ import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
+import com.centurylink.biwf.service.impl.auth.AppAuthTokenStorage
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
@@ -24,8 +25,7 @@ import javax.inject.Inject
 class LoginViewModel internal constructor(
     private val accountRepository: AccountRepository,
     private val sharedPreferences: Preferences,
-    private val authService: AuthService<*>,
-    private val navFromAccountScreen: Boolean
+    private val authService: AuthService<*>
 ) : BaseViewModel() {
 
     class Factory @Inject constructor(
@@ -34,27 +34,12 @@ class LoginViewModel internal constructor(
         private val authServiceFactory: AuthServiceFactory<*>
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
-        fun withInput(
-            input: AuthServiceHost,
-            navFromAccountScreen: Boolean
-        ): ViewModelProvider.Factory {
-            return viewModelFactory {
-                LoginViewModel(
-                    accountRepository,
-                    sharedPreferences,
-                    authServiceFactory.create(input),
-                    navFromAccountScreen = navFromAccountScreen
-                )
-            }
-        }
-
         override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
             return viewModelFactory {
                 LoginViewModel(
                     accountRepository,
                     sharedPreferences,
-                    authServiceFactory.create(input),
-                    navFromAccountScreen = false
+                    authServiceFactory.create(input)
                 )
             }
         }
@@ -72,20 +57,18 @@ class LoginViewModel internal constructor(
 
     init {
         val showBiometrics = sharedPreferences.getBioMetrics() ?: false
-        val isLoggedInUser = sharedPreferences.isLoggedInUser() ?: false
+        val hasToken = !(authService.tokenStorage as AppAuthTokenStorage).state?.refreshToken.isNullOrEmpty()
 
-        if (navFromAccountScreen) {
-            onLoginClicked()
-        } else if (showBiometrics && isLoggedInUser) {
+        if (hasToken && showBiometrics) {
             showBioMetricsLogin.latestValue = biometricPromptMessage
-        } else if (isLoggedInUser) {
+        } else if (hasToken) {
             onLoginSuccess()
         } else {
-            onLoginClicked()
+            showLoginFlow()
         }
     }
 
-    fun onLoginClicked() {
+    private fun showLoginFlow() {
         viewModelScope.launch {
             try {
                 authService.launchSignInFlow()
@@ -97,7 +80,14 @@ class LoginViewModel internal constructor(
 
     fun onLoginSuccess() {
         myState.latestValue = LoginCoordinatorDestinations.HOME
-        sharedPreferences.saveUserLoggedInStatus(true)
+    }
+
+    fun onBiometricSuccess() {
+        myState.latestValue = LoginCoordinatorDestinations.HOME
+    }
+
+    fun onBiometricFailure() {
+        showLoginFlow()
     }
 }
 

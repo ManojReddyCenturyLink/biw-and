@@ -66,12 +66,12 @@ class Preferences(private val store: KeyValueStore) {
         store.putBoolean(HAS_SEEN_PROMPT, true)
     }
 
-    fun isLoggedInUser(): Boolean? {
-        return store.getBoolean(IS_LOGGED_IN_USER)
+    fun saveAssiaId(assiaId: String) {
+        store.put(ASSIA_ID, assiaId)
     }
 
-    fun saveUserLoggedInStatus(value: Boolean) {
-        store.putBoolean(IS_LOGGED_IN_USER, value)
+    fun getAssiaId(): String {
+        return store.get(ASSIA_ID) ?: "C4000XG1950000871"
     }
 
     companion object {
@@ -82,6 +82,6 @@ class Preferences(private val store: KeyValueStore) {
         const val BIOMETRIC = "BIOMETRICS"
         const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
         const val EXISTING_USER = "EXISTING_USER"
-        const val IS_LOGGED_IN_USER = "IS_LOGGED_IN_USER"
+        const val ASSIA_ID = "ASSIA_ID"
     }
 }

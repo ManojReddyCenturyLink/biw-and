@@ -28,6 +28,7 @@ import javax.inject.Singleton
 class RestServiceConfigModule(
     private val baseUrlFiberServices: String,
     private val baseUrlForAwsBucket: String,
+    private val baseUrlForAssiaServices: String,
     private val integrationServerService: IntegrationServerService,
     private val fakeServicesFactory: ServicesFactory? = null
 ) {
@@ -77,6 +78,23 @@ class RestServiceConfigModule(
             .baseUrl(baseUrlForAwsBucket)
             .addConverterFactory(jsonConverters)
             .addConverterFactory(primitiveTypeConverters)
+            .build()
+            .asFactory
+    }
+
+    @Singleton
+    @Provides
+    @BaseUrl(BaseUrlType.ASSIA_SERVICES)
+    fun provideRetrofitForAssia(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.NONE) client: Call.Factory
+    ):ServicesFactory{
+        return fakeServicesFactory ?: Retrofit.Builder()
+            .callFactory(client)
+            .baseUrl(baseUrlForAssiaServices)
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
+            .addCallAdapterFactory(EitherCallAdapterFactory())
             .build()
             .asFactory
     }
@@ -175,6 +193,12 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun provideFaqApiServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): FaqApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideAssiaServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory):AssiaService{
         return factory.create()
     }
 }

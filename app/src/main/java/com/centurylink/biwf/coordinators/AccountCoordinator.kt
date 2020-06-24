@@ -16,7 +16,7 @@ class AccountCoordinator @Inject constructor(
     }
 
     private fun navigateToLogInActivity() {
-        navigator.navigateToLoginScreen(true)
+        navigator.navigateToLoginScreen()
     }
 
     private fun navigateToPersonalInfoActivity() {

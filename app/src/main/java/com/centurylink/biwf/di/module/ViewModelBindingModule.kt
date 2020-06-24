@@ -2,14 +2,16 @@ package com.centurylink.biwf.di.module
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsViewModel
-import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionViewModel
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsViewModel
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.PersonalInfoViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementViewModel
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsViewModel
+import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionViewModel
+import com.centurylink.biwf.screens.home.devices.DevicesViewModel
+import com.centurylink.biwf.screens.networkstatus.NetworkStatusViewModel
 import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
@@ -103,6 +105,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(SubscriptionStatementViewModel::class)
     abstract fun bindSubscriptionStatementViewModel(subscriptionStatementViewModel: SubscriptionStatementViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NetworkStatusViewModel::class)
+    abstract fun bindNetworkStatusViewModel(networkStatusViewModel: NetworkStatusViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DevicesViewModel::class)
+    abstract fun bindDevicesViewModel(devicesViewModel: DevicesViewModel): ViewModel
 
     @Binds
     @IntoMap

@@ -24,7 +24,7 @@
     <color name="blue_light">#0048bb</color>
     <color name="blue_dark">#001e60</color>
     <color name="blue_icon_bg">#e5ecf8</color>
-
+    <color name="grey_blocked_color">#606060</color>
     <color name="font_color_white">#ffff</color>
     <color name="font_color_dialog_blue">#1d48bb</color>
     <color name="font_color_medium_grey">#53565a</color>

@@ -37,6 +37,7 @@ import javax.inject.Singleton
         (ScheduleCallbackInjectorModule::class),
         (AdditionalInfoActivityInjectorModule::class),
         (SubscriptionActivityInjectorModule::class),
+        (NetworkStatusActivityInjectorModule::class),
         (UsageDetailsActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DashboardFragmentInjectorModule::class),
@@ -52,6 +53,7 @@ import javax.inject.Singleton
         (AuthServiceModule::class),
         (RestServiceConfigModule::class),
         (RestServiceModule::class),
+        (DevicesFragmentInjectorModule::class),
         (AppAuthResponseServiceInjectorModule::class)
     ]
 )

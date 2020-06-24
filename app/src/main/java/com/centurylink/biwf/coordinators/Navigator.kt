@@ -14,6 +14,7 @@ import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.login.LoginActivity
+import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
@@ -51,7 +52,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToHomeScreen() {
         activity?.also {
             it.startActivity(HomeActivity.newIntent(it))
-            it?.finish()
+            it.finishAffinity()
         }
     }
 
@@ -160,10 +161,16 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
-    fun navigateToLoginScreen(isAccountScreen: Boolean) {
+    fun navigateToLoginScreen() {
         activity?.also {
-            it.startActivity(LoginActivity.newIntent(it, isAccountScreen))
+            it.startActivity(LoginActivity.newIntent(it))
             activity?.finish()
+        }
+    }
+
+    fun navigateToNetworkStatus() {
+        activity?.also {
+            it.startActivity(NetworkStatusActivity.newIntent(it))
         }
     }
 
