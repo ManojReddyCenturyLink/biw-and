@@ -70,7 +70,7 @@ data class TrafficPattern(
     val numSamples: Int = 0
 )
 
-data class DailyUsageDetails(
+data class TrafficUsageResponse(
     val downloadSpeed: Double = 0.0,
     val uploadSpeed: Double = 0.0
 )

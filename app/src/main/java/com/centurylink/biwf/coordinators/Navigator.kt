@@ -175,8 +175,9 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToUsageDetailsActivity() {
+        val bundle = DevicesCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(UsageDetailsActivity.newIntent(it))
+            it.startActivity(UsageDetailsActivity.newIntent(it, bundle))
         }
     }
 

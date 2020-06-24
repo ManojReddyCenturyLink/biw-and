@@ -24,6 +24,7 @@ class UsageDetailsActivity : BaseActivity() {
 
     @Inject
     lateinit var navigator: Navigator
+
     private val usageDetailsViewModel by lazy {
         ViewModelProvider(this, factory).get(UsageDetailsViewModel::class.java)
     }
@@ -57,7 +58,7 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        val screenTitle = "John’s work laptop"
+        val screenTitle = intent.getStringExtra(HOST_NAME)
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
@@ -68,6 +69,8 @@ class UsageDetailsActivity : BaseActivity() {
             }
         }
         usageDetailsViewModel.apply {
+            updateStaMacValue(intent.getStringExtra(STA_MAC))
+            initApis()
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             uploadSpeedDaily.observe { binding.dailyUploadSpeed.text = it }
@@ -79,6 +82,13 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, UsageDetailsActivity::class.java)
+        const val STA_MAC = "STA_MAC"
+        const val HOST_NAME = "HOST_NAME"
+
+        fun newIntent(context: Context, bundle: Bundle): Intent {
+            return Intent(context, UsageDetailsActivity::class.java).putExtra(
+                STA_MAC, bundle.getString(STA_MAC)
+            ).putExtra(HOST_NAME, bundle.getString(HOST_NAME))
+        }
     }
 }

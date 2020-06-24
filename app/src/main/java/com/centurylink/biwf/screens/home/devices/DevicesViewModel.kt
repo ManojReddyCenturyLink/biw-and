@@ -1,10 +1,13 @@
 package com.centurylink.biwf.screens.home.devices
 
+import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.repos.DevicesRepository
+import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -20,6 +23,7 @@ class DevicesViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
     var devicesListFlow: Flow<UIDevicesTypeDetails> = BehaviorStateFlow()
+    val myState = EventFlow<DevicesCoordinatorDestinations>()
 
     init {
         initApis()
@@ -47,6 +51,14 @@ class DevicesViewModel @Inject constructor(
         deviceMap[DeviceStatus.CONNECTED] = connectedList
         deviceMap[DeviceStatus.BLOCKED] = removedList
         devicesListFlow.latestValue = UIDevicesTypeDetails(deviceMap)
+    }
+
+    fun navigateToUsageDetails(devicesInfo: DevicesData) {
+        val bundle = Bundle()
+        bundle.putString(UsageDetailsActivity.HOST_NAME, devicesInfo.hostName)
+        bundle.putString(UsageDetailsActivity.STA_MAC, devicesInfo.stationMac)
+        DevicesCoordinatorDestinations.bundle = bundle
+        myState.latestValue = DevicesCoordinatorDestinations.DEVICE_DETAILS
     }
 
     data class UIDevicesTypeDetails(

@@ -2,17 +2,8 @@ package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.di.activityinjector.*
-import com.centurylink.biwf.di.fragmentinjector.AccountFragmentInjectorModule
-import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
-import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
-import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
-import com.centurylink.biwf.di.module.AppModule
-import com.centurylink.biwf.di.module.AuthServiceConfigModule
-import com.centurylink.biwf.di.module.AuthServiceModule
-import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
-import com.centurylink.biwf.di.module.RestServiceConfigModule
-import com.centurylink.biwf.di.module.RestServiceModule
-import com.centurylink.biwf.di.module.SharedPreferencesModule
+import com.centurylink.biwf.di.fragmentinjector.*
+import com.centurylink.biwf.di.module.*
 import com.centurylink.biwf.di.serviceinjector.AppAuthResponseServiceInjectorModule
 import dagger.BindsInstance
 import dagger.Component
@@ -46,7 +37,6 @@ import javax.inject.Singleton
         (DaggerViewModelFactoryModule::class),
         (AndroidInjectionModule::class),
         (AppModule::class),
-        (RepositoryModule::class),
         (CancelSubscriptionDetailsInjectorModule::class),
         (SharedPreferencesModule::class),
         (AuthServiceConfigModule::class),

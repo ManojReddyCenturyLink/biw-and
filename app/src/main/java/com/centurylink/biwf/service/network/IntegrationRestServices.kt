@@ -46,8 +46,7 @@ interface IntegrationRestServices {
         @Path("value1") value1: String
     ): FiberServiceResult<DevicesInfo>
 
-    //reference: https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/api/v2/wifi/diags/station/traffic
-    @GET("/wifi/diags/station/{apiPath}")
+    @GET("api/v2/wifi/diags/station/{apiPath}")
     suspend fun getUsageDetails(
         @Path("apiPath") value1: String
     ): FiberServiceResult<UsageDetails>
