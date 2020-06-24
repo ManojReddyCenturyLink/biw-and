@@ -58,4 +58,8 @@ abstract class BaseViewModel : ViewModel() {
             }
         }
     }
+
+    companion object{
+        const val MODEM_STATUS_REFRESH_INTERVAL = 30000L
+    }
 }

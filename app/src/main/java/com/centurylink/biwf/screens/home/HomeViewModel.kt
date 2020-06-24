@@ -148,7 +148,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun modemStatusRefresh() {
-        viewModelScope.interval(0, 30000) {
+        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
         }
     }

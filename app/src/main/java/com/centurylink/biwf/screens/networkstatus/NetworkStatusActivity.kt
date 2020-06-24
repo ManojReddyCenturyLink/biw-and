@@ -52,11 +52,6 @@ class NetworkStatusActivity : BaseActivity() {
         initClicks()
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finish()
-    }
-
     private fun initClicks() {
         // will remove once rest of the network calls are implemented
         bindings.networkStatusDoneButton.setOnClickListener { finish() }
