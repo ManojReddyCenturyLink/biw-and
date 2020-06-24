@@ -11,6 +11,7 @@ import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementViewModel
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsViewModel
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionViewModel
+import com.centurylink.biwf.screens.home.devices.DevicesViewModel
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
@@ -109,4 +110,9 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NetworkStatusViewModel::class)
     abstract fun bindNetworkStatusViewModel(networkStatusViewModel: NetworkStatusViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(DevicesViewModel::class)
+    abstract fun bindDevicesViewModel(devicesViewModel: DevicesViewModel): ViewModel
 }

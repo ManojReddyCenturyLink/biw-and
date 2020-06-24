@@ -5,6 +5,8 @@ import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.Appointments
+import com.centurylink.biwf.model.appointment.ServiceAppointments
+import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.service.network.AppointmentService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
