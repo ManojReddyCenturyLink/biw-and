@@ -14,7 +14,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private val caseRepository: CaseRepository
 ) : BaseViewModel() {
 
-    private var cancellationDate: Date? = null
+    private var cancellationDate: Date = Date()
     private var cancellationReason: String = ""
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
@@ -34,6 +34,10 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     }
 
     init {
+        initApis()
+    }
+
+    fun initApis() {
         viewModelScope.launch {
             requestRecordId()
         }

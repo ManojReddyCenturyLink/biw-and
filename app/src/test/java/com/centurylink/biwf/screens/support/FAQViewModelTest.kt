@@ -1,71 +1,96 @@
 package com.centurylink.biwf.screens.support
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
+import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
-import com.centurylink.biwf.model.support.FAQ
-import com.centurylink.biwf.model.support.QuestionFAQ
-import com.centurylink.biwf.model.support.Videofaq
-import com.centurylink.biwf.network.Resource
-import com.centurylink.biwf.network.Status
+import com.centurylink.biwf.model.cases.RecordId
+import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.CaseRepository
 import com.centurylink.biwf.repos.FAQRepository
+import com.centurylink.biwf.utility.preferences.Preferences
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.amshove.kluent.shouldEqual
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
-import org.mockito.MockitoAnnotations
+
 
 class FAQViewModelTest : ViewModelBaseTest() {
 
-    @MockK
+    @MockK(relaxed = true)
     lateinit var faqRepository: FAQRepository
 
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
+    @MockK(relaxed = true)
+    lateinit var caseRepository: CaseRepository
+
+    @MockK(relaxed = true)
+    private lateinit var mockPreferences: Preferences
 
     private lateinit var viewModel: FAQViewModel
 
-    val result = MediatorLiveData<Resource<FAQ>>()
+    private lateinit var faq: Faq
+
+    private lateinit var recordID: RecordId
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
-        mockFAQ()
-        mockQuestionAndAnswers()
-        var faqSource: FAQ = mockFAQ()
+        MockKAnnotations.init(this, relaxed = true)
+        every { mockPreferences.getValueByID(any()) } returns "12345"
+        val jsonString = readJson("faqnosection.json")
+        val recordIdString = readJson("caseid.json")
+        faq = fromJson(jsonString)
+        recordID = fromJson(recordIdString)
+        coEvery { faqRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
+        coEvery { faqRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
         viewModel = FAQViewModel(faqRepository)
-        //TODO Need to Revisit after Livedata cleanup
+        viewModel.setFilteredSelection("Manage my account")
+
     }
 
+    @Test
+    fun testFaQSection() {
+        runBlockingTest {
+            launch {
+                coEvery { caseRepository.getRecordTypeId() } returns Either.Right("12345")
+                coEvery { faqRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
+                viewModel.initApis()
+                var faqQuestionDetails = viewModel.faqDetailsInfo.latestValue.questionMap
 
-
-    private fun mockVideoList(): MutableList<Videofaq> {
-        return mutableListOf(
-            Videofaq(1, "video1", "V1", "", "5:00", ""),
-            Videofaq(2, "video2", "V2", "", "6:00", ""),
-            Videofaq(3, "video3", "V3", "", "7:00", ""),
-            Videofaq(4, "video4", "V4", "", "8:00", "")
-        )
+            }
+        }
     }
 
-    private fun mockQuestionList(): MutableList<QuestionFAQ> {
-        return mutableListOf(
-            QuestionFAQ(1, "Query1", "Q1"),
-            QuestionFAQ(1, "Query2", "Q2"),
-            QuestionFAQ(1, "Query3", "Q3")
-        )
+    @Test
+    fun testFaQSectionError() {
+        runBlockingTest {
+            launch {
+                coEvery { faqRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
+                coEvery { faqRepository.getFAQQuestionDetails(any()) } returns Either.Left("Error in FAQ")
+                viewModel.initApis()
+                Assert.assertEquals(
+                    viewModel.errorMessageFlow.first(), "Error in FAQ"
+                )
+
+            }
+        }
     }
 
-    private fun mockQuestionAndAnswers():HashMap<String,String>{
-       return mockQuestionList().associateTo(HashMap(), { it.name to it.description })
-    }
+    @Test
+    fun testFaqRecordIdError() {
+        runBlockingTest {
+            launch {
+                coEvery { faqRepository.getKnowledgeRecordTypeId() } returns Either.Left("Error in RecordId")
+                viewModel.initApis()
+                viewModel.navigateToScheduleCallback()
+                Assert.assertEquals(
+                    viewModel.errorMessageFlow.first(), "Error in RecordId"
+                )
 
-    private fun mockFAQ(): FAQ {
-        return FAQ(mockVideoList(), mockQuestionList())
+            }
+        }
     }
 }

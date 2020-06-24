@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.SupportCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
-import com.centurylink.biwf.repos.CaseRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -57,7 +56,7 @@ class SupportViewModel @Inject constructor(
     }
 
     private fun updateFaqDetails(faq: Faq) {
-        val questionMap: List<String> = faq.records.map { it.sectionC!! }.distinct()
+        val questionMap: List<String> = faq.records.map { it.sectionC }.filterNotNull().distinct()
         faqSectionInfo.latestValue = UiFAQQuestionsSections(questionMap)
     }
 
