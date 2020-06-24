@@ -13,9 +13,10 @@ import com.centurylink.biwf.databinding.FragmentDevicesBinding
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import timber.log.Timber
 import javax.inject.Inject
 
-class DevicesFragment : BaseFragment() {
+class DevicesFragment : BaseFragment(),DeviceListAdapter.DeviceItemClickListener {
 
     override val lifecycleOwner: LifecycleOwner = this
 
@@ -47,7 +48,7 @@ class DevicesFragment : BaseFragment() {
     }
 
     private fun populateDeviceList(deviceList: HashMap<DeviceStatus, List<DevicesData>>) {
-        deviceAdapter = DeviceListAdapter(deviceList)
+        deviceAdapter = DeviceListAdapter(deviceList,this)
         binding.devicesList.setAdapter(deviceAdapter)
         binding.devicesList.expandGroup(1)
         binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
@@ -66,5 +67,10 @@ class DevicesFragment : BaseFragment() {
     ): View? {
         binding = FragmentDevicesBinding.inflate(inflater)
         return binding.root
+    }
+
+    override fun onDevicesClicked(devicesInfo: DevicesData) {
+        Timber.e("deviceData")
+
     }
 }

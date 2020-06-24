@@ -9,9 +9,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.model.devices.DevicesData
+import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
+import com.centurylink.biwf.screens.notification.adapter.NotificationItemClickListener
 
-class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<DevicesData>>) :
+class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<DevicesData>>,
+                        private val deviceItemClickListener: DeviceItemClickListener
+) :
     BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): DeviceStatus {
@@ -107,6 +111,7 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             val deviceName =
                 recyclerChildView!!.findViewById<TextView>(R.id.device_name)
             deviceName.text = connectedData.hostName
+            recyclerChildView.setOnClickListener { deviceItemClickListener.onDevicesClicked(devicesInfo = connectedData) }
         } else if (groupPosition == 1) {
             val blockedData = getChild(groupPosition, childPosition)
             recyclerChildView = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
@@ -123,5 +128,15 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
 
     override fun getGroupCount(): Int {
         return deviceList.size
+    }
+
+    interface DeviceItemClickListener {
+
+        /**
+         * Handle click event on Item click
+         *
+         */
+        fun onDevicesClicked(devicesInfo: DevicesData)
+
     }
 }
