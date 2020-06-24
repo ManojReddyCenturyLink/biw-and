@@ -57,7 +57,7 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     private fun initViews() {
-        val screenTitle: String = "John’s work laptop"
+        val screenTitle = "John’s work laptop"
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
@@ -70,14 +70,12 @@ class UsageDetailsActivity : BaseActivity() {
         usageDetailsViewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+            uploadSpeedDaily.observe { binding.dailyUploadSpeed.text = it }
+            uploadSpeedMonthly.observe { binding.monthlyUploadSpeed.text = it }
+            downloadSpeedDaily.observe { binding.dailyDownloadSpeed.text = it }
+            downloadSpeedMonthly.observe { binding.monthlyDownloadSpeed.text = it }
         }
         binding.deviceConnectedBtn.setOnClickListener { usageDetailsViewModel.onDevicesConnectedClicked() }
-        usageDetailsViewModel.usageValueDaily.observe {
-            binding.dailyUploadSpeed.text = it
-        }
-        usageDetailsViewModel.usageValueMonthly.observe {
-            binding.monthlyUploadSpeed.text = it
-        }
     }
 
     companion object {

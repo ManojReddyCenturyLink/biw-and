@@ -1,173 +1,220 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/activity_curved_bg">
+
+    <include
+        android:id="@+id/activity_header_view"
+        layout="@layout/widget_subheader_with_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/widget_loading_overlay_transparent_bg"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+
+    <include
+        android:id="@+id/retry_overlay"
+        layout="@layout/widget_retry_overlay_transparent_bg"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_traffic_details"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/activity_curved_bg">
-
-        <include
-            android:id="@+id/activity_header_view"
-            layout="@layout/widget_subheader_with_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <include
-            android:id="@+id/progress_overlay"
-            layout="@layout/widget_loading_overlay_transparent_bg"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/padding_0"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
-
-        <include
-            android:id="@+id/retry_overlay"
-            layout="@layout/widget_retry_overlay_transparent_bg"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/padding_0"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin_spacing"
+        app:layout_constraintTop_toBottomOf="@+id/activity_header_view">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_traffic_details"
+            android:id="@+id/troubleshooting_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            app:layout_constraintTop_toBottomOf="@+id/activity_header_view">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/troubleshooting_details"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_spacing_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/last_speed_test">
-
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/vertical_guideline"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_percent=".50" />
-
-                <TextView
-                    android:id="@+id/daily_usage_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Usage today"
-                    android:textColor="@color/blue_dark"
-                    android:textSize="@dimen/text_size_16"
-                    app:layout_constraintStart_toStartOf="@+id/daily_upload_speed"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/daily_upload_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="-0.04"
-                    tools:text="786"
-                    android:textColor="@color/blue_dark"
-                    android:textSize="@dimen/text_size_48"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/daily_usage_text"
-                    app:layout_constraintEnd_toStartOf="@+id/download_speed_unit"/>
-
-                <TextView
-                    android:id="@+id/download_speed_unit"
-                    android:layout_width="@dimen/padding_0"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_spacing_tiny"
-                    android:text="MB"
-                    android:layout_marginStart="@dimen/cardview_elevation"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12"
-                    app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
-                    app:layout_constraintStart_toEndOf="@+id/daily_upload_speed"
-                    app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"/>
-
-                <TextView
-                    android:id="@+id/monthly_usage_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Usage this month"
-                    android:textColor="@color/blue_dark"
-                    android:textSize="@dimen/text_size_16"
-                    app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/monthly_upload_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:letterSpacing="-0.04"
-                    tools:text="12"
-                    android:textColor="@color/blue_dark"
-                    android:textSize="@dimen/text_size_48"
-                    app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-                    app:layout_constraintTop_toTopOf="@+id/daily_upload_speed" />
-
-                <TextView
-                    android:id="@+id/upload_speed_unit"
-                    android:layout_width="@dimen/padding_0"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/margin_spacing_tiny"
-                    android:layout_marginStart="@dimen/cardview_elevation"
-                    android:text="GB"
-                    android:textAlignment="center"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12"
-                    app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
-                    app:layout_constraintStart_toEndOf="@+id/monthly_upload_speed" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <Button
-                android:id="@+id/device_connected_btn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_spacing_small"
-                android:background="@drawable/button_thin_border_background"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/vertical_guideline"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".50" />
 
             <TextView
-                android:id="@+id/connection_status_btn_text"
-                style="?android:attr/borderlessButtonStyle"
+                android:id="@+id/daily_usage_text"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:text="@string/today_s_data_usage"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size_16"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/daily_download_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_spacing_small"
-                android:drawableEnd="@drawable/ic_3_bars"
-                android:drawablePadding="@dimen/cardview_elevation"
-                android:text="Device connected"
-                android:textAllCaps="false"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_16"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:letterSpacing="-0.04"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size_48"
+                app:layout_constraintEnd_toStartOf="@+id/download_speed_unit_mb"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+                app:layout_constraintTop_toBottomOf="@+id/daily_usage_text"
+                tools:text="33" />
 
             <TextView
-                android:id="@+id/tap_to_retry_text"
+                android:id="@+id/download_speed_unit_mb"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_spacing_tiny"
-                android:text="tap to pause connection"
-                android:textAlignment="center"
+                android:layout_marginStart="@dimen/cardview_elevation"
+                android:paddingBottom="@dimen/margin_spacing_tiny"
+                android:text="@string/mb_download"
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toBottomOf="@+id/daily_download_speed"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toEndOf="@+id/daily_download_speed" />
+
+            <TextView
+                android:id="@+id/daily_upload_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.04"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size_48"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/daily_download_speed"
+                tools:text="12" />
+
+            <TextView
+                android:id="@+id/daily_upload_speed_unit_mb"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/cardview_elevation"
+                android:paddingBottom="@dimen/margin_spacing_tiny"
+                android:text="@string/mb_upload"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
+                app:layout_constraintStart_toEndOf="@+id/daily_upload_speed" />
+
+            <TextView
+                android:id="@+id/monthly_usage_text"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                tools:text="@string/last_two_week"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size_16"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/connection_status_btn_text" />
+                app:layout_constraintTop_toBottomOf="@+id/daily_download_speed" />
+
+            <TextView
+                android:id="@+id/monthly_download_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.04"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size_48"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/monthly_usage_text"
+                tools:text="786" />
+
+            <TextView
+                android:id="@+id/download_speed_unit_gb"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/cardview_elevation"
+                android:paddingBottom="@dimen/margin_spacing_tiny"
+                android:text="@string/gb_download"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toBottomOf="@+id/monthly_download_speed"
+                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                app:layout_constraintStart_toEndOf="@+id/monthly_download_speed" />
+
+            <TextView
+                android:id="@+id/monthly_upload_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="-0.04"
+                android:textColor="@color/blue_dark"
+                android:textSize="@dimen/text_size_48"
+                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                app:layout_constraintTop_toTopOf="@+id/monthly_download_speed"
+                tools:text="12" />
+
+            <TextView
+                android:id="@+id/upload_speed_unit"
+                android:layout_width="@dimen/padding_0"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/cardview_elevation"
+                android:paddingBottom="@dimen/margin_spacing_tiny"
+                android:text="@string/gb_upload"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toBottomOf="@+id/monthly_upload_speed"
+                app:layout_constraintStart_toEndOf="@+id/monthly_upload_speed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/device_connected_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:background="@drawable/button_thin_border_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+
+        <TextView
+            android:id="@+id/connection_status_btn_text"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:drawableEnd="@drawable/ic_3_bars"
+            android:drawablePadding="@dimen/cardview_elevation"
+            android:text="Device connected"
+            android:textAllCaps="false"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_size_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+
+        <TextView
+            android:id="@+id/tap_to_retry_text"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_tiny"
+            android:text="tap to pause connection"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/connection_status_btn_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+</androidx.constraintlayout.widget.ConstraintLayout>

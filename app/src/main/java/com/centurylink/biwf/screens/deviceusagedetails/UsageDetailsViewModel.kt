@@ -16,8 +16,10 @@ class UsageDetailsViewModel @Inject constructor(
     val myState = EventFlow<UsageDetailsCoordinatorDestinations>()
     var progressViewFlow = EventFlow<Boolean>()
     val errorMessageFlow = EventFlow<String>()
-    val usageValueMonthly : BehaviorStateFlow<String> = BehaviorStateFlow()
-    val usageValueDaily : BehaviorStateFlow<String> = BehaviorStateFlow()
+    val uploadSpeedMonthly: BehaviorStateFlow<String> = BehaviorStateFlow()
+    val uploadSpeedDaily: BehaviorStateFlow<String> = BehaviorStateFlow()
+    val downloadSpeedMonthly: BehaviorStateFlow<String> = BehaviorStateFlow()
+    val downloadSpeedDaily: BehaviorStateFlow<String> = BehaviorStateFlow()
 
     init {
         progressViewFlow.latestValue = false //TODO: assign as true after api integration
@@ -31,25 +33,34 @@ class UsageDetailsViewModel @Inject constructor(
         }
     }
 
-    fun onDevicesConnectedClicked() {
-    }
+    fun onDevicesConnectedClicked() {}
 
     private suspend fun requestDailyUsageDetails() {
-        val usageDetails = networkUsageRepository.getDailyUsageDetails()
+        val usageDetails = networkUsageRepository.getUsageDetails(true)
         usageDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }, ifRight = {
-            usageValueDaily.latestValue = it.toString().substring(0,3)
+            uploadSpeedDaily.latestValue = it.uploadSpeed.toString().substring(0, 3)
+            downloadSpeedDaily.latestValue = it.downloadSpeed.toString().substring(0, 3)
         })
     }
 
     private suspend fun requestMonthlyUsageDetails() {
-        val usageDetails = networkUsageRepository.getMonthlyUsageDetails()
+        val usageDetails = networkUsageRepository.getUsageDetails(false)
         usageDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }, ifRight = {
+            uploadSpeedMonthly.latestValue = formattedTraffic(it.uploadSpeed)
+            downloadSpeedMonthly.latestValue = formattedTraffic(it.downloadSpeed)
             progressViewFlow.latestValue = false
-            usageValueMonthly.latestValue = it.toString().substring(0,4)
         })
+    }
+
+    private fun formattedTraffic(trafficVal: Double): String {
+        if (trafficVal >= 10) {
+            return trafficVal.toString().substring(0, 4)
+        } else {
+            return trafficVal.toString().substring(0, 3)
+        }
     }
 }

@@ -223,4 +223,10 @@
     <string name="password_reset_error_msg">We’re very sorry for the inconvenience, but we were unable to save your changes. Please try again later.</string>
     <string name="discard_changes_and_close">Discard changes and close</string>
     <string name="placeholder_text">- -</string>
+    <string name="today_s_data_usage">Today’s data usage:</string>
+    <string name="mb_download">MB \ndownload</string>
+    <string name="mb_upload">MB \nupload</string>
+    <string name="gb_download">GB \ndownload</string>
+    <string name="gb_upload">GB \nupload</string>
+    <string name="last_two_week">Last two weeks:</string>
 </resources>
