@@ -45,9 +45,6 @@ class HomeViewModel @Inject constructor(
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
     var progressViewFlow = EventFlow<Boolean>()
 
-    // dummy variable that helps toggle between online states. Will remove when implementing real online status
-    var dummyOnline = false
-
     private val dialogMessage = ChoiceDialogMessage(
         title = R.string.welcome_to_dashboard,
         message = R.string.biometric_dialog_message,
@@ -59,7 +56,6 @@ class HomeViewModel @Inject constructor(
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
         isExistingUser.value = sharedPreferences.getUserType() ?: false
-
         if (!sharedPreferences.getHasSeenDialog()) {
             displayBioMetricPrompt.latestValue = dialogMessage
             sharedPreferences.saveHasSeenDialog()
@@ -72,9 +68,9 @@ class HomeViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
-            requestModemInfo()
             requestAppointmentDetails()
         }
+        modemStatusRefresh()
     }
 
     fun onSupportClicked() {
@@ -138,16 +134,22 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestModemInfo() {
-        val modemInfo = assiaRepository.getModemInfo().modemInfo
-        networkStatus.latestValue = modemInfo.isAlive
-    }
-
     private suspend fun requestUserInfo() {
         val userInfo = userRepository.getUserInfo()
         userInfo.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {}
+    }
+
+    private suspend fun requestModemInfo() {
+        val modemInfo = assiaRepository.getModemInfo().modemInfo
+        networkStatus.latestValue = modemInfo.isAlive
+    }
+
+    private fun modemStatusRefresh() {
+        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
+            requestModemInfo()
+        }
     }
 
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {

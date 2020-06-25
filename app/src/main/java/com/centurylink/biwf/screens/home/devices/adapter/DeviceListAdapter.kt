@@ -9,20 +9,25 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.model.devices.DevicesData
-import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
-import com.centurylink.biwf.screens.notification.adapter.NotificationItemClickListener
 
-class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<DevicesData>>,
-                        private val deviceItemClickListener: DeviceItemClickListener
+class DeviceListAdapter(
+    private val deviceList: HashMap<DeviceStatus, List<DevicesData>>,
+    private val deviceItemClickListener: DeviceItemClickListener
 ) :
     BaseExpandableListAdapter() {
 
     override fun getGroup(groupPosition: Int): DeviceStatus {
-        return if (groupPosition == 0) {
-            DeviceStatus.CONNECTED
-        } else {
-            DeviceStatus.BLOCKED
+        return when (groupPosition) {
+            0 -> {
+                DeviceStatus.CONNECTED
+            }
+            1 -> {
+                DeviceStatus.BLOCKED
+            }
+            else -> {
+                DeviceStatus.CONNECTED
+            }
         }
     }
 
@@ -46,11 +51,7 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
                 recylerGroupView!!.findViewById<TextView>(R.id.devices_group_count)
             val listStatusIcon =
                 recylerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
-            deviceCount.text = parent.context!!.getString(
-                R.string.connected_devices,
-                getChildrenCount(groupPosition)
-            )
-
+            deviceCount.text = getChildrenCount(groupPosition).toString()
             if (isExpanded) {
                 listStatusIcon.setImageResource(R.drawable.ic_faq_down)
             } else {
@@ -67,18 +68,19 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
-        return if (groupPosition == 0) {
-            deviceList[DeviceStatus.CONNECTED]!!.size
-        } else {
-            deviceList[DeviceStatus.BLOCKED]!!.size
+        return when (groupPosition) {
+            0 -> deviceList[DeviceStatus.CONNECTED]!!.size
+            1 -> deviceList[DeviceStatus.BLOCKED]!!.size
+            else -> 0
         }
+
     }
 
     override fun getChild(groupPosition: Int, childPosition: Int): DevicesData {
-        return if (groupPosition == 0) {
-            deviceList[DeviceStatus.CONNECTED]!![childPosition]
-        } else {
-            deviceList[DeviceStatus.BLOCKED]!![childPosition]
+        return when (groupPosition) {
+            0 -> deviceList[DeviceStatus.CONNECTED]!![childPosition]
+            1 -> deviceList[DeviceStatus.BLOCKED]!![childPosition]
+            else -> deviceList[DeviceStatus.CONNECTED]!![childPosition]
         }
     }
 
@@ -110,8 +112,15 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
             recyclerChildView = layoutInflater.inflate(R.layout.layout_connected_devices, null)
             val deviceName =
                 recyclerChildView!!.findViewById<TextView>(R.id.device_name)
+            val deviceSignalStrength =
+                recyclerChildView.findViewById<ImageView>(R.id.iv_network_type)
             deviceName.text = connectedData.hostName
-            recyclerChildView.setOnClickListener { deviceItemClickListener.onDevicesClicked(devicesInfo = connectedData) }
+            deviceSignalStrength.setImageResource(setSignalStatus(connectedData.rssi!!))
+            recyclerChildView.setOnClickListener {
+                deviceItemClickListener.onDevicesClicked(
+                    devicesInfo = connectedData
+                )
+            }
         } else if (groupPosition == 1) {
             val blockedData = getChild(groupPosition, childPosition)
             recyclerChildView = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
@@ -128,6 +137,23 @@ class DeviceListAdapter(private val deviceList: HashMap<DeviceStatus, List<Devic
 
     override fun getGroupCount(): Int {
         return deviceList.size
+    }
+
+    private fun setSignalStatus(signalStrength: Int): Int {
+        return when (signalStrength) {
+            in -50..-1 -> {
+                R.drawable.ic_strong_signal
+            }
+            in -51 downTo -75 -> {
+                R.drawable.ic_medium_signal
+            }
+            in -76 downTo -90 -> {
+                R.drawable.ic_weak_signal
+            }
+            else -> {
+                R.drawable.ic_off
+            }
+        }
     }
 
     interface DeviceItemClickListener {
