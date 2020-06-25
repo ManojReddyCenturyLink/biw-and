@@ -9,7 +9,6 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NetworkStatusViewModel @Inject constructor(
@@ -21,16 +20,24 @@ class NetworkStatusViewModel @Inject constructor(
     val myState = EventFlow<NetworkStatusCoordinatorDestinations>()
 
     init {
-        viewModelScope.launch {
-            modemInfoFlow.latestValue = assiaRepository.getModemInfo().modemInfo
+        modemStatusRefresh()
+    }
 
-            val onlineStatus = OnlineStatus(modemInfoFlow.latestValue.isAlive)
-
-            internetStatusFlow.latestValue = onlineStatus
+    private fun modemStatusRefresh() {
+        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
+            requestModemInfo()
         }
     }
 
-    fun onDoneClick(){
+    private suspend fun requestModemInfo() {
+        modemInfoFlow.latestValue = assiaRepository.getModemInfo().modemInfo
+
+        val onlineStatus = OnlineStatus(modemInfoFlow.latestValue.isAlive)
+
+        internetStatusFlow.latestValue = onlineStatus
+    }
+
+    fun onDoneClick() {
         myState.latestValue = NetworkStatusCoordinatorDestinations.DONE
     }
 

@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     >
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/incHeader"
         android:layout_width="match_parent"
@@ -81,7 +80,6 @@
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/margin_spacing_large"
                 android:contentDescription="@string/content_description_holder"
-                android:src="@drawable/green_circle"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -92,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_tiny"
                 android:fontFamily="@font/arial_bold_mt"
-                android:text="Internet"
+                android:text="@string/internet"
                 android:textColor="@color/title_color_blue"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_internet_imageview"
@@ -106,11 +104,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_tiny"
                 android:fontFamily="@font/arial_mt"
-                android:text="@string/lowercase_online"
                 android:textColor="@color/font_color_medium_grey"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_internet_label"
                 app:layout_constraintStart_toEndOf="@id/network_status_internet_label"
+                tools:text="@string/lowercase_online"
                 />
 
             <TextView
@@ -119,11 +117,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/arial_mt"
-                android:text="@string/you_are_connected_to_the_internet"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/network_status_internet_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_internet_label"
+                tools:text="@string/you_are_connected_to_the_internet"
                 />
 
             <TextView
@@ -146,11 +144,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_tiny"
                 android:fontFamily="@font/arial_mt"
-                android:text="@string/lowercase_online"
                 android:textColor="@color/font_color_medium_grey"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_modem_label"
                 app:layout_constraintStart_toEndOf="@id/network_status_modem_label"
+                tools:text="@string/lowercase_online"
                 />
 
             <ImageView
@@ -159,7 +157,6 @@
                 android:layout_height="18dp"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:contentDescription="@string/content_description_holder"
-                android:src="@drawable/green_circle"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_modem_label"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/network_status_modem_label"
@@ -171,11 +168,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/arial_mt"
-                android:text="Serial Number C4000XG1950000871"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/network_status_internet_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_modem_label"
+                tools:text="Serial Number C4000XG1950000871"
                 />
 
             <View
@@ -198,7 +195,7 @@
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/margin_spacing_large"
                 android:fontFamily="@font/arial_bold_mt"
-                android:text="Wifi network"
+                android:text="@string/wifi_network"
                 android:textColor="@color/title_color_blue"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -211,12 +208,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:fontFamily="@font/arial_mt"
-                android:text="Network name"
+                android:text="@string/network_name"
                 android:textColor="@color/font_color_medium_grey"
                 app:layout_constraintStart_toStartOf="@id/network_status_wifi_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_wifi_label"
                 />
-
 
             <EditText
                 android:id="@+id/network_status_name_input"
@@ -244,12 +240,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:fontFamily="@font/arial_mt"
-                android:text="Network password"
+                android:text="@string/network_password"
                 android:textColor="@color/font_color_medium_grey"
                 app:layout_constraintStart_toStartOf="@id/network_status_wifi_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_name_input"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_4"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/optional"
+                android:textColor="@color/grey_text_color"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toBottomOf="@id/network_status_network_password_label"
+                app:layout_constraintStart_toEndOf="@id/network_status_network_password_label"
+                />
 
             <EditText
                 android:id="@+id/network_status_password_input"
@@ -354,7 +361,7 @@
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/margin_spacing_large"
                 android:fontFamily="@font/arial_bold_mt"
-                android:text="Guest network"
+                android:text="@string/guest_network"
                 android:textColor="@color/title_color_blue"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -367,12 +374,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:fontFamily="@font/arial_mt"
-                android:text="Guest network name"
+                android:text="@string/guest_network_name"
                 android:textColor="@color/font_color_medium_grey"
                 app:layout_constraintStart_toStartOf="@id/network_status_guest_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_guest_label"
                 />
-
 
             <EditText
                 android:id="@+id/network_status_guest_name_input"
@@ -400,12 +406,23 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:fontFamily="@font/arial_mt"
-                android:text="Guest network password"
+                android:text="@string/guest_network_password"
                 android:textColor="@color/font_color_medium_grey"
                 app:layout_constraintStart_toStartOf="@id/network_status_guest_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_guest_name_input"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_4"
+                android:fontFamily="@font/arial_mt"
+                android:text="@string/optional"
+                android:textColor="@color/grey_text_color"
+                android:textSize="@dimen/text_size_12"
+                app:layout_constraintBottom_toBottomOf="@id/network_status_network_password_label"
+                app:layout_constraintStart_toEndOf="@id/network_status_network_password_label"
+                />
 
             <EditText
                 android:id="@+id/network_status_guest_password_input"
@@ -483,7 +500,7 @@
                 android:layout_marginTop="@dimen/margin_spacing_really_small"
                 android:layout_marginBottom="69dp"
                 android:fontFamily="@font/arial_mt"
-                android:text="tap to disable guest network"
+                android:text="@string/tap_to_disable_guest_network"
                 android:textColor="@color/font_color_medium_grey"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -491,10 +508,6 @@
                 app:layout_constraintStart_toStartOf="@id/network_status_guest_button"
                 app:layout_constraintTop_toBottomOf="@id/network_status_guest_button"
                 />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </ScrollView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
