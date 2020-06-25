@@ -23,7 +23,6 @@ class NetworkStatusViewModel @Inject constructor(
     init {
         progressViewFlow.latestValue = true
         modemStatusRefresh()
-        progressViewFlow.latestValue = false
     }
 
     private fun modemStatusRefresh() {
@@ -34,10 +33,9 @@ class NetworkStatusViewModel @Inject constructor(
 
     private suspend fun requestModemInfo() {
         modemInfoFlow.latestValue = assiaRepository.getModemInfo().modemInfo
-
         val onlineStatus = OnlineStatus(modemInfoFlow.latestValue.isAlive)
-
         internetStatusFlow.latestValue = onlineStatus
+        progressViewFlow.latestValue = false
     }
 
     fun onDoneClick() {

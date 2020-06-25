@@ -226,19 +226,19 @@
 
     <!-- Network Status Screen-->
     <string name="offline">Offline</string>
-    <string name="network_status">Network Status</string>
+    <string name="network_status">Network information</string>
     <string name="lowercase_online">online</string>
     <string name="lowercase_offline">offline</string>
     <string name="serial_number">Serial number %s</string>
-    <string name="you_are_connected_to_the_internet">You are connected to the internet</string>
-    <string name="cant_establish_internet_connection">Can\'t establish connection to the internet</string>
-    <string name="wifi_network_enabled">Wifi network enabled</string>
-    <string name="wifi_network_disabled">Wifi network disabled</string>
+    <string name="you_are_connected_to_the_internet">You are connected to the internet.</string>
+    <string name="cant_establish_internet_connection">Can\'t establish connection to the internet.</string>
+    <string name="wifi_network_enabled">WiFi network enabled</string>
+    <string name="wifi_network_disabled">WiFi network disabled</string>
     <string name="tap_to_disable_network">tap to disable network</string>
     <string name="tap_to_enable_network">tap to enable network</string>
     <string name="guest_network_enabled">Guest network enabled</string>
     <string name="guest_network_disabled">Guest network disabled</string>
-    <string name="tap_to_disable_guest_network">tap to disabled guest network</string>
+    <string name="tap_to_disable_guest_network">tap to disable guest network</string>
     <string name="tap_to_enable_guest_network">tap to enable guest network</string>
     <string name="optional">(optional)</string>
     <string name="guest_network_password">Guest network password</string>
@@ -246,7 +246,8 @@
     <string name="guest_network">Guest network</string>
     <string name="network_password">Network password</string>
     <string name="network_name">Network name</string>
-    <string name="wifi_network">Wifi network</string>
+    <string name="network_name_label">Network name:</string>
+    <string name="wifi_network">WiFi network</string>
     <string name="internet">Internet</string>
 
     <string name="connected_devices">Connected devices</string>
