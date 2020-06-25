@@ -2,7 +2,7 @@ package com.centurylink.biwf.model.usagedetails
 
 import com.google.gson.annotations.SerializedName
 
-data class UsageDetails(
+data class TrafficUsageResponse(
     @SerializedName("code")
     val code: Int = 0,
     @SerializedName("data")
@@ -70,7 +70,7 @@ data class TrafficPattern(
     val numSamples: Int = 0
 )
 
-data class TrafficUsageResponse(
+data class UsageDetails(
     val downloadSpeed: Double = 0.0,
     val uploadSpeed: Double = 0.0
 )

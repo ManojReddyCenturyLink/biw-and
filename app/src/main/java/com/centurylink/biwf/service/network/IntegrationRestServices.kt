@@ -7,8 +7,12 @@ import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
-import com.centurylink.biwf.model.usagedetails.UsageDetails
-import retrofit2.http.*
+import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * This interface bundles are services that are not yet ready on the backend, to
@@ -46,8 +50,8 @@ interface IntegrationRestServices {
         @Path("value1") value1: String
     ): FiberServiceResult<DevicesInfo>
 
-    @GET("api/v2/wifi/diags/station/{apiPath}")
+    @GET("api/v2/wifi/diags/station/{traffic}")
     suspend fun getUsageDetails(
-        @Path("apiPath") value1: String
-    ): FiberServiceResult<UsageDetails>
+        @Path("traffic") value1: String
+    ): FiberServiceResult<TrafficUsageResponse>
 }

@@ -7,7 +7,6 @@ import com.centurylink.biwf.model.assia.AssiaToken
 import com.centurylink.biwf.model.usagedetails.NetworkListItem
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
 import com.centurylink.biwf.model.usagedetails.UsageDetails
-import com.centurylink.biwf.model.usagedetails.UsageDetailsHeader
 import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.service.network.AssiaTrafficUsageService
 import com.centurylink.biwf.service.network.IntegrationRestServices
@@ -17,12 +16,12 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class AssiaNetworkUsageRepository @Inject constructor(
+class NetworkUsageRepository @Inject constructor(
     private val assiaService: AssiaService,
     private val assiaTrafficUsageService: AssiaTrafficUsageService,
     private val integrationRestServices: IntegrationRestServices
 ) {
-    suspend fun getUsageDetails(dailyData: Boolean, staMac: String): TrafficUsageResponse {
+    suspend fun getUsageDetails(dailyData: Boolean, staMac: String): UsageDetails {
         /*Calculate date parameters*/
         val startDate: String
         val calendar = Calendar.getInstance()
@@ -34,11 +33,9 @@ class AssiaNetworkUsageRepository @Inject constructor(
             calendar.add(Calendar.DAY_OF_MONTH, -(14))
             DateUtils.formatDateAssiaRequestFormat(calendar.timeInMillis)
         }
-
-        val usageDetailsBody = UsageDetailsHeader(staMac, startDate, endDate)
         val result = assiaTrafficUsageService.getUsageDetails(
             "traffic",
-            getHeaderMap(getAssiaToken().accessToken, usageDetailsBody)
+            getHeaderMap(getAssiaToken().accessToken, staMac, startDate, endDate)
         )
         return formatTrafficUsageResponse(result, dailyData)
     }
@@ -49,23 +46,25 @@ class AssiaNetworkUsageRepository @Inject constructor(
 
     private fun getHeaderMap(
         token: String,
-        usageDetailsHeader: UsageDetailsHeader
+        staMac: String,
+        startDate: String,
+        endDate: String
     ): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = "C4000XG1950000871"
-        headerMap["staMac"] = usageDetailsHeader.staMac
-        headerMap["startDate"] = usageDetailsHeader.startDate
-        headerMap["endDate"] = usageDetailsHeader.endDate
+        headerMap["staMac"] = staMac
+        headerMap["startDate"] = startDate
+        headerMap["endDate"] = endDate
         return headerMap
     }
 
     private fun formatTrafficUsageResponse(
-        usageDetails: UsageDetails,
+        trafficUsageResponse: TrafficUsageResponse,
         dailyData: Boolean
-    ): TrafficUsageResponse {
-        val usageDetails = usageDetails.data.list
-        var trafficUsageResponse = TrafficUsageResponse()
+    ): UsageDetails {
+        val usageDetails = trafficUsageResponse.data.list
+        var trafficUsageResponse = UsageDetails()
         usageDetails?.let { it ->
             if (it.isNotEmpty()) {
                 var downLinkTraffic: Double = 0.0
@@ -91,27 +90,15 @@ class AssiaNetworkUsageRepository @Inject constructor(
                         downLinkTraffic += networkListItem.downLinkTraffic / 1000
                     }
                 }
-                trafficUsageResponse = TrafficUsageResponse(downLinkTraffic, upLinkTraffic)
+                trafficUsageResponse = UsageDetails(downLinkTraffic, upLinkTraffic)
             }
         }
         return trafficUsageResponse
     }
 
     /*Mock Request if api is not working, for dev/testing purpose*/
-    suspend fun getMockUsageDetails(dailyData: Boolean): Either<String, TrafficUsageResponse> {
-        /*Calculate date Parameters*/
-        val startDate: String
-        val calendar = Calendar.getInstance()
-        calendar.time = Date()
-        val endDate = DateUtils.formatDateAssiaRequestFormat(calendar.timeInMillis)
-
-        if (dailyData) {
-            startDate = endDate
-        } else {
-            calendar.add(Calendar.DAY_OF_MONTH, -(14))
-            startDate = DateUtils.formatDateAssiaRequestFormat(calendar.timeInMillis)
-        }
-        val result: FiberServiceResult<UsageDetails> =
+    suspend fun getMockUsageDetails(dailyData: Boolean): Either<String, UsageDetails> {
+        val result: FiberServiceResult<TrafficUsageResponse> =
             integrationRestServices.getUsageDetails("traffic")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val usageDetails = it.data.list
@@ -142,7 +129,7 @@ class AssiaNetworkUsageRepository @Inject constructor(
                             downLinkTraffic += networkListItem.downLinkTraffic / 1000
                         }
                     }
-                    Either.Right(TrafficUsageResponse(downLinkTraffic, upLinkTraffic))
+                    Either.Right(UsageDetails(downLinkTraffic, upLinkTraffic))
                 }
             } ?: Either.Left("Records are Empty")
         }

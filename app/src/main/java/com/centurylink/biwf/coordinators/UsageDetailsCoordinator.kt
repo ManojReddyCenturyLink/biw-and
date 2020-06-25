@@ -11,11 +11,8 @@ class UsageDetailsCoordinator @Inject constructor(
 
     override fun navigateTo(destination: UsageDetailsCoordinatorDestinations) {
         when (destination) {
-            UsageDetailsCoordinatorDestinations.DEVICES_CONNECTED -> navigateToDevices()
+            UsageDetailsCoordinatorDestinations.DEVICES_CONNECTED -> {}
         }
-    }
-
-    private fun navigateToDevices() {
     }
 }
 
