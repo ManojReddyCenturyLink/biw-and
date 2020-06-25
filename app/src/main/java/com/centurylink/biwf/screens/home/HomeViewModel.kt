@@ -56,7 +56,6 @@ class HomeViewModel @Inject constructor(
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
         isExistingUser.value = sharedPreferences.getUserType() ?: false
-
         if (!sharedPreferences.getHasSeenDialog()) {
             displayBioMetricPrompt.latestValue = dialogMessage
             sharedPreferences.saveHasSeenDialog()

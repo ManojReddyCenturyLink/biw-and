@@ -1,6 +1,7 @@
 package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
+import android.util.Log
 
 class Preferences(private val store: KeyValueStore) {
 
@@ -71,7 +72,11 @@ class Preferences(private val store: KeyValueStore) {
     }
 
     fun getAssiaId(): String {
-        return store.get(ASSIA_ID) ?: "C4000XG1950000871"
+        var asiaID = store.get(ASSIA_ID)
+        if (asiaID.isNullOrEmpty()) {
+            asiaID = "C4000XG1950000871"
+        }
+        return asiaID
     }
 
     companion object {

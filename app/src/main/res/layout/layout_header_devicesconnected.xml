@@ -24,17 +24,31 @@
 
     <TextView
         android:id="@+id/devices_group_count"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:fontFamily="@font/arial_bold_mt"
         android:layout_height="wrap_content"
         android:paddingStart="12dp"
         android:textColor="@color/blue_dark"
         android:textSize="@dimen/medium_title_text_size"
-        android:text="@string/connected_devices"
+        app:layout_constraintEnd_toStartOf="@+id/devices_group_connectedDevices"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/devices_header_arrow"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry"
-        tools:text="4 Connected Devices"
+        tools:text="3444"
+        />
+    <TextView
+        android:id="@+id/devices_group_connectedDevices"
+        android:layout_width="0dp"
+        android:fontFamily="@font/arial_mt"
+        android:layout_height="wrap_content"
+        android:textColor="@color/blue_dark"
+        android:textSize="@dimen/medium_title_text_size"
+        android:paddingStart="6dp"
+        android:text="@string/connected_devices"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/devices_group_count"
+        tools:ignore="RtlSymmetry"
+        tools:text="Connected Devices"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
