@@ -6,6 +6,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.NetworkStatusCoordinatorDestinations
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
@@ -18,7 +19,7 @@ class NetworkStatusViewModel @Inject constructor(
     val modemInfoFlow: Flow<ModemInfo> = BehaviorStateFlow()
     val internetStatusFlow: Flow<OnlineStatus> = BehaviorStateFlow()
     val myState = EventFlow<NetworkStatusCoordinatorDestinations>()
-
+    var errorMessageFlow = EventFlow<String>()
     init {
         modemStatusRefresh()
     }
@@ -30,11 +31,18 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     private suspend fun requestModemInfo() {
-        modemInfoFlow.latestValue = assiaRepository.getModemInfo().modemInfo
-
-        val onlineStatus = OnlineStatus(modemInfoFlow.latestValue.isAlive)
-
-        internetStatusFlow.latestValue = onlineStatus
+        val modemResponse = assiaRepository.getModemInfo()
+        when (modemResponse) {
+            is AssiaNetworkResponse.Success -> {
+                modemInfoFlow.latestValue = modemResponse.body.modemInfo
+                val onlineStatus = OnlineStatus(modemInfoFlow.latestValue.isAlive)
+                internetStatusFlow.latestValue = onlineStatus
+            }
+            else -> {
+                // Ignoring Error to avoid Frequent
+                //errorMessageFlow.latestValue = "Modem Info Not Available"
+            }
+        }
     }
 
     fun onDoneClick() {

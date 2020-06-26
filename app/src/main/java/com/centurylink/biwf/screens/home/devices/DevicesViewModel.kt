@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
+import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
@@ -44,7 +45,14 @@ class DevicesViewModel @Inject constructor(
 
     private suspend fun requestDevices() {
         val deviceDetails = asiaRepository.getDevicesDetails()
-        sortAndDisplayDeviceInfo(deviceDetails)
+        when (deviceDetails) {
+            is AssiaNetworkResponse.Success -> {
+                sortAndDisplayDeviceInfo(deviceDetails.body)
+            }
+            else -> {
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        }
     }
 
     private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
