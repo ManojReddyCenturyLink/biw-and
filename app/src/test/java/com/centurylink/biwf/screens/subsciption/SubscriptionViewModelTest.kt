@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
+import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -26,6 +27,9 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
 
     @MockK(relaxed = true)
     private lateinit var accountRepository: AccountRepository
+
+    @MockK(relaxed = true)
+    private lateinit var preferences: Preferences
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -47,22 +51,9 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
         viewModel = SubscriptionViewModel(
             zuoraPaymentRepository = zuoraPaymentRepository,
-            accountRepository = accountRepository
+            accountRepository = accountRepository,
+            preferences = preferences
         )
-    }
-
-    @Test
-    fun testAccountandPayments() {
-        runBlockingTest {
-            launch {
-                viewModel.initApis()
-                val invoiceData = viewModel.invoicesListResponse.latestValue
-                val uiFlowable = viewModel.uiFlowable.latestValue
-                Assert.assertEquals(invoiceData.records[0].zuoraInvoiceC, "a1if0000002aKSbAAM")
-                Assert.assertEquals(uiFlowable.cvv, "123")
-                Assert.assertEquals(uiFlowable.creditCardNumber, "1234 - 1234 - 1234 - 1234")
-            }
-        }
     }
 
     @Test

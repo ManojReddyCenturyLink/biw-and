@@ -12,13 +12,15 @@ import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SubscriptionViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
-    private val accountRepository: AccountRepository
+    private val accountRepository: AccountRepository,
+    private val preferences: Preferences
 ) : BaseViewModel() {
 
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
@@ -26,12 +28,10 @@ class SubscriptionViewModel @Inject constructor(
 
     private var serviceAddressData: BillingAddress = BillingAddress()
     private var billingAddress: BillingAddress = BillingAddress()
-    private var uiSubscriptionPageObject = UiSubscriptionPageInfo()
 
-    val checkboxState: Flow<Boolean> = BehaviorStateFlow(false)
-    val uiFlowable: Flow<UiSubscriptionPageInfo> = BehaviorStateFlow()
     val planName: Flow<String> = BehaviorStateFlow()
     val planDetails: Flow<String> = BehaviorStateFlow()
+    val subscriptionUrl: Flow<String> = BehaviorStateFlow()
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
     var progressViewFlow = EventFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
@@ -46,6 +46,7 @@ class SubscriptionViewModel @Inject constructor(
             requestAccountDetails()
             requestInvoiceList()
         }
+        subscriptionUrl.latestValue = BASE_SUBSCRIPTION_URL + preferences.getValueByID(Preferences.USER_ID)
     }
 
     private suspend fun requestAccountDetails() {
@@ -68,28 +69,8 @@ class SubscriptionViewModel @Inject constructor(
                 postalCode = userAccount.servicePostalCode ?: billingAddress.postalCode
             )
         }
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(
-            paymentFirstName = userAccount.firstName,
-            paymentlastName = userAccount.lastName,
-            billingFirstName = userAccount.firstName,
-            billingLastName = userAccount.lastName,
-            billingAddress = billingAddress
-        )
-        uiFlowable.latestValue = uiSubscriptionPageObject
         planName.latestValue = userAccount.productNameC ?: "Best in World Fiber "
         planDetails.latestValue = userAccount.productPlanNameC ?: "Speeds up to 940Mbps "
-    }
-
-    fun sameAsServiceAddressedClicked() {
-        checkboxState.latestValue = !checkboxState.latestValue
-        if (checkboxState.latestValue) {
-            uiSubscriptionPageObject = uiSubscriptionPageObject.copy(
-                billingFirstName = userAccount.firstName,
-                billingLastName = userAccount.lastName,
-                billingAddress = serviceAddressData
-            )
-            uiFlowable.latestValue = uiSubscriptionPageObject
-        }
     }
 
     fun launchStatement(item: RecordsItem) {
@@ -110,54 +91,6 @@ class SubscriptionViewModel @Inject constructor(
         myState.latestValue = SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION
     }
 
-    fun onPaymentFirstNameChange(firstName: String) {
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(paymentFirstName = firstName)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-    }
-
-    fun onPaymentLastNameChange(lastName: String) {
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(paymentlastName = lastName)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-    }
-
-    fun onBillingFirstNameChange(firstName: String) {
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingFirstName = firstName)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-    }
-
-    fun onBillingLastNameChange(lastName: String) {
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingLastName = lastName)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-    }
-
-    fun onStreetAddressChange(streetAddress: String) {
-        billingAddress = billingAddress.copy(street = streetAddress)
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-        checkboxState.latestValue = false
-    }
-
-    fun onCityChange(city: String) {
-        billingAddress = billingAddress.copy(city = city)
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-        checkboxState.latestValue = false
-    }
-
-    fun onStateChange(state: String) {
-        billingAddress = billingAddress.copy(state = state)
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-        checkboxState.latestValue = false
-    }
-
-    fun onZipCodeChange(zipCode: String) {
-        billingAddress = billingAddress.copy(postalCode = zipCode)
-        uiSubscriptionPageObject = uiSubscriptionPageObject.copy(billingAddress = billingAddress)
-        uiFlowable.latestValue = uiSubscriptionPageObject
-        checkboxState.latestValue = false
-    }
-
     private suspend fun requestInvoiceList() {
         val paymentList = zuoraPaymentRepository.getInvoicesList()
         paymentList.fold(ifLeft = {
@@ -167,15 +100,7 @@ class SubscriptionViewModel @Inject constructor(
             progressViewFlow.latestValue = false
         }
     }
-
-    data class UiSubscriptionPageInfo(
-        val paymentFirstName: String? = null,
-        val paymentlastName: String? = null,
-        val creditCardNumber: String = "1234 - 1234 - 1234 - 1234",
-        val expirationDate: String = "01 / 20",
-        val cvv: String = "123",
-        val billingFirstName: String? = null,
-        val billingLastName: String? = null,
-        val billingAddress: BillingAddress? = null
-    )
+    companion object {
+        const val BASE_SUBSCRIPTION_URL = "https://qa-qa101.cs16.force.com/fiber/apex/vf_fiberBuyFlowPaymentMobile?userId="
+    }
 }

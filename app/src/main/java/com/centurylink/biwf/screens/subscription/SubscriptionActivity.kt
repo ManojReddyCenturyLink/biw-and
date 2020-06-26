@@ -20,7 +20,6 @@ import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetails
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.utility.afterTextChanged
 import javax.inject.Inject
 
 class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
@@ -53,26 +52,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             myState.observeWith(subscriptionCoordinator)
-            checkboxState.observe { binding.billingInfoWidget.billingInfoCheckbox.isActivated = it }
-            uiFlowable.observe { uiObject ->
-                binding.apply {
-                    paymentInfoWidget.apply {
-                        paymentInfoFirstNameInput.setText(uiObject.paymentFirstName)
-                        paymentInfoLastNameInput.setText((uiObject.paymentlastName))
-                        paymentInfoCreditCardInput.setText(uiObject.creditCardNumber)
-                        paymentInfoExpirationInput.setText(uiObject.expirationDate)
-                        paymentInfoCvvInput.setText(uiObject.cvv)
-                    }
-                    billingInfoWidget.apply {
-                        billingInfoFirstNameInput.setText(uiObject.billingFirstName)
-                        billingInfoLastNameInput.setText(uiObject.billingLastName)
-                        billingInfoStreetAddressInput.setText(uiObject.billingAddress?.street)
-                        billingInfoCityInput.setText(uiObject.billingAddress?.city)
-                        billingInfoStateInput.setText(uiObject.billingAddress?.state)
-                        billingInfoZipcodeInput.setText(uiObject.billingAddress?.postalCode)
-                    }
-                }
-            }
             planName.observe {
                 binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it
             }
@@ -82,7 +61,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         }
         prepareRecyclerView()
         initViews()
-        onTextChangeListeners()
     }
 
     override fun onBackPressed() {
@@ -131,7 +109,14 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             }
         }
         binding.manageMySubscriptionRow.setOnClickListener { subscriptionViewModel.launchManageSubscription() }
-        binding.billingInfoWidget.billingInfoCheckbox.setOnClickListener { subscriptionViewModel.sameAsServiceAddressedClicked() }
+
+        binding.subscriptionWebView.settings.apply {
+            javaScriptEnabled = true
+        }
+
+        subscriptionViewModel.subscriptionUrl.observe {
+            binding.subscriptionWebView.loadUrl(it)
+        }
     }
 
     private fun prepareRecyclerView() {
@@ -140,45 +125,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             binding.previousStatementRecyclerview.adapter = paymentInvoicesAdapter
             hideProgress()
         }
-    }
-
-    private fun onTextChangeListeners() {
-        val billingFirstName = binding.billingInfoWidget.billingInfoFirstNameInput
-        billingFirstName.addTextChangedListener(afterTextChanged { editable ->
-            subscriptionViewModel.onBillingFirstNameChange(editable.toString())
-            billingFirstName.setSelection(editable.toString().length)
-        })
-
-        val billingLastName = binding.billingInfoWidget.billingInfoLastNameInput
-        billingLastName.addTextChangedListener(afterTextChanged { editable ->
-            subscriptionViewModel.onBillingLastNameChange(editable.toString())
-            billingLastName.setSelection(editable.toString().length)
-        })
-
-        val streetAddress = binding.billingInfoWidget.billingInfoStreetAddressInput
-        streetAddress.addTextChangedListener(afterTextChanged { editable ->
-            subscriptionViewModel.onStreetAddressChange(editable.toString())
-            streetAddress.setSelection(editable.toString().length)
-
-        })
-
-        val city = binding.billingInfoWidget.billingInfoCityInput
-        city.addTextChangedListener(afterTextChanged { editable ->
-            subscriptionViewModel.onCityChange(editable.toString())
-            city.setSelection(editable.toString().length)
-        })
-
-        val state = binding.billingInfoWidget.billingInfoStateInput
-        state.addTextChangedListener(afterTextChanged { editable ->
-            subscriptionViewModel.onStateChange(editable.toString())
-            state.setSelection(editable.toString().length)
-        })
-
-        val zipCode = binding.billingInfoWidget.billingInfoZipcodeInput
-        zipCode.addTextChangedListener(afterTextChanged { editable ->
-            subscriptionViewModel.onZipCodeChange(editable.toString())
-            zipCode.setSelection(editable.toString().length)
-        })
     }
 
     companion object {

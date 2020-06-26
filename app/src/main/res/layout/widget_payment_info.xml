@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    >
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -31,7 +30,7 @@
             android:layout_marginEnd="4dp"
             android:background="@drawable/background_thin_border"
             android:paddingStart="12dp"
-            android:text="Deanthonee"
+            tools:text="Deanthonee"
             android:textSize="16sp"
             app:layout_constraintEnd_toStartOf="@+id/payment_info_last_name_input"
             app:layout_constraintHorizontal_bias="0.5"
@@ -46,7 +45,7 @@
             android:layout_marginStart="4dp"
             android:background="@drawable/background_thin_border"
             android:paddingStart="12dp"
-            android:text="Greenfield"
+            tools:text="Greenfield"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -83,7 +82,7 @@
             android:background="@drawable/background_thin_border"
             android:inputType="number"
             android:paddingStart="12dp"
-            android:text="1234 - 1234 - 1234 - 1234"
+            tools:text="1234 - 1234 - 1234 - 1234"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/payment_info_credit_card_label"
@@ -110,7 +109,7 @@
             android:inputType="date"
             android:maxLength="7"
             android:paddingStart="12dp"
-            android:text="01 / 2020"
+            tools:text="01 / 2020"
             app:layout_constraintEnd_toStartOf="@+id/payment_info_cvv_input"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +125,7 @@
             android:inputType="number"
             android:maxLength="3"
             android:paddingStart="12dp"
-            android:text="123"
+            tools:text="123"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/payment_info_expiration_input"
