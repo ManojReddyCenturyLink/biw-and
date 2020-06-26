@@ -33,7 +33,7 @@ class HomeViewPagerAdapter(private val getStartedEventClickListener: DashboardFr
             0 -> setupAccountFragment()
             1 -> setupDashBoardFragment()
             2 -> setupDeviceFragment()
-            else -> setupDashBoardFragment()
+            else -> throw IllegalArgumentException("Undefined Pager Fragment")
         }
     }
 

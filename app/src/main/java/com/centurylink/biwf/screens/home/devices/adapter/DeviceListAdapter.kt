@@ -54,11 +54,7 @@ class DeviceListAdapter(
             val totalConnectedDevices = getChildrenCount(groupPosition)
             val listStatusIcon =
                 recylerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
-            if (totalConnectedDevices == 0) {
-                listStatusIcon.visibility = View.GONE
-            } else {
-                listStatusIcon.visibility = View.VISIBLE
-            }
+            listStatusIcon.visibility = if (totalConnectedDevices == 0) View.GONE else View.VISIBLE
             if (totalConnectedDevices == 1) {
                 connectedDeviceLabel.text =
                     parent.context.getText(R.string.connected_devices_singular)
