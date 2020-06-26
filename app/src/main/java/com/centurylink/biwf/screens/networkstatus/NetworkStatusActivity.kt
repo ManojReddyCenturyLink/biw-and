@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.networkstatus
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -35,7 +34,6 @@ class NetworkStatusActivity : BaseActivity() {
         viewModel.apply {
             progressViewFlow.observe {
                 showProgress(it)
-                Log.d("miko", "Boolean is $it")
             }
             modemInfoFlow.observe {
                 bindings.networkStatusModemSerialNumber.text = getString(R.string.serial_number, it.deviceId)
