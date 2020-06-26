@@ -71,6 +71,8 @@ data class TrafficPattern(
 )
 
 data class UsageDetails(
-    val downloadSpeed: Double = 0.0,
-    val uploadSpeed: Double = 0.0
+    val downloadTraffic: Double = 0.0,
+    val downloadTrafficUnit: String,
+    val uploadTraffic: Double = 0.0,
+    val uploadTrafficUnit: String
 )

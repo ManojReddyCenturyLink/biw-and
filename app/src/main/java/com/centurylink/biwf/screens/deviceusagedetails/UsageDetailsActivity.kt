@@ -73,9 +73,13 @@ class UsageDetailsActivity : BaseActivity() {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             uploadSpeedDaily.observe { binding.dailyUploadSpeed.text = it }
-            uploadSpeedMonthly.observe { binding.monthlyUploadSpeed.text = it }
+            uploadSpeedMonthly.observe { binding.biweeklyUploadSpeed.text = it }
             downloadSpeedDaily.observe { binding.dailyDownloadSpeed.text = it }
-            downloadSpeedMonthly.observe { binding.monthlyDownloadSpeed.text = it }
+            downloadSpeedMonthly.observe { binding.biweeklyDownloadSpeed.text = it }
+            uploadSpeedDailyUnit.observe { binding.dailyUploadSpeedUnit.text = it }
+            uploadSpeedMonthlyUnit.observe { binding.uploadSpeedUnitBiweekly.text = it }
+            downloadSpeedDailyUnit.observe { binding.downloadSpeedUnitDaily.text = it }
+            downloadSpeedMonthlyUnit.observe { binding.downloadSpeedUnitBiweekly.text = it }
         }
         binding.deviceConnectedBtn.setOnClickListener { usageDetailsViewModel.onDevicesConnectedClicked() }
     }

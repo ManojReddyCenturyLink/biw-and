@@ -24,13 +24,17 @@ class SharedPreferencesStore(private val context: Context) :
     }
 
     override fun getBoolean(key: String): Boolean? {
-         return sharedPreferences().getBoolean(key,false)
+        return sharedPreferences().getBoolean(key, false)
     }
 
     override fun putBoolean(key: String, value: Boolean): Boolean {
         val editor = sharedPreferences().edit()
-        editor.putBoolean(key,value)
+        editor.putBoolean(key, value)
         return editor.commit()
+    }
+
+    override fun getContext(): Context? {
+        return context
     }
 
     private fun sharedPreferences(): SharedPreferences {

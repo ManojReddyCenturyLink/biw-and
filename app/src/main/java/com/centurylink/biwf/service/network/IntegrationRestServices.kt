@@ -50,8 +50,6 @@ interface IntegrationRestServices {
         @Path("value1") value1: String
     ): FiberServiceResult<DevicesInfo>
 
-    @GET("api/v2/wifi/diags/station/{traffic}")
-    suspend fun getUsageDetails(
-        @Path("traffic") value1: String
-    ): FiberServiceResult<TrafficUsageResponse>
+    @GET("api/v2/wifi/diags/station/traffic")
+    suspend fun getUsageDetails(): FiberServiceResult<TrafficUsageResponse>
 }

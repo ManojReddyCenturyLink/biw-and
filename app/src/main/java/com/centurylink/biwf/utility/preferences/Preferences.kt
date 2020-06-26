@@ -1,7 +1,6 @@
 package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
-import android.util.Log
 
 class Preferences(private val store: KeyValueStore) {
 
@@ -10,6 +9,10 @@ class Preferences(private val store: KeyValueStore) {
             context
         )
     )
+
+    fun getContext(): Context {
+        return store.getContext()!!
+    }
 
     fun saveUserId(userId: String?) {
         store.put(USER_ID, userId!!)
