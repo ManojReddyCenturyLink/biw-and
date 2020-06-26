@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.biometric.BiometricManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -130,10 +131,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         binding.vpDashboard.adapter = viewPagerAdapter
         if (isExistingUser) {
             viewPagerAdapter.setTabItem(viewModel.lowerTabHeaderList)
-           // adapter.submitList(viewModel.lowerTabHeaderList)
         } else {
             viewPagerAdapter.setTabItem(viewModel.upperTabHeaderList)
-           // adapter.submitList(viewModel.upperTabHeaderList)
         }
         TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
             TabLayoutMediator.OnConfigureTabCallback
@@ -167,9 +166,13 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
     }
 
     private fun refreshAccountFragment() {
-        val accountFrag =
-            supportFragmentManager.findFragmentById(R.id.account_container) as AccountFragment?
-        accountFrag?.refreshBioMetrics()
+        val allFragments: List<Fragment> =
+            supportFragmentManager.fragments
+        for (fragment in allFragments) {
+            if (fragment is AccountFragment) {
+                fragment.refreshBioMetrics()
+            }
+        }
     }
 
     companion object {
