@@ -10,10 +10,6 @@ class Preferences(private val store: KeyValueStore) {
         )
     )
 
-    fun getContext(): Context {
-        return store.getContext()!!
-    }
-
     fun saveUserId(userId: String?) {
         store.put(USER_ID, userId!!)
     }

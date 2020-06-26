@@ -14,6 +14,7 @@ import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
+import timber.log.Timber
 import javax.inject.Inject
 
 class AccountFragment : BaseFragment(), AuthServiceHost {
@@ -128,7 +129,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
             }
             navigateToSubscriptionActivityEvent.handleEvent { (context as HomeActivity).launchSubscriptionActivity() }
             errorMessageFlow.observe {
-                displayToast(message = it)
+                Timber.d(it)
             }
         }
     }

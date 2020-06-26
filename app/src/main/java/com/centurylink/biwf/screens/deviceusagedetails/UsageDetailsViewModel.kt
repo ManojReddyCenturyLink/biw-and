@@ -60,35 +60,55 @@ class UsageDetailsViewModel constructor(
     fun onDevicesConnectedClicked() {}
 
     private suspend fun requestDailyUsageDetails() {
-        val result = networkUsageRepository.getUsageDetails(true, staMac)
-        uploadSpeedDaily.latestValue =
-            formattedTraffic(result.uploadTraffic, result.uploadTrafficUnit)
-        downloadSpeedDaily.latestValue =
-            formattedTraffic(result.downloadTraffic, result.downloadTrafficUnit)
-        uploadSpeedDailyUnit.latestValue = result.uploadTrafficUnit
-        downloadSpeedDailyUnit.latestValue = result.downloadTrafficUnit
+        try {
+            val result = networkUsageRepository.getUsageDetails(true, staMac)
+            uploadSpeedDaily.latestValue =
+                formattedTraffic(result.uploadTraffic, result.uploadTrafficUnit)
+            downloadSpeedDaily.latestValue =
+                formattedTraffic(result.downloadTraffic, result.downloadTrafficUnit)
+            uploadSpeedDailyUnit.latestValue = getUnit(result.uploadTrafficUnit)
+            downloadSpeedDailyUnit.latestValue = getUnit(result.downloadTrafficUnit)
+        } catch (e: Exception) {
+            errorMessageFlow.latestValue = e.toString()
+        }
+
     }
 
     private suspend fun requestMonthlyUsageDetails() {
-        val result = networkUsageRepository.getUsageDetails(false, staMac)
-        uploadSpeedMonthly.latestValue =
-            formattedTraffic(result.uploadTraffic, result.uploadTrafficUnit)
-        downloadSpeedMonthly.latestValue =
-            formattedTraffic(result.downloadTraffic, result.downloadTrafficUnit)
-        uploadSpeedMonthlyUnit.latestValue = result.uploadTrafficUnit
-        downloadSpeedMonthlyUnit.latestValue = result.downloadTrafficUnit
-        progressViewFlow.latestValue = false
+        try {
+            val result = networkUsageRepository.getUsageDetails(false, staMac)
+            uploadSpeedMonthly.latestValue =
+                formattedTraffic(result.uploadTraffic, result.uploadTrafficUnit)
+            downloadSpeedMonthly.latestValue =
+                formattedTraffic(result.downloadTraffic, result.downloadTrafficUnit)
+            uploadSpeedMonthlyUnit.latestValue = getUnit(result.uploadTrafficUnit)
+            downloadSpeedMonthlyUnit.latestValue = getUnit(result.downloadTrafficUnit)
+            progressViewFlow.latestValue = false
+        } catch (e: Exception) {
+            errorMessageFlow.latestValue = e.toString()
+        }
     }
 
-    private fun formattedTraffic(trafficVal: Double, unit: String): String {
-        if (trafficVal.roundToInt() > 0 && (unit == app.getString(R.string.mb_download))) {
+    private fun formattedTraffic(trafficVal: Double, unit: NetworkTrafficUnits): String {
+        if (trafficVal.roundToInt() > 0 && (unit == NetworkTrafficUnits.MB_DOWNLOAD)) {
             return trafficVal.roundToInt().toString()
-        } else if (trafficVal.roundToInt() > 0 && (unit == app.getString(R.string.mb_upload))) {
+        } else if (trafficVal.roundToInt() > 0 && (unit == NetworkTrafficUnits.MB_UPLOAD)) {
             return trafficVal.roundToInt().toString()
         } else if (trafficVal.roundToInt() > 0) {
             return BigDecimal(trafficVal).setScale(1, RoundingMode.UP).toString()
         } else {
             return app.getString(R.string.empty_string)
+        }
+    }
+
+    private fun getUnit(unit: NetworkTrafficUnits): String{
+        return when(unit){
+            NetworkTrafficUnits.MB_DOWNLOAD -> app.getString(R.string.mb_download)
+            NetworkTrafficUnits.MB_UPLOAD -> app.getString(R.string.mb_upload)
+            NetworkTrafficUnits.GB_DOWNLOAD -> app.getString(R.string.gb_download)
+            NetworkTrafficUnits.GB_UPLOAD -> app.getString(R.string.gb_upload)
+            NetworkTrafficUnits.TB_DOWNLOAD -> app.getString(R.string.tb_download)
+            NetworkTrafficUnits.TB_UPLOAD -> app.getString(R.string.tb_upload)
         }
     }
 }

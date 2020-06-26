@@ -1,5 +1,6 @@
 package com.centurylink.biwf.model.usagedetails
 
+import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
 import com.google.gson.annotations.SerializedName
 
 data class TrafficUsageResponse(
@@ -72,7 +73,7 @@ data class TrafficPattern(
 
 data class UsageDetails(
     val downloadTraffic: Double = 0.0,
-    val downloadTrafficUnit: String,
+    val downloadTrafficUnit: NetworkTrafficUnits,
     val uploadTraffic: Double = 0.0,
-    val uploadTrafficUnit: String
+    val uploadTrafficUnit: NetworkTrafficUnits
 )

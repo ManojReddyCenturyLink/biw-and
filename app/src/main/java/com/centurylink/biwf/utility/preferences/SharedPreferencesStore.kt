@@ -33,10 +33,6 @@ class SharedPreferencesStore(private val context: Context) :
         return editor.commit()
     }
 
-    override fun getContext(): Context? {
-        return context
-    }
-
     private fun sharedPreferences(): SharedPreferences {
         return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
     }

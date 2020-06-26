@@ -9,10 +9,10 @@ import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
+import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DevicesViewModel @Inject constructor(
@@ -31,7 +31,7 @@ class DevicesViewModel @Inject constructor(
 
     fun initApis() {
         progressViewFlow.latestValue = true
-        viewModelScope.launch {
+        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestDevices()
         }
     }
@@ -48,7 +48,14 @@ class DevicesViewModel @Inject constructor(
 
     private suspend fun requestDevices() {
         val deviceDetails = asiaRepository.getDevicesDetails()
-        sortAndDisplayDeviceInfo(deviceDetails)
+        when (deviceDetails) {
+            is AssiaNetworkResponse.Success -> {
+                sortAndDisplayDeviceInfo(deviceDetails.body)
+            }
+            else -> {
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        }
     }
 
     private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {

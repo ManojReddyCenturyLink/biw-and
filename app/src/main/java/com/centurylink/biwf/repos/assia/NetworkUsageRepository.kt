@@ -1,12 +1,12 @@
 package com.centurylink.biwf.repos.assia
 
 import com.centurylink.biwf.Either
-import com.centurylink.biwf.R
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
-import com.centurylink.biwf.model.assia.AssiaToken
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
 import com.centurylink.biwf.model.usagedetails.UsageDetails
+import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
+import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.service.network.AssiaTrafficUsageService
 import com.centurylink.biwf.service.network.IntegrationRestServices
@@ -34,13 +34,32 @@ class NetworkUsageRepository @Inject constructor(
             endDate = LocalDate.now().minusDays(1).toString().plus("T00:00:00-0000")
         }
         val result = assiaTrafficUsageService.getUsageDetails(
-            getHeaderMap(getAssiaToken().accessToken, staMac, startDate, endDate)
+            getHeaderMap(getAssiaToken(), staMac, startDate, endDate)
         )
-        return formatTrafficUsageResponse(result)
+        return when(result){
+            is AssiaNetworkResponse.Success -> {
+                formatTrafficUsageResponse(result.body)
+            }
+            else -> {
+                throw IllegalStateException("Cannot read value")
+            }
+        }
     }
 
-    suspend fun getAssiaToken(): AssiaToken {
-        return assiaService.getAssiaTokenWithTokenObject()
+
+    private val tokenError = "Token Error"
+
+    //todo will be removed post-Apigee
+    suspend fun getAssiaToken(): String {
+        val response = assiaService.getAssiaTokenWithTokenObject()
+        return when (response) {
+            is AssiaNetworkResponse.Success -> {
+                response.body.accessToken
+            }
+            else -> {
+                tokenError
+            }
+        }
     }
 
     private fun getHeaderMap(
@@ -63,8 +82,8 @@ class NetworkUsageRepository @Inject constructor(
     ): UsageDetails {
         var totalDownloadTraffic = 0.0
         var totalUploadTraffic = 0.0
-        val downloadTrafficUnit: String
-        val uploadTrafficUnit: String
+        val downloadTrafficUnit: NetworkTrafficUnits
+        val uploadTrafficUnit: NetworkTrafficUnits
 
         trafficUsageResponse.data.list?.forEach {
             totalDownloadTraffic += it.downLinkTraffic
@@ -73,22 +92,22 @@ class NetworkUsageRepository @Inject constructor(
 
         if (totalUploadTraffic <= 999) {
             totalUploadTraffic.roundToInt().toString()
-            uploadTrafficUnit = preferences.getContext().getString(R.string.mb_upload)
+            uploadTrafficUnit = NetworkTrafficUnits.MB_UPLOAD
         } else if (totalUploadTraffic > 999 && totalUploadTraffic <= 999000) {
             totalUploadTraffic /= 1000
-            uploadTrafficUnit = preferences.getContext().getString(R.string.gb_upload)
+            uploadTrafficUnit = NetworkTrafficUnits.GB_UPLOAD
         } else {
             totalUploadTraffic /= 1000000
-            uploadTrafficUnit = preferences.getContext().getString(R.string.tb_upload)
+            uploadTrafficUnit = NetworkTrafficUnits.TB_UPLOAD
         }
         if (totalDownloadTraffic <= 999) {
-            downloadTrafficUnit = preferences.getContext().getString(R.string.mb_download)
+            downloadTrafficUnit = NetworkTrafficUnits.MB_DOWNLOAD
         } else if (totalDownloadTraffic > 999 && totalDownloadTraffic <= 999000) {
             totalDownloadTraffic /= 1000
-            downloadTrafficUnit = preferences.getContext().getString(R.string.gb_download)
+            downloadTrafficUnit = NetworkTrafficUnits.GB_DOWNLOAD
         } else {
             totalDownloadTraffic /= 1000000
-            downloadTrafficUnit = preferences.getContext().getString(R.string.tb_download)
+            downloadTrafficUnit = NetworkTrafficUnits.TB_DOWNLOAD
         }
 
         return UsageDetails(
