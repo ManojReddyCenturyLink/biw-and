@@ -45,7 +45,7 @@
         android:textColor="@color/blue_dark"
         android:textSize="@dimen/medium_title_text_size"
         android:paddingStart="6dp"
-        android:text="@string/connected_devices"
+        android:text="@string/connected_devices_plural"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@+id/devices_group_count"
         tools:ignore="RtlSymmetry"

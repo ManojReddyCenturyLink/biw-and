@@ -49,9 +49,20 @@ class DeviceListAdapter(
             recylerGroupView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, null)
             val deviceCount =
                 recylerGroupView!!.findViewById<TextView>(R.id.devices_group_count)
+            val connectedDeviceLabel =
+                recylerGroupView.findViewById<TextView>(R.id.devices_group_connectedDevices)
             val listStatusIcon =
                 recylerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
-            deviceCount.text = getChildrenCount(groupPosition).toString()
+            val totalConnectedDevices = getChildrenCount(groupPosition)
+            if (totalConnectedDevices == 1) {
+                connectedDeviceLabel.text =
+                    parent.context.getText(R.string.connected_devices_singular)
+            } else {
+                connectedDeviceLabel.text =
+                    parent.context.getText(R.string.connected_devices_plural)
+            }
+            deviceCount.text = totalConnectedDevices.toString()
+
             if (isExpanded) {
                 listStatusIcon.setImageResource(R.drawable.ic_faq_down)
             } else {
@@ -116,7 +127,12 @@ class DeviceListAdapter(
                 recyclerChildView.findViewById<ImageView>(R.id.iv_network_type)
             deviceName.text = connectedData.hostName
 
-            deviceSignalStrength.setImageResource(setSignalStatus(connectedData.rssi!!,connectedData.connectedInterface))
+            deviceSignalStrength.setImageResource(
+                setSignalStatus(
+                    connectedData.rssi!!,
+                    connectedData.connectedInterface
+                )
+            )
 
             recyclerChildView.setOnClickListener {
                 deviceItemClickListener.onDevicesClicked(
@@ -141,9 +157,9 @@ class DeviceListAdapter(
         return deviceList.size
     }
 
-    private fun setSignalStatus(signalStrength: Int,connectionMode:String?): Int {
+    private fun setSignalStatus(signalStrength: Int, connectionMode: String?): Int {
         if (!connectionMode.isNullOrEmpty() && connectionMode.equals("Ethernet", true)) {
-           return R.drawable.ic_ethernet
+            return R.drawable.ic_ethernet
         }
         return when (signalStrength) {
             in -50..-1 -> {
