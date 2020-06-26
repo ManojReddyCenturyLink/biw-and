@@ -34,6 +34,7 @@ class NetworkStatusViewModel @Inject constructor(
 
     private suspend fun requestModemInfo() {
         val modemResponse = assiaRepository.getModemInfo()
+        progressViewFlow.latestValue = false
         when (modemResponse) {
             is AssiaNetworkResponse.Success -> {
                 modemInfoFlow.latestValue = modemResponse.body.modemInfo
