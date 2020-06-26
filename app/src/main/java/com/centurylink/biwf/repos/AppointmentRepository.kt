@@ -36,7 +36,7 @@ class AppointmentRepository @Inject constructor(
         val result: FiberServiceResult<Appointments> =
             appointmentService.getAppointmentDetails(finalQuery)
   //     val result: FiberServiceResult<Appointments> =
-    //        integrationRestServices.getAppointmentDetails("appointmentDetails")
+        //   integrationRestServices.getAppointmentDetails("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val appointmentRecords = it.records.elementAtOrElse(0) { null }
             appointmentRecords?.let { it ->
