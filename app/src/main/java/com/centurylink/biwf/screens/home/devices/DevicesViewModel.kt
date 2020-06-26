@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home.devices
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.devices.DevicesData
@@ -27,7 +28,7 @@ class DevicesViewModel @Inject constructor(
 
     fun initApis() {
         progressViewFlow.latestValue = true
-        viewModelScope.launch {
+        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestDevices()
         }
     }
