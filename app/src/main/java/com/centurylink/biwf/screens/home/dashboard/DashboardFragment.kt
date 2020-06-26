@@ -122,17 +122,14 @@ class DashboardFragment : BaseFragment() {
         binding.incCompleted.getStartedBtn.setOnClickListener {
             dashboardViewModel.getStartedClicked()
             getStartedClickListener.onGetStartedClick(false)
-            incCompleted.visibility = View.GONE
         }
         binding.dashboardWifiCard.root.setOnClickListener { dashboardViewModel.navigateToNetworkInformation() }
     }
 
     private fun setupMap() {
         val fm = childFragmentManager
-
         enrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
         workBegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
-
         enrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
         workBegunMapFragment?.getMapAsync(mOnMapReadyCallback)
     }

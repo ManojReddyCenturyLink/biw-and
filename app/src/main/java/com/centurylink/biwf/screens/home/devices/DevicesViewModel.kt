@@ -9,7 +9,6 @@ import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DevicesViewModel @Inject constructor(
@@ -27,7 +26,7 @@ class DevicesViewModel @Inject constructor(
 
     fun initApis() {
         progressViewFlow.latestValue = true
-        viewModelScope.launch {
+        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestDevices()
         }
     }
