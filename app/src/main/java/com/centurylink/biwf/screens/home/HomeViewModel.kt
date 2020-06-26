@@ -90,10 +90,6 @@ class HomeViewModel @Inject constructor(
         refreshBioMetrics.latestValue = Unit
     }
 
-    fun onOnlineToolbarClick() {
-        myState.latestValue = HomeCoordinatorDestinations.NETWORK_STATUS
-    }
-
     fun onSubscriptionActivityClick() {
         myState.latestValue = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }

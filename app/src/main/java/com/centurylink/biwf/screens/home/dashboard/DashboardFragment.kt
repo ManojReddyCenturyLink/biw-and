@@ -225,6 +225,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
+        binding.dashboardWifiCard.root.visibility = View.VISIBLE
         unreadNotificationList = notificationList
         if (unreadNotificationList.isNotEmpty()) {
             binding.topCard.visibility = View.VISIBLE
