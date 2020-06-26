@@ -247,6 +247,7 @@
     <string name="network_password">Network password</string>
     <string name="network_name">Network name</string>
     <string name="network_name_label">Network name:</string>
+    <string name="guest_network_name_label">Guest network name:</string>
     <string name="wifi_network">WiFi network</string>
     <string name="internet">Internet</string>
 

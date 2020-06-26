@@ -162,6 +162,10 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
+    fun navigateToNetworkInformation(){
+        myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
+    }
+
     /*For checking Technician progress*/
     private fun timerSetup() {
         viewModelScope.launch {
