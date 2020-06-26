@@ -49,9 +49,21 @@ class DeviceListAdapter(
             recylerGroupView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, null)
             val deviceCount =
                 recylerGroupView!!.findViewById<TextView>(R.id.devices_group_count)
+            val connectedDeviceLabel =
+                recylerGroupView.findViewById<TextView>(R.id.devices_group_connectedDevices)
+            val totalConnectedDevices = getChildrenCount(groupPosition)
             val listStatusIcon =
                 recylerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
-            deviceCount.text = getChildrenCount(groupPosition).toString()
+            listStatusIcon.visibility = if (totalConnectedDevices == 0) View.GONE else View.VISIBLE
+            if (totalConnectedDevices == 1) {
+                connectedDeviceLabel.text =
+                    parent.context.getText(R.string.connected_devices_singular)
+            } else {
+                connectedDeviceLabel.text =
+                    parent.context.getText(R.string.connected_devices_plural)
+            }
+            deviceCount.text = totalConnectedDevices.toString()
+
             if (isExpanded) {
                 listStatusIcon.setImageResource(R.drawable.ic_faq_down)
             } else {
@@ -115,7 +127,14 @@ class DeviceListAdapter(
             val deviceSignalStrength =
                 recyclerChildView.findViewById<ImageView>(R.id.iv_network_type)
             deviceName.text = connectedData.hostName
-            deviceSignalStrength.setImageResource(setSignalStatus(connectedData.rssi!!))
+
+            deviceSignalStrength.setImageResource(
+                setSignalStatus(
+                    connectedData.rssi!!,
+                    connectedData.connectedInterface
+                )
+            )
+
             recyclerChildView.setOnClickListener {
                 deviceItemClickListener.onDevicesClicked(
                     devicesInfo = connectedData
@@ -139,7 +158,10 @@ class DeviceListAdapter(
         return deviceList.size
     }
 
-    private fun setSignalStatus(signalStrength: Int): Int {
+    private fun setSignalStatus(signalStrength: Int, connectionMode: String?): Int {
+        if (!connectionMode.isNullOrEmpty() && connectionMode.equals("Ethernet", true)) {
+            return R.drawable.ic_ethernet
+        }
         return when (signalStrength) {
             in -50..-1 -> {
                 R.drawable.ic_strong_signal

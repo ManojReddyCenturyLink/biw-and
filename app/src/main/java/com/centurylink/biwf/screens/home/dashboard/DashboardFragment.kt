@@ -22,13 +22,21 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_dashboard.*
-import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.*
+import kotlinx.android.synthetic.main.fragment_dashboard.incCompleted
+import kotlinx.android.synthetic.main.fragment_dashboard.incEnroute
+import kotlinx.android.synthetic.main.fragment_dashboard.incScheduled
+import kotlinx.android.synthetic.main.fragment_dashboard.incSpeedTest
+import kotlinx.android.synthetic.main.fragment_dashboard.incWorkBegun
+import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.appointment_date
+import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.appointment_date_time_card
 import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.appointment_time
-import kotlinx.android.synthetic.main.widget_status_enroute.view.*
+import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.incWelcomeCard
+import kotlinx.android.synthetic.main.widget_status_enroute.view.incEnrouteCard
 import kotlinx.android.synthetic.main.widget_status_enroute.view.technician_name
-import kotlinx.android.synthetic.main.widget_status_work_begun.view.*
-import kotlinx.android.synthetic.main.widget_welcome_card.view.*
+import kotlinx.android.synthetic.main.widget_status_work_begun.view.incWipCard
+import kotlinx.android.synthetic.main.widget_welcome_card.view.msg
+import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_button
+import kotlinx.android.synthetic.main.widget_welcome_card.view.title
 import javax.inject.Inject
 
 class DashboardFragment : BaseFragment() {
@@ -114,16 +122,14 @@ class DashboardFragment : BaseFragment() {
         binding.incCompleted.getStartedBtn.setOnClickListener {
             dashboardViewModel.getStartedClicked()
             getStartedClickListener.onGetStartedClick(false)
-            incCompleted.visibility = View.GONE
         }
+        binding.dashboardWifiCard.root.setOnClickListener { dashboardViewModel.navigateToNetworkInformation() }
     }
 
     private fun setupMap() {
         val fm = childFragmentManager
-
         enrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
         workBegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
-
         enrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
         workBegunMapFragment?.getMapAsync(mOnMapReadyCallback)
     }

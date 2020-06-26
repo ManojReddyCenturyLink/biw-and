@@ -24,8 +24,17 @@ class NetworkStatusActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         bindings = ActivityNetworkStatusBinding.inflate(layoutInflater)
         setContentView(bindings.root)
+        setApiProgressViews(
+            bindings.progressOverlay.root,
+            bindings.retryOverlay.retryViewLayout,
+            bindings.networkStatusScrollview,
+            bindings.retryOverlay.root
+        )
 
         viewModel.apply {
+            progressViewFlow.observe {
+                showProgress(it)
+            }
             modemInfoFlow.observe {
                 bindings.networkStatusModemSerialNumber.text = getString(R.string.serial_number, it.deviceId)
             }

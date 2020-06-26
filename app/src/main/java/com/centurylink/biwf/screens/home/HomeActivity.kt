@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.biometric.BiometricManager
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -14,6 +15,7 @@ import com.centurylink.biwf.databinding.ActivityHomeBinding
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
+import com.centurylink.biwf.screens.home.dashboard.adapter.HomeViewPagerAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
@@ -36,6 +38,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         ViewModelProvider(this, factory).get(HomeViewModel::class.java)
     }
     private val adapter by lazy { TabsPagerRecyclerAdapter(this, this) }
+    private val viewPagerAdapter by lazy { HomeViewPagerAdapter( this,this) }
+
     private lateinit var binding: ActivityHomeBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -124,11 +128,11 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
         binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
         binding.homeOnlineStatusBar.visibility = if (isExistingUser) View.VISIBLE else View.GONE
 
-        binding.vpDashboard.adapter = adapter
+        binding.vpDashboard.adapter = viewPagerAdapter
         if (isExistingUser) {
-            adapter.submitList(viewModel.lowerTabHeaderList)
+            viewPagerAdapter.setTabItem(viewModel.lowerTabHeaderList)
         } else {
-            adapter.submitList(viewModel.upperTabHeaderList)
+            viewPagerAdapter.setTabItem(viewModel.upperTabHeaderList)
         }
         TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
             TabLayoutMediator.OnConfigureTabCallback
@@ -162,9 +166,13 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
     }
 
     private fun refreshAccountFragment() {
-        val accountFrag =
-            supportFragmentManager.findFragmentById(R.id.account_container) as AccountFragment?
-        accountFrag?.refreshBioMetrics()
+        val allFragments: List<Fragment> =
+            supportFragmentManager.fragments
+        for (fragment in allFragments) {
+            if (fragment is AccountFragment) {
+                fragment.refreshBioMetrics()
+            }
+        }
     }
 
     companion object {
