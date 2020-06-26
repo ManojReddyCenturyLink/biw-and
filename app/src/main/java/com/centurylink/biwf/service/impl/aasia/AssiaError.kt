@@ -2,7 +2,7 @@ package com.centurylink.biwf.service.impl.aasia
 
 import com.google.gson.annotations.SerializedName
 
-data class AsiaaError (
+data class AssiaError (
 
     @SerializedName("error")
     val error: String,

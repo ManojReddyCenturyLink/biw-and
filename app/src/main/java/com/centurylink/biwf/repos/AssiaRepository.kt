@@ -3,7 +3,7 @@ package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
-import com.centurylink.biwf.service.impl.aasia.AsiaaError
+import com.centurylink.biwf.service.impl.aasia.AssiaError
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -31,11 +31,11 @@ class AssiaRepository @Inject constructor(
         }
     }
 
-    suspend fun getModemInfo(): AssiaNetworkResponse<ModemInfoResponse, AsiaaError> {
+    suspend fun getModemInfo(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
         return assiaService.getModemInfo(getHeaderMap(token = getAssiaToken()))
     }
 
-    suspend fun getDevicesDetails(): AssiaNetworkResponse<DevicesInfo, AsiaaError> {
+    suspend fun getDevicesDetails(): AssiaNetworkResponse<DevicesInfo, AssiaError> {
         return assiaService.getDevicesList(getHeaderMap(token = getAssiaToken()))
     }
 
