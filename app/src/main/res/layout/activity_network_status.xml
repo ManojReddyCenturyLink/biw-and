@@ -58,10 +58,37 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/widget_loading_overlay_grey_bg"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader"
+        tools:visibility="invisible"
+        />
+
+    <include
+        android:id="@+id/retry_overlay"
+        layout="@layout/widget_retry_overlay_grey_bg"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader"
+        />
+
     <ScrollView
+        android:id="@+id/network_status_scrollview"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
