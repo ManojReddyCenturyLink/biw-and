@@ -19,8 +19,10 @@ class NetworkStatusViewModel @Inject constructor(
     val modemInfoFlow: Flow<ModemInfo> = BehaviorStateFlow()
     val internetStatusFlow: Flow<OnlineStatus> = BehaviorStateFlow()
     val myState = EventFlow<NetworkStatusCoordinatorDestinations>()
-    var errorMessageFlow = EventFlow<String>()
+    val progressViewFlow = EventFlow<Boolean>()
+
     init {
+        progressViewFlow.latestValue = true
         modemStatusRefresh()
     }
 

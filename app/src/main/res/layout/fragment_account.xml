@@ -2,7 +2,6 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <ScrollView
@@ -15,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/main_background_color"
-            android:paddingBottom="100dp">
+            android:paddingBottom="100dp"
+            >
 
             <include
                 android:id="@+id/progress_overlay"
@@ -25,7 +25,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_top_spacer" />
+                app:layout_constraintTop_toBottomOf="@+id/account_top_spacer"
+                />
 
             <include
                 android:id="@+id/retry_overlay"
@@ -36,14 +37,16 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/account_top_spacer" />
+                app:layout_constraintTop_toBottomOf="@+id/account_top_spacer"
+                />
 
             <androidx.constraintlayout.widget.Group
                 android:id="@+id/viewGroup"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:constraint_referenced_ids="account_subscription_card, account_personal_info_card, account_settings_title, account_settings_title_line_break, account_login_settings_label, account_biometric_label, account_biometric_switch, account_preferences_line_break, account_communication_preferences_label, account_service_calls_label, account_service_calls_switch, account_service_calls_description, account_marketing_emails_label, account_marketing_emails_switch, account_marketing_emails_description, account_marketing_calls_label, account_marketing_calls_switch, account_marketing_calls_description, log_out_button" />
+                app:constraint_referenced_ids="account_subscription_card, account_personal_info_card, account_settings_title, account_settings_title_line_break, account_login_settings_label, account_biometric_label, account_biometric_switch, account_preferences_line_break, account_communication_preferences_label, account_service_calls_label, account_service_calls_switch, account_service_calls_description, account_marketing_emails_label, account_marketing_emails_switch, account_marketing_emails_description, account_marketing_calls_label, account_marketing_calls_switch, account_marketing_calls_description, log_out_button"
+                />
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/account_left_guideline"
@@ -104,11 +107,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:text="@string/placeholder_text"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_service_label"
-                android:text="@string/placeholder_text"
                 />
 
             <TextView
@@ -178,12 +181,12 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_marginTop="24dp"
+                android:contentDescription="@string/content_description_holder"
                 android:elevation="@dimen/above_cardview_elevation"
                 android:src="@drawable/ic_real_dividing_line"
                 app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_settings_title"
-                android:contentDescription="@string/content_description_holder"
                 />
 
             <TextView
@@ -228,12 +231,12 @@
                 android:layout_width="0dp"
                 android:layout_height="2dp"
                 android:layout_marginTop="24dp"
+                android:contentDescription="@string/content_description_holder"
                 android:elevation="@dimen/above_cardview_elevation"
                 android:src="@drawable/ic_real_dividing_line"
                 app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
                 app:layout_constraintStart_toStartOf="@id/account_left_guideline"
                 app:layout_constraintTop_toBottomOf="@id/account_biometric_label"
-                android:contentDescription="@string/content_description_holder"
                 />
 
             <TextView
@@ -359,19 +362,20 @@
 
             <Button
                 android:id="@+id/log_out_button"
+                style="?android:attr/borderlessButtonStyle"
                 android:layout_width="80dp"
                 android:layout_height="32dp"
-                style="?android:attr/borderlessButtonStyle"
                 android:layout_margin="64dp"
                 android:background="@drawable/button_thin_border_transparent_background"
                 android:gravity="center"
-                android:textAllCaps="false"
                 android:text="@string/log_out"
+                android:textAllCaps="false"
                 android:textColor="@color/blue"
                 android:textSize="@dimen/extra_small_text_size"
-                app:layout_constraintTop_toBottomOf="@+id/account_marketing_calls_description"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/account_marketing_calls_description"
+                />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

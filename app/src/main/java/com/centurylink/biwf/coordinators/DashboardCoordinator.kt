@@ -19,6 +19,7 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
             DashboardCoordinatorDestinations.NORMAL -> loadNormalFragment()
             DashboardCoordinatorDestinations.CHANGE_APPOINTMENT -> navigateToChangeAppointment()
             DashboardCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNotificationDetails()
+            DashboardCoordinatorDestinations.NETWORK_INFORMATION -> navigateToNetworkInformation()
         }
     }
 
@@ -49,10 +50,14 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
     private fun navigateToNotificationDetails() {
         navigator.navigateToNotificationDetails()
     }
+
+    private fun navigateToNetworkInformation(){
+        navigator.navigateToNetworkStatus()
+    }
 }
 
 enum class DashboardCoordinatorDestinations {
-    APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS;
+    APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS, NETWORK_INFORMATION;
 
     companion object {
         lateinit var bundle: Bundle
