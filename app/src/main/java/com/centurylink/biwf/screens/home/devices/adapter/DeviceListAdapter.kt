@@ -115,7 +115,9 @@ class DeviceListAdapter(
             val deviceSignalStrength =
                 recyclerChildView.findViewById<ImageView>(R.id.iv_network_type)
             deviceName.text = connectedData.hostName
-            deviceSignalStrength.setImageResource(setSignalStatus(connectedData.rssi!!))
+
+            deviceSignalStrength.setImageResource(setSignalStatus(connectedData.rssi!!,connectedData.connectedInterface))
+
             recyclerChildView.setOnClickListener {
                 deviceItemClickListener.onDevicesClicked(
                     devicesInfo = connectedData
@@ -139,7 +141,10 @@ class DeviceListAdapter(
         return deviceList.size
     }
 
-    private fun setSignalStatus(signalStrength: Int): Int {
+    private fun setSignalStatus(signalStrength: Int,connectionMode:String?): Int {
+        if (!connectionMode.isNullOrEmpty() && connectionMode.equals("Ethernet", true)) {
+           return R.drawable.ic_ethernet
+        }
         return when (signalStrength) {
             in -50..-1 -> {
                 R.drawable.ic_strong_signal
