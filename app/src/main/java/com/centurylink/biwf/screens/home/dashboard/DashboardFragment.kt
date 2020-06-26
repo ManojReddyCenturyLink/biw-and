@@ -59,8 +59,6 @@ class DashboardFragment : BaseFragment() {
         retainInstance = false
     }
 
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -121,10 +119,8 @@ class DashboardFragment : BaseFragment() {
 
     private fun setupMap() {
         val fm = childFragmentManager
-
         enrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
         workBegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
-
         enrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
         workBegunMapFragment?.getMapAsync(mOnMapReadyCallback)
     }
