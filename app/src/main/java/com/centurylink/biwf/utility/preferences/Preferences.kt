@@ -1,7 +1,6 @@
 package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
-import android.util.Log
 
 class Preferences(private val store: KeyValueStore) {
 

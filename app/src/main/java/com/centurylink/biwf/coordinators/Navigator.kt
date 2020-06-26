@@ -8,6 +8,7 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
+import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
@@ -170,6 +171,13 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToNetworkStatus() {
         activity?.also {
             it.startActivity(NetworkStatusActivity.newIntent(it))
+        }
+    }
+
+    fun navigateToUsageDetailsActivity() {
+        val bundle = DevicesCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivity(UsageDetailsActivity.newIntent(it, bundle))
         }
     }
 

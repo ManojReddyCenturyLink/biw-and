@@ -13,7 +13,6 @@ import com.centurylink.biwf.databinding.FragmentDevicesBinding
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import timber.log.Timber
 import javax.inject.Inject
 
 class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
@@ -84,6 +83,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDevicesBinding.inflate(inflater)
+        devicesViewModel.myState.observeWith(devicesCoordinator)
         setApiProgressViews(
             binding.dashboardViews,
             binding.progressOverlay.root,
@@ -95,7 +95,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onDevicesClicked(devicesInfo: DevicesData) {
-        Timber.e("deviceData")
-
+        devicesViewModel.navigateToUsageDetails(devicesInfo)
     }
 }

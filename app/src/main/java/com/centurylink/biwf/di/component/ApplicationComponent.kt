@@ -1,8 +1,27 @@
 package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
-import com.centurylink.biwf.di.activityinjector.*
-import com.centurylink.biwf.di.fragmentinjector.*
+import com.centurylink.biwf.di.activityinjector.AdditionalInfoActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.CancelSubscriptionDetailsInjectorModule
+import com.centurylink.biwf.di.activityinjector.CancelSubscriptionInjectorModule
+import com.centurylink.biwf.di.activityinjector.FAQActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.NetworkStatusActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.NotificationActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.NotificationDetailsActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.PersonalInfoActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.ScheduleCallbackInjectorModule
+import com.centurylink.biwf.di.activityinjector.SubscriptionActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.SubscriptionStatementActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.SupportActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.UsageDetailsActivityInjectorModule
+import com.centurylink.biwf.di.fragmentinjector.AccountFragmentInjectorModule
+import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
+import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
+import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
+import com.centurylink.biwf.di.fragmentinjector.DevicesFragmentInjectorModule
 import com.centurylink.biwf.di.module.AppModule
 import com.centurylink.biwf.di.module.AuthServiceConfigModule
 import com.centurylink.biwf.di.module.AuthServiceModule
@@ -35,6 +54,7 @@ import javax.inject.Singleton
         (AdditionalInfoActivityInjectorModule::class),
         (SubscriptionActivityInjectorModule::class),
         (NetworkStatusActivityInjectorModule::class),
+        (UsageDetailsActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DashboardFragmentInjectorModule::class),
         (AccountFragmentInjectorModule::class),

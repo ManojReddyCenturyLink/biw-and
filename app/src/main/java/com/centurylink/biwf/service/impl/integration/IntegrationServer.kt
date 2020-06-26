@@ -2,7 +2,6 @@
 
 package com.centurylink.biwf.service.impl.integration
 
-import android.util.Log
 import com.centurylink.biwf.mockintegrationserver.EmbeddedServer
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
@@ -53,10 +52,17 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
     }
 
     get<DevicesPath> {
-        Log.i("JAMMY","GEt devices !!")
         call.respondOutputStream {
             javaClass.classLoader!!
                 .getResourceAsStream("api-response/devicedetails.json")
+                .copyTo(this)
+        }
+    }
+
+    get<UsageDetailsPath> {
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/usagedetails.json")
                 .copyTo(this)
         }
     }

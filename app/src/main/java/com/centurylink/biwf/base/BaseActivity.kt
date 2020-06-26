@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.LifecycleOwner
 import com.centurylink.biwf.utility.LiveDataObserver
@@ -40,10 +39,6 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
         layoutParams.width = dialogWindowWidth
         layoutParams.height = dialogWindowHeight
         window.attributes = layoutParams
-    }
-
-    fun displayToast(errorMessage: String) {
-        Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
     }
 
     fun setApiProgressViews(

@@ -202,4 +202,10 @@ class RestServiceConfigModule(
     fun provideAssiaServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory):AssiaService{
         return factory.create()
     }
+
+    @Singleton
+    @Provides
+    fun providesAssiaTrafficUsageService(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory):AssiaTrafficUsageService{
+        return factory.create()
+    }
 }
