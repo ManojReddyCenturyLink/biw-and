@@ -59,6 +59,8 @@ class DashboardFragment : BaseFragment() {
         retainInstance = false
     }
 
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -114,7 +116,6 @@ class DashboardFragment : BaseFragment() {
         binding.incCompleted.getStartedBtn.setOnClickListener {
             dashboardViewModel.getStartedClicked()
             getStartedClickListener.onGetStartedClick(false)
-            incCompleted.visibility = View.GONE
         }
     }
 

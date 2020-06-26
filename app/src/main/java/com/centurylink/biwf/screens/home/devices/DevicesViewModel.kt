@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.home.devices
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.devices.DevicesData
@@ -10,7 +9,6 @@ import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DevicesViewModel @Inject constructor(
