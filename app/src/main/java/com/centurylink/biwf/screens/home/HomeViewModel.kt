@@ -149,7 +149,8 @@ class HomeViewModel @Inject constructor(
                 networkStatus.latestValue = modemInfo.body.modemInfo.isAlive
             }
             else -> {
-                errorMessageFlow.latestValue = modemInfo.toString()
+                // Ignoring Error API called every 30 seconds
+                //errorMessageFlow.latestValue = modemInfo.toString()
             }
         }
     }
