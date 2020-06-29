@@ -12,7 +12,7 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
 
 class DeviceListAdapter(
-    private val deviceList: HashMap<DeviceStatus, List<DevicesData>>,
+    var deviceList: HashMap<DeviceStatus, List<DevicesData>>,
     private val deviceItemClickListener: DeviceItemClickListener
 ) :
     BaseExpandableListAdapter() {
