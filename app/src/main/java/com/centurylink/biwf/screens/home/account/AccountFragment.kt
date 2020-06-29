@@ -106,11 +106,12 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                 binding.accountSubscriptionCard.accountCardPlanName.text =
                     uiAccountDetails.planName ?: "Best in world Fiber "
                 binding.accountSubscriptionCard.accountCardPlanDetails.text =
-                    uiAccountDetails.planSpeed ?: "Speeds Upto 940 Mbps"
+                    uiAccountDetails.planSpeed ?: "Speeds Up to 940 Mbps"
                 binding.accountSubscriptionCard.accountCardNextPaymentDate.text =
                     uiAccountDetails.paymentDate
+                // TODO - Hook up to proper endpoint / data (currently returns null)
                 binding.accountSubscriptionCard.accountCardCardNumbers.text =
-                    "Visa ******* 2453"
+                    uiAccountDetails.paymentMethod ?: "Visa ******* 2453"
                 // Personal Info
                 binding.accountPersonalInfoCard.personalInfoEmail.text = uiAccountDetails.email
                 binding.accountPersonalInfoCard.personalInfoCellphone.text =

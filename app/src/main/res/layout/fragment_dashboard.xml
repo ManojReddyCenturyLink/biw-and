@@ -19,6 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone"
             />
 
         <include
@@ -52,6 +53,7 @@
                 android:layout_marginEnd="@dimen/margin_spacing_really_small"
                 android:layout_marginBottom="@dimen/margin_spacing_small"
                 android:visibility="gone"
+                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

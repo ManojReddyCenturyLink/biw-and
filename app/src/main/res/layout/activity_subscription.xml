@@ -60,7 +60,7 @@
         <WebView
                 android:id="@+id/subscription_web_view"
                 android:layout_width="0dp"
-                android:layout_height="850dp"
+                android:layout_height="1000dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/subscription_info_widget"
