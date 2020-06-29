@@ -39,37 +39,10 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
-
         devicesViewModel.apply {
             devicesListFlow.observe {
                 populateDeviceList(it.deviceSortMap)
             }
-        }
-    }
-
-    private fun observeViews() {
-        devicesViewModel.apply {
-            progressViewFlow.observe {
-                showProgress(it)
-            }
-            errorMessageFlow.observe {
-                showRetry(it.isNotEmpty())
-            }
-        }
-    }
-
-    private fun populateDeviceList(deviceList: HashMap<DeviceStatus, List<DevicesData>>) {
-        deviceAdapter = DeviceListAdapter(deviceList, this)
-        binding.devicesList.setAdapter(deviceAdapter)
-        if (deviceList.size > 1) {
-            binding.devicesList.expandGroup(1)
-        }
-        binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
-            if (groupPosition == 1) {
-                binding.devicesList.expandGroup(1)
-                return@setOnGroupClickListener true
-            }
-            return@setOnGroupClickListener false
         }
     }
 
@@ -90,11 +63,46 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             binding.retryOverlay.retryViewLayout,
             binding.retryOverlay.root
         )
+        initViews()
         observeViews()
         return binding.root
     }
 
     override fun onDevicesClicked(devicesInfo: DevicesData) {
         devicesViewModel.navigateToUsageDetails(devicesInfo)
+    }
+
+    private fun initViews() {
+        deviceAdapter = DeviceListAdapter(
+            deviceList = HashMap<DeviceStatus, List<DevicesData>>(),
+            deviceItemClickListener = this
+        )
+        binding.devicesList.setAdapter(deviceAdapter)
+    }
+
+    private fun observeViews() {
+        devicesViewModel.apply {
+            progressViewFlow.observe {
+                showProgress(it)
+            }
+            errorMessageFlow.observe {
+                showRetry(it.isNotEmpty())
+            }
+        }
+    }
+
+    private fun populateDeviceList(deviceList: HashMap<DeviceStatus, List<DevicesData>>) {
+        deviceAdapter.deviceList = deviceList
+        deviceAdapter.notifyDataSetChanged()
+        if (deviceList.size > 1) {
+            binding.devicesList.expandGroup(1)
+        }
+        binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
+            if (groupPosition == 1) {
+                binding.devicesList.expandGroup(1)
+                return@setOnGroupClickListener true
+            }
+            return@setOnGroupClickListener false
+        }
     }
 }

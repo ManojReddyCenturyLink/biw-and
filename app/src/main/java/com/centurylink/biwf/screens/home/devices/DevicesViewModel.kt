@@ -9,6 +9,7 @@ import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
+import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -24,6 +25,7 @@ class DevicesViewModel @Inject constructor(
     var progressViewFlow = EventFlow<Boolean>()
     var devicesListFlow: Flow<UIDevicesTypeDetails> = BehaviorStateFlow()
     val myState = EventFlow<DevicesCoordinatorDestinations>()
+    var uiDevicesTypeDetails: UIDevicesTypeDetails = UIDevicesTypeDetails()
 
     init {
         initApis()
@@ -32,7 +34,8 @@ class DevicesViewModel @Inject constructor(
     fun initApis() {
         progressViewFlow.latestValue = true
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
-            requestDevices()
+            requestModemDetails()
+
         }
     }
 
@@ -58,6 +61,22 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
+    private suspend fun requestModemDetails() {
+        val modemDetails = asiaRepository.getModemInfo()
+        when (modemDetails) {
+            is AssiaNetworkResponse.Success -> {
+                if (modemDetails.body.modemInfo.isAlive) {
+                    requestDevices()
+                } else {
+                    onModemOffline()
+                }
+            }
+            else -> {
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        }
+    }
+
     private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
         progressViewFlow.latestValue = false
         val removedList = deviceInfo.devicesDataList.filter { it.blocked }
@@ -67,7 +86,14 @@ class DevicesViewModel @Inject constructor(
         if (!removedList.isNullOrEmpty()) {
             deviceMap[DeviceStatus.BLOCKED] = removedList
         }
-        devicesListFlow.latestValue = UIDevicesTypeDetails(deviceMap)
+        devicesListFlow.latestValue = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
+    }
+
+    private fun onModemOffline() {
+        progressViewFlow.latestValue = false
+        val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
+        deviceMap[DeviceStatus.CONNECTED] = emptyList()
+        devicesListFlow.latestValue = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
     }
 
     fun navigateToUsageDetails(devicesInfo: DevicesData) {
