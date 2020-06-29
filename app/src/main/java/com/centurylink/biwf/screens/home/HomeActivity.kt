@@ -7,7 +7,6 @@ import android.view.View
 import androidx.biometric.BiometricManager
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
@@ -22,7 +21,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
 
-class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListener,
+class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     ChoiceDialogFragment.BioMetricDialogCallback {
 
     @Inject
@@ -91,6 +90,10 @@ class HomeActivity : BaseActivity(), DashboardFragment.GetStartedEventClickListe
 
     override fun onGetStartedClick(isJobTypeInstallation: Boolean) {
         setupTabsViewPager(isJobTypeInstallation, true)
+    }
+
+    override fun onViewDevicesClick() {
+        binding.vpDashboard.currentItem = 2
     }
 
     override fun retryClicked() {

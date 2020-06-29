@@ -53,7 +53,7 @@ class DashboardFragment : BaseFragment() {
     }
 
     private lateinit var binding: FragmentDashboardBinding
-    private lateinit var getStartedClickListener: GetStartedEventClickListener
+    private lateinit var viewClickListener: ViewClickListener
 
     private var unreadNotificationList: MutableList<Notification> = mutableListOf()
     private var enrouteMapFragment: SupportMapFragment? = null
@@ -121,9 +121,10 @@ class DashboardFragment : BaseFragment() {
         }
         binding.incCompleted.getStartedBtn.setOnClickListener {
             dashboardViewModel.getStartedClicked()
-            getStartedClickListener.onGetStartedClick(false)
+            viewClickListener.onGetStartedClick(false)
         }
         binding.dashboardWifiCard.root.setOnClickListener { dashboardViewModel.navigateToNetworkInformation() }
+        binding.connectedDevicesCard.root.setOnClickListener { viewClickListener.onViewDevicesClick()}
     }
 
     private fun setupMap() {
@@ -263,8 +264,8 @@ class DashboardFragment : BaseFragment() {
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
-    fun setListener(getStartedClickListener: GetStartedEventClickListener) {
-        this.getStartedClickListener = getStartedClickListener
+    fun setListener(clickListener: ViewClickListener) {
+        this.viewClickListener = clickListener
     }
 
     companion object {
@@ -276,10 +277,12 @@ class DashboardFragment : BaseFragment() {
         }
     }
 
-    interface GetStartedEventClickListener {
+    interface ViewClickListener {
         /**
          * Handle click event
          */
         fun onGetStartedClick(newUser: Boolean)
+
+        fun onViewDevicesClick()
     }
 }
