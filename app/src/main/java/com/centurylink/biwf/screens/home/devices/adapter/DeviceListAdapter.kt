@@ -16,7 +16,7 @@ class DeviceListAdapter(
     private val deviceItemClickListener: DeviceItemClickListener
 ) :
     BaseExpandableListAdapter() {
-
+    var isModemAlive: Boolean = true
     override fun getGroup(groupPosition: Int): DeviceStatus {
         return when (groupPosition) {
             0 -> {
@@ -127,7 +127,6 @@ class DeviceListAdapter(
             val deviceSignalStrength =
                 recyclerChildView.findViewById<ImageView>(R.id.iv_network_type)
             deviceName.text = connectedData.hostName
-
             deviceSignalStrength.setImageResource(
                 setSignalStatus(
                     connectedData.rssi!!,
@@ -159,21 +158,25 @@ class DeviceListAdapter(
     }
 
     private fun setSignalStatus(signalStrength: Int, connectionMode: String?): Int {
-        if (!connectionMode.isNullOrEmpty() && connectionMode.equals("Ethernet", true)) {
-            return R.drawable.ic_ethernet
-        }
-        return when (signalStrength) {
-            in -50..-1 -> {
-                R.drawable.ic_strong_signal
+        if (!isModemAlive) {
+            return R.drawable.ic_off
+        } else {
+            if (!connectionMode.isNullOrEmpty() && connectionMode.equals("Ethernet", true)) {
+                return R.drawable.ic_ethernet
             }
-            in -51 downTo -75 -> {
-                R.drawable.ic_medium_signal
-            }
-            in -76 downTo -90 -> {
-                R.drawable.ic_weak_signal
-            }
-            else -> {
-                R.drawable.ic_off
+            return when (signalStrength) {
+                in -50..-1 -> {
+                    R.drawable.ic_strong_signal
+                }
+                in -51 downTo -75 -> {
+                    R.drawable.ic_medium_signal
+                }
+                in -76 downTo -90 -> {
+                    R.drawable.ic_weak_signal
+                }
+                else -> {
+                    R.drawable.ic_off
+                }
             }
         }
     }

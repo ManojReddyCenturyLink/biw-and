@@ -63,11 +63,9 @@ class DevicesViewModel @Inject constructor(
         val modemDetails = asiaRepository.getModemInfo()
         when (modemDetails) {
             is AssiaNetworkResponse.Success -> {
-                if (modemDetails.body.modemInfo.isAlive) {
-                    requestDevices()
-                } else {
-                    onModemOffline()
-                }
+                uiDevicesTypeDetails =
+                    uiDevicesTypeDetails.copy(isModemAlive = modemDetails.body.modemInfo.isAlive)
+                requestDevices()
             }
             else -> {
                 errorMessageFlow.latestValue = "Error DeviceInfo"
@@ -84,14 +82,8 @@ class DevicesViewModel @Inject constructor(
         if (!removedList.isNullOrEmpty()) {
             deviceMap[DeviceStatus.BLOCKED] = removedList
         }
-        devicesListFlow.latestValue = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
-    }
-
-    private fun onModemOffline() {
-        progressViewFlow.latestValue = false
-        val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
-        deviceMap[DeviceStatus.CONNECTED] = emptyList()
-        devicesListFlow.latestValue = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
+        uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
+        devicesListFlow.latestValue = uiDevicesTypeDetails
     }
 
     fun navigateToUsageDetails(devicesInfo: DevicesData) {
@@ -103,6 +95,7 @@ class DevicesViewModel @Inject constructor(
     }
 
     data class UIDevicesTypeDetails(
-        val deviceSortMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
+        var deviceSortMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap(),
+        var isModemAlive: Boolean = false
     )
 }

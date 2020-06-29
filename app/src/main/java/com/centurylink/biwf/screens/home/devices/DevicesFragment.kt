@@ -41,7 +41,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         retainInstance = false
         devicesViewModel.apply {
             devicesListFlow.observe {
-                populateDeviceList(it.deviceSortMap)
+                populateDeviceList(it)
             }
         }
     }
@@ -91,10 +91,11 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
-    private fun populateDeviceList(deviceList: HashMap<DeviceStatus, List<DevicesData>>) {
-        deviceAdapter.deviceList = deviceList
+    private fun populateDeviceList(deviceStatus: DevicesViewModel.UIDevicesTypeDetails) {
+        deviceAdapter.deviceList = deviceStatus.deviceSortMap
+        deviceAdapter.isModemAlive = deviceStatus.isModemAlive
         deviceAdapter.notifyDataSetChanged()
-        if (deviceList.size > 1) {
+        if (deviceAdapter.deviceList.size > 1) {
             binding.devicesList.expandGroup(1)
         }
         binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
