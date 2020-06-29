@@ -243,16 +243,27 @@
                 />
 
             <include
+                android:id="@+id/connected_devices_card"
+                layout="@layout/widget_devices_connected"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="@dimen/margin_spacing_large"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/viewpagerNotification"
+                />
+
+            <include
                 android:id="@+id/dashboard_wifi_card"
                 layout="@layout/widget_wifi_card"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:layout_marginEnd="12dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewpagerNotification"
+                app:layout_constraintTop_toBottomOf="@id/connected_devices_card"
                 android:visibility="gone"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

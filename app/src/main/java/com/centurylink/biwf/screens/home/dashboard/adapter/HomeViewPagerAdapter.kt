@@ -8,7 +8,7 @@ import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
 
-class HomeViewPagerAdapter(private val getStartedEventClickListener: DashboardFragment.GetStartedEventClickListener,
+class HomeViewPagerAdapter(private val viewClickListener: DashboardFragment.ViewClickListener,
                            fragmentActivity: FragmentActivity
 ) : FragmentStateAdapter(fragmentActivity) {
 
@@ -40,7 +40,7 @@ class HomeViewPagerAdapter(private val getStartedEventClickListener: DashboardFr
     private fun setupDashBoardFragment(): DashboardFragment {
         val newUser = tabHeaderList[TabsBaseItem.DASHBOARD].bundle.getBoolean("NEW_USER", false)
         dashBoardFragment = DashboardFragment(newUser)
-        dashBoardFragment.setListener(getStartedEventClickListener)
+        dashBoardFragment.setListener(viewClickListener)
         return dashBoardFragment
     }
 

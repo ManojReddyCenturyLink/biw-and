@@ -20,7 +20,7 @@ import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
 
 @Suppress("UNCHECKED_CAST")
-class TabsPagerRecyclerAdapter(private val mContext: Context, private val getStartedEventClickListener: DashboardFragment.GetStartedEventClickListener) :
+class TabsPagerRecyclerAdapter(private val mContext: Context, private val viewClickListener: DashboardFragment.ViewClickListener) :
     ListAdapter<TabsBaseItem, TabsPagerRecyclerAdapter.BaseViewHolder>(
         TabAdapterDiffUtil()
     ) {
@@ -127,7 +127,7 @@ class TabsPagerRecyclerAdapter(private val mContext: Context, private val getSta
             val activity = mContext as AppCompatActivity
             val newUser = getItem(adapterPosition).bundle.getBoolean("NEW_USER",false)
             val myFragment: DashboardFragment = DashboardFragment(newUser)
-            myFragment.setListener(getStartedEventClickListener)
+            myFragment.setListener(viewClickListener)
             activity.supportFragmentManager.beginTransaction()
                 .replace(R.id.container, myFragment).commit()
         }
