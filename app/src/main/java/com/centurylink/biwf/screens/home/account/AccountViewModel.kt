@@ -170,8 +170,12 @@ class AccountViewModel internal constructor(
             planName = accontDetails.productNameC ?: "Best in World Fiber",
             planSpeed = accontDetails.productPlanNameC ?: "",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
-            password = "******", cellPhone = accontDetails.phone, homePhone = accontDetails.phone,
-            workPhone = accontDetails.phone, serviceCallsAndText = accontDetails.cellPhoneOptInC
+            password = "******",
+            cellPhone = accontDetails.phone,
+            homePhone = accontDetails.phone,
+            workPhone = accontDetails.phone,
+            serviceCallsAndText = accontDetails.cellPhoneOptInC,
+            paymentMethod = accontDetails.paymentMethodName
         )
     }
 
