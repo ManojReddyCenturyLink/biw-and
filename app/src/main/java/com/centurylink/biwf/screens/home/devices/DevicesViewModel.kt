@@ -9,7 +9,6 @@ import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
-import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -35,7 +34,6 @@ class DevicesViewModel @Inject constructor(
         progressViewFlow.latestValue = true
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemDetails()
-
         }
     }
 
