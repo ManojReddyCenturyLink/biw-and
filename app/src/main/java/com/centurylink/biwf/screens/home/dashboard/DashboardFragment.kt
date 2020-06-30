@@ -136,11 +136,14 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener { showCancellationConfirmationDialaog() }
         binding.notificationDismissButton.setOnClickListener {
-            dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
-            displaySortedNotification()
+            if (unreadNotificationList.isNotEmpty()) {
+                dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
+            }
         }
         binding.topCard.setOnClickListener {
-            dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
+            if (unreadNotificationList.isNotEmpty()) {
+                dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
+            }
         }
         binding.incCompleted.getStartedBtn.setOnClickListener {
             dashboardViewModel.getStartedClicked()
@@ -242,11 +245,7 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
     private fun observeNotificationViews() {
         dashboardViewModel.notificationListDetails.observe {
             dashboardViewModel.displaySortedNotifications(it.notificationlist)
-            displaySortedNotification()
         }
-    }
-
-    private fun displaySortedNotification() {
         dashboardViewModel.notifications.observe {
             addNotificationStack(it)
         }
@@ -270,6 +269,8 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
             }
             binding.notificationTitle.text = unreadNotificationList[0].name
             binding.notificationMsg.text = unreadNotificationList[0].description
+        } else {
+            binding.topCard.visibility = View.GONE
         }
     }
 

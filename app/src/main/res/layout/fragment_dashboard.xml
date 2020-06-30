@@ -53,10 +53,10 @@
                 android:layout_marginEnd="@dimen/margin_spacing_really_small"
                 android:layout_marginBottom="@dimen/margin_spacing_small"
                 android:visibility="gone"
-                tools:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible"
                 />
 
             <include
@@ -248,17 +248,6 @@
                     />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/viewpagerNotification"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/margin_spacing_really_small"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/incSpeedTest"
-                />
-
             <include
                 android:id="@+id/connected_devices_card"
                 layout="@layout/widget_devices_connected"
@@ -268,7 +257,7 @@
                 android:layout_marginTop="@dimen/margin_spacing_large"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/viewpagerNotification"
+                app:layout_constraintTop_toBottomOf="@id/top_card"
                 />
 
             <include
@@ -279,10 +268,10 @@
                 android:layout_marginStart="12dp"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:layout_marginEnd="12dp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/connected_devices_card"
-                android:visibility="gone"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
