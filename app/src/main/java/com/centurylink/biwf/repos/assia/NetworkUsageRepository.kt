@@ -7,7 +7,6 @@ import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
 import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
-import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.service.network.AssiaTrafficUsageService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -18,7 +17,7 @@ import kotlin.math.roundToInt
 
 @Singleton
 class NetworkUsageRepository @Inject constructor(
-    private val assiaService: AssiaService,
+    private val assiaTokenManager: AssiaTokenManager,
     private val assiaTrafficUsageService: AssiaTrafficUsageService,
     private val integrationRestServices: IntegrationRestServices,
     private val preferences: Preferences
@@ -34,7 +33,7 @@ class NetworkUsageRepository @Inject constructor(
             endDate = LocalDate.now().minusDays(1).toString().plus("T00:00:00-0000")
         }
         val result = assiaTrafficUsageService.getUsageDetails(
-            getHeaderMap(getAssiaToken(), staMac, startDate, endDate)
+            getHeaderMap(assiaTokenManager.getAssiaToken(), staMac, startDate, endDate)
         )
         return when(result){
             is AssiaNetworkResponse.Success -> {
@@ -42,22 +41,6 @@ class NetworkUsageRepository @Inject constructor(
             }
             else -> {
                 throw IllegalStateException("Cannot read value")
-            }
-        }
-    }
-
-
-    private val tokenError = "Token Error"
-
-    //todo will be removed post-Apigee
-    suspend fun getAssiaToken(): String {
-        val response = assiaService.getAssiaTokenWithTokenObject()
-        return when (response) {
-            is AssiaNetworkResponse.Success -> {
-                response.body.accessToken
-            }
-            else -> {
-                tokenError
             }
         }
     }

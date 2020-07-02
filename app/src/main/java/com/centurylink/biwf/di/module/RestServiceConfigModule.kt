@@ -199,6 +199,12 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
+    fun provideAssiaTokenServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): AssiaTokenService{
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
     fun provideAssiaServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory):AssiaService{
         return factory.create()
     }
