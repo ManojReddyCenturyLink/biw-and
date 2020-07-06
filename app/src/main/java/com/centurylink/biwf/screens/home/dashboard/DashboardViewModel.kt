@@ -64,14 +64,13 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            Log.i("JAQUAR", "Appointment Id " + it.appointmentId)
             updateAppointmentStatus(it)
             progressViewFlow.latestValue = false
         }
     }
 
     private suspend fun requestAppointmentSlots() {
-        //TODO Test code Move to Appointment Modify Activity
+        //TODO Test code Move to Appointment Modify Activity Need to pass the value from UI as well
         val appointmentSlots = appointmentRepository
             .getAppointmentSlots("08pf00000008gvRAAQ", "2020-07-30")
         appointmentSlots.fold(ifLeft = {
@@ -91,7 +90,7 @@ class DashboardViewModel @Inject constructor(
         )
         val rescheduleslots = appointmentRepository.modifyAppointmentInfo(rescheduleInfo)
         rescheduleslots.fold(ifLeft = {
-           // errorMessageFlow.latestValue = it
+            // errorMessageFlow.latestValue = it
         }) {
             // Implement this function in Modify Appointment Activity
         }
