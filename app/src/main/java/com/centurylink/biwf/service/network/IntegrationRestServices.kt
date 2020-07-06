@@ -1,6 +1,7 @@
 package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.FiberServiceResult
+import com.centurylink.biwf.model.appointment.AppointmentSlots
 import com.centurylink.biwf.model.appointment.Appointments
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.faq.Faq
@@ -52,4 +53,9 @@ interface IntegrationRestServices {
 
     @GET("api/v2/wifi/diags/station/traffic")
     suspend fun getUsageDetails(): FiberServiceResult<TrafficUsageResponse>
+
+    @GET("/sobject/getslots/{value1}")
+    suspend fun getAppointmentSlots(
+        @Path("value1") value1: String
+    ): FiberServiceResult<AppointmentSlots>
 }

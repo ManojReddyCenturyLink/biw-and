@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -24,6 +25,7 @@ class DashboardViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences
+
 ) : BaseViewModel() {
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
@@ -47,6 +49,7 @@ class DashboardViewModel @Inject constructor(
     fun initApis() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
+            requestAppointmentSlots()
             requestAppointmentDetails()
             requestNotificationDetails()
         }
@@ -61,6 +64,17 @@ class DashboardViewModel @Inject constructor(
             progressViewFlow.latestValue = false
         }
     }
+
+    private suspend fun requestAppointmentSlots() {
+        val appointmentslots = appointmentRepository.getAppointmentSlots()
+        appointmentslots.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+
+        }
+    }
+
+
 
     private suspend fun requestNotificationDetails() {
         val notificationDetails = notificationRepository.getNotificationDetails()
