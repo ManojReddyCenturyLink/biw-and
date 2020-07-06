@@ -6,6 +6,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
+import com.centurylink.biwf.model.appointment.RescheduleInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
@@ -50,6 +51,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestAppointmentSlots()
+            rescheduleAppointmentInfo()
             requestAppointmentDetails()
             requestNotificationDetails()
         }
@@ -66,15 +68,24 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestAppointmentSlots() {
-        val appointmentslots = appointmentRepository.getAppointmentSlots()
-        appointmentslots.fold(ifLeft = {
+        val appointmentSlots = appointmentRepository.getAppointmentSlots()
+        appointmentSlots.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-
+         // Implement this function in Modify Appointment Activity
         }
     }
 
 
+    private suspend fun rescheduleAppointmentInfo(){
+        val rescheduleslots = appointmentRepository.modifyAppointmentInfo(RescheduleInfo())
+        rescheduleslots.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            // Implement this function in Modify Appointment Activity
+            Log.i("JAQUAR","Slots changing value "+it.status)
+        }
+    }
 
     private suspend fun requestNotificationDetails() {
         val notificationDetails = notificationRepository.getNotificationDetails()

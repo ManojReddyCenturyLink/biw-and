@@ -65,4 +65,10 @@ class AppointmentRepository @Inject constructor(
             integrationRestServices.getAppointmentSlots("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }
     }
+
+    suspend fun modifyAppointmentInfo(rescheduleInfo: RescheduleInfo): Either<String, AppointmentResponse> {
+        val result: FiberServiceResult<AppointmentResponse> =
+            integrationRestServices.submitAppointments(rescheduleInfo)
+        return result.mapLeft { it.message?.message.toString() }
+    }
 }
