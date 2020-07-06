@@ -60,15 +60,22 @@ class AppointmentRepository @Inject constructor(
         }
     }
 
-    suspend fun getAppointmentSlots(): Either<String, AppointmentSlots> {
+    suspend fun getAppointmentSlots(
+        serviceAppointmentId: String,
+        expectedMinimalDate: String
+    ): Either<String, AppointmentSlots> {
+        // val result: FiberServiceResult<AppointmentSlots> =
+        //   integrationRestServices.getAppointmentSlots("appointmentDetails")
         val result: FiberServiceResult<AppointmentSlots> =
-            integrationRestServices.getAppointmentSlots("appointmentDetails")
+            appointmentService.getAppointmentSlots(serviceAppointmentId, expectedMinimalDate)
         return result.mapLeft { it.message?.message.toString() }
     }
 
     suspend fun modifyAppointmentInfo(rescheduleInfo: RescheduleInfo): Either<String, AppointmentResponse> {
+        //val result: FiberServiceResult<AppointmentResponse> =
+        //  integrationRestServices.submitAppointments(rescheduleInfo)
         val result: FiberServiceResult<AppointmentResponse> =
-            integrationRestServices.submitAppointments(rescheduleInfo)
+            appointmentService.reScheduleAppointment(rescheduleInfo)
         return result.mapLeft { it.message?.message.toString() }
     }
 }

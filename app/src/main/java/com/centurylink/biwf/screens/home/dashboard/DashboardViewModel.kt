@@ -1,4 +1,5 @@
 package com.centurylink.biwf.screens.home.dashboard
+
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -50,10 +51,11 @@ class DashboardViewModel @Inject constructor(
     fun initApis() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
-            requestAppointmentSlots()
-            rescheduleAppointmentInfo()
+
             requestAppointmentDetails()
             requestNotificationDetails()
+            requestAppointmentSlots()
+            rescheduleAppointmentInfo()
         }
     }
 
@@ -62,28 +64,36 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            Log.i("JAQUAR", "Appointment Id " + it.appointmentId)
             updateAppointmentStatus(it)
             progressViewFlow.latestValue = false
         }
     }
 
     private suspend fun requestAppointmentSlots() {
-        val appointmentSlots = appointmentRepository.getAppointmentSlots()
+        //TODO Test code Move to Appointment Modify Activity
+        val appointmentSlots = appointmentRepository
+            .getAppointmentSlots("08pf00000008gvRAAQ", "2020-07-30")
         appointmentSlots.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-         // Implement this function in Modify Appointment Activity
+            // Implement this function in Modify Appointment Activity
         }
     }
 
 
-    private suspend fun rescheduleAppointmentInfo(){
-        val rescheduleslots = appointmentRepository.modifyAppointmentInfo(RescheduleInfo())
+    private suspend fun rescheduleAppointmentInfo() {
+        //TODO   Move to Appointment Modify View Model on Implementations
+        val rescheduleInfo = RescheduleInfo(
+            serviceAppointmentId = "08pf00000008gvCAAQ",
+            arrivalWindowStartTime = "2020-07-07 08:00 AM",
+            arrivalWindowEndTime = "2020-07-03 10:00 AM"
+        )
+        val rescheduleslots = appointmentRepository.modifyAppointmentInfo(rescheduleInfo)
         rescheduleslots.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
+           // errorMessageFlow.latestValue = it
         }) {
             // Implement this function in Modify Appointment Activity
-            Log.i("JAQUAR","Slots changing value "+it.status)
         }
     }
 
@@ -152,7 +162,7 @@ class DashboardViewModel @Inject constructor(
         }
         timerSetup()
     }
-    
+
     fun getChangeAppointment() {
         myState.latestValue = DashboardCoordinatorDestinations.CHANGE_APPOINTMENT
     }
@@ -187,7 +197,7 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
-    fun navigateToNetworkInformation(){
+    fun navigateToNetworkInformation() {
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 

@@ -1,11 +1,8 @@
 package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.FiberServiceResult
-import com.centurylink.biwf.model.appointment.Appointments
-import com.centurylink.biwf.model.appointment.ServiceAppointments
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.centurylink.biwf.model.appointment.*
+import retrofit2.http.*
 
 interface AppointmentService {
 
@@ -14,4 +11,11 @@ interface AppointmentService {
 
     @GET("sobjects/ServiceAppointment/{account-id}")
     suspend fun getServiceAppointments(@Path("account-id") id: String): FiberServiceResult<ServiceAppointments>
+
+    @GET("/services/apexrest/AppointmentSlotsMobile/")
+    suspend fun getAppointmentSlots(@Query("ServiceAppointmentId") id: String,
+                                    @Query("EarliestPermittedDate") date: String):FiberServiceResult<AppointmentSlots>
+
+    @POST("services/apexrest/AppointmentSlotsMobile/")
+    suspend fun reScheduleAppointment(@Body rescheduleInfo: RescheduleInfo):FiberServiceResult<AppointmentResponse>
 }
