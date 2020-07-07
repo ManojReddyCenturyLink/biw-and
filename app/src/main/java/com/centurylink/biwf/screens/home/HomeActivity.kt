@@ -143,7 +143,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard,
             TabLayoutMediator.OnConfigureTabCallback
             { tab, position -> tab.setText(viewModel.lowerTabHeaderList[position].titleRes) }).attach()
-        binding.vpDashboard.currentItem = 0
+        binding.vpDashboard.setCurrentItem(1, false)
     }
 
     private fun biometricCheck(list: ChoiceDialogMessage) {
