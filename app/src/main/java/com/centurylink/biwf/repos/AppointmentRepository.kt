@@ -3,10 +3,7 @@ package com.centurylink.biwf.repos
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
-import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
-import com.centurylink.biwf.model.appointment.Appointments
-import com.centurylink.biwf.model.appointment.ServiceAppointments
-import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.appointment.*
 import com.centurylink.biwf.service.network.AppointmentService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -61,5 +58,24 @@ class AppointmentRepository @Inject constructor(
                 }
             } ?: Either.Left("Appointment Records is Empty")
         }
+    }
+
+    suspend fun getAppointmentSlots(
+        serviceAppointmentId: String,
+        expectedMinimalDate: String
+    ): Either<String, AppointmentSlots> {
+        // val result: FiberServiceResult<AppointmentSlots> =
+        //   integrationRestServices.getAppointmentSlots("appointmentDetails")
+        val result: FiberServiceResult<AppointmentSlots> =
+            appointmentService.getAppointmentSlots(serviceAppointmentId, expectedMinimalDate)
+        return result.mapLeft { it.message?.message.toString() }
+    }
+
+    suspend fun modifyAppointmentInfo(rescheduleInfo: RescheduleInfo): Either<String, AppointmentResponse> {
+        //val result: FiberServiceResult<AppointmentResponse> =
+        //  integrationRestServices.submitAppointments(rescheduleInfo)
+        val result: FiberServiceResult<AppointmentResponse> =
+            appointmentService.reScheduleAppointment(rescheduleInfo)
+        return result.mapLeft { it.message?.message.toString() }
     }
 }

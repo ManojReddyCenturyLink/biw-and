@@ -66,6 +66,22 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
                 .copyTo(this)
         }
     }
+
+    get<GetSlotsPath> {
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/getslots.json")
+                .copyTo(this)
+        }
+    }
+
+    post<ReSchedulePath> {
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/appointmentchange.json")
+                .copyTo(this)
+        }
+    }
 }
 
 

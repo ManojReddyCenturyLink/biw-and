@@ -1,13 +1,17 @@
 package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.FiberServiceResult
+import com.centurylink.biwf.model.appointment.AppointmentResponse
+import com.centurylink.biwf.model.appointment.AppointmentSlots
 import com.centurylink.biwf.model.appointment.Appointments
+import com.centurylink.biwf.model.appointment.RescheduleInfo
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
+import com.centurylink.biwf.service.impl.integration.model.ReSchedulePath
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -52,4 +56,14 @@ interface IntegrationRestServices {
 
     @GET("api/v2/wifi/diags/station/traffic")
     suspend fun getUsageDetails(): FiberServiceResult<TrafficUsageResponse>
+
+    @GET("/sobject/getslots/{value1}")
+    suspend fun getAppointmentSlots(
+        @Path("value1") value1: String
+    ): FiberServiceResult<AppointmentSlots>
+
+    @POST("/sobject/reschedule/{value1}")
+    suspend fun submitAppointments(
+        @Body input: RescheduleInfo
+    ): FiberServiceResult<AppointmentResponse>
 }
