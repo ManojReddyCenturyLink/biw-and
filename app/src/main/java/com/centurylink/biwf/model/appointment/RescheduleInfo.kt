@@ -3,7 +3,7 @@ package com.centurylink.biwf.model.appointment
 import com.google.gson.annotations.SerializedName
 
 data class  RescheduleInfo (
-    @SerializedName("SeriveAppointmentId")
+    @SerializedName("ServiceAppointmentId")
     val serviceAppointmentId: String? = null,
     @SerializedName("ArrivalWindowStartTime")
     val arrivalWindowStartTime: String? = null,
