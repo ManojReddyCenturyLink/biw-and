@@ -61,5 +61,6 @@ abstract class BaseViewModel : ViewModel() {
 
     companion object{
         const val MODEM_STATUS_REFRESH_INTERVAL = 30000L
+        const val SPEED_TEST_REFRESH_INTERVAL = 5000L
     }
 }

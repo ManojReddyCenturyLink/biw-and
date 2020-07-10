@@ -10,6 +10,7 @@ import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.utility.BehaviorStateFlow
@@ -19,17 +20,28 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.DateTimeFormatterBuilder
+import org.threeten.bp.format.SignStyle
+import org.threeten.bp.temporal.ChronoField
 import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     private val appointmentRepository: AppointmentRepository,
-    private val sharedPreferences: Preferences
+    private val sharedPreferences: Preferences,
+    private val assiaRepository: AssiaRepository
 ) : BaseViewModel() {
+
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
     val notificationListDetails = BehaviorStateFlow<NotificationSource>()
     val notifications: BehaviorStateFlow<MutableList<Notification>> = BehaviorStateFlow()
+    val downloadSpeed: Flow<String> = BehaviorStateFlow()
+    val uploadSpeed: Flow<String> = BehaviorStateFlow()
+    val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
+    val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
@@ -42,6 +54,7 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
 
     init {
+        startSpeedTest()
         initApis()
         isExistingUser.value = sharedPreferences.getUserType() ?: false
     }
@@ -52,6 +65,75 @@ class DashboardViewModel @Inject constructor(
             requestAppointmentDetails()
             requestNotificationDetails()
         }
+    }
+
+    fun startSpeedTest() {
+        if (!progressVisibility.latestValue) {
+            getSpeedTestId()
+        }
+    }
+
+    private fun getSpeedTestId() {
+        progressVisibility.latestValue = true
+        latestSpeedTest.latestValue = EMPTY_RESPONSE
+        viewModelScope.launch {
+            val speedTestRequest = assiaRepository.startSpeedTest()
+            checkSpeedTestStatus(requestId = speedTestRequest.speedTestId)
+        }
+    }
+
+    private fun checkSpeedTestStatus(requestId: Int) {
+        viewModelScope.launch {
+            var keepChecking = true
+            while (keepChecking) {
+                val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)
+                if (status.data.isFinished) {
+                    keepChecking = false
+                } else {
+                    delay(SPEED_TEST_REFRESH_INTERVAL)
+                }
+            }
+            getResults()
+        }
+    }
+
+    private suspend fun getResults() {
+        val upstreamData = assiaRepository.getUpstreamResults()
+        if (upstreamData.data.listOfData.isNotEmpty()) {
+            val uploadMb = upstreamData.data.listOfData[0].speedAvg / 1000
+            uploadSpeed.latestValue = uploadMb.toString()
+        } else {
+            uploadSpeed.latestValue = EMPTY_RESPONSE
+        }
+
+        val downStreamData = assiaRepository.getDownstreamResults()
+        if (downStreamData.data.listOfData.isNotEmpty()) {
+            val downloadMb = downStreamData.data.listOfData[0].speedAvg / 1000
+            downloadSpeed.latestValue = downloadMb.toString()
+            latestSpeedTest.latestValue = formatUtcString(downStreamData.data.listOfData[0].timeStamp)
+        } else {
+            downloadSpeed.latestValue = EMPTY_RESPONSE
+            latestSpeedTest.latestValue = EMPTY_RESPONSE
+        }
+        progressVisibility.latestValue = false
+    }
+
+    private fun formatUtcString(utcString: String): String {
+        val myDate = LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(utcString.substringBefore('+')))
+        val amPm = if (myDate.hour < 12) "am" else "pm"
+        val dateTimeFormatter = DateTimeFormatterBuilder()
+            .appendValue(ChronoField.MONTH_OF_YEAR, 2, 2, SignStyle.NEVER)
+            .appendLiteral('/')
+            .appendValue(ChronoField.DAY_OF_MONTH, 2, 2, SignStyle.NEVER)
+            .appendLiteral('/')
+            .appendValue(ChronoField.YEAR, 4, 4, SignStyle.NEVER)
+            .appendLiteral(" at ")
+            .appendValue(ChronoField.CLOCK_HOUR_OF_AMPM)
+            .appendLiteral(':')
+            .appendValue(ChronoField.MINUTE_OF_HOUR, 2, 2, SignStyle.NEVER)
+            .appendLiteral(amPm)
+            .toFormatter()
+        return dateTimeFormatter.format(myDate)
     }
 
     private suspend fun requestAppointmentDetails() {
@@ -91,7 +173,6 @@ class DashboardViewModel @Inject constructor(
     private fun updateAppointmentStatus(
         it: AppointmentRecordsInfo
     ) {
-
         val timezone = it.timeZone
         when (it.serviceStatus) {
             ServiceStatus.SCHEDULED, ServiceStatus.DISPATCHED, ServiceStatus.NONE -> {
@@ -204,6 +285,9 @@ class DashboardViewModel @Inject constructor(
 
     fun getStartedClicked() {
         sharedPreferences.saveUserType(true)
+    }
+    companion object{
+        const val EMPTY_RESPONSE = "- -"
     }
 
     fun requestAppointmentCancellation() {

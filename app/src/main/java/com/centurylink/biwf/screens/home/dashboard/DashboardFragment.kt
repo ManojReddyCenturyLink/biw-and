@@ -90,6 +90,21 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         dashboardViewModel.errorMessageFlow.observe {
             showRetry(it.isNotEmpty())
         }
+        dashboardViewModel.downloadSpeed.observe {
+            binding.incSpeedTest.downloadSpeed.text = it
+        }
+        dashboardViewModel.uploadSpeed.observe {
+            binding.incSpeedTest.uploadSpeed.text = it
+        }
+        dashboardViewModel.latestSpeedTest.observe {
+            binding.incSpeedTest.lastSpeedTestTime.text = it
+        }
+        dashboardViewModel.progressVisibility.observe {
+            binding.incSpeedTest.uploadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
+            binding.incSpeedTest.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
+            binding.incSpeedTest.downloadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            binding.incSpeedTest.uploadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
+        }
         initOnClicks()
         binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
@@ -117,6 +132,7 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
     }
 
     private fun initOnClicks() {
+        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest() }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener { showCancellationConfirmationDialaog() }
         binding.notificationDismissButton.setOnClickListener {
