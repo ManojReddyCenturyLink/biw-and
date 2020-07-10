@@ -1,6 +1,7 @@
 package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.assia.ModemInfoResponse
+import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
 import com.centurylink.biwf.model.speedtest.SpeedTestResponse
@@ -10,6 +11,7 @@ import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface AssiaService {
 
@@ -38,4 +40,7 @@ interface AssiaService {
 
     @GET("api/v3/wifi/line/info")
     suspend fun checkStatusOfAp(): Any
+
+    @POST("api/v2/wifi/operations/ap/{assiaId}/reboot")
+    suspend fun rebootModem(@Path("assiaId") id: String, @HeaderMap header: Map<String, String>): ModemRebootResponse
 }

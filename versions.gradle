@@ -56,6 +56,9 @@ ext {
     //rating
     ratingVersion="1.5.0"
 
+    //WorkManager version
+    workManagerVersion = "2.3.4"
+
     //biometrics
     biometricVersion = "1.0.1"
 

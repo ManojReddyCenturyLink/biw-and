@@ -173,6 +173,9 @@ dependencies {
     //Caldroid
     implementation "com.github.vpotvin:$caldroidVersion"
 
+    //WorkManager
+    implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
+
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
     testImplementation "io.mockk:mockk:$mockKVersion"

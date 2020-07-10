@@ -145,5 +145,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="${mapsApiKey}"
             />
+
+        <provider
+                android:name="androidx.work.impl.WorkManagerInitializer"
+                android:authorities="${applicationId}.workmanager-init"
+                tools:node="remove" />
     </application>
 </manifest>

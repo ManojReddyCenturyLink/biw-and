@@ -31,6 +31,7 @@ import com.centurylink.biwf.di.module.DaggerViewModelFactoryModule
 import com.centurylink.biwf.di.module.RestServiceConfigModule
 import com.centurylink.biwf.di.module.RestServiceModule
 import com.centurylink.biwf.di.module.SharedPreferencesModule
+import com.centurylink.biwf.di.module.WorkManagerModule
 import com.centurylink.biwf.di.serviceinjector.AppAuthResponseServiceInjectorModule
 import dagger.BindsInstance
 import dagger.Component
@@ -68,6 +69,7 @@ import javax.inject.Singleton
         (AppModule::class),
         (CancelSubscriptionDetailsInjectorModule::class),
         (SharedPreferencesModule::class),
+        (WorkManagerModule::class),
         (AuthServiceConfigModule::class),
         (AuthServiceModule::class),
         (RestServiceConfigModule::class),
