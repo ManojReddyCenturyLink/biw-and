@@ -2,9 +2,11 @@ package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.di.activityinjector.AdditionalInfoActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.AppointmentBookedActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.CancelSubscriptionDetailsInjectorModule
 import com.centurylink.biwf.di.activityinjector.CancelSubscriptionInjectorModule
+import com.centurylink.biwf.di.activityinjector.ChangeAppointmentActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.FAQActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
@@ -55,6 +57,8 @@ import javax.inject.Singleton
         (SubscriptionActivityInjectorModule::class),
         (NetworkStatusActivityInjectorModule::class),
         (UsageDetailsActivityInjectorModule::class),
+        (ChangeAppointmentActivityInjectorModule::class),
+        (AppointmentBookedActivityInjectorModule::class),
         (BaseFragmentInjectorModule::class),
         (DashboardFragmentInjectorModule::class),
         (AccountFragmentInjectorModule::class),

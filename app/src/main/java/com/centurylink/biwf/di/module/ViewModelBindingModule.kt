@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsViewModel
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionViewModel
+import com.centurylink.biwf.screens.changeappointment.AppointmentBookedViewModel
+import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentViewModel
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.account.PersonalInfoViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
@@ -114,4 +116,14 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(DevicesViewModel::class)
     abstract fun bindDevicesViewModel(devicesViewModel: DevicesViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChangeAppointmentViewModel::class)
+    abstract fun bindChangeAppointmentViewModel(changeAppointmentViewModel: ChangeAppointmentViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AppointmentBookedViewModel::class)
+    abstract fun bindAppointmentBookedViewModel(appointmentBookedViewModel: AppointmentBookedViewModel): ViewModel
 }

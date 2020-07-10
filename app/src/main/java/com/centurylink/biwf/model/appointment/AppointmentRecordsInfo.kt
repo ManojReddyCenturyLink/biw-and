@@ -11,5 +11,6 @@ data class AppointmentRecordsInfo(
     val serviceLatitude: String?,
     val serviceLongitude: String?,
     val jobType: String,
-    val appointmentId: String
+    val appointmentId: String,
+    val timeZone:String
 )

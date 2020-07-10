@@ -25,7 +25,6 @@ class SubscriptionStatementViewModel @Inject constructor(
     var uiStatementDetails = UiStatementDetails()
     var invoicedId: String? = null
     var processedDate: String? = null
-
     init {
         progressViewFlow.latestValue = true
         initAPiCalls()

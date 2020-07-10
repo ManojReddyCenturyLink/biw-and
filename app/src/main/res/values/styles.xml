@@ -73,10 +73,11 @@
         <item name="buttonBarNegativeButtonStyle">@style/negativeButton</item>
     </style>
 
-    <style name= "positiveButton" parent="Widget.AppCompat.Button.Borderless">
+    <style name="positiveButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/blue</item>
     </style>
-    <style name= "negativeButton" parent="Widget.AppCompat.Button.Borderless">
+
+    <style name="negativeButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/font_color_medium_grey</item>
     </style>
 
@@ -84,5 +85,25 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/font_color_medium_grey</item>
         <item name="fontFamily">@font/arial_mt</item>
+    </style>
+
+    <style name="CaldroidDefaultLight" parent="CaldroidDefault">
+        <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
+        <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>
+        <item name="styleCaldroidWeekdayView">@style/CaldroidDefaultWeekdayCell</item>
+    </style>
+
+    <style name="CaldroidDefaultLightGridView" parent="CaldroidDefaultLight">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="CaldroidDefaultLightSquareCell" parent="CaldroidDefaultCell">
+        <item name="android:textColor">@color/blue</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="CaldroidDefaultWeekdayCell" parent="CaldroidDefaultCell">
+        <item name="android:textColor">@color/grey_darker</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

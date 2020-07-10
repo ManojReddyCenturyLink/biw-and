@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.cancelsubscription
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.repos.CaseRepository
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData

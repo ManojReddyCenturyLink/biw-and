@@ -1,5 +1,6 @@
 package com.centurylink.biwf.coordinators
 
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -7,6 +8,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.changeappointment.AppointmentBookedActivity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
@@ -67,7 +69,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
 
     fun navigateToChangeAppointment() {
         activity?.also {
-            it.startActivity(ChangeAppointmentActivity.newIntent(it))
+            it.startActivityForResult(ChangeAppointmentActivity.newIntent(it),ChangeAppointmentActivity.REQUEST_TO_DASHBOARD)
         }
     }
 
@@ -178,6 +180,13 @@ class Navigator @Inject constructor() : LifecycleObserver {
         val bundle = DevicesCoordinatorDestinations.bundle
         activity?.also {
             it.startActivity(UsageDetailsActivity.newIntent(it, bundle))
+        }
+    }
+
+    fun navigateToAppointmentConfirmation() {
+        val bundle = ChangeAppointmentCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(AppointmentBookedActivity.newIntent(it, bundle),ChangeAppointmentActivity.REQUEST_TO_DASHBOARD)
         }
     }
 

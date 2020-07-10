@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.biometric.BiometricManager
 import androidx.fragment.app.Fragment
@@ -37,7 +38,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         ViewModelProvider(this, factory).get(HomeViewModel::class.java)
     }
     private val adapter by lazy { TabsPagerRecyclerAdapter(this, this) }
-    private val viewPagerAdapter by lazy { HomeViewPagerAdapter( this,this) }
+    private val viewPagerAdapter by lazy { HomeViewPagerAdapter(this, this) }
 
     private lateinit var binding: ActivityHomeBinding
 
@@ -81,6 +82,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
             binding.vpDashboard.currentItem = 0
+        } else if (resultCode == DashboardFragment.REFRESH_APPOINTMENT) {
+            binding.vpDashboard.currentItem = 1
+            refreshAppointmentsInDashBoardFragment()
         }
     }
 
@@ -173,6 +177,16 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         for (fragment in allFragments) {
             if (fragment is AccountFragment) {
                 fragment.refreshBioMetrics()
+            }
+        }
+    }
+
+    private fun refreshAppointmentsInDashBoardFragment() {
+        val allFragments: List<Fragment> =
+            supportFragmentManager.fragments
+        for (fragment in allFragments) {
+            if (fragment is DashboardFragment) {
+                fragment.retryClicked()
             }
         }
     }

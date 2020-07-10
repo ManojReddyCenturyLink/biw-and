@@ -59,6 +59,9 @@ ext {
     //biometrics
     biometricVersion = "1.0.1"
 
+    //caldroid
+    caldroidVersion = "caldroidx:1.0"
+
     //Test Dependencies
     jUnitVersion = '4.12'
     testRunnerVersion = '1.1.1'

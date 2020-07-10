@@ -169,6 +169,9 @@ dependencies {
 
     //Google-map
     implementation "com.google.android.gms:play-services-maps:$googleMapVersion"
+    
+    //Caldroid
+    implementation "com.github.vpotvin:$caldroidVersion"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
