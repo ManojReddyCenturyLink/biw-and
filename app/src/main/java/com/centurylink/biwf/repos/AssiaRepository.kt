@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos
 
-
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
@@ -23,6 +22,16 @@ class AssiaRepository @Inject constructor(
 
     suspend fun getModemInfo(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
         return assiaService.getModemInfo(getHeaderMap(token = assiaTokenManager.getAssiaToken()))
+    }
+
+    // Secondary method for Modem Info retrieval, which forces a ping to the hardware. This 
+    // prevents Assia from sending us cached data in the response, but is more expensive so it
+    // should only be used for certain use cases which require it. Rebooting uses this method for
+    // obtaining the instantaneous "isAlive" value
+    suspend fun getModemInfoForcePing(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
+        return assiaService.getModemInfo(
+            getHeaderMap(token = assiaTokenManager.getAssiaToken()).plus("forcePing" to "true")
+        )
     }
 
     suspend fun getDevicesDetails(): AssiaNetworkResponse<DevicesInfo, AssiaError> {

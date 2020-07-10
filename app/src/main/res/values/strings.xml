@@ -65,13 +65,20 @@
     <string name="ok">OK</string>
     <string name="ok_lowercase">Ok</string>
 
-    <!--FAQ Screen  -->
+    <!--Support / FAQ Screen -->
     <string name="faq_title">Network Connection</string>
     <string name="faq_subsection_helpful_videos">Helpful videos</string>
     <string name="frequently_asked_questions">Frequently asked questions</string>
     <string name="frequently_questions_cant_find">Can\'t find the answer to your question?</string>
     <string name="support_live_chat">Live chat</string>
     <string name="support_schedule_a_callback">Schedule a callback</string>
+    <string name="modem_reboot_error_title">Modem restart incomplete.</string>
+    <string name="modem_reboot_error_message">Please check that your modem is connected to power and try again.</string>
+    <string name="modem_reboot_error_button_positive">Retry</string>
+    <string name="modem_reboot_error_button_negative">Cancel</string>
+    <string name="modem_reboot_success_title">Success!</string>
+    <string name="modem_reboot_success_message">Your modem has been restarted. If you\'re still experiencing issues, please contact support.</string>
+    <string name="modem_reboot_success_button">Close</string>
 
     <!--Account Screen -->
     <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
@@ -250,6 +257,7 @@
     <string name="guest_network_name_label">Guest network name:</string>
     <string name="wifi_network">WiFi network</string>
     <string name="internet">Internet</string>
+    <string name="restarting">Restarting</string>
 
     <string name="connected_devices_singular">Connected device</string>
     <string name="connected_devices_plural">Connected devices</string>

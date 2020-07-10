@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+android:fromDegrees="0"
+android:pivotX="50%"
+android:pivotY="50%"
+android:toDegrees="1080">
+  <vector xmlns:android="http://schemas.android.com/apk/res/android"
+      android:width="30dp"
+      android:height="30dp"
+      android:viewportWidth="30"
+      android:viewportHeight="30">
+    <group>
+      <clip-path
+          android:pathData="M15,19c2.21,0 4,-1.79 4,-4S17.21,11 15,11L15,9c3.314,0 6,2.686 6,6s-2.686,6 -6,6 -6,-2.686 -6,-6h2c0,2.21 1.79,4 4,4z"/>
+      <path
+          android:pathData="M20.5,9.5v11h-12L8.5,9.5h12z"
+          android:strokeWidth="3"
+          android:fillColor="#0047BB"
+          android:strokeColor="#0047BB"
+          android:fillType="evenOdd"/>
+    </group>
+  </vector>
+</rotate>

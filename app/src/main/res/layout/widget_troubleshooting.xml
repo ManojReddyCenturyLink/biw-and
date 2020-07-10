@@ -127,6 +127,13 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/vertical_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".5" />
+
         <Button
             android:id="@+id/run_speed_test_button"
             android:layout_width="@dimen/padding_0"
@@ -140,12 +147,12 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="@dimen/extra_small_text_size"
-            app:layout_constraintEnd_toStartOf="@+id/restart_modem_button"
+            app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
 
         <Button
-            android:id="@+id/restart_modem_button"
+            android:id="@+id/reboot_modem_button"
             android:layout_width="@dimen/padding_0"
             android:layout_height="@dimen/padding_0"
             style="?android:attr/borderlessButtonStyle"
@@ -158,8 +165,21 @@
             android:textSize="@dimen/extra_small_text_size"
             app:layout_constraintBottom_toBottomOf="@+id/run_speed_test_button"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/run_speed_test_button"
+            app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
             app:layout_constraintTop_toTopOf="@+id/run_speed_test_button" />
+
+        <include
+            android:id="@+id/rebooting_modem_button"
+            layout="@layout/widget_progress_overlay_blue"
+            android:layout_marginStart="@dimen/margin_spacing_tiny"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="@dimen/padding_0"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/run_speed_test_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+            app:layout_constraintTop_toTopOf="@+id/run_speed_test_button" />
+
         <TextView
             android:id="@+id/info_text"
             android:layout_width="wrap_content"
