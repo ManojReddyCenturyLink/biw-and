@@ -10,9 +10,12 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.centurylink.biwf.R
-import kotlinx.android.synthetic.main.widget_dialog_default.view.*
+import kotlinx.android.synthetic.main.widget_dialog_default.view.dialog_message
+import kotlinx.android.synthetic.main.widget_dialog_default.view.dialog_title
+import kotlinx.android.synthetic.main.widget_dialog_default.view.negative_cta
+import kotlinx.android.synthetic.main.widget_dialog_default.view.positive_cta
 
-class CustomDialogGreyTheme : DialogFragment() {
+class CustomDialogGreyTheme() : DialogFragment() {
 
     private lateinit var callback: DialogCallback
     lateinit var title: String
@@ -20,9 +23,15 @@ class CustomDialogGreyTheme : DialogFragment() {
     lateinit var positiveText: String
     lateinit var negativeText: String
 
+    constructor(dialogCallback : DialogCallback) : this() {
+        callback = dialogCallback
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callback = context as DialogCallback
+        if(context is DialogCallback){
+            callback = context
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -77,6 +86,23 @@ class CustomDialogGreyTheme : DialogFragment() {
             negativeText: String
         ): CustomDialogGreyTheme {
             return CustomDialogGreyTheme().apply {
+                arguments = Bundle().apply {
+                    putString(KEY_TITLE, title)
+                    putString(KEY_MESSAGE, message)
+                    putString(KEY_POSITIVE, positiveText)
+                    putString(KEY_NEGATIVE, negativeText)
+                }
+            }
+        }
+
+        operator fun invoke(
+            title: String,
+            message: String,
+            positiveText: String,
+            negativeText: String,
+            callback: DialogCallback
+        ): CustomDialogGreyTheme {
+            return CustomDialogGreyTheme(callback).apply {
                 arguments = Bundle().apply {
                     putString(KEY_TITLE, title)
                     putString(KEY_MESSAGE, message)

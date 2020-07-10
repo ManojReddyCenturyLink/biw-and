@@ -16,6 +16,6 @@ interface AppointmentService {
     suspend fun getAppointmentSlots(@Query("ServiceAppointmentId") id: String,
                                     @Query("EarliestPermittedDate") date: String):FiberServiceResult<AppointmentSlots>
 
-    @POST("services/apexrest/AppointmentSlotsMobile/")
+    @POST("/services/apexrest/AppointmentSlotsMobile/")
     suspend fun reScheduleAppointment(@Body rescheduleInfo: RescheduleInfo):FiberServiceResult<AppointmentResponse>
 }

@@ -6,7 +6,6 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
-import com.centurylink.biwf.model.appointment.RescheduleInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
@@ -34,6 +33,7 @@ class DashboardViewModel @Inject constructor(
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
+    private lateinit var cancelAppointmentInstance :AppointmentRecordsInfo
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
@@ -49,11 +49,8 @@ class DashboardViewModel @Inject constructor(
     fun initApis() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
-
             requestAppointmentDetails()
             requestNotificationDetails()
-            requestAppointmentSlots()
-            rescheduleAppointmentInfo()
         }
     }
 
@@ -62,36 +59,24 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            cancelAppointmentInstance = mockInstanceforCancellation(it)
             updateAppointmentStatus(it)
             progressViewFlow.latestValue = false
         }
     }
 
-    private suspend fun requestAppointmentSlots() {
-        //TODO Test code Move to Appointment Modify Activity Need to pass the value from UI as well
-        val appointmentSlots = appointmentRepository
-            .getAppointmentSlots("08pf00000008gvRAAQ", "2020-07-30")
-        appointmentSlots.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            // Implement this function in Modify Appointment Activity
-        }
-    }
-
-
-    private suspend fun rescheduleAppointmentInfo() {
-        //TODO   Move to Appointment Modify View Model on Implementations
-        val rescheduleInfo = RescheduleInfo(
-            serviceAppointmentId = "08pf00000008gvCAAQ",
-            arrivalWindowStartTime = "2020-07-07 08:00 AM",
-            arrivalWindowEndTime = "2020-07-03 10:00 AM"
-        )
-        val rescheduleslots = appointmentRepository.modifyAppointmentInfo(rescheduleInfo)
-        rescheduleslots.fold(ifLeft = {
-            // errorMessageFlow.latestValue = it
-        }) {
-            // Implement this function in Modify Appointment Activity
-        }
+    private fun mockInstanceforCancellation(it: AppointmentRecordsInfo):AppointmentRecordsInfo{
+        return AppointmentRecordsInfo(
+            serviceAppointmentStartDate = it.serviceAppointmentStartDate,
+            serviceAppointmentEndTime = it.serviceAppointmentEndTime,
+            serviceEngineerName = it.serviceEngineerName,
+            serviceStatus = ServiceStatus.CANCELED,
+            serviceEngineerProfilePic = "",
+            jobType = it.jobType,
+            serviceLatitude = it.serviceLatitude,
+            serviceLongitude = it.serviceLongitude,
+            appointmentId = it.appointmentId,
+            timeZone = it.timeZone)
     }
 
     private suspend fun requestNotificationDetails() {
@@ -106,6 +91,8 @@ class DashboardViewModel @Inject constructor(
     private fun updateAppointmentStatus(
         it: AppointmentRecordsInfo
     ) {
+
+        val timezone = it.timeZone
         when (it.serviceStatus) {
             ServiceStatus.SCHEDULED, ServiceStatus.DISPATCHED, ServiceStatus.NONE -> {
                 val appointmentState =
@@ -113,8 +100,8 @@ class DashboardViewModel @Inject constructor(
                         jobType = it.jobType,
                         status = it.serviceStatus,
                         serviceAppointmentDate = DateUtils.formatAppointmentDate(it.serviceAppointmentStartDate.toString()),
-                        serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
-                        serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString())
+                        serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
+                        serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone)
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
             }
@@ -126,8 +113,8 @@ class DashboardViewModel @Inject constructor(
                     serviceLatitude = it.serviceLatitude!!,
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
-                    serviceAppointmentStartTime = DateUtils.formatAppointmentTime(it.serviceAppointmentStartDate.toString()),
-                    serviceAppointmentEndTime = DateUtils.formatAppointmentTime(it.serviceAppointmentEndTime.toString()),
+                    serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
+                    serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone),
                     serviceAppointmentTime = DateUtils.formatAppointmentETA(
                         it.serviceAppointmentStartDate.toString(),
                         it.serviceAppointmentEndTime.toString()
@@ -152,6 +139,13 @@ class DashboardViewModel @Inject constructor(
                     status = it.serviceStatus
                 )
                 dashBoardDetailsInfo.latestValue = appointmentComplete
+            }
+            ServiceStatus.CANCELED -> {
+                val appointmentCanceled = AppointmentCanceled(
+                    serviceAppointmentTime= "",
+                    status = ServiceStatus.CANCELED
+                )
+                dashBoardDetailsInfo.latestValue = appointmentCanceled
             }
             else -> {
                 errorMessageFlow.latestValue = "Status not found"
@@ -212,6 +206,10 @@ class DashboardViewModel @Inject constructor(
         sharedPreferences.saveUserType(true)
     }
 
+    fun requestAppointmentCancellation() {
+        updateAppointmentStatus(cancelAppointmentInstance)
+    }
+
     abstract class UiDashboardAppointmentInformation
 
     data class AppointmentScheduleState(
@@ -241,6 +239,11 @@ class DashboardViewModel @Inject constructor(
 
     data class AppointmentComplete(
         val jobType: String,
+        val status: ServiceStatus
+    ) : UiDashboardAppointmentInformation()
+
+    data class AppointmentCanceled(
+        val serviceAppointmentTime: String,
         val status: ServiceStatus
     ) : UiDashboardAppointmentInformation()
 }

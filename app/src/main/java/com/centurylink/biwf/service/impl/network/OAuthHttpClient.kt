@@ -14,6 +14,7 @@ import okhttp3.Route
 import okhttp3.internal.http.RealResponseBody
 import okio.Buffer
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
@@ -26,7 +27,7 @@ class OAuthHttpClient @Inject constructor(
     private val tokenService: TokenService,
     private val integrationServerService: IntegrationServerService
 ) : Call.Factory {
-
+    val timeOut = 30000
     private val client by lazy {
         OkHttpClient.Builder()
             .apply {
@@ -35,6 +36,9 @@ class OAuthHttpClient @Inject constructor(
                     it.proceed(it.request())
                 }
             }
+            .readTimeout(30000, TimeUnit.MILLISECONDS)
+            .connectTimeout(30000, TimeUnit.MILLISECONDS)
+            .writeTimeout(30000, TimeUnit.MILLISECONDS)
             .addInterceptor { addAccessTokenHeader(tokenService, it) }
             .authenticator(retryWithNewAccessToken(tokenService))
             .addNetworkInterceptor(HttpLogger { Timber.d(it) })

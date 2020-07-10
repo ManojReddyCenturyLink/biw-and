@@ -1,6 +1,7 @@
 package com.centurylink.biwf.utility
 
 import android.net.ParseException
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -61,6 +62,57 @@ class DateUtils {
         fun toSimpleString(date: Date, format: String): String {
             val format = SimpleDateFormat(format, Locale.US)
             return format.format(date)
+        }
+
+        fun fromStringtoDate(date: String): Date {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            return inputFormat.parse(date)
+        }
+
+         fun getFirstDateofthisMonth():Date{
+            val c = Calendar.getInstance() // this takes current date
+            c.set(Calendar.DAY_OF_MONTH,1)
+            return c.time
+        }
+
+         fun getLastDateoftheMonthAfter():Date{
+            val c = Calendar.getInstance()
+            c.add(Calendar.DATE, 60)
+            c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH))
+            return c.time
+        }
+
+        fun addDays(date: Date?, days: Int): Date? {
+            val cal = Calendar.getInstance()
+            cal.time = date
+            cal.add(Calendar.DATE, days) //minus number would decrement the days
+            return cal.time
+        }
+
+        fun formatAppointmentBookedDate(dateInput: String): String {
+            var inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            var outputFormat = SimpleDateFormat("M/d/yy", Locale.US)
+            var formattedDate = ""
+            var d: Date? = null
+            try {
+                d = inputFormat.parse(dateInput)
+                formattedDate = outputFormat.format(d)
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }
+            return formattedDate
+        }
+
+        fun formatAppointmentTimeValuesWithTimeZone(dateInput: String,timezone:String):String  {
+            val gmtDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
+            gmtDateFormat.timeZone = TimeZone.getTimeZone("GMT")
+            val returnTypeDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
+            returnTypeDateFormat.timeZone = TimeZone.getTimeZone(timezone)
+            val formattedDate = returnTypeDateFormat.format(gmtDateFormat.parse(dateInput))
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
+            val d: Date? = inputFormat.parse(formattedDate)
+            val outputFormat = SimpleDateFormat("h:mmaa", Locale.US)
+            return outputFormat.format(d)
         }
     }
 }

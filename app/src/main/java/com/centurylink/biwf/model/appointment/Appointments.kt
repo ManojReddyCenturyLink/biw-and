@@ -31,7 +31,20 @@ data class AppointmentRecords(
     @SerializedName("WorkTypeId")
     val WorkTypeId: String? = null,
     @SerializedName("ServiceResources")
-    val serviceResources: ServiceResources? = null
+    val serviceResources: ServiceResources? = null,
+    @SerializedName("ServiceTerritory")
+    val serviceTerritory: ServiceTerritory? = null
+)
+
+data class ServiceTerritory(
+    @SerializedName("OperatingHours")
+    val operatingHours: OperatingHours? = null
+
+)
+
+data class OperatingHours(
+    @SerializedName("TimeZone")
+    val timeZone: String? = null
 )
 
 data class ServiceResources(

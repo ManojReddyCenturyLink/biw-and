@@ -1,11 +1,14 @@
 package com.centurylink.biwf.screens.home.dashboard
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -15,6 +18,7 @@ import com.centurylink.biwf.coordinators.DashboardCoordinator
 import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -22,6 +26,7 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.fragment_dashboard.incCanceled
 import kotlinx.android.synthetic.main.fragment_dashboard.incCompleted
 import kotlinx.android.synthetic.main.fragment_dashboard.incEnroute
 import kotlinx.android.synthetic.main.fragment_dashboard.incScheduled
@@ -39,8 +44,7 @@ import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_butto
 import kotlinx.android.synthetic.main.widget_welcome_card.view.title
 import javax.inject.Inject
 
-class DashboardFragment : BaseFragment() {
-
+class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
     override val lifecycleOwner: LifecycleOwner = this
 
     @Inject
@@ -54,6 +58,7 @@ class DashboardFragment : BaseFragment() {
 
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var viewClickListener: ViewClickListener
+    private val fragManager by lazy { activity?.supportFragmentManager }
 
     private var unreadNotificationList: MutableList<Notification> = mutableListOf()
     private var enrouteMapFragment: SupportMapFragment? = null
@@ -104,6 +109,7 @@ class DashboardFragment : BaseFragment() {
     private fun initViews() {
         if (dashboardViewModel.isExistingUser.value) {
             incSpeedTest.visibility = View.VISIBLE
+            binding.connectedDevicesCard.root.visibility = View.VISIBLE
             observeNotificationViews()
         } else {
             getAppointmentStatus()
@@ -112,6 +118,7 @@ class DashboardFragment : BaseFragment() {
 
     private fun initOnClicks() {
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
+        binding.incScheduled.appointmentCancelBtn.setOnClickListener { showCancellationConfirmationDialaog() }
         binding.notificationDismissButton.setOnClickListener {
             dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
             displaySortedNotification()
@@ -124,7 +131,7 @@ class DashboardFragment : BaseFragment() {
             viewClickListener.onGetStartedClick(false)
         }
         binding.dashboardWifiCard.root.setOnClickListener { dashboardViewModel.navigateToNetworkInformation() }
-        binding.connectedDevicesCard.root.setOnClickListener { viewClickListener.onViewDevicesClick()}
+        binding.connectedDevicesCard.root.setOnClickListener { viewClickListener.onViewDevicesClick() }
     }
 
     private fun setupMap() {
@@ -209,6 +216,10 @@ class DashboardFragment : BaseFragment() {
                 incCompleted.visibility = View.VISIBLE
                 incWorkBegun.visibility = View.GONE
             }
+            if (it is DashboardViewModel.AppointmentCanceled) {
+                incScheduled.visibility = View.GONE
+                incCanceled.visibility = View.VISIBLE
+            }
         }
     }
 
@@ -268,10 +279,20 @@ class DashboardFragment : BaseFragment() {
         this.viewClickListener = clickListener
     }
 
+    private fun showCancellationConfirmationDialaog() {
+        CustomDialogGreyTheme(
+            getString(R.string.installation_cancellation_confirmation_title),
+            getString(R.string.installation_cancellation_confirmation_msg),
+            getString(R.string.keep_it),
+            getString(R.string.cancel_it),
+            this
+        ).show(fragManager!!, DashboardFragment::class.simpleName)
+    }
+
     companion object {
         const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
         private const val KEY_NEW_USER = "NEW_USER"
-
+        const val REFRESH_APPOINTMENT = 2984
         operator fun invoke(newUser: Boolean) = DashboardFragment().apply {
             arguments = Bundle().apply { putBoolean(KEY_NEW_USER, newUser) }
         }
@@ -284,5 +305,16 @@ class DashboardFragment : BaseFragment() {
         fun onGetStartedClick(newUser: Boolean)
 
         fun onViewDevicesClick()
+    }
+
+    // Callbacks for the Dialog
+    override fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+                dashboardViewModel.requestAppointmentCancellation()
+            }
+        }
     }
 }
