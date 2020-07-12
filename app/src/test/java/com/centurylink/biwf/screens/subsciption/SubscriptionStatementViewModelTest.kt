@@ -56,7 +56,8 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
         )
         viewModel = SubscriptionStatementViewModel(
             userRepository = userRepository,
-            accountRepository = accountRepository, zuoraPaymentRepository = zuoraPaymentRepository
+            accountRepository = accountRepository,
+            zuoraPaymentRepository = zuoraPaymentRepository
         )
     }
 

@@ -58,7 +58,8 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 serviceLatitude = "",
                 serviceLongitude = "",
                 jobType = "",
-                appointmentId = ""
+                appointmentId = "",
+                timeZone = ""
             )
         )
         viewModel =

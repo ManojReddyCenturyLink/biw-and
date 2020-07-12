@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -32,6 +33,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     lateinit var appointmentRepository: AppointmentRepository
     @MockK
     private lateinit var mockPreferences: Preferences
+    @MockK
+    private lateinit var mockAssiaRepository: AssiaRepository
 
     private val notificationList = mutableListOf(
         Notification(
@@ -67,7 +70,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
                 serviceLatitude = "",
                 serviceLongitude = "",
                 jobType = "",
-                appointmentId = ""
+                appointmentId = "",
+                timeZone = ""
             )
         )
         coEvery { notificationRepository.getNotificationDetails() } returns Either.Right(
@@ -76,7 +80,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         viewModel = DashboardViewModel(
             notificationRepository = notificationRepository,
             appointmentRepository = appointmentRepository,
-            sharedPreferences = mockPreferences
+            sharedPreferences = mockPreferences,
+            assiaRepository = mockAssiaRepository
         )
         // Need to Revisit Test cases
     }
