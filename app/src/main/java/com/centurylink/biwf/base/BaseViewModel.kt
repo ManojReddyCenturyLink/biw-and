@@ -12,6 +12,11 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.DateTimeFormatterBuilder
+import org.threeten.bp.format.SignStyle
+import org.threeten.bp.temporal.ChronoField
 
 abstract class BaseViewModel : ViewModel() {
     // Works exactly the same way as MutableLiveData.value
@@ -59,7 +64,25 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    companion object{
+    fun formatUtcString(utcString: String): String {
+        val myDate = LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(utcString.substringBefore('+')))
+        val amPm = if (myDate.hour < 12) "am" else "pm"
+        val dateTimeFormatter = DateTimeFormatterBuilder()
+            .appendValue(ChronoField.MONTH_OF_YEAR, 2, 2, SignStyle.NEVER)
+            .appendLiteral('/')
+            .appendValue(ChronoField.DAY_OF_MONTH, 2, 2, SignStyle.NEVER)
+            .appendLiteral('/')
+            .appendValue(ChronoField.YEAR, 4, 4, SignStyle.NEVER)
+            .appendLiteral(" at ")
+            .appendValue(ChronoField.CLOCK_HOUR_OF_AMPM)
+            .appendLiteral(':')
+            .appendValue(ChronoField.MINUTE_OF_HOUR, 2, 2, SignStyle.NEVER)
+            .appendLiteral(amPm)
+            .toFormatter()
+        return dateTimeFormatter.format(myDate)
+    }
+
+    companion object {
         const val MODEM_STATUS_REFRESH_INTERVAL = 30000L
         const val SPEED_TEST_REFRESH_INTERVAL = 5000L
     }
