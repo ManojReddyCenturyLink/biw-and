@@ -12,6 +12,7 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.utility.preferences.Preferences
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -62,7 +63,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this, relaxed = true)
         val notificationSource = NotificationSource()
         notificationSource.notificationlist = notificationList
        // result.value = Resource(Status.SUCCESS, notificationSource, "")
