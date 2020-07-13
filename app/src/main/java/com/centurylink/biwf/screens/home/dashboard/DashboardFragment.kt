@@ -105,9 +105,6 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
             binding.incSpeedTest.uploadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
             binding.incSpeedTest.runSpeedTestDashboard.isActivated = !it
         }
-        dashboardViewModel.speedTestErrorMessageFlow.observe {
-            Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
-        }
         initOnClicks()
         binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
