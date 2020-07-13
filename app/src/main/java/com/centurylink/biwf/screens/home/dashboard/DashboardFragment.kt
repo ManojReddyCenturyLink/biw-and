@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -104,6 +105,10 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
             binding.incSpeedTest.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
             binding.incSpeedTest.downloadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
             binding.incSpeedTest.uploadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            binding.incSpeedTest.runSpeedTestDashboard.isActivated = !it
+        }
+        dashboardViewModel.speedTestErrorMessageFlow.observe {
+            Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
         }
         initOnClicks()
         binding.executePendingBindings()
@@ -115,6 +120,7 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setupMap()
+        dashboardViewModel.startSpeedTest()
     }
 
     override fun retryClicked() {

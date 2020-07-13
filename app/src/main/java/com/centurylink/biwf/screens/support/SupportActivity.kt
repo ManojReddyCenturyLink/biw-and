@@ -111,6 +111,16 @@ class SupportActivity : BaseActivity(), SupportItemClickListener,
             binding.retryOverlay.root
         )
         supportViewModel.apply {
+            uploadSpeed.observe { binding.incTroubleshooting.uploadSpeed.text = it }
+            downloadSpeed.observe { binding.incTroubleshooting.downloadSpeed.text = it }
+            latestSpeedTest.observe { binding.incTroubleshooting.lastSpeedTestTime.text = it }
+            progressVisibility.observe {
+                binding.incTroubleshooting.uploadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
+                binding.incTroubleshooting.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
+                binding.incTroubleshooting.downloadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
+                binding.incTroubleshooting.uploadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
+                binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
+            }
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             modemRebootStatusFlow.observe { rebootStatus ->
@@ -138,7 +148,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener,
 
         binding.incTroubleshooting.apply {
             rebootModemButton.setOnClickListener { supportViewModel.rebootModem() }
-            runSpeedTestButton.setOnClickListener { supportViewModel.runSpeedTest() }
+            runSpeedTestButton.setOnClickListener { supportViewModel.startSpeedTest() }
             supportVisitWebsite.setOnClickListener {
                 //TODO Add Website feature when url is available
             }

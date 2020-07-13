@@ -20,11 +20,6 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.DateTimeFormatterBuilder
-import org.threeten.bp.format.SignStyle
-import org.threeten.bp.temporal.ChronoField
 import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor(
@@ -45,7 +40,10 @@ class DashboardViewModel @Inject constructor(
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
-    private lateinit var cancelAppointmentInstance :AppointmentRecordsInfo
+
+    //todo Just to help debug any errors from the speedtest , will remove
+    val speedTestErrorMessageFlow: Flow<String> = EventFlow()
+    private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
@@ -54,7 +52,6 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
 
     init {
-        startSpeedTest()
         initApis()
         isExistingUser.value = sharedPreferences.getUserType() ?: false
     }
@@ -78,22 +75,35 @@ class DashboardViewModel @Inject constructor(
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         viewModelScope.launch {
             val speedTestRequest = assiaRepository.startSpeedTest()
-            checkSpeedTestStatus(requestId = speedTestRequest.speedTestId)
+            if (speedTestRequest.code == 1000) {
+                checkSpeedTestStatus(requestId = speedTestRequest.speedTestId)
+            } else {
+                speedTestErrorMessageFlow.latestValue = "ID request failed"
+                displayEmptyResponse()
+            }
         }
     }
 
     private fun checkSpeedTestStatus(requestId: Int) {
         viewModelScope.launch {
             var keepChecking = true
+            var isSuccessful = false
             while (keepChecking) {
                 val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)
-                if (status.data.isFinished) {
-                    keepChecking = false
+                if (status.code == 1000) {
+                    if (status.data.isFinished) {
+                        isSuccessful = true
+                        keepChecking = false
+                    } else {
+                        delay(SPEED_TEST_REFRESH_INTERVAL)
+                    }
                 } else {
-                    delay(SPEED_TEST_REFRESH_INTERVAL)
+                    displayEmptyResponse()
+                    keepChecking = false
+                    speedTestErrorMessageFlow.latestValue = "Speedtest status retrieval did not SUCCEED"
                 }
             }
-            getResults()
+            if (isSuccessful) getResults()
         }
     }
 
@@ -104,6 +114,7 @@ class DashboardViewModel @Inject constructor(
             uploadSpeed.latestValue = uploadMb.toString()
         } else {
             uploadSpeed.latestValue = EMPTY_RESPONSE
+            speedTestErrorMessageFlow.latestValue = "upstream failed"
         }
 
         val downStreamData = assiaRepository.getDownstreamResults()
@@ -114,26 +125,16 @@ class DashboardViewModel @Inject constructor(
         } else {
             downloadSpeed.latestValue = EMPTY_RESPONSE
             latestSpeedTest.latestValue = EMPTY_RESPONSE
+            speedTestErrorMessageFlow.latestValue = "downstream failed"
         }
         progressVisibility.latestValue = false
     }
 
-    private fun formatUtcString(utcString: String): String {
-        val myDate = LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(utcString.substringBefore('+')))
-        val amPm = if (myDate.hour < 12) "am" else "pm"
-        val dateTimeFormatter = DateTimeFormatterBuilder()
-            .appendValue(ChronoField.MONTH_OF_YEAR, 2, 2, SignStyle.NEVER)
-            .appendLiteral('/')
-            .appendValue(ChronoField.DAY_OF_MONTH, 2, 2, SignStyle.NEVER)
-            .appendLiteral('/')
-            .appendValue(ChronoField.YEAR, 4, 4, SignStyle.NEVER)
-            .appendLiteral(" at ")
-            .appendValue(ChronoField.CLOCK_HOUR_OF_AMPM)
-            .appendLiteral(':')
-            .appendValue(ChronoField.MINUTE_OF_HOUR, 2, 2, SignStyle.NEVER)
-            .appendLiteral(amPm)
-            .toFormatter()
-        return dateTimeFormatter.format(myDate)
+    private fun displayEmptyResponse() {
+        downloadSpeed.latestValue = EMPTY_RESPONSE
+        uploadSpeed.latestValue = EMPTY_RESPONSE
+        latestSpeedTest.latestValue = EMPTY_RESPONSE
+        progressVisibility.latestValue = false
     }
 
     private suspend fun requestAppointmentDetails() {
@@ -147,7 +148,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun mockInstanceforCancellation(it: AppointmentRecordsInfo):AppointmentRecordsInfo{
+    private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
         return AppointmentRecordsInfo(
             serviceAppointmentStartDate = it.serviceAppointmentStartDate,
             serviceAppointmentEndTime = it.serviceAppointmentEndTime,
@@ -158,7 +159,8 @@ class DashboardViewModel @Inject constructor(
             serviceLatitude = it.serviceLatitude,
             serviceLongitude = it.serviceLongitude,
             appointmentId = it.appointmentId,
-            timeZone = it.timeZone)
+            timeZone = it.timeZone
+        )
     }
 
     private suspend fun requestNotificationDetails() {
@@ -181,8 +183,14 @@ class DashboardViewModel @Inject constructor(
                         jobType = it.jobType,
                         status = it.serviceStatus,
                         serviceAppointmentDate = DateUtils.formatAppointmentDate(it.serviceAppointmentStartDate.toString()),
-                        serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
-                        serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone)
+                        serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                            it.serviceAppointmentStartDate.toString(),
+                            timezone
+                        ),
+                        serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                            it.serviceAppointmentEndTime.toString(),
+                            timezone
+                        )
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
             }
@@ -194,8 +202,14 @@ class DashboardViewModel @Inject constructor(
                     serviceLatitude = it.serviceLatitude!!,
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
-                    serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
-                    serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone),
+                    serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentStartDate.toString(),
+                        timezone
+                    ),
+                    serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentEndTime.toString(),
+                        timezone
+                    ),
                     serviceAppointmentTime = DateUtils.formatAppointmentETA(
                         it.serviceAppointmentStartDate.toString(),
                         it.serviceAppointmentEndTime.toString()
@@ -223,7 +237,7 @@ class DashboardViewModel @Inject constructor(
             }
             ServiceStatus.CANCELED -> {
                 val appointmentCanceled = AppointmentCanceled(
-                    serviceAppointmentTime= "",
+                    serviceAppointmentTime = "",
                     status = ServiceStatus.CANCELED
                 )
                 dashBoardDetailsInfo.latestValue = appointmentCanceled
@@ -286,7 +300,8 @@ class DashboardViewModel @Inject constructor(
     fun getStartedClicked() {
         sharedPreferences.saveUserType(true)
     }
-    companion object{
+
+    companion object {
         const val EMPTY_RESPONSE = "- -"
     }
 

@@ -124,6 +124,7 @@ dependencies {
     implementation "androidx.cardview:cardview:$cardviewVersion"
     implementation "androidx.security:security-crypto:1.0.0-rc02"
     implementation "com.google.android.material:material:${materialComponentsVersion}"
+    implementation 'androidx.work:work-runtime:2.2.0'
 
     /* Dagger2 - default dependency */
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
