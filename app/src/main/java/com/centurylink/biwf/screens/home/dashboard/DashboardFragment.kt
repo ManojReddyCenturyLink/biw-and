@@ -1,10 +1,8 @@
 package com.centurylink.biwf.screens.home.dashboard
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -300,8 +298,8 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         CustomDialogGreyTheme(
             getString(R.string.installation_cancellation_confirmation_title),
             getString(R.string.installation_cancellation_confirmation_msg),
-            getString(R.string.keep_it),
             getString(R.string.cancel_it),
+            getString(R.string.keep_it),
             this
         ).show(fragManager!!, DashboardFragment::class.simpleName)
     }
@@ -328,9 +326,9 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
     override fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.requestAppointmentCancellation()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                dashboardViewModel.requestAppointmentCancellation()
             }
         }
     }

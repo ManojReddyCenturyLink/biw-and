@@ -45,7 +45,7 @@ class DashboardViewModel @Inject constructor(
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
-    private lateinit var cancelAppointmentInstance :AppointmentRecordsInfo
+    private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
@@ -147,7 +147,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun mockInstanceforCancellation(it: AppointmentRecordsInfo):AppointmentRecordsInfo{
+    private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
         return AppointmentRecordsInfo(
             serviceAppointmentStartDate = it.serviceAppointmentStartDate,
             serviceAppointmentEndTime = it.serviceAppointmentEndTime,
@@ -181,8 +181,14 @@ class DashboardViewModel @Inject constructor(
                         jobType = it.jobType,
                         status = it.serviceStatus,
                         serviceAppointmentDate = DateUtils.formatAppointmentDate(it.serviceAppointmentStartDate.toString()),
-                        serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
-                        serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone)
+                        serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                            it.serviceAppointmentStartDate.toString(),
+                            timezone
+                        ),
+                        serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                            it.serviceAppointmentEndTime.toString(),
+                            timezone
+                        )
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
             }
@@ -194,11 +200,20 @@ class DashboardViewModel @Inject constructor(
                     serviceLatitude = it.serviceLatitude!!,
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
-                    serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
-                    serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone),
-                    serviceAppointmentTime = DateUtils.formatAppointmentETA(
+                    serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
                         it.serviceAppointmentStartDate.toString(),
-                        it.serviceAppointmentEndTime.toString()
+                        timezone
+                    ),
+                    serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentEndTime.toString(),
+                        timezone
+                    ),
+                    serviceAppointmentTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentStartDate.toString(),
+                        timezone
+                    ) + "-" + DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentEndTime.toString(),
+                        timezone
                     )
                 )
                 dashBoardDetailsInfo.latestValue = appointmentEngineerStatus
@@ -223,7 +238,7 @@ class DashboardViewModel @Inject constructor(
             }
             ServiceStatus.CANCELED -> {
                 val appointmentCanceled = AppointmentCanceled(
-                    serviceAppointmentTime= "",
+                    serviceAppointmentTime = "",
                     status = ServiceStatus.CANCELED
                 )
                 dashBoardDetailsInfo.latestValue = appointmentCanceled
@@ -286,7 +301,8 @@ class DashboardViewModel @Inject constructor(
     fun getStartedClicked() {
         sharedPreferences.saveUserType(true)
     }
-    companion object{
+
+    companion object {
         const val EMPTY_RESPONSE = "- -"
     }
 

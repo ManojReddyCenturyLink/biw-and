@@ -44,21 +44,6 @@ class DateUtils {
             return format.format(d)
         }
 
-        fun formatAppointmentTime(dateInput: String): String {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
-            val d: Date? = inputFormat.parse(dateInput)
-            val outputFormat = SimpleDateFormat("h:mmaa", Locale.US)
-            return outputFormat.format(d)
-        }
-
-        fun formatAppointmentETA(startDate: String, endDate: String): String {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
-            val startDate: Date? = inputFormat.parse(startDate)
-            val endDate: Date? = inputFormat.parse(endDate)
-            val outputFormat = SimpleDateFormat("haa", Locale.US)
-            return "${outputFormat.format(startDate)}-${outputFormat.format(endDate)}"
-        }
-
         fun toSimpleString(date: Date, format: String): String {
             val format = SimpleDateFormat(format, Locale.US)
             return format.format(date)
@@ -90,8 +75,8 @@ class DateUtils {
         }
 
         fun formatAppointmentBookedDate(dateInput: String): String {
-            var inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
-            var outputFormat = SimpleDateFormat("M/d/yy", Locale.US)
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val outputFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
             var formattedDate = ""
             var d: Date? = null
             try {

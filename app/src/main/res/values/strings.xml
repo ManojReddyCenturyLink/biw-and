@@ -280,11 +280,11 @@
     <!--Modify/Cancel Appointment Strings-->
     <string name="select_appointment_slot">Select the day and time that works best for you.</string>
     <string name="error_in_selected_slot">An error has occurred while booking your appointment. Please try again.</string>
-    <string name="appointment_confirmed_header">Your technician will arrive on  %1$s between  %2$s .</string>
+    <string name="appointment_confirmed_header">Your technician will arrive on  %1$s between %2$s - %3$s.</string>
     <string name="appointment_confirmed_message">Someone over the age of 18 must be present for the installation.\n\nIf you need to modify or cancel your installation date, view your dashboard. </string>
     <string name="installation_appointment_note">Please note that installation appointments can take up to 3 hours once your technician arrives. Additionally, an adult 18 or older is required to be present for the installation to occur.</string>
     <string name="available_appointments_on_date">Available appointments on %s:</string>
-    <string name="available_appointments_slots_error">Please select an appointment to continue:</string>
+    <string name="available_appointments_slots_error">Please select an appointment to continue</string>
     <string name="modify_appointments">Modify appointment</string>
     <string name="booked_appointment">Appointment booked</string>
     <string name="installation_has_been_cancelled">Installation has been cancelled</string>
@@ -292,4 +292,5 @@
     <string name="installation_cancellation_confirmation_msg">You’ll need to have an installation appointment to get internet.</string>
     <string name="keep_it">KEEP IT</string>
     <string name="cancel_it">CANCEL IT</string>
+    <string name="if_you_ve_made_a_mistake_in_cancelling_please_call_us_at_833_250_6306">If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 833-250-6306.</string>
 </resources>
