@@ -99,7 +99,7 @@ class ChangeAppointmentViewModel @Inject constructor(
         )
         bundle.putString(
             AppointmentBookedActivity.APPOINTMENT_STATEMENT_SLOTS,
-            appointmentSlots
+            appointmentSlots.toLowerCase()
         )
         bundle.putString(
             AppointmentBookedActivity.APPOINTMENT_STATEMENT_ID,

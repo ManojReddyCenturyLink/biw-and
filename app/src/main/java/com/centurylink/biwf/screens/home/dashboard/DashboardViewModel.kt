@@ -203,6 +203,7 @@ class DashboardViewModel @Inject constructor(
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
                     serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+
                         it.serviceAppointmentStartDate.toString(),
                         timezone
                     ),
@@ -210,9 +211,12 @@ class DashboardViewModel @Inject constructor(
                         it.serviceAppointmentEndTime.toString(),
                         timezone
                     ),
-                    serviceAppointmentTime = DateUtils.formatAppointmentETA(
+                    serviceAppointmentTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
                         it.serviceAppointmentStartDate.toString(),
-                        it.serviceAppointmentEndTime.toString()
+                        timezone
+                    ) + "-" + DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentEndTime.toString(),
+                        timezone
                     )
                 )
                 dashBoardDetailsInfo.latestValue = appointmentEngineerStatus

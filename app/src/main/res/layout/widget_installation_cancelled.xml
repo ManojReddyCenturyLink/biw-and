@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:autoLink="phone"
-                android:text="If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 123-456-7890."
+                android:text="@string/if_you_ve_made_a_mistake_in_cancelling_please_call_us_at_833_250_6306"
                 android:textColor="@color/blue_dark"
                 android:textSize="@dimen/text_size_16"
                 app:layout_constraintEnd_toEndOf="parent"
