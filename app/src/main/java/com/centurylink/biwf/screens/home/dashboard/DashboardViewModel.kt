@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -41,8 +42,6 @@ class DashboardViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
 
-    //todo Just to help debug any errors from the speedtest , will remove
-    val speedTestErrorMessageFlow: Flow<String> = EventFlow()
     private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private val unreadItem: Notification =
         Notification(
@@ -78,7 +77,6 @@ class DashboardViewModel @Inject constructor(
             if (speedTestRequest.code == 1000) {
                 checkSpeedTestStatus(requestId = speedTestRequest.speedTestId)
             } else {
-                speedTestErrorMessageFlow.latestValue = "ID request failed"
                 displayEmptyResponse()
             }
         }
@@ -100,7 +98,6 @@ class DashboardViewModel @Inject constructor(
                 } else {
                     displayEmptyResponse()
                     keepChecking = false
-                    speedTestErrorMessageFlow.latestValue = "Speedtest status retrieval did not SUCCEED"
                 }
             }
             if (isSuccessful) getResults()
@@ -114,7 +111,6 @@ class DashboardViewModel @Inject constructor(
             uploadSpeed.latestValue = uploadMb.toString()
         } else {
             uploadSpeed.latestValue = EMPTY_RESPONSE
-            speedTestErrorMessageFlow.latestValue = "upstream failed"
         }
 
         val downStreamData = assiaRepository.getDownstreamResults()
@@ -125,7 +121,6 @@ class DashboardViewModel @Inject constructor(
         } else {
             downloadSpeed.latestValue = EMPTY_RESPONSE
             latestSpeedTest.latestValue = EMPTY_RESPONSE
-            speedTestErrorMessageFlow.latestValue = "downstream failed"
         }
         progressVisibility.latestValue = false
     }
