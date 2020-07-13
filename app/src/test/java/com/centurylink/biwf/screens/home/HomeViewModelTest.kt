@@ -11,10 +11,8 @@ import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.preferences.Preferences
-import io.mockk.coEvery
-import io.mockk.every
+import io.mockk.*
 import io.mockk.impl.annotations.MockK
-import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -38,8 +36,11 @@ class HomeViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var mockPreferences: Preferences
 
+    private lateinit var choiceDialogMessage: ChoiceDialogMessage
+
     @Before
     fun setup() {
+        MockKAnnotations.init(this, relaxed = true)
         every { mockPreferences.getHasSeenDialog() } returns true
         every { mockPreferences.getUserType() } returns true
         coEvery { userRepository.getUserInfo() } returns Either.Right(
@@ -63,7 +64,94 @@ class HomeViewModelTest : ViewModelBaseTest() {
             )
         )
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository, assiaRepository)
-        //Need to Revisit Tests
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository)
+        choiceDialogMessage = ChoiceDialogMessage(
+            title = 1,
+            message = 1,
+            positiveText = 1,
+            negativeText = 0
+        )
+    }
+
+    @Test
+    fun onSupportClicked_navigateToSupportScreen() = runBlockingTest {
+        launch {
+            viewModel.onSupportClicked()
+        }
+        Assert.assertEquals(
+            "Support Screen wasn't Launched",
+            HomeCoordinatorDestinations.SUPPORT,
+            viewModel.myState.first()
+        )
+    }
+
+    @Test
+    fun onNotificationBellClicked_navigateToNotificationScreen() = runBlockingTest {
+        launch {
+            viewModel.onNotificationBellClicked()
+        }
+        Assert.assertEquals(
+            "Support Screen wasn't Launched",
+            HomeCoordinatorDestinations.NOTIFICATION_LIST,
+            viewModel.myState.first()
+        )
+    }
+
+    @Test
+    fun onSubscriptionActivityClick_navigateToSubscriptionScreen() = runBlockingTest {
+        launch {
+            viewModel.onSubscriptionActivityClick()
+        }
+        Assert.assertEquals(
+            "Support Screen wasn't Launched",
+            HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY,
+            viewModel.myState.first()
+        )
+    }
+
+
+    @Test
+    fun `init Api failure case`() = runBlockingTest {
+        coEvery { userRepository.getUserInfo() } returns Either.Left(error = "")
+        coEvery { userRepository.getUserDetails() } returns Either.Left(error = "")
+        coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Left(error = "")
+        viewModel =
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository)
+        launch {
+            viewModel.initApis()
+        }
+    }
+
+    @Test
+    fun `request Appointment Details`() = runBlockingTest {
+        launch {
+            val method = viewModel.javaClass.getDeclaredMethod("requestAppointmentDetails")
+            method.isAccessible = true
+            coVerify {
+                appointmentRepository.getAppointmentInfo()
+                viewModel.activeUserTabBarVisibility.latestValue
+            }
+        }
+    }
+
+    @Test
+    fun `on Biometric Yes Response`() = runBlockingTest {
+        launch {
+            val method = viewModel.javaClass.getDeclaredMethod("onBiometricYesResponse")
+            method.isAccessible = true
+        }
+    }
+
+    @Test
+    fun onStart_displayNewUserTabBar() {
+        viewModel.activeUserTabBarVisibility.value shouldEqual false
+    }
+
+    @Test
+    fun `get values from ChoiceDialogMessage`() {
+        choiceDialogMessage.message
+        choiceDialogMessage.negativeText
+        choiceDialogMessage.positiveText
+        choiceDialogMessage.title
     }
 }

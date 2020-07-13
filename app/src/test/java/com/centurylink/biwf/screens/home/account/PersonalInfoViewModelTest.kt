@@ -66,4 +66,12 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
         error.value = viewModel.validateInput()
         assertThat("Password Mismatch Check", error.value!!.contains("passwordMismatchError"))
     }
+
+    @Test
+    fun onDoneClick_correctPasswordDetailsSubmit_navigateToAccountScreen() =
+        runBlockingTest {
+            launch {
+                viewModel.callUpdatePasswordApi()
+            }
+        }
 }
