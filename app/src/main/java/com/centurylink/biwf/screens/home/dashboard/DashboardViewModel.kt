@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -56,6 +55,8 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun initApis() {
+        val utcString = "2020-07-09T16:00:25+0000"
+        formatUtcString(utcString = utcString)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestAppointmentDetails()
@@ -70,6 +71,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun getSpeedTestId() {
+        sharedPreferences.saveSpeedTestFlag(boolean = true)
         progressVisibility.latestValue = true
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         viewModelScope.launch {
@@ -109,6 +111,7 @@ class DashboardViewModel @Inject constructor(
         if (upstreamData.data.listOfData.isNotEmpty()) {
             val uploadMb = upstreamData.data.listOfData[0].speedAvg / 1000
             uploadSpeed.latestValue = uploadMb.toString()
+            sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
         } else {
             uploadSpeed.latestValue = EMPTY_RESPONSE
         }
@@ -118,11 +121,14 @@ class DashboardViewModel @Inject constructor(
             val downloadMb = downStreamData.data.listOfData[0].speedAvg / 1000
             downloadSpeed.latestValue = downloadMb.toString()
             latestSpeedTest.latestValue = formatUtcString(downStreamData.data.listOfData[0].timeStamp)
+            sharedPreferences.saveSpeedTestDownload(downloadSpeed = downloadSpeed.latestValue)
+            sharedPreferences.saveLastSpeedTestTime(lastRanTime = latestSpeedTest.latestValue)
         } else {
             downloadSpeed.latestValue = EMPTY_RESPONSE
             latestSpeedTest.latestValue = EMPTY_RESPONSE
         }
         progressVisibility.latestValue = false
+        sharedPreferences.saveSpeedTestFlag(boolean = false)
     }
 
     private fun displayEmptyResponse() {
@@ -130,6 +136,7 @@ class DashboardViewModel @Inject constructor(
         uploadSpeed.latestValue = EMPTY_RESPONSE
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         progressVisibility.latestValue = false
+        sharedPreferences.saveSpeedTestFlag(boolean = false)
     }
 
     private suspend fun requestAppointmentDetails() {
@@ -198,7 +205,6 @@ class DashboardViewModel @Inject constructor(
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
                     serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
-
                         it.serviceAppointmentStartDate.toString(),
                         timezone
                     ),
@@ -306,6 +312,19 @@ class DashboardViewModel @Inject constructor(
 
     fun requestAppointmentCancellation() {
         updateAppointmentStatus(cancelAppointmentInstance)
+    }
+
+    fun checkForOngoingSpeedTest() {
+        val ongoingTest: Boolean = sharedPreferences.getSupportSpeedTest()
+        if (ongoingTest) {
+            sharedPreferences.saveSupportSpeedTest(boolean = false)
+            val speedTestId = sharedPreferences.getSpeedTestId()
+            if (speedTestId != null) {
+                progressVisibility.latestValue = true
+                latestSpeedTest.latestValue = EMPTY_RESPONSE
+                checkSpeedTestStatus(requestId = speedTestId)
+            }
+        }
     }
 
     abstract class UiDashboardAppointmentInformation
