@@ -10,12 +10,15 @@ import androidx.work.WorkManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.SupportCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
+import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.ModemRebootRepository
 import com.centurylink.biwf.repos.ModemRebootRepository.Companion.REBOOT_STARTED_SUCCESSFULLY
+import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootWorker
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -25,16 +28,23 @@ import javax.inject.Inject
 class SupportViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
     private val modemRebootRepository: ModemRebootRepository,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val assiaRepository: AssiaRepository
 ) : BaseViewModel() {
 
     val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<SupportCoordinatorDestinations>()
+    val downloadSpeed: Flow<String> = BehaviorStateFlow()
+    val uploadSpeed: Flow<String> = BehaviorStateFlow()
+    val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
+    val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     private var recordTypeId: String = ""
     var progressViewFlow = EventFlow<Boolean>()
-
     var modemRebootStatusFlow = EventFlow<ModemRebootRepository.Companion.RebootState>()
+
+    //todo Just to help debug any errors from the speedtest , will remove
+    val speedTestErrorMessageFlow: Flow<String> = EventFlow()
 
     init {
         initApis()
@@ -50,6 +60,79 @@ class SupportViewModel @Inject constructor(
         viewModelScope.launch {
             listenToModemRebootStatus()
         }
+    }
+
+    fun startSpeedTest() {
+        if (!progressVisibility.latestValue) {
+            getSpeedTestId()
+        }
+    }
+
+    private fun getSpeedTestId() {
+        progressVisibility.latestValue = true
+        latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
+        viewModelScope.launch {
+            val speedTestRequest = assiaRepository.startSpeedTest()
+            if (speedTestRequest.code == 1000) {
+                checkSpeedTestStatus(requestId = speedTestRequest.speedTestId)
+            } else {
+                speedTestErrorMessageFlow.latestValue = "ID request failed"
+                displayEmptyResponse()
+            }
+        }
+    }
+
+    private fun checkSpeedTestStatus(requestId: Int) {
+        viewModelScope.launch {
+            var keepChecking = true
+            var isSuccessful = false
+            while (keepChecking) {
+                val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)
+                if (status.code == 1000) {
+                    if (status.data.isFinished) {
+                        isSuccessful = true
+                        keepChecking = false
+                    } else {
+                        delay(SPEED_TEST_REFRESH_INTERVAL)
+                    }
+                } else {
+                    displayEmptyResponse()
+                    keepChecking = false
+                    speedTestErrorMessageFlow.latestValue = "Speedtest status retrieval did not SUCCEED"
+                }
+            }
+            if (isSuccessful) getResults()
+        }
+    }
+
+    private suspend fun getResults() {
+        val upstreamData = assiaRepository.getUpstreamResults()
+        if (upstreamData.data.listOfData.isNotEmpty()) {
+            val uploadMb = upstreamData.data.listOfData[0].speedAvg / 1000
+            uploadSpeed.latestValue = uploadMb.toString()
+        } else {
+            uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+            speedTestErrorMessageFlow.latestValue = "upstream failed"
+        }
+
+        val downStreamData = assiaRepository.getDownstreamResults()
+        if (downStreamData.data.listOfData.isNotEmpty()) {
+            val downloadMb = downStreamData.data.listOfData[0].speedAvg / 1000
+            downloadSpeed.latestValue = downloadMb.toString()
+            latestSpeedTest.latestValue = formatUtcString(downStreamData.data.listOfData[0].timeStamp)
+        } else {
+            downloadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+            latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
+            speedTestErrorMessageFlow.latestValue = "downstream failed"
+        }
+        progressVisibility.latestValue = false
+    }
+
+    private fun displayEmptyResponse() {
+        downloadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+        uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+        latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
+        progressVisibility.latestValue = false
     }
 
     private suspend fun requestFaqDetailsInfo() {
@@ -119,8 +202,6 @@ class SupportViewModel @Inject constructor(
         SupportCoordinatorDestinations.bundle = bundle
         myState.latestValue = SupportCoordinatorDestinations.FAQ
     }
-
-    fun runSpeedTest() {}
 
     fun rebootModem() {
         viewModelScope.launch {

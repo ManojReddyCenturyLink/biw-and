@@ -105,5 +105,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             }
             return@setOnGroupClickListener false
         }
+        binding.devicesList.expandGroup(0)
     }
 }
