@@ -50,6 +50,7 @@ class DashboardViewModel @Inject constructor(
             "", "", true, ""
         )
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
+    private var rebootOngoing = false
 
     init {
         initApis()
@@ -64,8 +65,13 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
+        super.handleRebootStatus(status)
+        rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
+    }
+
     fun startSpeedTest() {
-        if (!progressVisibility.latestValue) {
+        if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
         }
     }

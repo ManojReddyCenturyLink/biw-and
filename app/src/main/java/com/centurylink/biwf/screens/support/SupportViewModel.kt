@@ -33,7 +33,6 @@ class SupportViewModel @Inject constructor(
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     private var recordTypeId: String = ""
     var progressViewFlow = EventFlow<Boolean>()
-    val modemRebootStatusFlow = EventFlow<ModemRebootMonitorService.RebootState>()
 
     init {
         initApis()
@@ -68,13 +67,6 @@ class SupportViewModel @Inject constructor(
             requestRecordId()
             requestFaqDetailsInfo()
             checkForRunningSpeedTest()
-        }
-    }
-
-    override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
-        @Suppress("SENSELESS_COMPARISON")
-        if (modemRebootStatusFlow != null) {
-            modemRebootStatusFlow.latestValue = status
         }
     }
 
