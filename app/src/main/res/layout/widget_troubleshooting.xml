@@ -2,6 +2,7 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -46,11 +47,11 @@
                 android:id="@+id/last_speed_test_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/last_speed_test_fake_value"
                 android:textColor="@color/grey_darker"
                 android:textSize="@dimen/text_size_12"
                 app:layout_constraintStart_toEndOf="@+id/last_speed_test_title"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/last_speed_test_fake_value"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

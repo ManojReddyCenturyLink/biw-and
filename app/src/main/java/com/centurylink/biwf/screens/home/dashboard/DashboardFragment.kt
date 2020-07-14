@@ -71,6 +71,11 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         retainInstance = false
     }
 
+    override fun onResume() {
+        super.onResume()
+        dashboardViewModel.checkForOngoingSpeedTest()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
