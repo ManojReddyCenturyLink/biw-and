@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinatorDestinations
 import com.centurylink.biwf.repos.ZouraSubscriptionRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
@@ -12,8 +13,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class CancelSubscriptionViewModel @Inject constructor(
-    private val zuoraSubscriptionRepository: ZouraSubscriptionRepository
-) : BaseViewModel() {
+    private val zuoraSubscriptionRepository: ZouraSubscriptionRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val cancelSubscriptionDate: Flow<UiCancelSubscriptionDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()

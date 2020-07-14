@@ -4,10 +4,13 @@ import android.os.Bundle
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinatorDestinations
 import com.centurylink.biwf.model.support.TopicList
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.EventFlow
 import javax.inject.Inject
 
-class ScheduleCallbackViewModel @Inject constructor() : BaseViewModel() {
+class ScheduleCallbackViewModel @Inject constructor(
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val myState = EventFlow<ScheduleCallbackCoordinatorDestinations>()
     val topicList: List<TopicList> = dummyList()

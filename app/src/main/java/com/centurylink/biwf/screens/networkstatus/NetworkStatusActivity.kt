@@ -16,7 +16,7 @@ class NetworkStatusActivity : BaseActivity() {
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(NetworkStatusViewModel::class.java)
     }
 

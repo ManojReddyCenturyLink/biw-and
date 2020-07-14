@@ -33,7 +33,7 @@ class CancelSubscriptionViewModelTest : ViewModelBaseTest() {
         MockKAnnotations.init(this, relaxed = true)
         var date = Date()
         coEvery { zuoraSubscriptionRepo.getSubscriptionDate() } returns Either.Right(date)
-        viewModel = CancelSubscriptionViewModel(zuoraSubscriptionRepo)
+        viewModel = CancelSubscriptionViewModel(zuoraSubscriptionRepo, mockModemRebootMonitorService)
     }
 
     @Test

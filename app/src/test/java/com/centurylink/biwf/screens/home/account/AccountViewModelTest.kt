@@ -54,7 +54,8 @@ class AccountViewModelTest : ViewModelBaseTest() {
             contactRepository = mockContactRepository,
             sharedPreferences = mockSharedPreferences,
             userRepository = mockUserRepository,
-            authService = mockAuthService
+            authService = mockAuthService,
+            modemRebootMonitorService = mockModemRebootMonitorService
         )
         //Need to Revisit Testcases
     }

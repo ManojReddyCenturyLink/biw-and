@@ -11,6 +11,7 @@ import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.service.impl.auth.AppAuthTokenStorage
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
@@ -25,13 +26,17 @@ import javax.inject.Inject
 class LoginViewModel internal constructor(
     private val accountRepository: AccountRepository,
     private val sharedPreferences: Preferences,
-    private val authService: AuthService<*>
-) : BaseViewModel() {
+    private val authService: AuthService<*>,
+    // TODO We should remove this, as outstanding work is cancelled on logout and we won't
+    //  support showing the modem reboot dialogs on the Login screen
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     class Factory @Inject constructor(
         private val accountRepository: AccountRepository,
         private val sharedPreferences: Preferences,
-        private val authServiceFactory: AuthServiceFactory<*>
+        private val authServiceFactory: AuthServiceFactory<*>,
+        private val modemRebootMonitorService: ModemRebootMonitorService
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
         override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
@@ -39,7 +44,8 @@ class LoginViewModel internal constructor(
                 LoginViewModel(
                     accountRepository,
                     sharedPreferences,
-                    authServiceFactory.create(input)
+                    authServiceFactory.create(input),
+                    modemRebootMonitorService
                 )
             }
         }

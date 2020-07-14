@@ -31,7 +31,7 @@ class FAQActivity : BaseActivity() {
     @Inject
     lateinit var navigator: Navigator
 
-    private val faqViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(FAQViewModel::class.java)
     }
 
@@ -49,13 +49,13 @@ class FAQActivity : BaseActivity() {
             binding.faqListLayout,
             binding.retryOverlay.root
         )
-        faqViewModel.apply {
+        viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
         }
-        faqViewModel.setFilteredSelection(intent.getStringExtra(FAQ_TITLE)!!)
+        viewModel.setFilteredSelection(intent.getStringExtra(FAQ_TITLE)!!)
         navigator.observe(this)
-        faqViewModel.myState.observeWith(faqCoordinator)
+        viewModel.myState.observeWith(faqCoordinator)
         initHeaders()
         initView()
         observeViews()
@@ -67,11 +67,11 @@ class FAQActivity : BaseActivity() {
 
     override fun retryClicked() {
         showProgress(true)
-        faqViewModel.initApis()
+        viewModel.initApis()
     }
 
     private fun observeViews() {
-        faqViewModel.apply {
+        viewModel.apply {
             faqDetailsInfo.observe {
                 prepareQuestionRecyclerView(it.questionMap)
             }
@@ -111,7 +111,7 @@ class FAQActivity : BaseActivity() {
     private fun initView() {
         binding.faqContactUs.apply {
             contactUsHeading.visibility = View.GONE
-            scheduleCallbackRow.setOnClickListener { faqViewModel.navigateToScheduleCallback() }
+            scheduleCallbackRow.setOnClickListener { viewModel.navigateToScheduleCallback() }
         }
         binding.faqVideoList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)

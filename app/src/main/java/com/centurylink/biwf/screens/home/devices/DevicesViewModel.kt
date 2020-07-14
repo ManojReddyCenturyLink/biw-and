@@ -10,6 +10,7 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
@@ -17,8 +18,9 @@ import javax.inject.Inject
 
 class DevicesViewModel @Inject constructor(
     private val devicesRepository: DevicesRepository,
-    private val asiaRepository: AssiaRepository
-) : BaseViewModel() {
+    private val asiaRepository: AssiaRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()

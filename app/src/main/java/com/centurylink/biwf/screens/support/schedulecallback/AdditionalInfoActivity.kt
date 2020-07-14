@@ -17,7 +17,7 @@ class AdditionalInfoActivity : BaseActivity() {
     lateinit var factory: DaggerViewModelFactory
 
     /*For future use*/
-    private val additionalInfoViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(AdditionalInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityAdditionalInfoBinding

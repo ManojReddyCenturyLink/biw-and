@@ -14,6 +14,7 @@ import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.*
 import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.utility.viewModelFactory
@@ -27,15 +28,17 @@ class AccountViewModel internal constructor(
     private val contactRepository: ContactRepository,
     private val userRepository: UserRepository,
     private val sharedPreferences: Preferences,
-    private val authService: AuthService<*>
-) : BaseViewModel() {
+    private val authService: AuthService<*>,
+    private val modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     class Factory @Inject constructor(
         private val accountRepository: AccountRepository,
         private val contactRepository: ContactRepository,
         private val userRepository: UserRepository,
         private val sharedPreferences: Preferences,
-        private val authServiceFactory: AuthServiceFactory<*>
+        private val authServiceFactory: AuthServiceFactory<*>,
+        private val modemRebootMonitorService: ModemRebootMonitorService
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
         override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
@@ -45,7 +48,8 @@ class AccountViewModel internal constructor(
                     contactRepository,
                     userRepository,
                     sharedPreferences,
-                    authServiceFactory.create(input)
+                    authServiceFactory.create(input),
+                    modemRebootMonitorService
                 )
             }
         }
@@ -120,6 +124,7 @@ class AccountViewModel internal constructor(
             val result = authService.revokeToken()
             if (result) {
                 sharedPreferences.saveBioMetrics(false)
+                modemRebootMonitorService.cancelWork()
                 myState.latestValue = AccountCoordinatorDestinations.LOG_IN
             } else {
                 Timber.e("Auth Token Revoke Failed")

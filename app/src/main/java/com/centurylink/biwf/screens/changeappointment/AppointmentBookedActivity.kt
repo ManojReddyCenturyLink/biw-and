@@ -28,7 +28,7 @@ class AppointmentBookedActivity : BaseActivity() {
     private lateinit var appointmentSlots: String
     private lateinit var appointmentId: String
 
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(AppointmentBookedViewModel::class.java)
     }
 

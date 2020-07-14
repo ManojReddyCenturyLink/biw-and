@@ -100,7 +100,8 @@ class LoginViewModelTest : ViewModelBaseTest() {
         viewModel = LoginViewModel(
             accountRepository = mockAccountRepository,
             sharedPreferences = mockSharedPreferences,
-            authService = mockAuthService
+            authService = mockAuthService,
+            modemRebootMonitorService = mockModemRebootMonitorService
         )
     }
 }
