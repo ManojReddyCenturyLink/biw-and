@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.home.account
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinatorDestinations
@@ -15,7 +14,7 @@ class PersonalInfoViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
-    var error: MutableLiveData<Errors> = MutableLiveData()
+    var error = EventFlow<Errors>()
     var userPasswordFlow = EventFlow<String>()
     private var passwordVisibility: Boolean = false
     private var confirmPasswordVisibility = false
@@ -97,7 +96,7 @@ class PersonalInfoViewModel @Inject constructor(
             errors["passwordError"] = "passwordError"
             errors["confirmPasswordError"] = "confirmPasswordError"
         }
-        this.error.value = errors
+        this.error.latestValue = errors
         return errors
     }
 }
