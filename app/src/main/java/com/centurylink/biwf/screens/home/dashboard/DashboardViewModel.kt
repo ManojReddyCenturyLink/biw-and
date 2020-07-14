@@ -55,8 +55,6 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun initApis() {
-        val utcString = "2020-07-09T16:00:25+0000"
-        formatUtcString(utcString = utcString)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestAppointmentDetails()
@@ -320,6 +318,7 @@ class DashboardViewModel @Inject constructor(
             sharedPreferences.saveSupportSpeedTest(boolean = false)
             val speedTestId = sharedPreferences.getSpeedTestId()
             if (speedTestId != null) {
+                sharedPreferences.saveSpeedTestFlag(boolean = true)
                 progressVisibility.latestValue = true
                 latestSpeedTest.latestValue = EMPTY_RESPONSE
                 checkSpeedTestStatus(requestId = speedTestId)
