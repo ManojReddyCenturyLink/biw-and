@@ -34,7 +34,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     @Inject
     lateinit var navigator: Navigator
 
-    private val notificationViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(NotificationViewModel::class.java)
     }
 
@@ -50,25 +50,25 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         navigator.observe(this)
         setActivityHeight()
 
-        notificationViewModel.apply {
+        viewModel.apply {
             displayClearAllEvent.observe { displayClearAllDialog() }
         }
-        notificationViewModel.myState.observeWith(notificationCoordinator)
+        viewModel.myState.observeWith(notificationCoordinator)
 
         initView()
         getNotificationInformation()
     }
 
     override fun onNotificationItemClick(notificationItem: Notification) {
-        notificationViewModel.notificationItemClicked(notificationItem)
+        viewModel.notificationItemClicked(notificationItem)
     }
 
     override fun clearAllReadNotification() {
-        notificationViewModel.displayClearAllDialogs()
+        viewModel.displayClearAllDialogs()
     }
 
     override fun markAllNotificationAsRead() {
-        notificationViewModel.markNotificationasRead()
+        viewModel.markNotificationasRead()
     }
 
     override fun onBackPressed() {
@@ -96,8 +96,8 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun getNotificationInformation() {
-        notificationViewModel.notificationListDetails.observe {
-            notificationViewModel.displaySortedNotifications(it.notificationlist)
+        viewModel.notificationListDetails.observe {
+            viewModel.displaySortedNotifications(it.notificationlist)
             displaySortedNotification()
         }
     }
@@ -121,11 +121,11 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     }
 
     private fun performClearAll() {
-        notificationViewModel.clearAllReadNotifications()
+        viewModel.clearAllReadNotifications()
     }
 
     private fun displaySortedNotification() {
-        notificationViewModel.notifications.observe {
+        viewModel.notifications.observe {
             prepareRecyclerView(it)
         }
     }

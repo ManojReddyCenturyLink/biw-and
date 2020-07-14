@@ -7,6 +7,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.ChangeAppointmentCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.RescheduleInfo
 import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
@@ -20,8 +21,9 @@ import javax.inject.Inject
 import kotlin.collections.HashMap
 
 class ChangeAppointmentViewModel @Inject constructor(
-    private val appointmentRepository: AppointmentRepository
-) : BaseViewModel() {
+    private val appointmentRepository: AppointmentRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<ChangeAppointmentCoordinatorDestinations>()
     var slotForAppointments = HashMap<String, List<String>>()

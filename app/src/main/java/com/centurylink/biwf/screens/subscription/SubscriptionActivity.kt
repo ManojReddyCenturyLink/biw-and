@@ -30,7 +30,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
     lateinit var factory: DaggerViewModelFactory
     @Inject
     lateinit var navigator: Navigator
-    private val subscriptionViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(SubscriptionViewModel::class.java)
     }
     private lateinit var binding: ActivitySubscriptionBinding
@@ -48,7 +48,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             binding.retryOverlay.root
         )
         navigator.observe(this)
-        subscriptionViewModel.apply {
+        viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             myState.observeWith(subscriptionCoordinator)
@@ -68,7 +68,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
     }
 
     override fun onPaymentListItemClick(item: RecordsItem) {
-        subscriptionViewModel.launchStatement(item)
+        viewModel.launchStatement(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -92,7 +92,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     override fun retryClicked() {
         showProgress(true)
-        subscriptionViewModel.initApis()
+        viewModel.initApis()
     }
 
     private fun initViews() {
@@ -108,19 +108,19 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                 finish()
             }
         }
-        binding.manageMySubscriptionRow.setOnClickListener { subscriptionViewModel.launchManageSubscription() }
+        binding.manageMySubscriptionRow.setOnClickListener { viewModel.launchManageSubscription() }
 
         binding.subscriptionWebView.settings.apply {
             javaScriptEnabled = true
         }
 
-        subscriptionViewModel.subscriptionUrl.observe {
+        viewModel.subscriptionUrl.observe {
             binding.subscriptionWebView.loadUrl(it)
         }
     }
 
     private fun prepareRecyclerView() {
-        subscriptionViewModel.invoicesListResponse.observe { list ->
+        viewModel.invoicesListResponse.observe { list ->
             paymentInvoicesAdapter = PaymentInvoicesAdapter(this, this, list)
             binding.previousStatementRecyclerview.adapter = paymentInvoicesAdapter
             hideProgress()

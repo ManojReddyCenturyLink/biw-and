@@ -1,6 +1,5 @@
 package com.centurylink.biwf.coordinators
 
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver

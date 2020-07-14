@@ -34,7 +34,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
 
     private var dialog: Dialog? = null
 
-    private val cancelSubscriptionDetailsModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionDetailsViewModel::class.java)
     }
     private lateinit var binding: ActivityCancelSubscriptionDetailsBinding
@@ -49,7 +49,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
             binding.cancelSubscriptionDetailsView,
             binding.retryOverlay.root
         )
-        cancelSubscriptionDetailsModel.apply {
+        viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorEvents.handleEvent { displayDateError() }
             performSubmitEvent.handleEvent { showCancellationDialog(it) }
@@ -82,7 +82,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
             subHeaderLeftIcon.setOnClickListener { finish() }
         }
         binding.cancelSubscriptionSubmit.setOnClickListener {
-            cancelSubscriptionDetailsModel.onSubmitCancellation()
+            viewModel.onSubmitCancellation()
         }
     }
 
@@ -92,7 +92,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
         binding.cancellationDateSelection.hint = hintDate
         binding.cancellationSpecifyReasonInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(editText: Editable?) {
-                cancelSubscriptionDetailsModel.onOtherCancellationChanged(editText.toString())
+                viewModel.onOtherCancellationChanged(editText.toString())
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -105,7 +105,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
         })
         binding.cancellationCommentsReasonInput.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(editText: Editable?) {
-                cancelSubscriptionDetailsModel.onCancellationCommentsChanged(editText.toString())
+                viewModel.onCancellationCommentsChanged(editText.toString())
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -150,7 +150,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
                     position: Int,
                     id: Long
                 ) {
-                    cancelSubscriptionDetailsModel.onCancellationReason(cancellationList[position])
+                    viewModel.onCancellationReason(cancellationList[position])
                 }
             }
     }
@@ -170,7 +170,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
                 val newDate: Calendar = Calendar.getInstance()
                 newDate.set(year, monthOfYear, dayOfMonth)
                 binding.cancelSubscriptionDetailsError.visibility = View.GONE
-                cancelSubscriptionDetailsModel.onCancellationDateSelected(newDate.time)
+                viewModel.onCancellationDateSelected(newDate.time)
             },
             year,
             month,
@@ -181,10 +181,10 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
     }
 
     private fun initRatingView() {
-        binding.cancellationDateSelection.setOnClickListener { cancelSubscriptionDetailsModel.onDateChange() }
+        binding.cancellationDateSelection.setOnClickListener { viewModel.onDateChange() }
         binding.cancellationServiceRatingBar.setOnRatingChangeListener { baseRatingBar: BaseRatingBar, rating: Float, b: Boolean ->
             baseRatingBar.rating = rating
-            cancelSubscriptionDetailsModel.onRatingChanged(rating)
+            viewModel.onRatingChanged(rating)
         }
     }
 
@@ -196,7 +196,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
     }
 
     private fun observeViews() {
-        cancelSubscriptionDetailsModel.apply {
+        viewModel.apply {
             successDeactivation.observe {
                 setResult(REQUEST_TO_ACCOUNT)
                 finish()
@@ -223,8 +223,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
         }
         dialogbinding.cancellationDetailDialogCancelService.setOnClickListener {
             dialog?.dismiss()
-            cancelSubscriptionDetailsModel.performCancellationRequest()
-            cancelSubscriptionDetailsModel.errorMessageFlow.observe {
+            viewModel.performCancellationRequest()
+            viewModel.errorMessageFlow.observe {
                 if (it.isNotEmpty()) {
                     showProgress(false)
                     CustomDialogBlueTheme(

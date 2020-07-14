@@ -12,7 +12,7 @@ import androidx.fragment.app.DialogFragment
 import com.centurylink.biwf.R
 import kotlinx.android.synthetic.main.widget_popup.view.*
 
-class CustomDialogBlueTheme : DialogFragment() {
+open class CustomDialogBlueTheme : DialogFragment() {
 
     private lateinit var callback: ErrorDialogCallback
     lateinit var title: String
@@ -22,7 +22,9 @@ class CustomDialogBlueTheme : DialogFragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        callback = context as ErrorDialogCallback
+        if (context is ErrorDialogCallback && callback == null) {
+            callback = context
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

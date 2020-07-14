@@ -1,38 +1,28 @@
 package com.centurylink.biwf.screens.support
 
 import android.os.Bundle
-import androidx.lifecycle.asFlow
 import androidx.lifecycle.viewModelScope
-import androidx.work.ExistingWorkPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.WorkInfo
-import androidx.work.WorkManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.SupportCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
-import com.centurylink.biwf.repos.ModemRebootRepository
-import com.centurylink.biwf.repos.ModemRebootRepository.Companion.REBOOT_STARTED_SUCCESSFULLY
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
-import com.centurylink.biwf.service.impl.workmanager.ModemRebootWorker
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class SupportViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
-    private val modemRebootRepository: ModemRebootRepository,
-    private val workManager: WorkManager,
+    modemRebootMonitorService: ModemRebootMonitorService,
     private val assiaRepository: AssiaRepository,
     private val sharedPreferences: Preferences
-) : BaseViewModel() {
+) : BaseViewModel(modemRebootMonitorService) {
 
     val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
@@ -43,7 +33,7 @@ class SupportViewModel @Inject constructor(
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     private var recordTypeId: String = ""
     var progressViewFlow = EventFlow<Boolean>()
-    var modemRebootStatusFlow = EventFlow<ModemRebootRepository.Companion.RebootState>()
+    val modemRebootStatusFlow = EventFlow<ModemRebootMonitorService.RebootState>()
 
     init {
         initApis()
@@ -79,9 +69,12 @@ class SupportViewModel @Inject constructor(
             requestFaqDetailsInfo()
             checkForRunningSpeedTest()
         }
-        modemRebootStatusFlow.latestValue = ModemRebootRepository.Companion.RebootState.READY
-        viewModelScope.launch {
-            listenToModemRebootStatus()
+    }
+
+    override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
+        @Suppress("SENSELESS_COMPARISON")
+        if (modemRebootStatusFlow != null) {
+            modemRebootStatusFlow.latestValue = status
         }
     }
 
@@ -179,41 +172,6 @@ class SupportViewModel @Inject constructor(
         }
     }
 
-    private suspend fun listenToModemRebootStatus() {
-        workManager.getWorkInfosForUniqueWorkLiveData(ModemRebootWorker.UNIQUE_NAME).asFlow().collect { workInfos ->
-            modemRebootStatusFlow.latestValue =
-                if (workInfos.isEmpty())
-                    ModemRebootRepository.Companion.RebootState.READY
-                else
-                    getRebootStateFromWorkerInfo(workerState = workInfos.first().state)
-        }
-    }
-
-    private fun getRebootStateFromWorkerInfo(workerState: WorkInfo.State): ModemRebootRepository.Companion.RebootState {
-        return when (workerState) {
-            WorkInfo.State.ENQUEUED,
-            WorkInfo.State.RUNNING -> ModemRebootRepository.Companion.RebootState.ONGOING
-            WorkInfo.State.SUCCEEDED -> ModemRebootRepository.Companion.RebootState.SUCCESS
-            WorkInfo.State.FAILED,
-            WorkInfo.State.BLOCKED,
-            WorkInfo.State.CANCELLED -> ModemRebootRepository.Companion.RebootState.ERROR
-        }
-    }
-
-    private suspend fun sendRebootModemRequest() {
-        val result = modemRebootRepository.rebootModem()
-        if (result.code == REBOOT_STARTED_SUCCESSFULLY) {
-            workManager.enqueueUniqueWork(
-                ModemRebootWorker.UNIQUE_NAME,
-                ExistingWorkPolicy.REPLACE,
-                OneTimeWorkRequestBuilder<ModemRebootWorker>().build()
-            )
-        } else {
-            modemRebootStatusFlow.latestValue = ModemRebootRepository.Companion.RebootState.ERROR
-            Timber.e("Error requesting modem reboot %s", result.message)
-        }
-    }
-
     private fun updateFaqDetails(faq: Faq) {
         val questionMap: List<String> = faq.records.mapNotNull { it.sectionC }.distinct()
         faqSectionInfo.latestValue = UiFAQQuestionsSections(questionMap)
@@ -224,21 +182,6 @@ class SupportViewModel @Inject constructor(
         bundle.putString(FAQActivity.FAQ_TITLE, faqSectionSelected)
         SupportCoordinatorDestinations.bundle = bundle
         myState.latestValue = SupportCoordinatorDestinations.FAQ
-    }
-
-    fun rebootModem() {
-        viewModelScope.launch {
-            modemRebootStatusFlow.latestValue = ModemRebootRepository.Companion.RebootState.ONGOING
-            sendRebootModemRequest()
-        }
-    }
-
-    fun onRetryModemRebootClicked() {
-        rebootModem()
-    }
-
-    fun onCancelModemRebootClicked() {
-        modemRebootStatusFlow.latestValue = ModemRebootRepository.Companion.RebootState.READY
     }
 
     fun launchScheduleCallback() {

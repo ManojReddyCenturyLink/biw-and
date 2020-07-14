@@ -56,7 +56,7 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
             )
         } returns Either.Right(caseResponse)
         coEvery { caseRepository.getCaseId() } returns Either.Right(case)
-        viewModel = CancelSubscriptionDetailsViewModel(caseRepository)
+        viewModel = CancelSubscriptionDetailsViewModel(caseRepository, mockModemRebootMonitorService)
     }
 
     @Test

@@ -34,7 +34,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     @Inject
     lateinit var navigator: Navigator
 
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(HomeViewModel::class.java)
     }
     private val adapter by lazy { TabsPagerRecyclerAdapter(this, this) }

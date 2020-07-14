@@ -26,7 +26,7 @@ class SubscriptionStatementActivity : BaseActivity() {
     @Inject
     lateinit var navigator: Navigator
 
-    private val subscriptionStatementViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(SubscriptionStatementViewModel::class.java)
     }
     private lateinit var binding: ActivitySubscriptionStatementBinding
@@ -36,7 +36,7 @@ class SubscriptionStatementActivity : BaseActivity() {
         binding = ActivitySubscriptionStatementBinding.inflate(layoutInflater)
         setContentView(binding.root)
         navigator.observe(this)
-        subscriptionStatementViewModel.setInvoiceDetails(
+        viewModel.setInvoiceDetails(
             intent.getStringExtra(SUBSCRIPTION_STATEMENT_INVOICE_ID),
             intent.getStringExtra(SUBSCRIPTION_STATEMENT_DATE)
         )
@@ -46,7 +46,7 @@ class SubscriptionStatementActivity : BaseActivity() {
             binding.statementView,
             binding.retryOverlay.root
         )
-        subscriptionStatementViewModel.apply {
+        viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
         }
@@ -56,7 +56,7 @@ class SubscriptionStatementActivity : BaseActivity() {
 
     override fun retryClicked() {
         showProgress(true)
-        subscriptionStatementViewModel.initAPiCalls()
+        viewModel.initAPiCalls()
     }
 
     override fun onBackPressed() {
@@ -77,7 +77,7 @@ class SubscriptionStatementActivity : BaseActivity() {
     }
 
     private fun observeViews() {
-        subscriptionStatementViewModel.apply {
+        viewModel.apply {
             statementDetailsInfo.observe { uiAccountInfo ->
                 binding.subscriptionStatementProcessedDate.visibility = View.VISIBLE
                 binding.subscriptionStatementProcessedDate.text =
