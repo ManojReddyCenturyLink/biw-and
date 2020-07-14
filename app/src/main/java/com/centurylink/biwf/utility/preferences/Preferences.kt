@@ -73,7 +73,7 @@ class Preferences(private val store: KeyValueStore) {
     fun getAssiaId(): String {
         var asiaID = store.get(ASSIA_ID)
         if (asiaID.isNullOrEmpty()) {
-            asiaID = "C4000XG1950000704"
+            asiaID = "C4000XG1950000871"
         }
         return asiaID
     }
