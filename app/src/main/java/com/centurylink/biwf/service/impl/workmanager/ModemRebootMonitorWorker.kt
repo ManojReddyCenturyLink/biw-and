@@ -40,7 +40,7 @@ class ModemRebootMonitorWorker constructor(
     }
 
     companion object {
-        const val RETRY_MILLIS = 15000L
+        const val RETRY_MILLIS = 30000L
         const val MAX_TIMEOUT_MILLIS = 250000L
 
         const val UNIQUE_NAME = "modem-reboot"

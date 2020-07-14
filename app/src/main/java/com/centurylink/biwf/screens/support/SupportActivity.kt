@@ -114,7 +114,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             }
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
-            modemRebootStatusFlow.observe { rebootStatus ->
+            detailedRebootStatusFlow.observe { rebootStatus ->
                 when (rebootStatus) {
                     ModemRebootMonitorService.RebootState.READY -> {
                         setRebootButtonVisibility(false)

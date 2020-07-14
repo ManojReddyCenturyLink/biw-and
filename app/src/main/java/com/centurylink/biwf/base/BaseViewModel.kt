@@ -29,17 +29,27 @@ abstract class BaseViewModel(
      */
     val rebootDialogFlow = EventFlow<Boolean>()
 
+    /**
+     * Emits more detailed modem reboot status updates. Can be used for informing UI elements
+     * which change depending on the state (e.g. "Restart modem" button -> "Restarting" button)
+     */
+    val detailedRebootStatusFlow = EventFlow<ModemRebootMonitorService.RebootState>()
+
     init {
         listenToRebootStatus()
     }
 
     private fun listenToRebootStatus() {
         viewModelScope.launch {
-            modemRebootMonitorService.modemRebootStateFlow.collect { handleRebootStatus(it) }
+            modemRebootMonitorService.modemRebootStateFlow.collect {
+                handleRebootStatus(it)
+            }
         }
     }
 
     internal open suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
+        detailedRebootStatusFlow.latestValue = status
+
         if (status == ModemRebootMonitorService.RebootState.SUCCESS) {
             rebootDialogFlow.latestValue = true
         } else if (status == ModemRebootMonitorService.RebootState.ERROR) {
