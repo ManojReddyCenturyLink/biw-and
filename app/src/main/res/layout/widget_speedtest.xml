@@ -55,7 +55,8 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@+id/download_speed_icon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="910" />
+            android:text="@string/placeholder_text"
+                tools:text="@string/fake_speed_test_download_speed" />
 
         <ProgressBar
             android:id="@+id/download_progress_icon"
@@ -133,7 +134,8 @@
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/upload_speed_icon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="908" />
+            android:text="@string/placeholder_text"
+                tools:text="@string/speed_test_upload_fake_speed" />
 
         <TextView
             android:id="@+id/upload_speed_spacer"

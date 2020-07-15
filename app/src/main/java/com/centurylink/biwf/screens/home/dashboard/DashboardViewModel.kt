@@ -13,6 +13,7 @@ import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
@@ -26,8 +27,9 @@ class DashboardViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
-    private val assiaRepository: AssiaRepository
-) : BaseViewModel() {
+    private val assiaRepository: AssiaRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
@@ -48,6 +50,7 @@ class DashboardViewModel @Inject constructor(
             "", "", true, ""
         )
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
+    private var rebootOngoing = false
 
     init {
         initApis()
@@ -55,8 +58,6 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun initApis() {
-        val utcString = "2020-07-09T16:00:25+0000"
-        formatUtcString(utcString = utcString)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestAppointmentDetails()
@@ -64,8 +65,13 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
+        super.handleRebootStatus(status)
+        rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
+    }
+
     fun startSpeedTest() {
-        if (!progressVisibility.latestValue) {
+        if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
         }
     }
@@ -320,6 +326,7 @@ class DashboardViewModel @Inject constructor(
             sharedPreferences.saveSupportSpeedTest(boolean = false)
             val speedTestId = sharedPreferences.getSpeedTestId()
             if (speedTestId != null) {
+                sharedPreferences.saveSpeedTestFlag(boolean = true)
                 progressVisibility.latestValue = true
                 latestSpeedTest.latestValue = EMPTY_RESPONSE
                 checkSpeedTestStatus(requestId = speedTestId)

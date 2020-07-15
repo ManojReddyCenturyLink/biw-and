@@ -5,10 +5,10 @@ import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.NotificationRepository
+import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Rule
-import org.mockito.MockitoAnnotations
 
 class NotificationViewModelTest : ViewModelBaseTest() {
 
@@ -34,10 +34,10 @@ class NotificationViewModelTest : ViewModelBaseTest() {
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         var notificationSource: NotificationSource = NotificationSource()
         notificationSource.notificationlist = notifiCationList
-        viewModel = NotificationViewModel(notificationRepository)
+        viewModel = NotificationViewModel(notificationRepository, mockModemRebootMonitorService)
     }
 }
 

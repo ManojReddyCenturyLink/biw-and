@@ -3,15 +3,20 @@ package com.centurylink.biwf
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import io.ktor.utils.io.charsets.Charset
+import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.Flow
 import org.junit.Rule
 
 abstract class ViewModelBaseTest : ViewModel() {
+
+    @MockK
+    internal lateinit var mockModemRebootMonitorService: ModemRebootMonitorService
 
     @Rule
     @JvmField

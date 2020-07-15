@@ -4,13 +4,13 @@ import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinatorDestinations
 import com.centurylink.biwf.model.support.TopicList
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackViewModel
+import io.mockk.MockKAnnotations
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.mockito.MockitoAnnotations
 
 @Suppress("EXPERIMENTAL_API_USAGE")
 class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
@@ -27,8 +27,8 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
-        viewModel = ScheduleCallbackViewModel()
+        MockKAnnotations.init(this)
+        viewModel = ScheduleCallbackViewModel(mockModemRebootMonitorService)
     }
 
     @Test

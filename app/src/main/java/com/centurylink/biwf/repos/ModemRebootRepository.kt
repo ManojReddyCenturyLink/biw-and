@@ -29,10 +29,5 @@ class ModemRebootRepository @Inject constructor(
 
     companion object {
         const val REBOOT_STARTED_SUCCESSFULLY = 1000
-
-        // TODO Move to Reboot service once created
-        enum class RebootState {
-            READY, ONGOING, SUCCESS, ERROR
-        }
     }
 }

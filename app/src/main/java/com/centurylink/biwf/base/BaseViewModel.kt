@@ -4,12 +4,14 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.LiveEvent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
@@ -18,7 +20,53 @@ import org.threeten.bp.format.DateTimeFormatterBuilder
 import org.threeten.bp.format.SignStyle
 import org.threeten.bp.temporal.ChronoField
 
-abstract class BaseViewModel : ViewModel() {
+abstract class BaseViewModel(
+    private val modemRebootMonitorService: ModemRebootMonitorService
+) : ViewModel() {
+
+    /**
+     * A emission of true represents "success" and a false represents "error"
+     */
+    val rebootDialogFlow = EventFlow<Boolean>()
+
+    /**
+     * Emits more detailed modem reboot status updates. Can be used for informing UI elements
+     * which change depending on the state (e.g. "Restart modem" button -> "Restarting" button)
+     */
+    val detailedRebootStatusFlow = EventFlow<ModemRebootMonitorService.RebootState>()
+
+    init {
+        listenToRebootStatus()
+    }
+
+    private fun listenToRebootStatus() {
+        viewModelScope.launch {
+            modemRebootMonitorService.modemRebootStateFlow.collect {
+                handleRebootStatus(it)
+            }
+        }
+    }
+
+    internal open suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
+        detailedRebootStatusFlow.latestValue = status
+
+        if (status == ModemRebootMonitorService.RebootState.SUCCESS) {
+            rebootDialogFlow.latestValue = true
+        } else if (status == ModemRebootMonitorService.RebootState.ERROR) {
+            rebootDialogFlow.latestValue = false
+        }
+    }
+
+    fun rebootModem() {
+        viewModelScope.launch {
+            modemRebootMonitorService.sendRebootModemRequest()
+        }
+    }
+
+    fun onRebootDialogShown() {
+        modemRebootMonitorService.pruneFinishedWork()
+    }
+
     // Works exactly the same way as MutableLiveData.value
     // This allows all the subclasses' live data to be declared as LiveData<T> type instead of MutableLiveData<T> so
     // that their values can't be changed externally but still can internally

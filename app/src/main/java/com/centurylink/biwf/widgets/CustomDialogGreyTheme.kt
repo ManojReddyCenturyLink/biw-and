@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.widget_dialog_default.view.dialog_title
 import kotlinx.android.synthetic.main.widget_dialog_default.view.negative_cta
 import kotlinx.android.synthetic.main.widget_dialog_default.view.positive_cta
 
-class CustomDialogGreyTheme() : DialogFragment() {
+open class CustomDialogGreyTheme() : DialogFragment() {
 
     private lateinit var callback: DialogCallback
     lateinit var title: String
@@ -27,9 +27,12 @@ class CustomDialogGreyTheme() : DialogFragment() {
         callback = dialogCallback
     }
 
+    // TODO - Improve this to take callback as a constructor param rather than extract it from
+    //  the context in onAttach like this. will be helpful for extending this class and in
+    //  situations that multiple dialogs leverage this class for the same screen
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if(context is DialogCallback){
+        if (context is DialogCallback && callback == null) {
             callback = context
         }
     }

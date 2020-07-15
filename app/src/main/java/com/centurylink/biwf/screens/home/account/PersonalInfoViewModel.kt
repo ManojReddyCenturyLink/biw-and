@@ -4,14 +4,16 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinatorDestinations
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PersonalInfoViewModel @Inject constructor(
-    private val userRepository: UserRepository
-) : BaseViewModel() {
+    private val userRepository: UserRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
     var error = EventFlow<Errors>()

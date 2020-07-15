@@ -12,6 +12,7 @@ import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.utility.BehaviorStateFlow
@@ -27,8 +28,9 @@ class HomeViewModel @Inject constructor(
     private val sharedPreferences: Preferences,
     private val integrationServices: IntegrationRestServices,
     private val userRepository: UserRepository,
-    private val assiaRepository: AssiaRepository
-) : BaseViewModel() {
+    private val assiaRepository: AssiaRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val myState = EventFlow<HomeCoordinatorDestinations>()

@@ -11,6 +11,7 @@ import com.centurylink.biwf.screens.home.account.PersonalInfoViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.home.devices.DevicesViewModel
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusViewModel
+import com.centurylink.biwf.screens.notification.NotificationDetailsViewModel
 import com.centurylink.biwf.screens.notification.NotificationViewModel
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementViewModel
 import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
@@ -63,6 +64,11 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(NotificationViewModel::class)
     abstract fun bindNotificationViewModel(notificationViewModel: NotificationViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationDetailsViewModel::class)
+    abstract fun bindNotificationDetailsViewModel(notificationDetailsViewModel: NotificationDetailsViewModel): ViewModel
 
     /**
      * Binding FAQViewModel using this key "FAQViewModel::class"

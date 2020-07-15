@@ -31,7 +31,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private val personalInfoViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(PersonalInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityPersonalInfoBinding
@@ -40,7 +40,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
-        personalInfoViewModel.myState.observeWith(personalInfoCoordinator)
+        viewModel.myState.observeWith(personalInfoCoordinator)
         setContentView(binding.root)
         navigator.observe(this)
         initViews()
@@ -147,22 +147,22 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         }
         binding.ivPasswordVisibility.setOnClickListener {
             toggleTextVisibility(
-                personalInfoViewModel.togglePasswordVisibility(),
+                viewModel.togglePasswordVisibility(),
                 PASSWORD_LAYOUT
             )
         }
         binding.ivConfirmPasswordVisibility.setOnClickListener {
             toggleTextVisibility(
-                personalInfoViewModel.toggleConfirmPasswordVisibility(),
+                viewModel.toggleConfirmPasswordVisibility(),
                 CONFIRM_PASSWORD_LAYOUT
             )
         }
     }
 
     private fun validateInfoAndUpdatePassword() {
-        val errors = personalInfoViewModel.validateInput()
+        val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
-            personalInfoViewModel.callUpdatePasswordApi()
+            viewModel.callUpdatePasswordApi()
 
         }
     }
@@ -170,20 +170,20 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     private fun initTextWatchers() {
         binding.personalInfoPasswordInput.addTextChangedListener(
             afterTextChanged {
-                personalInfoViewModel.onPasswordValueChanged(it.toString())
+                viewModel.onPasswordValueChanged(it.toString())
                 binding.personalInfoPasswordInput.setSelection(binding.personalInfoPasswordInput.text.toString().length)
             }
         )
         binding.personalInfoConfirmPasswordInput.addTextChangedListener(
             afterTextChanged {
-                personalInfoViewModel.onConfirmPasswordValueChanged(it.toString())
+                viewModel.onConfirmPasswordValueChanged(it.toString())
                 binding.personalInfoConfirmPasswordInput.setSelection(binding.personalInfoConfirmPasswordInput.text.toString().length)
             }
         )
         binding.personalInfoPhoneNumberInput.addTextChangedListener(
             afterTextChanged { editable ->
                 val validatedString =
-                    personalInfoViewModel.onPhoneNumberChanged(editable.toString())
+                    viewModel.onPhoneNumberChanged(editable.toString())
                 binding.personalInfoPhoneNumberInput.also {
                     /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
                     it.removeTextChangedListener(this)

@@ -24,7 +24,7 @@ class CancelSubscriptionActivity : BaseActivity() {
     @Inject
     lateinit var navigator: Navigator
 
-    private val cancelSubscriptionModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(CancelSubscriptionViewModel::class.java)
     }
     private lateinit var binding: ActivityCancelSubscriptionBinding
@@ -40,17 +40,17 @@ class CancelSubscriptionActivity : BaseActivity() {
             binding.cancelSubscriptionView,
             binding.retryOverlay.root
         )
-        cancelSubscriptionModel.apply {
+        viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             cancelSubscriptionDate.observe { displayCancellationValidity(it.subscriptionEndDate!!) }
         }
-        cancelSubscriptionModel.myState.observeWith(cancelSubscriptionCoordinator)
+        viewModel.myState.observeWith(cancelSubscriptionCoordinator)
         initHeaders()
     }
 
     override fun retryClicked() {
-        cancelSubscriptionModel.initApis()
+        viewModel.initApis()
     }
 
     override fun onBackPressed() {
@@ -69,7 +69,7 @@ class CancelSubscriptionActivity : BaseActivity() {
             }
         }
         binding.cancelSubscription
-            .setOnClickListener { cancelSubscriptionModel.onNavigateToCancelSubscriptionDetails() }
+            .setOnClickListener { viewModel.onNavigateToCancelSubscriptionDetails() }
     }
 
     private fun displayCancellationValidity(date: String) {

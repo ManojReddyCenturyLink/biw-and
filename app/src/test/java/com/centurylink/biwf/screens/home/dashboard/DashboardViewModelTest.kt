@@ -2,7 +2,6 @@ package com.centurylink.biwf.screens.home.dashboard
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
-import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
@@ -12,16 +11,11 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.utility.preferences.Preferences
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Before
-import org.junit.Test
-import org.mockito.MockitoAnnotations
 import org.threeten.bp.LocalDateTime
 
 @Suppress("EXPERIMENTAL_API_USAGE")
@@ -54,7 +48,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @Before
     fun setup() {
-        MockitoAnnotations.initMocks(this)
+        MockKAnnotations.init(this)
         val notificationSource = NotificationSource()
         notificationSource.notificationlist = notificationList
        // result.value = Resource(Status.SUCCESS, notificationSource, "")
@@ -81,7 +75,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             notificationRepository = notificationRepository,
             appointmentRepository = appointmentRepository,
             sharedPreferences = mockPreferences,
-            assiaRepository = mockAssiaRepository
+            assiaRepository = mockAssiaRepository,
+            modemRebootMonitorService = mockModemRebootMonitorService
         )
         // Need to Revisit Test cases
     }

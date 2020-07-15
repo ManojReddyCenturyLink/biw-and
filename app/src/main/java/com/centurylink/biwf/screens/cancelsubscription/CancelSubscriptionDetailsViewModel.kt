@@ -3,8 +3,8 @@ package com.centurylink.biwf.screens.cancelsubscription
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
-import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.repos.CaseRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
 import kotlinx.coroutines.launch
@@ -12,8 +12,9 @@ import java.util.*
 import javax.inject.Inject
 
 class CancelSubscriptionDetailsViewModel @Inject constructor(
-    private val caseRepository: CaseRepository
-) : BaseViewModel() {
+    private val caseRepository: CaseRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     private var cancellationDate: Date = Date()
     private var cancellationReason: String = ""

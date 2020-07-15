@@ -46,7 +46,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
         recordID = fromJson(recordIdString)
         coEvery { faqRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
         coEvery { faqRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
-        viewModel = FAQViewModel(faqRepository)
+        viewModel = FAQViewModel(faqRepository, mockModemRebootMonitorService)
         viewModel.setFilteredSelection("Manage my account")
 
     }

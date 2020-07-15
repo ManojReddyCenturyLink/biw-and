@@ -5,14 +5,17 @@ import android.util.DisplayMetrics
 import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import com.centurylink.biwf.utility.LiveDataObserver
+import com.centurylink.biwf.widgets.ModemRebootFailureDialog
+import com.centurylink.biwf.widgets.ModemRebootSuccessDialog
 import dagger.android.AndroidInjection
 
 /**
  * Base class for holding common functionality that will be used across screens.
  */
-abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
+abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemRebootFailureDialog.Callback {
 
     override val lifecycleOwner: LifecycleOwner get() = this
     private var progressView: View? = null
@@ -20,9 +23,12 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
     private var retryOverlayView: View? = null
     private var layoutView: View? = null
 
+    internal abstract val viewModel: BaseViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
+        listenForRebootDialog()
     }
 
     fun setActivityHeight() {
@@ -72,6 +78,40 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver {
         this.progressView?.visibility = View.GONE
         this.retryOverlayView?.visibility = View.GONE
         this.layoutView?.visibility = View.VISIBLE
+    }
+
+    private fun listenForRebootDialog() {
+        viewModel.rebootDialogFlow.observe { success ->
+            if (success) {
+                showModemRebootSuccessDialog()
+            } else {
+                showModemRebootErrorDialog()
+            }
+        }
+    }
+
+    fun showModemRebootSuccessDialog() {
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+            viewModel.onRebootDialogShown()
+            ModemRebootSuccessDialog().show(
+                supportFragmentManager,
+                callingActivity?.className
+            )
+        }
+    }
+
+    fun showModemRebootErrorDialog() {
+        if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
+            viewModel.onRebootDialogShown()
+            ModemRebootFailureDialog(this).show(
+                supportFragmentManager,
+                callingActivity?.className
+            )
+        }
+    }
+
+    override fun onRetryModemRebootClicked() {
+        viewModel.rebootModem()
     }
 
     open fun retryClicked() {}

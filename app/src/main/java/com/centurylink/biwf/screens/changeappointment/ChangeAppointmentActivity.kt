@@ -1,10 +1,8 @@
 package com.centurylink.biwf.screens.changeappointment
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
@@ -50,7 +48,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
 
     private var finalSlotMap: Map<String, List<String>> = mapOf()
 
-    private val changeAppointmentViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(ChangeAppointmentViewModel::class.java)
     }
 
@@ -65,13 +63,13 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             binding.retryOverlay.root
         )
         navigator.observe(this)
-        changeAppointmentViewModel.apply {
+        viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             sloterrorEvents.handleEvent { displaySlotError() }
             appointmenterrorEvents.handleEvent { displayAppointmentError() }
         }
-        changeAppointmentViewModel.myState.observeWith(changeAppointmentCoordinator)
+        viewModel.myState.observeWith(changeAppointmentCoordinator)
         initViews()
     }
 
@@ -88,7 +86,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
     }
 
     override fun retryClicked() {
-        changeAppointmentViewModel.initApis()
+        viewModel.initApis()
     }
 
     private fun displaySlotError() {
@@ -108,7 +106,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             subheaderRightActionTitle.isAllCaps = true
             subheaderRightActionTitle.setOnClickListener {
                 if (!selectedDate.isNullOrEmpty()) {
-                    changeAppointmentViewModel.onNextClicked(
+                    viewModel.onNextClicked(
                         selectedDate,
                         selectedSlot
                     )
@@ -128,7 +126,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
     }
 
     private fun observeViews() {
-        changeAppointmentViewModel.appointmentSlotsInfo.observe {
+        viewModel.appointmentSlotsInfo.observe {
             binding.availableAppointmentNote.text =
                 getString(
                     available_appointments_on_date,
@@ -216,7 +214,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
                     selectedSlot = ""
                     selectedDate = DateUtils.toSimpleString(date, DateUtils.STANDARD_FORMAT)
                     calendarFragment.refreshView()
-                    changeAppointmentViewModel.onAppointmentSelectedDate(date)
+                    viewModel.onAppointmentSelectedDate(date)
                 }
             }
         }

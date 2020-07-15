@@ -52,7 +52,8 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
         viewModel = SubscriptionViewModel(
             zuoraPaymentRepository = zuoraPaymentRepository,
             accountRepository = accountRepository,
-            preferences = preferences
+            preferences = preferences,
+            modemRebootMonitorService = mockModemRebootMonitorService
         )
     }
 

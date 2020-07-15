@@ -63,7 +63,15 @@ class HomeViewModelTest : ViewModelBaseTest() {
             )
         )
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository, assiaRepository)
+            HomeViewModel(
+                mockk(),
+                appointmentRepository,
+                mockPreferences,
+                mockk(),
+                userRepository,
+                assiaRepository,
+                mockModemRebootMonitorService
+            )
         //Need to Revisit Tests
     }
 }

@@ -7,14 +7,16 @@ import com.centurylink.biwf.coordinators.NetworkStatusCoordinatorDestinations
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class NetworkStatusViewModel @Inject constructor(
-    private val assiaRepository: AssiaRepository
-) : BaseViewModel() {
+    private val assiaRepository: AssiaRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val modemInfoFlow: Flow<ModemInfo> = BehaviorStateFlow()
     val internetStatusFlow: Flow<OnlineStatus> = BehaviorStateFlow()
