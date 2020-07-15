@@ -104,7 +104,6 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                     R.drawable.background_thin_border
                 )
         }
-        binding.lifecycleOwner = this.lifecycleOwner
         personalInfoViewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
                 finish()
