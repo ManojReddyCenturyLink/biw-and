@@ -14,6 +14,7 @@ import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DevicesViewModel @Inject constructor(
@@ -29,12 +30,12 @@ class DevicesViewModel @Inject constructor(
     var uiDevicesTypeDetails: UIDevicesTypeDetails = UIDevicesTypeDetails()
 
     init {
+        progressViewFlow.latestValue = true
         initApis()
     }
 
     fun initApis() {
-        progressViewFlow.latestValue = true
-        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
+        viewModelScope.launch {
             requestModemDetails()
         }
     }
@@ -61,6 +62,19 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
+    private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
+        progressViewFlow.latestValue = false
+        val removedList = deviceInfo.devicesDataList.filter { it.blocked }
+        val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }
+        val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
+        deviceMap[DeviceStatus.CONNECTED] = connectedList
+        if (!removedList.isNullOrEmpty()) {
+            deviceMap[DeviceStatus.BLOCKED] = removedList
+        }
+        uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
+        devicesListFlow.latestValue = uiDevicesTypeDetails
+    }
+
     private suspend fun requestModemDetails() {
         val modemDetails = asiaRepository.getModemInfo()
         when (modemDetails) {
@@ -73,19 +87,6 @@ class DevicesViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             }
         }
-    }
-
-    private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
-        progressViewFlow.latestValue = false
-        val removedList = deviceInfo.devicesDataList.filter { it.blocked }
-        val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }
-        val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
-        deviceMap[DeviceStatus.CONNECTED] = connectedList
-        if (!removedList.isNullOrEmpty()) {
-            deviceMap[DeviceStatus.BLOCKED] = removedList
-        }
-        uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
-        devicesListFlow.latestValue = uiDevicesTypeDetails
     }
 
     fun navigateToUsageDetails(devicesInfo: DevicesData) {
