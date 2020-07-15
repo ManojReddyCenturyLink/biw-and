@@ -112,15 +112,13 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun requestAppointmentDetails() {
-        viewModelScope.launch {
-            val appointmentDetails = appointmentRepository.getAppointmentInfo()
-            appointmentDetails.fold(ifLeft = {
-            }) {
-                activeUserTabBarVisibility.latestValue =
-                    (it.jobType == "Fiber Install - For Installations")
-                progressViewFlow.latestValue = false
-            }
+    private suspend fun requestAppointmentDetails() {
+        val appointmentDetails = appointmentRepository.getAppointmentInfo()
+        appointmentDetails.fold(ifLeft = {
+        }) {
+            activeUserTabBarVisibility.latestValue =
+                (it.jobType == "Fiber Install - For Installations")
+            progressViewFlow.latestValue = false
         }
     }
 
