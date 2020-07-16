@@ -50,6 +50,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun retryClicked() {
+        showProgress(true)
         devicesViewModel.initApis()
     }
 
@@ -89,12 +90,10 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
 
-        //TODO: Fix list item click listener
-//        binding.pullToRefresh.setOnRefreshListener {
-//            devicesViewModel.initApis()
-//            binding.pullToRefresh.isRefreshing = false
-//        }
-        binding.pullToRefresh.isEnabled = false
+        binding.pullToRefresh.setOnRefreshListener {
+            devicesViewModel.initApis()
+            binding.pullToRefresh.isRefreshing = false
+        }
         binding.devicesList.isEnabled = true
         binding.devicesList.setAdapter(deviceAdapter)
     }
