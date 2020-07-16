@@ -58,10 +58,12 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun initApis() {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
-            progressViewFlow.latestValue = true
-            requestAppointmentDetails()
             requestNotificationDetails()
+        }
+        viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
+            requestAppointmentDetails()
         }
     }
 
@@ -257,7 +259,6 @@ class DashboardViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Status not found"
             }
         }
-        timerSetup()
     }
 
     fun getChangeAppointment() {
@@ -298,22 +299,13 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 
-    /*For checking Technician progress*/
-    private fun timerSetup() {
-        viewModelScope.launch {
-            delay(300000)
-            while (true) {
-                requestAppointmentDetails()
-            }
-        }
-    }
-
     fun getStartedClicked() {
         sharedPreferences.saveUserType(true)
     }
 
     companion object {
         const val EMPTY_RESPONSE = "- -"
+        const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L
     }
 
     fun requestAppointmentCancellation() {
