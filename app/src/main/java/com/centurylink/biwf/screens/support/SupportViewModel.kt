@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
+import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -52,7 +53,7 @@ class SupportViewModel @Inject constructor(
         val oldDownLoad = sharedPreferences.getSpeedTestDownload()
         val oldUpload = sharedPreferences.getSpeedTestUpload()
         val oldTime = sharedPreferences.getLastSpeedTestTime()
-        if (oldDownLoad != null && oldUpload != null && oldTime != null) {
+        if (oldDownLoad?.isNotEmpty()!! && oldUpload?.isNotEmpty()!! && oldTime?.isNotEmpty()!!) {
             downloadSpeed.latestValue = oldDownLoad
             uploadSpeed.latestValue = oldUpload
             latestSpeedTest.latestValue = oldTime
@@ -80,13 +81,17 @@ class SupportViewModel @Inject constructor(
         progressVisibility.latestValue = true
         latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
         viewModelScope.launch {
-            val speedTestRequest = assiaRepository.startSpeedTest()
-            if (speedTestRequest.code == 1000) {
-                sharedPreferences.saveSupportSpeedTest(boolean = true)
-                sharedPreferences.saveSpeedTestId(speedTestId = speedTestRequest.speedTestId)
-                checkSpeedTestStatus(requestId = speedTestRequest.speedTestId)
-            } else {
-                displayEmptyResponse()
+            when(val speedTestRequest = assiaRepository.startSpeedTest()){
+                is AssiaNetworkResponse.Success->{
+                    if (speedTestRequest.body.code == 1000) {
+                        sharedPreferences.saveSupportSpeedTest(boolean = true)
+                        sharedPreferences.saveSpeedTestId(speedTestId = speedTestRequest.body.speedTestId)
+                        checkSpeedTestStatus(requestId = speedTestRequest.body.speedTestId)
+                    } else {
+                        displayEmptyResponse()
+                    }
+                }
+                else ->{displayEmptyResponse()}
             }
         }
     }
@@ -96,18 +101,26 @@ class SupportViewModel @Inject constructor(
             var keepChecking = true
             var isSuccessful = false
             while (keepChecking) {
-                val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)
-                if (status.code == 1000) {
-                    if (status.data.isFinished) {
-                        isSuccessful = true
-                        keepChecking = false
-                    } else {
-                        delay(SPEED_TEST_REFRESH_INTERVAL)
+                when (val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)){
+                    is AssiaNetworkResponse.Success->{
+                        if (status.body.code == 1000) {
+                            if (status.body.data.isFinished) {
+                                isSuccessful = true
+                                keepChecking = false
+                            } else {
+                                delay(SPEED_TEST_REFRESH_INTERVAL)
+                            }
+                        } else {
+                            displayEmptyResponse()
+                            keepChecking = false
+                            sharedPreferences.saveSupportSpeedTest(false)
+                        }
                     }
-                } else {
-                    displayEmptyResponse()
-                    keepChecking = false
-                    sharedPreferences.saveSupportSpeedTest(false)
+                    else ->{
+                        displayEmptyResponse()
+                        keepChecking = false
+                        sharedPreferences.saveSupportSpeedTest(false)
+                    }
                 }
             }
             if (isSuccessful) getResults()
@@ -115,23 +128,37 @@ class SupportViewModel @Inject constructor(
     }
 
     private suspend fun getResults() {
-        val upstreamData = assiaRepository.getUpstreamResults()
-        if (upstreamData.data.listOfData.isNotEmpty()) {
-            val uploadMb = upstreamData.data.listOfData[0].speedAvg / 1000
-            uploadSpeed.latestValue = uploadMb.toString()
-        } else {
-            uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+        when (val upstreamData = assiaRepository.getUpstreamResults()){
+            is AssiaNetworkResponse.Success ->{
+                if (upstreamData.body.data.listOfData.isNotEmpty()) {
+                    val uploadMb = upstreamData.body.data.listOfData[0].speedAvg / 1000
+                    uploadSpeed.latestValue = uploadMb.toString()
+                } else {
+                    uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+                }
+            }
+            else->{
+                uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+            }
         }
 
-        val downStreamData = assiaRepository.getDownstreamResults()
-        if (downStreamData.data.listOfData.isNotEmpty()) {
-            val downloadMb = downStreamData.data.listOfData[0].speedAvg / 1000
-            downloadSpeed.latestValue = downloadMb.toString()
-            latestSpeedTest.latestValue = formatUtcString(downStreamData.data.listOfData[0].timeStamp)
-        } else {
-            downloadSpeed.latestValue = EMPTY_RESPONSE
-            latestSpeedTest.latestValue = EMPTY_RESPONSE
+        when(val downStreamData = assiaRepository.getDownstreamResults()){
+            is AssiaNetworkResponse.Success->{
+                if (downStreamData.body.data.listOfData.isNotEmpty()) {
+                    val downloadMb = downStreamData.body.data.listOfData[0].speedAvg / 1000
+                    downloadSpeed.latestValue = downloadMb.toString()
+                    latestSpeedTest.latestValue = formatUtcString(downStreamData.body.data.listOfData[0].timeStamp)
+                } else {
+                    downloadSpeed.latestValue = EMPTY_RESPONSE
+                    latestSpeedTest.latestValue = EMPTY_RESPONSE
+                }
+            }
+            else ->{
+                downloadSpeed.latestValue = EMPTY_RESPONSE
+                latestSpeedTest.latestValue = EMPTY_RESPONSE
+            }
         }
+
         sharedPreferences.saveSupportSpeedTest(false)
         progressVisibility.latestValue = false
     }
