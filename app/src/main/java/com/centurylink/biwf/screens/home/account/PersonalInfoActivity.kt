@@ -72,7 +72,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 validateInfoAndUpdatePassword()
             }
         }
-        personalInfoViewModel.error.observe {
+        viewModel.error.observe {
             binding.mandatoryFieldsLabel.visibility =
                 if (it.containsKey("fieldMandatory")) View.VISIBLE else View.GONE
             binding.personalInfoPasswordLabel.visibility =
@@ -104,7 +104,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                     R.drawable.background_thin_border
                 )
         }
-        personalInfoViewModel.userPasswordFlow.observe {
+        viewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
                 finish()
             } else {
