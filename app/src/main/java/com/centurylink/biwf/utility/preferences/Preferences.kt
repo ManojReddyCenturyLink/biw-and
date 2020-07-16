@@ -30,6 +30,10 @@ class Preferences(private val store: KeyValueStore) {
         store.put(ACCOUNT_ID, accountId!!)
     }
 
+    fun getAccountId(): String {
+        return store.get(ACCOUNT_ID) ?: ""
+    }
+
     fun removeAccountId() {
         store.remove(ACCOUNT_ID)
     }
