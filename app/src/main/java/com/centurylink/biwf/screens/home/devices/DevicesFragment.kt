@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
@@ -16,9 +17,11 @@ import com.centurylink.biwf.databinding.FragmentDevicesBinding
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
-class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
+class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener,
+    CustomDialogGreyTheme.DialogCallback {
 
     override val lifecycleOwner: LifecycleOwner = this
 
@@ -34,6 +37,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     private lateinit var binding: FragmentDevicesBinding
 
     private lateinit var deviceAdapter: DeviceListAdapter
+    private val supportFragmentManager by lazy { activity?.supportFragmentManager }
 
     private val devicesViewModel by lazy {
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
@@ -124,5 +128,26 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             return@setOnGroupClickListener false
         }
         binding.devicesList.expandGroup(0)
+    }
+
+    private fun showConfirmationDialog() {
+        CustomDialogGreyTheme(
+            getString(R.string.restore_access_confirmation_title, "Pass vendor name here"),
+            getString(R.string.restore_access_confirmation_msg),
+            getString(R.string.remove),
+            getString(
+                R.string.text_header_cancel
+            )
+        ).show(supportFragmentManager!!, DevicesFragment::class.simpleName)
+    }
+
+    // Callbacks for the Dialog
+    override fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+            }
+        }
     }
 }

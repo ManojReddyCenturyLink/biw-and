@@ -5,16 +5,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinator
 import com.centurylink.biwf.databinding.LayoutDevicesUsageInformationBinding
+import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
+import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
-class UsageDetailsActivity : BaseActivity() {
+class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallback {
 
     @Inject
     lateinit var usageDetailsCoordinator: UsageDetailsCoordinator
@@ -29,6 +32,7 @@ class UsageDetailsActivity : BaseActivity() {
     lateinit var viewModelFactory: UsageDetailsViewModel.Factory
 
     private lateinit var binding: LayoutDevicesUsageInformationBinding
+    private val fragmentManager = supportFragmentManager
 
     override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(viewModelFactory.withInput(intent.getStringExtra(STA_MAC)))
@@ -82,16 +86,46 @@ class UsageDetailsActivity : BaseActivity() {
             downloadSpeedMonthlyUnit.observe { binding.downloadSpeedUnitBiweekly.text = it }
         }
         binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
+        binding.removeDevicesBtn.setOnClickListener { showAlertDialog() }
+    }
+
+    private fun showAlertDialog() {
+        CustomDialogGreyTheme(
+            getString(
+                R.string.remove_device_confirmation_title,
+                intent.getStringExtra(VENDOR_NAME)
+            ),
+            getString(R.string.remove_device_confirmation_msg),
+            getString(R.string.remove),
+            getString(
+                R.string.text_header_cancel
+            )
+        ).show(
+            fragmentManager,
+            PersonalInfoActivity::class.simpleName
+        )
+    }
+
+    override fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                finish()
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+            }
+        }
     }
 
     companion object {
         const val STA_MAC = "STA_MAC"
         const val HOST_NAME = "HOST_NAME"
+        const val VENDOR_NAME = "VENDOR_NAME"
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
-            return Intent(context, UsageDetailsActivity::class.java).putExtra(
-                STA_MAC, bundle.getString(STA_MAC)
-            ).putExtra(HOST_NAME, bundle.getString(HOST_NAME))
+            return Intent(context, UsageDetailsActivity::class.java)
+                .putExtra(STA_MAC, bundle.getString(STA_MAC))
+                .putExtra(HOST_NAME, bundle.getString(HOST_NAME))
+                .putExtra(VENDOR_NAME, bundle.getString(VENDOR_NAME))
         }
     }
 }

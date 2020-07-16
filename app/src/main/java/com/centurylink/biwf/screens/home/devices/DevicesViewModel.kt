@@ -93,6 +93,7 @@ class DevicesViewModel @Inject constructor(
         val bundle = Bundle()
         bundle.putString(UsageDetailsActivity.HOST_NAME, devicesInfo.hostName)
         bundle.putString(UsageDetailsActivity.STA_MAC, devicesInfo.stationMac)
+        bundle.putString(UsageDetailsActivity.VENDOR_NAME, devicesInfo.vendorName?.toLowerCase()?.capitalize())
         DevicesCoordinatorDestinations.bundle = bundle
         myState.latestValue = DevicesCoordinatorDestinations.DEVICE_DETAILS
     }
