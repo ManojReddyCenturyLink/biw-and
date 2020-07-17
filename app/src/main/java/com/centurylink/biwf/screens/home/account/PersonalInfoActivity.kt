@@ -53,13 +53,8 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
 
     private fun showPopUp() {
         CustomDialogGreyTheme(
-            getString(R.string.save_changes_msg), "", getString(R.string.save), getString(
-                R.string.discard
-            )
-        ).show(
-            fragmentManager,
-            PersonalInfoActivity::class.simpleName
-        )
+            getString(R.string.save_changes_msg), "", getString(R.string.save), getString(R.string.discard))
+            .show(fragmentManager, PersonalInfoActivity::class.simpleName)
     }
 
     private fun initViews() {
