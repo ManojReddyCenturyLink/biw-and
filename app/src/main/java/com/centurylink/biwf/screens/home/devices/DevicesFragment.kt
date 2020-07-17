@@ -18,7 +18,9 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener,
     CustomDialogGreyTheme.DialogCallback {
@@ -76,8 +78,12 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         return binding.root
     }
 
-    override fun onDevicesClicked(devicesInfo: DevicesData) {
+    override fun onConnectedDevicesClicked(devicesInfo: DevicesData) {
         devicesViewModel.navigateToUsageDetails(devicesInfo)
+    }
+
+    override fun onRemovedDevicesClicked(vendorName: String?) {
+        showConfirmationDialog(vendorName?.toLowerCase(Locale.getDefault())?.capitalize())
     }
 
     private fun initViews() {
@@ -130,11 +136,11 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         binding.devicesList.expandGroup(0)
     }
 
-    private fun showConfirmationDialog() {
+    private fun showConfirmationDialog(vendorName: String?) {
         CustomDialogGreyTheme(
-            getString(R.string.restore_access_confirmation_title, "Pass vendor name here"),
+            getString(R.string.restore_access_confirmation_title, vendorName),
             getString(R.string.restore_access_confirmation_msg),
-            getString(R.string.remove),
+            getString(R.string.restore),
             getString(
                 R.string.text_header_cancel
             )

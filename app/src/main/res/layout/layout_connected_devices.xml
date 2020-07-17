@@ -7,6 +7,14 @@
     android:id="@+id/devices_list_layout"
     android:background="@drawable/background_thin_border">
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="iv_network_type" />
+
     <TextView
         android:id="@+id/device_name"
         android:layout_width="0dp"
@@ -16,7 +24,7 @@
         android:paddingLeft="@dimen/margin_spacing_really_small"
         android:textColor="@color/blue_dark"
         android:textSize="@dimen/text_size_16"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="LabelFor"
@@ -29,6 +37,7 @@
         android:layout_margin="@dimen/margin_spacing_tiny"
         android:padding="@dimen/cardview_elevation"
         app:layout_constraintBottom_toBottomOf="@+id/device_name"
-        app:layout_constraintEnd_toEndOf="@+id/device_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toTopOf="@+id/device_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

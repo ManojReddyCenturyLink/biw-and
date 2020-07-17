@@ -264,6 +264,7 @@
     <string name="removed_devices">Removed devices</string>
     <string name="remove_device">Remove device</string>
     <string name="remove">REMOVE</string>
+    <string name="restore">RESTORE</string>
     <string name="devices_tap_restore_access">tap to restore access</string>
     <string name="today_s_data_usage">Today\’s data usage:</string>
     <string name="mb_download">MB \ndownload</string>
