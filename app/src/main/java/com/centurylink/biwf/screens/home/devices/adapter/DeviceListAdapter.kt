@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
-import android.widget.ImageView
-import android.widget.TextView
 import com.centurylink.biwf.R
+import com.centurylink.biwf.databinding.LayoutBlockedDevicesBinding
+import com.centurylink.biwf.databinding.LayoutConnectedDevicesBinding
+import com.centurylink.biwf.databinding.LayoutDevicelistGroupBlockedBinding
+import com.centurylink.biwf.databinding.LayoutHeaderDevicesconnectedBinding
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
 
@@ -17,6 +19,7 @@ class DeviceListAdapter(
 ) :
     BaseExpandableListAdapter() {
     var isModemAlive: Boolean = true
+
     override fun getGroup(groupPosition: Int): DeviceStatus {
         return when (groupPosition) {
             0 -> {
@@ -42,18 +45,16 @@ class DeviceListAdapter(
     override fun getGroupView(
         groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?
     ): View {
-        var recylerGroupView = convertView
-        return if (groupPosition == 0) {
-            val layoutInflater =
-                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            recylerGroupView = layoutInflater.inflate(R.layout.layout_header_devicesconnected, null)
-            val deviceCount =
-                recylerGroupView!!.findViewById<TextView>(R.id.devices_group_count)
-            val connectedDeviceLabel =
-                recylerGroupView.findViewById<TextView>(R.id.devices_group_connectedDevices)
+        val layoutInflater =
+            parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        return (if (groupPosition == 0) {
+            val headerDevicesConnectedBinding =
+                LayoutHeaderDevicesconnectedBinding.inflate(layoutInflater)
+            val deviceCount = headerDevicesConnectedBinding.devicesGroupCount
+            val connectedDeviceLabel = headerDevicesConnectedBinding.devicesGroupConnectedDevices
             val totalConnectedDevices = getChildrenCount(groupPosition)
-            val listStatusIcon =
-                recylerGroupView.findViewById<ImageView>(R.id.devices_header_arrow)
+            val listStatusIcon = headerDevicesConnectedBinding.devicesHeaderArrow
             listStatusIcon.visibility = if (totalConnectedDevices == 0) View.GONE else View.VISIBLE
             if (totalConnectedDevices == 1) {
                 connectedDeviceLabel.text =
@@ -69,14 +70,12 @@ class DeviceListAdapter(
             } else {
                 listStatusIcon.setImageResource(R.drawable.ic_icon_right)
             }
-            recylerGroupView
+            headerDevicesConnectedBinding.root
         } else {
-            val layoutInflater =
-                parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            recylerGroupView =
-                layoutInflater.inflate(R.layout.layout_devicelist_group_blocked, null)
-            recylerGroupView
-        }
+            val layoutDeviceListGroupBlockedBinding =
+                LayoutDevicelistGroupBlockedBinding.inflate(layoutInflater)
+            layoutDeviceListGroupBlockedBinding.root
+        })
     }
 
     override fun getChildrenCount(groupPosition: Int): Int {
@@ -116,16 +115,16 @@ class DeviceListAdapter(
         childPosition: Int,
         parent: ViewGroup?
     ): View {
-        var recyclerChildView = convertView
         val layoutInflater =
             parent!!.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val layoutConnectedDevicesBinding = LayoutConnectedDevicesBinding.inflate(layoutInflater)
+
         if (groupPosition == 0) {
             val connectedData = getChild(groupPosition, childPosition)
-            recyclerChildView = layoutInflater.inflate(R.layout.layout_connected_devices, null)
-            val deviceName =
-                recyclerChildView!!.findViewById<TextView>(R.id.device_name)
-            val deviceSignalStrength =
-                recyclerChildView.findViewById<ImageView>(R.id.iv_network_type)
+
+            val deviceName = layoutConnectedDevicesBinding.deviceName
+            val deviceSignalStrength = layoutConnectedDevicesBinding.ivNetworkType
+            val deviceLayout = layoutConnectedDevicesBinding.devicesListLayout
             deviceName.text = connectedData.hostName
             deviceSignalStrength.setImageResource(
                 setSignalStatus(
@@ -133,20 +132,21 @@ class DeviceListAdapter(
                     connectedData.connectedInterface
                 )
             )
-
-            recyclerChildView.setOnClickListener {
+            deviceLayout.setOnClickListener {
                 deviceItemClickListener.onDevicesClicked(
                     devicesInfo = connectedData
                 )
             }
+            return layoutConnectedDevicesBinding.root
         } else if (groupPosition == 1) {
+            val layoutBlockedDevicesBinding =
+                LayoutBlockedDevicesBinding.inflate(layoutInflater)
             val blockedData = getChild(groupPosition, childPosition)
-            recyclerChildView = layoutInflater.inflate(R.layout.layout_blocked_devices, null)
-            val blockedDeviceName =
-                recyclerChildView!!.findViewById<TextView>(R.id.blocked_device_name)
+            val blockedDeviceName = layoutBlockedDevicesBinding.blockedDeviceName
             blockedDeviceName.text = blockedData.hostName
+            return layoutBlockedDevicesBinding.root
         }
-        return recyclerChildView!!
+        return layoutConnectedDevicesBinding.root
     }
 
     override fun getChildId(groupPosition: Int, childPosition: Int): Long {

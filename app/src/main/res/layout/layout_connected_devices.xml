@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/devices_list_layout"
     android:background="@drawable/background_thin_border">
 
     <TextView
@@ -30,5 +31,4 @@
         app:layout_constraintBottom_toBottomOf="@+id/device_name"
         app:layout_constraintEnd_toEndOf="@+id/device_name"
         app:layout_constraintTop_toTopOf="@+id/device_name" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>
