@@ -24,19 +24,19 @@ interface AssiaService {
 
     @JvmSuppressWildcards
     @POST("api/v2/wifi/diagsrt/rtactions/start")
-    suspend fun startSpeedTest(@HeaderMap header: Map<String, Any>): SpeedTestRequestResult
+    suspend fun startSpeedTest(@HeaderMap header: Map<String, Any>): AssiaNetworkResponse<SpeedTestRequestResult, AssiaError>
 
     @JvmSuppressWildcards
     @GET("api/v2/wifi/diagsrt/rtactions/status")
-    suspend fun checkSpeedTestResults(@HeaderMap header: Map<String, Any>): SpeedTestStatus
+    suspend fun checkSpeedTestResults(@HeaderMap header: Map<String, Any>): AssiaNetworkResponse<SpeedTestStatus, AssiaError>
 
     @JvmSuppressWildcards
     @GET("api/v2/wifi/diagsrt/ap/broadbandusthroughputsummary")
-    suspend fun checkSpeedTestUpStreamResults(@HeaderMap header: Map<String, Any>): SpeedTestResponse
+    suspend fun checkSpeedTestUpStreamResults(@HeaderMap header: Map<String, Any>): AssiaNetworkResponse<SpeedTestResponse, AssiaError>
 
     @JvmSuppressWildcards
     @GET("api/v2/wifi/diagsrt/ap/broadbanddsthroughputsummary")
-    suspend fun checkSpeedTestDownStreamResults(@HeaderMap header: Map<String, Any>): SpeedTestResponse
+    suspend fun checkSpeedTestDownStreamResults(@HeaderMap header: Map<String, Any>): AssiaNetworkResponse<SpeedTestResponse, AssiaError>
 
     @GET("api/v3/wifi/line/info")
     suspend fun checkStatusOfAp(): Any

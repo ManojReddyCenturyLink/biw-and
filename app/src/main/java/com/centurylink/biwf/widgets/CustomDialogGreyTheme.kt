@@ -32,7 +32,7 @@ open class CustomDialogGreyTheme() : DialogFragment() {
     //  situations that multiple dialogs leverage this class for the same screen
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is DialogCallback && callback == null) {
+        if (context is DialogCallback) {
             callback = context
         }
     }
