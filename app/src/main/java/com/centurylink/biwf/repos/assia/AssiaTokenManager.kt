@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos.assia
 
+import android.util.Log
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.network.AssiaTokenService
 import javax.inject.Inject
@@ -19,6 +20,7 @@ class AssiaTokenManager @Inject constructor(private val assiaTokenService: Assia
                 assiaToken = response.body.accessToken
             }
         }
+        Log.i("JAQUAR","ASIA TOKEN "+assiaToken)
         return assiaToken
     }
 }

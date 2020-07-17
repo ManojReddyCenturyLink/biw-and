@@ -3,6 +3,7 @@ package com.centurylink.biwf.service.network
 import android.net.MacAddress
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.assia.ModemRebootResponse
+import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
 import com.centurylink.biwf.model.speedtest.SpeedTestResponse
@@ -50,13 +51,12 @@ interface AssiaService {
         @Path("assiaId") id: String,
         @Path("stationMacAddress") macAddress: String,
         @HeaderMap header: Map<String, String>
-    )
+    ) : AssiaNetworkResponse<BlockResponse, AssiaError>
 
     @DELETE("api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block")
     suspend fun unBlockDevice(
         @Path("assiaId") id: String,
         @Path("stationMacAddress") macAddress: String,
         @HeaderMap header: Map<String, String>
-    )
-
+    ): AssiaNetworkResponse<BlockResponse, AssiaError>
 }

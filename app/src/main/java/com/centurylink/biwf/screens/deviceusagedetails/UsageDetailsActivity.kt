@@ -84,6 +84,12 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             uploadSpeedMonthlyUnit.observe { binding.uploadSpeedUnitBiweekly.text = it }
             downloadSpeedDailyUnit.observe { binding.downloadSpeedUnitDaily.text = it }
             downloadSpeedMonthlyUnit.observe { binding.downloadSpeedUnitBiweekly.text = it }
+            removeDevices.observe {
+                if(it){
+                    setResult(100)
+                    finish()
+                }
+            }
         }
         binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
         binding.removeDevicesBtn.setOnClickListener { showAlertDialog() }
@@ -109,12 +115,15 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     override fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
-                finish()
+                viewModel.removeDevices(intent.getStringExtra(STA_MAC))
+
             }
             AlertDialog.BUTTON_NEGATIVE -> {
             }
         }
     }
+
+
 
     companion object {
         const val STA_MAC = "STA_MAC"
