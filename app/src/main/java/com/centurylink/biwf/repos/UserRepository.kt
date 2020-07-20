@@ -40,13 +40,13 @@ class UserRepository @Inject constructor(
     suspend fun getAndSaveAssiaId(): Either<String, ModemIdResponse> {
         val query =
             "SELECT Modem_Number__c FROM WorkOrder WHERE AccountId='%s' AND Job_Type__c='Fiber Install - For Installations'"
-        val finalQuery = String.format(query, preferences.getAccountId())
+        val finalQuery = String.format(query, preferences.getValueByID(Preferences.ACCOUNT_ID))
         val result = userApiService.getModemInfo(finalQuery)
         result.fold(
             ifLeft = {},
             ifRight = {
-                if (it.getModemId() != null) {
-                    storeAssiaId(it.getModemId())
+                it.getModemId()?.let { id ->
+                    storeAssiaId(id)
                 }
             }
         )

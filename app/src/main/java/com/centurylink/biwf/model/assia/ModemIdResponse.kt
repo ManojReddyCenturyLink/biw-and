@@ -9,12 +9,12 @@ data class ModemIdResponse(
     @SerializedName("records")
     val list: List<ModemIdObject>
 ) : Serializable {
-    fun getModemId(): String {
+    fun getModemId(): String? {
         return list[0].modemId
     }
 }
 
 data class ModemIdObject(
     @SerializedName("Modem_Number__c")
-    val modemId: String
+    val modemId: String?
 ) : Serializable
