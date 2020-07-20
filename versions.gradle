@@ -36,7 +36,6 @@ ext {
 
     //androidx Version
     androidxSecurityVersion = '1.1.0-alpha01'
-    androidxWorkVersion = '2.3.4'
 
     //Google Material components version
     materialComponentsVersion = '1.3.0-alpha01'
