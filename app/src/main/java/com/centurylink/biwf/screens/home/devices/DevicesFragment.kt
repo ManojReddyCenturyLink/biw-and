@@ -1,11 +1,14 @@
 package com.centurylink.biwf.screens.home.devices
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DevicesCoordinator
 import com.centurylink.biwf.coordinators.Navigator
@@ -47,6 +50,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun retryClicked() {
+        showProgress(true)
         devicesViewModel.initApis()
     }
 
@@ -74,9 +78,23 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
 
     private fun initViews() {
         deviceAdapter = DeviceListAdapter(
-            deviceList = HashMap<DeviceStatus, List<DevicesData>>(),
+            deviceList = HashMap(),
             deviceItemClickListener = this
         )
+        //** Set the colors for the Pull To Refresh View
+        binding.pullToRefresh.setProgressBackgroundColorSchemeColor(
+            ContextCompat.getColor(
+                activity!!,
+                R.color.white
+            )
+        )
+        binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
+
+        binding.pullToRefresh.setOnRefreshListener {
+            devicesViewModel.initApis()
+            binding.pullToRefresh.isRefreshing = false
+        }
+        binding.devicesList.isEnabled = true
         binding.devicesList.setAdapter(deviceAdapter)
     }
 
