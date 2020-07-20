@@ -147,7 +147,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             getString(
                 R.string.text_header_cancel
             )
-        ).show(supportFragmentManager!!, activity)
+        ).show(supportFragmentManager!!, DevicesFragment::class.simpleName)
     }
 
     // Callbacks for the Dialog
