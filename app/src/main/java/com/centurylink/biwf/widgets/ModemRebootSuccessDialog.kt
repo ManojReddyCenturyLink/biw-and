@@ -11,5 +11,10 @@ class ModemRebootSuccessDialog : CustomDialogBlueTheme() {
         message = getString(R.string.modem_reboot_success_message)
         buttonText = getString(R.string.modem_reboot_success_button)
         isErrorPopup = false
+        callback = object: ErrorDialogCallback {
+            override fun onErrorDialogCallback(buttonType: Int) {
+                // no-op
+            }
+        }
     }
 }
