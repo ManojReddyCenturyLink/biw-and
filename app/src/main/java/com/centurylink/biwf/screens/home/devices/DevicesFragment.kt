@@ -39,6 +39,8 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     private lateinit var binding: FragmentDevicesBinding
 
     private lateinit var deviceAdapter: DeviceListAdapter
+
+    private var blockDeviceMac: String = ""
     private val supportFragmentManager by lazy { activity?.supportFragmentManager }
 
     private val devicesViewModel by lazy {
@@ -82,8 +84,9 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         devicesViewModel.navigateToUsageDetails(devicesInfo)
     }
 
-    override fun onRemovedDevicesClicked(vendorName: String?) {
-        showConfirmationDialog(vendorName?.toLowerCase(Locale.getDefault())?.capitalize())
+    override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
+        blockDeviceMac = deviceInfo.stationMac!!
+        showConfirmationDialog(deviceInfo.vendorName?.toLowerCase(Locale.getDefault())?.capitalize())
     }
 
     private fun initViews() {
@@ -99,7 +102,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             )
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
-
+        binding.pullToRefresh.isEnabled =false
         binding.pullToRefresh.setOnRefreshListener {
             devicesViewModel.initApis()
             binding.pullToRefresh.isRefreshing = false
@@ -144,13 +147,18 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             getString(
                 R.string.text_header_cancel
             )
-        ).show(supportFragmentManager!!, DevicesFragment::class.simpleName)
+        ).show(supportFragmentManager!!, activity)
     }
 
     // Callbacks for the Dialog
     override fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                if(blockDeviceMac.isNullOrEmpty()){
+                   // devicesViewModel.unblockDevice(blockDeviceMac)
+                   // blockDeviceMac = ""
+
+                }
             }
             AlertDialog.BUTTON_NEGATIVE -> {
             }

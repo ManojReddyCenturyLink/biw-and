@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.centurylink.biwf.R
@@ -85,7 +86,7 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             downloadSpeedDailyUnit.observe { binding.downloadSpeedUnitDaily.text = it }
             downloadSpeedMonthlyUnit.observe { binding.downloadSpeedUnitBiweekly.text = it }
             removeDevices.observe {
-                if(it){
+                if (it) {
                     setResult(100)
                     finish()
                 }
@@ -108,7 +109,7 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             )
         ).show(
             fragmentManager,
-            PersonalInfoActivity::class.simpleName
+            UsageDetailsActivity::class.simpleName
         )
     }
 
@@ -116,7 +117,6 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 viewModel.removeDevices(intent.getStringExtra(STA_MAC))
-
             }
             AlertDialog.BUTTON_NEGATIVE -> {
             }
@@ -124,12 +124,11 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     }
 
 
-
     companion object {
+
         const val STA_MAC = "STA_MAC"
         const val HOST_NAME = "HOST_NAME"
         const val VENDOR_NAME = "VENDOR_NAME"
-
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, UsageDetailsActivity::class.java)
                 .putExtra(STA_MAC, bundle.getString(STA_MAC))

@@ -40,16 +40,6 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestMockDevices() {
-        val deviceDetails = devicesRepository.getDevicesDetails()
-        deviceDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            progressViewFlow.latestValue = false
-            sortAndDisplayDeviceInfo(it)
-        }
-    }
-
     private suspend fun requestDevices() {
         val deviceDetails = asiaRepository.getDevicesDetails()
         when (deviceDetails) {
@@ -86,6 +76,24 @@ class DevicesViewModel @Inject constructor(
             else -> {
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             }
+        }
+    }
+
+    private suspend fun requestBlocking(stationMac:String){
+        val blockInfo =asiaRepository.unblockDevices(stationMac)
+        when(blockInfo){
+            is AssiaNetworkResponse.Success -> {
+               requestModemDetails()
+            }
+            else -> {
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        }
+    }
+
+    fun unblockDevice(stationMac: String){
+        viewModelScope.launch {
+            requestBlocking(stationMac)
         }
     }
 

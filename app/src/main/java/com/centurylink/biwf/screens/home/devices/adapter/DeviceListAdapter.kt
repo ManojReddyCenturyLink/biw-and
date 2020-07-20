@@ -147,7 +147,7 @@ class DeviceListAdapter(
             blockedDeviceName.text = blockedData.hostName
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onRemovedDevicesClicked(
-                    devicesInfo = blockedData.vendorName
+                    devicesInfo = blockedData
                 )
             }
             return layoutBlockedDevicesBinding.root
@@ -198,6 +198,6 @@ class DeviceListAdapter(
          * Handle click event on Connected Devices Item click
          *
          */
-        fun onRemovedDevicesClicked(devicesInfo: String?)
+        fun onRemovedDevicesClicked(devicesInfo: DevicesData)
     }
 }

@@ -28,6 +28,7 @@
         android:layout_margin="@dimen/margin_spacing_tiny"
         android:padding="@dimen/cardview_elevation"
         android:src="@drawable/ic_off"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/blocked_device_name"
         app:layout_constraintEnd_toEndOf="@+id/blocked_device_name"
         app:layout_constraintTop_toTopOf="@+id/blocked_device_name" />
