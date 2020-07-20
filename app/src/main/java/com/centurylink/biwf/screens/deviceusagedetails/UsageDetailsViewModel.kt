@@ -98,14 +98,17 @@ class UsageDetailsViewModel constructor(
         } else if (trafficVal.roundToInt() > 0 && (unit == NetworkTrafficUnits.MB_UPLOAD)) {
             return trafficVal.roundToInt().toString()
         } else if (trafficVal.roundToInt() > 0) {
-            return BigDecimal(trafficVal).setScale(1, RoundingMode.UP).toString()
+            if ((trafficVal % 1) > 0.5)
+                return BigDecimal(trafficVal).setScale(1, RoundingMode.UP).toString()
+            else
+                return BigDecimal(trafficVal).setScale(1, RoundingMode.DOWN).toString()
         } else {
             return app.getString(R.string.empty_string)
         }
     }
 
-    private fun getUnit(unit: NetworkTrafficUnits): String{
-        return when(unit){
+    private fun getUnit(unit: NetworkTrafficUnits): String {
+        return when (unit) {
             NetworkTrafficUnits.MB_DOWNLOAD -> app.getString(R.string.mb_download)
             NetworkTrafficUnits.MB_UPLOAD -> app.getString(R.string.mb_upload)
             NetworkTrafficUnits.GB_DOWNLOAD -> app.getString(R.string.gb_download)
