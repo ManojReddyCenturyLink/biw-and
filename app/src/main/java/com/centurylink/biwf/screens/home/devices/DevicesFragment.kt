@@ -146,7 +146,8 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             getString(R.string.restore),
             getString(
                 R.string.text_header_cancel
-            )
+            ),
+            this
         ).show(supportFragmentManager!!, DevicesFragment::class.simpleName)
     }
 
