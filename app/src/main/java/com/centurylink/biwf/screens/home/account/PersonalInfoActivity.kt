@@ -67,8 +67,38 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 validateInfoAndUpdatePassword()
             }
         }
-        binding.errors = viewModel.error
-        binding.lifecycleOwner = this.lifecycleOwner
+        viewModel.error.observe {
+            binding.mandatoryFieldsLabel.visibility =
+                if (it.containsKey("fieldMandatory")) View.VISIBLE else View.GONE
+            binding.personalInfoPasswordLabel.visibility =
+                if (it.containsKey("passwordError")) View.GONE else View.VISIBLE
+            binding.personalInfoPasswordErrorLabel.visibility =
+                if (it.containsKey("passwordError")) View.VISIBLE else View.GONE
+            binding.personalInfoConfirmPasswordLabel.visibility =
+                if (it.containsKey("confirmPasswordError")) View.GONE else View.VISIBLE
+            binding.personalInfoConfirmPasswordErrorLabel.visibility =
+                if (it.containsKey("confirmPasswordError")) View.VISIBLE else View.GONE
+            binding.errorPasswordDifferent.visibility =
+                if (it.containsKey("passwordMismatchError")) View.VISIBLE else View.GONE
+            binding.errorConfirmPasswordDifferent.visibility =
+                if (it.containsKey("passwordMismatchError")) View.VISIBLE else View.GONE
+            binding.phoneNumberText.visibility =
+                if (it.containsKey("mobileNumberError")) View.GONE else View.VISIBLE
+            binding.phoneNumberErrorText.visibility =
+                if (it.containsKey("mobileNumberError")) View.VISIBLE else View.GONE
+            binding.personalInfoPasswordInput.background =
+                if (it.containsKey("passwordError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                    R.drawable.background_thin_border
+                )
+            binding.personalInfoConfirmPasswordInput.background =
+                if (it.containsKey("confirmPasswordError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                    R.drawable.background_thin_border
+                )
+            binding.personalInfoPhoneNumberInput.background =
+                if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                    R.drawable.background_thin_border
+                )
+        }
         viewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
                 finish()

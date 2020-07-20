@@ -1,83 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
+        android:id="@+id/incHeader"
+        layout="@layout/widget_subheader_with_back"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/spacing_4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <include
-            android:id="@+id/incHeader"
-            layout="@layout/widget_subheader_with_back"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/spacing_4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/appointment_confirmed_header"
+        style="@style/SubHeading"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:lineSpacingExtra="4sp"
+        android:paddingStart="@dimen/medium_margin_spacing"
+        android:paddingEnd="@dimen/medium_margin_spacing"
+        android:text="@string/appointment_confirmed_header"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader" />
 
-        <TextView
-            android:id="@+id/appointment_confirmed_header"
-            style="@style/SubHeading"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/medium_margin_spacing"
-            android:lineSpacingExtra="4sp"
-            android:paddingStart="@dimen/medium_margin_spacing"
-            android:paddingEnd="@dimen/medium_margin_spacing"
-            android:text="@string/appointment_confirmed_header"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incHeader" />
+    <TextView
+        android:id="@+id/appointment_confirmed_message"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:paddingStart="@dimen/medium_margin_spacing"
+        android:paddingEnd="@dimen/medium_margin_spacing"
+        android:text="@string/appointment_confirmed_message"
+        android:textColor="@color/black"
+        android:textSize="@dimen/extra_small_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appointment_confirmed_header" />
 
-        <TextView
-            android:id="@+id/appointment_confirmed_message"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:paddingStart="@dimen/medium_margin_spacing"
-            android:paddingEnd="@dimen/medium_margin_spacing"
-            android:text="@string/appointment_confirmed_message"
-            android:textColor="@color/black"
-            android:textSize="@dimen/extra_small_text_size"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appointment_confirmed_header" />
+    <Button
+        android:id="@+id/add_appointment_to_calendar"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:background="@drawable/button_thin_border_background"
+        android:gravity="center"
+        android:text="@string/add_appointment_to_calendar"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/extra_small_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appointment_confirmed_message" />
 
-        <Button
-            android:id="@+id/add_appointment_to_calendar"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginTop="48dp"
-            android:layout_marginEnd="@dimen/medium_margin_spacing"
-            android:background="@drawable/button_thin_border_background"
-            android:gravity="center"
-            android:text="@string/add_appointment_to_calendar"
-            android:textAllCaps="false"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/extra_small_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/appointment_confirmed_message" />
-
-        <Button
-            android:id="@+id/view_dashboard_btn"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/medium_margin_spacing"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="@dimen/medium_margin_spacing"
-            android:background="@drawable/rounded_button_background"
-            android:gravity="center"
-            android:text="@string/view_my_dashboard"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/extra_small_text_size"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/add_appointment_to_calendar" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <Button
+        android:id="@+id/view_dashboard_btn"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:background="@drawable/rounded_button_background"
+        android:gravity="center"
+        android:text="@string/view_my_dashboard"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/extra_small_text_size"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/add_appointment_to_calendar" />
+</androidx.constraintlayout.widget.ConstraintLayout>
