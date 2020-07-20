@@ -87,7 +87,7 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             downloadSpeedMonthlyUnit.observe { binding.downloadSpeedUnitBiweekly.text = it }
             removeDevices.observe {
                 if (it) {
-                    setResult(100)
+                    setResult(REQUEST_TO_DEVICES)
                     finish()
                 }
             }
@@ -125,7 +125,7 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
 
 
     companion object {
-
+        val REQUEST_TO_DEVICES= 1341
         const val STA_MAC = "STA_MAC"
         const val HOST_NAME = "HOST_NAME"
         const val VENDOR_NAME = "VENDOR_NAME"

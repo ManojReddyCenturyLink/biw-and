@@ -1,12 +1,15 @@
 package com.centurylink.biwf.screens.home.devices
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
@@ -86,7 +89,9 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
 
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
         blockDeviceMac = deviceInfo.stationMac!!
-        showConfirmationDialog(deviceInfo.vendorName?.toLowerCase(Locale.getDefault())?.capitalize())
+        showConfirmationDialog(
+            deviceInfo.vendorName?.toLowerCase(Locale.getDefault())?.capitalize()
+        )
     }
 
     private fun initViews() {
@@ -102,7 +107,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             )
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
-        binding.pullToRefresh.isEnabled =false
+        binding.pullToRefresh.isEnabled = false
         binding.pullToRefresh.setOnRefreshListener {
             devicesViewModel.initApis()
             binding.pullToRefresh.isRefreshing = false
@@ -123,6 +128,8 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     private fun populateDeviceList(deviceStatus: DevicesViewModel.UIDevicesTypeDetails) {
+        deviceAdapter.deviceList.clear()
+        deviceAdapter.notifyDataSetChanged()
         deviceAdapter.deviceList = deviceStatus.deviceSortMap
         deviceAdapter.isModemAlive = deviceStatus.isModemAlive
         deviceAdapter.notifyDataSetChanged()
@@ -155,13 +162,13 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     override fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
-                if(blockDeviceMac.isNullOrEmpty()){
-                   // devicesViewModel.unblockDevice(blockDeviceMac)
-                   // blockDeviceMac = ""
-
+                if (!blockDeviceMac.isNullOrEmpty()) {
+                    devicesViewModel.unblockDevice(blockDeviceMac)
+                    blockDeviceMac = ""
                 }
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                blockDeviceMac = ""
             }
         }
     }

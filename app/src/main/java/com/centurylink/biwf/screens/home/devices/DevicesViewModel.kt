@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
@@ -54,8 +55,10 @@ class DevicesViewModel @Inject constructor(
 
     private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
         progressViewFlow.latestValue = false
-        val removedList = deviceInfo.devicesDataList.filter { it.blocked }
-        val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }
+        val removedList = deviceInfo.devicesDataList.filter { it.blocked }.distinct()
+        val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }.distinct()
+        Log.i("PASSAT","REMOVED LIST "+removedList.size)
+        Log.i("PASSAT","CONNECTED LIST "+connectedList.size)
         val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
         deviceMap[DeviceStatus.CONNECTED] = connectedList
         if (!removedList.isNullOrEmpty()) {

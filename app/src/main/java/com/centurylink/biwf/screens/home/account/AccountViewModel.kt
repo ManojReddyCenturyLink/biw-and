@@ -173,7 +173,7 @@ class AccountViewModel internal constructor(
             name = accontDetails.name,
             serviceAddress1 = accontDetails.billingAddress?.street ?: "",
             serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
-            planName = accontDetails.productNameC ?: "Best in World Fiber",
+            planName = accontDetails.productNameC ?: "",
             planSpeed = accontDetails.productPlanNameC ?: "",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******",
