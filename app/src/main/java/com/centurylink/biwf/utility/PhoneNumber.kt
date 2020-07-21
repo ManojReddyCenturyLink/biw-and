@@ -11,13 +11,11 @@ data class PhoneNumber(val input: String) {
             return ""
         }
         val digits = input.filter { it.isDigit() }
-
-        if (digits.first() == '1') {
-            require(digits.length == 11) { "Must be 11 digits including country code (1)" }
-            return digits.drop(1)
+        if (digits.length == 11) {
+            if (digits.first() == '1') {
+                return digits.drop(1)
+            }
         }
-
-        require(digits.length == 10) { "Must be 10 digits excluding country code" }
         return digits
     }
 
