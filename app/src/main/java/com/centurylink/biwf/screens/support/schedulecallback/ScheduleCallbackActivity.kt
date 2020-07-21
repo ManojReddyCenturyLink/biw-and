@@ -29,7 +29,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     @Inject
     lateinit var navigator: Navigator
 
-    private val scheduleCallbackViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(ScheduleCallbackViewModel::class.java)
     }
     private lateinit var adapter: ScheduleCallbackAdapter
@@ -38,7 +38,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScheduleCallbackBinding.inflate(layoutInflater)
-        scheduleCallbackViewModel.myState.observeWith(scheduleCallbackCoordinator)
+        viewModel.myState.observeWith(scheduleCallbackCoordinator)
         setContentView(binding.root)
         navigator.observe(this)
         setApiProgressViews(
@@ -47,7 +47,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
             binding.scheduleCallbackLayout,
             binding.retryOverlay.root
         )
-        scheduleCallbackViewModel.apply {
+        viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
             prepareRecyclerView(topicList)
         }
@@ -60,7 +60,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     }
 
     override fun onItemClick(item: TopicList) {
-        scheduleCallbackViewModel.navigateAdditionalInfoScreen(item)
+        viewModel.navigateAdditionalInfoScreen(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -88,7 +88,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
                 finish()
             }
         }
-        binding.callUsNowLayout.setOnClickListener { scheduleCallbackViewModel.launchCallDialer() }
+        binding.callUsNowLayout.setOnClickListener { viewModel.launchCallDialer() }
     }
 
     private fun prepareRecyclerView(list: List<TopicList>) {

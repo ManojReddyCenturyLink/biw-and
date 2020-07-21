@@ -1,10 +1,8 @@
 package com.centurylink.biwf.screens.home.dashboard
 
-import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +70,11 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         retainInstance = false
     }
 
+    override fun onResume() {
+        super.onResume()
+        dashboardViewModel.checkForOngoingSpeedTest()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -102,11 +105,13 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         dashboardViewModel.progressVisibility.observe {
             binding.incSpeedTest.uploadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
             binding.incSpeedTest.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
-            binding.incSpeedTest.downloadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
-            binding.incSpeedTest.uploadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
+            binding.incSpeedTest.downloadProgressIcon.visibility =
+                if (it) View.VISIBLE else View.INVISIBLE
+            binding.incSpeedTest.uploadProgressIcon.visibility =
+                if (it) View.VISIBLE else View.INVISIBLE
+            binding.incSpeedTest.runSpeedTestDashboard.isActivated = !it
         }
         initOnClicks()
-        binding.executePendingBindings()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
     }
@@ -115,6 +120,7 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setupMap()
+        dashboardViewModel.startSpeedTest()
     }
 
     override fun retryClicked() {
@@ -300,8 +306,8 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         CustomDialogGreyTheme(
             getString(R.string.installation_cancellation_confirmation_title),
             getString(R.string.installation_cancellation_confirmation_msg),
-            getString(R.string.keep_it),
             getString(R.string.cancel_it),
+            getString(R.string.keep_it),
             this
         ).show(fragManager!!, DashboardFragment::class.simpleName)
     }
@@ -328,9 +334,9 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
     override fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.requestAppointmentCancellation()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                dashboardViewModel.requestAppointmentCancellation()
             }
         }
     }

@@ -38,11 +38,11 @@ class AssiaRepository @Inject constructor(
         return assiaService.getDevicesList(getHeaderMap(token = assiaTokenManager.getAssiaToken()))
     }
 
-    suspend fun startSpeedTest(): SpeedTestRequestResult {
-        return assiaService.startSpeedTest(getHeaderMapWithXhours(token = assiaTokenManager.getAssiaToken()))
+    suspend fun startSpeedTest(): AssiaNetworkResponse<SpeedTestRequestResult, AssiaError> {
+        return assiaService.startSpeedTest(getHeaderToStartSpeedTest(token = assiaTokenManager.getAssiaToken()))
     }
 
-    suspend fun checkSpeedTestStatus(speedTestId: Int): SpeedTestStatus {
+    suspend fun checkSpeedTestStatus(speedTestId: Int): AssiaNetworkResponse<SpeedTestStatus, AssiaError> {
         return assiaService.checkSpeedTestResults(
             getHeaderStatus(
                 token = assiaTokenManager.getAssiaToken(),
@@ -51,11 +51,11 @@ class AssiaRepository @Inject constructor(
         )
     }
 
-    suspend fun getUpstreamResults(): SpeedTestResponse {
+    suspend fun getUpstreamResults(): AssiaNetworkResponse<SpeedTestResponse, AssiaError> {
         return assiaService.checkSpeedTestUpStreamResults(getHeaderMapWithXhours(token = assiaTokenManager.getAssiaToken()))
     }
 
-    suspend fun getDownstreamResults(): SpeedTestResponse {
+    suspend fun getDownstreamResults(): AssiaNetworkResponse<SpeedTestResponse, AssiaError> {
         return assiaService.checkSpeedTestDownStreamResults(getHeaderMapWithXhours(token = assiaTokenManager.getAssiaToken()))
     }
 
@@ -71,6 +71,15 @@ class AssiaRepository @Inject constructor(
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
         headerMap["pastXHours"] = 1
+        return headerMap
+    }
+
+    private fun getHeaderToStartSpeedTest(token: String): Map<String, Any> {
+        val headerMap = mutableMapOf<String, Any>()
+        headerMap["Authorization"] = "bearer $token"
+        headerMap["assiaId"] = preferences.getAssiaId()
+        headerMap["pastXHours"] = 1
+        headerMap["rtFlagBroadBandSpeed"] = true
         return headerMap
     }
 

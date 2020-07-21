@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
@@ -28,9 +27,7 @@ class AppointmentRepository @Inject constructor(
     }
 
     suspend fun getAppointmentInfo(): Either<String, AppointmentRecordsInfo> {
-
         val query =
-
             "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude, ServiceTerritory.OperatingHours.TimeZone, (SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s'"
         val accountId = getAccountId()
         if (accountId.isNullOrEmpty()) {
@@ -45,7 +42,11 @@ class AppointmentRepository @Inject constructor(
             val appointmentRecords = it.records.elementAtOrElse(0) { null }
             appointmentRecords?.let { it ->
                 val serviceRecords = it.serviceResources?.records?.elementAtOrElse(0) { null }
-                val timeZoneInfo = it.serviceTerritory?.operatingHours?.timeZone
+                var timeZoneInfo = it.serviceTerritory?.operatingHours?.timeZone
+                if (timeZoneInfo.isNullOrEmpty()) {
+                    //TODO: currently for few account getting timezone as null, need to check
+                    timeZoneInfo = "America/Denver"
+                }
                 if (it.id.isNullOrEmpty()) {
                     Either.Left("Appointment Records is Empty")
                 } else if (it.JobType.isNullOrEmpty() || it.arrivalWindowStarTime == null || it.arrivalWindowEndTime == null) {

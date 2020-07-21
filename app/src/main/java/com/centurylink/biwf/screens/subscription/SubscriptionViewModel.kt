@@ -10,6 +10,7 @@ import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.account.RecordsItem
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -20,8 +21,9 @@ import javax.inject.Inject
 class SubscriptionViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
     private val accountRepository: AccountRepository,
-    private val preferences: Preferences
-) : BaseViewModel() {
+    private val preferences: Preferences,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
     private lateinit var userAccount: AccountDetails

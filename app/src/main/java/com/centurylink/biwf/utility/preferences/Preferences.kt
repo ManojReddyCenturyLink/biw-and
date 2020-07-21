@@ -78,6 +78,55 @@ class Preferences(private val store: KeyValueStore) {
         return asiaID
     }
 
+    fun saveSpeedTestFlag(boolean: Boolean) {
+        store.putBoolean(SPEED_TEST_IS_RUNNING, boolean)
+    }
+
+    fun getSpeedTestFlag(): Boolean {
+        return store.getBoolean(SPEED_TEST_IS_RUNNING) ?: false
+    }
+
+    fun saveSpeedTestUpload(uploadSpeed: String) {
+        store.put(SPEED_TEST_UPLOAD_SPEED, uploadSpeed)
+    }
+
+    fun getSpeedTestUpload(): String? {
+        return store.get(SPEED_TEST_UPLOAD_SPEED)
+    }
+
+    fun saveSpeedTestDownload(downloadSpeed: String) {
+        store.put(SPEED_TEST_DOWNLOAD_SPEED, downloadSpeed)
+    }
+
+    fun getSpeedTestDownload(): String? {
+        return store.get(SPEED_TEST_DOWNLOAD_SPEED)
+    }
+
+    fun saveLastSpeedTestTime(lastRanTime: String) {
+        store.put(SPEED_TEST_LAST_TIME, lastRanTime)
+    }
+
+    fun getLastSpeedTestTime(): String? {
+        return store.get(SPEED_TEST_LAST_TIME)
+    }
+
+    fun getSupportSpeedTest(): Boolean {
+        return store.getBoolean(SUPPORT_SPEED_TEST_STARTED) ?: false
+    }
+
+    fun saveSupportSpeedTest(boolean: Boolean) {
+        store.putBoolean(SUPPORT_SPEED_TEST_STARTED, boolean)
+    }
+
+    fun saveSpeedTestId(speedTestId: Int) {
+        store.put(SPEED_TEST_ID, speedTestId)
+    }
+
+    fun getSpeedTestId(): Int? {
+        return store.getInt(SPEED_TEST_ID)
+    }
+
+
     companion object {
         const val USER_ID = "USER_ID"
         const val ACCOUNT_ID = "ACCOUNT_ID"
@@ -87,5 +136,11 @@ class Preferences(private val store: KeyValueStore) {
         const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
         const val EXISTING_USER = "EXISTING_USER"
         const val ASSIA_ID = "ASSIA_ID"
+        const val SPEED_TEST_IS_RUNNING = "SPEED_TEST_IS_RUNNING"
+        const val SPEED_TEST_UPLOAD_SPEED = "UPLOAD_SPEED"
+        const val SPEED_TEST_DOWNLOAD_SPEED = "DOWNLOAD_SPEED"
+        const val SPEED_TEST_LAST_TIME = "LAST_SPEED_TEST"
+        const val SUPPORT_SPEED_TEST_STARTED = "SUPPORT_SPEED_TEST_STARTED"
+        const val SPEED_TEST_ID = "SPEED_TEST_ID"
     }
 }

@@ -7,6 +7,7 @@ import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
@@ -15,8 +16,9 @@ import javax.inject.Inject
 
 
 class NotificationViewModel @Inject constructor(
-    private val notificationRepository: NotificationRepository
-) : BaseViewModel() {
+    private val notificationRepository: NotificationRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
     var errorMessageFlow = EventFlow<String>()
     val errorEvents: EventFlow<String> = EventFlow()
     val displayClearAllEvent: EventFlow<Unit> = EventFlow()

@@ -1,21 +1,22 @@
 package com.centurylink.biwf.screens.home.account
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinatorDestinations
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PersonalInfoViewModel @Inject constructor(
-    private val userRepository: UserRepository
-) : BaseViewModel() {
+    private val userRepository: UserRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
-    var error: MutableLiveData<Errors> = MutableLiveData()
+    var error = EventFlow<Errors>()
     var userPasswordFlow = EventFlow<String>()
     private var passwordVisibility: Boolean = false
     private var confirmPasswordVisibility = false
@@ -97,7 +98,7 @@ class PersonalInfoViewModel @Inject constructor(
             errors["passwordError"] = "passwordError"
             errors["confirmPasswordError"] = "confirmPasswordError"
         }
-        this.error.value = errors
+        this.error.latestValue = errors
         return errors
     }
 }

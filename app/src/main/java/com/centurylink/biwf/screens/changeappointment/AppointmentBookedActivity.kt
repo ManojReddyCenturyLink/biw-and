@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.changeappointment
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -29,7 +28,7 @@ class AppointmentBookedActivity : BaseActivity() {
     private lateinit var appointmentSlots: String
     private lateinit var appointmentId: String
 
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(AppointmentBookedViewModel::class.java)
     }
 
@@ -62,13 +61,14 @@ class AppointmentBookedActivity : BaseActivity() {
             setResult(DashboardFragment.REFRESH_APPOINTMENT)
             finish()
         }
+        val separatedSlots = appointmentSlots.split("-".toRegex()).map { it.trim() }
         binding.appointmentConfirmedHeader.text = getString(
             R.string.appointment_confirmed_header,
             DateUtils.formatAppointmentBookedDate(appointmentDate),
-            appointmentSlots
+            separatedSlots[0].replace("\\s".toRegex(), ""),
+            separatedSlots[1].replace("\\s".toRegex(), "")
         )
     }
-
 
     override fun onBackPressed() {
         setResult(DashboardFragment.REFRESH_APPOINTMENT)

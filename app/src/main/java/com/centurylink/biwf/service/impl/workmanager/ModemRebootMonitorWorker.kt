@@ -12,7 +12,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 
-class ModemRebootWorker constructor(
+class ModemRebootMonitorWorker constructor(
     context: Context,
     workerParams: WorkerParameters,
     private val assiaRepository: AssiaRepository
@@ -40,8 +40,8 @@ class ModemRebootWorker constructor(
     }
 
     companion object {
-        const val RETRY_MILLIS = 15000L
-        const val MAX_TIMEOUT_MILLIS = 300000L
+        const val RETRY_MILLIS = 30000L
+        const val MAX_TIMEOUT_MILLIS = 250000L
 
         const val UNIQUE_NAME = "modem-reboot"
     }

@@ -27,7 +27,6 @@ class OAuthHttpClient @Inject constructor(
     private val tokenService: TokenService,
     private val integrationServerService: IntegrationServerService
 ) : Call.Factory {
-    val timeOut = 30000
     private val client by lazy {
         OkHttpClient.Builder()
             .apply {
@@ -36,9 +35,9 @@ class OAuthHttpClient @Inject constructor(
                     it.proceed(it.request())
                 }
             }
-            .readTimeout(30000, TimeUnit.MILLISECONDS)
-            .connectTimeout(30000, TimeUnit.MILLISECONDS)
-            .writeTimeout(30000, TimeUnit.MILLISECONDS)
+            .readTimeout(DEFAULT_REQUEST_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            .connectTimeout(DEFAULT_REQUEST_TIMEOUT_MS, TimeUnit.MILLISECONDS)
+            .writeTimeout(DEFAULT_REQUEST_TIMEOUT_MS, TimeUnit.MILLISECONDS)
             .addInterceptor { addAccessTokenHeader(tokenService, it) }
             .authenticator(retryWithNewAccessToken(tokenService))
             .addNetworkInterceptor(HttpLogger { Timber.d(it) })
@@ -114,3 +113,4 @@ private const val ACCEPT_HEADER_ALL = "*/*"
 private const val AUTH_HEADER_NAME = "Authorization"
 private const val HTTP_CODE_UNAUTHORIZED = 401
 private const val MAX_AUTH_RETRIES = 1
+private const val DEFAULT_REQUEST_TIMEOUT_MS = 30000L

@@ -2,7 +2,7 @@ package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.databinding.library.BuildConfig
+import androidx.viewbinding.BuildConfig
 
 class SharedPreferencesStore(private val context: Context) :
     KeyValueStore {
@@ -13,8 +13,18 @@ class SharedPreferencesStore(private val context: Context) :
         return editor.commit()
     }
 
+    override fun put(key: String, value: Int): Boolean {
+        val editor = sharedPreferences().edit()
+        editor.putInt(key, value)
+        return editor.commit()
+    }
+
     override fun get(key: String): String? {
         return sharedPreferences().getString(key, "")
+    }
+
+    override fun getInt(key: String): Int? {
+        return sharedPreferences().getInt(key, 0)
     }
 
     override fun remove(key: String): Boolean {

@@ -29,7 +29,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
     @Inject
     lateinit var navigator: Navigator
 
-    private val viewModel by lazy {
+    override val viewModel by lazy {
         getViewModel<LoginViewModel>(viewModelFactory.withInput(this))
     }
 

@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
@@ -16,8 +17,9 @@ import javax.inject.Inject
 class SubscriptionStatementViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val userRepository: UserRepository,
-    private val zuoraPaymentRepository: ZuoraPaymentRepository
-) : BaseViewModel() {
+    private val zuoraPaymentRepository: ZuoraPaymentRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()

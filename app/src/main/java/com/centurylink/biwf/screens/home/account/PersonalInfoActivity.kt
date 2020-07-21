@@ -31,7 +31,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     @Inject
     lateinit var factory: DaggerViewModelFactory
 
-    private val personalInfoViewModel by lazy {
+    override val viewModel by lazy {
         ViewModelProvider(this, factory).get(PersonalInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityPersonalInfoBinding
@@ -40,7 +40,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPersonalInfoBinding.inflate(layoutInflater)
-        personalInfoViewModel.myState.observeWith(personalInfoCoordinator)
+        viewModel.myState.observeWith(personalInfoCoordinator)
         setContentView(binding.root)
         navigator.observe(this)
         initViews()
@@ -53,13 +53,8 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
 
     private fun showPopUp() {
         CustomDialogGreyTheme(
-            getString(R.string.save_changes_msg), "", getString(R.string.save), getString(
-                R.string.discard
-            )
-        ).show(
-            fragmentManager,
-            PersonalInfoActivity::class.simpleName
-        )
+            getString(R.string.save_changes_msg), "", getString(R.string.save), getString(R.string.discard))
+            .show(fragmentManager, PersonalInfoActivity::class.simpleName)
     }
 
     private fun initViews() {
@@ -72,9 +67,39 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 validateInfoAndUpdatePassword()
             }
         }
-        binding.errors = personalInfoViewModel.error
-        binding.lifecycleOwner = this.lifecycleOwner
-        personalInfoViewModel.userPasswordFlow.observe {
+        viewModel.error.observe {
+            binding.mandatoryFieldsLabel.visibility =
+                if (it.containsKey("fieldMandatory")) View.VISIBLE else View.GONE
+            binding.personalInfoPasswordLabel.visibility =
+                if (it.containsKey("passwordError")) View.GONE else View.VISIBLE
+            binding.personalInfoPasswordErrorLabel.visibility =
+                if (it.containsKey("passwordError")) View.VISIBLE else View.GONE
+            binding.personalInfoConfirmPasswordLabel.visibility =
+                if (it.containsKey("confirmPasswordError")) View.GONE else View.VISIBLE
+            binding.personalInfoConfirmPasswordErrorLabel.visibility =
+                if (it.containsKey("confirmPasswordError")) View.VISIBLE else View.GONE
+            binding.errorPasswordDifferent.visibility =
+                if (it.containsKey("passwordMismatchError")) View.VISIBLE else View.GONE
+            binding.errorConfirmPasswordDifferent.visibility =
+                if (it.containsKey("passwordMismatchError")) View.VISIBLE else View.GONE
+            binding.phoneNumberText.visibility =
+                if (it.containsKey("mobileNumberError")) View.GONE else View.VISIBLE
+            binding.phoneNumberErrorText.visibility =
+                if (it.containsKey("mobileNumberError")) View.VISIBLE else View.GONE
+            binding.personalInfoPasswordInput.background =
+                if (it.containsKey("passwordError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                    R.drawable.background_thin_border
+                )
+            binding.personalInfoConfirmPasswordInput.background =
+                if (it.containsKey("confirmPasswordError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                    R.drawable.background_thin_border
+                )
+            binding.personalInfoPhoneNumberInput.background =
+                if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                    R.drawable.background_thin_border
+                )
+        }
+        viewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
                 finish()
             } else {
@@ -117,22 +142,22 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         }
         binding.ivPasswordVisibility.setOnClickListener {
             toggleTextVisibility(
-                personalInfoViewModel.togglePasswordVisibility(),
+                viewModel.togglePasswordVisibility(),
                 PASSWORD_LAYOUT
             )
         }
         binding.ivConfirmPasswordVisibility.setOnClickListener {
             toggleTextVisibility(
-                personalInfoViewModel.toggleConfirmPasswordVisibility(),
+                viewModel.toggleConfirmPasswordVisibility(),
                 CONFIRM_PASSWORD_LAYOUT
             )
         }
     }
 
     private fun validateInfoAndUpdatePassword() {
-        val errors = personalInfoViewModel.validateInput()
+        val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
-            personalInfoViewModel.callUpdatePasswordApi()
+            viewModel.callUpdatePasswordApi()
 
         }
     }
@@ -140,20 +165,20 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     private fun initTextWatchers() {
         binding.personalInfoPasswordInput.addTextChangedListener(
             afterTextChanged {
-                personalInfoViewModel.onPasswordValueChanged(it.toString())
+                viewModel.onPasswordValueChanged(it.toString())
                 binding.personalInfoPasswordInput.setSelection(binding.personalInfoPasswordInput.text.toString().length)
             }
         )
         binding.personalInfoConfirmPasswordInput.addTextChangedListener(
             afterTextChanged {
-                personalInfoViewModel.onConfirmPasswordValueChanged(it.toString())
+                viewModel.onConfirmPasswordValueChanged(it.toString())
                 binding.personalInfoConfirmPasswordInput.setSelection(binding.personalInfoConfirmPasswordInput.text.toString().length)
             }
         )
         binding.personalInfoPhoneNumberInput.addTextChangedListener(
             afterTextChanged { editable ->
                 val validatedString =
-                    personalInfoViewModel.onPhoneNumberChanged(editable.toString())
+                    viewModel.onPhoneNumberChanged(editable.toString())
                 binding.personalInfoPhoneNumberInput.also {
                     /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
                     it.removeTextChangedListener(this)

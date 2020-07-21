@@ -10,9 +10,13 @@ import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.coEvery
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -29,14 +33,16 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var appointmentRepository: AppointmentRepository
+
+    @MockK
+    private lateinit var  modemRebootMonitorService: ModemRebootMonitorService
     @MockK
     private lateinit var userRepository: UserRepository
     @MockK
     private lateinit var assiaRepository: AssiaRepository
+
     @MockK
     private lateinit var mockPreferences: Preferences
-
-    private lateinit var choiceDialogMessage: ChoiceDialogMessage
 
     @Before
     fun setup() {
@@ -64,13 +70,16 @@ class HomeViewModelTest : ViewModelBaseTest() {
             )
         )
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository)
-        choiceDialogMessage = ChoiceDialogMessage(
-            title = 1,
-            message = 1,
-            positiveText = 1,
-            negativeText = 0
-        )
+            HomeViewModel(
+                mockk(),
+                appointmentRepository,
+                mockPreferences,
+                mockk(),
+                userRepository,
+                assiaRepository,
+                mockModemRebootMonitorService
+            )
+        //Need to Revisit Tests
     }
 
     @Test
@@ -116,23 +125,13 @@ class HomeViewModelTest : ViewModelBaseTest() {
         coEvery { userRepository.getUserDetails() } returns Either.Left(error = "")
         coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Left(error = "")
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository)
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository,mockModemRebootMonitorService)
         launch {
             viewModel.initApis()
         }
     }
 
-    @Test
-    fun `request Appointment Details`() = runBlockingTest {
-        launch {
-            val method = viewModel.javaClass.getDeclaredMethod("requestAppointmentDetails")
-            method.isAccessible = true
-            coVerify {
-                appointmentRepository.getAppointmentInfo()
-                viewModel.activeUserTabBarVisibility.latestValue
-            }
-        }
-    }
+
 
     @Test
     fun `on Biometric Yes Response`() = runBlockingTest {
@@ -147,11 +146,4 @@ class HomeViewModelTest : ViewModelBaseTest() {
         viewModel.activeUserTabBarVisibility.value shouldEqual false
     }
 
-    @Test
-    fun `get values from ChoiceDialogMessage`() {
-        choiceDialogMessage.message
-        choiceDialogMessage.negativeText
-        choiceDialogMessage.positiveText
-        choiceDialogMessage.title
-    }
 }

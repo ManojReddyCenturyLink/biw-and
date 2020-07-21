@@ -13,6 +13,8 @@ import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
+import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
@@ -20,19 +22,15 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.format.DateTimeFormatter
-import org.threeten.bp.format.DateTimeFormatterBuilder
-import org.threeten.bp.format.SignStyle
-import org.threeten.bp.temporal.ChronoField
 import javax.inject.Inject
 
 class DashboardViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
-    private val assiaRepository: AssiaRepository
-) : BaseViewModel() {
+    private val assiaRepository: AssiaRepository,
+    modemRebootMonitorService: ModemRebootMonitorService
+) : BaseViewModel(modemRebootMonitorService) {
 
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
@@ -45,95 +43,141 @@ class DashboardViewModel @Inject constructor(
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
-    private lateinit var cancelAppointmentInstance :AppointmentRecordsInfo
+
+    private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
             "", "", true, ""
         )
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
+    private var rebootOngoing = false
 
     init {
-        startSpeedTest()
         initApis()
         isExistingUser.value = sharedPreferences.getUserType() ?: false
     }
 
     fun initApis() {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
-            progressViewFlow.latestValue = true
-            requestAppointmentDetails()
             requestNotificationDetails()
+        }
+        if (sharedPreferences.getUserType() != true) {
+            refreshAppointmentDetails()
         }
     }
 
+    override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
+        super.handleRebootStatus(status)
+        rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
+    }
+
     fun startSpeedTest() {
-        if (!progressVisibility.latestValue) {
+        if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
         }
     }
 
     private fun getSpeedTestId() {
+        sharedPreferences.saveSpeedTestFlag(boolean = true)
         progressVisibility.latestValue = true
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         viewModelScope.launch {
-            val speedTestRequest = assiaRepository.startSpeedTest()
-            checkSpeedTestStatus(requestId = speedTestRequest.speedTestId)
+            when (val speedTestRequest = assiaRepository.startSpeedTest()) {
+                is AssiaNetworkResponse.Success -> {
+                    if (speedTestRequest.body.code == 1000) {
+                        checkSpeedTestStatus(requestId = speedTestRequest.body.speedTestId)
+                    } else {
+                        displayEmptyResponse()
+                    }
+                }
+                else -> {
+                    displayEmptyResponse()
+                }
+            }
         }
     }
 
     private fun checkSpeedTestStatus(requestId: Int) {
         viewModelScope.launch {
             var keepChecking = true
+            var isSuccessful = false
             while (keepChecking) {
-                val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)
-                if (status.data.isFinished) {
-                    keepChecking = false
-                } else {
-                    delay(SPEED_TEST_REFRESH_INTERVAL)
+
+                when (val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)) {
+                    is AssiaNetworkResponse.Success -> {
+                        if (status.body.code == 1000) {
+                            if (status.body.data.isFinished) {
+                                isSuccessful = true
+                                keepChecking = false
+                            } else {
+                                delay(SPEED_TEST_REFRESH_INTERVAL)
+                            }
+                        } else {
+                            displayEmptyResponse()
+                            keepChecking = false
+                        }
+                    }
+                    else -> {
+                        displayEmptyResponse()
+                        keepChecking = false
+                    }
                 }
             }
-            getResults()
+            if (isSuccessful) getResults()
         }
     }
 
     private suspend fun getResults() {
-        val upstreamData = assiaRepository.getUpstreamResults()
-        if (upstreamData.data.listOfData.isNotEmpty()) {
-            val uploadMb = upstreamData.data.listOfData[0].speedAvg / 1000
-            uploadSpeed.latestValue = uploadMb.toString()
-        } else {
-            uploadSpeed.latestValue = EMPTY_RESPONSE
+
+        when(val upstreamData = assiaRepository.getUpstreamResults()){
+            is AssiaNetworkResponse.Success ->{
+                if (upstreamData.body.data.listOfData.isNotEmpty()) {
+                    val uploadMb = upstreamData.body.data.listOfData[0].speedAvg / 1000
+                    uploadSpeed.latestValue = uploadMb.toString()
+                    sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
+                } else {
+                    uploadSpeed.latestValue = EMPTY_RESPONSE
+                }
+            }
+            else->{
+                displayEmptyResponse()
+            }
         }
 
         val downStreamData = assiaRepository.getDownstreamResults()
-        if (downStreamData.data.listOfData.isNotEmpty()) {
-            val downloadMb = downStreamData.data.listOfData[0].speedAvg / 1000
-            downloadSpeed.latestValue = downloadMb.toString()
-            latestSpeedTest.latestValue = formatUtcString(downStreamData.data.listOfData[0].timeStamp)
-        } else {
-            downloadSpeed.latestValue = EMPTY_RESPONSE
-            latestSpeedTest.latestValue = EMPTY_RESPONSE
+        when (downStreamData){
+            is AssiaNetworkResponse.Success ->{
+                if (downStreamData.body.data.listOfData.isNotEmpty()) {
+                    val downloadMb = downStreamData.body.data.listOfData[0].speedAvg / 1000
+                    downloadSpeed.latestValue = downloadMb.toString()
+                    latestSpeedTest.latestValue = formatUtcString(downStreamData.body.data.listOfData[0].timeStamp)
+                    sharedPreferences.saveSpeedTestDownload(downloadSpeed = downloadSpeed.latestValue)
+                    sharedPreferences.saveLastSpeedTestTime(lastRanTime = latestSpeedTest.latestValue)
+                } else {
+                    downloadSpeed.latestValue = EMPTY_RESPONSE
+                    latestSpeedTest.latestValue = EMPTY_RESPONSE
+                }
+            }
+            else ->{displayEmptyResponse()}
         }
         progressVisibility.latestValue = false
+        sharedPreferences.saveSpeedTestFlag(boolean = false)
     }
 
-    private fun formatUtcString(utcString: String): String {
-        val myDate = LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(utcString.substringBefore('+')))
-        val amPm = if (myDate.hour < 12) "am" else "pm"
-        val dateTimeFormatter = DateTimeFormatterBuilder()
-            .appendValue(ChronoField.MONTH_OF_YEAR, 2, 2, SignStyle.NEVER)
-            .appendLiteral('/')
-            .appendValue(ChronoField.DAY_OF_MONTH, 2, 2, SignStyle.NEVER)
-            .appendLiteral('/')
-            .appendValue(ChronoField.YEAR, 4, 4, SignStyle.NEVER)
-            .appendLiteral(" at ")
-            .appendValue(ChronoField.CLOCK_HOUR_OF_AMPM)
-            .appendLiteral(':')
-            .appendValue(ChronoField.MINUTE_OF_HOUR, 2, 2, SignStyle.NEVER)
-            .appendLiteral(amPm)
-            .toFormatter()
-        return dateTimeFormatter.format(myDate)
+    private fun displayEmptyResponse() {
+        downloadSpeed.latestValue = EMPTY_RESPONSE
+        uploadSpeed.latestValue = EMPTY_RESPONSE
+        latestSpeedTest.latestValue = EMPTY_RESPONSE
+        progressVisibility.latestValue = false
+        sharedPreferences.saveSpeedTestFlag(boolean = false)
+    }
+
+    private fun refreshAppointmentDetails() {
+        viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
+            requestAppointmentDetails()
+        }
     }
 
     private suspend fun requestAppointmentDetails() {
@@ -147,7 +191,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun mockInstanceforCancellation(it: AppointmentRecordsInfo):AppointmentRecordsInfo{
+    private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
         return AppointmentRecordsInfo(
             serviceAppointmentStartDate = it.serviceAppointmentStartDate,
             serviceAppointmentEndTime = it.serviceAppointmentEndTime,
@@ -158,7 +202,8 @@ class DashboardViewModel @Inject constructor(
             serviceLatitude = it.serviceLatitude,
             serviceLongitude = it.serviceLongitude,
             appointmentId = it.appointmentId,
-            timeZone = it.timeZone)
+            timeZone = it.timeZone
+        )
     }
 
     private suspend fun requestNotificationDetails() {
@@ -181,8 +226,14 @@ class DashboardViewModel @Inject constructor(
                         jobType = it.jobType,
                         status = it.serviceStatus,
                         serviceAppointmentDate = DateUtils.formatAppointmentDate(it.serviceAppointmentStartDate.toString()),
-                        serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
-                        serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone)
+                        serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                            it.serviceAppointmentStartDate.toString(),
+                            timezone
+                        ),
+                        serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                            it.serviceAppointmentEndTime.toString(),
+                            timezone
+                        )
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
             }
@@ -194,11 +245,20 @@ class DashboardViewModel @Inject constructor(
                     serviceLatitude = it.serviceLatitude!!,
                     serviceEngineerName = it.serviceEngineerName,
                     serviceEngineerProfilePic = it.serviceEngineerProfilePic!!,
-                    serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentStartDate.toString(),timezone),
-                    serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(it.serviceAppointmentEndTime.toString(),timezone),
-                    serviceAppointmentTime = DateUtils.formatAppointmentETA(
+                    serviceAppointmentStartTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
                         it.serviceAppointmentStartDate.toString(),
-                        it.serviceAppointmentEndTime.toString()
+                        timezone
+                    ),
+                    serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentEndTime.toString(),
+                        timezone
+                    ),
+                    serviceAppointmentTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentStartDate.toString(),
+                        timezone
+                    ) + "-" + DateUtils.formatAppointmentTimeValuesWithTimeZone(
+                        it.serviceAppointmentEndTime.toString(),
+                        timezone
                     )
                 )
                 dashBoardDetailsInfo.latestValue = appointmentEngineerStatus
@@ -223,7 +283,7 @@ class DashboardViewModel @Inject constructor(
             }
             ServiceStatus.CANCELED -> {
                 val appointmentCanceled = AppointmentCanceled(
-                    serviceAppointmentTime= "",
+                    serviceAppointmentTime = "",
                     status = ServiceStatus.CANCELED
                 )
                 dashBoardDetailsInfo.latestValue = appointmentCanceled
@@ -232,7 +292,6 @@ class DashboardViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Status not found"
             }
         }
-        timerSetup()
     }
 
     fun getChangeAppointment() {
@@ -273,25 +332,31 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 
-    /*For checking Technician progress*/
-    private fun timerSetup() {
-        viewModelScope.launch {
-            delay(300000)
-            while (true) {
-                requestAppointmentDetails()
-            }
-        }
-    }
-
     fun getStartedClicked() {
         sharedPreferences.saveUserType(true)
     }
-    companion object{
+
+    companion object {
         const val EMPTY_RESPONSE = "- -"
+        const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L
     }
 
     fun requestAppointmentCancellation() {
         updateAppointmentStatus(cancelAppointmentInstance)
+    }
+
+    fun checkForOngoingSpeedTest() {
+        val ongoingTest: Boolean = sharedPreferences.getSupportSpeedTest()
+        if (ongoingTest) {
+            sharedPreferences.saveSupportSpeedTest(boolean = false)
+            val speedTestId = sharedPreferences.getSpeedTestId()
+            if (speedTestId != null) {
+                sharedPreferences.saveSpeedTestFlag(boolean = true)
+                progressVisibility.latestValue = true
+                latestSpeedTest.latestValue = EMPTY_RESPONSE
+                checkSpeedTestStatus(requestId = speedTestId)
+            }
+        }
     }
 
     abstract class UiDashboardAppointmentInformation

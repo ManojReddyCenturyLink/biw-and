@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -20,7 +19,10 @@ import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
 
 @Suppress("UNCHECKED_CAST")
-class TabsPagerRecyclerAdapter(private val mContext: Context, private val viewClickListener: DashboardFragment.ViewClickListener) :
+class TabsPagerRecyclerAdapter(
+    private val mContext: Context,
+    private val viewClickListener: DashboardFragment.ViewClickListener
+) :
     ListAdapter<TabsBaseItem, TabsPagerRecyclerAdapter.BaseViewHolder>(
         TabAdapterDiffUtil()
     ) {
@@ -30,44 +32,40 @@ class TabsPagerRecyclerAdapter(private val mContext: Context, private val viewCl
         return when (viewType) {
 
             TabsBaseItem.DEVICES -> {
-
-                val binding = DataBindingUtil.inflate<LayoutDevicesBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.layout_devices,
-                    parent,
-                    false
-                )
+                val binding =
+                    LayoutDevicesBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 DevicesViewHolder(binding)
             }
             TabsBaseItem.DASHBOARD -> {
-
-                val binding = DataBindingUtil.inflate<LayoutDashboardBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.layout_dashboard,
-                    parent,
-                    false
-                )
+                val binding =
+                    LayoutDashboardBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 DashboardViewHolder(binding)
             }
             TabsBaseItem.ACCOUNT -> {
-
-                val binding = DataBindingUtil.inflate<LayoutAccountBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.layout_account,
-                    parent,
-                    false
-                )
+                val binding =
+                    LayoutAccountBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 AccountViewHolder(binding)
             }
 
             else -> {
-
-                val binding = DataBindingUtil.inflate<LayoutDashboardBinding>(
-                    LayoutInflater.from(parent.context),
-                    R.layout.layout_dashboard,
-                    parent,
-                    false
-                )
+                val binding =
+                    LayoutDashboardBinding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
                 DashboardViewHolder(binding)
             }
         }
@@ -106,10 +104,12 @@ class TabsPagerRecyclerAdapter(private val mContext: Context, private val viewCl
 
     open inner class BaseViewHolder(v: View) : RecyclerView.ViewHolder(v)
 
-    inner class DevicesViewHolder(private val binding: LayoutDevicesBinding) : BaseViewHolder(binding.root),
+    inner class DevicesViewHolder(private val binding: LayoutDevicesBinding) :
+        BaseViewHolder(binding.root),
         View.OnClickListener {
         override fun onClick(v: View?) {
         }
+
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
             val myFragment: DevicesFragment = DevicesFragment()
@@ -125,7 +125,7 @@ class TabsPagerRecyclerAdapter(private val mContext: Context, private val viewCl
 
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
-            val newUser = getItem(adapterPosition).bundle.getBoolean("NEW_USER",false)
+            val newUser = getItem(adapterPosition).bundle.getBoolean("NEW_USER", false)
             val myFragment: DashboardFragment = DashboardFragment(newUser)
             myFragment.setListener(viewClickListener)
             activity.supportFragmentManager.beginTransaction()
@@ -137,6 +137,7 @@ class TabsPagerRecyclerAdapter(private val mContext: Context, private val viewCl
         BaseViewHolder(binding.root), View.OnClickListener {
         override fun onClick(v: View?) {
         }
+
         fun setupFragment() {
             val activity = mContext as AppCompatActivity
             val myFragment: Fragment = AccountFragment()

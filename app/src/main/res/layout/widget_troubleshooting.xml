@@ -1,210 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/medium_margin_spacing">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/troubleshooting_heading"
+        style="@style/SubHeading"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/medium_margin_spacing">
+        android:text="@string/troubleshooting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/last_speed_test"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_tiny"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/troubleshooting_heading">
 
         <TextView
-            android:id="@+id/troubleshooting_heading"
-            android:layout_width="match_parent"
+            android:id="@+id/last_speed_test_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/troubleshooting"
-            style="@style/SubHeading"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/last_speed_test"
+            android:textColor="@color/grey_darker"
+            android:textSize="@dimen/text_size_12"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/last_speed_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_tiny"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/troubleshooting_heading">
-
-            <TextView
-                android:id="@+id/last_speed_test_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/last_speed_test"
-                android:textColor="@color/grey_darker"
-                android:textSize="@dimen/text_size_12"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/last_speed_test_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/last_speed_test_fake_value"
-                android:textColor="@color/grey_darker"
-                android:textSize="@dimen/text_size_12"
-                app:layout_constraintStart_toEndOf="@+id/last_speed_test_title"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/troubleshooting_details"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/last_speed_test">
-
-            <TextView
-                android:id="@+id/download_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fake_speed_test_download_speed"
-                android:textStyle="bold"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/large_title_text_size"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <ImageView
-                android:id="@+id/download_speed_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_upload_speed"
-                android:scaleY="-1"
-                android:padding="@dimen/margin_spacing_tiny"
-                app:layout_constraintTop_toTopOf="@+id/download_speed"
-                app:layout_constraintBottom_toBottomOf="@+id/download_speed"
-                app:layout_constraintStart_toEndOf="@+id/download_speed"
-                android:contentDescription="@string/content_description_holder"
-                />
-
-            <TextView
-                android:id="@+id/download_speed_unit"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:text="@string/mbps_download"
-                android:textColor="@color/blue"
-                android:textSize="@dimen/text_size_12"
-                app:layout_constraintTop_toTopOf="@+id/download_speed"
-                app:layout_constraintBottom_toBottomOf="@+id/download_speed"
-                app:layout_constraintStart_toEndOf="@+id/download_speed_icon" />
-
-            <TextView
-                android:id="@+id/upload_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/speed_test_upload_fake_speed"
-                android:textStyle="bold"
-                android:layout_marginStart="@dimen/margin_spacing_small"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/large_title_text_size"
-                app:layout_constraintTop_toTopOf="@+id/download_speed"
-                app:layout_constraintBottom_toBottomOf="@+id/download_speed"
-                app:layout_constraintStart_toEndOf="@+id/download_speed_unit" />
-
-            <ImageView
-                android:id="@+id/upload_speed_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_upload_speed"
-                android:padding="@dimen/margin_spacing_tiny"
-                app:layout_constraintTop_toTopOf="@+id/download_speed"
-                app:layout_constraintBottom_toBottomOf="@+id/download_speed"
-                app:layout_constraintStart_toEndOf="@+id/upload_speed"
-                android:contentDescription="@string/content_description_holder"
-                />
-            <TextView
-                android:id="@+id/upload_speed_unit"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:text="@string/mbps_upload"
-                android:textColor="@color/blue"
-                android:textAlignment="center"
-                android:textSize="@dimen/text_size_12"
-                app:layout_constraintTop_toTopOf="@+id/download_speed"
-                app:layout_constraintBottom_toBottomOf="@+id/download_speed"
-                app:layout_constraintStart_toEndOf="@+id/upload_speed_icon" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/vertical_guideline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_constraintGuide_percent=".5" />
-
-        <Button
-            android:id="@+id/run_speed_test_button"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@drawable/rounded_button_background"
-            android:paddingStart="@dimen/medium_margin_spacing"
-            android:paddingEnd="@dimen/medium_margin_spacing"
-            android:text="@string/run_speed_test"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/extra_small_text_size"
-            app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
-
-        <Button
-            android:id="@+id/reboot_modem_button"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/padding_0"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_marginStart="@dimen/margin_spacing_tiny"
-            android:background="@drawable/button_thin_border_background"
-            android:gravity="center"
-            android:textAllCaps="false"
-            android:text="@string/restart_modem"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/extra_small_text_size"
-            app:layout_constraintBottom_toBottomOf="@+id/run_speed_test_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-            app:layout_constraintTop_toTopOf="@+id/run_speed_test_button" />
-
-        <include
-            android:id="@+id/rebooting_modem_button"
-            layout="@layout/widget_progress_overlay_blue"
-            android:layout_marginStart="@dimen/margin_spacing_tiny"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/padding_0"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/run_speed_test_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-            app:layout_constraintTop_toTopOf="@+id/run_speed_test_button" />
 
         <TextView
-            android:id="@+id/info_text"
+            android:id="@+id/last_speed_test_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:text="@string/visit_website_text"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_size_h4"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/run_speed_test_button" />
+            android:textColor="@color/grey_darker"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintStart_toEndOf="@+id/last_speed_test_title"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/last_speed_test_fake_value" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <Button
-            android:id="@+id/support_visit_website"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/troubleshooting_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/last_speed_test">
+
+        <TextView
+            android:id="@+id/download_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder_text"
+                tools:text="@string/fake_speed_test_download_speed"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/large_title_text_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/download_speed_spacer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="000"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/large_title_text_size"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ProgressBar
+            android:id="@+id/download_progress_icon"
+            android:layout_width="@dimen/margin_spacing_large"
+            android:layout_height="@dimen/margin_spacing_large"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/icon_loading"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/download_speed_spacer"
+            app:layout_constraintEnd_toEndOf="@id/download_speed_spacer"
+            app:layout_constraintStart_toStartOf="@id/download_speed_spacer"
+            app:layout_constraintTop_toTopOf="@id/download_speed_spacer" />
+
+        <ImageView
+            android:id="@+id/download_speed_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_holder"
+            android:padding="@dimen/margin_spacing_tiny"
+            android:scaleY="-1"
+            android:src="@drawable/ic_upload_speed"
+            app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
+            app:layout_constraintStart_toEndOf="@+id/download_speed_spacer"
+            app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />
+
+        <TextView
+            android:id="@+id/download_speed_unit"
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
-            style="?android:attr/borderlessButtonStyle"
-            android:background="@drawable/button_thin_border_background"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:gravity="center"
-            android:textAllCaps="false"
-            android:text="@string/visit_website"
+            android:text="@string/mbps_download"
             android:textColor="@color/blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/info_text" />
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
+            app:layout_constraintStart_toEndOf="@+id/download_speed_icon"
+            app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />
+
+        <TextView
+            android:id="@+id/upload_speed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_small"
+            android:text="@string/placeholder_text"
+                tools:text="@string/speed_test_upload_fake_speed"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/large_title_text_size"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/download_speed"
+            app:layout_constraintStart_toEndOf="@+id/download_speed_unit"
+            app:layout_constraintTop_toTopOf="@+id/download_speed" />
+
+        <TextView
+            android:id="@+id/upload_speed_spacer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_small"
+            android:text="000"
+            android:textColor="@color/blue_dark"
+            android:textSize="@dimen/large_title_text_size"
+            android:textStyle="bold"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/download_speed"
+            app:layout_constraintStart_toEndOf="@+id/download_speed_unit"
+            app:layout_constraintTop_toTopOf="@+id/download_speed" />
+
+        <ProgressBar
+            android:id="@+id/upload_progress_icon"
+            android:layout_width="@dimen/margin_spacing_large"
+            android:layout_height="@dimen/margin_spacing_large"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/icon_loading"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/upload_speed_spacer"
+            app:layout_constraintEnd_toEndOf="@id/upload_speed_spacer"
+            app:layout_constraintStart_toStartOf="@id/upload_speed_spacer"
+            app:layout_constraintTop_toTopOf="@id/upload_speed_spacer" />
+
+        <ImageView
+            android:id="@+id/upload_speed_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/content_description_holder"
+            android:padding="@dimen/margin_spacing_tiny"
+            android:src="@drawable/ic_upload_speed"
+            app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
+            app:layout_constraintStart_toEndOf="@+id/upload_speed_spacer"
+            app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />
+
+        <TextView
+            android:id="@+id/upload_speed_unit"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            android:text="@string/mbps_upload"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:textSize="@dimen/text_size_12"
+            app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
+            app:layout_constraintStart_toEndOf="@+id/upload_speed_icon"
+            app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".5" />
+
+    <Button
+        android:id="@+id/run_speed_test_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@drawable/speed_test_support_button_background_selector"
+        android:paddingStart="@dimen/medium_margin_spacing"
+        android:paddingEnd="@dimen/medium_margin_spacing"
+        android:text="@string/run_speed_test"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/extra_small_text_size"
+        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+
+    <Button
+        android:id="@+id/reboot_modem_button"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:layout_marginStart="@dimen/margin_spacing_tiny"
+        android:background="@drawable/button_thin_border_background"
+        android:gravity="center"
+        android:text="@string/restart_modem"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/extra_small_text_size"
+        app:layout_constraintBottom_toBottomOf="@+id/run_speed_test_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+        app:layout_constraintTop_toTopOf="@+id/run_speed_test_button" />
+
+    <include
+        android:id="@+id/rebooting_modem_button"
+        layout="@layout/widget_progress_overlay_blue"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:layout_marginStart="@dimen/margin_spacing_tiny"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/run_speed_test_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+        app:layout_constraintTop_toTopOf="@+id/run_speed_test_button" />
+
+    <TextView
+        android:id="@+id/info_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:text="@string/visit_website_text"
+        android:textColor="@color/black"
+        android:textSize="@dimen/font_size_h4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/run_speed_test_button" />
+
+    <Button
+        android:id="@+id/support_visit_website"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:background="@drawable/button_thin_border_background"
+        android:gravity="center"
+        android:text="@string/visit_website"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/info_text" />
+</androidx.constraintlayout.widget.ConstraintLayout>

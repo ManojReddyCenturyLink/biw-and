@@ -30,7 +30,7 @@ class UsageDetailsActivity : BaseActivity() {
 
     private lateinit var binding: LayoutDevicesUsageInformationBinding
 
-    private val usageDetailsViewModel by lazy {
+    override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(viewModelFactory.withInput(intent.getStringExtra(STA_MAC)))
     }
 
@@ -43,7 +43,7 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     override fun retryClicked() {
-        usageDetailsViewModel.initApis()
+        viewModel.initApis()
     }
 
     override fun onBackPressed() {
@@ -67,7 +67,7 @@ class UsageDetailsActivity : BaseActivity() {
             binding.layoutTrafficDetails,
             binding.retryOverlay.root
         )
-        usageDetailsViewModel.apply {
+        viewModel.apply {
             initApis()
             myState.observeWith(usageDetailsCoordinator)
             progressViewFlow.observe { showProgress(it) }
@@ -81,7 +81,7 @@ class UsageDetailsActivity : BaseActivity() {
             downloadSpeedDailyUnit.observe { binding.downloadSpeedUnitDaily.text = it }
             downloadSpeedMonthlyUnit.observe { binding.downloadSpeedUnitBiweekly.text = it }
         }
-        binding.deviceConnectedBtn.setOnClickListener { usageDetailsViewModel.onDevicesConnectedClicked() }
+        binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
     }
 
     companion object {

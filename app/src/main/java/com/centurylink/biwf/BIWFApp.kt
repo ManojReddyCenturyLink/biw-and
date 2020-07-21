@@ -2,7 +2,6 @@ package com.centurylink.biwf
 
 import android.app.Application
 import android.content.Context
-import androidx.databinding.library.BuildConfig
 import androidx.work.Configuration
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.service.impl.workmanager.MainWorkerFactory

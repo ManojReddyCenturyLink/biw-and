@@ -29,7 +29,8 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         viewModel = PersonalInfoViewModel(
-            userRepository = mockUserRepository
+            userRepository = mockUserRepository,
+            modemRebootMonitorService = mockModemRebootMonitorService
         )
     }
 
