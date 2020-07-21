@@ -42,7 +42,7 @@ class DashboardViewModel @Inject constructor(
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     val isExistingUser = BehaviorStateFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
-    //var progressViewFlow = EventFlow<Boolean>()
+    var progressViewFlow = EventFlow<Boolean>()
 
     private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private val unreadItem: Notification =
@@ -59,7 +59,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun initApis() {
-        //progressViewFlow.latestValue = true
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestNotificationDetails()
         }
@@ -181,14 +181,13 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestAppointmentDetails() {
-       // progressViewFlow.latestValue = false
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
             cancelAppointmentInstance = mockInstanceforCancellation(it)
             updateAppointmentStatus(it)
-          //  progressViewFlow.latestValue = false
+            progressViewFlow.latestValue = false
         }
     }
 

@@ -107,7 +107,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             )
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
-        binding.pullToRefresh.isEnabled = false
         binding.pullToRefresh.setOnRefreshListener {
             devicesViewModel.initApis()
             binding.pullToRefresh.isRefreshing = false

@@ -20,7 +20,6 @@ class AssiaTokenManager @Inject constructor(private val assiaTokenService: Assia
                 assiaToken = response.body.accessToken
             }
         }
-        Log.i("JAQUAR","ASIA TOKEN "+assiaToken)
         return assiaToken
     }
 }
