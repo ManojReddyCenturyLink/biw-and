@@ -71,8 +71,8 @@ class SubscriptionViewModel @Inject constructor(
                 postalCode = userAccount.servicePostalCode ?: billingAddress.postalCode
             )
         }
-        planName.latestValue = userAccount.productNameC ?: "Best in World Fiber "
-        planDetails.latestValue = userAccount.productPlanNameC ?: "Speeds up to 940Mbps "
+        planName.latestValue = userAccount.productNameC ?: ""
+        planDetails.latestValue = userAccount.productPlanNameC ?: ""
     }
 
     fun launchStatement(item: RecordsItem) {
