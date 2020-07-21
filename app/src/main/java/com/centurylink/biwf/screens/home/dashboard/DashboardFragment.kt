@@ -87,9 +87,9 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
             binding.retryOverlay.retryViewLayout,
             binding.retryOverlay.root
         )
-        dashboardViewModel.progressViewFlow.observe {
-            showProgress(it)
-        }
+        //dashboardViewModel.progressViewFlow.observe {
+          //  showProgress(it)
+        //}
         dashboardViewModel.errorMessageFlow.observe {
             showRetry(it.isNotEmpty())
         }
