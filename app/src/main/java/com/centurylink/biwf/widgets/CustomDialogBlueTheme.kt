@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.widget_popup.view.*
 
 open class CustomDialogBlueTheme : DialogFragment() {
 
-    private lateinit var callback: ErrorDialogCallback
+    internal lateinit var callback: ErrorDialogCallback
     lateinit var title: String
     lateinit var message: String
     lateinit var buttonText: String

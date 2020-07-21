@@ -71,6 +71,7 @@ class HomeViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
+            requestModemId()
             requestAppointmentDetails()
         }
         modemStatusRefresh()
@@ -136,6 +137,10 @@ class HomeViewModel @Inject constructor(
         userInfo.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {}
+    }
+
+    private suspend fun requestModemId() {
+        userRepository.getAndSaveAssiaId()
     }
 
     private suspend fun requestModemInfo() {

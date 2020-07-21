@@ -2,6 +2,7 @@ package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
+import com.centurylink.biwf.model.assia.ModemIdResponse
 import com.centurylink.biwf.model.user.UpdatedPassword
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
@@ -30,6 +31,26 @@ class UserRepository @Inject constructor(
 
     private fun storeContactId(contactId: String) {
         preferences.saveContactId(contactId)
+    }
+
+    private fun storeAssiaId(assiaId: String) {
+        preferences.saveAssiaId(assiaId)
+    }
+
+    suspend fun getAndSaveAssiaId(): Either<String, ModemIdResponse> {
+        val query =
+            "SELECT Modem_Number__c FROM WorkOrder WHERE AccountId='%s' AND Job_Type__c='Fiber Install - For Installations'"
+        val finalQuery = String.format(query, preferences.getValueByID(Preferences.ACCOUNT_ID))
+        val result = userApiService.getModemInfo(finalQuery)
+        result.fold(
+            ifLeft = {},
+            ifRight = {
+                it.getModemId()?.let { id ->
+                    storeAssiaId(id)
+                }
+            }
+        )
+        return result.mapLeft { it.message?.message.toString() }
     }
 
     suspend fun getUserDetails(): Either<String, UserDetails> {

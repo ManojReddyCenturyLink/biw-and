@@ -63,8 +63,8 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             requestNotificationDetails()
         }
-        viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
-            requestAppointmentDetails()
+        if (sharedPreferences.getUserType() != true) {
+            refreshAppointmentDetails()
         }
     }
 
@@ -172,6 +172,12 @@ class DashboardViewModel @Inject constructor(
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         progressVisibility.latestValue = false
         sharedPreferences.saveSpeedTestFlag(boolean = false)
+    }
+
+    private fun refreshAppointmentDetails() {
+        viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
+            requestAppointmentDetails()
+        }
     }
 
     private suspend fun requestAppointmentDetails() {

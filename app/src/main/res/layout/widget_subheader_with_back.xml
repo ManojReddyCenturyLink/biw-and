@@ -1,75 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/margin_spacing_large">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="subheader_right_action_title" />
+
+    <ImageView
+        android:id="@+id/sub_header_leftIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/padding_0"
+        android:layout_marginStart="16dp"
+        android:contentDescription="@string/content_description_holder"
+        android:gravity="center"
+        android:padding="1dp"
+        android:src="@drawable/ic_header_back"
+        android:tint="@color/blue"
+        app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/subheader_center_title"
+        android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_spacing_large">
+        android:fontFamily="@font/arial_bold_mt"
+        android:paddingTop="3dp"
+        android:textAlignment="center"
+        android:textColor="@color/blue_dark"
+        android:textSize="@dimen/small_title_text_size"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/barrier"
+        app:layout_constraintStart_toEndOf="@id/sub_header_leftIcon"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/support" />
 
-        <androidx.constraintlayout.widget.Barrier
-            android:id="@+id/barrier"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:barrierDirection="start"
-            app:constraint_referenced_ids="subheader_right_action_title" />
+    <TextView
+        android:id="@+id/subheader_right_action_title"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/padding_0"
+        android:layout_marginEnd="@dimen/height_20"
+        android:fontFamily="@font/arial_bold_mt"
+        android:gravity="center"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/extra_small_text_size"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/barrier"
+        app:layout_constraintTop_toTopOf="@+id/subheader_center_title"
+        tools:ignore="RtlSymmetry"
+        tools:text="@string/text_header_cancel" />
 
-        <ImageView
-            android:id="@+id/sub_header_leftIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/padding_0"
-            android:layout_marginStart="16dp"
-            android:contentDescription="@string/content_description_holder"
-            android:gravity="center"
-            android:padding="1dp"
-            android:src="@drawable/ic_header_back"
-            android:tint="@color/blue"
-            app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="ContentDescription" />
-
-        <TextView
-            android:id="@+id/subheader_center_title"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/arial_bold_mt"
-            android:paddingTop="3dp"
-            android:textAlignment="center"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/small_title_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/barrier"
-            app:layout_constraintStart_toEndOf="@id/sub_header_leftIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/support" />
-
-        <TextView
-            android:id="@+id/subheader_right_action_title"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/padding_0"
-            android:layout_marginEnd="@dimen/height_20"
-            android:fontFamily="@font/arial_bold_mt"
-            android:gravity="center"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/extra_small_text_size"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/barrier"
-            app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
-            app:layout_constraintTop_toTopOf="@+id/subheader_center_title"
-            tools:ignore="RtlSymmetry"
-            tools:text="@string/text_header_cancel" />
-
-        <View
-            android:id="@+id/header_seprator_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
-            android:layout_marginTop="@dimen/medium_margin_spacing"
-            android:background="@color/light_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/subheader_right_action_title" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
+    <View
+        android:id="@+id/header_seprator_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/cardview_elevation"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:background="@color/light_grey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/subheader_right_action_title" />
+</androidx.constraintlayout.widget.ConstraintLayout>

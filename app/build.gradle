@@ -89,7 +89,6 @@ android {
     }
 
     buildFeatures {
-        dataBinding = true
         viewBinding = true
     }
 
@@ -122,9 +121,8 @@ dependencies {
     implementation "androidx.viewpager2:viewpager2:${viewpager2Version}"
     implementation "androidx.recyclerview:recyclerview:${recyclerview}"
     implementation "androidx.cardview:cardview:$cardviewVersion"
-    implementation "androidx.security:security-crypto:1.0.0-rc02"
+    implementation "androidx.security:security-crypto:$androidxSecurityVersion"
     implementation "com.google.android.material:material:${materialComponentsVersion}"
-    implementation 'androidx.work:work-runtime:2.2.0'
 
     /* Dagger2 - default dependency */
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
