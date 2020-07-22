@@ -63,6 +63,7 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
     }
 
 
+    @Ignore
     @Test
     fun testStatementFunctionsSuccess() {
         runBlockingTest {
