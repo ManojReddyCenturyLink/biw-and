@@ -23,7 +23,7 @@ import kotlin.math.roundToInt
 class UsageDetailsViewModel constructor(
     private val app: BIWFApp,
     private val networkUsageRepository: NetworkUsageRepository,
-    private val asiaRepository: AssiaRepository,
+    private val assiaRepository: AssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
@@ -130,7 +130,7 @@ class UsageDetailsViewModel constructor(
     }
 
     private suspend fun invokeBlockedDevice(stationMac:String){
-        val blockInfo = asiaRepository.blockDevices(stationMac)
+        val blockInfo = assiaRepository.blockDevices(stationMac)
         progressViewFlow.latestValue = false
         when (blockInfo) {
             is AssiaNetworkResponse.Success -> {

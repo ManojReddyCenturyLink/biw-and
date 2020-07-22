@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.centurylink.biwf.R
@@ -12,7 +11,6 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinator
 import com.centurylink.biwf.databinding.LayoutDevicesUsageInformationBinding
-import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
@@ -33,7 +31,7 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
     lateinit var viewModelFactory: UsageDetailsViewModel.Factory
 
     private lateinit var binding: LayoutDevicesUsageInformationBinding
-    private val fragmentManager = supportFragmentManager
+
 
     override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(viewModelFactory.withInput(intent.getStringExtra(STA_MAC)))
@@ -108,7 +106,7 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 R.string.text_header_cancel
             )
         ).show(
-            fragmentManager,
+            supportFragmentManager,
             UsageDetailsActivity::class.simpleName
         )
     }

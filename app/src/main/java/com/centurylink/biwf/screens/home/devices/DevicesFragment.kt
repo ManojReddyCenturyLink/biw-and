@@ -44,7 +44,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     private lateinit var deviceAdapter: DeviceListAdapter
 
     private var blockDeviceMac: String = ""
-    private val supportFragmentManager by lazy { activity?.supportFragmentManager }
 
     private val devicesViewModel by lazy {
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
@@ -154,7 +153,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
                 R.string.text_header_cancel
             ),
             this
-        ).show(supportFragmentManager!!, DevicesFragment::class.simpleName)
+        ).show(activity?.supportFragmentManager!!, DevicesFragment::class.simpleName)
     }
 
     // Callbacks for the Dialog
