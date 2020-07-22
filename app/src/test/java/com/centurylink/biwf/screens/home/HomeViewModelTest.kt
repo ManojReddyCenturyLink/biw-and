@@ -10,7 +10,9 @@ import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
+import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
@@ -31,15 +33,20 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var appointmentRepository: AppointmentRepository
+
+    @MockK
+    private lateinit var  modemRebootMonitorService: ModemRebootMonitorService
     @MockK
     private lateinit var userRepository: UserRepository
     @MockK
     private lateinit var assiaRepository: AssiaRepository
+
     @MockK
     private lateinit var mockPreferences: Preferences
 
     @Before
     fun setup() {
+        MockKAnnotations.init(this, relaxed = true)
         every { mockPreferences.getHasSeenDialog() } returns true
         every { mockPreferences.getUserType() } returns true
         coEvery { userRepository.getUserInfo() } returns Either.Right(
@@ -74,4 +81,69 @@ class HomeViewModelTest : ViewModelBaseTest() {
             )
         //Need to Revisit Tests
     }
+
+    @Test
+    fun onSupportClicked_navigateToSupportScreen() = runBlockingTest {
+        launch {
+            viewModel.onSupportClicked()
+        }
+        Assert.assertEquals(
+            "Support Screen wasn't Launched",
+            HomeCoordinatorDestinations.SUPPORT,
+            viewModel.myState.first()
+        )
+    }
+
+    @Test
+    fun onNotificationBellClicked_navigateToNotificationScreen() = runBlockingTest {
+        launch {
+            viewModel.onNotificationBellClicked()
+        }
+        Assert.assertEquals(
+            "Support Screen wasn't Launched",
+            HomeCoordinatorDestinations.NOTIFICATION_LIST,
+            viewModel.myState.first()
+        )
+    }
+
+    @Test
+    fun onSubscriptionActivityClick_navigateToSubscriptionScreen() = runBlockingTest {
+        launch {
+            viewModel.onSubscriptionActivityClick()
+        }
+        Assert.assertEquals(
+            "Support Screen wasn't Launched",
+            HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY,
+            viewModel.myState.first()
+        )
+    }
+
+
+    @Test
+    fun `init Api failure case`() = runBlockingTest {
+        coEvery { userRepository.getUserInfo() } returns Either.Left(error = "")
+        coEvery { userRepository.getUserDetails() } returns Either.Left(error = "")
+        coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Left(error = "")
+        viewModel =
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository,mockModemRebootMonitorService)
+        launch {
+            viewModel.initApis()
+        }
+    }
+
+
+
+    @Test
+    fun `on Biometric Yes Response`() = runBlockingTest {
+        launch {
+            val method = viewModel.javaClass.getDeclaredMethod("onBiometricYesResponse")
+            method.isAccessible = true
+        }
+    }
+
+    @Test
+    fun onStart_displayNewUserTabBar() {
+        viewModel.activeUserTabBarVisibility.value shouldEqual false
+    }
+
 }
