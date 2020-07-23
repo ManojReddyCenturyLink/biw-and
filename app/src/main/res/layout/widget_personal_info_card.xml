@@ -128,6 +128,8 @@
             android:text="@string/home_phone"
             android:textColor="@color/text_label_color"
             android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintBottom_toTopOf="@id/personal_info_homephone"
             app:layout_constraintStart_toEndOf="@id/account_left_guideline" />
 
@@ -138,6 +140,8 @@
             android:fontFamily="@font/arial_mt"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintStart_toEndOf="@id/account_left_guideline"
             app:layout_constraintTop_toTopOf="@id/personal_info_cellphone"
             tools:text="(123) 456-7890" />
@@ -151,6 +155,8 @@
             android:text="@string/work_phone"
             android:textColor="@color/text_label_color"
             android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/personal_info_cellphone" />
 
@@ -162,6 +168,8 @@
             android:fontFamily="@font/arial_mt"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:visibility="gone"
+            tools:visibility="visible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/personal_info_workphone_label"
             tools:text="(123) 456-7890" />

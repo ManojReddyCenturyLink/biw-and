@@ -76,8 +76,6 @@ class AccountViewModel internal constructor(
     fun initApiCalls() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
-            requestUserInfo()
-            requestUserDetails()
             requestAccountDetails()
             requestContactInfo()
         }
@@ -133,21 +131,6 @@ class AccountViewModel internal constructor(
         }
     }
 
-    private suspend fun requestUserInfo() {
-        val userInfo = userRepository.getUserInfo()
-        userInfo.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {}
-    }
-
-    private suspend fun requestUserDetails() {
-        val userDetails = userRepository.getUserDetails()
-        userDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            updateUIAccountDetailsFromUserDetails(it)
-        }
-    }
 
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
@@ -173,11 +156,12 @@ class AccountViewModel internal constructor(
             name = accontDetails.name,
             serviceAddress1 = accontDetails.billingAddress?.street ?: "",
             serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
-            planName = accontDetails.productNameC ?: "Best in World Fiber",
+            email = accontDetails.emailAddress?:"",
+            planName = accontDetails.productNameC ?: "",
             planSpeed = accontDetails.productPlanNameC ?: "",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******",
-            cellPhone = accontDetails.phone,
+            cellPhone = PhoneNumber(accontDetails.phone?:"").toString(),
             homePhone = accontDetails.phone,
             workPhone = accontDetails.phone,
             serviceCallsAndText = accontDetails.cellPhoneOptInC,
@@ -202,10 +186,6 @@ class AccountViewModel internal constructor(
 
     private fun updateAccountFlow() {
         accountDetailsInfo.latestValue = uiAccountDetails
-    }
-
-    private fun updateUIAccountDetailsFromUserDetails(userDetails: UserDetails) {
-        uiAccountDetails = uiAccountDetails.copy(email = userDetails.email)
     }
 
     data class UiAccountDetails(

@@ -6,7 +6,9 @@ import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinatorDestinations
+import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
+import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -21,18 +23,20 @@ import kotlin.math.roundToInt
 class UsageDetailsViewModel constructor(
     private val app: BIWFApp,
     private val networkUsageRepository: NetworkUsageRepository,
+    private val assiaRepository: AssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
     class Factory @Inject constructor(
         private val app: BIWFApp,
         private val networkUsageRepository: NetworkUsageRepository,
+        private val asiaRepository: AssiaRepository,
         private val modemRebootMonitorService: ModemRebootMonitorService
     ) : ViewModelFactoryWithInput<String> {
 
         override fun withInput(input: String): ViewModelProvider.Factory {
             return viewModelFactory {
-                val viewModel = UsageDetailsViewModel(app, networkUsageRepository, modemRebootMonitorService)
+                val viewModel = UsageDetailsViewModel(app, networkUsageRepository,asiaRepository, modemRebootMonitorService)
                 viewModel.staMac = input
                 viewModel
             }
@@ -50,6 +54,7 @@ class UsageDetailsViewModel constructor(
     val uploadSpeedDailyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
     val downloadSpeedMonthlyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
     val downloadSpeedDailyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
+    val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
 
     fun initApis() {
@@ -115,6 +120,25 @@ class UsageDetailsViewModel constructor(
             NetworkTrafficUnits.GB_UPLOAD -> app.getString(R.string.gb_upload)
             NetworkTrafficUnits.TB_DOWNLOAD -> app.getString(R.string.tb_download)
             NetworkTrafficUnits.TB_UPLOAD -> app.getString(R.string.tb_upload)
+        }
+    }
+    fun removeDevices(stationMac:String) {
+        viewModelScope.launch {
+            progressViewFlow.latestValue = true
+            invokeBlockedDevice(stationMac)
+        }
+    }
+
+    private suspend fun invokeBlockedDevice(stationMac:String){
+        val blockInfo = assiaRepository.blockDevices(stationMac)
+        progressViewFlow.latestValue = false
+        when (blockInfo) {
+            is AssiaNetworkResponse.Success -> {
+                removeDevices.latestValue = blockInfo.body.code.equals("1000")
+            }
+            else -> {
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
         }
     }
 }

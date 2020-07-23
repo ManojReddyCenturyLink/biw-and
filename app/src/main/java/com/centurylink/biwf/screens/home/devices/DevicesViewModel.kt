@@ -40,16 +40,6 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestMockDevices() {
-        val deviceDetails = devicesRepository.getDevicesDetails()
-        deviceDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            progressViewFlow.latestValue = false
-            sortAndDisplayDeviceInfo(it)
-        }
-    }
-
     private suspend fun requestDevices() {
         val deviceDetails = asiaRepository.getDevicesDetails()
         when (deviceDetails) {
@@ -64,8 +54,8 @@ class DevicesViewModel @Inject constructor(
 
     private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
         progressViewFlow.latestValue = false
-        val removedList = deviceInfo.devicesDataList.filter { it.blocked }
-        val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }
+        val removedList = deviceInfo.devicesDataList.filter { it.blocked }.distinct()
+        val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }.distinct()
         val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
         deviceMap[DeviceStatus.CONNECTED] = connectedList
         if (!removedList.isNullOrEmpty()) {
@@ -89,10 +79,29 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
+    private suspend fun requestBlocking(stationMac:String){
+        val blockInfo =asiaRepository.unblockDevices(stationMac)
+        when(blockInfo){
+            is AssiaNetworkResponse.Success -> {
+               requestModemDetails()
+            }
+            else -> {
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        }
+    }
+
+    fun unblockDevice(stationMac: String){
+        viewModelScope.launch {
+            requestBlocking(stationMac)
+        }
+    }
+
     fun navigateToUsageDetails(devicesInfo: DevicesData) {
         val bundle = Bundle()
         bundle.putString(UsageDetailsActivity.HOST_NAME, devicesInfo.hostName)
         bundle.putString(UsageDetailsActivity.STA_MAC, devicesInfo.stationMac)
+        bundle.putString(UsageDetailsActivity.VENDOR_NAME, devicesInfo.vendorName?.toLowerCase()?.capitalize())
         DevicesCoordinatorDestinations.bundle = bundle
         myState.latestValue = DevicesCoordinatorDestinations.DEVICE_DETAILS
     }

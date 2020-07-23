@@ -10,6 +10,7 @@ import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetails
 import com.centurylink.biwf.screens.changeappointment.AppointmentBookedActivity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
+import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity.Companion.REQUEST_TO_DEVICES
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
@@ -178,7 +179,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToUsageDetailsActivity() {
         val bundle = DevicesCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(UsageDetailsActivity.newIntent(it, bundle))
+            it.startActivityForResult(UsageDetailsActivity.newIntent(it, bundle),REQUEST_TO_DEVICES)
         }
     }
 

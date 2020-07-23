@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -59,8 +60,8 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun initApis() {
-        progressViewFlow.latestValue = true
         viewModelScope.launch {
+            progressViewFlow.latestValue = true
             requestNotificationDetails()
         }
         if (sharedPreferences.getUserType() != true) {
@@ -130,7 +131,6 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun getResults() {
-
         when(val upstreamData = assiaRepository.getUpstreamResults()){
             is AssiaNetworkResponse.Success ->{
                 if (upstreamData.body.data.listOfData.isNotEmpty()) {
@@ -187,7 +187,6 @@ class DashboardViewModel @Inject constructor(
         }) {
             cancelAppointmentInstance = mockInstanceforCancellation(it)
             updateAppointmentStatus(it)
-            progressViewFlow.latestValue = false
         }
     }
 
@@ -212,6 +211,7 @@ class DashboardViewModel @Inject constructor(
             errorMessageFlow.latestValue = it
         }) {
             notificationListDetails.latestValue = it
+            progressViewFlow.latestValue = false
         }
     }
 

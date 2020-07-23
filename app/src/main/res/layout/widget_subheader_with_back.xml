@@ -6,6 +6,14 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/margin_spacing_large">
 
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:barrierDirection="start"
+        app:constraint_referenced_ids="subheader_right_action_title" />
+
     <ImageView
         android:id="@+id/sub_header_leftIcon"
         android:layout_width="wrap_content"
@@ -22,7 +30,7 @@
 
     <TextView
         android:id="@+id/subheader_center_title"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
         android:fontFamily="@font/arial_bold_mt"
         android:paddingTop="3dp"
@@ -30,8 +38,8 @@
         android:textColor="@color/blue_dark"
         android:textSize="@dimen/small_title_text_size"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/subheader_right_action_title"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/barrier"
+        app:layout_constraintStart_toEndOf="@id/sub_header_leftIcon"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/support" />
 
@@ -47,6 +55,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/barrier"
         app:layout_constraintTop_toTopOf="@+id/subheader_center_title"
         tools:ignore="RtlSymmetry"
         tools:text="@string/text_header_cancel" />

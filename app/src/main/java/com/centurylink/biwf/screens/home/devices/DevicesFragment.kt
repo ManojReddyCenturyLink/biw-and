@@ -1,11 +1,15 @@
 package com.centurylink.biwf.screens.home.devices
 
+import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
@@ -16,9 +20,13 @@ import com.centurylink.biwf.databinding.FragmentDevicesBinding
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
-class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
+class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener,
+    CustomDialogGreyTheme.DialogCallback {
 
     override val lifecycleOwner: LifecycleOwner = this
 
@@ -34,6 +42,8 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     private lateinit var binding: FragmentDevicesBinding
 
     private lateinit var deviceAdapter: DeviceListAdapter
+
+    private var blockDeviceMac: String = ""
 
     private val devicesViewModel by lazy {
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
@@ -72,8 +82,15 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         return binding.root
     }
 
-    override fun onDevicesClicked(devicesInfo: DevicesData) {
+    override fun onConnectedDevicesClicked(devicesInfo: DevicesData) {
         devicesViewModel.navigateToUsageDetails(devicesInfo)
+    }
+
+    override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
+        blockDeviceMac = deviceInfo.stationMac!!
+        showConfirmationDialog(
+            deviceInfo.vendorName?.toLowerCase(Locale.getDefault())?.capitalize()
+        )
     }
 
     private fun initViews() {
@@ -89,7 +106,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             )
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
-
         binding.pullToRefresh.setOnRefreshListener {
             devicesViewModel.initApis()
             binding.pullToRefresh.isRefreshing = false
@@ -110,6 +126,8 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     private fun populateDeviceList(deviceStatus: DevicesViewModel.UIDevicesTypeDetails) {
+        deviceAdapter.deviceList.clear()
+        deviceAdapter.notifyDataSetChanged()
         deviceAdapter.deviceList = deviceStatus.deviceSortMap
         deviceAdapter.isModemAlive = deviceStatus.isModemAlive
         deviceAdapter.notifyDataSetChanged()
@@ -124,5 +142,32 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             return@setOnGroupClickListener false
         }
         binding.devicesList.expandGroup(0)
+    }
+
+    private fun showConfirmationDialog(vendorName: String?) {
+        CustomDialogGreyTheme(
+            getString(R.string.restore_access_confirmation_title, vendorName),
+            getString(R.string.restore_access_confirmation_msg),
+            getString(R.string.restore),
+            getString(
+                R.string.text_header_cancel
+            ),
+            this
+        ).show(activity?.supportFragmentManager!!, DevicesFragment::class.simpleName)
+    }
+
+    // Callbacks for the Dialog
+    override fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                if (!blockDeviceMac.isNullOrEmpty()) {
+                    devicesViewModel.unblockDevice(blockDeviceMac)
+                    blockDeviceMac = ""
+                }
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+                blockDeviceMac = ""
+            }
+        }
     }
 }
