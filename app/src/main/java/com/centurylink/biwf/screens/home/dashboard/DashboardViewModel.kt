@@ -73,15 +73,13 @@ class DashboardViewModel @Inject constructor(
     override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
         super.handleRebootStatus(status)
         rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
-        if (rebootOngoing){
-            speedTestButtonState.latestValue = false
-        }
-
     }
 
     fun startSpeedTest() {
         if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
+        }else{
+            speedTestButtonState.latestValue = false
         }
     }
 
@@ -353,6 +351,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun checkForOngoingSpeedTest() {
+        speedTestButtonState.latestValue = !rebootOngoing
         val ongoingTest: Boolean = sharedPreferences.getSupportSpeedTest()
         if (ongoingTest) {
             sharedPreferences.saveSupportSpeedTest(boolean = false)
