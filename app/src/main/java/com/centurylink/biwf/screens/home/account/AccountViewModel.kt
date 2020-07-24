@@ -154,7 +154,7 @@ class AccountViewModel internal constructor(
     private fun updateUIAccountDetailsFromAccounts(accontDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             name = accontDetails.name,
-            serviceAddress1 = accontDetails.billingAddress?.street ?: "",
+            serviceAddress1 = accontDetails.serviceCompleteAddress ?: "",
             serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
             email = accontDetails.emailAddress?:"",
             planName = accontDetails.productNameC ?: "",
