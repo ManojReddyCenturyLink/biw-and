@@ -189,6 +189,7 @@
     <string name="cost_template">$%s</string>
     <string name="statement_total">Total</string>
     <string name="previous_statements">Previous statements</string>
+    <string name="edit_billing_information">Edit billing information</string>
     <string name="subscription">Subscription</string>
     <string name="my_subscription">My subscription</string>
     <string name="manage_my_subscription">Manage my subscription</string>

@@ -11,9 +11,14 @@ class SubscriptionCoordinator @Inject constructor(
 
     override fun navigateTo(destination: SubscriptionCoordinatorDestinations) {
         when (destination) {
+            SubscriptionCoordinatorDestinations.EDIT_PAYMENT -> navigateToEditPaymentDetails()
             SubscriptionCoordinatorDestinations.STATEMENT -> navigateToInvoiceDetails()
             SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION -> navigateToManageSubscription()
         }
+    }
+
+    private fun navigateToEditPaymentDetails() {
+        navigator.navigateToEditPaymentDetails()
     }
 
     private fun navigateToInvoiceDetails() {
@@ -26,7 +31,7 @@ class SubscriptionCoordinator @Inject constructor(
 }
 
 enum class SubscriptionCoordinatorDestinations {
-    STATEMENT, MANAGE_MY_SUBSCRIPTION;
+    STATEMENT, MANAGE_MY_SUBSCRIPTION, EDIT_PAYMENT;
 
     companion object {
         lateinit var bundle: Bundle

@@ -128,7 +128,9 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                 binding.accountMarketingCallsSwitch.isChecked =
                     uiAccountDetails.marketingCallsAndText
             }
-            navigateToSubscriptionActivityEvent.handleEvent { (context as HomeActivity).launchSubscriptionActivity() }
+            navigateToSubscriptionActivityEvent.handleEvent { paymentMethod ->
+                (context as HomeActivity).launchSubscriptionActivity(paymentMethod)
+            }
             errorMessageFlow.observe {
                 Timber.d(it)
             }

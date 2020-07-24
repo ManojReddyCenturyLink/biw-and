@@ -7,6 +7,7 @@ import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.CancelSubscriptionDetailsInjectorModule
 import com.centurylink.biwf.di.activityinjector.CancelSubscriptionInjectorModule
 import com.centurylink.biwf.di.activityinjector.ChangeAppointmentActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.EditPaymentDetailsActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.FAQActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
 import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
@@ -56,6 +57,7 @@ import javax.inject.Singleton
         (ScheduleCallbackInjectorModule::class),
         (AdditionalInfoActivityInjectorModule::class),
         (SubscriptionActivityInjectorModule::class),
+        (EditPaymentDetailsActivityInjectorModule::class),
         (NetworkStatusActivityInjectorModule::class),
         (UsageDetailsActivityInjectorModule::class),
         (ChangeAppointmentActivityInjectorModule::class),

@@ -109,7 +109,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
     @Test
     fun onSubscriptionActivityClick_navigateToSubscriptionScreen() = runBlockingTest {
         launch {
-            viewModel.onSubscriptionActivityClick()
+            viewModel.onSubscriptionActivityClick("mockPaymentMethod")
         }
         Assert.assertEquals(
             "Support Screen wasn't Launched",
