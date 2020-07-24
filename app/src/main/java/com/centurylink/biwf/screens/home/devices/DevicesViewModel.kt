@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
@@ -63,7 +64,7 @@ class DevicesViewModel @Inject constructor(
     }
 
     private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
-        progressViewFlow.latestValue = false
+        Log.d("tarzan","2")
         val removedList = deviceInfo.devicesDataList.filter { it.blocked }
         val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }
         val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
@@ -73,6 +74,7 @@ class DevicesViewModel @Inject constructor(
         }
         uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
         devicesListFlow.latestValue = uiDevicesTypeDetails
+        progressViewFlow.latestValue = false
     }
 
     private suspend fun requestModemDetails() {
