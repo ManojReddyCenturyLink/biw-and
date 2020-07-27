@@ -13,7 +13,7 @@
         android:fontFamily="@font/arial_mt"
         android:gravity="start|center_vertical"
         android:paddingLeft="@dimen/margin_spacing_really_small"
-        android:textColor="@color/blue_dark"
+        android:textColor="@color/grey_blocked_color"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
