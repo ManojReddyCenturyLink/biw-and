@@ -128,12 +128,12 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            it.accountStatus ="dfdf"
             if (it.accountStatus.equals("Pending Activation", true)) {
                 activeUserTabBarVisibility.latestValue = false
                 progressViewFlow.latestValue = false
             } else {
                 // Call this only when Devices Tab is Shown
+                sharedPreferences.saveUserType(true)
                 activeUserTabBarVisibility.latestValue = true
                 progressViewFlow.latestValue = false
                 requestModemId()
