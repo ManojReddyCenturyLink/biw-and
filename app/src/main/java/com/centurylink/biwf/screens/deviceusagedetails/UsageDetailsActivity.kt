@@ -98,7 +98,7 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         CustomDialogGreyTheme(
             getString(
                 R.string.remove_device_confirmation_title,
-                intent.getStringExtra(VENDOR_NAME)
+                intent.getStringExtra(HOST_NAME)
             ),
             getString(R.string.remove_device_confirmation_msg),
             getString(R.string.remove),

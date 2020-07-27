@@ -90,12 +90,13 @@
 
         <TextView
             android:id="@+id/account_street_address"
-            android:layout_width="wrap_content"
+            android:layout_width="187dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/placeholder_text"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:maxLines="2"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_service_label" />
 
@@ -106,6 +107,7 @@
             android:layout_marginBottom="24dp"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/account_top_background"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_street_address"

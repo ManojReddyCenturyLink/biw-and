@@ -120,7 +120,6 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setupMap()
-        dashboardViewModel.startSpeedTest()
     }
 
     override fun retryClicked() {
@@ -131,6 +130,7 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         if (dashboardViewModel.isExistingUser.value) {
             incSpeedTest.visibility = View.VISIBLE
             binding.connectedDevicesCard.root.visibility = View.VISIBLE
+            dashboardViewModel.startSpeedTest()
             observeNotificationViews()
         } else {
             getAppointmentStatus()

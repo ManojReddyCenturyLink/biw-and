@@ -16,7 +16,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
-    private var cancellationDate: Date = Date()
+    private  var cancellationDate: Date? =null
     private var cancellationReason: String = ""
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F

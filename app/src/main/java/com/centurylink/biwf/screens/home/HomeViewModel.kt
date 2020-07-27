@@ -9,6 +9,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.sumup.SumUpInput
+import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
@@ -31,6 +32,7 @@ class HomeViewModel @Inject constructor(
     private val integrationServices: IntegrationRestServices,
     private val userRepository: UserRepository,
     private val assiaRepository: AssiaRepository,
+    private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
@@ -73,10 +75,8 @@ class HomeViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
-            requestModemId()
-            requestAppointmentDetails()
+            requestAccountDetails()
         }
-        modemStatusRefresh()
     }
 
     fun onSupportClicked() {
@@ -118,15 +118,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestAppointmentDetails() {
-        val appointmentDetails = appointmentRepository.getAppointmentInfo()
-        appointmentDetails.fold(ifLeft = {
-        }) {
-            activeUserTabBarVisibility.latestValue =
-                (it.jobType == "Fiber Install - For Installations")
-            progressViewFlow.latestValue = false
-        }
-    }
 
     private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
@@ -142,6 +133,26 @@ class HomeViewModel @Inject constructor(
         userInfo.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {}
+    }
+
+    private suspend fun requestAccountDetails() {
+        val accountDetails = accountRepository.getAccountDetails()
+        accountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            it.accountStatus ="eee"
+            if (it.accountStatus.equals("Pending Activation", true)) {
+                activeUserTabBarVisibility.latestValue = false
+                progressViewFlow.latestValue = false
+            } else {
+                // Call this only when Devices Tab is Shown
+                sharedPreferences.saveUserType(true)
+                activeUserTabBarVisibility.latestValue = true
+                progressViewFlow.latestValue = false
+                requestModemId()
+                modemStatusRefresh()
+            }
+        }
     }
 
     private suspend fun requestModemId() {
