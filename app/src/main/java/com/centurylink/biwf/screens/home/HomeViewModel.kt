@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home
 
 
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -75,9 +76,7 @@ class HomeViewModel @Inject constructor(
             requestUserInfo()
             requestUserDetails()
             requestAccountDetails()
-            requestModemId()
         }
-        modemStatusRefresh()
     }
 
     fun onSupportClicked() {
@@ -130,9 +129,16 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            activeUserTabBarVisibility.latestValue =
-                !it.accountStatus.equals("Pending Activation", true)
-            progressViewFlow.latestValue = false
+            if (it.accountStatus.equals("Pending Activation", true)) {
+                activeUserTabBarVisibility.latestValue = false
+                progressViewFlow.latestValue = false
+            } else {
+                // Call this only when Devices Tab is Shown
+                activeUserTabBarVisibility.latestValue = true
+                progressViewFlow.latestValue = false
+                requestModemId()
+                modemStatusRefresh()
+            }
         }
     }
 
@@ -152,7 +158,7 @@ class HomeViewModel @Inject constructor(
         val modemInfo = assiaRepository.getModemInfo()
         when (modemInfo) {
             is AssiaNetworkResponse.Success -> {
-               // networkStatus.latestValue = modemInfo?.body?.modemInfo?.isAlive
+                networkStatus.latestValue = modemInfo.body.modemInfo.isAlive
             }
             else -> {
                 // Ignoring Error API called every 30 seconds
