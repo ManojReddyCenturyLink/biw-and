@@ -110,7 +110,12 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 binding.incTroubleshooting.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
                 binding.incTroubleshooting.downloadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
                 binding.incTroubleshooting.uploadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
-                binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
+            }
+            modemResetButtonState.observe {
+                binding.incTroubleshooting.rebootModemButton.isActivated = it
+            }
+            speedTestButtonState.observe {
+                binding.incTroubleshooting.runSpeedTestButton.isActivated = it
             }
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }

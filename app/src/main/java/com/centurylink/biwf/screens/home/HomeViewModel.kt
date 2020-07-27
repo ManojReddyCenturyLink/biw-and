@@ -1,6 +1,6 @@
 package com.centurylink.biwf.screens.home
 
-
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -13,6 +13,7 @@ import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.service.network.IntegrationRestServices
@@ -94,7 +95,10 @@ class HomeViewModel @Inject constructor(
         refreshBioMetrics.latestValue = Unit
     }
 
-    fun onSubscriptionActivityClick() {
+    fun onSubscriptionActivityClick(paymentMethod: String) {
+        HomeCoordinatorDestinations.bundle = Bundle().apply {
+            putString(SubscriptionActivity.PAYMENT_CARD, paymentMethod)
+        }
         myState.latestValue = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }
 
@@ -120,7 +124,15 @@ class HomeViewModel @Inject constructor(
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+
         }
+    }
+
+    private suspend fun requestUserInfo() {
+        val userInfo = userRepository.getUserInfo()
+        userInfo.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {}
     }
 
     private suspend fun requestAccountDetails() {
@@ -128,7 +140,6 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            it.accountStatus ="dsd"
             if (it.accountStatus.equals("Pending Activation", true)) {
                 activeUserTabBarVisibility.latestValue = false
                 progressViewFlow.latestValue = false
@@ -140,14 +151,6 @@ class HomeViewModel @Inject constructor(
                 requestModemId()
                 modemStatusRefresh()
             }
-        }
-    }
-
-    private suspend fun requestUserInfo() {
-        val userInfo = userRepository.getUserInfo()
-        userInfo.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
         }
     }
 

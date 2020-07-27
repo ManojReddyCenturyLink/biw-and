@@ -74,12 +74,6 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
         this.layoutView?.visibility = if (showReload) View.GONE else View.VISIBLE
     }
 
-    fun hideProgress() {
-        this.progressView?.visibility = View.GONE
-        this.retryOverlayView?.visibility = View.GONE
-        this.layoutView?.visibility = View.VISIBLE
-    }
-
     private fun listenForRebootDialog() {
         viewModel.rebootDialogFlow.observe { success ->
             if (success) {

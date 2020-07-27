@@ -13,7 +13,6 @@ import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
-import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +20,6 @@ import javax.inject.Inject
 class SubscriptionViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
     private val accountRepository: AccountRepository,
-    private val preferences: Preferences,
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
@@ -33,7 +31,6 @@ class SubscriptionViewModel @Inject constructor(
 
     val planName: Flow<String> = BehaviorStateFlow()
     val planDetails: Flow<String> = BehaviorStateFlow()
-    val subscriptionUrl: Flow<String> = BehaviorStateFlow()
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
     var progressViewFlow = EventFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
@@ -48,7 +45,6 @@ class SubscriptionViewModel @Inject constructor(
             requestAccountDetails()
             requestInvoiceList()
         }
-        subscriptionUrl.latestValue = BASE_SUBSCRIPTION_URL + preferences.getValueByID(Preferences.USER_ID)
     }
 
     private suspend fun requestAccountDetails() {
@@ -73,6 +69,10 @@ class SubscriptionViewModel @Inject constructor(
         }
         planName.latestValue = userAccount.productNameC ?: ""
         planDetails.latestValue = userAccount.productPlanNameC ?: ""
+    }
+
+    fun onEditBillingContainerClicked() {
+        myState.latestValue = SubscriptionCoordinatorDestinations.EDIT_PAYMENT
     }
 
     fun launchStatement(item: RecordsItem) {
@@ -101,8 +101,5 @@ class SubscriptionViewModel @Inject constructor(
             invoicesListResponse.latestValue = it
             progressViewFlow.latestValue = false
         }
-    }
-    companion object {
-        const val BASE_SUBSCRIPTION_URL = "https://qa-qa101.cs16.force.com/fiber/apex/vf_fiberBuyFlowPaymentMobile?userId="
     }
 }

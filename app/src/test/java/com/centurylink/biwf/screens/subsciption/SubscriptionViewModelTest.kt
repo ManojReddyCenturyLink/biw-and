@@ -1,14 +1,13 @@
 package com.centurylink.biwf.screens.subsciption
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.coordinators.SubscriptionCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
-import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -17,7 +16,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 
 class SubscriptionViewModelTest : ViewModelBaseTest() {
@@ -27,12 +25,6 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
 
     @MockK(relaxed = true)
     private lateinit var accountRepository: AccountRepository
-
-    @MockK(relaxed = true)
-    private lateinit var preferences: Preferences
-
-    @get:Rule
-    val rule = InstantTaskExecutorRule()
 
     private lateinit var accountDetails: AccountDetails
 
@@ -52,7 +44,6 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
         viewModel = SubscriptionViewModel(
             zuoraPaymentRepository = zuoraPaymentRepository,
             accountRepository = accountRepository,
-            preferences = preferences,
             modemRebootMonitorService = mockModemRebootMonitorService
         )
     }
@@ -83,5 +74,18 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
                 )
             }
         }
+    }
+
+    @Test
+    fun testOnEditBillingContainerClicked() = runBlockingTest {
+        launch {
+            viewModel.onEditBillingContainerClicked()
+        }
+
+        Assert.assertEquals(
+            "Edit Payment Info Screen wasn't launched",
+            SubscriptionCoordinatorDestinations.EDIT_PAYMENT,
+            viewModel.myState.first()
+        )
     }
 }
