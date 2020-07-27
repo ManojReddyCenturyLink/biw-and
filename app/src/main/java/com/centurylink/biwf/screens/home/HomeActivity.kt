@@ -97,7 +97,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     }
 
     override fun onGetStartedClick(isJobTypeInstallation: Boolean) {
-        setupTabsViewPager(isJobTypeInstallation, true)
+        setupTabsViewPager(true)
     }
 
     override fun onViewDevicesClick() {
@@ -121,7 +121,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             showRetry(it.isNotEmpty())
         }
         viewModel.activeUserTabBarVisibility.observe {
-            setupTabsViewPager(it, viewModel.isExistingUser.value)
+            setupTabsViewPager(it)
         }
         viewModel.networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
     }
@@ -133,7 +133,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     }
 
     //isJobTypeInstallation will be used while implementing Service type installation status
-    private fun setupTabsViewPager(isJobTypeInstallation: Boolean, isExistingUser: Boolean) {
+    private fun setupTabsViewPager(isExistingUser: Boolean) {
         binding.iBtnNotificationBottom.visibility = if (isExistingUser) View.GONE else View.VISIBLE
         binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
         binding.homeOnlineStatusBar.visibility = if (isExistingUser) View.VISIBLE else View.GONE

@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home
 
+
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -8,6 +9,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.sumup.SumUpInput
+import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
@@ -29,6 +31,7 @@ class HomeViewModel @Inject constructor(
     private val integrationServices: IntegrationRestServices,
     private val userRepository: UserRepository,
     private val assiaRepository: AssiaRepository,
+    private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
@@ -71,8 +74,8 @@ class HomeViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
+            requestAccountDetails()
             requestModemId()
-            requestAppointmentDetails()
         }
         modemStatusRefresh()
     }
@@ -113,22 +116,23 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestAppointmentDetails() {
-        val appointmentDetails = appointmentRepository.getAppointmentInfo()
-        appointmentDetails.fold(ifLeft = {
-        }) {
-            activeUserTabBarVisibility.latestValue =
-                (it.jobType == "Fiber Install - For Installations")
-            progressViewFlow.latestValue = false
-        }
-    }
 
     private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+        }
+    }
 
+    private suspend fun requestAccountDetails() {
+        val accountDetails = accountRepository.getAccountDetails()
+        accountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            activeUserTabBarVisibility.latestValue =
+                !it.accountStatus.equals("Pending Activation", true)
+            progressViewFlow.latestValue = false
         }
     }
 
@@ -136,7 +140,8 @@ class HomeViewModel @Inject constructor(
         val userInfo = userRepository.getUserInfo()
         userInfo.fold(ifLeft = {
             errorMessageFlow.latestValue = it
-        }) {}
+        }) {
+        }
     }
 
     private suspend fun requestModemId() {
@@ -147,7 +152,7 @@ class HomeViewModel @Inject constructor(
         val modemInfo = assiaRepository.getModemInfo()
         when (modemInfo) {
             is AssiaNetworkResponse.Success -> {
-                networkStatus.latestValue = modemInfo.body.modemInfo.isAlive
+               // networkStatus.latestValue = modemInfo?.body?.modemInfo?.isAlive
             }
             else -> {
                 // Ignoring Error API called every 30 seconds
