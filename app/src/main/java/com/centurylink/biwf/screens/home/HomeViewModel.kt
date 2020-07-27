@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -11,6 +12,7 @@ import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.service.network.IntegrationRestServices
@@ -93,7 +95,10 @@ class HomeViewModel @Inject constructor(
         refreshBioMetrics.latestValue = Unit
     }
 
-    fun onSubscriptionActivityClick() {
+    fun onSubscriptionActivityClick(paymentMethod: String) {
+        HomeCoordinatorDestinations.bundle = Bundle().apply {
+            putString(SubscriptionActivity.PAYMENT_CARD, paymentMethod)
+        }
         myState.latestValue = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }
 

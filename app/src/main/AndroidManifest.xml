@@ -66,6 +66,11 @@
             tools:ignore="LockedOrientationActivity"
             />
         <activity
+                android:name="com.centurylink.biwf.screens.subscription.EditPaymentDetailsActivity"
+                android:screenOrientation="portrait"
+                tools:ignore="LockedOrientationActivity"
+                />
+        <activity
             android:name=".screens.cancelsubscription.CancelSubscriptionActivity"
             android:screenOrientation="portrait"
             tools:ignore="LockedOrientationActivity"

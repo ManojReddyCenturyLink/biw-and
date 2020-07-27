@@ -109,8 +109,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         viewModel.initApis()
     }
 
-    fun launchSubscriptionActivity() {
-        viewModel.onSubscriptionActivityClick()
+    fun launchSubscriptionActivity(paymentMethod: String) {
+        viewModel.onSubscriptionActivityClick(paymentMethod)
     }
 
     private fun initViews() {

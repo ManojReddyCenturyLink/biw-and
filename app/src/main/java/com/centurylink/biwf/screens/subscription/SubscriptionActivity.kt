@@ -59,6 +59,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                 binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it
             }
         }
+        binding.currentPaymentMethod.text = intent.getStringExtra(PAYMENT_CARD)
         prepareRecyclerView()
         initViews()
     }
@@ -74,6 +75,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
+            EditPaymentDetailsActivity.REQUEST_TO_EDIT_PAYMENT_DETAILS,
             SubscriptionStatementActivity.REQUEST_TO_STATEMENT -> {
                 if (resultCode == Activity.RESULT_OK) {
                     finish()
@@ -110,24 +112,24 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         }
         binding.manageMySubscriptionRow.setOnClickListener { viewModel.launchManageSubscription() }
 
-        binding.subscriptionWebView.settings.apply {
-            javaScriptEnabled = true
-        }
-
-        viewModel.subscriptionUrl.observe {
-            binding.subscriptionWebView.loadUrl(it)
-        }
+        binding.editBillingContainer.setOnClickListener { viewModel.onEditBillingContainerClicked() }
     }
 
     private fun prepareRecyclerView() {
         viewModel.invoicesListResponse.observe { list ->
             paymentInvoicesAdapter = PaymentInvoicesAdapter(this, this, list)
             binding.previousStatementRecyclerview.adapter = paymentInvoicesAdapter
-            hideProgress()
+            showProgress(false)
         }
     }
 
     companion object {
-        fun newIntent(context: Context) = Intent(context, SubscriptionActivity::class.java)
+        const val PAYMENT_CARD: String = "PaymentCard"
+
+        fun newIntent(context: Context, bundle: Bundle): Intent {
+            return Intent(context, SubscriptionActivity::class.java).putExtra(
+                PAYMENT_CARD, bundle.getString(PAYMENT_CARD)
+            )
+        }
     }
 }

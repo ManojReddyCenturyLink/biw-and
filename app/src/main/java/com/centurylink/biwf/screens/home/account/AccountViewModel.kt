@@ -67,7 +67,7 @@ class AccountViewModel internal constructor(
 
     val myState = EventFlow<AccountCoordinatorDestinations>()
 
-    val navigateToSubscriptionActivityEvent: EventLiveData<Unit> = MutableLiveData()
+    val navigateToSubscriptionActivityEvent: EventLiveData<String> = MutableLiveData()
 
     fun onBiometricChange(boolean: Boolean) {
         sharedPreferences.saveBioMetrics(boolean)
@@ -106,7 +106,7 @@ class AccountViewModel internal constructor(
     }
 
     fun onSubscriptionCardClick() {
-        navigateToSubscriptionActivityEvent.emit(Unit)
+        navigateToSubscriptionActivityEvent.emit(uiAccountDetails.paymentMethod ?: "Visa ******* 2453")
     }
 
     fun onPersonalInfoCardClick() {

@@ -97,7 +97,7 @@ class SubscriptionStatementActivity : BaseActivity() {
                 binding.subscriptionStatementBillingAddressContent.text =
                     uiAccountInfo.billingAddress
             }
-            hideProgress()
+            showProgress(false)
         }
     }
 

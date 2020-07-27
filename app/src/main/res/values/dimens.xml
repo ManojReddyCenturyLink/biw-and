@@ -23,6 +23,10 @@
     <dimen name="text_entry_height">41dp</dimen>
     <dimen name="margin_22">22dp</dimen>
 
+    <!--  Design Patterns -->
+    <dimen name="screen_header_height">76dp</dimen>
+    <dimen name="section_heading_margin_top">48dp</dimen>
+
     <!--Font Sizing -->
     <dimen name="text_size_10">10sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
