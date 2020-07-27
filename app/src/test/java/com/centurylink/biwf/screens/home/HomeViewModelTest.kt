@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
+import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
@@ -40,6 +41,9 @@ class HomeViewModelTest : ViewModelBaseTest() {
     private lateinit var userRepository: UserRepository
     @MockK
     private lateinit var assiaRepository: AssiaRepository
+
+    @MockK
+    private lateinit var accountRepository: AccountRepository
 
     @MockK
     private lateinit var mockPreferences: Preferences
@@ -77,6 +81,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 mockk(),
                 userRepository,
                 assiaRepository,
+                accountRepository,
                 mockModemRebootMonitorService
             )
         //Need to Revisit Tests
@@ -125,7 +130,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
         coEvery { userRepository.getUserDetails() } returns Either.Left(error = "")
         coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Left(error = "")
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository,mockModemRebootMonitorService)
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository,accountRepository,mockModemRebootMonitorService)
         launch {
             viewModel.initApis()
         }

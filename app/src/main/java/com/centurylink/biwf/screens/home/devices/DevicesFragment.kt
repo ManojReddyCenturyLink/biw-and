@@ -89,7 +89,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
         blockDeviceMac = deviceInfo.stationMac!!
         showConfirmationDialog(
-            deviceInfo.hostName?.toLowerCase(Locale.getDefault())?.capitalize()
+            deviceInfo.hostName?.toUpperCase(Locale.getDefault())?.capitalize()
         )
     }
 
