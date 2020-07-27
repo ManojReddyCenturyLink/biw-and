@@ -42,6 +42,7 @@ class DashboardViewModel @Inject constructor(
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     val isExistingUser = BehaviorStateFlow<Boolean>()
+    val speedTestButtonState:Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
 
@@ -77,12 +78,15 @@ class DashboardViewModel @Inject constructor(
     fun startSpeedTest() {
         if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
+        }else{
+            speedTestButtonState.latestValue = false
         }
     }
 
     private fun getSpeedTestId() {
         sharedPreferences.saveSpeedTestFlag(boolean = true)
         progressVisibility.latestValue = true
+        speedTestButtonState.latestValue = false
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         viewModelScope.launch {
             when (val speedTestRequest = assiaRepository.startSpeedTest()) {
@@ -146,8 +150,7 @@ class DashboardViewModel @Inject constructor(
             }
         }
 
-        val downStreamData = assiaRepository.getDownstreamResults()
-        when (downStreamData){
+        when (val downStreamData = assiaRepository.getDownstreamResults()){
             is AssiaNetworkResponse.Success ->{
                 if (downStreamData.body.data.listOfData.isNotEmpty()) {
                     val downloadMb = downStreamData.body.data.listOfData[0].speedAvg / 1000
@@ -163,6 +166,7 @@ class DashboardViewModel @Inject constructor(
             else ->{displayEmptyResponse()}
         }
         progressVisibility.latestValue = false
+        speedTestButtonState.latestValue = true
         sharedPreferences.saveSpeedTestFlag(boolean = false)
     }
 
@@ -171,6 +175,7 @@ class DashboardViewModel @Inject constructor(
         uploadSpeed.latestValue = EMPTY_RESPONSE
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         progressVisibility.latestValue = false
+        speedTestButtonState.latestValue = true
         sharedPreferences.saveSpeedTestFlag(boolean = false)
     }
 
@@ -346,6 +351,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun checkForOngoingSpeedTest() {
+        speedTestButtonState.latestValue = !rebootOngoing
         val ongoingTest: Boolean = sharedPreferences.getSupportSpeedTest()
         if (ongoingTest) {
             sharedPreferences.saveSupportSpeedTest(boolean = false)
