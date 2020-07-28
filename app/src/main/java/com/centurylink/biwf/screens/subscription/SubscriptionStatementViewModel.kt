@@ -78,9 +78,9 @@ class SubscriptionStatementViewModel @Inject constructor(
             uiStatementDetails = uiStatementDetails.copy(
                 planName = it.productPlanNameC,
                 successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
-                planCost = String.format("%.1f", planCost),
-                salesTaxCost = String.format("%.1f", salesTaxCost),
-                totalCost = String.format("%.1f", totalCost)
+                planCost = String.format("%.2f", planCost),
+                salesTaxCost = String.format("%.2f", salesTaxCost),
+                totalCost = String.format("%.2f", totalCost)
             )
             statementDetailsInfo.latestValue = uiStatementDetails
             progressViewFlow.latestValue = false

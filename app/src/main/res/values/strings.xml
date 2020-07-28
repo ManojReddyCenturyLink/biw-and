@@ -189,6 +189,7 @@
     <string name="cost_template">$%s</string>
     <string name="statement_total">Total</string>
     <string name="previous_statements">Previous statements</string>
+    <string name="edit_billing_information">Edit billing information</string>
     <string name="subscription">Subscription</string>
     <string name="my_subscription">My subscription</string>
     <string name="manage_my_subscription">Manage my subscription</string>
@@ -262,6 +263,9 @@
     <string name="connected_devices_singular">Connected device</string>
     <string name="connected_devices_plural">Connected devices</string>
     <string name="removed_devices">Removed devices</string>
+    <string name="remove_device">Remove device</string>
+    <string name="remove">REMOVE</string>
+    <string name="restore">RESTORE</string>
     <string name="devices_tap_restore_access">tap to restore access</string>
     <string name="today_s_data_usage">Today\’s data usage:</string>
     <string name="mb_download">MB \ndownload</string>
@@ -273,10 +277,15 @@
     <string name="empty_string">--</string>
     <string name="last_two_week">Last two weeks data usage:</string>
     <string name="device_connected">Device connected</string>
-    <string name="tap_to_pause_connection">tap to remove device from network</string>
+    <string name="tap_to_pause_connection">tap to pause connection</string>
     <string name="tap_to_view">Tap to view</string>
     <string name="view_my_dashboard">View my dashboard</string>
     <string name="add_appointment_to_calendar">Add appointment to calendar</string>
+    <string name="remove_device_confirmation_title">Do you want to remove “%s” from the network?</string>
+    <string name="remove_device_confirmation_msg">You can restore access later if you want to.</string>
+    <string name="restore_access_confirmation_title">Do you want to restore access to “%s”?</string>
+    <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
+
     <!--Modify/Cancel Appointment Strings-->
     <string name="select_appointment_slot">Select the day and time that works best for you.</string>
     <string name="error_in_selected_slot">An error has occurred while booking your appointment. Please try again.</string>

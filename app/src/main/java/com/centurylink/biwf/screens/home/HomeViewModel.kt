@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home
 
+import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -8,9 +9,11 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.sumup.SumUpInput
+import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.service.network.IntegrationRestServices
@@ -29,6 +32,7 @@ class HomeViewModel @Inject constructor(
     private val integrationServices: IntegrationRestServices,
     private val userRepository: UserRepository,
     private val assiaRepository: AssiaRepository,
+    private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
@@ -71,10 +75,8 @@ class HomeViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             requestUserInfo()
             requestUserDetails()
-            requestModemId()
-            requestAppointmentDetails()
+            requestAccountDetails()
         }
-        modemStatusRefresh()
     }
 
     fun onSupportClicked() {
@@ -93,7 +95,10 @@ class HomeViewModel @Inject constructor(
         refreshBioMetrics.latestValue = Unit
     }
 
-    fun onSubscriptionActivityClick() {
+    fun onSubscriptionActivityClick(paymentMethod: String) {
+        HomeCoordinatorDestinations.bundle = Bundle().apply {
+            putString(SubscriptionActivity.PAYMENT_CARD, paymentMethod)
+        }
         myState.latestValue = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }
 
@@ -113,15 +118,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestAppointmentDetails() {
-        val appointmentDetails = appointmentRepository.getAppointmentInfo()
-        appointmentDetails.fold(ifLeft = {
-        }) {
-            activeUserTabBarVisibility.latestValue =
-                (it.jobType == "Fiber Install - For Installations")
-            progressViewFlow.latestValue = false
-        }
-    }
 
     private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
@@ -137,6 +133,26 @@ class HomeViewModel @Inject constructor(
         userInfo.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {}
+    }
+
+    private suspend fun requestAccountDetails() {
+        val accountDetails = accountRepository.getAccountDetails()
+        accountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            it.accountStatus ="eee"
+            if (it.accountStatus.equals("Pending Activation", true)) {
+                activeUserTabBarVisibility.latestValue = false
+                progressViewFlow.latestValue = false
+            } else {
+                // Call this only when Devices Tab is Shown
+                sharedPreferences.saveUserType(true)
+                activeUserTabBarVisibility.latestValue = true
+                progressViewFlow.latestValue = false
+                requestModemId()
+                modemStatusRefresh()
+            }
+        }
     }
 
     private suspend fun requestModemId() {

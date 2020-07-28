@@ -1,5 +1,6 @@
 package com.centurylink.biwf.coordinators
 
+import android.os.Bundle
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -41,5 +42,9 @@ class HomeCoordinator @Inject constructor(): Coordinator<HomeCoordinatorDestinat
 }
 
 enum class HomeCoordinatorDestinations {
-    SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, SUBSCRIPTION_ACTIVITY, NETWORK_STATUS
+    SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, SUBSCRIPTION_ACTIVITY, NETWORK_STATUS;
+
+    companion object {
+        lateinit var bundle: Bundle
+    }
 }

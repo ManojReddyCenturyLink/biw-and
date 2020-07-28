@@ -215,5 +215,32 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/connection_status_btn_text" />
+
+        <View
+            android:id="@+id/horizontal_view"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="@dimen/above_cardview_elevation"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/main_background_color"
+            app:layout_constraintTop_toBottomOf="@+id/tap_to_retry_text"
+            android:layout_marginTop="@dimen/margin_spacing_large"/>
+
+        <Button
+            android:id="@+id/remove_devices_btn"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_spacing_large"
+            android:layout_marginTop="@dimen/margin_spacing_large"
+            android:background="@drawable/button_thin_border_background"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/remove_device"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:textColor="@color/blue"
+            android:paddingStart="@dimen/margin_spacing_small"
+            android:paddingEnd="@dimen/margin_spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

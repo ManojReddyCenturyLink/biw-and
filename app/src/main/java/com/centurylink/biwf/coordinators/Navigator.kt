@@ -10,6 +10,7 @@ import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetails
 import com.centurylink.biwf.screens.changeappointment.AppointmentBookedActivity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
+import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity.Companion.REQUEST_TO_DEVICES
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
@@ -18,6 +19,7 @@ import com.centurylink.biwf.screens.login.LoginActivity
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
+import com.centurylink.biwf.screens.subscription.EditPaymentDetailsActivity
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementActivity
 import com.centurylink.biwf.screens.support.FAQActivity
@@ -101,7 +103,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
 
     fun navigateToSubscriptionActivity() {
         activity?.also {
-            it.startActivity(SubscriptionActivity.newIntent(it))
+            it.startActivity(SubscriptionActivity.newIntent(it, HomeCoordinatorDestinations.bundle))
         }
     }
 
@@ -152,12 +154,21 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    fun navigateToEditPaymentDetails() {
+        activity?.also {
+            it.startActivityForResult(
+                EditPaymentDetailsActivity.newIntent(it),
+                EditPaymentDetailsActivity.REQUEST_TO_EDIT_PAYMENT_DETAILS
+            )
+        }
+    }
+
     fun navigateToBillStatement() {
         val bundle = SubscriptionCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(
                 SubscriptionStatementActivity.newIntent(it, bundle),
-                CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION
+                SubscriptionStatementActivity.REQUEST_TO_STATEMENT
             )
         }
     }
@@ -178,7 +189,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToUsageDetailsActivity() {
         val bundle = DevicesCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(UsageDetailsActivity.newIntent(it, bundle))
+            it.startActivityForResult(UsageDetailsActivity.newIntent(it, bundle),REQUEST_TO_DEVICES)
         }
     }
 

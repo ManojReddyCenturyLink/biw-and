@@ -133,7 +133,7 @@ class DeviceListAdapter(
                 )
             )
             deviceLayout.setOnClickListener {
-                deviceItemClickListener.onDevicesClicked(
+                deviceItemClickListener.onConnectedDevicesClicked(
                     devicesInfo = connectedData
                 )
             }
@@ -141,9 +141,15 @@ class DeviceListAdapter(
         } else if (groupPosition == 1) {
             val layoutBlockedDevicesBinding =
                 LayoutBlockedDevicesBinding.inflate(layoutInflater)
+            val deviceLayout = layoutBlockedDevicesBinding.blockedDeviceName
             val blockedData = getChild(groupPosition, childPosition)
             val blockedDeviceName = layoutBlockedDevicesBinding.blockedDeviceName
             blockedDeviceName.text = blockedData.hostName
+            deviceLayout.setOnClickListener {
+                deviceItemClickListener.onRemovedDevicesClicked(
+                    devicesInfo = blockedData
+                )
+            }
             return layoutBlockedDevicesBinding.root
         }
         return layoutConnectedDevicesBinding.root
@@ -182,12 +188,16 @@ class DeviceListAdapter(
     }
 
     interface DeviceItemClickListener {
-
         /**
-         * Handle click event on Item click
+         * Handle click event on Connected Devices Item click
          *
          */
-        fun onDevicesClicked(devicesInfo: DevicesData)
+        fun onConnectedDevicesClicked(devicesInfo: DevicesData)
 
+        /**
+         * Handle click event on Connected Devices Item click
+         *
+         */
+        fun onRemovedDevicesClicked(devicesInfo: DevicesData)
     }
 }

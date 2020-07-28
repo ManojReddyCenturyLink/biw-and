@@ -1,6 +1,7 @@
 package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.model.assia.ModemInfoResponse
+import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
 import com.centurylink.biwf.model.speedtest.SpeedTestResponse
@@ -57,6 +58,23 @@ class AssiaRepository @Inject constructor(
 
     suspend fun getDownstreamResults(): AssiaNetworkResponse<SpeedTestResponse, AssiaError> {
         return assiaService.checkSpeedTestDownStreamResults(getHeaderMapWithXhours(token = assiaTokenManager.getAssiaToken()))
+    }
+
+
+    suspend fun blockDevices(stationmac: String): AssiaNetworkResponse<BlockResponse, AssiaError> {
+        return assiaService.blockDevice(
+            preferences.getAssiaId(),
+            stationmac,
+            getHeaderMap(token = assiaTokenManager.getAssiaToken())
+        )
+    }
+
+    suspend fun unblockDevices(stationmac: String): AssiaNetworkResponse<BlockResponse, AssiaError> {
+        return assiaService.unBlockDevice(
+            preferences.getAssiaId(),
+            stationmac,
+            getHeaderMap(token = assiaTokenManager.getAssiaToken())
+        )
     }
 
     private fun getHeaderMap(token: String): Map<String, String> {

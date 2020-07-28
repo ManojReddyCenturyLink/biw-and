@@ -10,6 +10,8 @@ data class AccountDetails(
     val name: String = "",
     @SerializedName("LastName__c")
     val lastName: String = "",
+    @SerializedName("AccountStatus__c")
+    var accountStatus: String = "",
     @SerializedName("FirstName__c")
     val firstName: String = "",
     @SerializedName("Is_Billing_Address_Updated__c")

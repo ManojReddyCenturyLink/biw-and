@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
@@ -36,8 +37,8 @@ class AppointmentRepository @Inject constructor(
         val finalQuery = String.format(query, accountId)
         val result: FiberServiceResult<Appointments> =
             appointmentService.getAppointmentDetails(finalQuery)
-//        val result: FiberServiceResult<Appointments> =
-//            integrationRestServices.getAppointmentDetails("appointmentDetails")
+        //  val result: FiberServiceResult<Appointments> =
+        //    integrationRestServices.getAppointmentDetails("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val appointmentRecords = it.records.elementAtOrElse(0) { null }
             appointmentRecords?.let { it ->
@@ -51,7 +52,7 @@ class AppointmentRepository @Inject constructor(
                     Either.Left("Appointment Records is Empty")
                 } else if (it.JobType.isNullOrEmpty() || it.arrivalWindowStarTime == null || it.arrivalWindowEndTime == null) {
                     Either.Left("Mandatory Records  is Empty")
-                } else if (it.appointmentStatus == null || it.serviceResources == null) {
+                } else if (it.appointmentStatus == null) {
                     //TODO: Will remove when api gives correct response for cancelled state
                     val uiAppointmentRecords = AppointmentRecordsInfo(
                         serviceAppointmentStartDate = it.arrivalWindowStarTime,
@@ -62,21 +63,22 @@ class AppointmentRepository @Inject constructor(
                         serviceLatitude = "",
                         serviceLongitude = "",
                         appointmentId = "",
-                    serviceEngineerName = "",timeZone = timeZoneInfo!! )
+                        serviceEngineerName = "", timeZone = timeZoneInfo
+                    )
                     Either.Right(uiAppointmentRecords)
                 } else {
-                    val engineerName = serviceRecords?.serviceResource?.name
+                    val engineerName = serviceRecords?.serviceResource?.name ?: ""
                     val uiAppointmentRecords = AppointmentRecordsInfo(
                         serviceAppointmentStartDate = it.arrivalWindowStarTime,
                         serviceAppointmentEndTime = it.arrivalWindowEndTime,
-                        serviceEngineerName = engineerName!!,
+                        serviceEngineerName = engineerName,
                         serviceStatus = it.appointmentStatus,
                         serviceEngineerProfilePic = "",
                         jobType = it.JobType,
                         serviceLatitude = it.latitude,
                         serviceLongitude = it.longitude,
                         appointmentId = it.id,
-                        timeZone = timeZoneInfo!!
+                        timeZone = timeZoneInfo
                     )
                     Either.Right(uiAppointmentRecords)
                 }

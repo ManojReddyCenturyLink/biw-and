@@ -32,8 +32,12 @@ class SupportViewModel @Inject constructor(
     val uploadSpeed: Flow<String> = BehaviorStateFlow()
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
+    val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
+    val modemResetButtonState: Flow<Boolean> = BehaviorStateFlow()
     private var recordTypeId: String = ""
     var progressViewFlow = EventFlow<Boolean>()
+
+    private var rebootOngoing = false
 
     init {
         initApis()
@@ -43,6 +47,8 @@ class SupportViewModel @Inject constructor(
         var keepChecking = true
         while (keepChecking) {
             progressVisibility.latestValue = sharedPreferences.getSpeedTestFlag()
+            speedTestButtonState.latestValue = !progressVisibility.latestValue
+            modemResetButtonState.latestValue = !progressVisibility.latestValue
             if (progressVisibility.latestValue) {
                 latestSpeedTest.latestValue = EMPTY_RESPONSE
                 delay(SPEED_TEST_REFRESH_INTERVAL)
@@ -71,18 +77,30 @@ class SupportViewModel @Inject constructor(
         }
     }
 
+    override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
+        super.handleRebootStatus(status)
+        rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
+        if (rebootOngoing) {
+            speedTestButtonState.latestValue = false
+        } else {
+            if (status == ModemRebootMonitorService.RebootState.SUCCESS) speedTestButtonState.latestValue = true
+        }
+    }
+
     fun startSpeedTest() {
-        if (!progressVisibility.latestValue) {
+        if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
         }
     }
 
     private fun getSpeedTestId() {
         progressVisibility.latestValue = true
+        speedTestButtonState.latestValue = false
+        modemResetButtonState.latestValue = false
         latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
         viewModelScope.launch {
-            when(val speedTestRequest = assiaRepository.startSpeedTest()){
-                is AssiaNetworkResponse.Success->{
+            when (val speedTestRequest = assiaRepository.startSpeedTest()) {
+                is AssiaNetworkResponse.Success -> {
                     if (speedTestRequest.body.code == 1000) {
                         sharedPreferences.saveSupportSpeedTest(boolean = true)
                         sharedPreferences.saveSpeedTestId(speedTestId = speedTestRequest.body.speedTestId)
@@ -91,7 +109,9 @@ class SupportViewModel @Inject constructor(
                         displayEmptyResponse()
                     }
                 }
-                else ->{displayEmptyResponse()}
+                else -> {
+                    displayEmptyResponse()
+                }
             }
         }
     }
@@ -101,8 +121,8 @@ class SupportViewModel @Inject constructor(
             var keepChecking = true
             var isSuccessful = false
             while (keepChecking) {
-                when (val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)){
-                    is AssiaNetworkResponse.Success->{
+                when (val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)) {
+                    is AssiaNetworkResponse.Success -> {
                         if (status.body.code == 1000) {
                             if (status.body.data.isFinished) {
                                 isSuccessful = true
@@ -116,7 +136,7 @@ class SupportViewModel @Inject constructor(
                             sharedPreferences.saveSupportSpeedTest(false)
                         }
                     }
-                    else ->{
+                    else -> {
                         displayEmptyResponse()
                         keepChecking = false
                         sharedPreferences.saveSupportSpeedTest(false)
@@ -128,8 +148,8 @@ class SupportViewModel @Inject constructor(
     }
 
     private suspend fun getResults() {
-        when (val upstreamData = assiaRepository.getUpstreamResults()){
-            is AssiaNetworkResponse.Success ->{
+        when (val upstreamData = assiaRepository.getUpstreamResults()) {
+            is AssiaNetworkResponse.Success -> {
                 if (upstreamData.body.data.listOfData.isNotEmpty()) {
                     val uploadMb = upstreamData.body.data.listOfData[0].speedAvg / 1000
                     uploadSpeed.latestValue = uploadMb.toString()
@@ -137,13 +157,13 @@ class SupportViewModel @Inject constructor(
                     uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
                 }
             }
-            else->{
+            else -> {
                 uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
             }
         }
 
-        when(val downStreamData = assiaRepository.getDownstreamResults()){
-            is AssiaNetworkResponse.Success->{
+        when (val downStreamData = assiaRepository.getDownstreamResults()) {
+            is AssiaNetworkResponse.Success -> {
                 if (downStreamData.body.data.listOfData.isNotEmpty()) {
                     val downloadMb = downStreamData.body.data.listOfData[0].speedAvg / 1000
                     downloadSpeed.latestValue = downloadMb.toString()
@@ -153,7 +173,7 @@ class SupportViewModel @Inject constructor(
                     latestSpeedTest.latestValue = EMPTY_RESPONSE
                 }
             }
-            else ->{
+            else -> {
                 downloadSpeed.latestValue = EMPTY_RESPONSE
                 latestSpeedTest.latestValue = EMPTY_RESPONSE
             }
@@ -161,6 +181,8 @@ class SupportViewModel @Inject constructor(
 
         sharedPreferences.saveSupportSpeedTest(false)
         progressVisibility.latestValue = false
+        speedTestButtonState.latestValue = true
+        modemResetButtonState.latestValue = true
     }
 
     private fun displayEmptyResponse() {
@@ -168,6 +190,8 @@ class SupportViewModel @Inject constructor(
         uploadSpeed.latestValue = EMPTY_RESPONSE
         latestSpeedTest.latestValue = EMPTY_RESPONSE
         progressVisibility.latestValue = false
+        speedTestButtonState.latestValue = true
+        modemResetButtonState.latestValue = true
     }
 
     private suspend fun requestFaqDetailsInfo() {
