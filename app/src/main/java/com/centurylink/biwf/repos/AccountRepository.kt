@@ -3,6 +3,7 @@ package com.centurylink.biwf.repos
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.account.AccountDetails
+import com.centurylink.biwf.model.account.PaymentInfoResponse
 import com.centurylink.biwf.model.account.UpdatedServiceCallsAndTexts
 import com.centurylink.biwf.service.network.AccountApiService
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -35,5 +36,10 @@ class AccountRepository @Inject constructor(
             ifLeft = { it.message?.message.toString() },
             ifRight = { "" }
         )
+    }
+
+    suspend fun getLiveCardDetails(finalQuery: String):Either<String,PaymentInfoResponse> {
+        val result = accountApiService.getLiveCardInfo(finalQuery)
+       return result.mapLeft { it.message.toString() }
     }
 }

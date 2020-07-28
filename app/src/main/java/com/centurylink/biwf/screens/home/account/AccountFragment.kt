@@ -109,7 +109,6 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                     uiAccountDetails.planSpeed ?: ""
                 binding.accountSubscriptionCard.accountCardNextPaymentDate.text =
                     uiAccountDetails.paymentDate
-                // TODO - Hook up to proper endpoint / data (currently returns null)
                 binding.accountSubscriptionCard.accountCardCardNumbers.text =
                     uiAccountDetails.paymentMethod ?: ""
                 // Personal Info

@@ -6,8 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.AccountCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
+import com.centurylink.biwf.model.account.PaymentInfo
 import com.centurylink.biwf.model.contact.ContactDetails
-import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
@@ -15,7 +15,12 @@ import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
-import com.centurylink.biwf.utility.*
+import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.DateUtils
+import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.EventLiveData
+import com.centurylink.biwf.utility.PhoneNumber
+import com.centurylink.biwf.utility.ViewModelFactoryWithInput
 import com.centurylink.biwf.utility.preferences.Preferences
 import com.centurylink.biwf.utility.viewModelFactory
 import kotlinx.coroutines.flow.Flow
@@ -56,6 +61,7 @@ class AccountViewModel internal constructor(
     }
 
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
+    val paymentInfo: Flow<PaymentInfo> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     val bioMetricFlow: Flow<Boolean> = BehaviorStateFlow(sharedPreferences.getBioMetrics() ?: false)
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
@@ -78,6 +84,7 @@ class AccountViewModel internal constructor(
             progressViewFlow.latestValue = true
             requestAccountDetails()
             requestContactInfo()
+            requestCardInfo()
         }
     }
 
@@ -131,7 +138,6 @@ class AccountViewModel internal constructor(
         }
     }
 
-
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
@@ -151,17 +157,32 @@ class AccountViewModel internal constructor(
         }
     }
 
+    private suspend fun requestCardInfo() {
+        val query =
+            "SELECT Credit_Card_Summary__c,Id,Name,Next_Renewal_Date__c,Zuora__BillCycleDay__c FROM Zuora__CustomerAccount__c WHERE Zuora__Account__c = '%s'"
+        val finalQuery = String.format(query, sharedPreferences.getValueByID(Preferences.ACCOUNT_ID))
+        val something = accountRepository.getLiveCardDetails(finalQuery)
+        something.fold(
+            ifLeft = { errorMessageFlow.latestValue = it }
+        ) {
+            if (it.isDone) {
+                paymentInfo.latestValue = it.list[0]
+                updateUIAccountDetailsFromLivePaymentInfo(paymentInfo.latestValue.creditCardSummary)
+            }
+        }
+    }
+
     private fun updateUIAccountDetailsFromAccounts(accontDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             name = accontDetails.name,
             serviceAddress1 = accontDetails.serviceCompleteAddress ?: "",
             serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
-            email = accontDetails.emailAddress?:"",
+            email = accontDetails.emailAddress ?: "",
             planName = accontDetails.productNameC ?: "",
             planSpeed = accontDetails.productPlanNameC ?: "",
             paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
             password = "******",
-            cellPhone = PhoneNumber(accontDetails.phone?:"").toString(),
+            cellPhone = PhoneNumber(accontDetails.phone ?: "").toString(),
             homePhone = accontDetails.phone,
             workPhone = accontDetails.phone,
             serviceCallsAndText = accontDetails.cellPhoneOptInC,
@@ -180,6 +201,13 @@ class AccountViewModel internal constructor(
         uiAccountDetails = uiAccountDetails.copy(
             marketingEmails = contactDetails.emailOptInC,
             marketingCallsAndText = contactDetails.marketingOptInC
+        )
+        updateAccountFlow()
+    }
+
+    private fun updateUIAccountDetailsFromLivePaymentInfo(cardNumbers: String) {
+        uiAccountDetails = uiAccountDetails.copy(
+            paymentMethod = cardNumbers
         )
         updateAccountFlow()
     }
