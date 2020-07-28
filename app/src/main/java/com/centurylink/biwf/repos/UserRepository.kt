@@ -34,7 +34,12 @@ class UserRepository @Inject constructor(
     }
 
     private fun storeAssiaId(assiaId: String) {
-        preferences.saveAssiaId(assiaId)
+        //TODO: Currently not getting proper assia id for few accounts, will remove this condition later
+        if(assiaId.isNullOrEmpty() || !assiaId.equals("C4000XG1950000871")){
+            preferences.saveAssiaId("C4000XG1950000871")
+        }else{
+            preferences.saveAssiaId(assiaId)
+        }
     }
 
     suspend fun getAndSaveAssiaId(): Either<String, ModemIdResponse> {

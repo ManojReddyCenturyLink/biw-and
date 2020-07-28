@@ -1,15 +1,12 @@
 package com.centurylink.biwf.screens.home.devices
 
-import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
@@ -108,9 +105,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
         binding.pullToRefresh.setOnRefreshListener {
-            Log.d("tarzan","00")
-            if (!isRefresh){
-                Log.d("tarzan","1.1")
+            if (!isRefresh) {
                 devicesViewModel.initApis()
                 isRefresh = true
             }
@@ -124,12 +119,10 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         devicesViewModel.apply {
             progressViewFlow.observe {
                 showProgress(it)
-                Log.d("tarzan","3.0")
                 stopSwipeToRefresh()
             }
             errorMessageFlow.observe {
                 showRetry(it.isNotEmpty())
-                Log.d("tarzan","3.1")
                 stopSwipeToRefresh()
             }
         }
@@ -181,7 +174,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
-    fun stopSwipeToRefresh(){
+    fun stopSwipeToRefresh() {
         binding.pullToRefresh.isRefreshing = false
         isRefresh = false
     }

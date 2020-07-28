@@ -68,6 +68,9 @@ ext {
     //caldroid
     caldroidVersion = "caldroidx:1.0"
 
+    //swiperefreshlayout
+    swiperefreshlayout = "1.2.0-alpha01"
+
     //Test Dependencies
     jUnitVersion = '4.12'
     testRunnerVersion = '1.1.1'

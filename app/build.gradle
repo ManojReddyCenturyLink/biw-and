@@ -175,7 +175,8 @@ dependencies {
     //WorkManager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
 
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01"
+    //SwipeRefreshLayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
