@@ -168,12 +168,15 @@ dependencies {
 
     //Google-map
     implementation "com.google.android.gms:play-services-maps:$googleMapVersion"
-    
+
     //Caldroid
     implementation "com.github.vpotvin:$caldroidVersion"
 
     //WorkManager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
+
+    //SwipeRefreshLayout
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

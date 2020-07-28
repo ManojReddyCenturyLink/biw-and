@@ -53,7 +53,6 @@ class DevicesViewModel @Inject constructor(
     }
 
     private fun sortAndDisplayDeviceInfo(deviceInfo: DevicesInfo) {
-        progressViewFlow.latestValue = false
         val removedList = deviceInfo.devicesDataList.filter { it.blocked }.distinct()
         val connectedList = deviceInfo.devicesDataList.filter { !it.blocked }.distinct()
         val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
@@ -63,6 +62,7 @@ class DevicesViewModel @Inject constructor(
         }
         uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
         devicesListFlow.latestValue = uiDevicesTypeDetails
+        progressViewFlow.latestValue = false
     }
 
     private suspend fun requestModemDetails() {
@@ -79,11 +79,11 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestBlocking(stationMac:String){
-        val blockInfo =asiaRepository.unblockDevices(stationMac)
-        when(blockInfo){
+    private suspend fun requestBlocking(stationMac: String) {
+        val blockInfo = asiaRepository.unblockDevices(stationMac)
+        when (blockInfo) {
             is AssiaNetworkResponse.Success -> {
-               requestModemDetails()
+                requestModemDetails()
             }
             else -> {
                 errorMessageFlow.latestValue = "Error DeviceInfo"
@@ -91,7 +91,7 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
-    fun unblockDevice(stationMac: String){
+    fun unblockDevice(stationMac: String) {
         viewModelScope.launch {
             requestBlocking(stationMac)
         }
@@ -101,7 +101,10 @@ class DevicesViewModel @Inject constructor(
         val bundle = Bundle()
         bundle.putString(UsageDetailsActivity.HOST_NAME, devicesInfo.hostName)
         bundle.putString(UsageDetailsActivity.STA_MAC, devicesInfo.stationMac)
-        bundle.putString(UsageDetailsActivity.VENDOR_NAME, devicesInfo.vendorName?.toLowerCase()?.capitalize())
+        bundle.putString(
+            UsageDetailsActivity.VENDOR_NAME,
+            devicesInfo.vendorName?.toLowerCase()?.capitalize()
+        )
         DevicesCoordinatorDestinations.bundle = bundle
         myState.latestValue = DevicesCoordinatorDestinations.DEVICE_DETAILS
     }

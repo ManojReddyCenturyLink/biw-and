@@ -1,15 +1,12 @@
 package com.centurylink.biwf.screens.home.devices
 
-import android.app.Dialog
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
@@ -42,6 +39,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     private lateinit var binding: FragmentDevicesBinding
 
     private lateinit var deviceAdapter: DeviceListAdapter
+    var isRefresh = false
 
     private var blockDeviceMac: String = ""
 
@@ -107,9 +105,12 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
         binding.pullToRefresh.setOnRefreshListener {
-            devicesViewModel.initApis()
-            binding.pullToRefresh.isRefreshing = false
+            if (!isRefresh) {
+                devicesViewModel.initApis()
+                isRefresh = true
+            }
         }
+
         binding.devicesList.isEnabled = true
         binding.devicesList.setAdapter(deviceAdapter)
     }
@@ -118,9 +119,11 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         devicesViewModel.apply {
             progressViewFlow.observe {
                 showProgress(it)
+                stopSwipeToRefresh()
             }
             errorMessageFlow.observe {
                 showRetry(it.isNotEmpty())
+                stopSwipeToRefresh()
             }
         }
     }
@@ -169,5 +172,10 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
                 blockDeviceMac = ""
             }
         }
+    }
+
+    fun stopSwipeToRefresh() {
+        binding.pullToRefresh.isRefreshing = false
+        isRefresh = false
     }
 }
