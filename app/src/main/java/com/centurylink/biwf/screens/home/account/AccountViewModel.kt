@@ -158,11 +158,8 @@ class AccountViewModel internal constructor(
     }
 
     private suspend fun requestCardInfo() {
-        val query =
-            "SELECT Credit_Card_Summary__c,Id,Name,Next_Renewal_Date__c,Zuora__BillCycleDay__c FROM Zuora__CustomerAccount__c WHERE Zuora__Account__c = '%s'"
-        val finalQuery = String.format(query, sharedPreferences.getValueByID(Preferences.ACCOUNT_ID))
-        val something = accountRepository.getLiveCardDetails(finalQuery)
-        something.fold(
+        val cardInfoResponse = accountRepository.getLiveCardDetails()
+        cardInfoResponse.fold(
             ifLeft = { errorMessageFlow.latestValue = it }
         ) {
             if (it.isDone) {

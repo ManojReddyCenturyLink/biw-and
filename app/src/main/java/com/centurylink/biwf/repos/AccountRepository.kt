@@ -38,7 +38,10 @@ class AccountRepository @Inject constructor(
         )
     }
 
-    suspend fun getLiveCardDetails(finalQuery: String):Either<String,PaymentInfoResponse> {
+    suspend fun getLiveCardDetails():Either<String,PaymentInfoResponse> {
+        val query =
+            "SELECT Credit_Card_Summary__c,Id,Name,Next_Renewal_Date__c,Zuora__BillCycleDay__c FROM Zuora__CustomerAccount__c WHERE Zuora__Account__c = '%s'"
+        val finalQuery = String.format(query, preferences.getValueByID(Preferences.ACCOUNT_ID))
         val result = accountApiService.getLiveCardInfo(finalQuery)
        return result.mapLeft { it.message.toString() }
     }
