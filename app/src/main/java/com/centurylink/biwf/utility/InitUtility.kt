@@ -32,19 +32,15 @@ private val restServiceConfig = RestServiceConfigModule(
     baseUrlFiberServices = BuildConfig.BASE_URL,
     baseUrlForAwsBucket = "https://bucketforapi.s3-eu-west-1.amazonaws.com/",
     baseUrlForAssiaServices = " https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/",
-    integrationServerService = if (BuildConfig.DEBUG) {
-        object : IntegrationServerService {
-            override val baseUrl: String = IntegrationServer.baseUrl
+    integrationServerService = object : IntegrationServerService {
+        override val baseUrl: String = IntegrationServer.baseUrl
 
-            override fun start() {
-                IntegrationServer.start()
-            }
-
-            override fun stop() {
-                IntegrationServer.stop()
-            }
+        override fun start() {
+            IntegrationServer.start()
         }
-    } else {
-        object : IntegrationServerService {}
+
+        override fun stop() {
+            IntegrationServer.stop()
+        }
     }
 )

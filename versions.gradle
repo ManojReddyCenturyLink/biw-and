@@ -53,6 +53,15 @@ ext {
     //google map
     googleMapVersion = '17.0.0'
 
+    //Google Firebase SDK for Google Analytics
+    googleAnalyticsVersion = '17.4.4'
+
+    //Google Tag Manager SDK
+    googleTagManagerVersion = '17.0.0'
+
+    //Firebase Crashlytics
+    crashlyticsVersion = '17.1.1'
+
     //timber
     timberVersion = "4.7.1"
 
