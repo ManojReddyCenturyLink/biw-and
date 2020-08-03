@@ -113,7 +113,7 @@ class AccountViewModel internal constructor(
     }
 
     fun onSubscriptionCardClick() {
-        navigateToSubscriptionActivityEvent.emit(uiAccountDetails.paymentMethod ?: "Visa ******* 2453")
+        navigateToSubscriptionActivityEvent.emit(uiAccountDetails.paymentMethod ?: "")
     }
 
     fun onPersonalInfoCardClick() {

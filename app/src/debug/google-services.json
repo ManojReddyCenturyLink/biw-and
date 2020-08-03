@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "610978486142",
+    "firebase_url": "https://android-biwf-debug.firebaseio.com",
+    "project_id": "android-biwf-debug",
+    "storage_bucket": "android-biwf-debug.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610978486142:android:60e5f35e60bf783fb2452f",
+        "android_client_info": {
+          "package_name": "com.centurylink.biwf.debug"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610978486142-ja5l6aldlilmuvtpm16nv6af3cfbpr88.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDB80zaY60qY5igj3EENcq76oCmKG1_LyU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610978486142-ja5l6aldlilmuvtpm16nv6af3cfbpr88.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "538371463470",
+    "firebase_url": "https://android-biwf-sit.firebaseio.com",
+    "project_id": "android-biwf-sit",
+    "storage_bucket": "android-biwf-sit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:538371463470:android:702181161a1ff343f882bf",
+        "android_client_info": {
+          "package_name": "com.centurylink.biwf.sit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "538371463470-jsci9u1c913ufhfiu77ififrr49nfmkj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr3RUwXtZcxfK1CcT7Ag3W-KMA6pdCMzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "538371463470-jsci9u1c913ufhfiu77ififrr49nfmkj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

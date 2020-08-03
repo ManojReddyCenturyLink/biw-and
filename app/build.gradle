@@ -10,6 +10,10 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: "org.jlleitschuh.gradle.ktlint"
 
+apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'com.google.firebase.crashlytics'
+
 ext.localProperties = new Properties()
 def propFile = rootProject.file('local.properties')
 if (propFile.exists()) {
@@ -69,6 +73,15 @@ android {
     }
 
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+        }
+        sit {
+            initWith debug
+            applicationIdSuffix ".sit"
+            // TODO - Override build config variables with SIT endpoint/environment info when
+            //  available
+        }
         release {
             def releaseMapsApiKey = getLocalProperty("release_maps_api_key")
             manifestPlaceholders = [mapsApiKey: "$releaseMapsApiKey"]
@@ -76,6 +89,8 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            // TODO - Override build config variables with Release endpoint/environment info when
+            //  available
         }
     }
 
@@ -177,6 +192,15 @@ dependencies {
 
     //SwipeRefreshLayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
+
+    //Google Firebase SDK for Google Analytics
+    implementation "com.google.firebase:firebase-analytics-ktx:$googleAnalyticsVersion"
+
+    // Google Analytics Tag Manager
+    implementation "com.google.android.gms:play-services-tagmanager:$googleTagManagerVersion"
+
+    //Google Firebase SDK for Crashlytics
+    implementation "com.google.firebase:firebase-crashlytics:$crashlyticsVersion"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

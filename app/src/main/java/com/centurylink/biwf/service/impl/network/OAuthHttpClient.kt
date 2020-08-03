@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.impl.network
 
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.service.auth.TokenService
 import com.centurylink.biwf.service.auth.accessTokenHeader
 import com.centurylink.biwf.service.integration.IntegrationServerService
@@ -30,9 +31,13 @@ class OAuthHttpClient @Inject constructor(
     private val client by lazy {
         OkHttpClient.Builder()
             .apply {
-                addInterceptor {
-                    integrationServerService.start()
-                    it.proceed(it.request())
+                // If we require the IntegrationServerService in non-Debug builds, modify
+                // this logic
+                if (BuildConfig.DEBUG) {
+                    addInterceptor {
+                        integrationServerService.start()
+                        it.proceed(it.request())
+                    }
                 }
             }
             .readTimeout(DEFAULT_REQUEST_TIMEOUT_MS, TimeUnit.MILLISECONDS)
