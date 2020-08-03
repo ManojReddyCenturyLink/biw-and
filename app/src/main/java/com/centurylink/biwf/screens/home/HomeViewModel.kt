@@ -140,7 +140,6 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            it.accountStatus ="eee"
             if (it.accountStatus.equals("Pending Activation", true)) {
                 activeUserTabBarVisibility.latestValue = false
                 progressViewFlow.latestValue = false
@@ -149,19 +148,13 @@ class HomeViewModel @Inject constructor(
                 sharedPreferences.saveUserType(true)
                 activeUserTabBarVisibility.latestValue = true
                 progressViewFlow.latestValue = false
-                requestModemId()
                 modemStatusRefresh()
             }
         }
     }
 
-    private suspend fun requestModemId() {
-        userRepository.getAndSaveAssiaId()
-    }
-
     private suspend fun requestModemInfo() {
-        val modemInfo = assiaRepository.getModemInfo()
-        when (modemInfo) {
+        when (val modemInfo = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
                 networkStatus.latestValue = modemInfo.body.modemInfo.isAlive
             }

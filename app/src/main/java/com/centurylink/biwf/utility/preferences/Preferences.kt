@@ -30,7 +30,7 @@ class Preferences(private val store: KeyValueStore) {
         store.put(ACCOUNT_ID, accountId!!)
     }
 
-    fun removeAccountId() {
+    private fun removeAccountId() {
         store.remove(ACCOUNT_ID)
     }
 
@@ -38,7 +38,7 @@ class Preferences(private val store: KeyValueStore) {
         store.put(CONTACT_ID, accountId!!)
     }
 
-    fun removeContactId() {
+    private fun removeContactId() {
         store.remove(CONTACT_ID)
     }
 
@@ -66,16 +66,39 @@ class Preferences(private val store: KeyValueStore) {
         store.putBoolean(HAS_SEEN_PROMPT, true)
     }
 
+    fun saveLineId(lineId: String) {
+        store.put(LINE_ID, lineId)
+    }
+
+    // TODO (BMA-755) - use for v3 endpoint request
+    fun getLineId(): String {
+        var lineId = store.get(LINE_ID)
+        // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
+        if (lineId.isNullOrEmpty()) {
+            lineId = "0101100408"
+        }
+        return lineId
+    }
+
+    private fun removeLineId() {
+        store.remove(LINE_ID)
+    }
+
     fun saveAssiaId(assiaId: String) {
         store.put(ASSIA_ID, assiaId)
     }
 
     fun getAssiaId(): String {
         var asiaID = store.get(ASSIA_ID)
+        // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
         if (asiaID.isNullOrEmpty()) {
             asiaID = "C4000XG1950000871"
         }
         return asiaID
+    }
+
+    private fun removeAssiaId() {
+        store.remove(ASSIA_ID)
     }
 
     fun saveSpeedTestFlag(boolean: Boolean) {
@@ -126,6 +149,16 @@ class Preferences(private val store: KeyValueStore) {
         return store.getInt(SPEED_TEST_ID)
     }
 
+    // Should only be used for logout, currently
+    fun clearUserSettings() {
+        saveBioMetrics(false)
+        saveUserType(false)
+        removeAccountId()
+        removeContactId()
+        removeLineId()
+        removeAssiaId()
+    }
+
 
     companion object {
         const val USER_ID = "USER_ID"
@@ -135,6 +168,7 @@ class Preferences(private val store: KeyValueStore) {
         const val BIOMETRIC = "BIOMETRICS"
         const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
         const val EXISTING_USER = "EXISTING_USER"
+        const val LINE_ID = "LINE_ID"
         const val ASSIA_ID = "ASSIA_ID"
         const val SPEED_TEST_IS_RUNNING = "SPEED_TEST_IS_RUNNING"
         const val SPEED_TEST_UPLOAD_SPEED = "UPLOAD_SPEED"
