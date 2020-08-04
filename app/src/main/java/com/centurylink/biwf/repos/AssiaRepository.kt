@@ -21,8 +21,17 @@ class AssiaRepository @Inject constructor(
     private val assiaTokenManager: AssiaTokenManager
 ) {
 
+    // TODO (BMA-755): when integrating with the v3 endpoint, continue to store the assiaId
+    //  from the response as below, so that other Assia API calls can use it. We we will be obtaining
+    //  lineId from Salesforce but the assiaId from the v3 endpoint (not from the Work Order object as before)
     suspend fun getModemInfo(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
-        return assiaService.getModemInfo(getHeaderMap(token = assiaTokenManager.getAssiaToken()))
+        val result = assiaService.getModemInfo(getHeaderMap(token = assiaTokenManager.getAssiaToken()))
+
+        if (result is AssiaNetworkResponse.Success) {
+            preferences.saveAssiaId(result.body.modemInfo.deviceId)
+        }
+
+        return result
     }
 
     // Secondary method for Modem Info retrieval, which forces a ping to the hardware. This 

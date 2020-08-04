@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.account.PaymentInfoResponse
 import com.centurylink.biwf.model.account.UpdatedServiceCallsAndTexts
 import com.centurylink.biwf.service.network.AccountApiService
 import com.centurylink.biwf.utility.preferences.Preferences
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,9 +21,21 @@ class AccountRepository @Inject constructor(
         return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
+    private fun saveLineId(lineId: String) {
+        preferences.saveLineId(lineId)
+    }
+
     suspend fun getAccountDetails(): Either<String, AccountDetails> {
         val result: FiberServiceResult<AccountDetails> =
             accountApiService.getAccountDetails(getAccountId()!!)
+        result.fold(
+            ifLeft = { },
+            ifRight = {
+                val lineId = it.lineId
+                Timber.i("lineId from server: $lineId")
+                saveLineId(lineId ?: "")
+            }
+        )
         return result.mapLeft { it.message?.message.toString() }
     }
 

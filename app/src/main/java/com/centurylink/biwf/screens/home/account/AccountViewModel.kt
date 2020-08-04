@@ -128,8 +128,7 @@ class AccountViewModel internal constructor(
         viewModelScope.launch {
             val result = authService.revokeToken()
             if (result) {
-                sharedPreferences.saveBioMetrics(false)
-                sharedPreferences.saveUserType(false)
+                sharedPreferences.clearUserSettings()
                 modemRebootMonitorService.cancelWork()
                 myState.latestValue = AccountCoordinatorDestinations.LOG_IN
             } else {
