@@ -10,6 +10,7 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
+import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class DevicesViewModel @Inject constructor(
     private val devicesRepository: DevicesRepository,
     private val asiaRepository: AssiaRepository,
+    private val mcafeeRepository: McafeeRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
@@ -41,6 +43,24 @@ class DevicesViewModel @Inject constructor(
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
         viewModelScope.launch {
             requestModemDetails()
+            requestMcafeeDeviceMapping()
+        }
+    }
+
+    /**
+     * Get devices info from Mcafee API
+     */
+    private suspend fun requestMcafeeDeviceMapping() {
+        progressViewFlow.latestValue = true
+        val deviceList = ArrayList<String>()
+        // TODO - Don't hardcode, but pass in list of MAC Addresses from CloudCheck
+        //  Note - We may need to replace the ':' characters in CloudCheck MAC Addresses with '-'
+        deviceList.add("CC-FA-00-C6-F5-A6")
+        val mcafeeMapping = mcafeeRepository.getDeviceInfo(deviceList)
+        mcafeeMapping.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            progressViewFlow.latestValue = false
         }
     }
 
