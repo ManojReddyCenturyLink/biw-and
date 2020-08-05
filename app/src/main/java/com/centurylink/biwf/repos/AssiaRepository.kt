@@ -106,7 +106,6 @@ class AssiaRepository @Inject constructor(
         return headerMap
     }
 
-
     private fun getHeaderMapWithXhours(token: String): Map<String, Any> {
         val headerMap = mutableMapOf<String, Any>()
         headerMap["Authorization"] = "bearer $token"
