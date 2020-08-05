@@ -39,7 +39,7 @@ class NetworkStatusActivity : BaseActivity() {
                 if (!it.apInfoList.isNullOrEmpty()) {
                     val deviceId =it.apInfoList[0].deviceId
                     if (!deviceId.isNullOrEmpty()) {
-                        bindings.networkStatusModemSerialNumber.text = getString(R.string.serial_number, it.deviceId)
+                        bindings.networkStatusModemSerialNumber.text = getString(R.string.serial_number, deviceId)
                     }
                 }
             }

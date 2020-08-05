@@ -13,8 +13,6 @@ data class ModemInfoResponse(
 ) : Serializable
 
 data class ModemInfo(
-    @SerializedName("deviceId")
-    val deviceId: String = "",
     @SerializedName("lineId")
     val lineId: String = "",
     @SerializedName("modelName")

@@ -32,7 +32,7 @@ class AssiaRepository @Inject constructor(
             if (!result.body.modemInfo.apInfoList.isNullOrEmpty()) {
                 val deviceId = result.body.modemInfo.apInfoList[0].deviceId
                 if (!deviceId.isNullOrEmpty()) {
-                    // TODO Saving Device ID From API. If we use from API
+                    // TODO Saving Device ID From API. If we use from API we get 0
                     //preferences.saveAssiaId(deviceId!!)
                 }
             }
