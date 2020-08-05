@@ -36,7 +36,12 @@ class NetworkStatusActivity : BaseActivity() {
                 showProgress(it)
             }
             modemInfoFlow.observe {
-                bindings.networkStatusModemSerialNumber.text = getString(R.string.serial_number, it.deviceId)
+                if (!it.apInfoList.isNullOrEmpty()) {
+                    val deviceId =it.apInfoList[0].deviceId
+                    if (!deviceId.isNullOrEmpty()) {
+                        bindings.networkStatusModemSerialNumber.text = getString(R.string.serial_number, it.deviceId)
+                    }
+                }
             }
             internetStatusFlow.observe {
                 bindings.networkStatusInternetImageview.setImageDrawable(getDrawable(it.drawableId))

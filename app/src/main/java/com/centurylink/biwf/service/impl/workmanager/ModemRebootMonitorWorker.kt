@@ -36,7 +36,7 @@ class ModemRebootMonitorWorker constructor(
 
     private suspend fun isRebootComplete(): Boolean {
         val result = assiaRepository.getModemInfoForcePing()
-        return result is AssiaNetworkResponse.Success && result.body.modemInfo.isAlive
+        return result is AssiaNetworkResponse.Success && result.body.modemInfo.alive
     }
 
     companion object {

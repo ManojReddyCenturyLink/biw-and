@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
@@ -70,7 +71,7 @@ class DevicesViewModel @Inject constructor(
         when (modemDetails) {
             is AssiaNetworkResponse.Success -> {
                 uiDevicesTypeDetails =
-                    uiDevicesTypeDetails.copy(isModemAlive = modemDetails.body.modemInfo.isAlive)
+                    uiDevicesTypeDetails.copy(isModemAlive = modemDetails.body.modemInfo.alive)
                 requestDevices()
             }
             else -> {

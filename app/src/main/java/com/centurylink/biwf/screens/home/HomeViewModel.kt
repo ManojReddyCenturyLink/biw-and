@@ -140,6 +140,7 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            it.accountStatus = "weee"
             if (it.accountStatus.equals("Pending Activation", true)) {
                 activeUserTabBarVisibility.latestValue = false
                 progressViewFlow.latestValue = false
@@ -156,7 +157,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun requestModemInfo() {
         when (val modemInfo = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
-                networkStatus.latestValue = modemInfo.body.modemInfo.isAlive
+                networkStatus.latestValue = modemInfo.body.modemInfo.alive
             }
             else -> {
                 // Ignoring Error API called every 30 seconds

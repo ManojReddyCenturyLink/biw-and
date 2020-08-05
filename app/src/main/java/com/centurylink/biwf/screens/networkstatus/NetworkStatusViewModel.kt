@@ -40,7 +40,7 @@ class NetworkStatusViewModel @Inject constructor(
         when (modemResponse) {
             is AssiaNetworkResponse.Success -> {
                 modemInfoFlow.latestValue = modemResponse.body.modemInfo
-                val onlineStatus = OnlineStatus(modemInfoFlow.latestValue.isAlive)
+                val onlineStatus = OnlineStatus(modemInfoFlow.latestValue.alive)
                 internetStatusFlow.latestValue = onlineStatus
             }
             else -> {
