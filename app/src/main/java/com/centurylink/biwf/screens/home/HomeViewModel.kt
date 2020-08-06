@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -156,7 +157,12 @@ class HomeViewModel @Inject constructor(
     private suspend fun requestModemInfo() {
         when (val modemInfo = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
-                networkStatus.latestValue = modemInfo.body.modemInfo.isAlive
+                val apiInfo = modemInfo.body.modemInfo.apInfoList
+                if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                    networkStatus.latestValue = apiInfo[0].isAlive
+                } else {
+                    networkStatus.latestValue = false
+                }
             }
             else -> {
                 // Ignoring Error API called every 30 seconds

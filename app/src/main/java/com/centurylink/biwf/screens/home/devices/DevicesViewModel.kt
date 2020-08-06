@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
@@ -66,12 +67,17 @@ class DevicesViewModel @Inject constructor(
     }
 
     private suspend fun requestModemDetails() {
-        val modemDetails = asiaRepository.getModemInfo()
-        when (modemDetails) {
+        when (val modemDetails = asiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
-                uiDevicesTypeDetails =
-                    uiDevicesTypeDetails.copy(isModemAlive = modemDetails.body.modemInfo.isAlive)
-                requestDevices()
+                val apiInfo = modemDetails.body.modemInfo.apInfoList
+                if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                    uiDevicesTypeDetails =
+                        uiDevicesTypeDetails.copy(isModemAlive = apiInfo[0].isAlive)
+                    requestDevices()
+                } else {
+                    uiDevicesTypeDetails =
+                        uiDevicesTypeDetails.copy(isModemAlive = false)
+                }
             }
             else -> {
                 errorMessageFlow.latestValue = "Error DeviceInfo"

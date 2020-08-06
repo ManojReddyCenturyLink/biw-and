@@ -36,13 +36,12 @@ class ModemRebootMonitorWorker constructor(
 
     private suspend fun isRebootComplete(): Boolean {
         val result = assiaRepository.getModemInfoForcePing()
-        return result is AssiaNetworkResponse.Success && result.body.modemInfo.isAlive
+        return result is AssiaNetworkResponse.Success && result.body.modemInfo.apInfoList[0].isAlive
     }
 
     companion object {
         const val RETRY_MILLIS = 30000L
         const val MAX_TIMEOUT_MILLIS = 250000L
-
         const val UNIQUE_NAME = "modem-reboot"
     }
 }

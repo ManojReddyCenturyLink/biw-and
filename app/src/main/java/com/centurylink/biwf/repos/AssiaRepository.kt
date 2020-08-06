@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import android.util.Log
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
@@ -25,12 +26,17 @@ class AssiaRepository @Inject constructor(
     //  from the response as below, so that other Assia API calls can use it. We we will be obtaining
     //  lineId from Salesforce but the assiaId from the v3 endpoint (not from the Work Order object as before)
     suspend fun getModemInfo(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
-        val result = assiaService.getModemInfo(getHeaderMap(token = assiaTokenManager.getAssiaToken()))
-
+        val result =
+            assiaService.getModemInfo(getV3HeaderMap(token = assiaTokenManager.getAssiaToken()))
         if (result is AssiaNetworkResponse.Success) {
-            preferences.saveAssiaId(result.body.modemInfo.deviceId)
+            if (!result.body.modemInfo.apInfoList.isNullOrEmpty()) {
+                val deviceId = result.body.modemInfo.apInfoList[0].deviceId
+                if (!deviceId.isNullOrEmpty()) {
+                    // TODO Saving Device ID From API. If we use from API we get 0
+                    //preferences.saveAssiaId(deviceId!!)
+                }
+            }
         }
-
         return result
     }
 
@@ -40,7 +46,7 @@ class AssiaRepository @Inject constructor(
     // obtaining the instantaneous "isAlive" value
     suspend fun getModemInfoForcePing(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
         return assiaService.getModemInfo(
-            getHeaderMap(token = assiaTokenManager.getAssiaToken()).plus("forcePing" to "true")
+            getV3HeaderMap(token = assiaTokenManager.getAssiaToken()).plus("forcePing" to "true")
         )
     }
 
@@ -90,6 +96,13 @@ class AssiaRepository @Inject constructor(
         val headerMap = mutableMapOf<String, String>()
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
+        return headerMap
+    }
+
+    private fun getV3HeaderMap(token: String): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["Authorization"] = "bearer $token"
+        headerMap["genericId"] = preferences.getLineId()
         return headerMap
     }
 
