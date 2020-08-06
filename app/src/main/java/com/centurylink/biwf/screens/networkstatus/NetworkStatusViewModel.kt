@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.networkstatus
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
@@ -39,7 +40,7 @@ class NetworkStatusViewModel @Inject constructor(
         progressViewFlow.latestValue = false
         when (modemResponse) {
             is AssiaNetworkResponse.Success -> {
-                val apiInfo = modemResponse.body.modemInfo.apInfoList
+                val apiInfo = modemResponse.body.modemInfo?.apInfoList
                 modemInfoFlow.latestValue = modemResponse.body.modemInfo
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     val onlineStatus = OnlineStatus(apiInfo[0].isAlive)

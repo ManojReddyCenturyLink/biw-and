@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
@@ -33,7 +32,7 @@ class AssiaRepository @Inject constructor(
                 val deviceId = result.body.modemInfo.apInfoList[0].deviceId
                 if (!deviceId.isNullOrEmpty()) {
                     // TODO Saving Device ID From API. If we use from API we get 0
-                    //preferences.saveAssiaId(deviceId!!)
+                    preferences.saveAssiaId(deviceId!!)
                 }
             }
         }
