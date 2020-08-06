@@ -17,6 +17,10 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
 import com.centurylink.biwf.screens.support.adapter.ExpandableContentAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.salesforce.android.chat.core.ChatConfiguration
+import com.salesforce.android.chat.ui.ChatUI
+import com.salesforce.android.chat.ui.ChatUIClient
+import com.salesforce.android.chat.ui.ChatUIConfiguration
 import javax.inject.Inject
 
 
@@ -39,6 +43,8 @@ class FAQActivity : BaseActivity() {
 
     private lateinit var questionAdapter: ExpandableContentAdapter
 
+    private lateinit var chatUIClient: ChatUIClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFaqBinding.inflate(layoutInflater)
@@ -56,6 +62,7 @@ class FAQActivity : BaseActivity() {
         viewModel.setFilteredSelection(intent.getStringExtra(FAQ_TITLE)!!)
         navigator.observe(this)
         viewModel.myState.observeWith(faqCoordinator)
+        initLiveChat()
         initHeaders()
         initView()
         observeViews()
@@ -112,6 +119,11 @@ class FAQActivity : BaseActivity() {
         binding.faqContactUs.apply {
             contactUsHeading.visibility = View.GONE
             scheduleCallbackRow.setOnClickListener { viewModel.navigateToScheduleCallback() }
+            liveChatTextview.setOnClickListener {
+                chatUIClient?.startChatSession(
+                    this@FAQActivity
+                )
+            }
         }
         binding.faqVideoList.layoutManager =
             LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
@@ -122,8 +134,27 @@ class FAQActivity : BaseActivity() {
         binding.faqVideoList.addItemDecoration(myDivider)
     }
 
+    private fun initLiveChat() {
+        val chatConfiguration =
+            ChatConfiguration.Builder(
+                ORG_ID,
+                BUTTON_ID,
+                DEPLOYMENT_ID,
+                AGENT_POD
+            ).build()
+
+        ChatUI.configure(ChatUIConfiguration.create(chatConfiguration)).createClient(this)
+            .onResult { _, uiClient ->
+                chatUIClient = uiClient
+            }
+    }
+
     companion object {
         const val FAQ_TITLE: String = "FaqTitle"
+        const val AGENT_POD = "d.la1-c1cs-ord.salesforceliveagent.com"
+        const val ORG_ID = "00Df0000002HOQc"
+        const val DEPLOYMENT_ID = "572f0000000Cauc"
+        const val BUTTON_ID = "573f000000000zz"
         const val REQUEST_TO_HOME: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
