@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.networkstatus
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
