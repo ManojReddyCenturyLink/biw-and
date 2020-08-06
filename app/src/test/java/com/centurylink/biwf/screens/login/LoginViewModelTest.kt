@@ -59,7 +59,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     @Test
     fun `show biometric flow when token available and biometrics enabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns true
-        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.refreshToken } returns "mock-token"
+        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns "mock-token"
 
         initViewModel()
 
@@ -69,7 +69,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     @Test
     fun `show home screen when logged in and biometrics disabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns false
-        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.refreshToken } returns "mock-token"
+        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns "mock-token"
 
         initViewModel()
 
@@ -79,7 +79,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     @Test
     fun `show login flow when token not available and biometrics disabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns false
-        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.refreshToken } returns null
+        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns null
 
         initViewModel()
 
@@ -89,7 +89,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     @Test
     fun `show login flow when token not available and biometrics enabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns true
-        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.refreshToken } returns null
+        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns null
 
         initViewModel()
 
@@ -98,7 +98,6 @@ class LoginViewModelTest : ViewModelBaseTest() {
 
     private fun initViewModel() {
         viewModel = LoginViewModel(
-            accountRepository = mockAccountRepository,
             sharedPreferences = mockSharedPreferences,
             authService = mockAuthService,
             modemRebootMonitorService = mockModemRebootMonitorService

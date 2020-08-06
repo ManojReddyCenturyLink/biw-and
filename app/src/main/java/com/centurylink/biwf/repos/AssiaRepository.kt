@@ -90,6 +90,7 @@ class AssiaRepository @Inject constructor(
 
     private fun getHeaderMap(token: String): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
+        // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
         return headerMap
@@ -104,6 +105,7 @@ class AssiaRepository @Inject constructor(
 
     private fun getHeaderMapWithXhours(token: String): Map<String, Any> {
         val headerMap = mutableMapOf<String, Any>()
+        // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
         headerMap["pastXHours"] = 1
@@ -112,6 +114,7 @@ class AssiaRepository @Inject constructor(
 
     private fun getHeaderToStartSpeedTest(token: String): Map<String, Any> {
         val headerMap = mutableMapOf<String, Any>()
+        // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
         headerMap["pastXHours"] = 1
@@ -121,6 +124,7 @@ class AssiaRepository @Inject constructor(
 
     private fun getHeaderStatus(token: String, requestId: Int): Map<String, Any> {
         val headerMap = mutableMapOf<String, Any>()
+        // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
         headerMap["requestId"] = requestId

@@ -11,21 +11,24 @@ import javax.inject.Singleton
  */
 @Module
 class AuthServiceConfigModule(
-    private val rootUrl: String,
+    private val authorizationEndpoint: String,
+    private val tokenEndpoint: String,
     private val clientId: String,
+    private val redirectUrl: String,
     private val scope: String,
-    private val redirectUrl: String
+    private val revokeTokenEndpoint: String
 ) {
     @Singleton
     @Provides
     fun provideAuthServiceConfig(): AuthServiceConfig {
         return AuthServiceConfig(
-            configurationUrl = rootUrl,
+            authorizationEndpoint = authorizationEndpoint,
+            tokenEndpoint = tokenEndpoint,
             clientId = clientId,
-            scope = scope,
             authRedirectUrl = redirectUrl,
-            responseType = ResponseTypeValues.TOKEN,
-            extraParams = mapOf("device_id" to "611118D9-A9CC-4276-8F7A-22D09EA105AB")
+            scope = scope,
+            responseType = ResponseTypeValues.CODE,
+            revokeTokenEndpoint = revokeTokenEndpoint
         )
     }
 }

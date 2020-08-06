@@ -1,6 +1,5 @@
 package com.centurylink.biwf.service.network
 
-import android.net.MacAddress
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.model.devices.BlockResponse
@@ -14,7 +13,6 @@ import retrofit2.http.*
 
 interface AssiaService {
 
-    //Todo add 'api/v2' to base url
     @GET("api/v3/wifi/line/info")
     suspend fun getModemInfo(@HeaderMap header: Map<String, String>): AssiaNetworkResponse<ModemInfoResponse, AssiaError>
 
