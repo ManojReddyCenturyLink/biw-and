@@ -9,6 +9,7 @@ import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -38,6 +39,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @MockK
     lateinit var  modemRebootMonitorService: ModemRebootMonitorService
+
+    @MockK
+    lateinit var  devicesRepository: DevicesRepository
 
     @MockK
     lateinit var mockPreferences: Preferences
@@ -129,6 +133,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             appointmentRepository = appointmentRepository,
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
+            devicesRepository = devicesRepository,
             modemRebootMonitorService = modemRebootMonitorService
         )
     }
@@ -191,6 +196,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             appointmentRepository = appointmentRepository,
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
+            devicesRepository = devicesRepository,
             modemRebootMonitorService = modemRebootMonitorService
         )
         runBlockingTest {

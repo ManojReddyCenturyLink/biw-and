@@ -82,6 +82,14 @@ val IntegrationServer: EmbeddedServer = EmbeddedServer(10101) {
                 .copyTo(this)
         }
     }
+
+    get<WifiPath> {
+        call.respondOutputStream {
+            javaClass.classLoader!!
+                .getResourceAsStream("api-response/scaninfo.json")
+                .copyTo(this)
+        }
+    }
 }
 
 

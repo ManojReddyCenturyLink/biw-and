@@ -302,4 +302,16 @@
     <string name="keep_it">KEEP IT</string>
     <string name="cancel_it">CANCEL IT</string>
     <string name="if_you_ve_made_a_mistake_in_cancelling_please_call_us_at_833_250_6306">If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 833-250-6306.</string>
+
+
+    <!--QRSCan Activity-->
+    <string name="scan_to_join">Scan to join network:</string>
+    <string name="scan_to_join_guest">Scan to join guest network:</string>
+    <string name="tap_code">Tap code to view full screen</string>
+
+
+    <string name="join_code">Join code </string>
+    <string name="header_done">DONE</string>
+    <string name="scan_network">Scan to join network: </string>
+    <string name="brightness_alert">For best results, use full brightness on your phone</string>
 </resources>

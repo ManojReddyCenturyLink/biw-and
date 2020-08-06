@@ -1,5 +1,4 @@
 package com.centurylink.biwf.screens.home.dashboard
-
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -10,11 +9,15 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DashboardCoordinator
 import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
+import com.centurylink.biwf.model.wifi.WifiInfo
+import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -42,7 +45,8 @@ import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_butto
 import kotlinx.android.synthetic.main.widget_welcome_card.view.title
 import javax.inject.Inject
 
-class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
+class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback,
+    WifiDevicesAdapter.WifiDeviceClickListener {
     override val lifecycleOwner: LifecycleOwner = this
 
     @Inject
@@ -50,6 +54,9 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
+    private lateinit var wifiDevicesAdapter: WifiDevicesAdapter
+
     private val dashboardViewModel by lazy {
         ViewModelProvider(this, factory).get(DashboardViewModel::class.java)
     }
@@ -120,6 +127,7 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         super.onViewCreated(view, savedInstanceState)
         initViews()
         setupMap()
+        initWifiScanViews()
     }
 
     override fun retryClicked() {
@@ -132,6 +140,7 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
             binding.connectedDevicesCard.root.visibility = View.VISIBLE
             dashboardViewModel.startSpeedTest()
             observeNotificationViews()
+            observeWifiDetailsViews()
         } else {
             getAppointmentStatus()
         }
@@ -257,6 +266,12 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         }
     }
 
+    private fun observeWifiDetailsViews() {
+        dashboardViewModel.wifiListDetails.observe {
+            prepareRecyclerView(it.wifiListDetails)
+        }
+    }
+
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
         binding.dashboardWifiCard.root.visibility = View.VISIBLE
         unreadNotificationList = notificationList
@@ -302,6 +317,11 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         this.viewClickListener = clickListener
     }
 
+    private fun initWifiScanViews() {
+        binding.wifiScanList.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+    }
+
     private fun showCancellationConfirmationDialaog() {
         CustomDialogGreyTheme(
             getString(R.string.installation_cancellation_confirmation_title),
@@ -319,6 +339,11 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
         operator fun invoke(newUser: Boolean) = DashboardFragment().apply {
             arguments = Bundle().apply { putBoolean(KEY_NEW_USER, newUser) }
         }
+    }
+
+    private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
+        wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
+        binding.wifiScanList.adapter = wifiDevicesAdapter
     }
 
     interface ViewClickListener {
@@ -339,5 +364,9 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback {
             AlertDialog.BUTTON_NEGATIVE -> {
             }
         }
+    }
+
+    override fun onWifiDetailsClicked(wifidetails: WifiInfo) {
+        dashboardViewModel.navigateToQRScan(wifidetails)
     }
 }

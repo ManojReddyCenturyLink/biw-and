@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -10,10 +9,13 @@ import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
+import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
+import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
@@ -30,6 +32,7 @@ class DashboardViewModel @Inject constructor(
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
     private val assiaRepository: AssiaRepository,
+    private val devicesRepository: DevicesRepository,
     modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
@@ -42,9 +45,10 @@ class DashboardViewModel @Inject constructor(
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     val isExistingUser = BehaviorStateFlow<Boolean>()
-    val speedTestButtonState:Flow<Boolean> = BehaviorStateFlow()
+    val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
+    val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
 
     private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private val unreadItem: Notification =
@@ -63,6 +67,7 @@ class DashboardViewModel @Inject constructor(
     fun initApis() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
+            requestWifiDetails()
             requestNotificationDetails()
         }
         if (sharedPreferences.getUserType() != true) {
@@ -78,7 +83,7 @@ class DashboardViewModel @Inject constructor(
     fun startSpeedTest() {
         if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
-        }else{
+        } else {
             speedTestButtonState.latestValue = false
         }
     }
@@ -135,8 +140,8 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun getResults() {
-        when(val upstreamData = assiaRepository.getUpstreamResults()){
-            is AssiaNetworkResponse.Success ->{
+        when (val upstreamData = assiaRepository.getUpstreamResults()) {
+            is AssiaNetworkResponse.Success -> {
                 if (upstreamData.body.data.listOfData.isNotEmpty()) {
                     val uploadMb = upstreamData.body.data.listOfData[0].speedAvg / 1000
                     uploadSpeed.latestValue = uploadMb.toString()
@@ -145,17 +150,18 @@ class DashboardViewModel @Inject constructor(
                     uploadSpeed.latestValue = EMPTY_RESPONSE
                 }
             }
-            else->{
+            else -> {
                 displayEmptyResponse()
             }
         }
 
-        when (val downStreamData = assiaRepository.getDownstreamResults()){
-            is AssiaNetworkResponse.Success ->{
+        when (val downStreamData = assiaRepository.getDownstreamResults()) {
+            is AssiaNetworkResponse.Success -> {
                 if (downStreamData.body.data.listOfData.isNotEmpty()) {
                     val downloadMb = downStreamData.body.data.listOfData[0].speedAvg / 1000
                     downloadSpeed.latestValue = downloadMb.toString()
-                    latestSpeedTest.latestValue = formatUtcString(downStreamData.body.data.listOfData[0].timeStamp)
+                    latestSpeedTest.latestValue =
+                        formatUtcString(downStreamData.body.data.listOfData[0].timeStamp)
                     sharedPreferences.saveSpeedTestDownload(downloadSpeed = downloadSpeed.latestValue)
                     sharedPreferences.saveLastSpeedTestTime(lastRanTime = latestSpeedTest.latestValue)
                 } else {
@@ -163,7 +169,9 @@ class DashboardViewModel @Inject constructor(
                     latestSpeedTest.latestValue = EMPTY_RESPONSE
                 }
             }
-            else ->{displayEmptyResponse()}
+            else -> {
+                displayEmptyResponse()
+            }
         }
         progressVisibility.latestValue = false
         speedTestButtonState.latestValue = true
@@ -211,11 +219,23 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestNotificationDetails() {
+        progressViewFlow.latestValue = true
         val notificationDetails = notificationRepository.getNotificationDetails()
         notificationDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
             notificationListDetails.latestValue = it
+            progressViewFlow.latestValue = false
+        }
+    }
+
+    private suspend fun requestWifiDetails() {
+        //TODO  - This has to replaced with the real API calls
+        val wifiDetails = devicesRepository.getWifiListAndCredentials()
+        wifiDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            wifiListDetails.latestValue = wifiScanStatus(ArrayList(it.wifiList))
             progressViewFlow.latestValue = false
         }
     }
@@ -337,6 +357,13 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 
+    fun navigateToQRScan(wifiInfo: WifiInfo) {
+        val bundle = Bundle()
+        bundle.putSerializable(QrScanActivity.WIFI_DETAILS, wifiInfo)
+        DashboardCoordinatorDestinations.bundle = bundle
+        myState.latestValue = DashboardCoordinatorDestinations.QR_CODE_SCANNING
+    }
+
     fun getStartedClicked() {
         sharedPreferences.saveUserType(true)
     }
@@ -401,4 +428,8 @@ class DashboardViewModel @Inject constructor(
         val serviceAppointmentTime: String,
         val status: ServiceStatus
     ) : UiDashboardAppointmentInformation()
+
+    data class wifiScanStatus(
+        var wifiListDetails: ArrayList<WifiInfo> = arrayListOf()
+    )
 }

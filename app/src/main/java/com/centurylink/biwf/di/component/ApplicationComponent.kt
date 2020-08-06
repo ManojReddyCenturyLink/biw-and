@@ -25,6 +25,7 @@ import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.DashboardFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.DevicesFragmentInjectorModule
+import com.centurylink.biwf.di.activityinjector.QRScanInjectorModule
 import com.centurylink.biwf.di.module.AppModule
 import com.centurylink.biwf.di.module.AuthServiceConfigModule
 import com.centurylink.biwf.di.module.AuthServiceModule
@@ -77,6 +78,7 @@ import javax.inject.Singleton
         (RestServiceConfigModule::class),
         (RestServiceModule::class),
         (DevicesFragmentInjectorModule::class),
+        (QRScanInjectorModule::class),
         (AppAuthResponseServiceInjectorModule::class)
     ]
 )
