@@ -17,8 +17,8 @@ data class ModemInfo(
     val lineId: String = "",
     @SerializedName("modelName")
     val modelName: String = "",
-    @SerializedName("alive")
-    val alive: Boolean = false,
+   // @SerializedName("alive")
+    //val alive: Boolean = false,
     @SerializedName("apInfos")
     val apInfoList: List<ApInfo> = emptyList()
 
@@ -30,6 +30,10 @@ data class ApInfo(
     @SerializedName("lineId")
     val lineId: String? = null,
     @SerializedName("modelName")
-    val modelName: String? = null
+    val modelName: String? = null,
+    @SerializedName("isRootAp")
+    val isRootAp: Boolean = false,
+    @SerializedName("isAlive")
+    val isAlive: Boolean = false
 ) : Serializable
 
