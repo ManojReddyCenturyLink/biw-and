@@ -103,7 +103,6 @@ class AssiaRepository @Inject constructor(
         val headerMap = mutableMapOf<String, String>()
         headerMap["Authorization"] = "bearer $token"
         headerMap["genericId"] = preferences.getLineId()
-        Log.i("JAQUAR","HEALR "+headerMap)
         return headerMap
     }
 
