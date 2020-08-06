@@ -39,7 +39,7 @@ class NetworkStatusViewModel @Inject constructor(
         progressViewFlow.latestValue = false
         when (modemResponse) {
             is AssiaNetworkResponse.Success -> {
-                val apiInfo = modemResponse.body.modemInfo.apInfoList
+                val apiInfo = modemResponse.body.modemInfo?.apInfoList
                 modemInfoFlow.latestValue = modemResponse.body.modemInfo
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     val onlineStatus = OnlineStatus(apiInfo[0].isAlive)

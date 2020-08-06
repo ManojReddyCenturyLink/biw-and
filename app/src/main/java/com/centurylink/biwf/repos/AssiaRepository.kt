@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
@@ -22,9 +21,7 @@ class AssiaRepository @Inject constructor(
     private val assiaTokenManager: AssiaTokenManager
 ) {
 
-    // TODO (BMA-755): when integrating with the v3 endpoint, continue to store the assiaId
-    //  from the response as below, so that other Assia API calls can use it. We we will be obtaining
-    //  lineId from Salesforce but the assiaId from the v3 endpoint (not from the Work Order object as before)
+
     suspend fun getModemInfo(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
         val result =
             assiaService.getModemInfo(getV3HeaderMap(token = assiaTokenManager.getAssiaToken()))
@@ -32,8 +29,7 @@ class AssiaRepository @Inject constructor(
             if (!result.body.modemInfo?.apInfoList.isNullOrEmpty()) {
                 val deviceId = result.body.modemInfo.apInfoList[0].deviceId
                 if (!deviceId.isNullOrEmpty()) {
-                    // TODO Saving Device ID From API. If we use from API we get 0
-                    //preferences.saveAssiaId(deviceId!!)
+                    preferences.saveAssiaId(deviceId!!)
                 }
             }
         }

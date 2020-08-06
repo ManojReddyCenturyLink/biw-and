@@ -75,7 +75,7 @@ class Preferences(private val store: KeyValueStore) {
         var lineId = store.get(LINE_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
         if (lineId.isNullOrEmpty()) {
-            lineId = "0101100408"
+            lineId = "0417498969"
         }
         return lineId
     }
