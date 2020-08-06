@@ -141,6 +141,7 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            it.accountStatus ="dfdfdf"
             if (it.accountStatus.equals("Pending Activation", true)) {
                 activeUserTabBarVisibility.latestValue = false
                 progressViewFlow.latestValue = false
