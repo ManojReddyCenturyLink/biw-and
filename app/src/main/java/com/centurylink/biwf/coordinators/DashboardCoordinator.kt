@@ -20,6 +20,7 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
             DashboardCoordinatorDestinations.CHANGE_APPOINTMENT -> navigateToChangeAppointment()
             DashboardCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNotificationDetails()
             DashboardCoordinatorDestinations.NETWORK_INFORMATION -> navigateToNetworkInformation()
+            DashboardCoordinatorDestinations.QR_CODE_SCANNING -> navigateToQRCodeScanning()
         }
     }
 
@@ -54,10 +55,14 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
     private fun navigateToNetworkInformation(){
         navigator.navigateToNetworkStatus()
     }
+
+    private fun navigateToQRCodeScanning(){
+        navigator.navigateToQRCodeScan()
+    }
 }
 
 enum class DashboardCoordinatorDestinations {
-    APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS, NETWORK_INFORMATION;
+    APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS, NETWORK_INFORMATION,QR_CODE_SCANNING;
 
     companion object {
         lateinit var bundle: Bundle

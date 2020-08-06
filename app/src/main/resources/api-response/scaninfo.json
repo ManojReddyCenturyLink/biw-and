@@ -1,0 +1,15 @@
+{
+   "wifiInfo":[
+      {
+         "type":"regular",
+         "name":"My Home Wifi",
+         "password":"9442007186"
+      },
+      {
+         "type":"guest",
+         "name":"My Guest Wifi Network",
+         "password":"9442007186"
+      }
+
+   ]
+}

@@ -116,6 +116,9 @@ android {
 
     packagingOptions {
         exclude 'META-INF/*'
+        exclude 'license/*'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
     }
 }
 
@@ -189,6 +192,8 @@ dependencies {
 
     //WorkManager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
+
+    implementation "com.github.kenglxn.QRGen:android:2.6.0"
 
     //SwipeRefreshLayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"

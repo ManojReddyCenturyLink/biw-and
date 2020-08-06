@@ -19,6 +19,7 @@ import com.centurylink.biwf.screens.login.LoginActivity
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
+import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.centurylink.biwf.screens.subscription.EditPaymentDetailsActivity
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.subscription.SubscriptionStatementActivity
@@ -183,6 +184,13 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToNetworkStatus() {
         activity?.also {
             it.startActivity(NetworkStatusActivity.newIntent(it))
+        }
+    }
+
+    fun navigateToQRCodeScan() {
+        val bundle = DashboardCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivity(QrScanActivity.newIntent(it, bundle))
         }
     }
 

@@ -3,6 +3,7 @@ package com.centurylink.biwf.repos
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.devices.DevicesInfo
+import com.centurylink.biwf.model.wifi.WifiDetails
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,6 +15,12 @@ class DevicesRepository @Inject constructor(
     suspend fun getDevicesDetails(): Either<String, DevicesInfo> {
         val result: FiberServiceResult<DevicesInfo> =
             deviceApiService.getDevicesDetails("ZZZZZZ")
+        return result.mapLeft { it.message?.message.toString() }
+    }
+
+    suspend fun getWifiListAndCredentials(): Either<String, WifiDetails> {
+        val result: FiberServiceResult<WifiDetails> =
+            deviceApiService.getWifiListandCredentials("ZZZZZZ")
         return result.mapLeft { it.message?.message.toString() }
     }
 }

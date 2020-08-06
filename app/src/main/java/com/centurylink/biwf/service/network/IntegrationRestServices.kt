@@ -11,7 +11,7 @@ import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
-import com.centurylink.biwf.service.impl.integration.model.ReSchedulePath
+import com.centurylink.biwf.model.wifi.WifiDetails
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -66,4 +66,9 @@ interface IntegrationRestServices {
     suspend fun submitAppointments(
         @Body input: RescheduleInfo
     ): FiberServiceResult<AppointmentResponse>
+
+    @GET("/sobject/wifi/{value1}")
+    suspend fun getWifiListandCredentials(
+        @Path("value1") value1: String
+    ): FiberServiceResult<WifiDetails>
 }
