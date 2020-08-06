@@ -1,30 +1,34 @@
 package com.centurylink.biwf.screens.qrcode
 
+import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.ViewModelFactoryWithInput
 import com.centurylink.biwf.utility.viewModelFactory
+import com.google.zxing.EncodeHintType
 import net.glxn.qrgen.android.QRCode
-import net.glxn.qrgen.core.scheme.Wifi
 import javax.inject.Inject
 
 
 class QRScanViewModel constructor(
     private var wifiInfo: WifiInfo,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private var resources: Resources
 ) : BaseViewModel(modemRebootMonitorService) {
 
     class Factory @Inject constructor(
-        private val modemRebootMonitorService: ModemRebootMonitorService
+        private val modemRebootMonitorService: ModemRebootMonitorService,
+        private var resources: Resources
     ) : ViewModelFactoryWithInput<WifiInfo> {
 
         override fun withInput(input: WifiInfo): ViewModelProvider.Factory {
             return viewModelFactory {
-                QRScanViewModel(input, modemRebootMonitorService)
+                QRScanViewModel(input, modemRebootMonitorService,resources)
 
             }
         }
@@ -37,11 +41,10 @@ class QRScanViewModel constructor(
     }
 
     private fun generateQrCodeInfo() {
-        val wifi = Wifi()
-        wifi.ssid = wifiInfo.name
-        wifi.psk = wifiInfo.password
+        val qrdata = resources.getString(R.string.wifi_code, wifiInfo.name, wifiInfo.password)
         val qrCode: Bitmap =
-            QRCode.from(wifi).withColor(QrScanActivity.ON_COLOR_QR, QrScanActivity.OFF_COLOR_QR)
+            QRCode.from(qrdata).withColor(QrScanActivity.ON_COLOR_QR, QrScanActivity.OFF_COLOR_QR)
+                .withHint(EncodeHintType.MARGIN, 0)
                 .bitmap()
         qrScanFlow.latestValue = QrScanInfo(qrCode, wifiInfo.name!!)
     }

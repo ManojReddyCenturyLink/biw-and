@@ -2,14 +2,13 @@
    "wifiInfo":[
       {
          "type":"regular",
-         "name":"My Home Wifi",
-         "password":"9442007186"
+         "name":"My Home WIFI",
+         "password":"barcelona"
       },
       {
          "type":"guest",
-         "name":"My Guest Wifi Network",
+         "name":"My Guest Wifi",
          "password":"9442007186"
       }
-
    ]
 }

@@ -17,6 +17,7 @@ import com.centurylink.biwf.databinding.LayoutDevicelistGroupBlockedBinding
 import com.centurylink.biwf.databinding.LayoutScancodeItemBinding
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
+import com.google.zxing.EncodeHintType
 import kotlinx.android.synthetic.main.layout_scancode_item.view.*
 import net.glxn.qrgen.android.QRCode
 import net.glxn.qrgen.core.scheme.Wifi
@@ -55,7 +56,7 @@ class WifiDevicesAdapter(
             itemView.devicename.text =  getSpannableContent(
                 getPrefixString(wifiDetails, itemView.context),
                 wifiDetails.name!!)
-            itemView.qrScan.setImageBitmap(getQRBitmap(wifiDetails))
+            itemView.qrScan.setImageBitmap(getQRBitmap(wifiDetails,itemView.context))
             itemView.viewdivider.visibility =
                 if (pos == wifiListItems.size - 1) View.INVISIBLE else View.VISIBLE
             itemView.setOnClickListener {
@@ -70,12 +71,10 @@ class WifiDevicesAdapter(
             }
         }
 
-        private fun getQRBitmap(wifiDetails: WifiInfo): Bitmap {
-            val wifi = Wifi()
-            wifi.ssid = wifiDetails.name
-            wifi.psk = wifiDetails.password
+        private fun getQRBitmap(wifiInfo: WifiInfo,context: Context): Bitmap {
+            val wifi = context.resources.getString(R.string.wifi_code,wifiInfo.name,wifiInfo.password)
             return QRCode.from(wifi)
-                .withColor(QrScanActivity.ON_COLOR_QR, QrScanActivity.OFF_COLOR_QR).bitmap()
+                .withColor(QrScanActivity.ON_COLOR_QR, QrScanActivity.OFF_COLOR_QR).withHint(EncodeHintType.MARGIN, 0).bitmap()
         }
 
         private fun getSpannableContent(

@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/qrScan"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:background="@color/blue_dark"
             android:contentDescription="@string/content_description_holder"
             app:layout_constraintStart_toStartOf="parent"

@@ -314,4 +314,6 @@
     <string name="header_done">DONE</string>
     <string name="scan_network">Scan to join network: </string>
     <string name="brightness_alert">For best results, use full brightness on your phone</string>
+
+    <string name="wifi_code">WIFI:T:WPA;S:%1$s;P:%2$s;;</string>
 </resources>
