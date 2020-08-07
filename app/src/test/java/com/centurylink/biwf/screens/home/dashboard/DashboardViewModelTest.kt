@@ -25,7 +25,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
-import org.mockito.MockitoAnnotations
 import org.threeten.bp.LocalDateTime
 
 @Suppress("EXPERIMENTAL_API_USAGE")

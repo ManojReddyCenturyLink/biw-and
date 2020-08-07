@@ -106,6 +106,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDoneBtnClick()
                 setResult(Activity.RESULT_OK)
                 finish()
             }

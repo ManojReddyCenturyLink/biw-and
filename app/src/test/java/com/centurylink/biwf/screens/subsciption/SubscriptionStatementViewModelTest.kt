@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.subsciption
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.payment.PaymentDetails
 import com.centurylink.biwf.model.user.UserDetails
@@ -16,7 +17,11 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.*
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Ignore
+import org.junit.Rule
+import org.junit.Test
 
 class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
 
@@ -28,6 +33,9 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
 
     @MockK(relaxed = true)
     private lateinit var zuoraPaymentRepository: ZuoraPaymentRepository
+
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -49,6 +57,7 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
         userDetails = fromJson(userDetailsString)
         val jsonPaymentDetailsString = readJson("zuorastatement.json")
         paymentDetails = fromJson(jsonPaymentDetailsString)
+        run { analyticsManagerInterface }
         coEvery { userRepository.getUserDetails() } returns Either.Right(userDetails)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
         coEvery { zuoraPaymentRepository.getPaymentInformation(any()) } returns Either.Right(
@@ -58,10 +67,10 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
             userRepository = userRepository,
             accountRepository = accountRepository,
             zuoraPaymentRepository = zuoraPaymentRepository,
-            modemRebootMonitorService = mockModemRebootMonitorService
+            modemRebootMonitorService = mockModemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
-
 
     @Ignore
     @Test

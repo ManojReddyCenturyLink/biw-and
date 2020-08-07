@@ -53,7 +53,11 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
 
     private fun showPopUp() {
         CustomDialogGreyTheme(
-            getString(R.string.save_changes_msg), "", getString(R.string.save), getString(R.string.discard))
+            getString(R.string.save_changes_msg),
+            "",
+            getString(R.string.save),
+            getString(R.string.discard)
+        )
             .show(fragmentManager, PersonalInfoActivity::class.simpleName)
     }
 
@@ -101,8 +105,10 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         }
         viewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
+                viewModel.logResetPasswordSuccess()
                 finish()
             } else {
+                viewModel.logResetPasswordFailure()
                 val msg = it
                 if (msg.contains(getString(R.string.error_repeated_password), ignoreCase = true) ||
                     msg.contains(getString(R.string.error_invalid_password), ignoreCase = true) ||
@@ -133,6 +139,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             }
         }
         binding.ivQuestion.setOnClickListener {
+            viewModel.logUpdateEmailPopupClick()
             CustomDialogBlueTheme(
                 getString(R.string.how_do_i_change_my_email),
                 getString(R.string.personal_info_popup_msg),
@@ -158,7 +165,6 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
             viewModel.callUpdatePasswordApi()
-
         }
     }
 

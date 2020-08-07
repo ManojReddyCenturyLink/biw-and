@@ -45,7 +45,11 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         retainInstance = false
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentAccountBinding.inflate(layoutInflater)
         setApiProgressViews(
             binding.viewGroup,

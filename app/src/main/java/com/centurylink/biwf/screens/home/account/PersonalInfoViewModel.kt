@@ -1,6 +1,8 @@
 package com.centurylink.biwf.screens.home.account
 
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.PersonalInfoCoordinatorDestinations
 import com.centurylink.biwf.repos.UserRepository
@@ -12,7 +14,8 @@ import javax.inject.Inject
 
 class PersonalInfoViewModel @Inject constructor(
     private val userRepository: UserRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
@@ -24,7 +27,12 @@ class PersonalInfoViewModel @Inject constructor(
     private var confirmPasswordValue: String = ""
     private var phoneNumberValue: String = ""
 
+    init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_PERSONAL_INFO)
+    }
+
     fun callUpdatePasswordApi() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_PERSONAL_INFO)
         viewModelScope.launch {
             val res = userRepository.resetPassWord(passwordValue)
             userPasswordFlow.latestValue = res
@@ -43,6 +51,18 @@ class PersonalInfoViewModel @Inject constructor(
 
     fun onPasswordValueChanged(passwordValue: String) {
         this.passwordValue = passwordValue
+    }
+
+    fun logResetPasswordSuccess() {
+        analyticsManagerInterface.logApiCall(AnalyticsKeys.RESET_PASSWORD_SUCCESS)
+    }
+
+    fun logResetPasswordFailure() {
+        analyticsManagerInterface.logApiCall(AnalyticsKeys.RESET_PASSWORD_FAILURE)
+    }
+
+    fun logUpdateEmailPopupClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_UPDATE_EMAIL_INFO)
     }
 
     fun onConfirmPasswordValueChanged(confirmPasswordValue: String) {

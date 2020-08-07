@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.subsciption
 
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.screens.subscription.EditPaymentDetailsViewModel
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
@@ -26,15 +27,19 @@ class EditPaymentDetailsViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: EditPaymentDetailsViewModel
 
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
+        run { analyticsManagerInterface }
         every { preferences.getValueByID(Preferences.USER_ID) } returns MOCK_ACCOUNT_ID
 
         viewModel = EditPaymentDetailsViewModel(
             preferences = preferences,
-            modemRebootMonitorService = mockModemRebootMonitorService
+            modemRebootMonitorService = mockModemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
 
@@ -85,7 +90,6 @@ class EditPaymentDetailsViewModelTest : ViewModelBaseTest() {
                 `is`(2)
             )
         }
-
 
     }
 

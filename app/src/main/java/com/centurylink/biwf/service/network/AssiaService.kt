@@ -1,6 +1,5 @@
 package com.centurylink.biwf.service.network
 
-import android.net.MacAddress
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.model.devices.BlockResponse
@@ -10,7 +9,11 @@ import com.centurylink.biwf.model.speedtest.SpeedTestResponse
 import com.centurylink.biwf.model.speedtest.SpeedTestStatus
 import com.centurylink.biwf.service.impl.aasia.AssiaError
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
-import retrofit2.http.*
+import retrofit2.http.DELETE
+import retrofit2.http.GET
+import retrofit2.http.HeaderMap
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface AssiaService {
 

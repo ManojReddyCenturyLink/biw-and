@@ -198,14 +198,14 @@ dependencies {
     //SwipeRefreshLayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
 
-    //Google Firebase SDK for Google Analytics
-    implementation "com.google.firebase:firebase-analytics-ktx:$googleAnalyticsVersion"
-
     // Google Analytics Tag Manager
     implementation "com.google.android.gms:play-services-tagmanager:$googleTagManagerVersion"
 
     //Google Firebase SDK for Crashlytics
     implementation "com.google.firebase:firebase-crashlytics:$crashlyticsVersion"
+
+    //Google Firebase SDK for Google Analytics
+    implementation "com.google.firebase:firebase-analytics-ktx:$googleAnalyticsVersion"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

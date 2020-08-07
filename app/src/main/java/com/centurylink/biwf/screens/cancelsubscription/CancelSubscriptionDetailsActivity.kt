@@ -25,7 +25,6 @@ import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
 
-
 class CancelSubscriptionDetailsActivity : BaseActivity(),
     CustomDialogBlueTheme.ErrorDialogCallback {
 
@@ -79,7 +78,10 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
                 setResult(Activity.RESULT_OK)
                 finish()
             }
-            subHeaderLeftIcon.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackPress()
+                finish()
+            }
         }
         binding.cancelSubscriptionSubmit.setOnClickListener {
             viewModel.onSubmitCancellation()
@@ -205,6 +207,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
     }
 
     private fun showCancellationDialog(date: Date) {
+        viewModel.logSubmitButtonClick()
         val formattedDate =
             DateFormat.getDateInstance(DateFormat.LONG).format(date)
         val dialogbinding = DialogCancelSubscriptionDetailsBinding.inflate(layoutInflater)
@@ -217,6 +220,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
         dialogbinding.cancelSubscriptionDialogDetails.text =
             getString(R.string.cancel_subscription_dialog_content, formattedDate)
         dialogbinding.cancellationDetailDialogKeepService.setOnClickListener {
+            viewModel.discardCancellationRequest()
             dialog?.dismiss()
             setResult(REQUEST_TO_ACCOUNT)
             finish()

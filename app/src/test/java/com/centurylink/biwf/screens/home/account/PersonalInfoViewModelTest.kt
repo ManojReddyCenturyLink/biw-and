@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.account
 
 import androidx.lifecycle.MutableLiveData
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.TestCoroutineRule
@@ -17,8 +18,12 @@ import org.junit.Test
 class PersonalInfoViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: PersonalInfoViewModel
+
     @MockK
     private lateinit var mockUserRepository: UserRepository
+
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     @get:Rule
     var coroutinesTestRule = TestCoroutineRule()
@@ -28,9 +33,11 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
+        run { analyticsManagerInterface }
         viewModel = PersonalInfoViewModel(
             userRepository = mockUserRepository,
-            modemRebootMonitorService = mockModemRebootMonitorService
+            modemRebootMonitorService = mockModemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
 
