@@ -31,7 +31,6 @@ class AnalyticsKeys {
         const val BUTTON_BACK_PREVIOUS_STATEMENT = "Back Button Previous Statements"
         const val BUTTON_CANCEL_CANCEL_SUBSCRIPTION = "Cancel Button Cancel Subscription"
         const val BUTTON_BACK_CANCEL_SUBSCRIPTION = "Back Button Cancel Subscription"
-        const val BUTTON_DONE_CANCEL_SUBSCRIPTION_CONFIRMATION = "Done Button Cancel Subscription Confirmation"
         const val BUTTON_BACK_CANCEL_SUBSCRIPTION_CONFIRMATION = "Back Button Cancel Subscription Confirmation"
         const val BUTTON_MANAGE_SUBSCRIPTION = "Manage Subscription Button"
         const val BUTTON_PREVIOUS_STATEMENT = "Previous Statements Button"

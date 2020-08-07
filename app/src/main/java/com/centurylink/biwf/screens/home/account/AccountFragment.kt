@@ -14,6 +14,7 @@ import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
+import com.google.android.material.switchmaterial.SwitchMaterial
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -74,17 +75,17 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
     }
 
     private fun initSwitches() {
-        binding.accountBiometricSwitch.setOnCheckedChangeListener { _, boolean ->
-            viewModel.onBiometricChange(boolean)
+        binding.accountBiometricSwitch.setOnClickListener { view ->
+            viewModel.onBiometricChange((view as SwitchMaterial).isChecked)
         }
-        binding.accountServiceCallsSwitch.setOnCheckedChangeListener { _, boolean ->
-            viewModel.onServiceCallsAndTextsChange(boolean)
+        binding.accountMarketingEmailsSwitch.setOnClickListener { view ->
+            viewModel.onMarketingEmailsChange((view as SwitchMaterial).isChecked)
         }
-        binding.accountMarketingEmailsSwitch.setOnCheckedChangeListener { _, boolean ->
-            viewModel.onMarketingEmailsChange(boolean)
+        binding.accountMarketingCallsSwitch.setOnClickListener { view ->
+            viewModel.onMarketingCallsAndTextsChange((view as SwitchMaterial).isChecked)
         }
-        binding.accountMarketingCallsSwitch.setOnCheckedChangeListener { _, boolean ->
-            viewModel.onMarketingCallsAndTextsChange(boolean)
+        binding.accountServiceCallsSwitch.setOnClickListener { view ->
+            viewModel.onServiceCallsAndTextsChange((view as SwitchMaterial).isChecked)
         }
     }
 
