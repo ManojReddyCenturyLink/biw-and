@@ -76,7 +76,6 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     }
 
     fun onSubmitCancellation() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_CANCEL_SUBSCRIPTION_CONFIRMATION)
         if (cancellationDate == null) {
             errorEvents.emit("Error")
         } else {

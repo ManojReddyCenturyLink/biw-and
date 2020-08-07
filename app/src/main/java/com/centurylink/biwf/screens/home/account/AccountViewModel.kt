@@ -110,7 +110,7 @@ class AccountViewModel internal constructor(
             val result = contactRepository.setMarketingEmails(boolean)
             errorMessageFlow.latestValue = result
         }
-        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_CALLS_AND_TEXT, boolean)
+        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_EMAILS, boolean)
     }
 
     fun onMarketingCallsAndTextsChange(boolean: Boolean) {
@@ -119,7 +119,7 @@ class AccountViewModel internal constructor(
             val result = contactRepository.setMarketingCallsAndText(boolean)
             errorMessageFlow.latestValue = result
         }
-        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_EMAILS, boolean)
+        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_CALLS_AND_TEXT, boolean)
     }
 
     fun onSubscriptionCardClick() {
