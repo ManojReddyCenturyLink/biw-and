@@ -68,7 +68,6 @@
         android:background="@drawable/background_thin_border"
         android:inputType="textEmailAddress"
         android:padding="@dimen/margin_spacing_tiny"
-        android:text="john.doe@email.com"
         android:textColor="@color/font_color_medium_grey"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"

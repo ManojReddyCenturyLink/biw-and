@@ -1,23 +1,19 @@
 package com.centurylink.biwf.widgets
 
-import android.content.Context
+import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.centurylink.biwf.R
 
 class ModemRebootFailureDialog(
     private val rebootCallback: Callback
-) : CustomDialogGreyTheme(object : DialogCallback {
-    override fun onDialogCallback(buttonType: Int) {
-        when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> {
-                rebootCallback.onRetryModemRebootClicked()
-            }
-        }
+) : CustomDialogGreyTheme({ buttonType ->
+    if (buttonType == AlertDialog.BUTTON_POSITIVE) {
+        rebootCallback.onRetryModemRebootClicked()
     }
 }) {
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         title = getString(R.string.modem_reboot_error_title)
         message = getString(R.string.modem_reboot_error_message)
         positiveText = getString(R.string.modem_reboot_error_button_positive)

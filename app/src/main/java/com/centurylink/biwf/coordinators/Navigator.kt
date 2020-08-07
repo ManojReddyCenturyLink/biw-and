@@ -140,8 +140,9 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToPersonalInfoActivity() {
+        val bundle = AccountCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(PersonalInfoActivity.newIntent(it))
+            it.startActivity(PersonalInfoActivity.newIntent(it, bundle))
         }
     }
 

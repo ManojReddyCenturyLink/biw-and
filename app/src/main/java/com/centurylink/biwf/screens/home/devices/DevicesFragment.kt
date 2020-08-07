@@ -22,8 +22,7 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
-class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener,
-    CustomDialogGreyTheme.DialogCallback {
+class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
 
     override val lifecycleOwner: LifecycleOwner = this
 
@@ -155,12 +154,12 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             getString(
                 R.string.text_header_cancel
             ),
-            this
+            ::onDialogCallback
         ).show(activity?.supportFragmentManager!!, DevicesFragment::class.simpleName)
     }
 
     // Callbacks for the Dialog
-    override fun onDialogCallback(buttonType: Int) {
+    private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 if (!blockDeviceMac.isNullOrEmpty()) {

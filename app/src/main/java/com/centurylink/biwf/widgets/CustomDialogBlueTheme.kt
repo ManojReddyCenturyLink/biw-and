@@ -1,6 +1,5 @@
 package com.centurylink.biwf.widgets
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -10,22 +9,20 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.centurylink.biwf.R
-import kotlinx.android.synthetic.main.widget_popup.view.*
+import kotlinx.android.synthetic.main.widget_popup.view.popup_cancel_btn
+import kotlinx.android.synthetic.main.widget_popup.view.popup_message
+import kotlinx.android.synthetic.main.widget_popup.view.popup_neutral_button
+import kotlinx.android.synthetic.main.widget_popup.view.popup_positive_button
+import kotlinx.android.synthetic.main.widget_popup.view.popup_title
 
-open class CustomDialogBlueTheme : DialogFragment() {
+open class CustomDialogBlueTheme(
+    private val callback: (buttonType: Int) -> Unit
+) : DialogFragment() {
 
-    internal lateinit var callback: ErrorDialogCallback
     lateinit var title: String
     lateinit var message: String
     lateinit var buttonText: String
     var isErrorPopup: Boolean = false
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is ErrorDialogCallback && callback == null) {
-            callback = context
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +44,14 @@ open class CustomDialogBlueTheme : DialogFragment() {
         rootView.popup_message.text = message
         rootView.popup_cancel_btn.setOnClickListener {
             dismiss()
-            callback.onErrorDialogCallback(AlertDialog.BUTTON_NEGATIVE)
+            callback(AlertDialog.BUTTON_NEGATIVE)
         }
         if (isErrorPopup) {
             rootView.popup_positive_button.text = buttonText
             rootView.popup_neutral_button.visibility = View.GONE
             rootView.popup_positive_button.setOnClickListener {
                 dismiss()
-                callback.onErrorDialogCallback(AlertDialog.BUTTON_POSITIVE)
+                callback(AlertDialog.BUTTON_POSITIVE)
             }
         } else {
             rootView.popup_neutral_button.text = buttonText
@@ -67,10 +64,6 @@ open class CustomDialogBlueTheme : DialogFragment() {
         return rootView
     }
 
-    interface ErrorDialogCallback {
-        fun onErrorDialogCallback(buttonType: Int)
-    }
-
     companion object {
         private const val KEY_TITLE = "title"
         private const val KEY_MESSAGE = "message"
@@ -81,9 +74,10 @@ open class CustomDialogBlueTheme : DialogFragment() {
             title: String,
             message: String,
             buttonText: String,
-            isErrorPopup: Boolean
+            isErrorPopup: Boolean,
+            callback: (buttonType: Int) -> Unit
         ): CustomDialogBlueTheme {
-            return CustomDialogBlueTheme().apply {
+            return CustomDialogBlueTheme(callback).apply {
                 arguments = Bundle().apply {
                     putString(KEY_TITLE, title)
                     putString(KEY_MESSAGE, message)

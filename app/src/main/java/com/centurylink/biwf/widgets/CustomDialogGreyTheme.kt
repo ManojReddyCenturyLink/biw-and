@@ -1,6 +1,5 @@
 package com.centurylink.biwf.widgets
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -15,27 +14,14 @@ import kotlinx.android.synthetic.main.widget_dialog_default.view.dialog_title
 import kotlinx.android.synthetic.main.widget_dialog_default.view.negative_cta
 import kotlinx.android.synthetic.main.widget_dialog_default.view.positive_cta
 
-open class CustomDialogGreyTheme() : DialogFragment() {
+open class CustomDialogGreyTheme(
+    private val callback: (buttonType: Int) -> Unit
+) : DialogFragment() {
 
-    private lateinit var callback: DialogCallback
     lateinit var title: String
     lateinit var message: String
     lateinit var positiveText: String
     lateinit var negativeText: String
-
-    constructor(dialogCallback : DialogCallback) : this() {
-        callback = dialogCallback
-    }
-
-    // TODO - Improve this to take callback as a constructor param rather than extract it from
-    //  the context in onAttach like this. will be helpful for extending this class and in
-    //  situations that multiple dialogs leverage this class for the same screen
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is DialogCallback) {
-            callback = context
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,18 +48,14 @@ open class CustomDialogGreyTheme() : DialogFragment() {
         rootView.negative_cta.text = negativeText
         rootView.positive_cta.setOnClickListener {
             dismiss()
-            callback.onDialogCallback(AlertDialog.BUTTON_POSITIVE)
+            callback(AlertDialog.BUTTON_POSITIVE)
         }
         rootView.negative_cta.setOnClickListener {
             dismiss()
-            callback.onDialogCallback(AlertDialog.BUTTON_NEGATIVE)
+            callback(AlertDialog.BUTTON_NEGATIVE)
         }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
         return rootView
-    }
-
-    interface DialogCallback {
-        fun onDialogCallback(buttonType: Int)
     }
 
     companion object {
@@ -86,24 +68,8 @@ open class CustomDialogGreyTheme() : DialogFragment() {
             title: String,
             message: String,
             positiveText: String,
-            negativeText: String
-        ): CustomDialogGreyTheme {
-            return CustomDialogGreyTheme().apply {
-                arguments = Bundle().apply {
-                    putString(KEY_TITLE, title)
-                    putString(KEY_MESSAGE, message)
-                    putString(KEY_POSITIVE, positiveText)
-                    putString(KEY_NEGATIVE, negativeText)
-                }
-            }
-        }
-
-        operator fun invoke(
-            title: String,
-            message: String,
-            positiveText: String,
             negativeText: String,
-            callback: DialogCallback
+            callback: (buttonType: Int) -> Unit
         ): CustomDialogGreyTheme {
             return CustomDialogGreyTheme(callback).apply {
                 arguments = Bundle().apply {

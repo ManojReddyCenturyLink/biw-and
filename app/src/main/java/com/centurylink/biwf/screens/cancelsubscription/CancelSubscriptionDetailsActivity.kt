@@ -25,8 +25,7 @@ import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
 
-class CancelSubscriptionDetailsActivity : BaseActivity(),
-    CustomDialogBlueTheme.ErrorDialogCallback {
+class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
@@ -237,7 +236,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
                         getString(
                             R.string.discard_changes_and_close
                         ),
-                        true
+                        true,
+                        ::onErrorDialogCallback
                     ).show(
                         fragmentManager,
                         callingActivity?.className
@@ -248,20 +248,20 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
         dialog?.show()
     }
 
-    companion object {
-        const val REQUEST_TO_CANCEL_SUBSCRIPTION: Int = 44011
-        const val REQUEST_TO_ACCOUNT: Int = 43611
-        fun newIntent(context: Context): Intent {
-            return Intent(context, CancelSubscriptionDetailsActivity::class.java)
-        }
-    }
-
-    override fun onErrorDialogCallback(buttonType: Int) {
+    private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
+        }
+    }
+
+    companion object {
+        const val REQUEST_TO_CANCEL_SUBSCRIPTION: Int = 44011
+        const val REQUEST_TO_ACCOUNT: Int = 43611
+        fun newIntent(context: Context): Intent {
+            return Intent(context, CancelSubscriptionDetailsActivity::class.java)
         }
     }
 }
