@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.subsciption
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.SubscriptionCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.PaymentList
@@ -26,6 +27,9 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
     @MockK(relaxed = true)
     private lateinit var accountRepository: AccountRepository
 
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
+
     private lateinit var accountDetails: AccountDetails
 
     private lateinit var viewModel: SubscriptionViewModel
@@ -39,12 +43,14 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
         accountDetails = fromJson(accountString)
         val jsonPaymentListString = readJson("zuorapayment.json")
         paymentList = fromJson(jsonPaymentListString)
+        run { analyticsManagerInterface }
         coEvery { zuoraPaymentRepository.getInvoicesList() } returns Either.Right(paymentList)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
         viewModel = SubscriptionViewModel(
             zuoraPaymentRepository = zuoraPaymentRepository,
             accountRepository = accountRepository,
-            modemRebootMonitorService = mockModemRebootMonitorService
+            modemRebootMonitorService = mockModemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
 

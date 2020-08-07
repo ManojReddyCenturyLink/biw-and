@@ -1,6 +1,8 @@
 package com.centurylink.biwf.screens.subscription
 
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.repos.AccountRepository
@@ -18,7 +20,8 @@ class SubscriptionStatementViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val userRepository: UserRepository,
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
@@ -27,7 +30,9 @@ class SubscriptionStatementViewModel @Inject constructor(
     var uiStatementDetails = UiStatementDetails()
     var invoicedId: String? = null
     var processedDate: String? = null
+
     init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SUBSCRIPTION_STATEMENT)
         progressViewFlow.latestValue = true
         initAPiCalls()
     }
@@ -45,11 +50,21 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
+    fun logBackPress(){
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_PREVIOUS_STATEMENT)
+    }
+
+    fun logDonePress(){
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_PREVIOUS_STATEMENT)
+    }
+
     private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
         userDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_USER_DETAILS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_USER_DETAILS_SUCCESS)
             uiStatementDetails = uiStatementDetails.copy(email = it.email)
         }
     }
@@ -57,8 +72,10 @@ class SubscriptionStatementViewModel @Inject constructor(
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_SUCCESS)
             uiStatementDetails = uiStatementDetails.copy(
                 paymentMethod = it.paymentMethodName,
                 billingAddress = formatBillingAddress(it) ?: ""
@@ -69,8 +86,10 @@ class SubscriptionStatementViewModel @Inject constructor(
     private suspend fun requestPaymentInformation() {
         val paymentDetails = zuoraPaymentRepository.getPaymentInformation(invoicedId!!)
         paymentDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_PAYMENT_INFO_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_PAYMENT_INFO_SUCCESS)
             // QA Environment comes with $ value
             val planCost: Double = it.planCostWithoutTax?.replace("$", "")?.toDouble() ?: 0.0
             val salesTaxCost: Double = it.salesTaxAmount?.replace("$", "")?.toDouble() ?: 0.0

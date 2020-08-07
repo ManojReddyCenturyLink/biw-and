@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.cancelsubscription
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.cases.CaseResponse
 import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.model.cases.RecordId
@@ -12,7 +13,11 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.*
+import org.junit.Assert
+import org.junit.Before
+import org.junit.Ignore
+import org.junit.Rule
+import org.junit.Test
 import java.lang.reflect.Field
 import java.util.*
 
@@ -20,6 +25,9 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
 
     @MockK(relaxed = true)
     private lateinit var caseRepository: CaseRepository
+
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -42,6 +50,7 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
         case = fromJson(jsonString)
         recordID = fromJson(recordIdString)
         coEvery { caseRepository.getRecordTypeId() } returns Either.Right("12345")
+        run { analyticsManagerInterface }
         coEvery {
             caseRepository.createDeactivationRequest(
                 any(),
@@ -53,7 +62,7 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
             )
         } returns Either.Right(caseResponse)
         coEvery { caseRepository.getCaseId() } returns Either.Right(case)
-        viewModel = CancelSubscriptionDetailsViewModel(caseRepository, mockModemRebootMonitorService)
+        viewModel = CancelSubscriptionDetailsViewModel(caseRepository, mockModemRebootMonitorService, analyticsManagerInterface)
     }
 
     @Ignore
@@ -144,13 +153,13 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testOnCancellationCommentsChanged() {
-        viewModel.onCancellationReason("Helloe")
+        viewModel.onCancellationReason("Hello")
         val cancellationComments: Field =
             CancelSubscriptionDetailsViewModel::class.java.getDeclaredField("cancellationComments")
         cancellationComments.isAccessible = true
-        viewModel.onCancellationCommentsChanged("Helloe")
+        viewModel.onCancellationCommentsChanged("Hello")
         Assert.assertEquals(
-            cancellationComments.get(viewModel), "Helloe")
+            cancellationComments.get(viewModel), "Hello")
     }
 
     @Test
@@ -158,9 +167,9 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
         val cancellationReasonExplanation: Field =
             CancelSubscriptionDetailsViewModel::class.java.getDeclaredField("cancellationReasonExplanation")
         cancellationReasonExplanation.isAccessible = true
-        viewModel.onOtherCancellationChanged("Helloe")
+        viewModel.onOtherCancellationChanged("Hello")
         Assert.assertEquals(
-            cancellationReasonExplanation.get(viewModel), "Helloe")
+            cancellationReasonExplanation.get(viewModel), "Hello")
     }
 
     @Test

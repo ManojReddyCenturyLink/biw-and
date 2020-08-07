@@ -2,6 +2,8 @@ package com.centurylink.biwf.screens.subscription
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.SubscriptionCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
@@ -20,7 +22,9 @@ import javax.inject.Inject
 class SubscriptionViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
     private val accountRepository: AccountRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val  analyticsManagerInterface: AnalyticsManager
+
 ) : BaseViewModel(modemRebootMonitorService) {
 
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
@@ -36,6 +40,7 @@ class SubscriptionViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
 
     init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SUBSCRIPTION)
         progressViewFlow.latestValue = true
         initApis()
     }
@@ -50,8 +55,10 @@ class SubscriptionViewModel @Inject constructor(
     private suspend fun requestAccountDetails() {
         val userAccountDetails = accountRepository.getAccountDetails()
         userAccountDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_SUCCESS)
             userAccount = it
             processAccountData()
         }
@@ -72,10 +79,12 @@ class SubscriptionViewModel @Inject constructor(
     }
 
     fun onEditBillingContainerClicked() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_EDIT_BILLING_INFO)
         myState.latestValue = SubscriptionCoordinatorDestinations.EDIT_PAYMENT
     }
 
     fun launchStatement(item: RecordsItem) {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PREVIOUS_STATEMENT)
         val bundle = Bundle()
         bundle.putString(
             SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_INVOICE_ID,
@@ -90,14 +99,21 @@ class SubscriptionViewModel @Inject constructor(
     }
 
     fun launchManageSubscription() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_MANAGE_SUBSCRIPTION)
         myState.latestValue = SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION
+    }
+
+    fun logDoneBtnClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_SUBSCRIPTION_SCREEN)
     }
 
     private suspend fun requestInvoiceList() {
         val paymentList = zuoraPaymentRepository.getInvoicesList()
         paymentList.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_INVOICES_LIST_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_INVOICES_LIST_SUCCESS)
             invoicesListResponse.latestValue = it
             progressViewFlow.latestValue = false
         }

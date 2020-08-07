@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.cancelsubscription
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.CancelSubscriptionCoordinatorDestinations
 import com.centurylink.biwf.repos.ZouraSubscriptionRepository
 import com.centurylink.biwf.utility.DateUtils
@@ -23,6 +24,9 @@ class CancelSubscriptionViewModelTest : ViewModelBaseTest() {
     @MockK(relaxed = true)
     private lateinit var zuoraSubscriptionRepo: ZouraSubscriptionRepository
 
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
+
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
@@ -33,7 +37,12 @@ class CancelSubscriptionViewModelTest : ViewModelBaseTest() {
         MockKAnnotations.init(this, relaxed = true)
         var date = Date()
         coEvery { zuoraSubscriptionRepo.getSubscriptionDate() } returns Either.Right(date)
-        viewModel = CancelSubscriptionViewModel(zuoraSubscriptionRepo, mockModemRebootMonitorService)
+        kotlin.run { analyticsManagerInterface }
+        viewModel = CancelSubscriptionViewModel(
+            zuoraSubscriptionRepo,
+            mockModemRebootMonitorService,
+            analyticsManagerInterface
+        )
     }
 
     @Test

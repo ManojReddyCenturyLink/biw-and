@@ -67,6 +67,7 @@ class RestServiceConfigModule(
             .asFactory
     }
 
+
     @Singleton
     @Provides
     @BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES)

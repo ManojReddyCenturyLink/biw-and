@@ -14,7 +14,6 @@ import com.centurylink.biwf.databinding.ActivitySubscriptionStatementBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
-
 class SubscriptionStatementActivity : BaseActivity() {
 
     @Inject
@@ -67,9 +66,13 @@ class SubscriptionStatementActivity : BaseActivity() {
         binding.subscriptionStatementProcessedDate.visibility = View.INVISIBLE
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = getText(R.string.statment_header)
-            subHeaderLeftIcon.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackPress()
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.statment_done)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDonePress()
                 setResult(Activity.RESULT_OK)
                 finish()
             }

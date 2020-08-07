@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.account
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.AccountCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.user.UserDetails
@@ -42,6 +43,9 @@ class AccountViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var mockAuthService: AuthService<*>
 
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -57,13 +61,15 @@ class AccountViewModelTest : ViewModelBaseTest() {
                 lastViewedDate = DateUtils.formatInvoiceDate("2020-05-14T14:09:58.000+0000")
             )
         )
+        run { analyticsManagerInterface }
         viewModel = AccountViewModel(
             accountRepository = mockAccountRepository,
             contactRepository = mockContactRepository,
             sharedPreferences = mockSharedPreferences,
             userRepository = mockUserRepository,
             authService = mockAuthService,
-            modemRebootMonitorService = mockModemRebootMonitorService
+            modemRebootMonitorService = mockModemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
 

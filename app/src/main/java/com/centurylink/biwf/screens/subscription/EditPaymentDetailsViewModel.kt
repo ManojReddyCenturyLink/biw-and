@@ -1,5 +1,7 @@
 package com.centurylink.biwf.screens.subscription
 
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.EventFlow
@@ -8,7 +10,8 @@ import javax.inject.Inject
 
 class EditPaymentDetailsViewModel @Inject constructor(
     preferences: Preferences,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
     val progressViewFlow = EventFlow<Boolean>()
@@ -18,8 +21,17 @@ class EditPaymentDetailsViewModel @Inject constructor(
     private val subscriptionUrl = BASE_SUBSCRIPTION_URL + preferences.getValueByID(Preferences.USER_ID)
 
     init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_EDIT_PAYMENT_DETAILS)
         progressViewFlow.latestValue = true
         subscriptionUrlFlow.latestValue = subscriptionUrl
+    }
+
+    fun logBackPress(){
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_EDIT_PAYMENT_DETAILS)
+    }
+
+    fun logDonePress(){
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_EDIT_PAYMENT_DETAILS)
     }
 
     // TODO address race condition going on between this method and onWebViewError()

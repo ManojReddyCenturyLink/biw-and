@@ -61,9 +61,13 @@ class CancelSubscriptionActivity : BaseActivity() {
         val screenTitle: String = getString(R.string.cancel_subscription_title)
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
-            subHeaderLeftIcon.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackPress()
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logCancelPress()
                 setResult(Activity.RESULT_OK)
                 finish()
             }

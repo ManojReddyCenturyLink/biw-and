@@ -13,15 +13,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
-import com.centurylink.biwf.databinding.LayoutDevicelistGroupBlockedBinding
 import com.centurylink.biwf.databinding.LayoutScancodeItemBinding
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.google.zxing.EncodeHintType
-import kotlinx.android.synthetic.main.layout_scancode_item.view.*
+import kotlinx.android.synthetic.main.layout_scancode_item.view.devicename
+import kotlinx.android.synthetic.main.layout_scancode_item.view.qrScan
+import kotlinx.android.synthetic.main.layout_scancode_item.view.viewdivider
 import net.glxn.qrgen.android.QRCode
 import net.glxn.qrgen.core.scheme.Wifi
-
 
 class WifiDevicesAdapter(
     var wifiListItems: MutableList<WifiInfo>,

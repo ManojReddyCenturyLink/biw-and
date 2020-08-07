@@ -2,6 +2,8 @@ package com.centurylink.biwf.screens.cancelsubscription
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.repos.CaseRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -13,10 +15,11 @@ import javax.inject.Inject
 
 class CancelSubscriptionDetailsViewModel @Inject constructor(
     private val caseRepository: CaseRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
-    private  var cancellationDate: Date? =null
+    private var cancellationDate: Date? = null
     private var cancellationReason: String = ""
     private var cancellationReasonExplanation: String = ""
     private var ratingValue: Float? = 0F
@@ -40,6 +43,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     }
 
     fun initApis() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_CANCEL_SUBSCRIPTION_DETAILS)
         viewModelScope.launch {
             requestRecordId()
         }
@@ -72,6 +76,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     }
 
     fun onSubmitCancellation() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_CANCEL_SUBSCRIPTION_CONFIRMATION)
         if (cancellationDate == null) {
             errorEvents.emit("Error")
         } else {
@@ -90,8 +95,10 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
             recordTypeId
         )
         caseDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.RECORD_TYPE_ID_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.RECORD_TYPE_ID_SUCCESS)
             progressViewFlow.latestValue = false
             successDeactivation.latestValue = it.success
         }
@@ -100,15 +107,30 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private suspend fun requestRecordId() {
         val subscriptionDate = caseRepository.getRecordTypeId()
         subscriptionDate.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.POST_CASE_FOR_SUBSCRIPTION_SUCCESS)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.POST_CASE_FOR_SUBSCRIPTION_FAILURE)
             recordTypeId = it
         }
     }
 
     fun performCancellationRequest() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_SUBSCRIPTION_CANCEL_SERVICE)
         viewModelScope.launch {
             performCancel()
         }
+    }
+
+    fun discardCancellationRequest() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_SUBSCRIPTION_KEEP_SERVICE)
+    }
+
+    fun logSubmitButtonClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SUBMIT_CANCEL_SUBSCRIPTION_CONFIRMATION)
+    }
+
+    fun logBackPress() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_CANCEL_SUBSCRIPTION_CONFIRMATION)
     }
 }

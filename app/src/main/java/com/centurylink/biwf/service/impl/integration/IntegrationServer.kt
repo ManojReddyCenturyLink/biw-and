@@ -5,7 +5,15 @@ package com.centurylink.biwf.service.impl.integration
 import com.centurylink.biwf.mockintegrationserver.EmbeddedServer
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.model.sumup.SumUpResult
-import com.centurylink.biwf.service.impl.integration.model.*
+import com.centurylink.biwf.service.impl.integration.model.AppointmentPath
+import com.centurylink.biwf.service.impl.integration.model.DevicesPath
+import com.centurylink.biwf.service.impl.integration.model.FaqPath
+import com.centurylink.biwf.service.impl.integration.model.GetSlotsPath
+import com.centurylink.biwf.service.impl.integration.model.NotificationPath
+import com.centurylink.biwf.service.impl.integration.model.ReSchedulePath
+import com.centurylink.biwf.service.impl.integration.model.SumUpParams
+import com.centurylink.biwf.service.impl.integration.model.UsageDetailsPath
+import com.centurylink.biwf.service.impl.integration.model.WifiPath
 import io.ktor.application.call
 import io.ktor.locations.get
 import io.ktor.locations.post

@@ -76,9 +76,11 @@ class EditPaymentDetailsActivity : BaseActivity() {
 
     private fun setupClickListeners() {
         binding.backButton.setOnClickListener {
+            viewModel.logBackPress()
             finish()
         }
         binding.doneButton.setOnClickListener {
+            viewModel.logDonePress()
             setResult(Activity.RESULT_OK)
             finish()
         }

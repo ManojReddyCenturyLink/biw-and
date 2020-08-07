@@ -3,6 +3,8 @@ package com.centurylink.biwf.screens.home.account
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.AccountCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
@@ -34,7 +36,8 @@ class AccountViewModel internal constructor(
     private val userRepository: UserRepository,
     private val sharedPreferences: Preferences,
     private val authService: AuthService<*>,
-    private val modemRebootMonitorService: ModemRebootMonitorService
+    private val modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
     class Factory @Inject constructor(
@@ -43,7 +46,8 @@ class AccountViewModel internal constructor(
         private val userRepository: UserRepository,
         private val sharedPreferences: Preferences,
         private val authServiceFactory: AuthServiceFactory<*>,
-        private val modemRebootMonitorService: ModemRebootMonitorService
+        private val modemRebootMonitorService: ModemRebootMonitorService,
+        private val analyticsManagerInterface: AnalyticsManager
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
         override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
@@ -54,7 +58,8 @@ class AccountViewModel internal constructor(
                     userRepository,
                     sharedPreferences,
                     authServiceFactory.create(input),
-                    modemRebootMonitorService
+                    modemRebootMonitorService,
+                    analyticsManagerInterface
                 )
             }
         }
@@ -68,16 +73,13 @@ class AccountViewModel internal constructor(
     var progressViewFlow = EventFlow<Boolean>()
 
     init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
         initApiCalls()
     }
 
     val myState = EventFlow<AccountCoordinatorDestinations>()
 
     val navigateToSubscriptionActivityEvent: EventLiveData<String> = MutableLiveData()
-
-    fun onBiometricChange(boolean: Boolean) {
-        sharedPreferences.saveBioMetrics(boolean)
-    }
 
     fun initApiCalls() {
         viewModelScope.launch {
@@ -88,12 +90,18 @@ class AccountViewModel internal constructor(
         }
     }
 
-    fun onServiceCallsAndTextsChange(servicecall: Boolean) {
+    fun onBiometricChange(boolean: Boolean) {
+        sharedPreferences.saveBioMetrics(boolean)
+        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_BIOMETRIC, boolean)
+    }
+
+    fun onServiceCallsAndTextsChange(serviceCall: Boolean) {
         viewModelScope.launch {
-            uiAccountDetails = uiAccountDetails.copy(serviceCallsAndText = servicecall)
-            val result = accountRepository.setServiceCallsAndTexts(servicecall)
+            uiAccountDetails = uiAccountDetails.copy(serviceCallsAndText = serviceCall)
+            val result = accountRepository.setServiceCallsAndTexts(serviceCall)
             errorMessageFlow.latestValue = result
         }
+        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_SERVICE_CALLS_AND_TEXT, serviceCall)
     }
 
     fun onMarketingEmailsChange(boolean: Boolean) {
@@ -102,6 +110,7 @@ class AccountViewModel internal constructor(
             val result = contactRepository.setMarketingEmails(boolean)
             errorMessageFlow.latestValue = result
         }
+        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_CALLS_AND_TEXT, boolean)
     }
 
     fun onMarketingCallsAndTextsChange(boolean: Boolean) {
@@ -110,13 +119,16 @@ class AccountViewModel internal constructor(
             val result = contactRepository.setMarketingCallsAndText(boolean)
             errorMessageFlow.latestValue = result
         }
+        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_EMAILS, boolean)
     }
 
     fun onSubscriptionCardClick() {
+        analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.CARD_SUBSCRIPTION_INFO)
         navigateToSubscriptionActivityEvent.emit(uiAccountDetails.paymentMethod ?: "")
     }
 
     fun onPersonalInfoCardClick() {
+        analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.CARD_PERSONAL_INFO)
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
     }
 
@@ -128,20 +140,25 @@ class AccountViewModel internal constructor(
         viewModelScope.launch {
             val result = authService.revokeToken()
             if (result) {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_SUCCESS)
                 sharedPreferences.clearUserSettings()
                 modemRebootMonitorService.cancelWork()
                 myState.latestValue = AccountCoordinatorDestinations.LOG_IN
             } else {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_FAILURE)
                 Timber.e("Auth Token Revoke Failed")
             }
         }
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_LOG_OUT)
     }
 
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_SUCCESS)
             updateUIAccountDetailsFromAccounts(it)
         }
     }
@@ -149,8 +166,10 @@ class AccountViewModel internal constructor(
     private suspend fun requestContactInfo() {
         val contactDetails = contactRepository.getContactDetails()
         contactDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_CONTACT_DETAILS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_CONTACT_DETAILS_SUCCESS)
             updateUIAccountDetailsFromContacts(it)
             progressViewFlow.latestValue = false
         }
@@ -159,8 +178,12 @@ class AccountViewModel internal constructor(
     private suspend fun requestCardInfo() {
         val cardInfoResponse = accountRepository.getLiveCardDetails()
         cardInfoResponse.fold(
-            ifLeft = { errorMessageFlow.latestValue = it }
+            ifLeft = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_LIVE_CARD_INFO_FAILURE)
+                errorMessageFlow.latestValue = it
+            }
         ) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_LIVE_CARD_INFO_SUCCESS)
             if (it.isDone) {
                 paymentInfo.latestValue = it.list[0]
                 updateUIAccountDetailsFromLivePaymentInfo(paymentInfo.latestValue.creditCardSummary)
