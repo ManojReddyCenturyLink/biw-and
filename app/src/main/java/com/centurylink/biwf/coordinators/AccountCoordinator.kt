@@ -1,5 +1,6 @@
 package com.centurylink.biwf.coordinators
 
+import android.os.Bundle
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -26,4 +27,8 @@ class AccountCoordinator @Inject constructor(
 
 enum class AccountCoordinatorDestinations {
     PROFILE_INFO, LOG_IN;
+
+    companion object {
+        lateinit var bundle: Bundle
+    }
 }

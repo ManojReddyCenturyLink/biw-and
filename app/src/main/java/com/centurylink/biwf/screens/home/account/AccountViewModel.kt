@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home.account
 
+import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -129,6 +130,9 @@ class AccountViewModel internal constructor(
 
     fun onPersonalInfoCardClick() {
         analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.CARD_PERSONAL_INFO)
+        val bundle = Bundle()
+        bundle.putString(PersonalInfoActivity.USER_ID, accountDetailsInfo.latestValue.email)
+        AccountCoordinatorDestinations.bundle = bundle
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
     }
 

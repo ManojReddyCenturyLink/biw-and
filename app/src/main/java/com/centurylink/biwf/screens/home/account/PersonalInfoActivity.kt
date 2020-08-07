@@ -19,8 +19,7 @@ import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
-class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallback,
-    CustomDialogBlueTheme.ErrorDialogCallback {
+class PersonalInfoActivity : BaseActivity() {
 
     @Inject
     lateinit var personalInfoCoordinator: PersonalInfoCoordinator
@@ -56,7 +55,8 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             getString(R.string.save_changes_msg),
             "",
             getString(R.string.save),
-            getString(R.string.discard)
+            getString(R.string.discard),
+            ::onScreenExitConfirmationDialogCallback
         )
             .show(fragmentManager, PersonalInfoActivity::class.simpleName)
     }
@@ -71,6 +71,7 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 validateInfoAndUpdatePassword()
             }
         }
+        binding.personalInfoEmailInput.text = intent.getStringExtra(USER_ID)
         viewModel.error.observe {
             binding.mandatoryFieldsLabel.visibility =
                 if (it.containsKey("fieldMandatory")) View.VISIBLE else View.GONE
@@ -118,7 +119,8 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                         getString(R.string.error_title),
                         it,
                         getString(R.string.discard_changes_and_close),
-                        true
+                        true,
+                        ::onDialogCallback
                     ).show(
                         fragmentManager,
                         callingActivity?.className
@@ -130,7 +132,8 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                         getString(
                             R.string.discard_changes_and_close
                         ),
-                        true
+                        true,
+                        ::onDialogCallback
                     ).show(
                         fragmentManager,
                         callingActivity?.className
@@ -144,7 +147,8 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
                 getString(R.string.how_do_i_change_my_email),
                 getString(R.string.personal_info_popup_msg),
                 getString(R.string.ok_lowercase),
-                false
+                false,
+                ::onDialogCallback
             ).show(fragmentManager, callingActivity?.className)
         }
         binding.ivPasswordVisibility.setOnClickListener {
@@ -223,15 +227,15 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         }
     }
 
-    companion object {
-        const val PASSWORD_LAYOUT = "LAYOUT_PASSWORD"
-        const val CONFIRM_PASSWORD_LAYOUT = "CONFIRM_PASSWORD_LAYOUT"
-        fun newIntent(context: Context): Intent {
-            return Intent(context, PersonalInfoActivity::class.java)
+    private fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                finish()
+            }
         }
     }
 
-    override fun onDialogCallback(buttonType: Int) {
+    private fun onScreenExitConfirmationDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 validateInfoAndUpdatePassword()
@@ -242,11 +246,13 @@ class PersonalInfoActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
         }
     }
 
-    override fun onErrorDialogCallback(buttonType: Int) {
-        when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> {
-                finish()
-            }
+    companion object {
+        const val PASSWORD_LAYOUT = "LAYOUT_PASSWORD"
+        const val CONFIRM_PASSWORD_LAYOUT = "CONFIRM_PASSWORD_LAYOUT"
+        const val USER_ID = "USER_ID"
+        fun newIntent(context: Context, bundle: Bundle): Intent {
+            return Intent(context, PersonalInfoActivity::class.java)
+                .putExtra(USER_ID, bundle.getString(USER_ID))
         }
     }
 }

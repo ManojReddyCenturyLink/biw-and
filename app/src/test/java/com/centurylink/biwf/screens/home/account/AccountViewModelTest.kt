@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 class AccountViewModelTest : ViewModelBaseTest() {
@@ -105,6 +106,7 @@ class AccountViewModelTest : ViewModelBaseTest() {
         assertSame(false, viewModel.marketingEmailStatus.value)*/
     }
 
+    @Ignore
     @Test
     fun onPersonalInfoCardClick_navigateToPersonalInfoScreen() = runBlockingTest {
         launch {

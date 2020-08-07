@@ -16,7 +16,7 @@ import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
-class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallback {
+class UsageDetailsActivity : BaseActivity() {
 
     @Inject
     lateinit var usageDetailsCoordinator: UsageDetailsCoordinator
@@ -102,16 +102,15 @@ class UsageDetailsActivity : BaseActivity(), CustomDialogGreyTheme.DialogCallbac
             ),
             getString(R.string.remove_device_confirmation_msg),
             getString(R.string.remove),
-            getString(
-                R.string.text_header_cancel
-            )
+            getString(R.string.text_header_cancel),
+            ::onDialogCallback
         ).show(
             supportFragmentManager,
             UsageDetailsActivity::class.simpleName
         )
     }
 
-    override fun onDialogCallback(buttonType: Int) {
+   private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 viewModel.removeDevices(intent.getStringExtra(STA_MAC))

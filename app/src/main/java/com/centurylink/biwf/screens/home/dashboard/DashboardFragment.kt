@@ -1,4 +1,5 @@
 package com.centurylink.biwf.screens.home.dashboard
+
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -45,8 +46,7 @@ import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_butto
 import kotlinx.android.synthetic.main.widget_welcome_card.view.title
 import javax.inject.Inject
 
-class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback,
-    WifiDevicesAdapter.WifiDeviceClickListener {
+class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickListener {
     override val lifecycleOwner: LifecycleOwner = this
 
     @Inject
@@ -328,8 +328,28 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback,
             getString(R.string.installation_cancellation_confirmation_msg),
             getString(R.string.cancel_it),
             getString(R.string.keep_it),
-            this
+            ::onDialogCallback
         ).show(fragManager!!, DashboardFragment::class.simpleName)
+    }
+
+    // Callbacks for the Dialog
+    private fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.requestAppointmentCancellation()
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+            }
+        }
+    }
+
+    interface ViewClickListener {
+        /**
+         * Handle click event
+         */
+        fun onGetStartedClick(newUser: Boolean)
+
+        fun onViewDevicesClick()
     }
 
     companion object {
@@ -344,26 +364,6 @@ class DashboardFragment : BaseFragment(), CustomDialogGreyTheme.DialogCallback,
     private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
         wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
         binding.wifiScanList.adapter = wifiDevicesAdapter
-    }
-
-    interface ViewClickListener {
-        /**
-         * Handle click event
-         */
-        fun onGetStartedClick(newUser: Boolean)
-
-        fun onViewDevicesClick()
-    }
-
-    // Callbacks for the Dialog
-    override fun onDialogCallback(buttonType: Int) {
-        when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> {
-                dashboardViewModel.requestAppointmentCancellation()
-            }
-            AlertDialog.BUTTON_NEGATIVE -> {
-            }
-        }
     }
 
     override fun onWifiDetailsClicked(wifidetails: WifiInfo) {
