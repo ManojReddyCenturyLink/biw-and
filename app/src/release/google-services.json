@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "500235914528",
-    "firebase_url": "https://android-biwf-production.firebaseio.com",
-    "project_id": "android-biwf-production",
-    "storage_bucket": "android-biwf-production.appspot.com"
+    "project_number": "321327960156",
+    "firebase_url": "https://biwf-production.firebaseio.com",
+    "project_id": "biwf-production",
+    "storage_bucket": "biwf-production.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:500235914528:android:afaf15b9e2adbe0cd15b45",
+        "mobilesdk_app_id": "1:321327960156:android:dc774f99fd44f17f9f9699",
         "android_client_info": {
           "package_name": "com.centurylink.biwf"
         }
       },
       "oauth_client": [
         {
-          "client_id": "500235914528-91alsv69ipl94u8arnjh6pmdbit41acl.apps.googleusercontent.com",
+          "client_id": "321327960156-vjo68kn2180p4olpvm570g8bdhsr6l35.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBLUmrpCvK4u411-5AzxS3wYW8nDY1FnRE"
+          "current_key": "AIzaSyCX5aXJO3Q_ykTPRTwMX6WeEljrgoEIEpI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "500235914528-91alsv69ipl94u8arnjh6pmdbit41acl.apps.googleusercontent.com",
+              "client_id": "321327960156-vjo68kn2180p4olpvm570g8bdhsr6l35.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
