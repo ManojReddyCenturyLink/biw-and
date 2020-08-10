@@ -38,18 +38,30 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         def subDomain = "qa"
-        def rootUrl = "https://$subDomain-qa101.cs16.force.com/fiber"
-        def baseUrl = "$rootUrl/services/data/v46.0/"
-        def clientId = "3MVG9zJJ_hX_0bb9K7vLVk3OsI9xKsWw_HJHXUqrZt94ciDzSui3EjQhxwl6AXIDmKvZWU6_dhjfeUOghN7Wa"
-        def scope = "web api refresh_token"
+
+        // Salesforce
+        def rootSalesforceUrl = "https://$subDomain-qa101.cs16.force.com/fiber"
+        def baseSalesforceUrl = "$rootSalesforceUrl/services/data/v46.0/"
+
+        // Auth
+        def authorizationEndpoint = "https://centurylink-test1.apigee.net/v1/mobile/auth"
+        def tokenEndpoint = "https://centurylink-test1.apigee.net/v1/mobile/salesforce-access-token"
+        def clientId = "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q"
         def redirectUrl = "myapp://com.force.lightning.ctl-fiber--$subDomain"
+        def scope = "web api refresh_token"
+        // TODO - Implement the revoke token endpoint when available
+        def revokeTokenEndpoint = ""
 
-        buildConfigField "String", "ROOT_URL", "\"$rootUrl\""
-        buildConfigField "String", "BASE_URL", "\"$baseUrl\""
+        buildConfigField "String", "AUTHORIZATION_ENDPOINT", "\"$authorizationEndpoint\""
+        buildConfigField "String", "TOKEN_ENDPOINT", "\"$tokenEndpoint\""
         buildConfigField "String", "CLIENT_ID", "\"$clientId\""
-        buildConfigField "String", "SCOPE", "\"$scope\""
         buildConfigField "String", "REDIRECT_URL", "\"$redirectUrl\""
+        buildConfigField "String", "SCOPE", "\"$scope\""
+        buildConfigField "String", "REVOKE_TOKEN_ENDPOINT", "\"$revokeTokenEndpoint\""
+        buildConfigField "String", "ROOT_SALESFORCE_URL", "\"$rootSalesforceUrl\""
+        buildConfigField "String", "BASE_SALESFORCE_URL", "\"$baseSalesforceUrl\""
 
+        // Google Maps
         manifestPlaceholders = [mapsApiKey: "AIzaSyARNegQ6g1SR7cHz_7LAQ7WbnP01nOi6YI"]
     }
 

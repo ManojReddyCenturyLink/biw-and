@@ -89,6 +89,8 @@ class RestServiceConfigModule(
     @BaseUrl(BaseUrlType.ASSIA_SERVICES)
     fun provideRetrofitForAssia(
         jsonConverters: Converter.Factory,
+        // TODO update this to ClientType.OAUTH when all Cloudcheck URLs updated to
+        //  Assia-passthrough version
         @HttpClient(ClientType.NONE) client: Call.Factory
     ):ServicesFactory{
         return fakeServicesFactory ?: Retrofit.Builder()

@@ -52,6 +52,7 @@ class NetworkUsageRepository @Inject constructor(
         endDate: String
     ): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
+        // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
         headerMap["staMac"] = staMac

@@ -18,11 +18,6 @@ interface TokenStorage<S> {
     var state: S?
 
     /**
-     * This is used during a sign-in/sign-up flow to store the current policy of that flow.
-     */
-    var currentPolicy: String?
-
-    /**
      * A Flow that emits a value each time the current [state] changes from
      * having a Token (`true` is emitted) to not having one (`false` is emitted).
      */
@@ -41,11 +36,4 @@ internal fun <S> TokenStorage<S>.updateAndCommit(update: S.() -> Unit) {
         it.update()
         state = it
     }
-}
-
-/**
- * Returns the String as a request-parameter for a policy.
- */
-internal fun TokenStorage<*>.createPolicyParam() = currentPolicy.let {
-    if (it.isNullOrEmpty()) emptyMap() else mapOf("p" to it)
 }
