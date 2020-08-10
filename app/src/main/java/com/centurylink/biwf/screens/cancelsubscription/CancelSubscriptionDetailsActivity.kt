@@ -75,6 +75,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity(),
             subheaderRightActionTitle.text =
                 getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logCancelPress()
                 setResult(Activity.RESULT_OK)
                 finish()
             }
