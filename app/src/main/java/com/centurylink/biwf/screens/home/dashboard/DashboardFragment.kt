@@ -259,14 +259,14 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     }
 
     // TODO right now this feature is not in active so commenting for now
-   /* private fun observeNotificationViews() {
+    private fun observeNotificationViews() {
         dashboardViewModel.notificationListDetails.observe {
             dashboardViewModel.displaySortedNotifications(it.notificationlist)
         }
         dashboardViewModel.notifications.observe {
             addNotificationStack(it)
         }
-    }*/
+    }
 
     private fun observeWifiDetailsViews() {
         dashboardViewModel.wifiListDetails.observe {

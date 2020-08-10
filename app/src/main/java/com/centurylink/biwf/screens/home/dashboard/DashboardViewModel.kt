@@ -68,7 +68,8 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestWifiDetails()
-            requestNotificationDetails()
+            // TODO right now this feature is not in active so commenting for now
+           // requestNotificationDetails()
         }
         if (sharedPreferences.getUserType() != true) {
             refreshAppointmentDetails()
