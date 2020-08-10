@@ -132,4 +132,8 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     fun logBackPress() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_CANCEL_SUBSCRIPTION_CONFIRMATION)
     }
+
+    fun logCancelPress() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CANCEL_CANCEL_SUBSCRIPTION_CONFIRMATION)
+    }
 }
