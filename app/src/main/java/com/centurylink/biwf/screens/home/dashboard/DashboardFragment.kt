@@ -139,7 +139,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             incSpeedTest.visibility = View.VISIBLE
             binding.connectedDevicesCard.root.visibility = View.VISIBLE
             dashboardViewModel.startSpeedTest()
-            observeNotificationViews()
+            // TODO right now this feature is not in active so commenting for now
+           // observeNotificationViews()
             observeWifiDetailsViews()
         } else {
             getAppointmentStatus()
@@ -257,14 +258,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
-    private fun observeNotificationViews() {
+    // TODO right now this feature is not in active so commenting for now
+   /* private fun observeNotificationViews() {
         dashboardViewModel.notificationListDetails.observe {
             dashboardViewModel.displaySortedNotifications(it.notificationlist)
         }
         dashboardViewModel.notifications.observe {
             addNotificationStack(it)
         }
-    }
+    }*/
 
     private fun observeWifiDetailsViews() {
         dashboardViewModel.wifiListDetails.observe {
