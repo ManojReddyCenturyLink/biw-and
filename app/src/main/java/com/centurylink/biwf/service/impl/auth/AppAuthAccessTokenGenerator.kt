@@ -3,7 +3,6 @@ package com.centurylink.biwf.service.impl.auth
 import android.content.Context
 import com.centurylink.biwf.service.auth.AccessTokenGenerator
 import com.centurylink.biwf.service.auth.TokenStorage
-import com.centurylink.biwf.service.auth.createPolicyParam
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -37,13 +36,14 @@ class AppAuthAccessTokenGenerator @Inject constructor(
         // and then in the catch-block checks if emitter has not been disposed
         val authState = appAuthTokenStorage.state
 
-        val policyParams = appAuthTokenStorage.createPolicyParam()
-
         // The 'refreshStrategy' is a method-reference that takes a context (AuthorizationService,
         // AuthState and policy-parameters) and returns the proper method that will do the actual
         // refreshing of the token.
         val refreshStrategy = when {
-            authState?.refreshToken == null -> throw AuthorizationRequestErrors.OTHER
+            authState?.accessToken == null -> throw AuthorizationRequestErrors.OTHER
+            // TODO - we may need to create custom implementations for retrieving a new access
+            //  token, since our Apigee implementation might not align with the AppAuth convention.
+            //  For this we would revise refreshTokenAlways() and refreshTokenIfNecessry()
             tokenIsInvalidated.getAndSet(false) -> AuthorizationService::refreshTokenAlways
             else -> AuthorizationService::refreshTokenIfNecessary
         }
@@ -51,7 +51,7 @@ class AppAuthAccessTokenGenerator @Inject constructor(
         return with(AuthorizationService(appContext)) {
             // Now do the actual refresh, where the provided lambda will be called when the refresh succeeds or fails.
             try {
-                refreshStrategy(this, authState!!, policyParams)
+                refreshStrategy(this, authState!!)
             } catch (error: Throwable) {
                 Timber.e(error, "Token refresh error!")
                 throw error
@@ -72,11 +72,10 @@ class AppAuthAccessTokenGenerator @Inject constructor(
  * @return A a fresh new access-token.
  */
 private suspend fun AuthorizationService.refreshTokenAlways(
-    state: AuthState,
-    policyParams: Map<String, String>
+    state: AuthState
 ): String = suspendCancellableCoroutine { cont ->
 
-    val tokenRequest = state.createTokenRefreshRequest(policyParams)
+    val tokenRequest = state.createTokenRefreshRequest()
     performTokenRequest(tokenRequest) { resp, error ->
         state.update(resp, error)
 
@@ -96,11 +95,10 @@ private suspend fun AuthorizationService.refreshTokenAlways(
  * @return The current or a new access-token.
  */
 private suspend fun AuthorizationService.refreshTokenIfNecessary(
-    state: AuthState,
-    policyParams: Map<String, String>
+    state: AuthState
 ): String = suspendCancellableCoroutine { cont ->
 
-    state.performActionWithFreshTokens(this, policyParams) { token, _, error ->
+    state.performActionWithFreshTokens(this) { token, _, error ->
         Timber.d("Token callback from refreshTokenIfNecessary()")
 
         when {

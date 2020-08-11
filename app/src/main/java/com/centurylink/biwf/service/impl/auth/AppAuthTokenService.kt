@@ -12,7 +12,6 @@ class AppAuthTokenService @Inject constructor(
 ) : TokenService {
 
     override fun clearToken() {
-        tokenStorage.currentPolicy = null
         tokenStorage.state = null
     }
 

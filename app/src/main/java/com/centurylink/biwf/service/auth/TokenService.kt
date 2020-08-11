@@ -2,6 +2,7 @@ package com.centurylink.biwf.service.auth
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.runBlocking
+import timber.log.Timber
 
 /**
  * The service that provides to proper access-tokens to an HTTP API client.
@@ -58,5 +59,6 @@ val TokenService.hasToken: Flow<Boolean> get() = tokenStorage.hasToken
 val TokenService.accessTokenHeader: String get() = try {
     "Bearer ${runBlocking { getAccessToken() }}"
 } catch (e: Exception) {
+    Timber.e(e, "Auth exception")
     ""
 }

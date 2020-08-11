@@ -36,6 +36,7 @@ class AnalyticsKeys {
         const val BUTTON_PREVIOUS_STATEMENT = "Previous Statements Button"
         const val BUTTON_EDIT_BILLING_INFO = "Edit Billing Info Button"
         const val BUTTON_SUBMIT_CANCEL_SUBSCRIPTION_CONFIRMATION = "Submit Button Cancel Subscription Confirmation"
+        const val BUTTON_CANCEL_CANCEL_SUBSCRIPTION_CONFIRMATION = "Cancel Button Cancel Subscription Confirmation"
 
         /*Alert Dialog*/
         const val ALERT_UPDATE_EMAIL_INFO = "Change Email Info Popup"

@@ -22,14 +22,16 @@ class InitUtility {
 }
 
 private val authServiceConfig = AuthServiceConfigModule(
-    rootUrl = BuildConfig.ROOT_URL,
+    authorizationEndpoint = BuildConfig.AUTHORIZATION_ENDPOINT,
+    tokenEndpoint = BuildConfig.TOKEN_ENDPOINT,
     clientId = BuildConfig.CLIENT_ID,
+    redirectUrl = BuildConfig.REDIRECT_URL,
     scope = BuildConfig.SCOPE,
-    redirectUrl = BuildConfig.REDIRECT_URL
+    revokeTokenEndpoint = BuildConfig.REVOKE_TOKEN_ENDPOINT
 )
 
 private val restServiceConfig = RestServiceConfigModule(
-    baseUrlFiberServices = BuildConfig.BASE_URL,
+    baseUrlFiberServices = BuildConfig.BASE_SALESFORCE_URL,
     baseUrlForAwsBucket = "https://bucketforapi.s3-eu-west-1.amazonaws.com/",
     baseUrlForAssiaServices = " https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/",
     integrationServerService = object : IntegrationServerService {

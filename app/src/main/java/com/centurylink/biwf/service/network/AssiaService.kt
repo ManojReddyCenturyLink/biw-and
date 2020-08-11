@@ -17,7 +17,6 @@ import retrofit2.http.Path
 
 interface AssiaService {
 
-    //Todo add 'api/v2' to base url
     @GET("api/v3/wifi/line/info")
     suspend fun getModemInfo(@HeaderMap header: Map<String, String>): AssiaNetworkResponse<ModemInfoResponse, AssiaError>
 

@@ -23,6 +23,7 @@ class ModemRebootRepository @Inject constructor(
 
     private fun getHeaderMap(token: String): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
+        // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         return headerMap
     }

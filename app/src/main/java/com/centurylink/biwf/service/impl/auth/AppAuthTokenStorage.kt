@@ -24,7 +24,6 @@ class AppAuthTokenStorage @Inject constructor(
     }
 
     private val authTokenKey = "_preferences_data_"
-    private val policyKey = "_contract_data_"
 
     override var state: AuthState?
         get() = synchronized(this) {
@@ -40,24 +39,11 @@ class AppAuthTokenStorage @Inject constructor(
             } else {
                 preferences.edit()
                     .remove(authTokenKey)
-                    .remove(policyKey)
                     .apply()
                 false
             }
 
             _stateChanges.value = hasToken
-        }
-
-    override var currentPolicy: String?
-        get() = synchronized(this) {
-            preferences.getString(policyKey, null)
-        }
-        set(value) = synchronized(this) {
-            if (value != null) {
-                preferences.edit().putString(policyKey, value).apply()
-            } else {
-                preferences.edit().remove(policyKey).apply()
-            }
         }
 
     private val _stateChanges = BehaviorStateFlow<Boolean>()
