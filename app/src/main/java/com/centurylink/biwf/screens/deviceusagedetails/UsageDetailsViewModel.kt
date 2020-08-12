@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.R
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinatorDestinations
 import com.centurylink.biwf.repos.AssiaRepository
@@ -24,19 +26,21 @@ class UsageDetailsViewModel constructor(
     private val app: BIWFApp,
     private val networkUsageRepository: NetworkUsageRepository,
     private val assiaRepository: AssiaRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
     class Factory @Inject constructor(
         private val app: BIWFApp,
         private val networkUsageRepository: NetworkUsageRepository,
         private val asiaRepository: AssiaRepository,
-        private val modemRebootMonitorService: ModemRebootMonitorService
+        private val modemRebootMonitorService: ModemRebootMonitorService,
+        private val analyticsManagerInterface: AnalyticsManager
     ) : ViewModelFactoryWithInput<String> {
 
         override fun withInput(input: String): ViewModelProvider.Factory {
             return viewModelFactory {
-                val viewModel = UsageDetailsViewModel(app, networkUsageRepository,asiaRepository, modemRebootMonitorService)
+                val viewModel = UsageDetailsViewModel(app, networkUsageRepository,asiaRepository, modemRebootMonitorService, analyticsManagerInterface)
                 viewModel.staMac = input
                 viewModel
             }
@@ -58,6 +62,7 @@ class UsageDetailsViewModel constructor(
     var staMac: String = ""
 
     fun initApis() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestDailyUsageDetails()
@@ -65,11 +70,14 @@ class UsageDetailsViewModel constructor(
         }
     }
 
-    fun onDevicesConnectedClicked() {}
+    fun onDevicesConnectedClicked() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DEVICE_CONNECTION_STATUS_DEVICE_DETAILS)
+    }
 
     private suspend fun requestDailyUsageDetails() {
         try {
             val result = networkUsageRepository.getUsageDetails(true, staMac)
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_USAGE_DETAILS_DAILY_SUCCESS)
             uploadSpeedDaily.latestValue =
                 formattedTraffic(result.uploadTraffic, result.uploadTrafficUnit)
             downloadSpeedDaily.latestValue =
@@ -77,6 +85,7 @@ class UsageDetailsViewModel constructor(
             uploadSpeedDailyUnit.latestValue = getUnit(result.uploadTrafficUnit)
             downloadSpeedDailyUnit.latestValue = getUnit(result.downloadTrafficUnit)
         } catch (e: Exception) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_USAGE_DETAILS_DAILY_FAILURE)
             errorMessageFlow.latestValue = e.toString()
         }
 
@@ -85,6 +94,7 @@ class UsageDetailsViewModel constructor(
     private suspend fun requestMonthlyUsageDetails() {
         try {
             val result = networkUsageRepository.getUsageDetails(false, staMac)
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_USAGE_DETAILS_MONTHLY_SUCCESS)
             uploadSpeedMonthly.latestValue =
                 formattedTraffic(result.uploadTraffic, result.uploadTrafficUnit)
             downloadSpeedMonthly.latestValue =
@@ -93,6 +103,7 @@ class UsageDetailsViewModel constructor(
             downloadSpeedMonthlyUnit.latestValue = getUnit(result.downloadTrafficUnit)
             progressViewFlow.latestValue = false
         } catch (e: Exception) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_USAGE_DETAILS_MONTHLY_FAILURE)
             errorMessageFlow.latestValue = e.toString()
         }
     }
@@ -134,11 +145,25 @@ class UsageDetailsViewModel constructor(
         progressViewFlow.latestValue = false
         when (blockInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_SUCCESS)
                 removeDevices.latestValue = blockInfo.body.code.equals("1000")
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             }
+        }
+    }
+
+    fun logDoneBtnClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+    }
+
+    fun logRemoveConnection(removeConnection: Boolean) {
+        if(removeConnection){
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVE_CONFIRMATION_USAGE_DETAILS)
+        }else{
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CONFIRMATION_USAGE_DETAILS)
         }
     }
 }

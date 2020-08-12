@@ -60,6 +60,7 @@ class UsageDetailsActivity : BaseActivity() {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDoneBtnClick()
                 setResult(Activity.RESULT_OK)
                 finish()
             }
@@ -113,9 +114,11 @@ class UsageDetailsActivity : BaseActivity() {
    private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                viewModel.logRemoveConnection(true)
                 viewModel.removeDevices(intent.getStringExtra(STA_MAC))
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                viewModel.logRemoveConnection(true)
             }
         }
     }
