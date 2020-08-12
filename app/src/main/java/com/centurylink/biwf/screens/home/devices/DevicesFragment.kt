@@ -84,6 +84,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
+        devicesViewModel.logRemoveDevicesItemClick()
         blockDeviceMac = deviceInfo.stationMac!!
         showConfirmationDialog(
             deviceInfo.hostName?.toUpperCase(Locale.getDefault())?.capitalize()
@@ -104,6 +105,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         )
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
         binding.pullToRefresh.setOnRefreshListener {
+            devicesViewModel.logPullToRefresh()
             if (!isRefresh) {
                 devicesViewModel.initApis()
                 isRefresh = true
@@ -141,6 +143,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
                 binding.devicesList.expandGroup(1)
                 return@setOnGroupClickListener true
             }
+            devicesViewModel.logListExpandCollapse()
             return@setOnGroupClickListener false
         }
         binding.devicesList.expandGroup(0)
@@ -162,12 +165,14 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                devicesViewModel.logRestoreConnection(true)
                 if (!blockDeviceMac.isNullOrEmpty()) {
                     devicesViewModel.unblockDevice(blockDeviceMac)
                     blockDeviceMac = ""
                 }
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                devicesViewModel.logRestoreConnection(false)
                 blockDeviceMac = ""
             }
         }

@@ -1,8 +1,8 @@
 package com.centurylink.biwf.screens.cancelsubscription
 
+import AnalyticsKeys
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.repos.CaseRepository

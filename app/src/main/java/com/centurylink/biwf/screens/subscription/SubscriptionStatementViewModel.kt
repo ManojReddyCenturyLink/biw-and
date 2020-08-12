@@ -1,7 +1,7 @@
 package com.centurylink.biwf.screens.subscription
 
+import AnalyticsKeys
 import androidx.lifecycle.viewModelScope
-import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.account.AccountDetails
