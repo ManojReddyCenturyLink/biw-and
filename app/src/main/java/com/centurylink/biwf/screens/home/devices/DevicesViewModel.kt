@@ -2,8 +2,6 @@ package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
-import com.centurylink.biwf.analytics.AnalyticsKeys
-import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
 import com.centurylink.biwf.model.devices.DevicesData
@@ -22,8 +20,7 @@ import javax.inject.Inject
 class DevicesViewModel @Inject constructor(
     private val devicesRepository: DevicesRepository,
     private val asiaRepository: AssiaRepository,
-    modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
+    modemRebootMonitorService: ModemRebootMonitorService
 ) : BaseViewModel(modemRebootMonitorService) {
 
     var errorMessageFlow = EventFlow<String>()
@@ -38,7 +35,6 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun initApis() {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
         viewModelScope.launch {
             requestModemDetails()
         }
@@ -48,11 +44,9 @@ class DevicesViewModel @Inject constructor(
         val deviceDetails = asiaRepository.getDevicesDetails()
         when (deviceDetails) {
             is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
                 sortAndDisplayDeviceInfo(deviceDetails.body)
             }
             else -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             }
         }
@@ -74,7 +68,6 @@ class DevicesViewModel @Inject constructor(
     private suspend fun requestModemDetails() {
         when (val modemDetails = asiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_SUCCESS)
                 val apiInfo = modemDetails.body.modemInfo?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     uiDevicesTypeDetails =
@@ -86,7 +79,6 @@ class DevicesViewModel @Inject constructor(
                 }
             }
             else -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             }
         }
@@ -96,11 +88,9 @@ class DevicesViewModel @Inject constructor(
         val blockInfo = asiaRepository.unblockDevices(stationMac)
         when (blockInfo) {
             is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_SUCCESS)
                 requestModemDetails()
             }
             else -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             }
         }
@@ -113,7 +103,6 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun navigateToUsageDetails(devicesInfo: DevicesData) {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.LIST_ITEM_CONNECTED_DEVICES)
         val bundle = Bundle()
         bundle.putString(UsageDetailsActivity.HOST_NAME, devicesInfo.hostName)
         bundle.putString(UsageDetailsActivity.STA_MAC, devicesInfo.stationMac)
@@ -123,26 +112,6 @@ class DevicesViewModel @Inject constructor(
         )
         DevicesCoordinatorDestinations.bundle = bundle
         myState.latestValue = DevicesCoordinatorDestinations.DEVICE_DETAILS
-    }
-
-    fun logPullToRefresh() {
-        analyticsManagerInterface.logApiCall(AnalyticsKeys.PULL_TO_REFRESH_DEVICES)
-    }
-
-    fun logRestoreConnection(restoreConnection: Boolean) {
-        if (restoreConnection) {
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVED_DEVICES_RESTORE_ACCESS)
-        } else {
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVED_DEVICES_CANCEL_ACCESS)
-        }
-    }
-
-    fun logListExpandCollapse() {
-        analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.EXPANDABLE_LIST_DEVICES)
-    }
-
-    fun logRemoveDevicesItemClick() {
-        analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.LIST_ITEM_REMOVED_DEVICES)
     }
 
     data class UIDevicesTypeDetails(
