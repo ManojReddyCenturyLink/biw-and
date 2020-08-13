@@ -10,7 +10,7 @@ class AnalyticsKeys {
         const val EVENT_TYPE_API_CALL = "api_call"
         const val EVENT_TYPE_TOGGLE_STATE_CHANGED = "toggle_state_changed"
         const val EVENT_BIOMETRICS_LOGIN = "biometrics_login"
-        const val EVENT_TYPE_LIST_CLICKED = "list_state_changed"
+        const val EVENT_TYPE_LIST_CLICKED = "list_item_clicked"
 
         /*Screens*/
         /*Account Module*/
@@ -42,6 +42,7 @@ class AnalyticsKeys {
         const val BUTTON_MANAGE_SUBSCRIPTION = "Manage Subscription Button"
         const val BUTTON_PREVIOUS_STATEMENT = "Previous Statements Button"
         const val BUTTON_EDIT_BILLING_INFO = "Edit Billing Info Button"
+        const val EXPANDABLE_LIST_DEVICES = "Connected devices expandable list"
 
         /*Devices Module*/
         //Added for later reference when icon click gets implemented
@@ -71,7 +72,6 @@ class AnalyticsKeys {
         const val TOGGLE_MARKETING_EMAILS = "Marketing Emails"
 
         /*List*/
-        const val EXPANDABLE_LIST_DEVICES = "Connected devices expandable list"
         const val LIST_ITEM_CONNECTED_DEVICES = "List item clicked Connected devices list"
         const val LIST_ITEM_REMOVED_DEVICES = "List item clicked Removed devices list"
 
@@ -113,6 +113,5 @@ class AnalyticsKeys {
         const val GET_USAGE_DETAILS_DAILY_FAILURE = "Usage Details Daily Api Failure"
         const val GET_USAGE_DETAILS_MONTHLY_SUCCESS = "Usage Details Monthly Api Success"
         const val GET_USAGE_DETAILS_MONTHLY_FAILURE = "Usage Details Monthly Api Failure"
-        const val PULL_TO_REFRESH_DEVICES = "Pull To Refresh"
     }
 }

@@ -124,9 +124,6 @@ class DevicesViewModel @Inject constructor(
         DevicesCoordinatorDestinations.bundle = bundle
         myState.latestValue = DevicesCoordinatorDestinations.DEVICE_DETAILS
     }
-    fun logPullToRefresh() {
-        analyticsManagerInterface.logApiCall(AnalyticsKeys.PULL_TO_REFRESH_DEVICES)
-    }
 
     fun logRestoreConnection(restoreConnection: Boolean) {
         if (restoreConnection) {
@@ -137,7 +134,7 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun logListExpandCollapse() {
-        analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.EXPANDABLE_LIST_DEVICES)
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.EXPANDABLE_LIST_DEVICES)
     }
 
     fun logRemoveDevicesItemClick() {
