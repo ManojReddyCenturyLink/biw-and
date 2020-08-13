@@ -55,7 +55,7 @@
             android:layout_marginEnd="@dimen/medium_margin_spacing"
             android:background="@color/online_green"
             tools:visibility="invisible"
-            android:visibility="gone"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
