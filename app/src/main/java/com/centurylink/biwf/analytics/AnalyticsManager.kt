@@ -1,6 +1,5 @@
 package com.centurylink.biwf.analytics
 
-import AnalyticsKeys
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
 import javax.inject.Inject

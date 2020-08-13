@@ -1,3 +1,5 @@
+package com.centurylink.biwf.analytics
+
 class AnalyticsKeys {
     companion object {
 
