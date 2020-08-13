@@ -86,7 +86,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         } else if (resultCode == DashboardFragment.REFRESH_APPOINTMENT) {
             binding.vpDashboard.currentItem = 1
             refreshAppointmentsInDashBoardFragment()
-        } else if(resultCode == UsageDetailsActivity.REQUEST_TO_DEVICES){
+        } else if (resultCode == UsageDetailsActivity.REQUEST_TO_DEVICES) {
             binding.vpDashboard.currentItem = 2
             refreshDevices()
         }
@@ -127,17 +127,17 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     }
 
     private fun initOnClicks() {
-        binding.iBtnNotificationTop.setOnClickListener { viewModel.onNotificationBellClicked() }
         // TODO right now this feature is not in active so commenting for now
-      //  binding.iBtnNotificationBottom.setOnClickListener { viewModel.onNotificationBellClicked() }
+        //  binding.iBtnNotificationTop.setOnClickListener { viewModel.onNotificationBellClicked() }
+        //  binding.iBtnNotificationBottom.setOnClickListener { viewModel.onNotificationBellClicked() }
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
     //isJobTypeInstallation will be used while implementing Service type installation status
     private fun setupTabsViewPager(isExistingUser: Boolean) {
         // TODO right now this feature is not in active so commenting for now
-      // binding.iBtnNotificationBottom.visibility = if (isExistingUser) View.GONE else View.VISIBLE
-        binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
+        // binding.iBtnNotificationBottom.visibility = if (isExistingUser) View.GONE else View.VISIBLE
+        //   binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
         binding.homeOnlineStatusBar.visibility = if (isExistingUser) View.VISIBLE else View.GONE
 
         binding.vpDashboard.adapter = viewPagerAdapter
