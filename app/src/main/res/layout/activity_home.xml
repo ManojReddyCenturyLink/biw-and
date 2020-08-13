@@ -46,6 +46,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/iBtnNotificationTop" />
 
+        <!-- TODO right now this feature is not in active so commenting for now -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/iBtnNotificationTop"
             android:layout_width="wrap_content"
@@ -107,6 +108,7 @@
             app:tabRippleColor="@null"
             app:tabTextAppearance="@style/Tab.TextAppearance" />
 
+        <!-- TODO right now this feature is not in active so commenting for now -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/iBtnNotificationBottom"
             android:layout_width="wrap_content"
