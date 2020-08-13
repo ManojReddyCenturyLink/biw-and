@@ -169,7 +169,6 @@ class AppAuthAuthService(
             Uri.parse(authRedirectUrl)
         )
             .setScope(scope)
-            .setState(null)
             .build()
     }
 
