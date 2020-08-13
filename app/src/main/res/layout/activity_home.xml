@@ -54,7 +54,7 @@
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
             android:background="@color/online_green"
-            tools:visibility="gone"
+            tools:visibility="invisible"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -114,7 +114,7 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/padding_0"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:background="@color/online_green"
             app:layout_constraintBottom_toBottomOf="@id/home_upper_tabs"
             app:layout_constraintEnd_toEndOf="parent"
