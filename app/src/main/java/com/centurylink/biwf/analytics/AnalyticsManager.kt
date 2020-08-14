@@ -24,6 +24,10 @@ class AnalyticsManager @Inject constructor(private val firebaseAnalytics: Fireba
         logToggleEvent(AnalyticsKeys.EVENT_TYPE_TOGGLE_STATE_CHANGED, stateName, stateValue)
     }
 
+    fun logListItemClickEvent(listItem: String) {
+        logEvent(AnalyticsKeys.EVENT_TYPE_LIST_CLICKED, listItem)
+    }
+
     fun logBioMetricsLogin(stateName: String, stateValue: Boolean) {
         logToggleEvent(AnalyticsKeys.EVENT_BIOMETRICS_LOGIN, stateName, stateValue)
     }
