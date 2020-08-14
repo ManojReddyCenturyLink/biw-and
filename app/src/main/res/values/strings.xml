@@ -285,6 +285,7 @@
     <string name="remove_device_confirmation_msg">You can restore access later if you want to.</string>
     <string name="restore_access_confirmation_title">Do you want to restore access to “%s”?</string>
     <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
+    <string name="Organization">Organization</string>
 
     <!--Modify/Cancel Appointment Strings-->
     <string name="select_appointment_slot">Select the day and time that works best for you.</string>

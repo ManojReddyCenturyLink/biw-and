@@ -91,6 +91,9 @@ class UsageDetailsActivity : BaseActivity() {
                 }
             }
         }
+        //name constraint
+        binding.nicknameDeviceNameInput.setText(screenTitle)
+
         binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
         binding.removeDevicesBtn.setOnClickListener { showAlertDialog() }
     }
