@@ -317,4 +317,5 @@
     <string name="brightness_alert">For best results, use full brightness on your phone</string>
 
     <string name="wifi_code">WIFI:T:WPA;S:%1$s;P:%2$s;;</string>
+    <string name="nickname_device">Nickname device</string>
 </resources>

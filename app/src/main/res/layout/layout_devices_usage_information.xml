@@ -33,275 +33,293 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
 
-<ScrollView
-    android:id="@+id/layout_traffic_details"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:layout_constraintTop_toBottomOf="@+id/activity_header_view"
-    android:layout_margin="@dimen/medium_margin_spacing"
-    android:orientation="vertical">
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:id="@+id/fragmentDataContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/activity_header_view">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/troubleshooting_details"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/layout_traffic_details"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:clipToPadding="true"
+            android:fillViewport="true"
+            android:fitsSystemWindows="true"
+            android:fadeScrollbars="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/medium_margin_spacing">
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/vertical_guideline"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent=".50" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/daily_usage_text"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:text="@string/today_s_data_usage"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/troubleshooting_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/daily_download_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="-0.04"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_48"
-                app:layout_constraintEnd_toStartOf="@+id/download_speed_unit_daily"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/daily_usage_text"
-                android:text="--" />
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/vertical_guideline"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent=".50" />
 
-            <TextView
-                android:id="@+id/download_speed_unit_daily"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_tiny"
-                android:paddingBottom="@dimen/margin_spacing_tiny"
-                android:text="@string/mb_download"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_12"
-                app:layout_constraintBottom_toBottomOf="@+id/daily_download_speed"
-                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-                app:layout_constraintStart_toEndOf="@+id/daily_download_speed" />
+                    <TextView
+                        android:id="@+id/daily_usage_text"
+                        android:layout_width="@dimen/padding_0"
+                        android:layout_height="wrap_content"
+                        android:text="@string/today_s_data_usage"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="@dimen/text_size_16"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/daily_upload_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="-0.04"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_48"
-                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-                app:layout_constraintTop_toTopOf="@+id/daily_download_speed"
-                android:text="--" />
+                    <TextView
+                        android:id="@+id/daily_download_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.04"
+                        android:text="--"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="@dimen/text_size_48"
+                        app:layout_constraintEnd_toStartOf="@+id/download_speed_unit_daily"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/daily_usage_text" />
 
-            <TextView
-                android:id="@+id/daily_upload_speed_unit"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_tiny"
-                android:paddingBottom="@dimen/margin_spacing_tiny"
-                android:text="@string/mb_upload"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_12"
-                app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
-                app:layout_constraintStart_toEndOf="@+id/daily_upload_speed" />
+                    <TextView
+                        android:id="@+id/download_speed_unit_daily"
+                        android:layout_width="@dimen/padding_0"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_spacing_tiny"
+                        android:paddingBottom="@dimen/margin_spacing_tiny"
+                        android:text="@string/mb_download"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_12"
+                        app:layout_constraintBottom_toBottomOf="@+id/daily_download_speed"
+                        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                        app:layout_constraintStart_toEndOf="@+id/daily_download_speed" />
 
-            <TextView
-                android:id="@+id/biweekly_usage_text"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_spacing_small"
-                android:text="@string/last_two_week"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/daily_download_speed" />
+                    <TextView
+                        android:id="@+id/daily_upload_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.04"
+                        android:text="--"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="@dimen/text_size_48"
+                        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                        app:layout_constraintTop_toTopOf="@+id/daily_download_speed" />
 
-            <TextView
-                android:id="@+id/biweekly_download_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="-0.04"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_48"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/biweekly_usage_text"
-                android:text="--" />
+                    <TextView
+                        android:id="@+id/daily_upload_speed_unit"
+                        android:layout_width="@dimen/padding_0"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_spacing_tiny"
+                        android:paddingBottom="@dimen/margin_spacing_tiny"
+                        android:text="@string/mb_upload"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_12"
+                        app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
+                        app:layout_constraintStart_toEndOf="@+id/daily_upload_speed" />
 
-            <TextView
-                android:id="@+id/download_speed_unit_biweekly"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_tiny"
-                android:paddingBottom="@dimen/margin_spacing_tiny"
-                android:text="@string/mb_download"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_12"
-                app:layout_constraintBottom_toBottomOf="@+id/biweekly_download_speed"
-                app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-                app:layout_constraintStart_toEndOf="@+id/biweekly_download_speed" />
+                    <TextView
+                        android:id="@+id/biweekly_usage_text"
+                        android:layout_width="@dimen/padding_0"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_spacing_small"
+                        android:text="@string/last_two_week"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="@dimen/text_size_16"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/daily_download_speed" />
 
-            <TextView
-                android:id="@+id/biweekly_upload_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:letterSpacing="-0.04"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_48"
-                app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
-                app:layout_constraintTop_toTopOf="@+id/biweekly_download_speed"
-                android:text="--" />
+                    <TextView
+                        android:id="@+id/biweekly_download_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.04"
+                        android:text="--"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="@dimen/text_size_48"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/biweekly_usage_text" />
 
-            <TextView
-                android:id="@+id/upload_speed_unit_biweekly"
-                android:layout_width="@dimen/padding_0"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_tiny"
-                android:paddingBottom="@dimen/margin_spacing_tiny"
-                android:text="@string/mb_upload"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_12"
-                app:layout_constraintBottom_toBottomOf="@+id/biweekly_upload_speed"
-                app:layout_constraintStart_toEndOf="@+id/biweekly_upload_speed" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/download_speed_unit_biweekly"
+                        android:layout_width="@dimen/padding_0"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_spacing_tiny"
+                        android:paddingBottom="@dimen/margin_spacing_tiny"
+                        android:text="@string/mb_download"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_12"
+                        app:layout_constraintBottom_toBottomOf="@+id/biweekly_download_speed"
+                        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
+                        app:layout_constraintStart_toEndOf="@+id/biweekly_download_speed" />
 
-        <Button
-            android:id="@+id/device_connected_btn"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@drawable/light_blue_rounded_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+                    <TextView
+                        android:id="@+id/biweekly_upload_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:letterSpacing="-0.04"
+                        android:text="--"
+                        android:textColor="@color/blue_dark"
+                        android:textSize="@dimen/text_size_48"
+                        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                        app:layout_constraintTop_toTopOf="@+id/biweekly_download_speed" />
 
-        <TextView
-            android:id="@+id/connection_status_btn_text"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_small"
-            android:drawableEnd="@drawable/ic_3_bars"
-            android:drawablePadding="@dimen/spacing_4"
-            android:text="@string/device_connected"
-            android:textAllCaps="false"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+                    <TextView
+                        android:id="@+id/upload_speed_unit_biweekly"
+                        android:layout_width="@dimen/padding_0"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_spacing_tiny"
+                        android:paddingBottom="@dimen/margin_spacing_tiny"
+                        android:text="@string/mb_upload"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_12"
+                        app:layout_constraintBottom_toBottomOf="@+id/biweekly_upload_speed"
+                        app:layout_constraintStart_toEndOf="@+id/biweekly_upload_speed" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <TextView
-            android:id="@+id/tap_to_retry_text"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_tiny"
-            android:text="@string/tap_to_pause_connection"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_12"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/connection_status_btn_text" />
-        <View
-            android:id="@+id/horizontal_view"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/above_cardview_elevation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/main_background_color"
-            app:layout_constraintTop_toBottomOf="@+id/tap_to_retry_text"
-            android:layout_marginTop="@dimen/margin_spacing_large"/>
-        <TextView
-            android:id="@+id/Organization"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Organization"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/text_size_16"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontal_view"
-            android:layout_marginTop="@dimen/margin_spacing_large"
-            />
-        <TextView
-            android:id="@+id/nickname_device"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nickname device"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Organization"
-            android:layout_marginTop="@dimen/small_text_size"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_4"
-            android:fontFamily="@font/arial_mt"
-            android:text="@string/optional"
-            android:textColor="@color/grey_text_color"
-            android:textSize="@dimen/text_size_12"
-            app:layout_constraintBottom_toBottomOf="@id/nickname_device"
-            app:layout_constraintStart_toEndOf="@id/nickname_device"
-            />
-        <TextView
-            android:id="@+id/nickname_device_name_input"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:background="@drawable/background_thin_border"
-            android:layout_marginTop="@dimen/spacing_4"
-            android:inputType="text"
-            android:padding="@dimen/margin_spacing_tiny"
-            android:textSize="@dimen/text_size_16"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/nickname_device"
-             />
+                <Button
+                    android:id="@+id/device_connected_btn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_spacing_small"
+                    android:background="@drawable/light_blue_rounded_background"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
 
-        <View
-            android:id="@+id/horizontal_view2"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/above_cardview_elevation"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@color/main_background_color"
-            app:layout_constraintTop_toBottomOf="@+id/nickname_device_name_input"
-            android:layout_marginTop="@dimen/margin_spacing_large"/>
+                <TextView
+                    android:id="@+id/connection_status_btn_text"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_spacing_small"
+                    android:drawableEnd="@drawable/ic_3_bars"
+                    android:drawablePadding="@dimen/spacing_4"
+                    android:text="@string/device_connected"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blue"
+                    android:textSize="@dimen/text_size_16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
 
-        <Button
-            android:id="@+id/remove_devices_btn"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/margin_spacing_large"
-            android:layout_marginTop="@dimen/margin_spacing_large"
-            android:background="@drawable/button_thin_border_background"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="@string/remove_device"
-            android:textAllCaps="false"
-            android:textSize="14sp"
-            android:textColor="@color/blue"
-            android:paddingStart="@dimen/margin_spacing_small"
-            android:paddingEnd="@dimen/margin_spacing_small"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_view2" />
+                <TextView
+                    android:id="@+id/tap_to_retry_text"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_spacing_tiny"
+                    android:text="@string/tap_to_pause_connection"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/connection_status_btn_text" />
+
+                <View
+                    android:id="@+id/horizontal_view"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="@dimen/above_cardview_elevation"
+                    android:layout_marginTop="@dimen/margin_spacing_large"
+                    android:background="@color/main_background_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tap_to_retry_text" />
+
+                <TextView
+                    android:id="@+id/Organization"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_spacing_large"
+                    android:text="@string/Organization"
+                    android:textColor="@color/blue_dark"
+                    android:textSize="@dimen/text_size_16"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/horizontal_view" />
+
+                <TextView
+                    android:id="@+id/nickname_device"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_text_size"
+                    android:text="@string/nickname_device"
+                    android:textSize="12sp"
+                    android:textColor="@color/font_color_medium_grey"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/Organization" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_4"
+                    android:fontFamily="@font/arial_mt"
+                    android:text="@string/optional"
+                    android:textColor="@color/grey_text_color"
+                    android:textSize="@dimen/text_size_12"
+                    app:layout_constraintBottom_toBottomOf="@id/nickname_device"
+                    app:layout_constraintStart_toEndOf="@id/nickname_device" />
+
+                <EditText
+                    android:id="@+id/nickname_device_name_input"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:autofillHints=""
+                    android:background="@drawable/background_thin_border"
+                    android:inputType="text"
+                    android:padding="@dimen/margin_spacing_tiny"
+                    android:textColor="@color/grey_text_color"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/nickname_device" />
+
+                <View
+                    android:id="@+id/horizontal_view2"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="@dimen/above_cardview_elevation"
+                    android:layout_marginTop="@dimen/margin_spacing_large"
+                    android:background="@color/main_background_color"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/nickname_device_name_input" />
+
+                <Button
+                    android:id="@+id/remove_devices_btn"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/margin_spacing_large"
+                    android:layout_marginTop="@dimen/margin_spacing_large"
+                    android:background="@drawable/button_thin_border_background"
+                    android:paddingStart="@dimen/margin_spacing_small"
+                    android:paddingEnd="@dimen/margin_spacing_small"
+                    android:text="@string/remove_device"
+                    android:textAllCaps="false"
+                    android:textColor="@color/blue"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/horizontal_view2" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
