@@ -90,10 +90,18 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
     }
 
     private fun displaySlotError() {
+        binding.incHeader.apply {
+            subheaderRightActionTitle.isEnabled = true
+            subheaderRightActionTitle.isClickable = true
+        }
         binding.availableAppointmentSlotError.visibility = View.VISIBLE
     }
 
     private fun displayAppointmentError() {
+        binding.incHeader.apply {
+            subheaderRightActionTitle.isEnabled = true
+            subheaderRightActionTitle.isClickable = true
+        }
         binding.errorInSelectedSlot.visibility = View.VISIBLE
     }
 
@@ -104,12 +112,18 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             subHeaderLeftIcon.setOnClickListener { finish() }
             subheaderRightActionTitle.text = getText(R.string.next)
             subheaderRightActionTitle.isAllCaps = true
+            subheaderRightActionTitle.isEnabled = true
+            subheaderRightActionTitle.isClickable = true
             subheaderRightActionTitle.setOnClickListener {
                 if (!selectedDate.isNullOrEmpty()) {
                     viewModel.onNextClicked(
                         selectedDate,
                         selectedSlot
                     )
+                }
+                if (!selectedSlot.isNullOrEmpty()) {
+                    subheaderRightActionTitle.isEnabled = false
+                    subheaderRightActionTitle.isClickable = false
                 }
             }
         }

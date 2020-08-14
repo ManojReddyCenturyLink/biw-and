@@ -46,6 +46,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/iBtnNotificationTop" />
 
+        <!-- TODO right now this feature is not in active so commenting for now -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/iBtnNotificationTop"
             android:layout_width="wrap_content"
@@ -53,8 +54,8 @@
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
             android:background="@color/online_green"
-            tools:visibility="visible"
-            android:visibility="gone"
+            tools:visibility="invisible"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -107,11 +108,13 @@
             app:tabRippleColor="@null"
             app:tabTextAppearance="@style/Tab.TextAppearance" />
 
+        <!-- TODO right now this feature is not in active so commenting for now -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/iBtnNotificationBottom"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/padding_0"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
+            android:visibility="invisible"
             android:background="@color/online_green"
             app:layout_constraintBottom_toBottomOf="@id/home_upper_tabs"
             app:layout_constraintEnd_toEndOf="parent"
