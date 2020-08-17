@@ -250,7 +250,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_large"
-                    android:text="@string/Organization"
+                    android:text="@string/organization"
                     android:textColor="@color/blue_dark"
                     android:textSize="@dimen/text_size_16"
                     android:textStyle="bold"
