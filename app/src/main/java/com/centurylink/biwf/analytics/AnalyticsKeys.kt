@@ -43,7 +43,7 @@ class AnalyticsKeys {
         const val BUTTON_PREVIOUS_STATEMENT = "Previous Statements Button"
         const val BUTTON_EDIT_BILLING_INFO = "Edit Billing Info Button"
         const val EXPANDABLE_LIST_DEVICES = "Connected devices expandable list"
-
+        const val BUTTON_REMOVE_DEVICES_DEVICE_DETAILS = "Remove Devices Button Device Details"
         /*Devices Module*/
         //Added for later reference when icon click gets implemented
         // const val BUTTON_CONNECTED_DEVICES_LIST_ITEM = "List item icon Connected devices"
@@ -111,7 +111,7 @@ class AnalyticsKeys {
         const val GET_MODEM_INFO_FAILURE = "Modem Info Api Failure"
         const val GET_USAGE_DETAILS_DAILY_SUCCESS = "Usage Details Daily Api Success"
         const val GET_USAGE_DETAILS_DAILY_FAILURE = "Usage Details Daily Api Failure"
-        const val GET_USAGE_DETAILS_MONTHLY_SUCCESS = "Usage Details Monthly Api Success"
-        const val GET_USAGE_DETAILS_MONTHLY_FAILURE = "Usage Details Monthly Api Failure"
+        const val GET_USAGE_DETAILS_MONTHLY_SUCCESS = "Usage Details BiWeekly Api Success"
+        const val GET_USAGE_DETAILS_MONTHLY_FAILURE = "Usage Details BiWeekly Api Failure"
     }
 }

@@ -70,6 +70,10 @@ class UsageDetailsViewModel constructor(
         }
     }
 
+    fun onRemoveDevicesClicked() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_REMOVE_DEVICES_DEVICE_DETAILS)
+    }
+
     fun onDevicesConnectedClicked() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DEVICE_CONNECTION_STATUS_DEVICE_DETAILS)
     }
