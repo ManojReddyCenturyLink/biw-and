@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/activity_header_view" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fragmentDataContainer"
+        android:id="@+id/usage_layout_data_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/troubleshooting_details"
+                    android:id="@+id/layout_troubleshooting_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -204,7 +204,7 @@
                     android:background="@drawable/light_blue_rounded_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details" />
 
                 <TextView
                     android:id="@+id/connection_status_btn_text"
@@ -220,7 +220,7 @@
                     android:textSize="@dimen/text_size_16"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details" />
 
                 <TextView
                     android:id="@+id/tap_to_retry_text"
@@ -246,7 +246,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/tap_to_retry_text" />
 
                 <TextView
-                    android:id="@+id/Organization"
+                    android:id="@+id/organization"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_large"
@@ -266,7 +266,7 @@
                     android:textSize="12sp"
                     android:textColor="@color/font_color_medium_grey"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/Organization" />
+                    app:layout_constraintTop_toBottomOf="@id/organization" />
 
                 <TextView
                     android:layout_width="wrap_content"
