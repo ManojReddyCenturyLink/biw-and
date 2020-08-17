@@ -11,9 +11,9 @@
         layout="@layout/widget_loading_overlay_transparent_bg"
         android:layout_width="@dimen/padding_0"
         android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,11 +41,10 @@
             android:layout_marginStart="@dimen/medium_margin_spacing"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
             android:visibility="gone"
-            tools:visibility="visible"
             app:layout_constraintBottom_toBottomOf="@id/iBtnNotificationTop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iBtnNotificationTop" />
-
+            app:layout_constraintTop_toTopOf="@id/iBtnNotificationTop"
+            tools:visibility="visible" />
         <!-- TODO right now this feature is not in active so commenting for now -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/iBtnNotificationTop"
@@ -54,10 +53,10 @@
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
             android:background="@color/online_green"
-            tools:visibility="invisible"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="invisible">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -114,8 +113,8 @@
             android:layout_width="wrap_content"
             android:layout_height="@dimen/padding_0"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
-            android:visibility="invisible"
             android:background="@color/online_green"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/home_upper_tabs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/home_upper_tabs">

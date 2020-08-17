@@ -135,9 +135,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
 
     //isJobTypeInstallation will be used while implementing Service type installation status
     private fun setupTabsViewPager(isExistingUser: Boolean) {
-        // TODO right now this feature is not in active so commenting for now
-        // binding.iBtnNotificationBottom.visibility = if (isExistingUser) View.GONE else View.VISIBLE
-        //   binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
+        binding.iBtnNotificationBottom.visibility =
+            if (isExistingUser) View.GONE else View.INVISIBLE
+        binding.iBtnNotificationTop.visibility = if (isExistingUser) View.INVISIBLE else View.GONE
         binding.homeOnlineStatusBar.visibility = if (isExistingUser) View.VISIBLE else View.GONE
 
         binding.vpDashboard.adapter = viewPagerAdapter
