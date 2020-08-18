@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.support
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.CaseRepository
@@ -18,7 +19,6 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-
 class FAQViewModelTest : ViewModelBaseTest() {
 
     @MockK(relaxed = true)
@@ -30,6 +30,9 @@ class FAQViewModelTest : ViewModelBaseTest() {
     @MockK(relaxed = true)
     private lateinit var mockPreferences: Preferences
 
+    @MockK
+    private lateinit var analyticsManagerInterface : AnalyticsManager
+
     private lateinit var viewModel: FAQViewModel
 
     private lateinit var faq: Faq
@@ -39,6 +42,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
+        run { analyticsManagerInterface }
         every { mockPreferences.getValueByID(any()) } returns "12345"
         val jsonString = readJson("faqnosection.json")
         val recordIdString = readJson("caseid.json")
@@ -46,9 +50,8 @@ class FAQViewModelTest : ViewModelBaseTest() {
         recordID = fromJson(recordIdString)
         coEvery { faqRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
         coEvery { faqRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
-        viewModel = FAQViewModel(faqRepository, mockModemRebootMonitorService)
+        viewModel = FAQViewModel(faqRepository, mockModemRebootMonitorService, analyticsManagerInterface)
         viewModel.setFilteredSelection("Manage my account")
-
     }
 
     @Test
