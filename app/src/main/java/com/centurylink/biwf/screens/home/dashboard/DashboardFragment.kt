@@ -68,7 +68,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var unreadNotificationList: MutableList<Notification> = mutableListOf()
     private var enrouteMapFragment: SupportMapFragment? = null
     private var workBegunMapFragment: SupportMapFragment? = null
-
     private var originLatLng = LatLng(0.0, 0.0)
     //private var destinationLatLng = LatLng(0.0, 0.0)
 
@@ -167,7 +166,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             dashboardViewModel.getStartedClicked()
             viewClickListener.onGetStartedClick(false)
         }
-        binding.dashboardWifiCard.root.setOnClickListener { dashboardViewModel.navigateToNetworkInformation() }
+        binding.dashboardWifiCard.root.setOnClickListener {
+            dashboardViewModel.navigateToNetworkInformation(binding.dashboardWifiCard.wifiCardNetworkName.text.toString())
+        }
         binding.connectedDevicesCard.root.setOnClickListener { viewClickListener.onViewDevicesClick() }
     }
 
