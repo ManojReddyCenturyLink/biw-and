@@ -1,6 +1,8 @@
 package com.centurylink.biwf.screens.support
 
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.FAQCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
@@ -14,7 +16,8 @@ import javax.inject.Inject
 
 class FAQViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
     val faqDetailsInfo: Flow<UiFAQQuestionsDetails> = BehaviorStateFlow()
@@ -33,6 +36,7 @@ class FAQViewModel @Inject constructor(
     }
 
     fun initApis() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_FAQ)
         progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestRecordId()
@@ -43,8 +47,10 @@ class FAQViewModel @Inject constructor(
     private suspend fun requestRecordId() {
         val subscriptionDate = faqRepository.getKnowledgeRecordTypeId()
         subscriptionDate.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_RECORD_TYPE_ID_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_RECORD_TYPE_ID_SUCCESS)
             recordTypeId = it
         }
     }
@@ -52,8 +58,10 @@ class FAQViewModel @Inject constructor(
     private suspend fun requestFaqDetails() {
         val faqDetails = faqRepository.getFAQQuestionDetails(recordTypeId)
         faqDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_FAQ_QUESTION_DETAILS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_FAQ_QUESTION_DETAILS_SUCCESS)
             updateFaqDetails(it)
             progressViewFlow.latestValue = false
         }
@@ -67,7 +75,28 @@ class FAQViewModel @Inject constructor(
     }
 
     fun navigateToScheduleCallback() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SCHEDULE_A_CALLBACK_FAQ_DETAILS)
         myState.latestValue = FAQCoordinatorDestinations.SCHEDULE_CALLBACK
+    }
+
+    fun logBackButtonClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_FAQ_DETAILS)
+    }
+
+    fun logDoneButtonClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_FAQ_DETAILS)
+    }
+
+    fun logLiveChatLaunch() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_LIVE_CHAT_FAQ_DETAILS)
+    }
+
+    fun logItemExpanded() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.EXPAND_LIST_FAQ_DETAILS)
+    }
+
+    fun logItemCollapsed() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.COLLAPSE_LIST_FAQ_DETAILS)
     }
 
     data class UiFAQQuestionsDetails(

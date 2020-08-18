@@ -81,9 +81,13 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         val screenTitle: String = getString(R.string.schedule_callback)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
-            subHeaderLeftIcon.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackButtonClick()
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logCancelButtonClick()
                 setResult(Activity.RESULT_OK)
                 finish()
             }

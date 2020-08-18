@@ -1,6 +1,8 @@
 package com.centurylink.biwf.screens.support.schedulecallback
 
 import android.os.Bundle
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinatorDestinations
 import com.centurylink.biwf.model.support.TopicList
@@ -9,7 +11,8 @@ import com.centurylink.biwf.utility.EventFlow
 import javax.inject.Inject
 
 class ScheduleCallbackViewModel @Inject constructor(
-    modemRebootMonitorService: ModemRebootMonitorService
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService) {
 
     val myState = EventFlow<ScheduleCallbackCoordinatorDestinations>()
@@ -18,11 +21,17 @@ class ScheduleCallbackViewModel @Inject constructor(
     //currently we are hard coding data, once api will be there will update its value.
     var progressViewFlow = EventFlow<Boolean>()
 
+    init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SCHEDULE_CALLBACK_SUPPORT)
+    }
+
     fun launchCallDialer() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CALL_US_SCHEDULE_CALLBACK)
         myState.latestValue = ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
     }
 
     fun navigateAdditionalInfoScreen(item: TopicList) {
+        analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.LIST_ITEM_SCHEDULE_CALLBACK)
         ScheduleCallbackCoordinatorDestinations.bundle = Bundle().apply {
             putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
         }
@@ -37,5 +46,13 @@ class ScheduleCallbackViewModel @Inject constructor(
             "I have questions about my account",
             "I need something not listed here"
         ).map(::TopicList)
+    }
+
+    fun logBackButtonClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_SCHEDULE_CALLBACK)
+    }
+
+    fun logCancelButtonClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CANCEL_SCHEDULE_CALLBACK)
     }
 }
