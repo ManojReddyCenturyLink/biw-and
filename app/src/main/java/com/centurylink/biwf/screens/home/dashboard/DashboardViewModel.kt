@@ -14,6 +14,7 @@ import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
@@ -354,7 +355,10 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
-    fun navigateToNetworkInformation() {
+    fun navigateToNetworkInformation(networkName: String) {
+        val bundle = Bundle()
+        bundle.putString(NetworkStatusActivity.NETWORK_NAME, networkName)
+        DashboardCoordinatorDestinations.bundle = bundle
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 

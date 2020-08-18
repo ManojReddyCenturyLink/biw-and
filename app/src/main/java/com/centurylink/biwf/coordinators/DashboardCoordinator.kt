@@ -53,7 +53,7 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
     }
 
     private fun navigateToNetworkInformation(){
-        navigator.navigateToNetworkStatus()
+        navigator.navigateToNetworkInformationScreen()
     }
 
     private fun navigateToQRCodeScanning(){

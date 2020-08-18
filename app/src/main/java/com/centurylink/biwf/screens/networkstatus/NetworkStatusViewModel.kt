@@ -9,6 +9,7 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
+import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -22,6 +23,10 @@ class NetworkStatusViewModel @Inject constructor(
     val internetStatusFlow: Flow<OnlineStatus> = BehaviorStateFlow()
     val myState = EventFlow<NetworkStatusCoordinatorDestinations>()
     val progressViewFlow = EventFlow<Boolean>()
+    private var passwordVisibility: Boolean = false
+    private var passwordValue: String = ""
+    private var nameValue: String = ""
+    val error = EventFlow<Errors>()
 
     init {
         progressViewFlow.latestValue = true
@@ -56,8 +61,39 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
-    fun onDoneClick() {
-        myState.latestValue = NetworkStatusCoordinatorDestinations.DONE
+    fun togglePasswordVisibility(): Boolean {
+        passwordVisibility = !passwordVisibility
+        return passwordVisibility
+    }
+
+    fun onPasswordValueChanged(passwordValue: String) {
+        this.passwordValue = passwordValue
+    }
+
+    fun onNameValueChanged(passwordValue: String) {
+        this.nameValue = passwordValue
+    }
+
+    fun validateInput(): Errors {
+        val errors = Errors()
+        if (nameValue.isEmpty()) {
+            errors["nameError"] = "nameError"
+            errors["fieldMandatory"] = "fieldMandatory"
+        }
+        if (passwordValue.isEmpty()) {
+            errors["passwordError"] = "passwordError"
+            errors["fieldMandatory"] = "fieldMandatory"
+        }
+        if (nameValue.length == nameMinLength || nameValue.length > nameMaxLength) {
+            errors["nameError"] = "nameError"
+            errors["fieldLength"] = "fieldLength"
+        }
+        if (passwordValue.length < passwordMinLength || nameValue.length > passwordMaxLength) {
+            errors["passwordError"] = "passwordError"
+            errors["fieldLength"] = "fieldLength"
+        }
+        this.error.latestValue = errors
+        return errors
     }
 
     data class OnlineStatus(
@@ -90,5 +126,13 @@ class NetworkStatusViewModel @Inject constructor(
                 guestNetworkButtonSubText = R.string.tap_to_enable_guest_network
             }
         }
+
+    }
+
+    companion object {
+        const val nameMinLength = 1
+        const val nameMaxLength = 32
+        const val passwordMinLength = 8
+        const val passwordMaxLength = 63
     }
 }

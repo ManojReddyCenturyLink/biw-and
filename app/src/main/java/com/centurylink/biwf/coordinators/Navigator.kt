@@ -182,9 +182,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
-    fun navigateToNetworkStatus() {
+    fun navigateToNetworkInformationScreen() {
+        val bundle = DashboardCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(NetworkStatusActivity.newIntent(it))
+            it.startActivity(NetworkStatusActivity.newIntent(it, bundle))
         }
     }
 
