@@ -102,7 +102,8 @@ class FAQActivity : BaseActivity(){
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
                 viewModel.logBackButtonClick()
-                finish() }
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logDoneButtonClick()

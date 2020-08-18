@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.notification
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.repos.NotificationRepository
@@ -29,15 +30,19 @@ class NotificationViewModelTest : ViewModelBaseTest() {
     @MockK
     lateinit var notificationRepository: NotificationRepository
 
+    @MockK
+    private lateinit var analyticsManagerInterface : AnalyticsManager
+
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
         MockKAnnotations.init(this)
+        run { analyticsManagerInterface }
         var notificationSource: NotificationSource = NotificationSource()
         notificationSource.notificationlist = notifiCationList
-        viewModel = NotificationViewModel(notificationRepository, mockModemRebootMonitorService)
+        viewModel = NotificationViewModel(notificationRepository, mockModemRebootMonitorService, analyticsManagerInterface)
     }
 }
 

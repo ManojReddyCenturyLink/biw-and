@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.login
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.R
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.service.auth.AuthService
@@ -25,13 +26,15 @@ class LoginViewModel internal constructor(
     private val authService: AuthService<*>,
     // TODO We should remove this, as outstanding work is cancelled on logout and we won't
     //  support showing the modem reboot dialogs on the Login screen
-    modemRebootMonitorService: ModemRebootMonitorService
-) : BaseViewModel(modemRebootMonitorService) {
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface : AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     class Factory @Inject constructor(
         private val sharedPreferences: Preferences,
         private val authServiceFactory: AuthServiceFactory<*>,
-        private val modemRebootMonitorService: ModemRebootMonitorService
+        private val modemRebootMonitorService: ModemRebootMonitorService,
+        private val analyticsManagerInterface : AnalyticsManager
     ) : ViewModelFactoryWithInput<AuthServiceHost> {
 
         override fun withInput(input: AuthServiceHost): ViewModelProvider.Factory {
@@ -39,7 +42,8 @@ class LoginViewModel internal constructor(
                 LoginViewModel(
                     sharedPreferences,
                     authServiceFactory.create(input),
-                    modemRebootMonitorService
+                    modemRebootMonitorService,
+                    analyticsManagerInterface
                 )
             }
         }

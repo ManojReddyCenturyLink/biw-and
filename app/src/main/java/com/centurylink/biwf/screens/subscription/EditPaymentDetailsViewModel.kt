@@ -12,7 +12,7 @@ class EditPaymentDetailsViewModel @Inject constructor(
     preferences: Preferences,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val progressViewFlow = EventFlow<Boolean>()
     val errorMessageFlow = EventFlow<String>()

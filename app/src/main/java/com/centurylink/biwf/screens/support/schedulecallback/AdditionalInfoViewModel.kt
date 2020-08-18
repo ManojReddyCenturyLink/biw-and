@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class AdditionalInfoViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+    private val analyticsManagerInterface : AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ADDITIONAL_INFO)

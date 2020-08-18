@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.networkstatus
 
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.R
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.NetworkStatusCoordinatorDestinations
 import com.centurylink.biwf.model.assia.ModemInfo
@@ -16,8 +17,9 @@ import javax.inject.Inject
 
 class NetworkStatusViewModel @Inject constructor(
     private val assiaRepository: AssiaRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
-) : BaseViewModel(modemRebootMonitorService) {
+    modemRebootMonitorService: ModemRebootMonitorService,
+    analyticsManagerInterface : AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val modemInfoFlow: Flow<ModemInfo> = BehaviorStateFlow()
     val internetStatusFlow: Flow<OnlineStatus> = BehaviorStateFlow()

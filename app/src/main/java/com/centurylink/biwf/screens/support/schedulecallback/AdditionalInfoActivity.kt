@@ -40,7 +40,8 @@ class AdditionalInfoActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
                 viewModel.logBackButtonClick()
-                finish() }
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logCancelButtonClick()
