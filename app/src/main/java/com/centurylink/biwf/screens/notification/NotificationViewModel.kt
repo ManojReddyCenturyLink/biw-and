@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.notification
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.notification.Notification
@@ -17,8 +18,9 @@ import javax.inject.Inject
 
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
-) : BaseViewModel(modemRebootMonitorService) {
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface : AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
     var errorMessageFlow = EventFlow<String>()
     val errorEvents: EventFlow<String> = EventFlow()
     val displayClearAllEvent: EventFlow<Unit> = EventFlow()

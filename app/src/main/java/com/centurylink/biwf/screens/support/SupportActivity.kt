@@ -147,8 +147,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
         binding.incTroubleshooting.apply {
             rebootModemButton.setOnClickListener {
-                viewModel.logRebootModem()
-                viewModel.rebootModem() }
+                viewModel.rebootModem()
+            }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
             supportVisitWebsite.setOnClickListener {
                 viewModel.logVisitWebsite()

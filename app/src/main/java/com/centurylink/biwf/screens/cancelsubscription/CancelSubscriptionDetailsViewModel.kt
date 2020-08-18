@@ -17,7 +17,7 @@ class CancelSubscriptionDetailsViewModel @Inject constructor(
     private val caseRepository: CaseRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     private var cancellationDate: Date? = null
     private var cancellationReason: String = ""

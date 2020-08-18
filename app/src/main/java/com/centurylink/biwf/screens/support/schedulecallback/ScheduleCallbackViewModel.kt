@@ -13,7 +13,7 @@ import javax.inject.Inject
 class ScheduleCallbackViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val myState = EventFlow<ScheduleCallbackCoordinatorDestinations>()
     val topicList: List<TopicList> = dummyList()

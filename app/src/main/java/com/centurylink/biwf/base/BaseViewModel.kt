@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -21,7 +23,8 @@ import org.threeten.bp.format.SignStyle
 import org.threeten.bp.temporal.ChronoField
 
 abstract class BaseViewModel(
-    private val modemRebootMonitorService: ModemRebootMonitorService
+    private val modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
 ) : ViewModel() {
 
     /**
@@ -58,6 +61,7 @@ abstract class BaseViewModel(
     }
 
     fun rebootModem() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESTART_MODEM_SUPPORT)
         viewModelScope.launch {
             modemRebootMonitorService.sendRebootModemRequest()
         }
@@ -128,6 +132,14 @@ abstract class BaseViewModel(
             .appendLiteral(amPm)
             .toFormatter()
         return dateTimeFormatter.format(myDate)
+    }
+
+    fun logModemRebootSuccessDialog() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_RESTART_MODEM_SUCCESS)
+    }
+
+    fun logModemRebootErrorDialog() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_RESTART_MODEM_FAILURE)
     }
 
     companion object {

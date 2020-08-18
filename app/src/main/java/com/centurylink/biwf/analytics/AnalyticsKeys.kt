@@ -5,12 +5,12 @@ class AnalyticsKeys {
 
         /***Event Tags***/
         const val EVENT_TYPE_SCREEN_LAUNCH = "screen_launch"
-        const val EVENT_TYPE_BUTTON_CLICKED = "button_tapped"
+        const val EVENT_TYPE_BUTTON_CLICKED = "button_clicked"
         const val EVENT_TYPE_CARD_SELECTED = "card_selected"
         const val EVENT_TYPE_API_CALL = "api_call"
         const val EVENT_TYPE_TOGGLE_STATE_CHANGED = "toggle_state_changed"
         const val EVENT_BIOMETRICS_LOGIN = "biometrics_login"
-        const val EVENT_TYPE_LIST_CLICKED = "list_item_tapped"
+        const val EVENT_TYPE_LIST_CLICKED = "list_item_clicked"
 
         /***Screens***/
         /*Account Module*/
@@ -86,6 +86,8 @@ class AnalyticsKeys {
         const val ALERT_CANCEL_CONFIRMATION_USAGE_DETAILS = "Cancel Confirmation Devices Details"
         const val ALERT_CANCEL_SUBSCRIPTION_KEEP_SERVICE = "Keep Service Cancel Subscription Confirmation"
         const val ALERT_CANCEL_SUBSCRIPTION_CANCEL_SERVICE = "Cancel Service Cancel Subscription Confirmation"
+        const val ALERT_RESTART_MODEM_SUCCESS = "Restart Modem Success Popup"
+        const val ALERT_RESTART_MODEM_FAILURE = "Restart Modem Failure Popup"
 
         /***Card View***/
         const val CARD_SUBSCRIPTION_INFO = "Subscription Info"

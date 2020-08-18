@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
@@ -34,8 +35,9 @@ class DashboardViewModel @Inject constructor(
     private val sharedPreferences: Preferences,
     private val assiaRepository: AssiaRepository,
     private val devicesRepository: DevicesRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
-) : BaseViewModel(modemRebootMonitorService) {
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface : AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()

@@ -25,7 +25,7 @@ class SubscriptionViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
     private val  analyticsManagerInterface: AnalyticsManager
 
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
     private lateinit var userAccount: AccountDetails

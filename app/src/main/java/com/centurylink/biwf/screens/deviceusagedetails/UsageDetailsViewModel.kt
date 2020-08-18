@@ -28,7 +28,7 @@ class UsageDetailsViewModel constructor(
     private val assiaRepository: AssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     class Factory @Inject constructor(
         private val app: BIWFApp,

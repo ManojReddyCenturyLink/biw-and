@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val myState = EventFlow<HomeCoordinatorDestinations>()
@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSupportClicked() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)
         myState.latestValue = HomeCoordinatorDestinations.SUPPORT
     }
 

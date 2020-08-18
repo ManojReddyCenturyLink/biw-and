@@ -26,7 +26,7 @@ class SupportViewModel @Inject constructor(
     private val assiaRepository: AssiaRepository,
     private val sharedPreferences: Preferences,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
@@ -254,10 +254,6 @@ class SupportViewModel @Inject constructor(
 
     fun logDoneButtonClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_SUPPORT)
-    }
-
-    fun logRebootModem() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESTART_MODEM_SUPPORT)
     }
 
     fun logVisitWebsite() {
