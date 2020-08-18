@@ -110,7 +110,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
                 isRefresh = true
             }
         }
-
         binding.devicesList.isEnabled = true
         binding.devicesList.setAdapter(deviceAdapter)
     }

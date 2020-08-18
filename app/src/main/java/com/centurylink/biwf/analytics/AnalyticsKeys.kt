@@ -50,8 +50,10 @@ class AnalyticsKeys {
         const val EXPANDABLE_LIST_DEVICES = "Connected devices expandable list"
         const val BUTTON_REMOVE_DEVICES_DEVICE_DETAILS = "Remove Devices Button Device Details"
         /*Devices Module*/
-        //Added for later reference when icon click gets implemented
-        // const val BUTTON_CONNECTED_DEVICES_LIST_ITEM = "List item icon Connected devices"
+        const val BUTTON_PAUSE_CONNECTION_DEVICE_SCREEN = "Button Pause Connection Device Screen"
+        const val BUTTON_UNPAUSE_CONNECTION_DEVICE_SCREEN = "Button UnPause Connection Device Screen"
+        const val BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS = "Button Pause Connection Device Details"
+        const val BUTTON_UNPAUSE_CONNECTION_DEVICE_DETAILS = "Button UnPause Connection Device Details"
         const val BUTTON_DEVICE_CONNECTION_STATUS_DEVICE_DETAILS = "Connection Status Button Devices Details"
         const val BUTTON_DONE_DEVICE_DETAILS = "Done Button Devices Details"
         const val BUTTON_SUBMIT_CANCEL_SUBSCRIPTION_CONFIRMATION = "Submit Button Cancel Subscription Confirmation"

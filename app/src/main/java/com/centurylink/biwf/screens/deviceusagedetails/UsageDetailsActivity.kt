@@ -94,7 +94,8 @@ class UsageDetailsActivity : BaseActivity() {
         binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
         binding.removeDevicesBtn.setOnClickListener {
             viewModel.onRemoveDevicesClicked()
-            showAlertDialog() }
+            showAlertDialog()
+        }
     }
 
     private fun showAlertDialog() {

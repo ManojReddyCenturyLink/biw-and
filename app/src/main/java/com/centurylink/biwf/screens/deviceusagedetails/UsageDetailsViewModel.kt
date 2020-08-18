@@ -75,7 +75,12 @@ class UsageDetailsViewModel constructor(
     }
 
     fun onDevicesConnectedClicked() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DEVICE_CONNECTION_STATUS_DEVICE_DETAILS)
+        //TODO: Add condition for pause un-pause
+        if(true){
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS)
+        }else{
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_UNPAUSE_CONNECTION_DEVICE_DETAILS)
+        }
     }
 
     private suspend fun requestDailyUsageDetails() {
