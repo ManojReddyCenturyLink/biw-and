@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.dashboard
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
@@ -37,10 +38,10 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     lateinit var appointmentRepository: AppointmentRepository
 
     @MockK
-    lateinit var  modemRebootMonitorService: ModemRebootMonitorService
+    lateinit var modemRebootMonitorService: ModemRebootMonitorService
 
     @MockK
-    lateinit var  devicesRepository: DevicesRepository
+    lateinit var devicesRepository: DevicesRepository
 
     @MockK
     lateinit var mockPreferences: Preferences
@@ -52,6 +53,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var mockAssiaRepository: AssiaRepository
+
+    @MockK
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     private val notificationList = mutableListOf(
         Notification(
@@ -68,15 +72,15 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: DashboardViewModel
 
-
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         val notificationSource = NotificationSource()
         notificationSource.notificationlist = notificationList
-       // result.value = Resource(Status.SUCCESS, notificationSource, "")
+        // result.value = Resource(Status.SUCCESS, notificationSource, "")
         val date: LocalDateTime = LocalDateTime.now()
         every { mockPreferences.getUserType() } returns true
+        run { analyticsManagerInterface }
         coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Right(
             AppointmentRecordsInfo(
                 serviceAppointmentStartDate = date,
@@ -133,7 +137,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
             devicesRepository = devicesRepository,
-            modemRebootMonitorService = modemRebootMonitorService
+            modemRebootMonitorService = modemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
 
@@ -196,7 +201,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
             devicesRepository = devicesRepository,
-            modemRebootMonitorService = modemRebootMonitorService
+            modemRebootMonitorService = modemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
         runBlockingTest {
             val method = viewModel.javaClass.getDeclaredMethod(

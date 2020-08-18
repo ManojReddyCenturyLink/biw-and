@@ -16,7 +16,7 @@ class PersonalInfoViewModel @Inject constructor(
     private val userRepository: UserRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
     var error = EventFlow<Errors>()

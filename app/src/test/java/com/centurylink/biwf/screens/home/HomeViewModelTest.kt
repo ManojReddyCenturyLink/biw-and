@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
@@ -49,9 +50,13 @@ class HomeViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var mockPreferences: Preferences
 
+    @MockK
+    private lateinit var analyticsManagerInterface : AnalyticsManager
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
+        run { analyticsManagerInterface }
         every { mockPreferences.getHasSeenDialog() } returns true
         every { mockPreferences.getUserType() } returns true
         coEvery { userRepository.getUserInfo() } returns Either.Right(
@@ -83,7 +88,8 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 userRepository,
                 assiaRepository,
                 accountRepository,
-                mockModemRebootMonitorService
+                mockModemRebootMonitorService,
+                analyticsManagerInterface
             )
         //Need to Revisit Tests
     }
@@ -131,7 +137,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
         coEvery { userRepository.getUserDetails() } returns Either.Left(error = "")
         coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Left(error = "")
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository,accountRepository,mockModemRebootMonitorService)
+            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository,accountRepository,mockModemRebootMonitorService,analyticsManagerInterface)
         launch {
             viewModel.initApis()
         }

@@ -23,8 +23,7 @@ import com.salesforce.android.chat.ui.ChatUIClient
 import com.salesforce.android.chat.ui.ChatUIConfiguration
 import javax.inject.Inject
 
-
-class FAQActivity : BaseActivity() {
+class FAQActivity : BaseActivity(){
 
     @Inject
     lateinit var faqCoordinator: FAQCoordinator
@@ -101,9 +100,13 @@ class FAQActivity : BaseActivity() {
         val screenTitle: String = intent.getStringExtra(FAQ_TITLE)!!
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
-            subHeaderLeftIcon.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackButtonClick()
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDoneButtonClick()
                 setResult(Activity.RESULT_OK)
                 finish()
             }
@@ -120,6 +123,7 @@ class FAQActivity : BaseActivity() {
             contactUsHeading.visibility = View.GONE
             scheduleCallbackRow.setOnClickListener { viewModel.navigateToScheduleCallback() }
             liveChatTextview.setOnClickListener {
+                viewModel.logLiveChatLaunch()
                 chatUIClient?.startChatSession(
                     this@FAQActivity
                 )
@@ -131,6 +135,14 @@ class FAQActivity : BaseActivity() {
         myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
         binding.faqVideoList.isNestedScrollingEnabled = false
         binding.questionsAnswersListView.isNestedScrollingEnabled = false
+        binding.questionsAnswersListView.setOnGroupClickListener { expandableListView, view, i, l ->
+            if (expandableListView.isGroupExpanded(i)) {
+                viewModel.logItemCollapsed()
+            } else {
+                viewModel.logItemExpanded()
+            }
+            return@setOnGroupClickListener false
+        }
         binding.faqVideoList.addItemDecoration(myDivider)
     }
 

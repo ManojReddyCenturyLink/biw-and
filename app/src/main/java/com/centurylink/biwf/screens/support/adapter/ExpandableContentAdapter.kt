@@ -11,7 +11,6 @@ import android.widget.TextView
 import androidx.core.text.HtmlCompat
 import com.centurylink.biwf.R
 
-
 class ExpandableContentAdapter(private val answerList: HashMap<String, String>) :
     BaseExpandableListAdapter() {
 

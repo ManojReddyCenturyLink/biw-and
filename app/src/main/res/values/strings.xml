@@ -286,6 +286,13 @@
     <string name="restore_access_confirmation_title">Do you want to restore access to “%s”?</string>
     <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
 
+    <string name="must_be_8_63_characters">Must be 8-63 characters</string>
+    <string name="network_name_mandatory">Network name*</string>
+    <string name="network_password_mandatory">Network password*</string>
+    <string name="guest_network_name_mandatory">Guest network name*</string>
+    <string name="guest_network_password_mandatory">Guest network password*</string>
+    <string name="fields_marked_required">Fields marked * are required</string>
+
     <!--Modify/Cancel Appointment Strings-->
     <string name="select_appointment_slot">Select the day and time that works best for you.</string>
     <string name="error_in_selected_slot">An error has occurred while booking your appointment. Please try again.</string>

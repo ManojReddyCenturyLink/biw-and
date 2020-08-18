@@ -27,6 +27,7 @@ class AdditionalInfoActivity : BaseActivity() {
         binding = ActivityAdditionalInfoBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initHeaders()
+        initOnClicks()
     }
 
     override fun onBackPressed() {
@@ -37,13 +38,21 @@ class AdditionalInfoActivity : BaseActivity() {
         var screenTitle: String = getString(R.string.additional_info_title)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
-            subHeaderLeftIcon.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackButtonClick()
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logCancelButtonClick()
                 setResult(Activity.RESULT_OK)
                 finish()
             }
         }
+    }
+
+    private fun initOnClicks() {
+        binding.additionalInfoNextBtn.setOnClickListener { viewModel.logNextButtonClick() }
     }
 
     companion object {

@@ -22,7 +22,7 @@ class SubscriptionStatementViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()

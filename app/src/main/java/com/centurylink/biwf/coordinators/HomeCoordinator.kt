@@ -21,7 +21,7 @@ class HomeCoordinator @Inject constructor(): Coordinator<HomeCoordinatorDestinat
     }
 
     private fun navigateToNetworkStatusActivity() {
-        navigator.navigateToNetworkStatus()
+        navigator.navigateToNetworkInformationScreen()
     }
 
     private fun navigateToNotificationList() {

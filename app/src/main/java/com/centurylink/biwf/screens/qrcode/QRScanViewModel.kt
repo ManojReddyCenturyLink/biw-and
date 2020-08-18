@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -14,22 +15,22 @@ import com.google.zxing.EncodeHintType
 import net.glxn.qrgen.android.QRCode
 import javax.inject.Inject
 
-
 class QRScanViewModel constructor(
     private var wifiInfo: WifiInfo,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private var resources: Resources
-) : BaseViewModel(modemRebootMonitorService) {
+    private var resources: Resources,
+    private val analyticsManagerInterface : AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     class Factory @Inject constructor(
         private val modemRebootMonitorService: ModemRebootMonitorService,
-        private var resources: Resources
+        private var resources: Resources,
+        private val analyticsManagerInterface : AnalyticsManager
     ) : ViewModelFactoryWithInput<WifiInfo> {
 
         override fun withInput(input: WifiInfo): ViewModelProvider.Factory {
             return viewModelFactory {
-                QRScanViewModel(input, modemRebootMonitorService,resources)
-
+                QRScanViewModel(input, modemRebootMonitorService,resources,analyticsManagerInterface)
             }
         }
     }

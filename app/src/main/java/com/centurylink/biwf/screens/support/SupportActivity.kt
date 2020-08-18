@@ -140,17 +140,24 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         }
         binding.supportFaqTopicsRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        binding.doneButtonSupport.setOnClickListener { finish() }
+        binding.doneButtonSupport.setOnClickListener {
+            viewModel.logDoneButtonClick()
+            finish()
+        }
 
         binding.incTroubleshooting.apply {
-            rebootModemButton.setOnClickListener { viewModel.rebootModem() }
+            rebootModemButton.setOnClickListener {
+                viewModel.rebootModem()
+            }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
             supportVisitWebsite.setOnClickListener {
+                viewModel.logVisitWebsite()
                 //TODO Add Website feature when url is available
             }
         }
 
         binding.incContactUs.liveChatTextview.setOnClickListener {
+            viewModel.logLiveChatLaunch()
             chatUIClient?.startChatSession(
                 this
             )

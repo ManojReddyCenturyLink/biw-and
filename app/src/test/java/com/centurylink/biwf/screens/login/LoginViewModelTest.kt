@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.login
 
 import com.centurylink.biwf.ViewModelBaseTest
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.LoginCoordinatorDestinations
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.service.auth.AuthService
@@ -47,9 +48,13 @@ class LoginViewModelTest : ViewModelBaseTest() {
 
     private var navFromAccountScreen: Boolean = false
 
+    @MockK
+    private lateinit var analyticsManagerInterface : AnalyticsManager
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
+        run { analyticsManagerInterface }
         every { mockSharedPreferences.getValueByID("USER_ID") }.returns("")
         every { mockSharedPreferences.saveUserId("USER_ID") } just runs
         every { mockSharedPreferences.removeUserId() } just runs
@@ -100,7 +105,8 @@ class LoginViewModelTest : ViewModelBaseTest() {
         viewModel = LoginViewModel(
             sharedPreferences = mockSharedPreferences,
             authService = mockAuthService,
-            modemRebootMonitorService = mockModemRebootMonitorService
+            modemRebootMonitorService = mockModemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
 }

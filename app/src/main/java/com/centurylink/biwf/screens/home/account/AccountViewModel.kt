@@ -39,7 +39,7 @@ class AccountViewModel internal constructor(
     private val authService: AuthService<*>,
     private val modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     class Factory @Inject constructor(
         private val accountRepository: AccountRepository,

@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
@@ -14,6 +15,7 @@ import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
@@ -33,8 +35,9 @@ class DashboardViewModel @Inject constructor(
     private val sharedPreferences: Preferences,
     private val assiaRepository: AssiaRepository,
     private val devicesRepository: DevicesRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
-) : BaseViewModel(modemRebootMonitorService) {
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface : AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
@@ -354,7 +357,10 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
-    fun navigateToNetworkInformation() {
+    fun navigateToNetworkInformation(networkName: String) {
+        val bundle = Bundle()
+        bundle.putString(NetworkStatusActivity.NETWORK_NAME, networkName)
+        DashboardCoordinatorDestinations.bundle = bundle
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 

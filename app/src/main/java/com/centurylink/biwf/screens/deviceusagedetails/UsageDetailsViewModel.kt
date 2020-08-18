@@ -28,7 +28,7 @@ class UsageDetailsViewModel constructor(
     private val assiaRepository: AssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     class Factory @Inject constructor(
         private val app: BIWFApp,
@@ -68,6 +68,10 @@ class UsageDetailsViewModel constructor(
             requestDailyUsageDetails()
             requestMonthlyUsageDetails()
         }
+    }
+
+    fun onRemoveDevicesClicked() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_REMOVE_DEVICES_DEVICE_DETAILS)
     }
 
     fun onDevicesConnectedClicked() {

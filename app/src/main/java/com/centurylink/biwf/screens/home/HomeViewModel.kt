@@ -5,6 +5,8 @@ import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.R
+import com.centurylink.biwf.analytics.AnalyticsKeys
+import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
@@ -33,8 +35,9 @@ class HomeViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val assiaRepository: AssiaRepository,
     private val accountRepository: AccountRepository,
-    modemRebootMonitorService: ModemRebootMonitorService
-) : BaseViewModel(modemRebootMonitorService) {
+    modemRebootMonitorService: ModemRebootMonitorService,
+    private val analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val myState = EventFlow<HomeCoordinatorDestinations>()
@@ -80,6 +83,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSupportClicked() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)
         myState.latestValue = HomeCoordinatorDestinations.SUPPORT
     }
 
