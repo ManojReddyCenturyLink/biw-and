@@ -92,7 +92,9 @@ class UsageDetailsActivity : BaseActivity() {
             }
         }
         binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
-        binding.removeDevicesBtn.setOnClickListener { showAlertDialog() }
+        binding.removeDevicesBtn.setOnClickListener {
+            viewModel.onRemoveDevicesClicked()
+            showAlertDialog() }
     }
 
     private fun showAlertDialog() {
@@ -118,7 +120,7 @@ class UsageDetailsActivity : BaseActivity() {
                 viewModel.removeDevices(intent.getStringExtra(STA_MAC))
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                viewModel.logRemoveConnection(true)
+                viewModel.logRemoveConnection(false)
             }
         }
     }
