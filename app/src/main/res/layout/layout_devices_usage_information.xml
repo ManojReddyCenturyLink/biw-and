@@ -212,8 +212,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_small"
-                    android:drawableEnd="@drawable/ic_3_bars"
-                    android:drawablePadding="@dimen/spacing_4"
                     android:text="@string/device_connected"
                     android:textAllCaps="false"
                     android:textColor="@color/blue"
@@ -221,6 +219,15 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details" />
+
+                <ImageView
+                    android:id="@+id/connection_status_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/padding_0"
+                    android:src="@drawable/ic_3_bars"
+                    app:layout_constraintStart_toEndOf="@+id/connection_status_btn_text"
+                    app:layout_constraintTop_toTopOf="@+id/connection_status_btn_text"
+                    app:layout_constraintBottom_toBottomOf="@+id/connection_status_btn_text"/>
 
                 <TextView
                     android:id="@+id/tap_to_retry_text"

@@ -56,11 +56,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
-    override fun retryClicked() {
-        showProgress(true)
-        devicesViewModel.initApis()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -79,6 +74,11 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         return binding.root
     }
 
+    override fun retryClicked() {
+        showProgress(true)
+        devicesViewModel.initApis()
+    }
+
     override fun onConnectedDevicesClicked(devicesInfo: DevicesData) {
         devicesViewModel.navigateToUsageDetails(devicesInfo)
     }
@@ -89,6 +89,10 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         showConfirmationDialog(
             deviceInfo.hostName?.toUpperCase(Locale.getDefault())?.capitalize()
         )
+    }
+
+    override fun onConnectionStatusChanged(isPaused: Boolean) {
+        devicesViewModel.logConnectionStatusChanged(isPaused)
     }
 
     private fun initViews() {

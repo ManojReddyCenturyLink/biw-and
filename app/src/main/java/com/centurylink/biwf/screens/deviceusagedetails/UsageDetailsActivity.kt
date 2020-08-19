@@ -32,7 +32,6 @@ class UsageDetailsActivity : BaseActivity() {
 
     private lateinit var binding: LayoutDevicesUsageInformationBinding
 
-
     override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(viewModelFactory.withInput(intent.getStringExtra(STA_MAC)))
     }
@@ -90,9 +89,26 @@ class UsageDetailsActivity : BaseActivity() {
                     finish()
                 }
             }
+            pauseUnpauseConnection.observe {
+                if (it) {
+                    binding.connectionStatusIcon.setImageDrawable(getDrawable(R.drawable.ic_3_bars))
+                    binding.connectionStatusBtnText.text = "Device Connected"
+                    binding.tapToRetryText.text = "tap to pause connection"
+                    binding.deviceConnectedBtn.background = getDrawable(R.drawable.light_blue_rounded_background)
+                    binding.connectionStatusBtnText.setTextColor(getColor(R.color.blue))
+                } else {
+                    binding.connectionStatusIcon.setImageDrawable(getDrawable(R.drawable.ic_network_off))
+                    binding.connectionStatusBtnText.text = "Connection paused"
+                    binding.tapToRetryText.text = "tap to resume connection"
+                    binding.connectionStatusBtnText.setTextColor(getColor(R.color.font_color_medium_grey))
+                    binding.deviceConnectedBtn.background = getDrawable(R.drawable.light_grey_rounded_background)
+                }
+            }
         }
         binding.nicknameDeviceNameInput.setText(screenTitle)
-        binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
+        binding.deviceConnectedBtn.setOnClickListener {
+            viewModel.onDevicesConnectedClicked()
+        }
         binding.removeDevicesBtn.setOnClickListener {
             viewModel.onRemoveDevicesClicked()
             showAlertDialog()
@@ -128,7 +144,7 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     companion object {
-        val REQUEST_TO_DEVICES= 1341
+        val REQUEST_TO_DEVICES = 1341
         const val STA_MAC = "STA_MAC"
         const val HOST_NAME = "HOST_NAME"
         const val VENDOR_NAME = "VENDOR_NAME"

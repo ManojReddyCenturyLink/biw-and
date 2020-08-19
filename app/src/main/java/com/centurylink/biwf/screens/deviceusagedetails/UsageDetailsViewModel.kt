@@ -40,7 +40,13 @@ class UsageDetailsViewModel constructor(
 
         override fun withInput(input: String): ViewModelProvider.Factory {
             return viewModelFactory {
-                val viewModel = UsageDetailsViewModel(app, networkUsageRepository,asiaRepository, modemRebootMonitorService,analyticsManagerInterface)
+                val viewModel = UsageDetailsViewModel(
+                    app,
+                    networkUsageRepository,
+                    asiaRepository,
+                    modemRebootMonitorService,
+                    analyticsManagerInterface
+                )
                 viewModel.staMac = input
                 viewModel
             }
@@ -60,8 +66,11 @@ class UsageDetailsViewModel constructor(
     val downloadSpeedDailyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
+    var pauseUnpauseConnection = BehaviorStateFlow<Boolean>()
 
     fun initApis() {
+        //TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
+        pauseUnpauseConnection.latestValue = true
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
@@ -75,11 +84,12 @@ class UsageDetailsViewModel constructor(
     }
 
     fun onDevicesConnectedClicked() {
-        //TODO: Add condition for pause un-pause
-        if(true){
+        if (pauseUnpauseConnection.value) {
+            pauseUnpauseConnection.latestValue = false
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS)
-        }else{
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_UNPAUSE_CONNECTION_DEVICE_DETAILS)
+        } else {
+            pauseUnpauseConnection.latestValue = true
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_DETAILS)
         }
     }
 
@@ -142,14 +152,15 @@ class UsageDetailsViewModel constructor(
             NetworkTrafficUnits.TB_UPLOAD -> app.getString(R.string.tb_upload)
         }
     }
-    fun removeDevices(stationMac:String) {
+
+    fun removeDevices(stationMac: String) {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             invokeBlockedDevice(stationMac)
         }
     }
 
-    private suspend fun invokeBlockedDevice(stationMac:String){
+    private suspend fun invokeBlockedDevice(stationMac: String) {
         val blockInfo = assiaRepository.blockDevices(stationMac)
         progressViewFlow.latestValue = false
         when (blockInfo) {
@@ -169,9 +180,9 @@ class UsageDetailsViewModel constructor(
     }
 
     fun logRemoveConnection(removeConnection: Boolean) {
-        if(removeConnection){
+        if (removeConnection) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVE_CONFIRMATION_USAGE_DETAILS)
-        }else{
+        } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CONFIRMATION_USAGE_DETAILS)
         }
     }

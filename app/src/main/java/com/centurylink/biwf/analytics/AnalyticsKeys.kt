@@ -24,7 +24,7 @@ class AnalyticsKeys {
         /*Support Module*/
         const val SCREEN_SUPPORT = "Support Screen"
         const val SCREEN_FAQ = "FAQ Screen"
-        const val SCREEN_SCHEDULE_CALLBACK_SUPPORT = "Schedule-Callback Support Screen"
+        const val SCREEN_SCHEDULE_CALLBACK_SUPPORT = "Schedule-Callback Screen"
         const val SCREEN_ADDITIONAL_INFO = "Additional Info Screen"
         /*Device Module*/
         const val SCREEN_DEVICES = "Devices Screen"
@@ -50,10 +50,10 @@ class AnalyticsKeys {
         const val EXPANDABLE_LIST_DEVICES = "Connected devices expandable list"
         const val BUTTON_REMOVE_DEVICES_DEVICE_DETAILS = "Remove Devices Button Device Details"
         /*Devices Module*/
-        const val BUTTON_PAUSE_CONNECTION_DEVICE_SCREEN = "Button Pause Connection Device Screen"
-        const val BUTTON_UNPAUSE_CONNECTION_DEVICE_SCREEN = "Button UnPause Connection Device Screen"
-        const val BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS = "Button Pause Connection Device Details"
-        const val BUTTON_UNPAUSE_CONNECTION_DEVICE_DETAILS = "Button UnPause Connection Device Details"
+        const val BUTTON_PAUSE_CONNECTION_DEVICE_SCREEN = "Pause Connection Device Screen"
+        const val BUTTON_RESUME_CONNECTION_DEVICE_SCREEN = "Resume Connection Device Screen"
+        const val BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS = "Pause Connection Device Details"
+        const val BUTTON_RESUME_CONNECTION_DEVICE_DETAILS = "Resume Connection Device Details"
         const val BUTTON_DEVICE_CONNECTION_STATUS_DEVICE_DETAILS = "Connection Status Button Devices Details"
         const val BUTTON_DONE_DEVICE_DETAILS = "Done Button Devices Details"
         const val BUTTON_SUBMIT_CANCEL_SUBSCRIPTION_CONFIRMATION = "Submit Button Cancel Subscription Confirmation"
