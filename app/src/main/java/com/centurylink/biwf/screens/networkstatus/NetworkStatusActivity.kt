@@ -262,7 +262,9 @@ class NetworkStatusActivity : BaseActivity() {
         when (buttonType) {
             // TODO - This has to be replaced with API calls
             AlertDialog.BUTTON_POSITIVE -> {
-                viewModel.onDoneClick()
+                val errors = viewModel.validateInput()
+                if (!errors.hasErrors()) {
+                    viewModel.onDoneClick() }
             }
             AlertDialog.BUTTON_NEGATIVE -> {
                   finish()
