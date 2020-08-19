@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.support.adapter
 
 import android.content.Context
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -44,6 +45,7 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
         }
         val expandedListTextView = convertView!!.findViewById<TextView>(R.id.faq_answers)
         expandedListTextView.text = HtmlCompat.fromHtml(expandedListText, HtmlCompat.FROM_HTML_MODE_LEGACY)
+        expandedListTextView.movementMethod = LinkMovementMethod.getInstance()
         return convertView
     }
 
