@@ -217,4 +217,9 @@ class RestServiceConfigModule(
     fun providesAssiaTrafficUsageService(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory):AssiaTrafficUsageService{
         return factory.create()
     }
+    @Singleton
+    @Provides
+    fun provideNetworkManagementAPIServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): WifiNetworkApiService {
+        return factory.create()
+    }
 }
