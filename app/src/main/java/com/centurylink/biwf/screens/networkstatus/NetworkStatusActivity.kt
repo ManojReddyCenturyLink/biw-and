@@ -15,6 +15,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.databinding.ActivityNetworkStatusBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
@@ -63,19 +64,40 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusInternetStatusText.text = getString(it.subText)
                 bindings.networkStatusModemImageview.setImageDrawable(getDrawable(it.drawableId))
                 bindings.networkStatusModemStatus.text = getString(it.onlineStatus)
-                bindings.networkStatusWifiButton.isActivated = it.isActive
-                bindings.networkStatusWifiButtonText.isActivated = it.isActive
-                bindings.networkStatusWifiImage.isActivated = it.isActive
-                bindings.networkStatusWifiButtonText.text = getString(it.wifiNetworkButtonText)
-                bindings.networkStatusWifiButtonActionText.text = getString(it.wifiButtonSubText)
-                bindings.networkStatusGuestButton.isActivated = it.isActive
-                bindings.networkStatusGuestButtonText.isActivated = it.isActive
-                bindings.networkStatusGuestWifiImage.isActivated = it.isActive
-                bindings.networkStatusGuestButtonText.text = getString(it.guestNetworkButtonText)
-                bindings.networkStatusGuestButtonActionText.text = getString(it.guestNetworkButtonSubText)
+            }
+
+            regularNetworkStatusFlow.observe {
+                bindings.networkStatusWifiButton.isActivated = it.isNetworkEnabled
+                bindings.networkStatusWifiButtonText.text = getString(it.networkStatusText)
+                bindings.networkStatusWifiImage.setImageDrawable(getDrawable(it.statusIcon))
+                bindings.networkStatusWifiButtonActionText.text = getString(it.networkStatusSubText)
+                bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusWifiNameInput.setText(it.netWorkName)
+                bindings.networkStatusWifiPasswordInput.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusWifiPasswordInput.setText(it.networkPassword)
+            }
+            guestNetworkStatusFlow.observe {
+                bindings.networkStatusGuestButton.isActivated = it.isNetworkEnabled
+                bindings.networkStatusGuestButtonText.text = getString(it.networkStatusText)
+                bindings.networkStatusGuestWifiImage.setImageDrawable(getDrawable(it.statusIcon))
+                bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusGuestButtonActionText.text =
+                    getString(it.networkStatusSubText)
+                bindings.networkStatusGuestWifiImage.isActivated = it.isNetworkEnabled
+                bindings.networkStatusGuestNameInput.setText(it.netWorkName)
+                bindings.networkStatusGuestNameInput.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusGuestPasswordInput.setText(it.networkPassword)
+                bindings.networkStatusGuestPasswordInput.isEnabled = it.isNetworkEnabled
+            }
+            errorSubmitValue.observe {
+                if (it) {
+                    showBlueTheamPopUp()
+                } else {
+                    finish()
+                }
             }
         }
-        bindings.networkStatusWifiNameInput.setText(intent.getStringExtra(NETWORK_NAME))
     }
 
     private fun initOnClicks() {
@@ -139,7 +161,7 @@ class NetworkStatusActivity : BaseActivity() {
     private fun initTextWatchers() {
         bindings.networkStatusWifiPasswordInput.addTextChangedListener(
             afterTextChanged {
-                viewModel.onPasswordValueChanged(it.toString())
+                viewModel.onGuestPasswordValueChanged(it.toString())
                 val passwordLength = bindings.networkStatusWifiPasswordInput.text.toString().length
                 if (passwordLength == 0) {
                     bindings.fieldsMarkedRequiredWifiPassword.visibility = View.VISIBLE
@@ -203,7 +225,7 @@ class NetworkStatusActivity : BaseActivity() {
         )
         bindings.networkStatusWifiNameInput.addTextChangedListener(
             afterTextChanged {
-                viewModel.onNameValueChanged(it.toString())
+                viewModel.onWifiNameValueChanged(it.toString())
                 val nameLength = bindings.networkStatusWifiNameInput.text.toString().length
                 if (nameLength == 0) {
                     bindings.fieldsMarkedRequiredWifiName.visibility = View.VISIBLE
@@ -242,7 +264,7 @@ class NetworkStatusActivity : BaseActivity() {
         )
         bindings.networkStatusGuestPasswordInput.addTextChangedListener(
             afterTextChanged {
-                viewModel.onPasswordValueChanged(it.toString())
+                viewModel.onWifiPasswordValueChanged(it.toString())
                 val passwordLength = bindings.networkStatusGuestPasswordInput.text.toString().length
                 if (passwordLength == 0) {
                     bindings.fieldsMarkedRequiredGuestPassword.visibility = View.VISIBLE
@@ -306,7 +328,7 @@ class NetworkStatusActivity : BaseActivity() {
         )
         bindings.networkStatusGuestNameInput.addTextChangedListener(
             afterTextChanged {
-                viewModel.onNameValueChanged(it.toString())
+                viewModel.onGuestNameValueChanged(it.toString())
                 val nameLength = bindings.networkStatusGuestNameInput.text.toString().length
                 if (nameLength == 0) {
                     bindings.fieldsMarkedRequiredGuestName.visibility = View.VISIBLE
@@ -363,8 +385,59 @@ class NetworkStatusActivity : BaseActivity() {
         when (buttonType) {
             // TODO - This has to be replaced with API calls
             AlertDialog.BUTTON_POSITIVE -> {
+                viewModel.onDoneClick()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                  finish()
+            }
+        }
+    }
+    
+    private fun initEnableDisableEventClicks() {
+        // will remove once rest of the network calls are implemented
+        bindings.networkStatusWifiButton.setOnClickListener {
+            viewModel.wifiNetworkEnablement()
+        }
+        bindings.networkStatusGuestButton.setOnClickListener {
+            viewModel.guestNetworkEnablement()
+        }
+    }
+
+    private fun showBlueTheamPopUp() {
+        CustomDialogBlueTheme(
+            getString(R.string.error_title),
+            getString(R.string.password_reset_error_msg),
+            getString(
+                R.string.discard_changes_and_close
+            ),
+            true,
+            ::onDialogCallback
+        ).show(
+            supportFragmentManager,
+            callingActivity?.className
+        )
+    }
+
+    override fun onBackPressed() {
+        showGrayTheamPopUp()
+    }
+
+    private fun showGrayTheamPopUp() {
+        CustomDialogGreyTheme(
+            getString(R.string.save_changes_msg),
+            "",
+            getString(R.string.save),
+            getString(R.string.discard),
+            ::onScreenExitConfirmationDialogCallback
+        )
+            .show(supportFragmentManager, NetworkStatusActivity::class.simpleName)
+    }
+
+
+    private fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                finish()
             }
         }
     }
