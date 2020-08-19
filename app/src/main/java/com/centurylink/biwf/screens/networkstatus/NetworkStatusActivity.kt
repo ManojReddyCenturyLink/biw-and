@@ -70,6 +70,7 @@ class NetworkStatusActivity : BaseActivity() {
             regularNetworkStatusFlow.observe {
                 bindings.networkStatusWifiButton.isActivated = it.isNetworkEnabled
                 bindings.networkStatusWifiButtonText.text = getString(it.networkStatusText)
+                bindings.networkStatusWifiButtonText.setTextColor(getColor(it.networkStatusTextColor))
                 bindings.networkStatusWifiImage.setImageDrawable(getDrawable(it.statusIcon))
                 bindings.networkStatusWifiButtonActionText.text = getString(it.networkStatusSubText)
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
@@ -81,6 +82,7 @@ class NetworkStatusActivity : BaseActivity() {
             guestNetworkStatusFlow.observe {
                 bindings.networkStatusGuestButton.isActivated = it.isNetworkEnabled
                 bindings.networkStatusGuestButtonText.text = getString(it.networkStatusText)
+                bindings.networkStatusGuestButtonText.setTextColor(getColor(it.networkStatusTextColor))
                 bindings.networkStatusGuestWifiImage.setImageDrawable(getDrawable(it.statusIcon))
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusGuestButtonActionText.text =

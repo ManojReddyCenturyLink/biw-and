@@ -182,10 +182,18 @@ class NetworkStatusViewModel @Inject constructor(
             },
             statusIcon = when (guestNetworkEnabled) {
                 true -> {
-                    R.drawable.ic_strong_signal
+                    R.drawable.ic_three_bars
                 }
                 false -> {
                     R.drawable.ic_off
+                }
+            },
+            networkStatusTextColor =  when (guestNetworkEnabled) {
+                true -> {
+                    R.color.blue
+                }
+                false -> {
+                    R.color.font_color_medium_grey
                 }
             }
         )
@@ -217,10 +225,18 @@ class NetworkStatusViewModel @Inject constructor(
             },
             statusIcon = when (wifiNetworkEnabled) {
                 true -> {
-                    R.drawable.ic_strong_signal
+                    R.drawable.ic_three_bars
                 }
                 false -> {
                     R.drawable.ic_off
+                }
+            },
+            networkStatusTextColor =  when(wifiNetworkEnabled) {
+                true -> {
+                    R.color.blue
+                }
+                false -> {
+                    R.color.font_color_medium_grey
                 }
             }
         )
@@ -455,8 +471,9 @@ class NetworkStatusViewModel @Inject constructor(
         var networkPassword: String = "",
         var isNetworkEnabled: Boolean = false,
         var networkStatusText: Int = R.string.wifi_network_enabled,
+        var networkStatusTextColor: Int = R.color.blue,
         var networkStatusSubText: Int = R.string.wifi_network_enabled,
-        var statusIcon: Int = R.drawable.ic_strong_signal
+        var statusIcon: Int = R.drawable.ic_three_bars
     )
 
     companion object {
