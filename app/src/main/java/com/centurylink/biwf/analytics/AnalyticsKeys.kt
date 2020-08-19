@@ -63,7 +63,7 @@ class AnalyticsKeys {
         const val SCHEDULE_A_CALLBACK_SUPPORT = "Schedule a Callback Support"
         const val BUTTON_RUN_SPEED_TEST_SUPPORT = "Run Speed Test Button Support"
         const val BUTTON_RESTART_MODEM_SUPPORT = "Restart Modem Button Support"
-        const val BUTTON_VISIT_WEBSITE_SUPPORT = "Visit Website Modem Button Support"
+        const val BUTTON_VISIT_WEBSITE_SUPPORT = "Visit Website Button Support"
         const val BUTTON_CANCEL_SCHEDULE_CALLBACK = "Cancel Button Schedule-Callback Screen"
         const val BUTTON_BACK_SCHEDULE_CALLBACK = "Back Button Schedule-Callback Screen"
         const val BUTTON_CALL_US_SCHEDULE_CALLBACK = "Call us now Schedule-Callback Screen"

@@ -83,7 +83,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onSupportClicked() {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)
         myState.latestValue = HomeCoordinatorDestinations.SUPPORT
     }
 
