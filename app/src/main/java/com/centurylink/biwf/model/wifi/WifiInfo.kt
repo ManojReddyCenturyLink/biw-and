@@ -5,4 +5,4 @@ import java.io.Serializable
 
 data class WifiInfo(@SerializedName("type") var type: String? = null,
                     @SerializedName("name") var name: String? = null,
-                    @SerializedName("password") var password: String? = null) : Serializable
+                    @SerializedName("password") var password: String? = null, @SerializedName("enable") var isEnable: Boolean? = null) : Serializable

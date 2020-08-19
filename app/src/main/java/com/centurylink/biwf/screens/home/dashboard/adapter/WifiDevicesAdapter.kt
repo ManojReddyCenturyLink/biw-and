@@ -17,9 +17,7 @@ import com.centurylink.biwf.databinding.LayoutScancodeItemBinding
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.google.zxing.EncodeHintType
-import kotlinx.android.synthetic.main.layout_scancode_item.view.devicename
-import kotlinx.android.synthetic.main.layout_scancode_item.view.qrScan
-import kotlinx.android.synthetic.main.layout_scancode_item.view.viewdivider
+import kotlinx.android.synthetic.main.layout_scancode_item.view.*
 import net.glxn.qrgen.android.QRCode
 import net.glxn.qrgen.core.scheme.Wifi
 
@@ -59,8 +57,21 @@ class WifiDevicesAdapter(
             itemView.qrScan.setImageBitmap(getQRBitmap(wifiDetails,itemView.context))
             itemView.viewdivider.visibility =
                 if (pos == wifiListItems.size - 1) View.INVISIBLE else View.VISIBLE
-            itemView.setOnClickListener {
-                wifiDeviceClickListener.onWifiDetailsClicked(wifiDetails)
+
+            if (wifiDetails.isEnable!!) {
+                itemView.iv_network_type.setImageDrawable(itemView.context.getDrawable(R.drawable.ic_three_bars))
+            } else {
+                itemView.iv_network_type.setImageDrawable(itemView.context.getDrawable(R.drawable.wifi_image_selector))
+            }
+            itemView.qrScan.setOnClickListener {
+                wifiDeviceClickListener.onWifiQRScanImageClicked(wifiDetails)
+            }
+            itemView.devicename.setOnClickListener {
+                wifiDeviceClickListener.onWifiNameClicked(wifiDetails.name?:"")
+            }
+
+            itemView.iv_network_type.setOnClickListener {
+                wifiDeviceClickListener.onWifiNetworkStatusImageClicked(wifiDetails)
             }
         }
 
@@ -98,6 +109,8 @@ class WifiDevicesAdapter(
         this.withColor(onColor.toInt(), offColor.toInt())
 
     interface WifiDeviceClickListener {
-        fun onWifiDetailsClicked(wifidetails: WifiInfo)
+        fun onWifiQRScanImageClicked(wifidetails: WifiInfo)
+        fun onWifiNameClicked(NetworkName: String)
+        fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo)
     }
 }

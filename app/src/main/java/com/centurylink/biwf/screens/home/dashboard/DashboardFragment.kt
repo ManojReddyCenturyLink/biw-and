@@ -275,6 +275,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         dashboardViewModel.wifiListDetails.observe {
             prepareRecyclerView(it.wifiListDetails)
         }
+
+        dashboardViewModel.wifiListDetailsUpdated.observe {
+            prepareRecyclerView(it.wifiListDetails)
+        }
     }
 
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
@@ -371,7 +375,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.wifiScanList.adapter = wifiDevicesAdapter
     }
 
-    override fun onWifiDetailsClicked(wifidetails: WifiInfo) {
+    override fun onWifiQRScanImageClicked(wifidetails: WifiInfo) {
         dashboardViewModel.navigateToQRScan(wifidetails)
+    }
+
+    override fun onWifiNameClicked(networkName: String) {
+        dashboardViewModel.navigateToNetworkInformation(networkName)
+    }
+
+    override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {
+        dashboardViewModel.wifiNetworkEnablement(wifidetails)
     }
 }
