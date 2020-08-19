@@ -75,7 +75,7 @@ class Preferences(private val store: KeyValueStore) {
         var lineId = store.get(LINE_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
         if (lineId.isNullOrEmpty()) {
-            lineId = "0417498969"
+            lineId = "C4000XG1950000308"
         }
         return lineId
     }
@@ -92,7 +92,7 @@ class Preferences(private val store: KeyValueStore) {
         var asiaID = store.get(ASSIA_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
         if (asiaID.isNullOrEmpty()) {
-            asiaID = "C4000XG1950000871"
+            asiaID = "C4000XG1950000308"
         }
         return asiaID
     }

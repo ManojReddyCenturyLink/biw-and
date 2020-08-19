@@ -91,6 +91,7 @@ class UsageDetailsActivity : BaseActivity() {
                 }
             }
         }
+        binding.nicknameDeviceNameInput.setText(screenTitle)
         binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
         binding.removeDevicesBtn.setOnClickListener {
             viewModel.onRemoveDevicesClicked()

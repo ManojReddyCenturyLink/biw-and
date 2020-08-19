@@ -285,6 +285,7 @@
     <string name="remove_device_confirmation_msg">You can restore access later if you want to.</string>
     <string name="restore_access_confirmation_title">Do you want to restore access to “%s”?</string>
     <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
+    <string name="organization">Organization</string>
 
     <string name="must_be_8_63_characters">Must be 8-63 characters</string>
     <string name="network_name_mandatory">Network name*</string>
@@ -323,4 +324,5 @@
     <string name="brightness_alert">For best results, use full brightness on your phone</string>
 
     <string name="wifi_code">WIFI:T:WPA;S:%1$s;P:%2$s;;</string>
+    <string name="nickname_device">Nickname device</string>
 </resources>
