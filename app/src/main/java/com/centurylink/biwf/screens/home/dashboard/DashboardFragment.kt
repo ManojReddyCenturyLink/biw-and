@@ -137,13 +137,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         if (dashboardViewModel.isExistingUser.value) {
             incSpeedTest.visibility = View.VISIBLE
             binding.connectedDevicesCard.root.visibility = View.VISIBLE
-            binding.dashboardWifiCard.root.visibility = View.VISIBLE
             dashboardViewModel.startSpeedTest()
             // TODO right now this feature is not in active so commenting for now
            // observeNotificationViews()
             observeWifiDetailsViews()
         } else {
-            binding.dashboardWifiCard.root.visibility = View.GONE
             getAppointmentStatus()
         }
     }
