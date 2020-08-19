@@ -256,38 +256,38 @@ class NetworkStatusViewModel @Inject constructor(
         val errors = Errors()
         //  Guest Network State Management
         if (newGuestName.isEmpty()) {
-            errors["nameError"] = "nameError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["guestNameError"] = "guestNameError"
+            errors["guestNameFieldMandatory"] = "guestNameFieldMandatory"
         }
         if (newGuestPwd.isEmpty()) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["guestPasswordError"] = "guestPasswordError"
+            errors["guestPasswordFieldMandatory"] = "guestPasswordFieldMandatory"
         }
         if (newGuestName.length == nameMinLength || newGuestName.length > nameMaxLength) {
-            errors["nameError"] = "nameError"
-            errors["fieldLength"] = "fieldLength"
+            errors["guestNameError"] = "guestNameError"
+            errors["guestNameFieldLength"] = "guestNameFieldLength"
         }
         if (newGuestPwd.length < passwordMinLength || newGuestPwd.length > passwordMaxLength) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldLength"] = "fieldLength"
+            errors["guestPasswordError"] = "guestPasswordError"
+            errors["guestPasswordFieldLength"] = "guestPasswordFieldLength"
         }
         //  Wifi Network State Management
         if (newWifiName.isEmpty()) {
-            errors["nameError"] = "nameError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["wifiNameError"] = "wifiNameError"
+            errors["wifiNameFieldMandatory"] = "wifiNameFieldMandatory"
         }
         if (newWifiName.length == nameMinLength || newWifiName.length > nameMaxLength) {
-            errors["nameError"] = "nameError"
-            errors["fieldLength"] = "fieldLength"
+            errors["wifiNameError"] = "wifiNameError"
+            errors["wifiNameFieldLength"] = "wifiNameFieldLength"
         }
         if (newWifiPwd.isEmpty()) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["wifiPasswordError"] = "wifiPasswordError"
+            errors["wifiPasswordFieldMandatory"] = "wifiPasswordFieldMandatory"
         }
 
         if (newWifiPwd.length < passwordMinLength || newWifiPwd.length > passwordMaxLength) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldLength"] = "fieldLength"
+            errors["wifiPasswordError"] = "wifiPasswordError"
+            errors["wifiPasswordFieldLength"] = "wifiPasswordFieldLength"
         }
         this.error.latestValue = errors
         return errors
