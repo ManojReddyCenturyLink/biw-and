@@ -70,6 +70,7 @@ class NetworkStatusActivity : BaseActivity() {
             regularNetworkStatusFlow.observe {
                 bindings.networkStatusWifiButton.isActivated = it.isNetworkEnabled
                 bindings.networkStatusWifiButtonText.text = getString(it.networkStatusText)
+                bindings.networkStatusWifiButtonText.setTextColor(getColor(it.networkStatusTextColor))
                 bindings.networkStatusWifiImage.setImageDrawable(getDrawable(it.statusIcon))
                 bindings.networkStatusWifiButtonActionText.text = getString(it.networkStatusSubText)
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
@@ -81,6 +82,7 @@ class NetworkStatusActivity : BaseActivity() {
             guestNetworkStatusFlow.observe {
                 bindings.networkStatusGuestButton.isActivated = it.isNetworkEnabled
                 bindings.networkStatusGuestButtonText.text = getString(it.networkStatusText)
+                bindings.networkStatusGuestButtonText.setTextColor(getColor(it.networkStatusTextColor))
                 bindings.networkStatusGuestWifiImage.setImageDrawable(getDrawable(it.statusIcon))
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusGuestButtonActionText.text =
@@ -260,7 +262,9 @@ class NetworkStatusActivity : BaseActivity() {
         when (buttonType) {
             // TODO - This has to be replaced with API calls
             AlertDialog.BUTTON_POSITIVE -> {
-                viewModel.onDoneClick()
+                val errors = viewModel.validateInput()
+                if (!errors.hasErrors()) {
+                    viewModel.onDoneClick() }
             }
             AlertDialog.BUTTON_NEGATIVE -> {
                   finish()
