@@ -259,7 +259,7 @@ class DashboardViewModel @Inject constructor(
                         type = NetworkType.Band5G.name,
                         name = apiInfo[0].ssidMap.getValue(NetworkType.Band5G.name),
                         password = regularNetworkWifiPwd,
-                        isEnable = true
+                        enabled = true
                     )
                 }
                 if (apiInfo[0].ssidMap.containsKey(NetworkType.Band2G.name)) {
@@ -267,7 +267,7 @@ class DashboardViewModel @Inject constructor(
                         NetworkType.Band2G.name,
                         name = apiInfo[0].ssidMap.getValue(NetworkType.Band2G.name),
                         password = guestNetworkWifiPwd,
-                        isEnable = true
+                        enabled = true
                     )
                 }
                 wifiListDetails.latestValue = wifiScanStatus(
@@ -312,7 +312,7 @@ class DashboardViewModel @Inject constructor(
 
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
         viewModelScope.launch {
-            if (wifiInfo.isEnable!!) {
+            if (wifiInfo.enabled!!) {
                 progressViewFlow.latestValue = true
                 requestToDisableNetwork(wifiInfo)
             } else {
@@ -361,17 +361,17 @@ class DashboardViewModel @Inject constructor(
 
 
     private fun updateEnableDisableNetwork(wifiInfo: WifiInfo) {
-        isEnable = !wifiInfo.isEnable!!
+        isEnable = !wifiInfo.enabled!!
         if (!wifiInfo.name.isNullOrEmpty() && wifiInfo.type.equals(NetworkType.Band5G.name)) {
             regularNetworkInfo = regularNetworkInstance.copy(
                 type = NetworkType.Band5G.name,
-                name = wifiInfo.name, password = regularNetworkWifiPwd, isEnable = isEnable
+                name = wifiInfo.name, password = regularNetworkWifiPwd, enabled = isEnable
             )
         }
         if (!wifiInfo.name.isNullOrEmpty() && wifiInfo.type.equals(NetworkType.Band2G.name)) {
             guestNetworkInfo = guestNetworkInstance.copy(
                 NetworkType.Band2G.name,
-                name = wifiInfo.name, password = guestNetworkWifiPwd, isEnable = isEnable
+                name = wifiInfo.name, password = guestNetworkWifiPwd, enabled = isEnable
             )
         }
         wifiListDetailsUpdated.latestValue = wifiScanStatus(

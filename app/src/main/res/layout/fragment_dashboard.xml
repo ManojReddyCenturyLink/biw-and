@@ -244,18 +244,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/top_card" />
 
-        <include
-            android:id="@+id/dashboard_wifi_card"
-            layout="@layout/widget_wifi_card"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="@dimen/medium_margin_spacing"
-            android:layout_marginEnd="12dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/connected_devices_card" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/wifi_scan_list"
             android:layout_width="match_parent"
@@ -265,7 +253,7 @@
             android:layout_marginLeft="@dimen/margin_spacing_small"
             android:background="@drawable/background_thin_border"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/dashboard_wifi_card" />
+            app:layout_constraintTop_toBottomOf="@+id/connected_devices_card" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

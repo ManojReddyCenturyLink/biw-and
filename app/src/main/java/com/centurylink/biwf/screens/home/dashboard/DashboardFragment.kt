@@ -164,9 +164,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             dashboardViewModel.getStartedClicked()
             viewClickListener.onGetStartedClick(false)
         }
-        binding.dashboardWifiCard.root.setOnClickListener {
-            dashboardViewModel.navigateToNetworkInformation(binding.dashboardWifiCard.wifiCardNetworkName.text.toString())
-        }
         binding.connectedDevicesCard.root.setOnClickListener { viewClickListener.onViewDevicesClick() }
     }
 
@@ -280,7 +277,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     }
 
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
-        binding.dashboardWifiCard.root.visibility = View.VISIBLE
         unreadNotificationList = notificationList
         if (unreadNotificationList.isNotEmpty()) {
             binding.topCard.visibility = View.VISIBLE

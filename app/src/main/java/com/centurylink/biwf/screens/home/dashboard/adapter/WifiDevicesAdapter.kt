@@ -19,7 +19,6 @@ import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.google.zxing.EncodeHintType
 import kotlinx.android.synthetic.main.layout_scancode_item.view.*
 import net.glxn.qrgen.android.QRCode
-import net.glxn.qrgen.core.scheme.Wifi
 
 class WifiDevicesAdapter(
     var wifiListItems: MutableList<WifiInfo>,
@@ -58,7 +57,7 @@ class WifiDevicesAdapter(
             itemView.viewdivider.visibility =
                 if (pos == wifiListItems.size - 1) View.INVISIBLE else View.VISIBLE
 
-            if (wifiDetails.isEnable!!) {
+            if (wifiDetails.enabled!!) {
                 itemView.iv_network_type.setImageDrawable(itemView.context.getDrawable(R.drawable.ic_three_bars))
             } else {
                 itemView.iv_network_type.setImageDrawable(itemView.context.getDrawable(R.drawable.wifi_image_selector))
