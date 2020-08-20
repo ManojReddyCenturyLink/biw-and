@@ -22,6 +22,7 @@
     <dimen name="notification_circle_size">60dp</dimen>
     <dimen name="text_entry_height">41dp</dimen>
     <dimen name="margin_22">22dp</dimen>
+    <dimen name="padding_40">40dp</dimen>
 
     <!--  Design Patterns -->
     <dimen name="screen_header_height">76dp</dimen>
