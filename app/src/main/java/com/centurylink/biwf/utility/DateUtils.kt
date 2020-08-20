@@ -11,7 +11,7 @@ class DateUtils {
         fun formatInvoiceDate(dateInput: String): String {
             var formattedDate: String = ""
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US)
-            val output = SimpleDateFormat("MM/dd/yy", Locale.US)
+            val output = SimpleDateFormat("MM/dd/yyyy", Locale.US)
             var d: Date? = null
             try {
                 d = input.parse(dateInput)
