@@ -32,7 +32,6 @@ class UsageDetailsActivity : BaseActivity() {
 
     private lateinit var binding: LayoutDevicesUsageInformationBinding
 
-
     override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(viewModelFactory.withInput(intent.getStringExtra(STA_MAC)))
     }
@@ -90,12 +89,25 @@ class UsageDetailsActivity : BaseActivity() {
                     finish()
                 }
             }
+            pauseUnpauseConnection.observe {
+                binding.connectionStatusIcon.setImageDrawable(getDrawable(if (it) R.drawable.ic_3_bars else R.drawable.ic_network_off))
+                binding.deviceConnectedBtn.background =
+                    (getDrawable(if (it) R.drawable.light_blue_rounded_background else R.drawable.light_grey_rounded_background))
+                binding.connectionStatusBtnText.text =
+                    getString(if (it) R.string.device_connected else R.string.connection_paused)
+                binding.tapToRetryText.text =
+                    getString(if (it) R.string.tap_to_pause_connection else R.string.tap_to_resume_connection)
+                binding.connectionStatusBtnText.setTextColor(getColor(if (it) R.color.blue else R.color.font_color_medium_grey))
+            }
         }
         binding.nicknameDeviceNameInput.setText(screenTitle)
-        binding.deviceConnectedBtn.setOnClickListener { viewModel.onDevicesConnectedClicked() }
+        binding.deviceConnectedBtn.setOnClickListener {
+            viewModel.onDevicesConnectedClicked()
+        }
         binding.removeDevicesBtn.setOnClickListener {
             viewModel.onRemoveDevicesClicked()
-            showAlertDialog() }
+            showAlertDialog()
+        }
     }
 
     private fun showAlertDialog() {
@@ -127,7 +139,7 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     companion object {
-        val REQUEST_TO_DEVICES= 1341
+        val REQUEST_TO_DEVICES = 1341
         const val STA_MAC = "STA_MAC"
         const val HOST_NAME = "HOST_NAME"
         const val VENDOR_NAME = "VENDOR_NAME"
