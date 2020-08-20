@@ -182,10 +182,18 @@ class NetworkStatusViewModel @Inject constructor(
             },
             statusIcon = when (guestNetworkEnabled) {
                 true -> {
-                    R.drawable.ic_strong_signal
+                    R.drawable.ic_three_bars
                 }
                 false -> {
                     R.drawable.ic_off
+                }
+            },
+            networkStatusTextColor =  when (guestNetworkEnabled) {
+                true -> {
+                    R.color.blue
+                }
+                false -> {
+                    R.color.font_color_medium_grey
                 }
             }
         )
@@ -217,10 +225,18 @@ class NetworkStatusViewModel @Inject constructor(
             },
             statusIcon = when (wifiNetworkEnabled) {
                 true -> {
-                    R.drawable.ic_strong_signal
+                    R.drawable.ic_three_bars
                 }
                 false -> {
                     R.drawable.ic_off
+                }
+            },
+            networkStatusTextColor =  when(wifiNetworkEnabled) {
+                true -> {
+                    R.color.blue
+                }
+                false -> {
+                    R.color.font_color_medium_grey
                 }
             }
         )
@@ -256,38 +272,38 @@ class NetworkStatusViewModel @Inject constructor(
         val errors = Errors()
         //  Guest Network State Management
         if (newGuestName.isEmpty()) {
-            errors["nameError"] = "nameError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["guestNameError"] = "guestNameError"
+            errors["guestNameFieldMandatory"] = "guestNameFieldMandatory"
         }
         if (newGuestPwd.isEmpty()) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["guestPasswordError"] = "guestPasswordError"
+            errors["guestPasswordFieldMandatory"] = "guestPasswordFieldMandatory"
         }
         if (newGuestName.length == nameMinLength || newGuestName.length > nameMaxLength) {
-            errors["nameError"] = "nameError"
-            errors["fieldLength"] = "fieldLength"
+            errors["guestNameError"] = "guestNameError"
+            errors["guestNameFieldLength"] = "guestNameFieldLength"
         }
         if (newGuestPwd.length < passwordMinLength || newGuestPwd.length > passwordMaxLength) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldLength"] = "fieldLength"
+            errors["guestPasswordError"] = "guestPasswordError"
+            errors["guestPasswordFieldLength"] = "guestPasswordFieldLength"
         }
         //  Wifi Network State Management
         if (newWifiName.isEmpty()) {
-            errors["nameError"] = "nameError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["wifiNameError"] = "wifiNameError"
+            errors["wifiNameFieldMandatory"] = "wifiNameFieldMandatory"
         }
         if (newWifiName.length == nameMinLength || newWifiName.length > nameMaxLength) {
-            errors["nameError"] = "nameError"
-            errors["fieldLength"] = "fieldLength"
+            errors["wifiNameError"] = "wifiNameError"
+            errors["wifiNameFieldLength"] = "wifiNameFieldLength"
         }
         if (newWifiPwd.isEmpty()) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldMandatory"] = "fieldMandatory"
+            errors["wifiPasswordError"] = "wifiPasswordError"
+            errors["wifiPasswordFieldMandatory"] = "wifiPasswordFieldMandatory"
         }
 
         if (newWifiPwd.length < passwordMinLength || newWifiPwd.length > passwordMaxLength) {
-            errors["passwordError"] = "passwordError"
-            errors["fieldLength"] = "fieldLength"
+            errors["wifiPasswordError"] = "wifiPasswordError"
+            errors["wifiPasswordFieldLength"] = "wifiPasswordFieldLength"
         }
         this.error.latestValue = errors
         return errors
@@ -455,8 +471,9 @@ class NetworkStatusViewModel @Inject constructor(
         var networkPassword: String = "",
         var isNetworkEnabled: Boolean = false,
         var networkStatusText: Int = R.string.wifi_network_enabled,
+        var networkStatusTextColor: Int = R.color.blue,
         var networkStatusSubText: Int = R.string.wifi_network_enabled,
-        var statusIcon: Int = R.drawable.ic_strong_signal
+        var statusIcon: Int = R.drawable.ic_three_bars
     )
 
     companion object {
