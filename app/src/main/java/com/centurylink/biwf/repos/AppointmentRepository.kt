@@ -1,21 +1,20 @@
 package com.centurylink.biwf.repos
 
-import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
-import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
-import com.centurylink.biwf.model.appointment.AppointmentResponse
-import com.centurylink.biwf.model.appointment.AppointmentSlots
-import com.centurylink.biwf.model.appointment.Appointments
-import com.centurylink.biwf.model.appointment.RescheduleInfo
-import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.appointment.*
 import com.centurylink.biwf.service.network.AppointmentService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
+import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
 
+
+/**
+ * Repository class for all appointment  related API calls with suspend functions
+ */
 @Singleton
 class AppointmentRepository @Inject constructor(
     private val preferences: Preferences,
@@ -29,7 +28,7 @@ class AppointmentRepository @Inject constructor(
 
     suspend fun getAppointmentInfo(): Either<String, AppointmentRecordsInfo> {
         val query =
-            "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude, ServiceTerritory.OperatingHours.TimeZone, (SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s'"
+            "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude, ServiceTerritory.OperatingHours.TimeZone,Appointment_Number_Text__c,(SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s'"
         val accountId = getAccountId()
         if (accountId.isNullOrEmpty()) {
             return Either.Left("Account ID is not available")
@@ -37,10 +36,10 @@ class AppointmentRepository @Inject constructor(
         val finalQuery = String.format(query, accountId)
         val result: FiberServiceResult<Appointments> =
             appointmentService.getAppointmentDetails(finalQuery)
-        //  val result: FiberServiceResult<Appointments> =
-        //    integrationRestServices.getAppointmentDetails("appointmentDetails")
+         // val result: FiberServiceResult<Appointments> =
+           // integrationRestServices.getAppointmentDetails("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            val appointmentRecords = it.records.elementAtOrElse(0) { null }
+            val appointmentRecords = it.records?.elementAtOrElse(0) { null }
             appointmentRecords?.let { it ->
                 val serviceRecords = it.serviceResources?.records?.elementAtOrElse(0) { null }
                 var timeZoneInfo = it.serviceTerritory?.operatingHours?.timeZone
@@ -49,40 +48,28 @@ class AppointmentRepository @Inject constructor(
                     timeZoneInfo = "America/Denver"
                 }
                 if (it.id.isNullOrEmpty()) {
-                    Either.Left("Appointment Records is Empty")
-                } else if (it.JobType.isNullOrEmpty() || it.arrivalWindowStarTime == null || it.arrivalWindowEndTime == null) {
+                    Either.Left("Appointment id is Empty")
+                } else if (it.JobType.isNullOrEmpty() || it.appointmentNumber == null || it.appointmentStatus == null) {
                     Either.Left("Mandatory Records  is Empty")
-                } else if (it.appointmentStatus == null) {
-                    //TODO: Will remove when api gives correct response for cancelled state
-                    val uiAppointmentRecords = AppointmentRecordsInfo(
-                        serviceAppointmentStartDate = it.arrivalWindowStarTime,
-                        serviceAppointmentEndTime = it.arrivalWindowEndTime,
-                        serviceStatus = ServiceStatus.CANCELED,
-                        serviceEngineerProfilePic = "",
-                        jobType = "",
-                        serviceLatitude = "",
-                        serviceLongitude = "",
-                        appointmentId = "",
-                        serviceEngineerName = "", timeZone = timeZoneInfo
-                    )
-                    Either.Right(uiAppointmentRecords)
                 } else {
+
                     val engineerName = serviceRecords?.serviceResource?.name ?: ""
                     val uiAppointmentRecords = AppointmentRecordsInfo(
-                        serviceAppointmentStartDate = it.arrivalWindowStarTime,
-                        serviceAppointmentEndTime = it.arrivalWindowEndTime,
+                        serviceAppointmentStartDate = it.arrivalWindowStarTime ?: LocalDateTime.MAX,
+                        serviceAppointmentEndTime = it.arrivalWindowEndTime ?: LocalDateTime.MAX,
                         serviceEngineerName = engineerName,
                         serviceStatus = it.appointmentStatus,
                         serviceEngineerProfilePic = "",
                         jobType = it.JobType,
-                        serviceLatitude = it.latitude,
-                        serviceLongitude = it.longitude,
+                        serviceLatitude = it.latitude?:"0.0",
+                        serviceLongitude = it.longitude?:"0.0",
                         appointmentId = it.id,
-                        timeZone = timeZoneInfo
+                        timeZone = timeZoneInfo,
+                        appointmentNumber = it.appointmentNumber
                     )
                     Either.Right(uiAppointmentRecords)
                 }
-            } ?: Either.Left("Appointment Records is Empty")
+            } ?: Either.Left("No Appointment Records")
         }
     }
 
@@ -102,6 +89,14 @@ class AppointmentRepository @Inject constructor(
         //  integrationRestServices.submitAppointments(rescheduleInfo)
         val result: FiberServiceResult<AppointmentResponse> =
             appointmentService.reScheduleAppointment(rescheduleInfo)
+        return result.mapLeft { it.message?.message.toString() }
+    }
+
+    suspend fun cancelAppointment(cancelAppointmentInfo: CancelAppointmentInfo): Either<String, CancelResponse> {
+        //val result: FiberServiceResult<AppointmentResponse> =
+        //  integrationRestServices.submitAppointments(rescheduleInfo)
+        val result: FiberServiceResult<CancelResponse> =
+            appointmentService.cancelAppointment(cancelAppointmentInfo)
         return result.mapLeft { it.message?.message.toString() }
     }
 }

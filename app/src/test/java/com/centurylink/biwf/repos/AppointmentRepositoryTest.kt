@@ -108,7 +108,7 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                 val appInfo = appointmentRepository.getAppointmentInfo()
                 Assert.assertEquals(
                     appInfo.map { it.appointmentId },
-                    Either.Left("Appointment Records is Empty")
+                    Either.Left("No Appointment Records")
                 )
             }
         }

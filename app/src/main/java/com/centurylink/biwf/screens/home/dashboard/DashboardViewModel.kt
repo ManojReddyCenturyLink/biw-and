@@ -7,17 +7,16 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
+import com.centurylink.biwf.model.appointment.CancelAppointmentInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.wifi.NetworkType
 import com.centurylink.biwf.model.wifi.WifiDetails
 import com.centurylink.biwf.model.wifi.WifiInfo
-import com.centurylink.biwf.repos.AppointmentRepository
-import com.centurylink.biwf.repos.AssiaRepository
-import com.centurylink.biwf.repos.DevicesRepository
-import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
+import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
@@ -32,16 +31,20 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ *  ViewModel class to handle dashboard related business logic and data classes.
+ */
 class DashboardViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
     private val assiaRepository: AssiaRepository,
     private val devicesRepository: DevicesRepository,
+    private val accountRepository: AccountRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface : AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+    private val analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
     val myState = EventFlow<DashboardCoordinatorDestinations>()
@@ -55,6 +58,7 @@ class DashboardViewModel @Inject constructor(
     val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
+    var isAccountStatus = EventFlow<Boolean>()
     val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
     val regularNetworkInstance = WifiInfo()
     val guestNetworkInstance = WifiInfo()
@@ -64,9 +68,13 @@ class DashboardViewModel @Inject constructor(
     private var guestNetworkWifiPwd: String = ""
     private lateinit var networkType: NetworkType
     private var isEnable: Boolean = true
+    private var isAccountActive: Boolean =true
     val wifiListDetailsUpdated = BehaviorStateFlow<wifiScanStatus>()
 
     private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
+    private lateinit var cancellationDetails: AppointmentRecordsInfo
+    private lateinit var appointmentDetails: AppointmentRecordsInfo
+    private var refresh: Boolean = false
     private val unreadItem: Notification =
         Notification(
             DashboardFragment.KEY_UNREAD_HEADER, "",
@@ -75,24 +83,29 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private var rebootOngoing = false
 
+    var installationStatus : Boolean
+
     init {
-        initApis()
-        isExistingUser.value = sharedPreferences.getUserType() ?: false
+        installationStatus = sharedPreferences.getInstallationStatus()
+        progressViewFlow.latestValue =true
+        initAccountDetails()
     }
 
-    fun initApis() {
+    private fun initDevicesApis() {
         viewModelScope.launch {
-            progressViewFlow.latestValue = true
             requestToGetNetworkPassword(NetworkType.Band5G)
             requestToGetNetworkPassword(NetworkType.Band2G)
             requestWifiDetails()
-            // TODO right now this feature is not in active so commenting for now
-           // requestNotificationDetails()
-        }
-        if (sharedPreferences.getUserType() != true) {
-            refreshAppointmentDetails()
         }
     }
+
+
+    private fun initAccountDetails() {
+        viewModelScope.launch {
+            requestAccountDetails()
+        }
+    }
+
 
     override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
         super.handleRebootStatus(status)
@@ -104,6 +117,31 @@ class DashboardViewModel @Inject constructor(
             getSpeedTestId()
         } else {
             speedTestButtonState.latestValue = false
+        }
+    }
+
+
+    private suspend fun requestAccountDetails() {
+        val accountDetails = accountRepository.getAccountDetails()
+        accountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+           // it.accountStatus = "active"
+            if (it.accountStatus.equals(HomeViewModel.pendingActivation, true) ||
+                it.accountStatus.equals(HomeViewModel.abandonedActivation, true)
+            ) {
+                requestAppointmentDetails()
+                if(installationStatus){
+                    initDevicesApis()
+                }
+                isAccountActive = false
+                isAccountStatus.latestValue = isAccountActive
+            } else {
+                isAccountActive = true
+                isAccountStatus.latestValue = isAccountActive
+                requestAppointmentDetails()
+                initDevicesApis()
+            }
         }
     }
 
@@ -133,7 +171,6 @@ class DashboardViewModel @Inject constructor(
             var keepChecking = true
             var isSuccessful = false
             while (keepChecking) {
-
                 when (val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)) {
                     is AssiaNetworkResponse.Success -> {
                         if (status.body.code == 1000) {
@@ -215,11 +252,24 @@ class DashboardViewModel @Inject constructor(
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
+            progressViewFlow.latestValue =false
+            if (it.equals("No Appointment Records", ignoreCase = true)) {
+                refresh = false
+            }
         }) {
-            cancelAppointmentInstance = mockInstanceforCancellation(it)
-            updateAppointmentStatus(it)
+            progressViewFlow.latestValue =false
+            cancellationDetails = mockInstanceforCancellation(it)
+            refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
+                    it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
+            if(!installationStatus) {
+                updateAppointmentStatus(it)
+            }
         }
+
+        if (refresh) {
+            refreshAppointmentDetails()
+        }
+
     }
 
     private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
@@ -233,7 +283,8 @@ class DashboardViewModel @Inject constructor(
             serviceLatitude = it.serviceLatitude,
             serviceLongitude = it.serviceLongitude,
             appointmentId = it.appointmentId,
-            timeZone = it.timeZone
+            timeZone = it.timeZone,
+            appointmentNumber = it.appointmentNumber
         )
     }
 
@@ -249,41 +300,39 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestWifiDetails() {
-
-        progressViewFlow.latestValue = true
         when (val modemResponse = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
-                val apiInfo = modemResponse.body.modemInfo.apInfoList
-                if (apiInfo[0].ssidMap.containsKey(NetworkType.Band5G.name)) {
-                    regularNetworkInfo = regularNetworkInstance.copy(
-                        type = NetworkType.Band5G.name,
-                        name = apiInfo[0].ssidMap.getValue(NetworkType.Band5G.name),
-                        password = regularNetworkWifiPwd,
-                        enabled = true
+                val apiInfo = modemResponse.body.modemInfo?.apInfoList
+                if(!apiInfo.isNullOrEmpty()) {
+                    if (apiInfo[0].ssidMap.containsKey(NetworkType.Band5G.name)) {
+                        regularNetworkInfo = regularNetworkInstance.copy(
+                            type = NetworkType.Band5G.name,
+                            name = apiInfo[0].ssidMap.getValue(NetworkType.Band5G.name),
+                            password = regularNetworkWifiPwd,
+                            enabled = true
+                        )
+                    }
+                    if (apiInfo[0].ssidMap.containsKey(NetworkType.Band2G.name)) {
+                        guestNetworkInfo = guestNetworkInstance.copy(
+                            NetworkType.Band2G.name,
+                            name = apiInfo[0].ssidMap.getValue(NetworkType.Band2G.name),
+                            password = guestNetworkWifiPwd,
+                            enabled = true
+                        )
+                    }
+                    wifiListDetails.latestValue = wifiScanStatus(
+                        ArrayList(
+                            (WifiDetails(
+                                listOf(
+                                    regularNetworkInfo,
+                                    guestNetworkInfo
+                                )
+                            )).wifiList
+                        )
                     )
                 }
-                if (apiInfo[0].ssidMap.containsKey(NetworkType.Band2G.name)) {
-                    guestNetworkInfo = guestNetworkInstance.copy(
-                        NetworkType.Band2G.name,
-                        name = apiInfo[0].ssidMap.getValue(NetworkType.Band2G.name),
-                        password = guestNetworkWifiPwd,
-                        enabled = true
-                    )
-                }
-                wifiListDetails.latestValue = wifiScanStatus(
-                    ArrayList(
-                        (WifiDetails(
-                            listOf(
-                                regularNetworkInfo,
-                                guestNetworkInfo
-                            )
-                        )).wifiList
-                    )
-                )
-                progressViewFlow.latestValue = false
             }
             else -> {
-                progressViewFlow.latestValue = false
                 errorMessageFlow.latestValue = "Error WifiInfo"
             }
         }
@@ -311,25 +360,23 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
+        progressViewFlow.latestValue =true
         viewModelScope.launch {
             if (wifiInfo.enabled!!) {
-                progressViewFlow.latestValue = true
                 requestToDisableNetwork(wifiInfo)
             } else {
-                progressViewFlow.latestValue = true
                 requestToEnableNetwork(wifiInfo)
             }
         }
     }
 
     private suspend fun requestToEnableNetwork(wifiInfo: WifiInfo) {
-        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name,ignoreCase = true)!!) {
+        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name, ignoreCase = true)!!) {
             NetworkType.Band5G
         } else {
             NetworkType.Band2G
         }
         val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(networkType)
-        progressViewFlow.latestValue = false
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
                 updateEnableDisableNetwork(wifiInfo)
@@ -338,16 +385,16 @@ class DashboardViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Network Enablement Failed"
             }
         }
+        progressViewFlow.latestValue =false
     }
 
     private suspend fun requestToDisableNetwork(wifiInfo: WifiInfo) {
-        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name,true)!!) {
+        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name, true)!!) {
             NetworkType.Band5G
         } else {
             NetworkType.Band2G
         }
         val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(networkType)
-        progressViewFlow.latestValue = false
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
                 updateEnableDisableNetwork(wifiInfo)
@@ -357,6 +404,7 @@ class DashboardViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Network disablement Failed"
             }
         }
+        progressViewFlow.latestValue =false
     }
 
 
@@ -391,6 +439,7 @@ class DashboardViewModel @Inject constructor(
         it: AppointmentRecordsInfo
     ) {
         val timezone = it.timeZone
+        appointmentDetails = it
         when (it.serviceStatus) {
             ServiceStatus.SCHEDULED, ServiceStatus.DISPATCHED, ServiceStatus.NONE -> {
                 val appointmentState =
@@ -405,7 +454,8 @@ class DashboardViewModel @Inject constructor(
                         serviceAppointmentEndTime = DateUtils.formatAppointmentTimeValuesWithTimeZone(
                             it.serviceAppointmentEndTime.toString(),
                             timezone
-                        )
+                        ),
+                        appointmentNumber = it.appointmentNumber
                     )
                 dashBoardDetailsInfo.latestValue = appointmentState
             }
@@ -515,7 +565,9 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun getStartedClicked() {
-        sharedPreferences.saveUserType(true)
+        sharedPreferences.setInstallationStatus(true)
+        isAccountActive = true
+        isAccountStatus.latestValue = isAccountActive
     }
 
     companion object {
@@ -524,7 +576,33 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun requestAppointmentCancellation() {
-        updateAppointmentStatus(cancelAppointmentInstance)
+        viewModelScope.launch {
+            cancelAppointment()
+        }
+    }
+
+
+    /**
+     * This method will call Cancellation Appointment API and update the ui
+     */
+    private suspend fun cancelAppointment() {
+        progressViewFlow.latestValue = true
+        val cancelAppointmentDetails = appointmentRepository.cancelAppointment(
+            CancelAppointmentInfo(
+                serviceAppointmentNumber = appointmentDetails.appointmentNumber,
+                status = appointmentDetails.serviceStatus
+            )
+        )
+        cancelAppointmentDetails.fold(ifLeft = {
+            progressViewFlow.latestValue = false
+            errorMessageFlow.latestValue = it
+        }) {
+            progressViewFlow.latestValue = false
+            if (it.status != null) {
+                updateAppointmentStatus(cancellationDetails)
+            }
+        }
+
     }
 
     fun checkForOngoingSpeedTest() {
@@ -545,8 +623,13 @@ class DashboardViewModel @Inject constructor(
     abstract class UiDashboardAppointmentInformation
 
     data class AppointmentScheduleState(
-        val jobType: String, val status: ServiceStatus, val serviceAppointmentDate:
-        String, val serviceAppointmentStartTime: String, val serviceAppointmentEndTime: String
+        val jobType: String,
+        val status: ServiceStatus,
+        val serviceAppointmentDate:
+        String,
+        val serviceAppointmentStartTime: String,
+        val serviceAppointmentEndTime: String,
+        val appointmentNumber: String
     ) : UiDashboardAppointmentInformation()
 
     data class AppointmentEngineerStatus(
