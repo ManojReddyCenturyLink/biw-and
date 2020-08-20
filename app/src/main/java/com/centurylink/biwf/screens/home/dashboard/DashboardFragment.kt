@@ -137,13 +137,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         if (dashboardViewModel.isExistingUser.value) {
             incSpeedTest.visibility = View.VISIBLE
             binding.connectedDevicesCard.root.visibility = View.VISIBLE
-            binding.dashboardWifiCard.root.visibility = View.VISIBLE
             dashboardViewModel.startSpeedTest()
             // TODO right now this feature is not in active so commenting for now
            // observeNotificationViews()
             observeWifiDetailsViews()
         } else {
-            binding.dashboardWifiCard.root.visibility = View.GONE
             getAppointmentStatus()
         }
     }
@@ -165,9 +163,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.incCompleted.getStartedBtn.setOnClickListener {
             dashboardViewModel.getStartedClicked()
             viewClickListener.onGetStartedClick(false)
-        }
-        binding.dashboardWifiCard.root.setOnClickListener {
-            dashboardViewModel.navigateToNetworkInformation(binding.dashboardWifiCard.wifiCardNetworkName.text.toString())
         }
         binding.connectedDevicesCard.root.setOnClickListener { viewClickListener.onViewDevicesClick() }
     }
@@ -275,10 +270,13 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         dashboardViewModel.wifiListDetails.observe {
             prepareRecyclerView(it.wifiListDetails)
         }
+
+        dashboardViewModel.wifiListDetailsUpdated.observe {
+            prepareRecyclerView(it.wifiListDetails)
+        }
     }
 
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
-        binding.dashboardWifiCard.root.visibility = View.VISIBLE
         unreadNotificationList = notificationList
         if (unreadNotificationList.isNotEmpty()) {
             binding.topCard.visibility = View.VISIBLE
@@ -371,7 +369,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.wifiScanList.adapter = wifiDevicesAdapter
     }
 
-    override fun onWifiDetailsClicked(wifidetails: WifiInfo) {
+    override fun onWifiQRScanImageClicked(wifidetails: WifiInfo) {
         dashboardViewModel.navigateToQRScan(wifidetails)
+    }
+
+    override fun onWifiNameClicked(networkName: String) {
+        dashboardViewModel.navigateToNetworkInformation(networkName)
+    }
+
+    override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {
+        dashboardViewModel.wifiNetworkEnablement(wifidetails)
     }
 }

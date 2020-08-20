@@ -10,11 +10,14 @@ import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
+import com.centurylink.biwf.model.wifi.NetworkType
+import com.centurylink.biwf.model.wifi.WifiDetails
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
@@ -35,6 +38,7 @@ class DashboardViewModel @Inject constructor(
     private val sharedPreferences: Preferences,
     private val assiaRepository: AssiaRepository,
     private val devicesRepository: DevicesRepository,
+    private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val analyticsManagerInterface : AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
@@ -52,6 +56,15 @@ class DashboardViewModel @Inject constructor(
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
     val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
+    val regularNetworkInstance = WifiInfo()
+    val guestNetworkInstance = WifiInfo()
+    private lateinit var regularNetworkInfo: WifiInfo
+    private lateinit var guestNetworkInfo: WifiInfo
+    private var regularNetworkWifiPwd: String = ""
+    private var guestNetworkWifiPwd: String = ""
+    private lateinit var networkType: NetworkType
+    private var isEnable: Boolean = true
+    val wifiListDetailsUpdated = BehaviorStateFlow<wifiScanStatus>()
 
     private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private val unreadItem: Notification =
@@ -70,6 +83,8 @@ class DashboardViewModel @Inject constructor(
     fun initApis() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
+            requestToGetNetworkPassword(NetworkType.Band5G)
+            requestToGetNetworkPassword(NetworkType.Band2G)
             requestWifiDetails()
             // TODO right now this feature is not in active so commenting for now
            // requestNotificationDetails()
@@ -234,15 +249,143 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestWifiDetails() {
-        //TODO  - This has to replaced with the real API calls
-        val wifiDetails = devicesRepository.getWifiListAndCredentials()
-        wifiDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            wifiListDetails.latestValue = wifiScanStatus(ArrayList(it.wifiList))
-            progressViewFlow.latestValue = false
+
+        progressViewFlow.latestValue = true
+        when (val modemResponse = assiaRepository.getModemInfo()) {
+            is AssiaNetworkResponse.Success -> {
+                val apiInfo = modemResponse.body.modemInfo.apInfoList
+                if (apiInfo[0].ssidMap.containsKey(NetworkType.Band5G.name)) {
+                    regularNetworkInfo = regularNetworkInstance.copy(
+                        type = NetworkType.Band5G.name,
+                        name = apiInfo[0].ssidMap.getValue(NetworkType.Band5G.name),
+                        password = regularNetworkWifiPwd,
+                        enabled = true
+                    )
+                }
+                if (apiInfo[0].ssidMap.containsKey(NetworkType.Band2G.name)) {
+                    guestNetworkInfo = guestNetworkInstance.copy(
+                        NetworkType.Band2G.name,
+                        name = apiInfo[0].ssidMap.getValue(NetworkType.Band2G.name),
+                        password = guestNetworkWifiPwd,
+                        enabled = true
+                    )
+                }
+                wifiListDetails.latestValue = wifiScanStatus(
+                    ArrayList(
+                        (WifiDetails(
+                            listOf(
+                                regularNetworkInfo,
+                                guestNetworkInfo
+                            )
+                        )).wifiList
+                    )
+                )
+                progressViewFlow.latestValue = false
+            }
+            else -> {
+                progressViewFlow.latestValue = false
+                errorMessageFlow.latestValue = "Error WifiInfo"
+            }
         }
     }
+
+    private suspend fun requestToGetNetworkPassword(networkType: NetworkType) {
+        when (val netWorkInfo = wifiNetworkManagementRepository.getNetworkPassword(networkType)) {
+            is AssiaNetworkResponse.Success -> {
+                val networkName = netWorkInfo.body.networkName
+                if (networkName.containsKey(NetworkType.Band5G.name)) {
+                    regularNetworkWifiPwd = networkName.getValue(NetworkType.Band5G.name)
+                }
+                if (networkName.containsKey(NetworkType.Band2G.name)) {
+                    guestNetworkWifiPwd = networkName.getValue(NetworkType.Band5G.name)
+                }
+
+            }
+            else -> {
+                //TODO Currently API is returning Error -Temp Hack for displaying password
+                regularNetworkWifiPwd = "test123wifi"
+                guestNetworkWifiPwd = "test123Guest"
+
+            }
+        }
+    }
+
+    fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
+        viewModelScope.launch {
+            if (wifiInfo.enabled!!) {
+                progressViewFlow.latestValue = true
+                requestToDisableNetwork(wifiInfo)
+            } else {
+                progressViewFlow.latestValue = true
+                requestToEnableNetwork(wifiInfo)
+            }
+        }
+    }
+
+    private suspend fun requestToEnableNetwork(wifiInfo: WifiInfo) {
+        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name,ignoreCase = true)!!) {
+            NetworkType.Band5G
+        } else {
+            NetworkType.Band2G
+        }
+        val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(networkType)
+        progressViewFlow.latestValue = false
+        when (netWorkInfo) {
+            is AssiaNetworkResponse.Success -> {
+                updateEnableDisableNetwork(wifiInfo)
+            }
+            else -> {
+                errorMessageFlow.latestValue = "Network Enablement Failed"
+            }
+        }
+    }
+
+    private suspend fun requestToDisableNetwork(wifiInfo: WifiInfo) {
+        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name,true)!!) {
+            NetworkType.Band5G
+        } else {
+            NetworkType.Band2G
+        }
+        val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(networkType)
+        progressViewFlow.latestValue = false
+        when (netWorkInfo) {
+            is AssiaNetworkResponse.Success -> {
+                updateEnableDisableNetwork(wifiInfo)
+            }
+            else -> {
+                //TODO HANDLING ERROR MOCKED FOR NOW
+                errorMessageFlow.latestValue = "Network disablement Failed"
+            }
+        }
+    }
+
+
+    private fun updateEnableDisableNetwork(wifiInfo: WifiInfo) {
+        isEnable = !wifiInfo.enabled!!
+        if (!wifiInfo.name.isNullOrEmpty() && wifiInfo.type.equals(NetworkType.Band5G.name)) {
+            regularNetworkInfo = regularNetworkInstance.copy(
+                type = NetworkType.Band5G.name,
+                name = wifiInfo.name, password = regularNetworkWifiPwd, enabled = isEnable
+            )
+        }
+        if (!wifiInfo.name.isNullOrEmpty() && wifiInfo.type.equals(NetworkType.Band2G.name)) {
+            guestNetworkInfo = guestNetworkInstance.copy(
+                NetworkType.Band2G.name,
+                name = wifiInfo.name, password = guestNetworkWifiPwd, enabled = isEnable
+            )
+        }
+        wifiListDetailsUpdated.latestValue = wifiScanStatus(
+            ArrayList(
+                (WifiDetails(
+                    listOf(
+                        regularNetworkInfo,
+                        guestNetworkInfo
+                    )
+                )).wifiList
+            )
+        )
+    }
+
 
     private fun updateAppointmentStatus(
         it: AppointmentRecordsInfo
