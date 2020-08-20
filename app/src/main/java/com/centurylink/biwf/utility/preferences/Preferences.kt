@@ -97,6 +97,14 @@ class Preferences(private val store: KeyValueStore) {
         return asiaID
     }
 
+     fun setInstallationStatus(status: Boolean){
+        store.putBoolean(INSTALLATION_STATUS, status)
+    }
+
+     fun getInstallationStatus():Boolean{
+        return store.getBoolean(INSTALLATION_STATUS) ?: false
+    }
+
     private fun removeAssiaId() {
         store.remove(ASSIA_ID)
     }
@@ -176,5 +184,7 @@ class Preferences(private val store: KeyValueStore) {
         const val SPEED_TEST_LAST_TIME = "LAST_SPEED_TEST"
         const val SUPPORT_SPEED_TEST_STARTED = "SUPPORT_SPEED_TEST_STARTED"
         const val SPEED_TEST_ID = "SPEED_TEST_ID"
+        const val INSTALLATION_STATUS = "INSTALLATION_STATUS"
+
     }
 }

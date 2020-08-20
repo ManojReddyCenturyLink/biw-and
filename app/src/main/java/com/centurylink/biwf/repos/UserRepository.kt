@@ -56,6 +56,7 @@ class UserRepository @Inject constructor(
         result.fold(
             ifLeft = { },
             ifRight = {
+                if (it.recentItems.isNotEmpty())
                 storeUserId(it.recentItems[0].Id!!)
             }
         )

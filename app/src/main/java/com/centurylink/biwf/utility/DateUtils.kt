@@ -1,6 +1,7 @@
 package com.centurylink.biwf.utility
 
 import android.net.ParseException
+import org.threeten.bp.LocalDateTime
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -23,6 +24,9 @@ class DateUtils {
         }
 
         fun formatAppointmentDate(dateInput: String): String {
+            if (dateInput.equals(LocalDateTime.MAX.toString())) {
+                return ""
+            }
             var format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val d: Date? = format.parse(dateInput)
             val date = format.format(d)
@@ -54,13 +58,13 @@ class DateUtils {
             return inputFormat.parse(date)
         }
 
-         fun getFirstDateofthisMonth():Date{
+        fun getFirstDateofthisMonth(): Date {
             val c = Calendar.getInstance() // this takes current date
-            c.set(Calendar.DAY_OF_MONTH,1)
+            c.set(Calendar.DAY_OF_MONTH, 1)
             return c.time
         }
 
-         fun getLastDateoftheMonthAfter():Date{
+        fun getLastDateoftheMonthAfter(): Date {
             val c = Calendar.getInstance()
             c.add(Calendar.DATE, 60)
             c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH))
@@ -88,7 +92,10 @@ class DateUtils {
             return formattedDate
         }
 
-        fun formatAppointmentTimeValuesWithTimeZone(dateInput: String,timezone:String):String  {
+        fun formatAppointmentTimeValuesWithTimeZone(dateInput: String, timezone: String): String {
+            if (dateInput.equals(LocalDateTime.MAX.toString())) {
+                return ""
+            }
             val gmtDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
             gmtDateFormat.timeZone = TimeZone.getTimeZone("GMT")
             val returnTypeDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)

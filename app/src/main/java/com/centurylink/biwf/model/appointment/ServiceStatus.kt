@@ -15,6 +15,6 @@ enum class ServiceStatus {
     WORK_BEGUN,
     @SerializedName("Completed")
     COMPLETED,
-    @SerializedName("canceled")
+    @SerializedName("Canceled")
     CANCELED
 }

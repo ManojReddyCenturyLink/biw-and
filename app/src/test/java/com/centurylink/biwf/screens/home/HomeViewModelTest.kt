@@ -76,7 +76,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 serviceLongitude = "",
                 jobType = "",
                 appointmentId = "",
-                timeZone = ""
+                timeZone = "",appointmentNumber = ""
             )
         )
         viewModel =

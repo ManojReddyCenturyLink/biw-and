@@ -4,6 +4,9 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.appointment.*
 import retrofit2.http.*
 
+/**
+ * interface for all the Calls  related appointments
+ */
 interface AppointmentService {
 
     @GET("query")
@@ -18,4 +21,7 @@ interface AppointmentService {
 
     @POST("/services/apexrest/AppointmentSlotsMobile/")
     suspend fun reScheduleAppointment(@Body rescheduleInfo: RescheduleInfo):FiberServiceResult<AppointmentResponse>
+
+    @POST("/fiber/services/apexrest/CancelServiceAppointmentMobile")
+    suspend fun cancelAppointment(@Body cancelAppointmentInfo: CancelAppointmentInfo):FiberServiceResult<CancelResponse>
 }
