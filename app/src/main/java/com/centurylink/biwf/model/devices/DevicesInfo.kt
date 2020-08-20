@@ -55,7 +55,7 @@ data class DevicesData(
     @SerializedName("maxSpeed")
     val maxSpeed: MaxSpeed? = null,
 
-    //Adding temporary variable to test analytics story, will remove once api gets integrated.
+    //TODO: Adding temporary variable to test analytics story, will remove once api gets integrated.
     var isPaused: Boolean = false
 )
 

@@ -90,19 +90,14 @@ class UsageDetailsActivity : BaseActivity() {
                 }
             }
             pauseUnpauseConnection.observe {
-                if (it) {
-                    binding.connectionStatusIcon.setImageDrawable(getDrawable(R.drawable.ic_3_bars))
-                    binding.connectionStatusBtnText.text = "Device Connected"
-                    binding.tapToRetryText.text = "tap to pause connection"
-                    binding.deviceConnectedBtn.background = getDrawable(R.drawable.light_blue_rounded_background)
-                    binding.connectionStatusBtnText.setTextColor(getColor(R.color.blue))
-                } else {
-                    binding.connectionStatusIcon.setImageDrawable(getDrawable(R.drawable.ic_network_off))
-                    binding.connectionStatusBtnText.text = "Connection paused"
-                    binding.tapToRetryText.text = "tap to resume connection"
-                    binding.connectionStatusBtnText.setTextColor(getColor(R.color.font_color_medium_grey))
-                    binding.deviceConnectedBtn.background = getDrawable(R.drawable.light_grey_rounded_background)
-                }
+                binding.connectionStatusIcon.setImageDrawable(getDrawable(if (it) R.drawable.ic_3_bars else R.drawable.ic_network_off))
+                binding.deviceConnectedBtn.background =
+                    (getDrawable(if (it) R.drawable.light_blue_rounded_background else R.drawable.light_grey_rounded_background))
+                binding.connectionStatusBtnText.text =
+                    getString(if (it) R.string.device_connected else R.string.connection_paused)
+                binding.tapToRetryText.text =
+                    getString(if (it) R.string.tap_to_pause_connection else R.string.tap_to_resume_connection)
+                binding.connectionStatusBtnText.setTextColor(getColor(if (it) R.color.blue else R.color.font_color_medium_grey))
             }
         }
         binding.nicknameDeviceNameInput.setText(screenTitle)
