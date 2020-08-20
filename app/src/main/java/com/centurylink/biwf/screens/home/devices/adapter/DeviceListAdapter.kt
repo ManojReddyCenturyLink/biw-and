@@ -125,17 +125,24 @@ class DeviceListAdapter(
             val deviceName = layoutConnectedDevicesBinding.deviceName
             val deviceSignalStrength = layoutConnectedDevicesBinding.ivNetworkType
             val deviceLayout = layoutConnectedDevicesBinding.devicesListLayout
+            val ivNetworkType = layoutConnectedDevicesBinding.ivNetworkType
             deviceName.text = connectedData.hostName
             deviceSignalStrength.setImageResource(
                 setSignalStatus(
                     connectedData.rssi!!,
-                    connectedData.connectedInterface
+                    connectedData.connectedInterface,
+                    connectedData.isPaused
                 )
             )
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onConnectedDevicesClicked(
                     devicesInfo = connectedData
                 )
+            }
+            ivNetworkType.setOnClickListener {
+                connectedData.isPaused = !connectedData.isPaused
+                deviceItemClickListener.onConnectionStatusChanged(connectedData.isPaused)
+                notifyDataSetChanged()
             }
             return layoutConnectedDevicesBinding.root
         } else if (groupPosition == 1) {
@@ -163,12 +170,22 @@ class DeviceListAdapter(
         return deviceList.size
     }
 
-    private fun setSignalStatus(signalStrength: Int, connectionMode: String?): Int {
+    private fun setSignalStatus(
+        signalStrength: Int,
+        connectionMode: String?,
+        isPaused: Boolean
+    ): Int {
         if (!isModemAlive) {
             return R.drawable.ic_off
         } else {
             if (!connectionMode.isNullOrEmpty() && connectionMode.equals("Ethernet", true)) {
-                return R.drawable.ic_ethernet
+                return if (isPaused)
+                    R.drawable.ic_cta_ethernet_off
+                else
+                    R.drawable.ic_ethernet
+            }
+            if (isPaused) {
+                return R.drawable.ic_off
             }
             return when (signalStrength) {
                 in -50..-1 -> {
@@ -199,5 +216,11 @@ class DeviceListAdapter(
          *
          */
         fun onRemovedDevicesClicked(devicesInfo: DevicesData)
+
+        /**
+         * Handle click event on Connection Pause or Resume
+         *
+         */
+        fun onConnectionStatusChanged(isPaused: Boolean)
     }
 }

@@ -76,22 +76,26 @@ class NetworkStatusViewModel @Inject constructor(
 
     fun wifiNetworkEnablement() {
         viewModelScope.launch {
-            progressViewFlow.latestValue = true
-            if (regularNetworkInstance.isNetworkEnabled) {
-                requestToDisableNetwork(NetworkType.Band5G)
-            } else {
-                requestToEnableNetwork(NetworkType.Band5G)
+            if (internetStatusFlow.latestValue.isActive) {
+                progressViewFlow.latestValue = true
+                if (regularNetworkInstance.isNetworkEnabled) {
+                    requestToDisableNetwork(NetworkType.Band5G)
+                } else {
+                    requestToEnableNetwork(NetworkType.Band5G)
+                }
             }
         }
     }
 
     fun guestNetworkEnablement() {
         viewModelScope.launch {
-            progressViewFlow.latestValue = true
-            if (guestNetworkInstance.isNetworkEnabled) {
-                requestToDisableNetwork(NetworkType.Band2G)
-            } else {
-                requestToEnableNetwork(NetworkType.Band2G)
+            if (internetStatusFlow.latestValue.isActive) {
+                progressViewFlow.latestValue = true
+                if (guestNetworkInstance.isNetworkEnabled) {
+                    requestToDisableNetwork(NetworkType.Band2G)
+                } else {
+                    requestToEnableNetwork(NetworkType.Band2G)
+                }
             }
         }
     }
@@ -188,7 +192,7 @@ class NetworkStatusViewModel @Inject constructor(
                     R.drawable.ic_off
                 }
             },
-            networkStatusTextColor =  when (guestNetworkEnabled) {
+            networkStatusTextColor = when (guestNetworkEnabled) {
                 true -> {
                     R.color.blue
                 }
@@ -231,7 +235,7 @@ class NetworkStatusViewModel @Inject constructor(
                     R.drawable.ic_off
                 }
             },
-            networkStatusTextColor =  when(wifiNetworkEnabled) {
+            networkStatusTextColor = when (wifiNetworkEnabled) {
                 true -> {
                     R.color.blue
                 }
@@ -395,7 +399,6 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
-
     private suspend fun requestToUpdateWifiNetworkInfo(
         networkType: NetworkType,
         networkName: String
@@ -437,14 +440,13 @@ class NetworkStatusViewModel @Inject constructor(
             }
             if (existingWifiPwd != newGuestPwd && guestNetworkInstance.isNetworkEnabled) {
                 if (!newGuestPwd.isNullOrEmpty() && newGuestPwd.length > 8) {
-                   // requestToUpdateNetWorkPassword(NetworkType.Band2G, newGuestPwd)
+                    // requestToUpdateNetWorkPassword(NetworkType.Band2G, newGuestPwd)
                 }
             }
             progressViewFlow.latestValue = false
             errorSubmitValue.latestValue = submitFlow
         }
     }
-
 
     data class OnlineStatus(
         val isActive: Boolean

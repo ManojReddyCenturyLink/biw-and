@@ -77,8 +77,10 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
     private fun listenForRebootDialog() {
         viewModel.rebootDialogFlow.observe { success ->
             if (success) {
+                viewModel.logModemRebootSuccessDialog()
                 showModemRebootSuccessDialog()
             } else {
+                viewModel.logModemRebootErrorDialog()
                 showModemRebootErrorDialog()
             }
         }
@@ -86,7 +88,6 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
 
     fun showModemRebootSuccessDialog() {
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-            viewModel.logModemRebootSuccessDialog()
             viewModel.onRebootDialogShown()
             ModemRebootSuccessDialog().show(
                 supportFragmentManager,
@@ -97,7 +98,6 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
 
     fun showModemRebootErrorDialog() {
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-            viewModel.logModemRebootErrorDialog()
             viewModel.onRebootDialogShown()
             ModemRebootFailureDialog(this).show(
                 supportFragmentManager,

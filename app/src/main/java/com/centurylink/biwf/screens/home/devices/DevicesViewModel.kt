@@ -133,6 +133,14 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
+    fun logConnectionStatusChanged(isPaused: Boolean) {
+        if (isPaused) {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_SCREEN)
+        } else {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_SCREEN)
+        }
+    }
+
     fun logListExpandCollapse() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.EXPANDABLE_LIST_DEVICES)
     }
