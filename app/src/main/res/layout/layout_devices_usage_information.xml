@@ -197,8 +197,8 @@
 
                 <View
                     android:id="@+id/device_connected_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="54dp"
+                    android:layout_width="@dimen/padding_0"
+                    android:layout_height="@dimen/height_54"
                     android:layout_marginTop="@dimen/medium_margin_spacing"
                     android:background="@drawable/light_blue_rounded_background"
                     app:layout_constraintEnd_toEndOf="parent"
