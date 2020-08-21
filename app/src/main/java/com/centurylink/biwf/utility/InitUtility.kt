@@ -34,6 +34,7 @@ private val restServiceConfig = RestServiceConfigModule(
     baseUrlFiberServices = BuildConfig.BASE_SALESFORCE_URL,
     baseUrlForAwsBucket = "https://bucketforapi.s3-eu-west-1.amazonaws.com/",
     baseUrlForAssiaServices = " https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/",
+    baseUrlForMcafeeServices = "https://centurylink-test1.apigee.net/v1/mcafee/",
     integrationServerService = object : IntegrationServerService {
         override val baseUrl: String = IntegrationServer.baseUrl
 

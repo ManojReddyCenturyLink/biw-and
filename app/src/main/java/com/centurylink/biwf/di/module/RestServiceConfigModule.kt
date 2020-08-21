@@ -30,6 +30,7 @@ class RestServiceConfigModule(
     private val baseUrlFiberServices: String,
     private val baseUrlForAwsBucket: String,
     private val baseUrlForAssiaServices: String,
+    private val baseUrlForMcafeeServices: String,
     private val integrationServerService: IntegrationServerService,
     private val fakeServicesFactory: ServicesFactory? = null
 ) {
@@ -67,7 +68,6 @@ class RestServiceConfigModule(
             .asFactory
     }
 
-
     @Singleton
     @Provides
     @BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES)
@@ -89,8 +89,6 @@ class RestServiceConfigModule(
     @BaseUrl(BaseUrlType.ASSIA_SERVICES)
     fun provideRetrofitForAssia(
         jsonConverters: Converter.Factory,
-        // TODO update this to ClientType.OAUTH when all Cloudcheck URLs updated to
-        //  Assia-passthrough version
         @HttpClient(ClientType.NONE) client: Call.Factory
     ):ServicesFactory{
         return fakeServicesFactory ?: Retrofit.Builder()
@@ -116,6 +114,25 @@ class RestServiceConfigModule(
             .addCallAdapterFactory(EitherCallAdapterFactory())
             .addConverterFactory(EitherConverterFactory())
             .addConverterFactory(FiberErrorConverterFactory())
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
+            .build()
+            .asFactory
+    }
+
+    @Singleton
+    @Provides
+    @BaseUrl(BaseUrlType.MCAFEE_SERVICES)
+    fun provideRetrofitForMcafee(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.OAUTH) client: Call.Factory
+    ):ServicesFactory{
+        return fakeServicesFactory ?: Retrofit.Builder()
+            .callFactory(client)
+            .baseUrl(baseUrlForMcafeeServices)
+            .addCallAdapterFactory(EitherCallAdapterFactory())
+            .addConverterFactory(EitherConverterFactory())
+            .addConverterFactory(McafeeErrorConverterFactory())
             .addConverterFactory(jsonConverters)
             .addConverterFactory(primitiveTypeConverters)
             .build()
@@ -208,18 +225,24 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideAssiaServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory):AssiaService{
+    fun provideAssiaServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): AssiaService {
         return factory.create()
     }
 
     @Singleton
     @Provides
-    fun providesAssiaTrafficUsageService(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory):AssiaTrafficUsageService{
+    fun providesAssiaTrafficUsageService(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): AssiaTrafficUsageService{
         return factory.create()
     }
     @Singleton
     @Provides
     fun provideNetworkManagementAPIServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): WifiNetworkApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun providesMcafeeUsersService(@BaseUrl(BaseUrlType.MCAFEE_SERVICES) factory: ServicesFactory): McafeeApiService {
         return factory.create()
     }
 }
