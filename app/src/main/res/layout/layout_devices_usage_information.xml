@@ -195,52 +195,53 @@
                         app:layout_constraintStart_toEndOf="@+id/biweekly_upload_speed" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <Button
+                <View
                     android:id="@+id/device_connected_btn"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="@dimen/padding_0"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_spacing_small"
+                    android:layout_width="0dp"
+                    android:layout_height="54dp"
+                    android:layout_marginTop="@dimen/medium_margin_spacing"
                     android:background="@drawable/light_blue_rounded_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details" />
+                    app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details"
+                    />
 
                 <TextView
                     android:id="@+id/connection_status_btn_text"
-                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_spacing_small"
                     android:text="@string/device_connected"
                     android:textAllCaps="false"
                     android:textColor="@color/blue"
                     android:textSize="@dimen/text_size_16"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details" />
+                    android:fontFamily="@font/arial_bold_mt"
+                    app:layout_constraintEnd_toEndOf="@id/device_connected_btn"
+                    app:layout_constraintStart_toStartOf="@id/device_connected_btn"
+                    app:layout_constraintBottom_toBottomOf="@id/device_connected_btn"
+                    app:layout_constraintTop_toTopOf="@id/device_connected_btn" />
 
                 <ImageView
                     android:id="@+id/connection_status_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/padding_0"
                     android:src="@drawable/ic_3_bars"
+                    android:layout_marginStart="@dimen/spacing_4"
                     app:layout_constraintStart_toEndOf="@+id/connection_status_btn_text"
                     app:layout_constraintTop_toTopOf="@+id/connection_status_btn_text"
                     app:layout_constraintBottom_toBottomOf="@+id/connection_status_btn_text"/>
 
                 <TextView
                     android:id="@+id/tap_to_retry_text"
-                    android:layout_width="@dimen/padding_0"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_tiny"
                     android:text="@string/tap_to_pause_connection"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="@dimen/text_size_12"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/connection_status_btn_text" />
+                    app:layout_constraintEnd_toEndOf="@+id/device_connected_btn"
+                    app:layout_constraintStart_toStartOf="@+id/device_connected_btn"
+                    app:layout_constraintTop_toBottomOf="@+id/device_connected_btn" />
 
                 <View
                     android:id="@+id/horizontal_view"
