@@ -30,6 +30,8 @@ data class AppointmentRecords(
     val longitude: String? = null,
     @SerializedName("WorkTypeId")
     val WorkTypeId: String? = null,
+    @SerializedName("Appointment_Number_Text__c")
+    val appointmentNumber: String? = null,
     @SerializedName("ServiceResources")
     val serviceResources: ServiceResources? = null,
     @SerializedName("ServiceTerritory")

@@ -4,14 +4,12 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
+import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
-import com.centurylink.biwf.repos.AppointmentRepository
-import com.centurylink.biwf.repos.AssiaRepository
-import com.centurylink.biwf.repos.DevicesRepository
-import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -39,6 +37,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     lateinit var appointmentRepository: AppointmentRepository
 
     @MockK
+    lateinit var accountRepository: AccountRepository
+
+    @MockK
     lateinit var modemRebootMonitorService: ModemRebootMonitorService
 
     @MockK
@@ -54,7 +55,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     private lateinit var appointmentWIP: DashboardViewModel.AppointmentEngineerWIP
     private lateinit var appointmentEnroute: DashboardViewModel.AppointmentEngineerStatus
     private lateinit var appointmentSchedule: DashboardViewModel.AppointmentScheduleState
-
+    private lateinit var accountDetails: AccountDetails
     @MockK
     private lateinit var mockAssiaRepository: AssiaRepository
 
@@ -96,7 +97,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
                 serviceLongitude = "",
                 jobType = "",
                 appointmentId = "",
-                timeZone = ""
+                timeZone = "",appointmentNumber = ""
             )
         )
         coEvery { notificationRepository.getNotificationDetails() } returns Either.Right(
@@ -133,14 +134,18 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             status = ServiceStatus.SCHEDULED,
             serviceAppointmentEndTime = "",
             serviceAppointmentStartTime = "",
-            serviceAppointmentDate = ""
+            serviceAppointmentDate = "",appointmentNumber = ""
         )
+        val accountString = readJson("account.json")
+        accountDetails = fromJson(accountString)
+        coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
         viewModel = DashboardViewModel(
             notificationRepository = notificationRepository,
             appointmentRepository = appointmentRepository,
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
             devicesRepository = devicesRepository,
+            accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface
@@ -161,7 +166,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun `On init Api Call`() = runBlockingTest {
-        val method = viewModel.javaClass.getDeclaredMethod("initApis")
+        val method = viewModel.javaClass.getDeclaredMethod("initDevicesApis")
         method.isAccessible = true
     }
 
@@ -196,7 +201,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
                 serviceLongitude = "11",
                 jobType = "abc",
                 appointmentId = "123",
-                timeZone = ""
+                timeZone = "",appointmentNumber = ""
 
             )
         )
@@ -206,6 +211,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
             devicesRepository = devicesRepository,
+            accountRepository=accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface

@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.home.dashboard
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -116,7 +117,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
         }
-        dashboardViewModel.speedTestButtonState.observe { binding.incSpeedTest.runSpeedTestDashboard.isActivated = it }
+        dashboardViewModel.speedTestButtonState.observe {
+            binding.incSpeedTest.runSpeedTestDashboard.isActivated = it
+        }
         initOnClicks()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
@@ -130,20 +133,39 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     }
 
     override fun retryClicked() {
-        dashboardViewModel.initApis()
+        //dashboardViewModel.initDevicesApis()
     }
 
     private fun initViews() {
-        if (dashboardViewModel.isExistingUser.value) {
-            incSpeedTest.visibility = View.VISIBLE
-            binding.connectedDevicesCard.root.visibility = View.VISIBLE
-            dashboardViewModel.startSpeedTest()
-            // TODO right now this feature is not in active so commenting for now
-           // observeNotificationViews()
-            observeWifiDetailsViews()
-        } else {
-            getAppointmentStatus()
+        // TODO right now this feature is not in active so commenting for now
+        // observeNotificationViews()
+        observeAccountStatusViews()
+        observeWifiDetailsViews()
+        getAppointmentStatus()
+
+    }
+
+    private fun observeAccountStatusViews() {
+        dashboardViewModel.isAccountStatus.observe {
+            if (it) {
+                incCompleted.visibility = View.GONE
+                displaySpeedtest()
+            } else {
+                if (dashboardViewModel.installationStatus) {
+                    displaySpeedtest()
+                } else {
+                    incSpeedTest.visibility = View.GONE
+                    binding.connectedDevicesCard.root.visibility = View.GONE
+                }
+            }
         }
+    }
+
+    private fun displaySpeedtest() {
+        incCompleted.visibility = View.GONE
+        incSpeedTest.visibility = View.VISIBLE
+        binding.connectedDevicesCard.root.visibility = View.VISIBLE
+        dashboardViewModel.startSpeedTest()
     }
 
     private fun initOnClicks() {
@@ -161,6 +183,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
         }
         binding.incCompleted.getStartedBtn.setOnClickListener {
+            incCompleted.visibility = View.GONE
             dashboardViewModel.getStartedClicked()
             viewClickListener.onGetStartedClick(false)
         }
@@ -246,8 +269,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
             }
             if (it is DashboardViewModel.AppointmentComplete) {
-                incCompleted.visibility = View.VISIBLE
                 incWorkBegun.visibility = View.GONE
+                incEnroute.visibility = View.GONE
+                incWorkBegun.visibility = View.GONE
+                incCompleted.visibility = View.VISIBLE
+
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
                 incScheduled.visibility = View.GONE

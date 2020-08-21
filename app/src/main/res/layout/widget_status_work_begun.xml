@@ -148,6 +148,7 @@
         android:id="@+id/incWipCard"
         layout="@layout/widget_welcome_card"
         android:layout_width="0dp"
+        android:visibility="gone"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:layout_marginBottom="@dimen/medium_margin_spacing"

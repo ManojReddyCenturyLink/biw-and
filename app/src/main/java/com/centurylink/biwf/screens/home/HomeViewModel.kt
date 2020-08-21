@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home
 
 import android.os.Bundle
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -10,6 +11,7 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
@@ -144,15 +146,34 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            if (it.accountStatus.equals("Pending Activation", true)) {
-                activeUserTabBarVisibility.latestValue = false
-                progressViewFlow.latestValue = false
+           // it.accountStatus = "Active"
+            if (it.accountStatus.equals(pendingActivation, true) ||
+                it.accountStatus.equals(abandonedActivation, true)
+            ) {
+                invokeNewUserDashboard()
+                if(sharedPreferences.getInstallationStatus()){
+                    invokeStandardUserDashboard()
+                }
             } else {
-                // Call this only when Devices Tab is Shown
-                sharedPreferences.saveUserType(true)
-                activeUserTabBarVisibility.latestValue = true
+                requestAppointmentDetails()
                 progressViewFlow.latestValue = false
-                modemStatusRefresh()
+            }
+        }
+    }
+
+    private suspend fun requestAppointmentDetails() {
+        val appointmentDetails = appointmentRepository.getAppointmentInfo()
+        appointmentDetails.fold(ifLeft = {
+            if (it.equals("No Appointment Records", ignoreCase = true)) {
+                invokeStandardUserDashboard()
+            } else {
+                errorMessageFlow.latestValue = it
+            }
+        }) {
+            if (!it.jobType.contains(intsall)) {
+                invokeStandardUserDashboard()
+            } else {
+                invokeNewUserDashboard()
             }
         }
     }
@@ -205,7 +226,27 @@ class HomeViewModel @Inject constructor(
             )
         return list
     }
+
+    // show 2 tabs
+    private fun invokeNewUserDashboard() {
+        activeUserTabBarVisibility.latestValue = false
+        progressViewFlow.latestValue = false
+    }
+
+    // show 3 tabs
+    private fun invokeStandardUserDashboard() {
+        activeUserTabBarVisibility.latestValue = true
+        progressViewFlow.latestValue = false
+        modemStatusRefresh()
+    }
+
+    companion object {
+        const val pendingActivation = "Pending Activation"
+        const val abandonedActivation = "Abandoned Activation"
+        const val intsall = "install"
+    }
 }
+
 
 data class ChoiceDialogMessage(
     val title: Int,
