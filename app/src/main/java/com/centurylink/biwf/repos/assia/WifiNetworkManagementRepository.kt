@@ -14,7 +14,7 @@ class WifiNetworkManagementRepository @Inject constructor(
     private val wifiNetworkApiService: WifiNetworkApiService,
     private val assiaTokenManager: AssiaTokenManager
 ) {
-    suspend fun getNetworkName(interfaceType: NetworkType) :AssiaNetworkResponse<NetworkDetails, AssiaError> {
+    suspend fun getNetworkName(interfaceType: NetWorkBand) :AssiaNetworkResponse<NetworkDetails, AssiaError> {
         return wifiNetworkApiService.getNetworkName(
             preferences.getAssiaId(),
             interfaceType,
@@ -22,7 +22,7 @@ class WifiNetworkManagementRepository @Inject constructor(
     }
 
     suspend fun updateNetworkName(
-        interfaceType: NetworkType,
+        interfaceType: NetWorkBand,
         updateNetworkName: UpdateNetworkName
     ): AssiaNetworkResponse<UpdateNetworkResponse, AssiaError> {
         return wifiNetworkApiService.updateNetworkName(
@@ -33,7 +33,7 @@ class WifiNetworkManagementRepository @Inject constructor(
         )
     }
 
-    suspend fun enableNetwork(interfaceType: NetworkType): AssiaNetworkResponse<UpdateNetworkResponse, AssiaError> {
+    suspend fun enableNetwork(interfaceType: NetWorkBand): AssiaNetworkResponse<UpdateNetworkResponse, AssiaError> {
         return wifiNetworkApiService.enableNetwork(
             preferences.getAssiaId(),
             interfaceType,
@@ -41,7 +41,7 @@ class WifiNetworkManagementRepository @Inject constructor(
         )
     }
 
-    suspend fun disableNetwork(interfaceType: NetworkType): AssiaNetworkResponse<UpdateNetworkResponse, AssiaError> {
+    suspend fun disableNetwork(interfaceType: NetWorkBand): AssiaNetworkResponse<UpdateNetworkResponse, AssiaError> {
         return wifiNetworkApiService.disableNetwork(
             preferences.getAssiaId(),
             interfaceType,
@@ -49,7 +49,7 @@ class WifiNetworkManagementRepository @Inject constructor(
         )
     }
 
-    suspend fun getNetworkPassword(interfaceType: NetworkType): AssiaNetworkResponse<NetworkDetails, AssiaError> {
+    suspend fun getNetworkPassword(interfaceType: NetWorkBand): AssiaNetworkResponse<NetworkDetails, AssiaError> {
         return wifiNetworkApiService.getNetworkPassword(
             preferences.getAssiaId(),
             interfaceType,
@@ -58,7 +58,7 @@ class WifiNetworkManagementRepository @Inject constructor(
     }
 
     suspend fun updateNetworkPassword(
-        interfaceType: NetworkType,
+        interfaceType: NetWorkBand,
         updateNWPassword: UpdateNWPassword
     ): AssiaNetworkResponse<UpdateNetworkResponse, AssiaError> {
         return wifiNetworkApiService.updateNetworkPassword(

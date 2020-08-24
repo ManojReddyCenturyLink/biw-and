@@ -34,7 +34,7 @@ data class ApInfo(
     @SerializedName("isRootAp")
     val isRootAp: Boolean = false,
     @SerializedName("isAlive")
-    val isAlive: Boolean = false,
+    var isAlive: Boolean = false,
     @SerializedName("ssidMap")
     val ssidMap: HashMap<String, String> = HashMap(),
     @SerializedName("bssidMap")
