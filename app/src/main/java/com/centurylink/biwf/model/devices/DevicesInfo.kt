@@ -3,7 +3,6 @@ package com.centurylink.biwf.model.devices
 import com.google.gson.annotations.SerializedName
 
 data class DevicesInfo(
-
     @SerializedName("error")
     val error: String? = null,
     @SerializedName("code")

@@ -62,6 +62,7 @@ class DashboardViewModel @Inject constructor(
     var progressViewFlow = EventFlow<Boolean>()
     var isAccountStatus = EventFlow<Boolean>()
     val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
+    val getStarted = EventFlow<Boolean>()
     val regularNetworkInstance = WifiInfo()
     val guestNetworkInstance = WifiInfo()
     private lateinit var regularNetworkInfo: WifiInfo
@@ -145,21 +146,18 @@ class DashboardViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            it.accountStatus = HomeViewModel.pendingActivation
             if (it.accountStatus.equals(HomeViewModel.pendingActivation, true) ||
                 it.accountStatus.equals(HomeViewModel.abandonedActivation, true)
             ) {
-                requestAppointmentDetails()
-                if (installationStatus) {
-                    initDevicesApis()
-                }
                 isAccountActive = false
                 isAccountStatus.latestValue = isAccountActive
             } else {
                 isAccountActive = true
                 isAccountStatus.latestValue = isAccountActive
                 progressViewFlow.latestValue = false
-                initDevicesApis()
             }
+            requestAppointmentDetails()
         }
     }
 
@@ -273,17 +271,15 @@ class DashboardViewModel @Inject constructor(
             progressViewFlow.latestValue = false
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
+                initDevicesApis()
             }
         }) {
             progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
-            if (!installationStatus) {
-                updateAppointmentStatus(it)
-            }
+            updateAppointmentStatus(it)
         }
-
         if (refresh) {
             refreshAppointmentDetails()
         }
