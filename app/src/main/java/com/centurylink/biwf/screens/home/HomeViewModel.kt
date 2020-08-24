@@ -237,7 +237,6 @@ class HomeViewModel @Inject constructor(
 
     // show 3 tabs
     private fun invokeStandardUserDashboard() {
-        sharedPreferences.setInstallationStatus(true)
         activeUserTabBarVisibility.latestValue = true
         progressViewFlow.latestValue = false
         modemStatusRefresh()

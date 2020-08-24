@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.home.dashboard
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -149,10 +150,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             if (it) {
                 incCompleted.visibility = View.GONE
                 displaySpeedtest()
+                updateView()
             } else {
                 if (dashboardViewModel.installationStatus) {
                     incCompleted.visibility = View.GONE
                     displaySpeedtest()
+                    updateView()
                 } else {
                     incSpeedTest.visibility = View.GONE
                     binding.connectedDevicesCard.root.visibility = View.GONE

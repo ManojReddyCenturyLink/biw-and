@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
@@ -278,7 +279,9 @@ class DashboardViewModel @Inject constructor(
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
-            updateAppointmentStatus(it)
+            if (!sharedPreferences.getInstallationStatus()) {
+                updateAppointmentStatus(it)
+            }
         }
         if (refresh) {
             refreshAppointmentDetails()
@@ -316,7 +319,7 @@ class DashboardViewModel @Inject constructor(
     private suspend fun requestWifiDetails() {
         when (val modemResponse = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
-                val apiInfo = modemResponse.body.modemInfo?.apInfoList
+                val apiInfo = modemResponse.body.modemInfo.apInfoList
                 if (!apiInfo.isNullOrEmpty()) {
                     val modemInfo = apiInfo[0]
                     var regularNetworkName = ""
@@ -343,7 +346,15 @@ class DashboardViewModel @Inject constructor(
                     )
 
                     wifiListDetails.latestValue = wifiScanStatus(
-                        ArrayList((WifiDetails(listOf(regularNetworkInfo, guestNetworkInfo))).wifiList))
+                        ArrayList(
+                            (WifiDetails(
+                                listOf(
+                                    regularNetworkInfo,
+                                    guestNetworkInfo
+                                )
+                            )).wifiList
+                        )
+                    )
                 }
             }
             else -> {
