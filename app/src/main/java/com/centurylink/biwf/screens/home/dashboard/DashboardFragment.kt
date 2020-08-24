@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.home.dashboard
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -393,6 +392,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
         wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
         binding.wifiScanList.adapter = wifiDevicesAdapter
+    }
+
+     fun updateView() {
+         dashboardViewModel.initDevicesApis()
     }
 
     override fun onWifiQRScanImageClicked(wifidetails: WifiInfo) {

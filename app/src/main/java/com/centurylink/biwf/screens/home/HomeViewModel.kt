@@ -146,12 +146,11 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-           // it.accountStatus = "Active"
             if (it.accountStatus.equals(pendingActivation, true) ||
                 it.accountStatus.equals(abandonedActivation, true)
             ) {
                 invokeNewUserDashboard()
-                if(sharedPreferences.getInstallationStatus()){
+                if (sharedPreferences.getInstallationStatus()) {
                     invokeStandardUserDashboard()
                 }
             } else {

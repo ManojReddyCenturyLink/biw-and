@@ -9,14 +9,17 @@ import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.CancelAppointmentInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.assia.ApInfo
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
-import com.centurylink.biwf.model.wifi.NetworkType
+import com.centurylink.biwf.model.wifi.NetWorkCategory
+import com.centurylink.biwf.model.wifi.NetWorkBand
 import com.centurylink.biwf.model.wifi.WifiDetails
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.screens.home.HomeViewModel
+import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
@@ -54,7 +57,6 @@ class DashboardViewModel @Inject constructor(
     val uploadSpeed: Flow<String> = BehaviorStateFlow()
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
-    val isExistingUser = BehaviorStateFlow<Boolean>()
     val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
@@ -66,10 +68,12 @@ class DashboardViewModel @Inject constructor(
     private lateinit var guestNetworkInfo: WifiInfo
     private var regularNetworkWifiPwd: String = ""
     private var guestNetworkWifiPwd: String = ""
-    private lateinit var networkType: NetworkType
+
     private var isEnable: Boolean = true
-    private var isAccountActive: Boolean =true
+    private var isAccountActive: Boolean = true
     val wifiListDetailsUpdated = BehaviorStateFlow<wifiScanStatus>()
+    private var ssidMap: HashMap<String, String> = HashMap()
+    private var bssidMap: HashMap<String, String> = HashMap()
 
     private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private lateinit var cancellationDetails: AppointmentRecordsInfo
@@ -83,19 +87,18 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private var rebootOngoing = false
 
-    var installationStatus : Boolean
+    var installationStatus: Boolean
 
     init {
         installationStatus = sharedPreferences.getInstallationStatus()
-        progressViewFlow.latestValue =true
+        progressViewFlow.latestValue = true
         initAccountDetails()
     }
 
-    private fun initDevicesApis() {
+    fun initDevicesApis() {
         viewModelScope.launch {
-            requestToGetNetworkPassword(NetworkType.Band5G)
-            requestToGetNetworkPassword(NetworkType.Band2G)
             requestWifiDetails()
+            fetchPasswordApi()
         }
     }
 
@@ -106,6 +109,22 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    private fun fetchPasswordApi() {
+        viewModelScope.launch {
+            //Fetching Password for Regular Network
+            if (ssidMap.containsKey(NetWorkBand.Band2G.name)) {
+                requestToGetNetworkPassword(NetWorkBand.Band2G)
+            } else if (ssidMap.containsKey(NetWorkBand.Band5G.name)) {
+                requestToGetNetworkPassword(NetWorkBand.Band5G)
+            }
+            //Fetching Password for Guest Network
+            if (ssidMap.containsKey(NetWorkBand.Band5G_Guest4.name)) {
+                requestToGetNetworkPassword(NetWorkBand.Band5G_Guest4)
+            } else if (ssidMap.containsKey(NetWorkBand.Band2G_Guest4.name)) {
+                requestToGetNetworkPassword(NetWorkBand.Band2G_Guest4)
+            }
+        }
+    }
 
     override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
         super.handleRebootStatus(status)
@@ -126,12 +145,11 @@ class DashboardViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-           // it.accountStatus = "active"
             if (it.accountStatus.equals(HomeViewModel.pendingActivation, true) ||
                 it.accountStatus.equals(HomeViewModel.abandonedActivation, true)
             ) {
                 requestAppointmentDetails()
-                if(installationStatus){
+                if (installationStatus) {
                     initDevicesApis()
                 }
                 isAccountActive = false
@@ -252,16 +270,16 @@ class DashboardViewModel @Inject constructor(
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
-            progressViewFlow.latestValue =false
+            progressViewFlow.latestValue = false
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
             }
         }) {
-            progressViewFlow.latestValue =false
+            progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
-            if(!installationStatus) {
+            if (!installationStatus) {
                 updateAppointmentStatus(it)
             }
         }
@@ -303,33 +321,33 @@ class DashboardViewModel @Inject constructor(
         when (val modemResponse = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
                 val apiInfo = modemResponse.body.modemInfo?.apInfoList
-                if(!apiInfo.isNullOrEmpty()) {
-                    if (apiInfo[0].ssidMap.containsKey(NetworkType.Band5G.name)) {
-                        regularNetworkInfo = regularNetworkInstance.copy(
-                            type = NetworkType.Band5G.name,
-                            name = apiInfo[0].ssidMap.getValue(NetworkType.Band5G.name),
-                            password = regularNetworkWifiPwd,
-                            enabled = true
-                        )
-                    }
-                    if (apiInfo[0].ssidMap.containsKey(NetworkType.Band2G.name)) {
-                        guestNetworkInfo = guestNetworkInstance.copy(
-                            NetworkType.Band2G.name,
-                            name = apiInfo[0].ssidMap.getValue(NetworkType.Band2G.name),
-                            password = guestNetworkWifiPwd,
-                            enabled = true
-                        )
-                    }
-                    wifiListDetails.latestValue = wifiScanStatus(
-                        ArrayList(
-                            (WifiDetails(
-                                listOf(
-                                    regularNetworkInfo,
-                                    guestNetworkInfo
-                                )
-                            )).wifiList
-                        )
+                if (!apiInfo.isNullOrEmpty()) {
+                    val modemInfo = apiInfo[0]
+                    var regularNetworkName = ""
+                    var guestNetworkName = ""
+                    ssidMap = modemInfo.ssidMap
+                    bssidMap = modemInfo.bssidMap
+                    regularNetworkName = ModemUtils.getRegularNetworkName(modemInfo)
+                    guestNetworkName = ModemUtils.getGuestNetworkName(modemInfo)
+                    val guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfo)
+                    val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfo)
+                    regularNetworkInfo = regularNetworkInstance.copy(
+                        type = NetWorkBand.Band5G.name,
+                        name = regularNetworkName,
+                        password = regularNetworkWifiPwd,
+                        enabled = wifiNetworkEnabled
                     )
+
+                    guestNetworkInfo = guestNetworkInstance.copy(
+                        category = NetWorkCategory.GUEST,
+                        type = NetWorkBand.Band2G_Guest4.name,
+                        name = guestNetworkName,
+                        password = guestNetworkWifiPwd,
+                        enabled = guestNetworkEnabled
+                    )
+
+                    wifiListDetails.latestValue = wifiScanStatus(
+                        ArrayList((WifiDetails(listOf(regularNetworkInfo, guestNetworkInfo))).wifiList))
                 }
             }
             else -> {
@@ -338,45 +356,59 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestToGetNetworkPassword(networkType: NetworkType) {
-        when (val netWorkInfo = wifiNetworkManagementRepository.getNetworkPassword(networkType)) {
+    private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
+        when (val netWorkInfo =
+            wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)) {
             is AssiaNetworkResponse.Success -> {
-                val networkName = netWorkInfo.body.networkName
-                if (networkName.containsKey(NetworkType.Band5G.name)) {
-                    regularNetworkWifiPwd = networkName.getValue(NetworkType.Band5G.name)
+                val password = netWorkInfo.body.networkName[netWorkBand.name]
+                password?.let {
+                    when (netWorkBand) {
+                        NetWorkBand.Band2G, NetWorkBand.Band5G -> {
+                            regularNetworkWifiPwd = password
+                        }
+                        NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
+                            guestNetworkWifiPwd = password
+                        }
+                    }
                 }
-                if (networkName.containsKey(NetworkType.Band2G.name)) {
-                    guestNetworkWifiPwd = networkName.getValue(NetworkType.Band5G.name)
-                }
-
             }
             else -> {
                 //TODO Currently API is returning Error -Temp Hack for displaying password
                 regularNetworkWifiPwd = "test123wifi"
                 guestNetworkWifiPwd = "test123Guest"
-
             }
         }
     }
 
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
-        progressViewFlow.latestValue =true
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
-            if (wifiInfo.enabled!!) {
-                requestToDisableNetwork(wifiInfo)
-            } else {
-                requestToEnableNetwork(wifiInfo)
+            when (wifiInfo.category) {
+                NetWorkCategory.GUEST ->
+                    if (wifiInfo.enabled!!) {
+                        requestToDisableNetwork(NetWorkBand.Band5G_Guest4, wifiInfo)
+                        requestToDisableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
+                    } else {
+                        requestToEnableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
+                        requestToEnableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
+                    }
+                NetWorkCategory.REGULAR ->
+                    if (wifiInfo.enabled!!) {
+                        requestToDisableNetwork(NetWorkBand.Band5G, wifiInfo)
+                        requestToDisableNetwork(NetWorkBand.Band2G, wifiInfo)
+                    } else {
+                        requestToEnableNetwork(NetWorkBand.Band2G, wifiInfo)
+                        requestToEnableNetwork(NetWorkBand.Band5G, wifiInfo)
+                    }
             }
         }
     }
 
-    private suspend fun requestToEnableNetwork(wifiInfo: WifiInfo) {
-        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name, ignoreCase = true)!!) {
-            NetworkType.Band5G
-        } else {
-            NetworkType.Band2G
-        }
-        val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(networkType)
+    private suspend fun requestToEnableNetwork(
+        netWorkBand: NetWorkBand,
+        wifiInfo: WifiInfo
+    ) {
+        val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(netWorkBand)
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
                 updateEnableDisableNetwork(wifiInfo)
@@ -385,16 +417,14 @@ class DashboardViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Network Enablement Failed"
             }
         }
-        progressViewFlow.latestValue =false
+        progressViewFlow.latestValue = false
     }
 
-    private suspend fun requestToDisableNetwork(wifiInfo: WifiInfo) {
-        networkType = if (wifiInfo.type?.equals(NetworkType.Band5G.name, true)!!) {
-            NetworkType.Band5G
-        } else {
-            NetworkType.Band2G
-        }
-        val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(networkType)
+    private suspend fun requestToDisableNetwork(
+        netWorkBand: NetWorkBand,
+        wifiInfo: WifiInfo
+    ) {
+        val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
                 updateEnableDisableNetwork(wifiInfo)
@@ -404,33 +434,28 @@ class DashboardViewModel @Inject constructor(
                 errorMessageFlow.latestValue = "Network disablement Failed"
             }
         }
-        progressViewFlow.latestValue =false
+        progressViewFlow.latestValue = false
     }
 
 
     private fun updateEnableDisableNetwork(wifiInfo: WifiInfo) {
         isEnable = !wifiInfo.enabled!!
-        if (!wifiInfo.name.isNullOrEmpty() && wifiInfo.type.equals(NetworkType.Band5G.name)) {
-            regularNetworkInfo = regularNetworkInstance.copy(
-                type = NetworkType.Band5G.name,
-                name = wifiInfo.name, password = regularNetworkWifiPwd, enabled = isEnable
-            )
-        }
-        if (!wifiInfo.name.isNullOrEmpty() && wifiInfo.type.equals(NetworkType.Band2G.name)) {
-            guestNetworkInfo = guestNetworkInstance.copy(
-                NetworkType.Band2G.name,
-                name = wifiInfo.name, password = guestNetworkWifiPwd, enabled = isEnable
-            )
+        when (wifiInfo.type) {
+            NetWorkBand.Band2G.name, NetWorkBand.Band5G.name ->
+                regularNetworkInfo = regularNetworkInstance.copy(
+                    category = NetWorkCategory.REGULAR,
+                    type = NetWorkBand.Band5G.name,
+                    name = wifiInfo.name, password = regularNetworkWifiPwd, enabled = isEnable
+                )
+            NetWorkBand.Band2G_Guest4.name, NetWorkBand.Band5G_Guest4.name ->
+                guestNetworkInfo = guestNetworkInstance.copy(
+                    category = NetWorkCategory.GUEST,
+                    type = NetWorkBand.Band2G.name,
+                    name = wifiInfo.name, password = guestNetworkWifiPwd, enabled = isEnable
+                )
         }
         wifiListDetailsUpdated.latestValue = wifiScanStatus(
-            ArrayList(
-                (WifiDetails(
-                    listOf(
-                        regularNetworkInfo,
-                        guestNetworkInfo
-                    )
-                )).wifiList
-            )
+            ArrayList((WifiDetails(listOf(regularNetworkInfo, guestNetworkInfo))).wifiList)
         )
     }
 

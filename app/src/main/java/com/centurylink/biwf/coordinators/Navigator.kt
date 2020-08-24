@@ -71,7 +71,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
 
     fun navigateToChangeAppointment() {
         activity?.also {
-            it.startActivityForResult(ChangeAppointmentActivity.newIntent(it),ChangeAppointmentActivity.REQUEST_TO_DASHBOARD)
+            it.startActivityForResult(
+                ChangeAppointmentActivity.newIntent(it),
+                ChangeAppointmentActivity.REQUEST_TO_DASHBOARD
+            )
         }
     }
 
@@ -185,7 +188,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToNetworkInformationScreen() {
         val bundle = DashboardCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(NetworkStatusActivity.newIntent(it, bundle))
+            it.startActivityForResult(NetworkStatusActivity.newIntent(it, bundle), 0)
         }
     }
 
@@ -199,14 +202,20 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToUsageDetailsActivity() {
         val bundle = DevicesCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivityForResult(UsageDetailsActivity.newIntent(it, bundle),REQUEST_TO_DEVICES)
+            it.startActivityForResult(
+                UsageDetailsActivity.newIntent(it, bundle),
+                REQUEST_TO_DEVICES
+            )
         }
     }
 
     fun navigateToAppointmentConfirmation() {
         val bundle = ChangeAppointmentCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivityForResult(AppointmentBookedActivity.newIntent(it, bundle),ChangeAppointmentActivity.REQUEST_TO_DASHBOARD)
+            it.startActivityForResult(
+                AppointmentBookedActivity.newIntent(it, bundle),
+                ChangeAppointmentActivity.REQUEST_TO_DASHBOARD
+            )
         }
     }
 

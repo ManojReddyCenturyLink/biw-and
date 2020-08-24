@@ -17,11 +17,13 @@ import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.dashboard.adapter.HomeViewPagerAdapter
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
+import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
+
 
 class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     ChoiceDialogFragment.BioMetricDialogCallback {
@@ -89,6 +91,19 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         } else if (resultCode == UsageDetailsActivity.REQUEST_TO_DEVICES) {
             binding.vpDashboard.currentItem = 2
             refreshDevices()
+        } else if (resultCode == NetworkStatusActivity.REQUEST_TO_HOME) {
+            refreshDashboardFragment()
+        }
+    }
+
+
+    private fun refreshDashboardFragment() {
+        val allFragments: List<Fragment> =
+            supportFragmentManager.fragments
+        for (fragment in allFragments) {
+            if (fragment is DashboardFragment) {
+                fragment.updateView()
+            }
         }
     }
 

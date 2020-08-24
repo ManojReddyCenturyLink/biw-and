@@ -6,6 +6,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -37,7 +38,7 @@ class NetworkStatusActivity : BaseActivity() {
         initOnClicks()
         watchTextChanges()
         initEnableDisableEventClicks()
-        }
+    }
 
     private fun initViews() {
         setApiProgressViews(
@@ -96,18 +97,36 @@ class NetworkStatusActivity : BaseActivity() {
             viewModel.error.observe {
                 bindings.fieldsMarkedRequiredWifi.visibility =
                     if (it.containsKey("wifiNameFieldMandatory") || it.containsKey("wifiPasswordFieldMandatory")) View.VISIBLE else View.GONE
-                bindings.networkStatusWifiNameLabel.setTextColor(getColor(if (it.containsKey("wifiNameError") && it.containsKey("wifiNameFieldMandatory")) R.color.offline_red else R.color.font_color_medium_grey))
+                bindings.networkStatusWifiNameLabel.setTextColor(
+                    getColor(
+                        if (it.containsKey("wifiNameError") && it.containsKey(
+                                "wifiNameFieldMandatory"
+                            )
+                        ) R.color.offline_red else R.color.font_color_medium_grey
+                    )
+                )
                 bindings.networkStatusWifiNameLabel.text =
-                    if (it.containsKey("wifiNameError") && it.containsKey("wifiNameFieldMandatory")) resources.getString(R.string.network_name_mandatory) else resources.getString(
+                    if (it.containsKey("wifiNameError") && it.containsKey("wifiNameFieldMandatory")) resources.getString(
+                        R.string.network_name_mandatory
+                    ) else resources.getString(
                         R.string.network_name
                     )
                 bindings.networkStatusWifiNameLabel.typeface =
                     if (it.containsKey("wifiNameError") && it.containsKey("wifiNameFieldMandatory")) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
                 bindings.networkStatusWifiNameInput.background =
                     getDrawable(if (it.containsKey("wifiNameError") && it.containsKey("wifiNameFieldMandatory")) R.drawable.background_thin_border_red else R.drawable.background_thin_border)
-                bindings.networkStatusWifiPasswordLabel.setTextColor(getColor(if (it.containsKey("wifiPasswordError") && it.containsKey("wifiPasswordFieldMandatory")) R.color.offline_red else R.color.font_color_medium_grey))
+                bindings.networkStatusWifiPasswordLabel.setTextColor(
+                    getColor(
+                        if (it.containsKey("wifiPasswordError") && it.containsKey(
+                                "wifiPasswordFieldMandatory"
+                            )
+                        ) R.color.offline_red else R.color.font_color_medium_grey
+                    )
+                )
                 bindings.networkStatusWifiPasswordLabel.text =
-                    if (it.containsKey("wifiPasswordError") && it.containsKey("wifiPasswordFieldMandatory")) resources.getString(R.string.network_password_mandatory) else resources.getString(
+                    if (it.containsKey("wifiPasswordError") && it.containsKey("wifiPasswordFieldMandatory")) resources.getString(
+                        R.string.network_password_mandatory
+                    ) else resources.getString(
                         R.string.network_password
                     )
                 bindings.networkStatusWifiPasswordLabel.typeface =
@@ -117,25 +136,43 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusWifiPasswordRestraintsLabel.setTextColor(
                     getColor(
                         if (it.containsKey("wifiPasswordError") && it.containsKey("wifiPasswordFieldLength"))
-                         R.color.offline_red else R.color.font_color_medium_grey
+                            R.color.offline_red else R.color.font_color_medium_grey
                     )
                 )
 
 
                 bindings.fieldsMarkedRequiredGuest.visibility =
                     if (it.containsKey("guestNameFieldMandatory") || it.containsKey("wifiPasswordFieldMandatory")) View.VISIBLE else View.GONE
-                bindings.networkStatusGuestNameLabel.setTextColor(getColor(if (it.containsKey("guestNameError") && it.containsKey("guestNameFieldMandatory")) R.color.offline_red else R.color.font_color_medium_grey))
+                bindings.networkStatusGuestNameLabel.setTextColor(
+                    getColor(
+                        if (it.containsKey("guestNameError") && it.containsKey(
+                                "guestNameFieldMandatory"
+                            )
+                        ) R.color.offline_red else R.color.font_color_medium_grey
+                    )
+                )
                 bindings.networkStatusGuestNameLabel.text =
-                    if (it.containsKey("guestNameError") && it.containsKey("guestNameFieldMandatory")) resources.getString(R.string.guest_network_name_mandatory) else resources.getString(
+                    if (it.containsKey("guestNameError") && it.containsKey("guestNameFieldMandatory")) resources.getString(
+                        R.string.guest_network_name_mandatory
+                    ) else resources.getString(
                         R.string.guest_network_name
                     )
                 bindings.networkStatusGuestNameLabel.typeface =
                     if (it.containsKey("guestNameError") && it.containsKey("guestNameFieldMandatory")) Typeface.DEFAULT_BOLD else Typeface.DEFAULT
                 bindings.networkStatusGuestNameInput.background =
                     getDrawable(if (it.containsKey("guestNameError") && it.containsKey("guestNameFieldMandatory")) R.drawable.background_thin_border_red else R.drawable.background_thin_border)
-                bindings.networkStatusGuestPasswordLabel.setTextColor(getColor(if (it.containsKey("guestPasswordError") && it.containsKey("guestPasswordFieldMandatory")) R.color.offline_red else R.color.font_color_medium_grey))
+                bindings.networkStatusGuestPasswordLabel.setTextColor(
+                    getColor(
+                        if (it.containsKey("guestPasswordError") && it.containsKey(
+                                "guestPasswordFieldMandatory"
+                            )
+                        ) R.color.offline_red else R.color.font_color_medium_grey
+                    )
+                )
                 bindings.networkStatusGuestPasswordLabel.text =
-                    if (it.containsKey("guestPasswordError") && it.containsKey("guestPasswordFieldMandatory")) resources.getString(R.string.guest_network_password_mandatory) else resources.getString(
+                    if (it.containsKey("guestPasswordError") && it.containsKey("guestPasswordFieldMandatory")) resources.getString(
+                        R.string.guest_network_password_mandatory
+                    ) else resources.getString(
                         R.string.guest_network_password
                     )
                 bindings.networkStatusGuestPasswordLabel.typeface =
@@ -145,7 +182,7 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusGuestPasswordRestraintsLabel.setTextColor(
                     getColor(
                         if (it.containsKey("guestPasswordError") && it.containsKey("guestPasswordFieldLength"))
-                        R.color.offline_red else R.color.font_color_medium_grey
+                            R.color.offline_red else R.color.font_color_medium_grey
                     )
                 )
             }
@@ -153,6 +190,7 @@ class NetworkStatusActivity : BaseActivity() {
                 if (it) {
                     showBlueTheamPopUp()
                 } else {
+                    setResult(REQUEST_TO_HOME)
                     finish()
                 }
             }
@@ -264,14 +302,15 @@ class NetworkStatusActivity : BaseActivity() {
             AlertDialog.BUTTON_POSITIVE -> {
                 val errors = viewModel.validateInput()
                 if (!errors.hasErrors()) {
-                    viewModel.onDoneClick() }
+                    viewModel.onDoneClick()
+                }
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                  finish()
+                finish()
             }
         }
     }
-    
+
     private fun initEnableDisableEventClicks() {
         bindings.networkStatusWifiButton.setOnClickListener {
             viewModel.wifiNetworkEnablement()
@@ -322,6 +361,7 @@ class NetworkStatusActivity : BaseActivity() {
 
     companion object {
         const val NETWORK_NAME: String = "NETWORK_NAME"
+        const val REQUEST_TO_HOME: Int = 101
         fun newIntent(context: Context) = Intent(context, NetworkStatusActivity::class.java)
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, NetworkStatusActivity::class.java)
