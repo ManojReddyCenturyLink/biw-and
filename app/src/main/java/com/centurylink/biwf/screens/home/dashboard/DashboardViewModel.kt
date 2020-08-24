@@ -157,7 +157,7 @@ class DashboardViewModel @Inject constructor(
             } else {
                 isAccountActive = true
                 isAccountStatus.latestValue = isAccountActive
-                requestAppointmentDetails()
+                progressViewFlow.latestValue = false
                 initDevicesApis()
             }
         }
