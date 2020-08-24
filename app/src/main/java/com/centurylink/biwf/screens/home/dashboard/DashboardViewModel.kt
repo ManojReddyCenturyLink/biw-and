@@ -9,7 +9,6 @@ import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.CancelAppointmentInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
-import com.centurylink.biwf.model.assia.ApInfo
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.wifi.NetWorkCategory
@@ -145,15 +144,17 @@ class DashboardViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            it.accountStatus = HomeViewModel.pendingActivation
             if (it.accountStatus.equals(HomeViewModel.pendingActivation, true) ||
                 it.accountStatus.equals(HomeViewModel.abandonedActivation, true)
             ) {
+                isAccountActive = false
+                isAccountStatus.latestValue = isAccountActive
                 requestAppointmentDetails()
                 if (installationStatus) {
                     initDevicesApis()
                 }
-                isAccountActive = false
-                isAccountStatus.latestValue = isAccountActive
+
             } else {
                 isAccountActive = true
                 isAccountStatus.latestValue = isAccountActive
@@ -279,9 +280,19 @@ class DashboardViewModel @Inject constructor(
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
-            if (!installationStatus) {
-                updateAppointmentStatus(it)
+            if (!it.jobType.contains(HomeViewModel.intsall) && it.serviceStatus?.name.equals(
+                    ServiceStatus.CANCELED.name
+                )
+            ) {
+                isAccountStatus.latestValue = true
+                initDevicesApis()
+
+            } else {
+                if (!installationStatus) {
+                    updateAppointmentStatus(it)
+                }
             }
+
         }
 
         if (refresh) {
@@ -347,7 +358,15 @@ class DashboardViewModel @Inject constructor(
                     )
 
                     wifiListDetails.latestValue = wifiScanStatus(
-                        ArrayList((WifiDetails(listOf(regularNetworkInfo, guestNetworkInfo))).wifiList))
+                        ArrayList(
+                            (WifiDetails(
+                                listOf(
+                                    regularNetworkInfo,
+                                    guestNetworkInfo
+                                )
+                            )).wifiList
+                        )
+                    )
                 }
             }
             else -> {
