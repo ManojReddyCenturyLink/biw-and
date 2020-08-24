@@ -144,7 +144,6 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            it.accountStatus = pendingActivation
             if (it.accountStatus.equals(pendingActivation, true) ||
                 it.accountStatus.equals(abandonedActivation, true)
             ) {
@@ -155,7 +154,6 @@ class HomeViewModel @Inject constructor(
                     requestAppointmentDetails()
                 }
             } else {
-                //requestAppointmentDetails()
                 invokeStandardUserDashboard()
                 progressViewFlow.latestValue = false
             }
