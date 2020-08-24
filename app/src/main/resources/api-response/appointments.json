@@ -11,7 +11,7 @@
          "Id": "08pf00000007uBWAAY",
          "ArrivalWindowEndTime": "2020-08-20T22:00:00.000+0000",
          "ArrivalWindowStartTime": "2020-08-20T20:00:00.000+0000",
-         "Status": "Completed",
+         "Status": "Canceled",
          "Job_Type__c": "Fiber Repair - Slow Speed",
          "WorkTypeId": "08qf00000008QgmAAE",
          "Latitude": null,

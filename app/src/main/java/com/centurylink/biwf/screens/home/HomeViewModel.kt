@@ -146,20 +146,17 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            it.accountStatus = pendingActivation
             if (it.accountStatus.equals(pendingActivation, true) ||
                 it.accountStatus.equals(abandonedActivation, true)
             ) {
+                invokeNewUserDashboard()
                 if (sharedPreferences.getInstallationStatus()) {
                     invokeStandardUserDashboard()
-                }else{
-                    requestAppointmentDetails()
                 }
             } else {
-                progressViewFlow.latestValue = false
                 requestAppointmentDetails()
+                progressViewFlow.latestValue = false
             }
-
         }
     }
 
@@ -245,7 +242,7 @@ class HomeViewModel @Inject constructor(
     companion object {
         const val pendingActivation = "Pending Activation"
         const val abandonedActivation = "Abandoned Activation"
-        const val intsall = "Install"
+        const val intsall = "install"
     }
 }
 

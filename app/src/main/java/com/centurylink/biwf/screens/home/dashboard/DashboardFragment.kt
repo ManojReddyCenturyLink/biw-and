@@ -153,7 +153,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 updateView()
             } else {
                 if (dashboardViewModel.installationStatus) {
-                    incCompleted.visibility = View.GONE
                     displaySpeedtest()
                     updateView()
                 } else {
