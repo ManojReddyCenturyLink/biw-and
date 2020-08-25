@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.Either
@@ -11,7 +10,6 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
-import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
@@ -149,12 +147,14 @@ class HomeViewModel @Inject constructor(
             if (it.accountStatus.equals(pendingActivation, true) ||
                 it.accountStatus.equals(abandonedActivation, true)
             ) {
-                invokeNewUserDashboard()
+
                 if (sharedPreferences.getInstallationStatus()) {
                     invokeStandardUserDashboard()
+                } else {
+                    requestAppointmentDetails()
                 }
             } else {
-                requestAppointmentDetails()
+                invokeStandardUserDashboard()
                 progressViewFlow.latestValue = false
             }
         }
@@ -242,7 +242,7 @@ class HomeViewModel @Inject constructor(
     companion object {
         const val pendingActivation = "Pending Activation"
         const val abandonedActivation = "Abandoned Activation"
-        const val intsall = "install"
+        const val intsall = "Install"
     }
 }
 
