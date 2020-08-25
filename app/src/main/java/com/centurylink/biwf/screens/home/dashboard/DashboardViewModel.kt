@@ -144,7 +144,6 @@ class DashboardViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            //it.accountStatus ="active"
             if (it.accountStatus.equals(HomeViewModel.pendingActivation, true) ||
                 it.accountStatus.equals(HomeViewModel.abandonedActivation, true)
             ) {
