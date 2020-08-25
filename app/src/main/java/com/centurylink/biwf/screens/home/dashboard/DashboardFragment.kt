@@ -170,7 +170,13 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun initOnClicks() {
         binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest() }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
-        binding.incScheduled.appointmentCancelBtn.setOnClickListener { showCancellationConfirmationDialaog() }
+        binding.incScheduled.appointmentCancelBtn.setOnClickListener {
+
+           activity?.runOnUiThread {
+               showCancellationConfirmationDialaog()
+           }
+
+        }
         binding.notificationDismissButton.setOnClickListener {
             if (unreadNotificationList.isNotEmpty()) {
                 dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
