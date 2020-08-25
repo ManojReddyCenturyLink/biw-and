@@ -150,15 +150,14 @@ class DashboardViewModel @Inject constructor(
                 isAccountActive = false
                 isAccountStatus.latestValue = isAccountActive
                 requestAppointmentDetails()
+                progressViewFlow.latestValue =false
                 if (installationStatus) {
                     initDevicesApis()
                 }
-
             } else {
                 isAccountActive = true
-                isAccountStatus.latestValue = isAccountActive
                 progressViewFlow.latestValue = false
-                initDevicesApis()
+                requestAppointmentDetails()
             }
         }
     }
@@ -270,34 +269,32 @@ class DashboardViewModel @Inject constructor(
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
-            progressViewFlow.latestValue = false
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
             }
         }) {
-            progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
             if (!it.jobType.contains(HomeViewModel.intsall) && it.serviceStatus?.name.equals(
-                    ServiceStatus.CANCELED.name
-                )
+                    ServiceStatus.CANCELED.name)
             ) {
                 isAccountStatus.latestValue = true
                 initDevicesApis()
-
-            } else {
+            }
+            else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
+                }else{
+                    isAccountStatus.latestValue =true
+                    initDevicesApis()
                 }
             }
 
         }
-
         if (refresh) {
             refreshAppointmentDetails()
         }
-
     }
 
     private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
