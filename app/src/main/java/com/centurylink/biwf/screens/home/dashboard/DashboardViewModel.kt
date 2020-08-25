@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
