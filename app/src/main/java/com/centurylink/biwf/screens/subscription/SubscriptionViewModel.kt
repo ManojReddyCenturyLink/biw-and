@@ -38,7 +38,7 @@ class SubscriptionViewModel @Inject constructor(
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
     var progressViewFlow = EventFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
-
+    var paymentmethod:String=""
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SUBSCRIPTION)
         progressViewFlow.latestValue = true
@@ -93,6 +93,10 @@ class SubscriptionViewModel @Inject constructor(
         bundle.putString(
             SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_DATE,
             item.createdDate
+        )
+        bundle.putString(
+            SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_PAYMENT_METHOD,
+            paymentmethod
         )
         SubscriptionCoordinatorDestinations.bundle = bundle
         myState.latestValue = SubscriptionCoordinatorDestinations.STATEMENT
