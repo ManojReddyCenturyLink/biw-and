@@ -144,6 +144,7 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            //
             if (it.accountStatus.equals(pendingActivation, true) ||
                 it.accountStatus.equals(abandonedActivation, true)
             ) {
