@@ -60,6 +60,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             }
         }
         binding.currentPaymentMethod.text = intent.getStringExtra(PAYMENT_CARD)
+        viewModel.paymentmethod=intent.getStringExtra(PAYMENT_CARD)
         prepareRecyclerView()
         initViews()
     }
