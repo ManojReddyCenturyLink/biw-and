@@ -150,10 +150,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 viewModel.rebootModem()
             }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
-            supportVisitWebsite.setOnClickListener {
-                viewModel.logVisitWebsite()
-                //TODO Add Website feature when url is available
-            }
+//            supportVisitWebsite.setOnClickListener {
+//                viewModel.logVisitWebsite()
+//                //TODO Add Website feature when url is available
+//            }
         }
 
         binding.incContactUs.liveChatTextview.setOnClickListener {
