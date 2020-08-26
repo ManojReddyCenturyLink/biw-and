@@ -271,7 +271,10 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
+                isAccountStatus.latestValue =true
+                initDevicesApis()
             }
+
         }) {
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
