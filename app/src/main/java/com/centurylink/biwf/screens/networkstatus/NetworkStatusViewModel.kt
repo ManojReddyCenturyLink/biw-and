@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.networkstatus
 
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.R
+import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.NetworkStatusCoordinatorDestinations
@@ -58,6 +59,7 @@ class NetworkStatusViewModel @Inject constructor(
     private var guestNetworkInstance = UINetworkModel()
 
     init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_NETWORK_INFORMATION)
         progressViewFlow.latestValue = true
         initApi()
     }
@@ -95,6 +97,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     fun wifiNetworkEnablement() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.WIFI_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
         viewModelScope.launch {
             if (internetStatusFlow.latestValue.isActive) {
                 progressViewFlow.latestValue = true
@@ -110,6 +113,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     fun guestNetworkEnablement() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.GUEST_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
         viewModelScope.launch {
             if (internetStatusFlow.latestValue.isActive) {
                 progressViewFlow.latestValue = true
@@ -148,6 +152,7 @@ class NetworkStatusViewModel @Inject constructor(
         progressViewFlow.latestValue = false
         when (modemResponse) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
                 val apiInfo = modemResponse.body.modemInfo.apInfoList
                 modemInfoFlow.latestValue = modemResponse.body.modemInfo
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
@@ -181,6 +186,7 @@ class NetworkStatusViewModel @Inject constructor(
                 }
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
                 // Ignoring Error to avoid Frequent
                 //errorMessageFlow.latestValue = "Modem Info Not Available"
                 setOfflineNetworkInformation()
@@ -286,6 +292,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     fun onDoneClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_SAVE_CLICK_NETWORK_INFORMATION)
         progressViewFlow.latestValue = true
         submitData()
     }
@@ -312,6 +319,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     fun validateInput(): Errors {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_NETWORK_INFORMATION)
         val errors = Errors()
         //  Guest Network State Management
         if (newGuestName.isEmpty()) {
@@ -356,6 +364,7 @@ class NetworkStatusViewModel @Inject constructor(
         val netWorkInfo = wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
                 val password = netWorkInfo.body.networkName[netWorkBand.name]
                 password?.let {
                     when (netWorkBand) {
@@ -370,6 +379,7 @@ class NetworkStatusViewModel @Inject constructor(
                 updatePasswords()
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
                 //TODO Currently API is returning Error -Temp Hack for displaying password
                 existingWifiPwd = "test123wifi"
                 existingGuestPwd = "test123Guest"
@@ -394,11 +404,13 @@ class NetworkStatusViewModel @Inject constructor(
         )
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_SUCCESS)
                 if (netWorkInfo.body.code != "1000") {
                     submitFlow = true
                 }
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_FAILURE)
                 submitFlow = true
             }
         }
@@ -409,9 +421,11 @@ class NetworkStatusViewModel @Inject constructor(
         progressViewFlow.latestValue = false
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(netWorkBand, true)
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_FAILURE)
                 errorMessageFlow.latestValue = "Network Enablement Failed"
             }
         }
@@ -422,9 +436,11 @@ class NetworkStatusViewModel @Inject constructor(
         progressViewFlow.latestValue = false
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(netWorkBand, false)
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
                 //TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
             }
@@ -456,11 +472,13 @@ class NetworkStatusViewModel @Inject constructor(
         )
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_SUCCESS)
                 if (netWorkInfo.body.code != "1000") {
                     submitFlow = true
                 }
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_FAILURE)
                 submitFlow = true
             }
         }
@@ -513,6 +531,14 @@ class NetworkStatusViewModel @Inject constructor(
             progressViewFlow.latestValue = false
             errorSubmitValue.latestValue = submitFlow
         }
+    }
+
+    fun logDiscardChangesAndCloseClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ERROR_POPUP_NETWORK_INFORMATION)
+    }
+
+    fun logDiscardChangesClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_DISCARD_CLICK_NETWORK_INFORMATION)
     }
 
     data class OnlineStatus(

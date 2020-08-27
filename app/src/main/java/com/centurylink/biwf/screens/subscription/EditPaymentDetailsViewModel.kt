@@ -11,7 +11,7 @@ import javax.inject.Inject
 class EditPaymentDetailsViewModel @Inject constructor(
     preferences: Preferences,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val progressViewFlow = EventFlow<Boolean>()

@@ -170,7 +170,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun initOnClicks() {
         binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest() }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
-        binding.incScheduled.appointmentCancelBtn.setOnClickListener { showCancellationConfirmationDialaog() }
+        binding.incScheduled.appointmentCancelBtn.setOnClickListener {
+            dashboardViewModel.logCancelAppointmentClick()
+            showCancellationConfirmationDialaog()
+        }
         binding.notificationDismissButton.setOnClickListener {
             if (unreadNotificationList.isNotEmpty()) {
                 dashboardViewModel.markNotificationAsRead(unreadNotificationList[0])
@@ -186,7 +189,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             dashboardViewModel.getStartedClicked()
             viewClickListener.onGetStartedClick(false)
         }
-        binding.connectedDevicesCard.root.setOnClickListener { viewClickListener.onViewDevicesClick() }
+        binding.connectedDevicesCard.root.setOnClickListener {
+            dashboardViewModel.logViewDevicesClick()
+            viewClickListener.onViewDevicesClick()
+        }
     }
 
     private fun setupMap() {
@@ -239,8 +245,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     it.serviceAppointmentEndTime
                 )
                 incScheduled.incWelcomeCard.msg_dismiss_button.setOnClickListener {
+                    dashboardViewModel.logDismissNotification()
                     incScheduled.incWelcomeCard.visibility = View.GONE
                 }
+                dashboardViewModel.logAppointmentStatusState(1)
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
                 incEnroute.visibility = View.VISIBLE
@@ -252,9 +260,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.incEnrouteCard.msg.text =
                     resources.getString(R.string.enroute_notification_message)
                 incEnroute.incEnrouteCard.msg_dismiss_button.setOnClickListener {
+                    dashboardViewModel.logDismissNotification()
                     incEnroute.incEnrouteCard.visibility = View.GONE
                 }
                 originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
+                dashboardViewModel.logAppointmentStatusState(2)
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
                 incWorkBegun.visibility = View.VISIBLE
@@ -263,9 +273,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incWorkBegun.incWipCard.title.text = resources.getString(R.string.work_in_progress)
                 incWorkBegun.incWipCard.msg.text = resources.getString(R.string.work_begun_message)
                 incWorkBegun.incWipCard.msg_dismiss_button.setOnClickListener {
+                    dashboardViewModel.logDismissNotification()
                     incWorkBegun.incWipCard.visibility = View.GONE
                 }
                 originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
+                dashboardViewModel.logAppointmentStatusState(3)
             }
             if (it is DashboardViewModel.AppointmentComplete) {
                 incWorkBegun.visibility = View.GONE
@@ -273,10 +285,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incWorkBegun.visibility = View.GONE
                 incCompleted.visibility = View.VISIBLE
 
+                dashboardViewModel.logAppointmentStatusState(4)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
                 incScheduled.visibility = View.GONE
                 incCanceled.visibility = View.VISIBLE
+                dashboardViewModel.logAppointmentStatusState(5)
             }
         }
     }
@@ -364,9 +378,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.logCancelAppointmentAlertClick(false)
                 dashboardViewModel.requestAppointmentCancellation()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                dashboardViewModel.logCancelAppointmentAlertClick(true)
             }
         }
     }

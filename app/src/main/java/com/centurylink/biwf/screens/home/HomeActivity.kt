@@ -111,6 +111,10 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         viewModel.onBiometricYesResponse()
     }
 
+    override fun onCancelBiometricResponse() {
+        viewModel.onBiometricNoResponse()
+    }
+
     override fun onGetStartedClick(isJobTypeInstallation: Boolean) {
         setupTabsViewPager(true)
     }

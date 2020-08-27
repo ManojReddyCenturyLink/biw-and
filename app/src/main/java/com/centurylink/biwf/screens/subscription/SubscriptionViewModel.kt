@@ -23,9 +23,8 @@ class SubscriptionViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
     private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val  analyticsManagerInterface: AnalyticsManager
-
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+    analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
     private lateinit var userAccount: AccountDetails

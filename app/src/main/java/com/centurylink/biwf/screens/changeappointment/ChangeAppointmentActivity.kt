@@ -109,7 +109,10 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         val screenTitle: String = getString(R.string.modify_appointments)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
-            subHeaderLeftIcon.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackClick()
+                finish()
+            }
             subheaderRightActionTitle.text = getText(R.string.next)
             subheaderRightActionTitle.isAllCaps = true
             subheaderRightActionTitle.isEnabled = true

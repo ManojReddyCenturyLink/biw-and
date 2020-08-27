@@ -15,7 +15,7 @@ import javax.inject.Inject
 class PersonalInfoViewModel @Inject constructor(
     private val userRepository: UserRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val myState = EventFlow<PersonalInfoCoordinatorDestinations>()
