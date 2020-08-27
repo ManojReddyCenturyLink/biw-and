@@ -163,8 +163,8 @@ class DashboardViewModel @Inject constructor(
                 }
             } else {
                 isAccountActive = true
-                progressViewFlow.latestValue = false
                 requestAppointmentDetails()
+                progressViewFlow.latestValue = false
             }
         }
     }
@@ -380,6 +380,7 @@ class DashboardViewModel @Inject constructor(
                         )
                     )
                 }
+                progressViewFlow.latestValue = false
             }
             else -> {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
