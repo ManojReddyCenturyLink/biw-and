@@ -256,9 +256,9 @@ class SupportViewModel @Inject constructor(
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_SUPPORT)
     }
 
-    fun logVisitWebsite() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_VISIT_WEBSITE_SUPPORT)
-    }
+//    fun logVisitWebsite() {
+//        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_VISIT_WEBSITE_SUPPORT)
+//    }
 
     fun logLiveChatLaunch() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.LIVE_CHAT_SUPPORT)
