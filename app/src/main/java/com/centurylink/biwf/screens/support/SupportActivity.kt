@@ -5,9 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.SupportCoordinator
@@ -18,6 +20,7 @@ import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.salesforce.android.chat.core.ChatConfiguration
 import com.salesforce.android.chat.ui.ChatUI
 import com.salesforce.android.chat.ui.ChatUIClient
@@ -147,7 +150,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
         binding.incTroubleshooting.apply {
             rebootModemButton.setOnClickListener {
-                viewModel.rebootModem()
+                handleModemDialogSelection()
             }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
 //            supportVisitWebsite.setOnClickListener {
@@ -163,6 +166,30 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             )
         }
         binding.incContactUs.scheduleCallbackRow.setOnClickListener { viewModel.launchScheduleCallback() }
+    }
+
+    private fun handleModemDialogSelection() {
+        CustomDialogGreyTheme(
+            getString(R.string.restart_modem_confirmation_title),
+            getString(R.string.restart_modem_confirmation_message),
+            getString(R.string.restart),
+            getString(R.string.text_header_cancel),
+            ::onScreenExitConfirmationDialogCallback
+        ).show(
+            supportFragmentManager,
+            callingActivity?.className
+        )
+    }
+
+    private fun onScreenExitConfirmationDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                viewModel.rebootModem()
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+                /* no-op */
+            }
+        }
     }
 
     private fun initLiveChat() {

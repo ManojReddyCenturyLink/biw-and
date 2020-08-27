@@ -80,6 +80,9 @@
     <string name="modem_reboot_success_message">Your modem has been restarted. If you\'re still experiencing issues, please contact support.</string>
     <string name="modem_reboot_success_button">Close</string>
 
+    <string name="restart">RESTART</string>
+    <string name="restart_modem_confirmation_message">This can take up to 5 minutes. You can close the app while you wait if you want, and your modem will continue restarting in the background.</string>
+    <string name="restart_modem_confirmation_title">Do you want to restart your modem?</string>
     <!--Account Screen -->
     <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
     <string name="service_calls_description">I would like to receive calls and text messages about my CenturyLink services at the number provided</string>
