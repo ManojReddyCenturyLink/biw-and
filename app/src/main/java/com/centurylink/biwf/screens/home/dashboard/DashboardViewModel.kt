@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
@@ -11,11 +12,15 @@ import com.centurylink.biwf.model.appointment.CancelAppointmentInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
-import com.centurylink.biwf.model.wifi.NetWorkCategory
 import com.centurylink.biwf.model.wifi.NetWorkBand
+import com.centurylink.biwf.model.wifi.NetWorkCategory
 import com.centurylink.biwf.model.wifi.WifiDetails
 import com.centurylink.biwf.model.wifi.WifiInfo
-import com.centurylink.biwf.repos.*
+import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.DevicesRepository
+import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
@@ -45,7 +50,7 @@ class DashboardViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val dashBoardDetailsInfo: Flow<UiDashboardAppointmentInformation> = BehaviorStateFlow()
@@ -89,6 +94,7 @@ class DashboardViewModel @Inject constructor(
     var installationStatus: Boolean
 
     init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
         installationStatus = sharedPreferences.getInstallationStatus()
         progressViewFlow.latestValue = true
         initAccountDetails()
@@ -101,8 +107,7 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-
-    private fun initAccountDetails() {
+    fun initAccountDetails() {
         viewModelScope.launch {
             requestAccountDetails()
         }
@@ -131,6 +136,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun startSpeedTest() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RUN_SPEED_TEST_DASHBOARD)
         if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
         } else {
@@ -138,12 +144,13 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_SUCCESS)
             if (it.accountStatus.equals(HomeViewModel.pendingActivation, true) ||
                 it.accountStatus.equals(HomeViewModel.abandonedActivation, true)
             ) {
@@ -170,6 +177,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             when (val speedTestRequest = assiaRepository.startSpeedTest()) {
                 is AssiaNetworkResponse.Success -> {
+                    analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_SUCCESS)
                     if (speedTestRequest.body.code == 1000) {
                         checkSpeedTestStatus(requestId = speedTestRequest.body.speedTestId)
                     } else {
@@ -177,6 +185,7 @@ class DashboardViewModel @Inject constructor(
                     }
                 }
                 else -> {
+                    analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_FAILURE)
                     displayEmptyResponse()
                 }
             }
@@ -190,6 +199,7 @@ class DashboardViewModel @Inject constructor(
             while (keepChecking) {
                 when (val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)) {
                     is AssiaNetworkResponse.Success -> {
+                        analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_SUCCESS)
                         if (status.body.code == 1000) {
                             if (status.body.data.isFinished) {
                                 isSuccessful = true
@@ -203,6 +213,7 @@ class DashboardViewModel @Inject constructor(
                         }
                     }
                     else -> {
+                        analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_FAILURE)
                         displayEmptyResponse()
                         keepChecking = false
                     }
@@ -227,7 +238,6 @@ class DashboardViewModel @Inject constructor(
                 displayEmptyResponse()
             }
         }
-
         when (val downStreamData = assiaRepository.getDownstreamResults()) {
             is AssiaNetworkResponse.Success -> {
                 if (downStreamData.body.data.listOfData.isNotEmpty()) {
@@ -269,6 +279,8 @@ class DashboardViewModel @Inject constructor(
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
+            progressViewFlow.latestValue = false
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_FAILURE)
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
                 isAccountStatus.latestValue =true
@@ -276,6 +288,8 @@ class DashboardViewModel @Inject constructor(
             }
 
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
+            progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
@@ -293,7 +307,6 @@ class DashboardViewModel @Inject constructor(
                     initDevicesApis()
                 }
             }
-
         }
         if (refresh) {
             refreshAppointmentDetails()
@@ -328,8 +341,10 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestWifiDetails() {
+        progressViewFlow.latestValue = true
         when (val modemResponse = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
                 val apiInfo = modemResponse.body.modemInfo?.apInfoList
                 if (!apiInfo.isNullOrEmpty()) {
                     val modemInfo = apiInfo[0]
@@ -347,7 +362,6 @@ class DashboardViewModel @Inject constructor(
                         password = regularNetworkWifiPwd,
                         enabled = wifiNetworkEnabled
                     )
-
                     guestNetworkInfo = guestNetworkInstance.copy(
                         category = NetWorkCategory.GUEST,
                         type = NetWorkBand.Band2G_Guest4.name,
@@ -355,7 +369,6 @@ class DashboardViewModel @Inject constructor(
                         password = guestNetworkWifiPwd,
                         enabled = guestNetworkEnabled
                     )
-
                     wifiListDetails.latestValue = wifiScanStatus(
                         ArrayList(
                             (WifiDetails(
@@ -369,6 +382,7 @@ class DashboardViewModel @Inject constructor(
                 }
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
                 errorMessageFlow.latestValue = "Error WifiInfo"
             }
         }
@@ -378,6 +392,7 @@ class DashboardViewModel @Inject constructor(
         when (val netWorkInfo =
             wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
                 val password = netWorkInfo.body.networkName[netWorkBand.name]
                 password?.let {
                     when (netWorkBand) {
@@ -392,6 +407,7 @@ class DashboardViewModel @Inject constructor(
             }
             else -> {
                 //TODO Currently API is returning Error -Temp Hack for displaying password
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
                 regularNetworkWifiPwd = "test123wifi"
                 guestNetworkWifiPwd = "test123Guest"
             }
@@ -429,9 +445,11 @@ class DashboardViewModel @Inject constructor(
         val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(netWorkBand)
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(wifiInfo)
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_FAILURE)
                 errorMessageFlow.latestValue = "Network Enablement Failed"
             }
         }
@@ -445,16 +463,17 @@ class DashboardViewModel @Inject constructor(
         val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
         when (netWorkInfo) {
             is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(wifiInfo)
             }
             else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
                 //TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
             }
         }
         progressViewFlow.latestValue = false
     }
-
 
     private fun updateEnableDisableNetwork(wifiInfo: WifiInfo) {
         isEnable = !wifiInfo.enabled!!
@@ -476,7 +495,6 @@ class DashboardViewModel @Inject constructor(
             ArrayList((WifiDetails(listOf(regularNetworkInfo, guestNetworkInfo))).wifiList)
         )
     }
-
 
     private fun updateAppointmentStatus(
         it: AppointmentRecordsInfo
@@ -559,7 +577,20 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    fun logCancelAppointmentClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CANCEL_APPOINTMENT_DASHBOARD)
+    }
+
+    fun logCancelAppointmentAlertClick(positive: Boolean) {
+        if (positive) {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION)
+        } else {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_KEEP_CANCEL_APPOINTMENT_CONFIRMATION)
+        }
+    }
+
     fun getChangeAppointment() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CHANGE_APPOINTMENT_DASHBOARD)
         myState.latestValue = DashboardCoordinatorDestinations.CHANGE_APPOINTMENT
     }
 
@@ -594,6 +625,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun navigateToNetworkInformation(networkName: String) {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.CARD_NETWORK_INFO)
         val bundle = Bundle()
         bundle.putString(NetworkStatusActivity.NETWORK_NAME, networkName)
         DashboardCoordinatorDestinations.bundle = bundle
@@ -601,6 +633,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun navigateToQRScan(wifiInfo: WifiInfo) {
+        analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.QR_IMAGE)
         val bundle = Bundle()
         bundle.putSerializable(QrScanActivity.WIFI_DETAILS, wifiInfo)
         DashboardCoordinatorDestinations.bundle = bundle
@@ -608,6 +641,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun getStartedClicked() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_GET_STARTED_DASHBOARD)
         sharedPreferences.setInstallationStatus(true)
         isAccountActive = true
         isAccountStatus.latestValue = isAccountActive
@@ -624,7 +658,6 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-
     /**
      * This method will call Cancellation Appointment API and update the ui
      */
@@ -637,15 +670,16 @@ class DashboardViewModel @Inject constructor(
             )
         )
         cancelAppointmentDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_FAILURE)
             progressViewFlow.latestValue = false
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_SUCCESS)
             progressViewFlow.latestValue = false
             if (it.status != null) {
                 updateAppointmentStatus(cancellationDetails)
             }
         }
-
     }
 
     fun checkForOngoingSpeedTest() {
@@ -661,6 +695,24 @@ class DashboardViewModel @Inject constructor(
                 checkSpeedTestStatus(requestId = speedTestId)
             }
         }
+    }
+
+    fun logAppointmentStatusState(state: Int) {
+        when (state) {
+            1 -> analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SCHEDULE_APPOINTMENT)
+            2 -> analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ENROUTE_APPOINTMENT)
+            3 -> analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_IN_PROGRESS_APPOINTMENT)
+            4 -> analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_COMPLETED_APPOINTMENT)
+            5 -> analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_CANCELLED_APPOINTMENT)
+        }
+    }
+
+    fun logViewDevicesClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CONNECTED_DEVICES_DASHBOARD)
+    }
+
+    fun logDismissNotification() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DISMISS_NOTIFICATION)
     }
 
     abstract class UiDashboardAppointmentInformation

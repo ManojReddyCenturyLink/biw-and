@@ -19,7 +19,7 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface : AnalyticsManager
+    analyticsManagerInterface : AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
     var errorMessageFlow = EventFlow<String>()
     val errorEvents: EventFlow<String> = EventFlow()

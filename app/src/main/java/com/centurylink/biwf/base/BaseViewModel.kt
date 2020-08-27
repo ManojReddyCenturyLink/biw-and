@@ -24,7 +24,7 @@ import org.threeten.bp.temporal.ChronoField
 
 abstract class BaseViewModel(
     private val modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
+    val analyticsManagerInterface: AnalyticsManager
 ) : ViewModel() {
 
     /**
@@ -117,7 +117,8 @@ abstract class BaseViewModel(
     }
 
     fun formatUtcString(utcString: String): String {
-        val myDate = LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(utcString.substringBefore('+')))
+        val myDate =
+            LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(utcString.substringBefore('+')))
         val amPm = if (myDate.hour < 12) "am" else "pm"
         val dateTimeFormatter = DateTimeFormatterBuilder()
             .appendValue(ChronoField.MONTH_OF_YEAR, 2, 2, SignStyle.NEVER)

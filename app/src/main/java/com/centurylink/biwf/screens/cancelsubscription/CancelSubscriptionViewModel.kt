@@ -17,7 +17,7 @@ import javax.inject.Inject
 class CancelSubscriptionViewModel @Inject constructor(
     private val zuoraSubscriptionRepository: ZouraSubscriptionRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface :AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val cancelSubscriptionDate: Flow<UiCancelSubscriptionDetails> = BehaviorStateFlow()

@@ -27,7 +27,7 @@ class LoginViewModel internal constructor(
     // TODO We should remove this, as outstanding work is cancelled on logout and we won't
     //  support showing the modem reboot dialogs on the Login screen
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface : AnalyticsManager
+    analyticsManagerInterface : AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     class Factory @Inject constructor(

@@ -6,7 +6,6 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
@@ -67,7 +66,6 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusModemImageview.setImageDrawable(getDrawable(it.drawableId))
                 bindings.networkStatusModemStatus.text = getString(it.onlineStatus)
             }
-
             regularNetworkStatusFlow.observe {
                 bindings.networkStatusWifiButton.isActivated = it.isNetworkEnabled
                 bindings.networkStatusWifiButtonText.text = getString(it.networkStatusText)
@@ -139,8 +137,6 @@ class NetworkStatusActivity : BaseActivity() {
                             R.color.offline_red else R.color.font_color_medium_grey
                     )
                 )
-
-
                 bindings.fieldsMarkedRequiredGuest.visibility =
                     if (it.containsKey("guestNameFieldMandatory") || it.containsKey("wifiPasswordFieldMandatory")) View.VISIBLE else View.GONE
                 bindings.networkStatusGuestNameLabel.setTextColor(
@@ -188,7 +184,7 @@ class NetworkStatusActivity : BaseActivity() {
             }
             errorSubmitValue.observe {
                 if (it) {
-                    showBlueTheamPopUp()
+                    showBlueThemePopUp()
                 } else {
                     setResult(REQUEST_TO_HOME)
                     finish()
@@ -282,6 +278,53 @@ class NetworkStatusActivity : BaseActivity() {
         )
     }
 
+    private fun initEnableDisableEventClicks() {
+        bindings.networkStatusWifiButton.setOnClickListener {
+            viewModel.wifiNetworkEnablement()
+        }
+        bindings.networkStatusGuestButton.setOnClickListener {
+            viewModel.guestNetworkEnablement()
+        }
+    }
+
+    private fun showBlueThemePopUp() {
+        CustomDialogBlueTheme(
+            getString(R.string.error_title),
+            getString(R.string.password_reset_error_msg),
+            getString(
+                R.string.discard_changes_and_close
+            ),
+            true,
+            ::onDialogCallback
+        ).show(
+            supportFragmentManager,
+            callingActivity?.className
+        )
+    }
+
+    override fun onBackPressed() {
+        showGreyThemePopUp()
+    }
+
+    private fun showGreyThemePopUp() {
+        CustomDialogGreyTheme(
+            getString(R.string.save_changes_msg),
+            "",
+            getString(R.string.save),
+            getString(R.string.discard),
+            ::onScreenExitConfirmationDialogCallback
+        )
+            .show(supportFragmentManager, NetworkStatusActivity::class.simpleName)
+    }
+
+    private fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                viewModel.logDiscardChangesAndCloseClick()
+                finish()
+            }
+        }
+    }
 
     private fun showAlertDialog() {
         CustomDialogGreyTheme(
@@ -306,54 +349,7 @@ class NetworkStatusActivity : BaseActivity() {
                 }
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                finish()
-            }
-        }
-    }
-
-    private fun initEnableDisableEventClicks() {
-        bindings.networkStatusWifiButton.setOnClickListener {
-            viewModel.wifiNetworkEnablement()
-        }
-        bindings.networkStatusGuestButton.setOnClickListener {
-            viewModel.guestNetworkEnablement()
-        }
-    }
-
-    private fun showBlueTheamPopUp() {
-        CustomDialogBlueTheme(
-            getString(R.string.error_title),
-            getString(R.string.password_reset_error_msg),
-            getString(
-                R.string.discard_changes_and_close
-            ),
-            true,
-            ::onDialogCallback
-        ).show(
-            supportFragmentManager,
-            callingActivity?.className
-        )
-    }
-
-    override fun onBackPressed() {
-        showGrayTheamPopUp()
-    }
-
-    private fun showGrayTheamPopUp() {
-        CustomDialogGreyTheme(
-            getString(R.string.save_changes_msg),
-            "",
-            getString(R.string.save),
-            getString(R.string.discard),
-            ::onScreenExitConfirmationDialogCallback
-        )
-            .show(supportFragmentManager, NetworkStatusActivity::class.simpleName)
-    }
-
-
-    private fun onDialogCallback(buttonType: Int) {
-        when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> {
+                viewModel.logDiscardChangesClick()
                 finish()
             }
         }

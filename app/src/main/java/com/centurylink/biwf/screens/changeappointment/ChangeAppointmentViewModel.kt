@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.changeappointment
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.ChangeAppointmentCoordinatorDestinations
@@ -24,8 +25,8 @@ import kotlin.collections.HashMap
 class ChangeAppointmentViewModel @Inject constructor(
     private val appointmentRepository: AppointmentRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface : AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+    analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
     var errorMessageFlow = EventFlow<String>()
     val myState = EventFlow<ChangeAppointmentCoordinatorDestinations>()
     var slotForAppointments = HashMap<String, List<String>>()
@@ -40,7 +41,8 @@ class ChangeAppointmentViewModel @Inject constructor(
 
     private lateinit var rescheduleInfo: RescheduleInfo
 
-    init{
+    init {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_MODIFY_APPOINTMENT)
         initApis()
     }
 
@@ -66,8 +68,10 @@ class ChangeAppointmentViewModel @Inject constructor(
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             appointmentId = it.appointmentId
         }
     }
@@ -76,8 +80,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         val appointmentSlots = appointmentRepository
             .getAppointmentSlots(appointmentId, date)
         appointmentSlots.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_SLOTS_FAILURE)
             errorMessageFlow.latestValue = it
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_SLOTS_SUCCESS)
             formatInputDate(it.slots)
         }
     }
@@ -115,6 +121,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     }
 
     fun onNextClicked(selectedate: String, slots: String) {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_NEXT_CHANGE_APPOINTMENT)
         if (slots.isNullOrEmpty()) {
             sloterrorEvents.emit("Error")
             return
@@ -173,9 +180,11 @@ class ChangeAppointmentViewModel @Inject constructor(
     private suspend fun rescheduleAppointmentInfo() {
         val rescheduleslots = appointmentRepository.modifyAppointmentInfo(rescheduleInfo)
         rescheduleslots.fold(ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.MODIFY_APPOINTMENT_INFO_FAILURE)
             progressViewFlow.latestValue = false
             appointmenterrorEvents.emit("Error")
         }) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.MODIFY_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
             navigateToAppointmentConfirmed()
         }
@@ -198,6 +207,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         viewModelScope.launch {
             rescheduleAppointmentInfo()
         }
+    }
+
+    fun logBackClick() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_CHANGE_APPOINTMENT)
     }
 
     data class UIAppointmentModel(

@@ -19,7 +19,7 @@ class QRScanViewModel constructor(
     private var wifiInfo: WifiInfo,
     modemRebootMonitorService: ModemRebootMonitorService,
     private var resources: Resources,
-    private val analyticsManagerInterface : AnalyticsManager
+    analyticsManagerInterface : AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     class Factory @Inject constructor(

@@ -25,7 +25,7 @@ class SupportViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
     private val assiaRepository: AssiaRepository,
     private val sharedPreferences: Preferences,
-    private val analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()

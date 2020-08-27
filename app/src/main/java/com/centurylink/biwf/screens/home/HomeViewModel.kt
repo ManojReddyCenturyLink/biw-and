@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     private val assiaRepository: AssiaRepository,
     private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
@@ -92,11 +92,16 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onBiometricYesResponse() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_ENABLE_BIOMETRICS_OK)
         sharedPreferences.apply {
             saveBioMetrics(value = true)
             saveHasSeenDialog()
         }
         refreshBioMetrics.latestValue = Unit
+    }
+
+    fun onBiometricNoResponse() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_ENABLE_BIOMETRICS_DONT_ALLOW)
     }
 
     fun onSubscriptionActivityClick(paymentMethod: String) {

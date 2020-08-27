@@ -25,7 +25,7 @@ class DevicesViewModel @Inject constructor(
     private val asiaRepository: AssiaRepository,
     private val mcafeeRepository: McafeeRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     var errorMessageFlow = EventFlow<String>()

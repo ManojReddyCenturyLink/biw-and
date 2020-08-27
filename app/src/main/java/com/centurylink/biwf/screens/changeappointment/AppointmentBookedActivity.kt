@@ -52,12 +52,14 @@ class AppointmentBookedActivity : BaseActivity() {
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.isAllCaps = true
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDoneButtonClick()
                 setResult(DashboardFragment.REFRESH_APPOINTMENT)
                 finish()
             }
 
         }
         binding.viewDashboardBtn.setOnClickListener {
+            viewModel.logViewDashboardButtonClick()
             setResult(DashboardFragment.REFRESH_APPOINTMENT)
             finish()
         }

@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 class AdditionalInfoViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val analyticsManagerInterface : AnalyticsManager
+    analyticsManagerInterface : AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     init {

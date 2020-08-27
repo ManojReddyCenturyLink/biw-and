@@ -37,12 +37,15 @@ class ChoiceDialogFragment : DialogFragment() {
             callback.onOkBiometricResponse()
             dismiss()
         }
-        builder.setNegativeButton(negativeText) { _, _ -> dismiss() }
+        builder.setNegativeButton(negativeText) { _, _ ->
+            callback.onCancelBiometricResponse()
+            dismiss() }
         return builder.create()
     }
 
     interface BioMetricDialogCallback {
         fun onOkBiometricResponse()
+        fun onCancelBiometricResponse()
     }
 
     companion object {
