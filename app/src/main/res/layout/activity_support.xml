@@ -6,49 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".screens.support.SupportActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
         android:id="@+id/incHeader"
+        layout="@layout/widget_subheader_with_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/white"
-        android:paddingTop="@dimen/margin_spacing_really_small">
-
-        <TextView
-            android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/support"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/small_title_text_size"
-            android:textStyle="bold"
-            android:textAlignment="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/done_button_support"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/done_button_support"
-            android:layout_height="@dimen/padding_0"
-            android:layout_width="wrap_content"
-            android:textColor="@color/blue"
-            android:paddingEnd="@dimen/height_20"
-            android:text="DONE"
-            android:textStyle="bold"
-            android:gravity="center"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/header_title"
-            app:layout_constraintBottom_toBottomOf="@+id/header_title" />
-        <View
-            android:id="@+id/header_seprator_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:background="@color/light_grey"
-            android:layout_marginTop="@dimen/medium_margin_spacing"
-            app:layout_constraintTop_toBottomOf="@+id/done_button_support"/>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/progress_overlay"

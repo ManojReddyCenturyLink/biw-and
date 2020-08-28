@@ -10,6 +10,7 @@ import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.databinding.ActivityEditPaymentDetailsBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -47,11 +48,27 @@ class EditPaymentDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityEditPaymentDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        initHeaders()
         setupProgressViews()
         setupWebView()
-        setupClickListeners()
         listenForProgressUpdates()
+    }
+
+    private fun initHeaders() {
+        var screenTitle: String = getString(R.string.edit_billing_information)
+        binding.incHeader.apply {
+            subheaderCenterTitle.text = screenTitle
+            subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackPress()
+                finish()
+            }
+            subheaderRightActionTitle.text = getText(R.string.done)
+            subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDonePress()
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
     }
 
     private fun setupProgressViews() {
@@ -71,18 +88,6 @@ class EditPaymentDetailsActivity : BaseActivity() {
         }
         viewModel.subscriptionUrlFlow.observe {
             binding.webView.loadUrl(it)
-        }
-    }
-
-    private fun setupClickListeners() {
-        binding.backButton.setOnClickListener {
-            viewModel.logBackPress()
-            finish()
-        }
-        binding.doneButton.setOnClickListener {
-            viewModel.logDonePress()
-            setResult(Activity.RESULT_OK)
-            finish()
         }
     }
 

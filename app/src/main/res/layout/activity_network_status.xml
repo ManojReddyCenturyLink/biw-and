@@ -7,56 +7,14 @@
     android:layout_height="match_parent"
     >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <include
         android:id="@+id/incHeader"
+        layout="@layout/widget_subheader_with_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        >
-
-        <TextView
-            android:id="@+id/header_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_spacing_large"
-            android:layout_marginBottom="24dp"
-            android:text="@string/network_status"
-            android:textAlignment="center"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/small_title_text_size"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/network_status_done_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            />
-
-        <TextView
-            android:id="@+id/network_status_done_button"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/padding_0"
-            android:gravity="center"
-            android:paddingEnd="@dimen/height_20"
-            android:text="@string/done"
-            android:textColor="@color/blue"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/header_title"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/header_title"
-            />
-
-        <View
-            android:id="@+id/header_seprator_view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
-            android:layout_marginTop="@dimen/medium_margin_spacing"
-            android:background="@color/light_grey"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/network_status_done_button"
-            />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <include
         android:id="@+id/progress_overlay"
