@@ -13,7 +13,6 @@
     <color name="online_green">#02d597</color>
     <color name="primary_dark">#2abb7c</color>
     <color name="offline_red">#d54848</color>
-    <color name="light_grey">#F0F0F0</color>
     <color name="notification_read_title_color">#979797</color>
     <color name="mint_green">#48d597</color>
     <color name="notification_unread_bg">#D3D3D3</color>
@@ -31,4 +30,15 @@
     <color name="title_color_blue">#001e60</color>
     <color name="main_background_color">#eeeeee</color>
     <color name="text_label_color">#a6000000</color>
+
+    <!-- Temporarily blocked to remove the Build Breakage, this color file will be replaced by quantum colors-->
+    <color name="strawberry">#da3155</color>
+    <color name="dark_grey">#3c414b</color>
+    <color name="purple">#503296</color>
+    <color name="lavender">#7b8ee1</color>
+    <color name="light_grey">#d7e1e6</color>
+    <color name="med_grey">#788791</color>
+    <color name="grey_status_bar">#0c000000</color>
+    <color name="negative_cta">#53565a</color>
+    <color name="divider_grey">#eeeeee</color>
 </resources>

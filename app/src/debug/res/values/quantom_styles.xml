@@ -103,6 +103,31 @@
         <item name="fontFamily">@font/arial_mt</item>
     </style>
 
+    <style name="HeaderTextView">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/small_title_text_size</item>
+    </style>
+
+    <style name="TextViewProgressStatus">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_4</item>
+    </style>
+
+    <style name="ButtonProgressStatus">
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+    </style>
+
+    <style name="StyleBackButton">
+        <item name="android:src">@drawable/ic_header_back</item>
+        <item name="android:tint">@color/purple</item>
+    </style>
+
     <style name="CaldroidDefaultLight" parent="CaldroidDefault">
         <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
         <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>

@@ -221,7 +221,7 @@
 
     <include
         android:id="@+id/rebooting_modem_button"
-        layout="@layout/widget_progress_overlay_blue"
+        layout="@layout/widget_progress_overlay_purple"
         android:layout_width="@dimen/padding_0"
         android:layout_height="@dimen/padding_0"
         android:layout_marginStart="@dimen/margin_spacing_tiny"

@@ -52,6 +52,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         setContentView(binding.root)
         navigator.observe(this)
         viewModel.myState.observeWith(supportCoordinator)
+        initHeaders()
         initLiveChat()
         initViews()
         observeViews()
@@ -89,6 +90,19 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         viewModel.initApis()
     }
 
+    private fun initHeaders() {
+        val screenTitle: String = getString(R.string.support)
+        binding.incHeader.apply {
+            subheaderCenterTitle.text = screenTitle
+            subHeaderLeftIcon.visibility = View.GONE
+            subheaderRightActionTitle.text = getText(R.string.done)
+            subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDoneButtonClick()
+                finish()
+            }
+        }
+    }
+
     private fun observeViews() {
         viewModel.apply {
             faqSectionInfo.observe {
@@ -109,10 +123,14 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             downloadSpeed.observe { binding.incTroubleshooting.downloadSpeed.text = it }
             latestSpeedTest.observe { binding.incTroubleshooting.lastSpeedTestTime.text = it }
             progressVisibility.observe {
-                binding.incTroubleshooting.uploadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
-                binding.incTroubleshooting.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
-                binding.incTroubleshooting.downloadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
-                binding.incTroubleshooting.uploadProgressIcon.visibility = if (it) View.VISIBLE else View.INVISIBLE
+                binding.incTroubleshooting.uploadSpeed.visibility =
+                    if (it) View.INVISIBLE else View.VISIBLE
+                binding.incTroubleshooting.downloadSpeed.visibility =
+                    if (it) View.INVISIBLE else View.VISIBLE
+                binding.incTroubleshooting.downloadProgressIcon.visibility =
+                    if (it) View.VISIBLE else View.INVISIBLE
+                binding.incTroubleshooting.uploadProgressIcon.visibility =
+                    if (it) View.VISIBLE else View.INVISIBLE
             }
             modemResetButtonState.observe {
                 binding.incTroubleshooting.rebootModemButton.isActivated = it
@@ -143,11 +161,6 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         }
         binding.supportFaqTopicsRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        binding.doneButtonSupport.setOnClickListener {
-            viewModel.logDoneButtonClick()
-            finish()
-        }
-
         binding.incTroubleshooting.apply {
             rebootModemButton.setOnClickListener {
                 handleModemDialogSelection()
@@ -208,8 +221,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun setRebootButtonVisibility(restarting: Boolean) {
-        binding.incTroubleshooting.rebootModemButton.visibility = if (restarting) View.GONE else View.VISIBLE
-        binding.incTroubleshooting.rebootingModemButton.root.visibility = if (restarting) View.VISIBLE else View.GONE
+        binding.incTroubleshooting.rebootModemButton.visibility =
+            if (restarting) View.GONE else View.VISIBLE
+        binding.incTroubleshooting.rebootingModemButton.root.visibility =
+            if (restarting) View.VISIBLE else View.GONE
     }
 
     companion object {

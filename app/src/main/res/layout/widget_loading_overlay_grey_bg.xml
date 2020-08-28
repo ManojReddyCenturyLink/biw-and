@@ -22,11 +22,10 @@
         android:id="@+id/progress_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        style="@style/TextViewProgressStatus"
         android:layout_marginTop="@dimen/margin_spacing_really_small"
         android:text="@string/loading"
         android:textAlignment="center"
-        android:textSize="@dimen/text_size_16"
-        android:textColor="@color/font_color_medium_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/progress_icon" />

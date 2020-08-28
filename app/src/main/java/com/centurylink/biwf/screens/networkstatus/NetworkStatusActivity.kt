@@ -33,10 +33,23 @@ class NetworkStatusActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         bindings = ActivityNetworkStatusBinding.inflate(layoutInflater)
         setContentView(bindings.root)
+        initHeaders()
         initViews()
         initOnClicks()
         watchTextChanges()
         initEnableDisableEventClicks()
+    }
+
+    private fun initHeaders() {
+        var screenTitle: String = getString(R.string.network_status)
+        bindings.incHeader.apply {
+            subHeaderLeftIcon.visibility = View.GONE
+            subheaderCenterTitle.text = screenTitle
+            subheaderRightActionTitle.text = getText(R.string.done)
+            subheaderRightActionTitle.setOnClickListener {
+                validateNameAndPassword()
+            }
+        }
     }
 
     private fun initViews() {
@@ -195,7 +208,6 @@ class NetworkStatusActivity : BaseActivity() {
 
     private fun initOnClicks() {
         // will remove once rest of the network calls are implemented
-        bindings.networkStatusDoneButton.setOnClickListener { validateNameAndPassword() }
         bindings.ivPasswordVisibility.setOnClickListener { toggleNetworkTextVisibility() }
         bindings.ivGuestPasswordVisibility.setOnClickListener { toggleGuestTextVisibility() }
     }
