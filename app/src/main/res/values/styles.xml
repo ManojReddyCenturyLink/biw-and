@@ -108,6 +108,13 @@
     </style>
 
     <!-- Temporarily blocked to remove the Build Breakage, this file will be replaced by quantum styles-->
+    <style name="HeaderTextView">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/small_title_text_size</item>
+    </style>
+
     <style name="TextViewProgressStatus">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
