@@ -30,9 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_spacing_small"
+            android:textSize="@dimen/text_size_16"
+            android:lineSpacingExtra="4sp"
             android:duplicateParentState="true"
             android:text="@string/error_loading_information_ntap_to_retry"
             android:textAlignment="center"
-            android:textColor="@color/font_color_medium_grey" />
+            android:textColor="@color/dark_grey" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

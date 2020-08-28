@@ -22,7 +22,7 @@
         android:layout_marginTop="@dimen/margin_spacing_really_small"
         android:text="@string/loading"
         android:textAlignment="center"
-        android:textColor="@color/font_color_medium_grey"
+        android:textColor="@color/dark_grey"
         android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
