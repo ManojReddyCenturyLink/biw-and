@@ -18,12 +18,11 @@
         android:id="@+id/sub_header_leftIcon"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/padding_0"
+        style="@style/StyleBackButton"
         android:layout_marginStart="16dp"
         android:contentDescription="@string/content_description_holder"
         android:gravity="center"
         android:padding="1dp"
-        android:src="@drawable/ic_header_back"
-        android:tint="@color/purple"
         app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
         app:layout_constraintStart_toStartOf="parent"
         tools:ignore="ContentDescription" />
