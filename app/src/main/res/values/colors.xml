@@ -41,4 +41,7 @@
     <color name="grey_status_bar">#0c000000</color>
     <color name="negative_cta">#53565a</color>
     <color name="divider_grey">#eeeeee</color>
+
+    <!-- Shruti New Color Addtion-->
+    <color name="background_lavender">#40503296</color>
 </resources>

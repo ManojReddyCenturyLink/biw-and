@@ -73,6 +73,30 @@
         <item name="buttonBarNegativeButtonStyle">@style/negativeButton</item>
     </style>
 
+
+
+    <style name="CaldroidDefaultLight" parent="CaldroidDefault">
+        <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
+        <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>
+        <item name="styleCaldroidWeekdayView">@style/CaldroidDefaultWeekdayCell</item>
+    </style>
+
+    <style name="CaldroidDefaultLightGridView" parent="CaldroidDefaultLight">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="CaldroidDefaultLightSquareCell" parent="CaldroidDefaultCell">
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="CaldroidDefaultWeekdayCell" parent="CaldroidDefaultCell">
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--- Pooja M status -->
+
     <style name="positiveButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/extra_small_text_size</item>
@@ -158,23 +182,4 @@
         <item name="android:tint">@color/purple</item>
     </style>
 
-    <style name="CaldroidDefaultLight" parent="CaldroidDefault">
-        <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
-        <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>
-        <item name="styleCaldroidWeekdayView">@style/CaldroidDefaultWeekdayCell</item>
-    </style>
-
-    <style name="CaldroidDefaultLightGridView" parent="CaldroidDefaultLight">
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <style name="CaldroidDefaultLightSquareCell" parent="CaldroidDefaultCell">
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <style name="CaldroidDefaultWeekdayCell" parent="CaldroidDefaultCell">
-        <item name="android:textColor">@color/med_grey</item>
-        <item name="android:textStyle">bold</item>
-    </style>
 </resources>
