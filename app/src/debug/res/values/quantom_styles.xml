@@ -103,6 +103,13 @@
         <item name="fontFamily">@font/arial_mt</item>
     </style>
 
+    <style name="TextViewProgressStatus">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_4</item>
+    </style>
+
     <style name="CaldroidDefaultLight" parent="CaldroidDefault">
         <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
         <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>

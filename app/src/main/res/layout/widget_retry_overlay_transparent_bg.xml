@@ -28,13 +28,11 @@
             android:id="@+id/retry_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/TextViewProgressStatus"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            android:textSize="@dimen/text_size_16"
             android:duplicateParentState="true"
-            android:lineSpacingExtra="4sp"
             android:text="@string/error_loading_information_ntap_to_retry"
-            android:textAlignment="center"
-            android:textColor="@color/dark_grey" />
+            android:textAlignment="center"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
