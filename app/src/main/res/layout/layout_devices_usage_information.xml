@@ -205,21 +205,16 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details"
                     />
-
                 <TextView
                     android:id="@+id/connection_status_btn_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    style="@style/TextViewButton"
                     android:text="@string/device_connected"
-                    android:textAllCaps="false"
-                    android:textColor="@color/blue"
-                    android:textSize="@dimen/text_size_16"
-                    android:fontFamily="@font/arial_bold_mt"
                     app:layout_constraintEnd_toEndOf="@id/device_connected_btn"
                     app:layout_constraintStart_toStartOf="@id/device_connected_btn"
                     app:layout_constraintBottom_toBottomOf="@id/device_connected_btn"
                     app:layout_constraintTop_toTopOf="@id/device_connected_btn" />
-
                 <ImageView
                     android:id="@+id/connection_status_icon"
                     android:layout_width="wrap_content"
@@ -313,17 +308,13 @@
 
                 <Button
                     android:id="@+id/remove_devices_btn"
-                    style="?android:attr/borderlessButtonStyle"
+                    style="@style/BorderLessButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/margin_spacing_large"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_large"
-                    android:background="@drawable/button_thin_border_background"
                     android:paddingStart="@dimen/margin_spacing_small"
                     android:paddingEnd="@dimen/margin_spacing_small"
                     android:text="@string/remove_device"
-                    android:textAllCaps="false"
-                    android:textColor="@color/blue"
-                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/horizontal_view2" />

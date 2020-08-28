@@ -44,36 +44,26 @@
 
     <Button
         android:id="@+id/add_appointment_to_calendar"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/primaryButtonFilled"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="@dimen/medium_margin_spacing"
-        android:background="@drawable/button_thin_border_background"
-        android:gravity="center"
         android:text="@string/add_appointment_to_calendar"
-        android:textAllCaps="false"
-        android:textColor="@color/blue"
-        android:textSize="@dimen/extra_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/appointment_confirmed_message" />
 
     <Button
         android:id="@+id/view_dashboard_btn"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/primaryButtonBordered"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="@dimen/medium_margin_spacing"
-        android:background="@drawable/rounded_button_background"
-        android:gravity="center"
         android:text="@string/view_my_dashboard"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/extra_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/add_appointment_to_calendar" />

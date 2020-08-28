@@ -5,7 +5,7 @@
     android:viewportHeight="15">
   <path
       android:pathData="M8.252,12.625a1.563,1.583 0,1 0,3.126 0a1.563,1.583 0,1 0,-3.126 0z"
-      android:fillColor="#0047BB"
+      android:fillColor="@color/purple"
       android:fillType="evenOdd"/>
   <group>
     <clip-path
@@ -14,7 +14,7 @@
         android:pathData="M4.034,12.625a5.781,5.875 0,1 0,11.562 0a5.781,5.875 0,1 0,-11.562 0z"
         android:strokeWidth="2.5"
         android:fillColor="#00000000"
-        android:strokeColor="#0047BB"
+        android:strokeColor="@color/purple"
         android:fillType="evenOdd"/>
   </group>
   <group>
@@ -24,7 +24,7 @@
         android:pathData="M-0.654,12.625a10.469,10.625 0,1 0,20.938 0a10.469,10.625 0,1 0,-20.938 0z"
         android:strokeWidth="2.5"
         android:fillColor="#00000000"
-        android:strokeColor="#0047BB"
+        android:strokeColor="@color/purple"
         android:fillType="evenOdd"/>
   </group>
 </vector>

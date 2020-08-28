@@ -75,10 +75,18 @@
 
     <style name="positiveButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+        <item name="android:letterSpacing">0.09</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="negativeButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/negative_cta</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+        <item name="android:letterSpacing">0.09</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
     <style name="primaryButtonFilled" parent="Widget.AppCompat.Button.Borderless">
@@ -110,6 +118,13 @@
         <item name="android:textSize">@dimen/small_title_text_size</item>
     </style>
 
+    <style name="TextViewButton">
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="fontFamily">@font/arial_bold_mt</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
     <style name="TextViewProgressStatus">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
@@ -120,6 +135,21 @@
     <style name="ButtonProgressStatus">
         <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+    </style>
+
+    <style name="BorderLessButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="textAllCaps">true</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+    </style>
+
+    <style name="SpeedTestButtonDashboard" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/speed_test_button_background_selector</item>
+        <item name="textAllCaps">false</item>
         <item name="android:textSize">@dimen/extra_small_text_size</item>
     </style>
 

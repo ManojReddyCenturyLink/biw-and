@@ -209,18 +209,13 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="03/02/2020 at 8:52pm" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <Button
         android:id="@+id/run_speed_test_dashboard"
-        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="180dp"
         android:layout_height="60dp"
+        style="@style/SpeedTestButtonDashboard"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:background="@drawable/speed_test_button_background_selector"
         android:text="@string/run_speed_test"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/extra_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/last_speed_test" />

@@ -239,10 +239,10 @@ class NetworkStatusViewModel @Inject constructor(
             },
             networkStatusTextColor = when (guestNetworkEnabled) {
                 true -> {
-                    R.color.blue
+                    R.color.purple
                 }
                 false -> {
-                    R.color.font_color_medium_grey
+                    R.color.med_grey
                 }
             }
         )
@@ -282,10 +282,10 @@ class NetworkStatusViewModel @Inject constructor(
             },
             networkStatusTextColor = when (wifiNetworkEnabled) {
                 true -> {
-                    R.color.blue
+                    R.color.purple
                 }
                 false -> {
-                    R.color.font_color_medium_grey
+                    R.color.med_grey
                 }
             }
         )
@@ -566,7 +566,7 @@ class NetworkStatusViewModel @Inject constructor(
         var networkPassword: String = "",
         var isNetworkEnabled: Boolean = false,
         var networkStatusText: Int = R.string.wifi_network_enabled,
-        var networkStatusTextColor: Int = R.color.blue,
+        var networkStatusTextColor: Int = R.color.purple,
         var networkStatusSubText: Int = R.string.wifi_network_enabled,
         var statusIcon: Int = R.drawable.ic_three_bars
     )

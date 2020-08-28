@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="1dp"
-            app:cardBackgroundColor="@color/background_grey"
+            app:cardBackgroundColor="@color/lavender"
             app:cardCornerRadius="@dimen/margin_spacing_small">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
                     android:layout_width="@dimen/padding_0"
                     android:layout_height="wrap_content"
                     android:text="18"
-                    android:textColor="@color/blue_dark"
+                    android:textColor="@color/purple"
                     android:textSize="@dimen/medium_title_text_size"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_spacing_small"
                     android:text="@string/connected_devices_plural"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/dark_grey"
                     android:textSize="@dimen/text_size_16"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="@+id/devices_connected_no"
@@ -70,8 +70,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/margin_spacing_small"
                     android:text="@string/tap_to_view"
-                    android:textColor="@color/blue"
+                    android:textColor="@color/purple"
                     android:textSize="@dimen/text_size_12"
+                    android:textAllCaps="true"
                     app:layout_constraintBottom_toBottomOf="@+id/devices_connected_textview"
                     app:layout_constraintEnd_toStartOf="@+id/cta_navigate"
                     app:layout_constraintTop_toTopOf="@+id/devices_connected_textview" />

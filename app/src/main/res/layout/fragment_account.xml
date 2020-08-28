@@ -329,16 +329,11 @@
 
         <Button
             android:id="@+id/log_out_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="80dp"
-            android:layout_height="32dp"
+            style="@style/BorderLessButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="64dp"
-            android:background="@drawable/button_thin_border_transparent_background"
-            android:gravity="center"
             android:text="@string/log_out"
-            android:textAllCaps="false"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/extra_small_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_marketing_calls_description" />
