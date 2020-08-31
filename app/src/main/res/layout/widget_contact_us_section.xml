@@ -20,9 +20,8 @@
     <View
         android:id="@+id/heading_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_elevation"
+        style="@style/common_border_divider_style"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contact_us_heading" />
@@ -34,8 +33,7 @@
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:text="@string/live_chat"
-        android:textColor="@color/black"
-        android:textSize="@dimen/text_size_16"
+        style="@style/single_line_text_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heading_view" />
 
@@ -44,8 +42,7 @@
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
         android:text="@string/live_chat_times"
-        android:textColor="@color/grey_text_color"
-        android:textSize="@dimen/text_size_12"
+        style="@style/style_disclaimer"
         app:layout_constraintBottom_toBottomOf="@+id/live_chat_textview"
         app:layout_constraintEnd_toStartOf="@+id/live_chat_navigate_website"
         app:layout_constraintTop_toTopOf="@+id/live_chat_textview" />
@@ -57,9 +54,7 @@
         android:layout_marginEnd="@dimen/margin_spacing_tiny"
         android:contentDescription="@string/content_description_holder"
         android:padding="@dimen/margin_spacing_tiny"
-        android:scaleX="-1"
-        android:src="@drawable/ic_back"
-        android:tint="@color/blue"
+        style="@style/style_chevron_next_view"
         app:layout_constraintBottom_toBottomOf="@+id/live_chat_textview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/live_chat_textview" />
@@ -67,9 +62,8 @@
     <View
         android:id="@+id/live_chat_divider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_elevation"
+        style="@style/common_border_divider_style"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/live_chat_textview" />
@@ -89,8 +83,7 @@
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:text="@string/support_schedule_a_callback"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,8 +92,7 @@
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:text="@string/live_chat_times"
-            android:textColor="@color/grey_text_color"
-            android:textSize="@dimen/text_size_12"
+            style="@style/style_disclaimer"
             app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
             app:layout_constraintEnd_toStartOf="@+id/schedule_callback_navigate"
             app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview" />
@@ -111,9 +103,7 @@
             android:layout_height="@dimen/close_icon_size"
             android:contentDescription="@string/content_description_holder"
             android:padding="@dimen/margin_spacing_tiny"
-            android:scaleX="-1"
-            android:src="@drawable/ic_back"
-            android:tint="@color/blue"
+            style="@style/style_chevron_next_view"
             app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview" />
@@ -122,9 +112,8 @@
     <View
         android:id="@+id/schedule_callback_divider"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_elevation"
+        style="@style/common_border_divider_style"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:background="@color/light_grey"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/schedule_callback_row" />

@@ -130,7 +130,7 @@
     <string name="speed_test_upload_fake_speed">908</string>
     <string name="tel">tel:833-250-6306</string>
     <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
-    <string name="reason_for_call_back"><font color="#001e60" size="16"><b>Please give us more information about the help you need. </b></font><font color="#bebebe" size="12">(optional)</font></string>
+    <string name="reason_for_call_back"><font color="#503296" size="16"><b>Please give us more information about the help you need. </b></font><font color="#788791" size="12">(optional)</font></string>
     <string name="additional_information">Additional information</string>
     <string name="additional_info_title">Additional info</string>
     <string name="next">Next</string>
@@ -146,12 +146,12 @@
     <string name="cancel_subscription_details_sub_header"> We’re sorry to see you go.</string>
     <string name="cancel_subscription_error_info">fields marked * are required</string>
     <string name="cancel_subscription_details_cancellation_date">Cancellation date</string>
-    <string name="cancel_subscription_details_cancellation_date_error">Cancellation date *</string>
+    <string name="cancel_subscription_details_cancellation_date_error">Cancellation date*</string>
     <string name="cancel_subscription_details_cancellation_reason_label">Cancellation reason</string>
     <string name="cancel_subscription_details_cancellation_reason">Please specify your cancellation reason</string>
     <string name="cancel_subscription_details_service">Please rate your experience with your service </string>
     <string name="cancel_subscription_details_comments">Comments</string>
-    <string name="cancel_subscription_details_optional">(Optional)</string>
+    <string name="cancel_subscription_details_optional">(optional)</string>
     <string name="cancel_subscription_details_experience_request">Please tell us more about your experience </string>
     <string name="cancel_subscription_details_submit">Submit</string>
 
@@ -247,8 +247,8 @@
     <string name="wifi_network_disabled">WiFi network disabled</string>
     <string name="tap_to_disable_network">tap to disable network</string>
     <string name="tap_to_enable_network">tap to enable network</string>
-    <string name="guest_network_enabled">Guest network enabled</string>
-    <string name="guest_network_disabled">Guest network disabled</string>
+    <string name="guest_network_enabled">Guest Network Enabled</string>
+    <string name="guest_network_disabled">Guest Network Disabled</string>
     <string name="tap_to_disable_guest_network">tap to disable guest network</string>
     <string name="tap_to_enable_guest_network">tap to enable guest network</string>
     <string name="optional">(optional)</string>

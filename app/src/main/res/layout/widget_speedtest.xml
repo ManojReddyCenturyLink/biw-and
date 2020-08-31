@@ -45,10 +45,10 @@
 
         <TextView
             android:id="@+id/download_speed"
-            style="@style/TextViewSpeedText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            style="@style/style_download_upload_speed_dashboard"
             android:text="@string/placeholder_text"
             app:layout_constraintEnd_toStartOf="@+id/download_speed_icon"
             app:layout_constraintTop_toTopOf="parent"
@@ -68,12 +68,12 @@
 
         <TextView
             android:id="@+id/download_speed_unit"
-            style="@style/TextViewSpeedTextUnits"
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="Mbps download"
             android:textAlignment="center"
+            style="@style/style_mbps_view"
             app:layout_constraintStart_toStartOf="@+id/download_speed_spacer"
             app:layout_constraintTop_toBottomOf="@+id/download_speed_spacer" />
 
@@ -87,7 +87,7 @@
             android:contentDescription="Download Icon"
             android:foregroundGravity="center"
             android:scaleY="-1"
-            android:src="@drawable/ic_upload_speed"
+            style="@style/style_upload_speed_view"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed"
             app:layout_constraintEnd_toStartOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/download_speed" />
@@ -113,22 +113,22 @@
             android:layout_marginTop="@dimen/margin_spacing_really_small"
             android:layout_marginEnd="@dimen/margin_spacing_small"
             android:contentDescription="Upload Icon"
-            android:src="@drawable/ic_upload_speed"
+            style="@style/style_upload_speed_view"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed"
             app:layout_constraintStart_toEndOf="@+id/view"
             app:layout_constraintTop_toTopOf="@+id/download_speed" />
 
         <TextView
             android:id="@+id/upload_speed"
-            style="@style/TextViewSpeedText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
             android:layout_marginEnd="@dimen/margin_spacing_large"
-            android:text="@string/placeholder_text"
+            style="@style/style_download_upload_speed_dashboard"
             app:layout_constraintStart_toEndOf="@+id/upload_speed_icon"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/speed_test_upload_fake_speed" />
+            android:text="@string/placeholder_text"
+                tools:text="@string/speed_test_upload_fake_speed" />
 
         <TextView
             android:id="@+id/upload_speed_spacer"
@@ -156,12 +156,12 @@
 
         <TextView
             android:id="@+id/upload_speed_unit"
-            style="@style/TextViewSpeedTextUnits"
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:text="Mbps upload"
             android:textAlignment="center"
+            style="@style/style_mbps_view"
             app:layout_constraintEnd_toEndOf="@+id/upload_speed_spacer"
             app:layout_constraintStart_toStartOf="@+id/upload_speed_spacer"
             app:layout_constraintTop_toBottomOf="@+id/upload_speed_spacer" />
@@ -182,8 +182,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:text="@string/last_speed_test"
-            style="@style/SubTitleTextView"
             android:textStyle="bold"
+            style="@style/style_installation_status_subheading"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -192,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            style="@style/SubTitleTextView"
+            style="@style/style_installation_status_subheading"
             app:layout_constraintStart_toEndOf="@+id/last_speed_test_title"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="03/02/2020 at 8:52pm" />

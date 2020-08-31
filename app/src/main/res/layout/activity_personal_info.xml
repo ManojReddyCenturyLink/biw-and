@@ -43,33 +43,31 @@
         android:text="@string/cancel_subscription_error_info"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/login_label"
-        app:layout_constraintStart_toEndOf="@+id/login_label"
+        app:layout_constraintEnd_toEndOf="@+id/personal_info_email_input"
         app:layout_constraintTop_toTopOf="@+id/login_label" />
 
     <TextView
         android:id="@+id/personal_info_email_label"
+        android:textAppearance="@style/TextViewLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:text="@string/email_address"
-        android:textSize="@dimen/text_size_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login_label" />
 
     <TextView
         android:id="@+id/personal_info_email_input"
+        style="@style/style_form_input_fields"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/spacing_4"
         android:layout_marginEnd="@dimen/medium_margin_spacing"
         android:autofillHints=""
-        android:background="@drawable/background_thin_border"
         android:inputType="textEmailAddress"
         android:padding="@dimen/margin_spacing_tiny"
-        android:textColor="@color/font_color_medium_grey"
-        android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/personal_info_email_label"
@@ -87,37 +85,38 @@
 
     <TextView
         android:id="@+id/personal_info_password_label"
+        android:textAppearance="@style/TextViewLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/medium_margin_spacing"
         android:text="@string/personal_info_password"
-        android:textSize="@dimen/text_size_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/personal_info_email_input" />
 
     <TextView
         android:id="@+id/personal_info_password_error_label"
+        android:textAppearance="@style/ErrorFields"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/medium_margin_spacing"
         android:text="@string/password_mandatory"
-        android:textColor="@color/offline_red"
-        android:textSize="@dimen/text_size_12"
+        android:fontFamily="@font/arial_bold_mt"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/personal_info_email_input" />
 
     <TextView
         android:id="@+id/error_password_different"
-        style="@style/ErrorFields"
+        android:textAppearance="@style/ErrorFields"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/passwords_do_not_match"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/personal_info_password_error_label"
-        app:layout_constraintStart_toEndOf="@+id/personal_info_guideline"
+        app:layout_constraintEnd_toEndOf="@id/personal_info_password_input"
         app:layout_constraintTop_toTopOf="@+id/personal_info_password_error_label" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -130,17 +129,15 @@
 
     <EditText
         android:id="@+id/personal_info_password_input"
+        style="@style/style_form_input_fields"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/spacing_4"
         android:layout_marginEnd="@dimen/medium_margin_spacing"
         android:autofillHints=""
-        android:background="@drawable/background_thin_border"
         android:inputType="textPassword"
         android:padding="@dimen/margin_spacing_tiny"
-        android:textColor="@color/blue_dark"
-        android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierPasswordField"
@@ -159,24 +156,24 @@
 
     <TextView
         android:id="@+id/personal_info_confirm_password_label"
+        android:textAppearance="@style/TextViewLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/medium_margin_spacing"
         android:text="@string/confirm_password"
-        android:textSize="@dimen/text_size_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/personal_info_password_input" />
 
     <TextView
         android:id="@+id/personal_info_confirm_password_error_label"
+        android:textAppearance="@style/ErrorFields"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/medium_margin_spacing"
         android:text="@string/confirm_password_mandatory"
-        android:textColor="@color/offline_red"
-        android:textSize="@dimen/text_size_12"
+        android:fontFamily="@font/arial_bold_mt"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/personal_info_password_input" />
@@ -188,8 +185,9 @@
         android:layout_height="wrap_content"
         android:text="@string/passwords_do_not_match"
         android:visibility="gone"
+        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/personal_info_confirm_password_error_label"
-        app:layout_constraintStart_toEndOf="@+id/personal_info_guideline"
+        app:layout_constraintEnd_toEndOf="@id/personal_info_confirm_password_input"
         app:layout_constraintTop_toTopOf="@+id/personal_info_confirm_password_error_label" />
 
     <androidx.constraintlayout.widget.Barrier
@@ -202,17 +200,15 @@
 
     <EditText
         android:id="@+id/personal_info_confirm_password_input"
+        style="@style/style_form_input_fields"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/spacing_4"
         android:layout_marginEnd="@dimen/medium_margin_spacing"
         android:autofillHints=""
-        android:background="@drawable/background_thin_border"
         android:inputType="textPassword"
         android:padding="@dimen/margin_spacing_tiny"
-        android:textColor="@color/blue_dark"
-        android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierConfirmPasswordField"
@@ -243,24 +239,24 @@
 
     <TextView
         android:id="@+id/phone_number_text"
+        android:textAppearance="@style/TextViewLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:text="@string/mobile_phone"
-        android:textSize="@dimen/text_size_12"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/phone_number_label" />
 
     <TextView
         android:id="@+id/phone_number_error_text"
+        android:textAppearance="@style/ErrorFields"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:text="@string/mobile_phone_mandatory"
-        android:textColor="@color/offline_red"
-        android:textSize="@dimen/text_size_12"
+        android:fontFamily="@font/arial_bold_mt"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/phone_number_label" />
@@ -275,18 +271,16 @@
 
     <EditText
         android:id="@+id/personal_info_phone_number_input"
+        style="@style/style_form_input_fields"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/spacing_4"
         android:layout_marginEnd="@dimen/medium_margin_spacing"
         android:autofillHints=""
-        android:background="@drawable/background_thin_border"
         android:hint="123-456-7890"
         android:inputType="phone"
         android:padding="@dimen/margin_spacing_tiny"
-        android:textColor="@color/blue_dark"
-        android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierPhoneNumberField"

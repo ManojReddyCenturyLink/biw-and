@@ -27,6 +27,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:backgroundTint="@color/lavender"
+            android:background="@color/lavender"
             android:contentDescription="@string/content_description_holder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -34,9 +35,9 @@
         <TextView
             android:id="@+id/devicename"
             android:layout_width="0dp"
+            style="@style/single_line_text_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
-            android:fontFamily="@font/arial_mt"
             android:gravity="start|center_vertical"
             android:lineSpacingExtra="2sp"
             android:textColor="@color/dark_grey"
@@ -51,6 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
+            style="@style/style_disclaimer"
             android:text="@string/tap_code"
             android:textColor="@color/med_grey"
             android:textSize="12sp"
@@ -77,9 +79,8 @@
         <View
             android:id="@+id/viewdivider"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
+            style="@style/common_border_divider_style"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@color/background_grey"
             app:layout_constraintTop_toBottomOf="@+id/qrScan" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

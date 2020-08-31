@@ -151,7 +151,7 @@ class NetworkStatusActivity : BaseActivity() {
                     )
                 )
                 bindings.fieldsMarkedRequiredGuest.visibility =
-                    if (it.containsKey("guestNameFieldMandatory") || it.containsKey("wifiPasswordFieldMandatory")) View.VISIBLE else View.GONE
+                    if (it.containsKey("guestNameFieldMandatory") || it.containsKey("guestPasswordFieldMandatory")) View.VISIBLE else View.GONE
                 bindings.networkStatusGuestNameLabel.setTextColor(
                     getColor(
                         if (it.containsKey("guestNameError") && it.containsKey(

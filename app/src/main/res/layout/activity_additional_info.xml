@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/medium_margin_spacing"
         android:text="@string/reason_for_call_back"
+        style="@style/SubHeading"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incHeader" />
 

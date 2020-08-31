@@ -23,9 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/fiber_installation_status"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
+                style="@style/SubHeading"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -35,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/above_cardview_elevation"
                 android:text="@string/installation_scheduled"
-                android:textSize="@dimen/text_size_12"
+                style="@style/style_installation_status_subheading"
                 app:layout_constraintEnd_toStartOf="@+id/incProgress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
@@ -56,7 +54,7 @@
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:elevation="@dimen/padding_0"
                 android:padding="@dimen/margin_spacing_small"
-                app:cardBackgroundColor="@color/blue_icon_bg"
+                app:cardBackgroundColor="@color/light_lavender"
                 app:cardCornerRadius="@dimen/margin_spacing_really_small"
                 app:cardElevation="@dimen/padding_0"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,9 +73,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Apr. 4th 2020"
-                        android:textColor="@color/blue"
-                        android:textSize="36sp"
-                        android:textStyle="bold"
+                        style="@style/style_appointment_date"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -88,8 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_spacing_tiny"
                         android:text="@string/text_time_details"
-                        android:textColor="@color/blue"
-                        android:textSize="@dimen/text_size_12"
+                        style="@style/style_installation_status_subheading"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/appointment_date" />
