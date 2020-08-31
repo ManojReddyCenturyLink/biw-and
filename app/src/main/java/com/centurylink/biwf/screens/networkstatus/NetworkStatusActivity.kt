@@ -113,7 +113,7 @@ class NetworkStatusActivity : BaseActivity() {
                         if (it.containsKey("wifiNameError") && it.containsKey(
                                 "wifiNameFieldMandatory"
                             )
-                        ) R.color.offline_red else R.color.font_color_medium_grey
+                        ) R.color.strawberry else R.color.dark_grey
                     )
                 )
                 bindings.networkStatusWifiNameLabel.text =
@@ -131,7 +131,7 @@ class NetworkStatusActivity : BaseActivity() {
                         if (it.containsKey("wifiPasswordError") && it.containsKey(
                                 "wifiPasswordFieldMandatory"
                             )
-                        ) R.color.offline_red else R.color.font_color_medium_grey
+                        ) R.color.strawberry else R.color.dark_grey
                     )
                 )
                 bindings.networkStatusWifiPasswordLabel.text =
@@ -147,17 +147,17 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusWifiPasswordRestraintsLabel.setTextColor(
                     getColor(
                         if (it.containsKey("wifiPasswordError") && it.containsKey("wifiPasswordFieldLength"))
-                            R.color.offline_red else R.color.font_color_medium_grey
+                            R.color.strawberry else R.color.med_grey
                     )
                 )
                 bindings.fieldsMarkedRequiredGuest.visibility =
-                    if (it.containsKey("guestNameFieldMandatory") || it.containsKey("wifiPasswordFieldMandatory")) View.VISIBLE else View.GONE
+                    if (it.containsKey("guestNameFieldMandatory") || it.containsKey("guestPasswordFieldMandatory")) View.VISIBLE else View.GONE
                 bindings.networkStatusGuestNameLabel.setTextColor(
                     getColor(
                         if (it.containsKey("guestNameError") && it.containsKey(
                                 "guestNameFieldMandatory"
                             )
-                        ) R.color.offline_red else R.color.font_color_medium_grey
+                        ) R.color.strawberry else R.color.med_grey
                     )
                 )
                 bindings.networkStatusGuestNameLabel.text =
@@ -175,7 +175,7 @@ class NetworkStatusActivity : BaseActivity() {
                         if (it.containsKey("guestPasswordError") && it.containsKey(
                                 "guestPasswordFieldMandatory"
                             )
-                        ) R.color.offline_red else R.color.font_color_medium_grey
+                        ) R.color.strawberry else R.color.dark_grey
                     )
                 )
                 bindings.networkStatusGuestPasswordLabel.text =
@@ -191,7 +191,7 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusGuestPasswordRestraintsLabel.setTextColor(
                     getColor(
                         if (it.containsKey("guestPasswordError") && it.containsKey("guestPasswordFieldLength"))
-                            R.color.offline_red else R.color.font_color_medium_grey
+                            R.color.strawberry else R.color.med_grey
                     )
                 )
             }

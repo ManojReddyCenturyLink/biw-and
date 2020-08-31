@@ -49,81 +49,70 @@
 
             <TextView
                 android:id="@+id/cancel_subscription_details_header"
+                android:textAppearance="@style/SubHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_spacing_small"
-                android:fontFamily="@font/arial_bold_mt"
                 android:gravity="start"
                 android:text="@string/cancel_subscription_details_sub_header"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/small_subcontent_title_text_size"
                 app:layout_constraintBottom_toTopOf="@+id/cancel_subscription_details_error"
                 app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_contents" />
 
             <TextView
                 android:id="@+id/cancel_subscription_details_error"
+                android:textAppearance="@style/ErrorFields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_spacing_small"
-                android:fontFamily="@font/arial_bold_mt"
                 android:gravity="start"
                 android:text="@string/cancel_subscription_error_info"
-                android:textColor="@color/offline_red"
-                android:textSize="@dimen/text_size_12"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_date_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_header" />
 
             <TextView
                 android:id="@+id/cancellation_date_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:fontFamily="@font/arial_mt"
                 android:gravity="start"
                 android:text="@string/cancel_subscription_details_cancellation_date"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_date_selection"
                 app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_error" />
 
             <TextView
                 android:id="@+id/cancellation_date_selection"
+                android:textAppearance="@style/style_cancellation_date_selection"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/text_entry_height"
                 android:background="@drawable/background_thin_border"
-                android:drawableLeft="@drawable/ic_calendar"
+                android:drawableStart="@drawable/ic_calendar"
                 android:drawablePadding="10dp"
                 android:gravity="start|center_vertical"
                 android:padding="10dp"
-                android:textColor="@color/title_color_blue"
-                android:textSize="@dimen/text_size_16"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_reason_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_date_label" />
 
             <TextView
                 android:id="@+id/cancellation_reason_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:layout_marginBottom="5dp"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/cancel_subscription_details_cancellation_reason_label"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toStartOf="@+id/cancellation_reason_optional_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_date_selection" />
 
             <TextView
                 android:id="@+id/cancellation_reason_optional_label"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/cancel_subscription_details_optional"
-                android:textColor="@color/grey_text_color"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBaseline_toBaselineOf="@+id/cancellation_reason_label"
                 app:layout_constraintStart_toEndOf="@+id/cancellation_reason_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_date_selection" />
@@ -135,7 +124,7 @@
                 android:layout_marginTop="3dp"
                 android:background="@drawable/background_thin_border"
                 android:focusable="true"
-                android:gravity="left"
+                android:gravity="start"
                 android:spinnerMode="dialog"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,25 +144,23 @@
 
             <TextView
                 android:id="@+id/cancellation_specify_reason_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_tiny"
                 android:text="@string/cancel_subscription_details_cancellation_reason"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 android:visibility="gone"
                 app:layout_constraintEnd_toStartOf="@+id/cancellation_specify_reason_optional_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_reason_dropdown" />
 
             <TextView
                 android:id="@+id/cancellation_specify_reason_optional_label"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="@dimen/margin_spacing_tiny"
                 android:text="@string/cancel_subscription_details_optional"
-                android:textColor="@color/grey_text_color"
-                android:textSize="@dimen/text_size_12"
                 android:visibility="gone"
                 app:layout_constraintBaseline_toBaselineOf="@+id/cancellation_specify_reason_label"
                 app:layout_constraintStart_toEndOf="@+id/cancellation_specify_reason_label"
@@ -181,43 +168,37 @@
 
             <EditText
                 android:id="@+id/cancellation_specify_reason_input"
+                style="@style/style_form_input_fields"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/background_thin_border"
                 android:gravity="top|start"
-                android:hint="Placeholder"
+                android:hint="@string/cancel_subscription_details_cancellation_reason_label"
                 android:inputType="textMultiLine"
                 android:maxLength="150"
                 android:padding="@dimen/margin_spacing_tiny"
                 android:scrollbars="vertical"
-                android:textColor="@color/title_color_blue"
-                android:textSize="18sp"
                 android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_specify_reason_label" />
 
             <TextView
                 android:id="@+id/cancellation_specify_service_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/cancel_subscription_details_service"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toStartOf="@+id/cancellation_specify_service_optional_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_specify_reason_input" />
 
             <TextView
                 android:id="@+id/cancellation_specify_service_optional_label"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/cancel_subscription_details_optional"
-                android:textColor="@color/grey_text_color"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBaseline_toBaselineOf="@+id/cancellation_specify_service_label"
                 app:layout_constraintStart_toEndOf="@+id/cancellation_specify_service_label" />
 
@@ -243,31 +224,28 @@
 
             <TextView
                 android:id="@+id/cancellation_specify_comments_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_large"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/cancel_subscription_details_comments"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toStartOf="@+id/cancellation_specify_comments_optional_label"
                 app:layout_constraintTop_toBottomOf="@+id/cancellation_service_rating_bar" />
 
             <TextView
                 android:id="@+id/cancellation_specify_comments_optional_label"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/cancel_subscription_details_optional"
-                android:textColor="@color/grey_text_color"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBaseline_toBaselineOf="@+id/cancellation_specify_comments_label"
                 app:layout_constraintStart_toEndOf="@+id/cancellation_specify_comments_label" />
 
             <EditText
                 android:id="@+id/cancellation_comments_reason_input"
+                style="@style/style_form_input_fields"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_marginTop="@dimen/margin_spacing_tiny"
@@ -278,8 +256,6 @@
                 android:maxLength="150"
                 android:padding="@dimen/margin_spacing_tiny"
                 android:scrollbars="vertical"
-                android:textColor="@color/title_color_blue"
-                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_specify_comments_label" />
 
             <Button
@@ -294,7 +270,7 @@
                 android:text="@string/cancel_subscription_details_submit"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="@dimen/extra_small_text_size"
+                android:textSize="@dimen/text_size_14"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cancellation_comments_reason_input" />

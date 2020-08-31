@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -194,7 +195,8 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancelSubscriptionDetailsError.visibility = View.VISIBLE
         binding.cancellationDateLabel.text =
             getText(R.string.cancel_subscription_details_cancellation_date_error)
-        binding.cancellationDateLabel.setTextColor(getColor(R.color.offline_red))
+        binding.cancellationDateLabel.typeface = Typeface.DEFAULT_BOLD
+        binding.cancellationDateLabel.setTextColor(getColor(R.color.strawberry))
     }
 
     private fun observeViews() {
