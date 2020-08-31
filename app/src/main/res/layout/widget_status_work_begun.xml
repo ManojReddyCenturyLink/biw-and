@@ -87,7 +87,7 @@
                     android:layout_width="20dp"
                     android:layout_height="12dp"
                     android:layout_marginStart="6dp"
-                    style="@style/style_progress_state_view"
+                    style="@style/style_progress_state_in_progress"
                     app:layout_constraintStart_toEndOf="@+id/progress_state_three"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

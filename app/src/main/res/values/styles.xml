@@ -237,8 +237,7 @@
         <item name="android:tint">@color/purple</item>
     </style>
 
-    <!-- Pravin -  Group Style based on Developer works We can delete duplicates later -->
-
+    <!-- Pravin - Group Style based on Developer works We can delete duplicates later -->
     <style name="style_chevron_next_view">
         <item name="android:src">@drawable/ic_back</item>
         <item name="android:tint">@color/purple</item>
@@ -361,12 +360,12 @@
     </style>
 
     <style name="style_progress_state_view">
-        <item name="android:background">@drawable/dark_blue_background_rounded_corner</item>
+        <item name="android:background">@drawable/purple_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/purple</item>
     </style>
 
     <style name="style_progress_canceled_state_view">
-        <item name="android:background">@drawable/dark_blue_background_rounded_corner</item>
+        <item name="android:background">@drawable/purple_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/strawberry</item>
     </style>
 

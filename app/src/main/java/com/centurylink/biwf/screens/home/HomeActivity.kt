@@ -2,11 +2,16 @@ package com.centurylink.biwf.screens.home
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
 import androidx.biometric.BiometricManager
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.HomeCoordinator
 import com.centurylink.biwf.coordinators.Navigator
@@ -20,6 +25,7 @@ import com.centurylink.biwf.screens.home.devices.DevicesFragment
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
@@ -169,6 +175,35 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             tab.text = getString(viewModel.lowerTabHeaderList[position].titleRes)
             binding.vpDashboard.setCurrentItem(tab.position, true)
         }.attach()
+        binding.vpDashboard.setCurrentItem(1, false)
+
+        TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard) { tab, position ->
+            val tabTextView = TextView(this)
+            tab.text = getString(viewModel.lowerTabHeaderList[position].titleRes)
+            tab.customView = tabTextView
+            tabTextView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            tabTextView.text = tab.text
+            tabTextView.textSize = resources.getDimension(R.dimen.text_size_6)
+            tabTextView.setTextColor(getColor(R.color.white))
+            tabTextView.typeface = ResourcesCompat.getFont(applicationContext, R.font.arial_mt)
+            binding.vpDashboard.setCurrentItem(tab.position, true)
+        }.attach()
+        binding.homeUpperTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.vpDashboard.currentItem = tab.position
+                val text = tab.customView as TextView?
+                if (text != null) {
+                    text.typeface = Typeface.DEFAULT_BOLD
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                val text = tab.customView as TextView?
+                if (text != null) {
+                    text.typeface = Typeface.DEFAULT
+                }
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        })
         binding.vpDashboard.setCurrentItem(1, false)
     }
 
