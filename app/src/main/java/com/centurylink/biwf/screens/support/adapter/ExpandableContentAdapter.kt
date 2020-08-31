@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.core.text.HtmlCompat
 import com.centurylink.biwf.R
 
@@ -77,6 +79,8 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
             questionIcon.setImageResource(R.drawable.ic_icon_right)
             dividerView.visibility = View.VISIBLE
         }
+        DrawableCompat.setTint(questionIcon.drawable,
+            ContextCompat.getColor(parent?.context!!, R.color.purple))
         return convertView
     }
 

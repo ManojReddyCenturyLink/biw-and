@@ -27,9 +27,7 @@
                 android:layout_marginStart="@dimen/margin_spacing_small"
                 android:layout_marginEnd="@dimen/margin_spacing_small"
                 android:text="@string/fiber_installation_status"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
-                android:textStyle="bold"
+                style="@style/SubHeading"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +39,7 @@
                 android:layout_marginTop="@dimen/above_cardview_elevation"
                 android:layout_marginEnd="@dimen/margin_spacing_small"
                 android:text="@string/a_technician_is_on_the_way"
-                android:textSize="@dimen/text_size_12"
+                style="@style/style_installation_status_subheading"
                 app:layout_constraintEnd_toStartOf="@+id/incProgress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
@@ -62,7 +60,7 @@
                     android:layout_width="20dp"
                     android:layout_height="12dp"
                     android:layout_marginStart="6dp"
-                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    style="@style/style_progress_state_view"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +69,7 @@
                     android:layout_width="20dp"
                     android:layout_height="12dp"
                     android:layout_marginStart="6dp"
-                    android:background="@drawable/dark_blue_background_rounded_corner"
+                    style="@style/style_progress_state_view"
                     app:layout_constraintStart_toEndOf="@+id/progress_state_one"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -80,7 +78,7 @@
                     android:layout_width="20dp"
                     android:layout_height="12dp"
                     android:layout_marginStart="6dp"
-                    android:background="@drawable/blue_background_rounded_corner"
+                    style="@style/style_progress_state_view"
                     app:layout_constraintStart_toEndOf="@+id/progress_state_two"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -89,7 +87,7 @@
                     android:layout_width="20dp"
                     android:layout_height="12dp"
                     android:layout_marginStart="6dp"
-                    android:background="@drawable/blue_background_rounded_corner"
+                    style="@style/style_progress_state_view"
                     app:layout_constraintStart_toEndOf="@+id/progress_state_three"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -122,9 +120,7 @@
                     android:layout_marginStart="@dimen/margin_spacing_small"
                     android:layout_marginEnd="@dimen/margin_spacing_small"
                     android:text="Jonathan"
-                    android:textColor="@color/blue_dark"
-                    android:textSize="16sp"
-                    android:textStyle="bold"
+                    style="@style/SubHeading"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -136,8 +132,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="@dimen/margin_spacing_small"
                     android:text="@string/estimated_arrival_window"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/text_size_12"
+                    style="@style/style_disclaimer"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/technician_name" />
 
@@ -149,9 +144,7 @@
                     android:layout_marginEnd="@dimen/margin_spacing_small"
                     android:paddingTop="4dp"
                     android:text="8-10AM"
-                    android:textColor="@color/blue_dark"
-                    android:textSize="21sp"
-                    android:textStyle="bold"
+                    style="@style/style_appointment_time"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/technician_name" />
             </androidx.constraintlayout.widget.ConstraintLayout>

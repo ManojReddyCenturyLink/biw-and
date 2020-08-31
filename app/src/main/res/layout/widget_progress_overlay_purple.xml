@@ -19,7 +19,7 @@
         android:id="@+id/progress_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/ButtonProgressStatus"
+        style="@style/style_progress_button"
         android:paddingEnd="@dimen/margin_spacing_small"
         android:text="@string/restarting"/>
 </LinearLayout>

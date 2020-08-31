@@ -58,8 +58,7 @@
                 android:paddingStart="@dimen/medium_margin_spacing"
                 android:paddingEnd="@dimen/medium_margin_spacing"
                 android:text="@string/error_in_selected_slot"
-                android:textColor="@color/offline_red"
-                android:textSize="@dimen/text_size_16"
+                style="@style/style_calender_error"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +66,7 @@
 
             <TextView
                 android:id="@+id/select_appointment_slot"
-                style="@style/SubHeading"
+                style="@style/style_form_calender_title"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/height_20"
@@ -75,7 +74,6 @@
                 android:paddingStart="@dimen/medium_margin_spacing"
                 android:paddingEnd="@dimen/medium_margin_spacing"
                 android:text="@string/select_appointment_slot"
-                android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/error_in_selected_slot" />
@@ -94,41 +92,39 @@
 
             <TextView
                 android:id="@+id/installation_appointment_note"
+                style="@style/style_disclaimer"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:layout_marginEnd="@dimen/margin_spacing_small"
                 android:text="@string/installation_appointment_note"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calendar_view" />
 
             <TextView
                 android:id="@+id/available_appointment_note"
+                style="@style/style_headers_subtitle"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:paddingStart="@dimen/medium_margin_spacing"
                 android:paddingEnd="@dimen/medium_margin_spacing"
                 android:text="@string/available_appointments_on_date"
-                android:textColor="@color/blue_dark"
-                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/installation_appointment_note" />
 
             <TextView
                 android:id="@+id/available_appointment_slot_error"
+                style="@style/style_calender_error"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
                 android:paddingStart="@dimen/medium_margin_spacing"
                 android:paddingEnd="@dimen/medium_margin_spacing"
                 android:text="@string/available_appointments_slots_error"
-                android:textColor="@color/offline_red"
                 android:visibility="gone"
-                android:textSize="18sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/available_appointment_note" />
 
@@ -146,8 +142,8 @@
                 android:id="@+id/available_appointment_slots_rv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:nestedScrollingEnabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/available_appointment_view" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

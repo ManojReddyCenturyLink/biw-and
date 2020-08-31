@@ -19,32 +19,26 @@
 
         <Button
             android:id="@+id/calendar_left_arrow"
+            style="@style/style_left_arrow_view"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/left_arrow"
-            android:backgroundTint="@color/blue"
-            android:padding="4dp"
-            android:tint="#e5ecf8" />
+            android:padding="4dp" />
 
         <TextView
             android:id="@+id/calendar_month_year_textview"
+            style="@style/style_form_calender_year_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textColor="#0047bb"
-            android:textSize="18sp"
-            android:textStyle="bold"
             tools:text="June 2020" />
 
         <Button
             android:id="@+id/calendar_right_arrow"
+            style="@style/style_right_arrow_view"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:background="@drawable/right_arrow"
-            android:backgroundTint="@color/blue"
-            android:padding="4dp"
-            android:tint="#0047bb" />
+            android:padding="4dp" />
     </LinearLayout>
 
     <GridView

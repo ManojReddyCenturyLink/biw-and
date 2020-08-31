@@ -9,7 +9,7 @@
         android:layout_width="20dp"
         android:layout_height="12dp"
         android:layout_marginStart="6dp"
-        android:background="@drawable/dark_blue_background_rounded_corner"
+        style="@style/style_progress_state_view"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -18,7 +18,7 @@
         android:layout_width="20dp"
         android:layout_height="12dp"
         android:layout_marginStart="6dp"
-        android:background="@drawable/blue_background_rounded_corner"
+        style="@style/style_progress_state_view"
         app:layout_constraintStart_toEndOf="@+id/progress_state_one"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,7 +27,7 @@
         android:layout_width="20dp"
         android:layout_height="12dp"
         android:layout_marginStart="6dp"
-        android:background="@drawable/blue_background_rounded_corner"
+        style="@style/style_progress_state_view"
         app:layout_constraintStart_toEndOf="@+id/progress_state_two"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +36,7 @@
         android:layout_width="20dp"
         android:layout_height="12dp"
         android:layout_marginStart="6dp"
-        android:background="@drawable/blue_background_rounded_corner"
+        style="@style/style_progress_state_view"
         app:layout_constraintStart_toEndOf="@+id/progress_state_three"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

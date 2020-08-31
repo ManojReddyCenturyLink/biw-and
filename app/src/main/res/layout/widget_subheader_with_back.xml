@@ -18,7 +18,7 @@
         android:id="@+id/sub_header_leftIcon"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/padding_0"
-        style="@style/StyleBackButton"
+        style="@style/style_screen_header_backbutton"
         android:layout_marginStart="16dp"
         android:contentDescription="@string/content_description_holder"
         android:gravity="center"
@@ -31,7 +31,7 @@
         android:id="@+id/subheader_center_title"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
-        style="@style/HeaderTextView"
+        style="@style/style_screen_header_text"
         android:paddingTop="3dp"
         android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/barrier"
@@ -59,9 +59,8 @@
     <View
         android:id="@+id/header_seprator_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_elevation"
         android:layout_marginTop="@dimen/medium_margin_spacing"
-        android:background="@color/divider_grey"
+        style="@style/common_border_divider_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/subheader_right_action_title" />

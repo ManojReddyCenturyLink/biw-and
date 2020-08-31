@@ -130,7 +130,7 @@
     <string name="speed_test_upload_fake_speed">908</string>
     <string name="tel">tel:833-250-6306</string>
     <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
-    <string name="reason_for_call_back"><font color="#001e60" size="16"><b>Please give us more information about the help you need. </b></font><font color="#bebebe" size="12">(optional)</font></string>
+    <string name="reason_for_call_back"><font color="#503296" size="16"><b>Please give us more information about the help you need. </b></font><font color="#788791" size="12">(optional)</font></string>
     <string name="additional_information">Additional information</string>
     <string name="additional_info_title">Additional info</string>
     <string name="next">Next</string>

@@ -26,21 +26,19 @@
 
         <TextView
             android:id="@+id/last_speed_test_title"
+            style="@style/style_disclaimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/last_speed_test"
-            android:textColor="@color/grey_darker"
-            android:textSize="@dimen/text_size_12"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/last_speed_test_time"
+            style="@style/style_disclaimer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/grey_darker"
-            android:textSize="@dimen/text_size_12"
             app:layout_constraintStart_toEndOf="@+id/last_speed_test_title"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="@string/last_speed_test_fake_value" />
@@ -56,15 +54,13 @@
 
         <TextView
             android:id="@+id/download_speed"
+            style="@style/style_downlaod_upload_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/placeholder_text"
-                tools:text="@string/fake_speed_test_download_speed"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/large_title_text_size"
-            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/fake_speed_test_download_speed" />
 
         <TextView
             android:id="@+id/download_speed_spacer"
@@ -96,8 +92,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_holder"
             android:padding="@dimen/margin_spacing_tiny"
-            android:scaleY="-1"
-            android:src="@drawable/ic_upload_speed"
+            style="@style/style_upload_speed_view"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
             app:layout_constraintStart_toEndOf="@+id/download_speed_spacer"
             app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />
@@ -107,25 +102,22 @@
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:text="@string/mbps_download"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_12"
+            style="@style/style_mbps_view"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
             app:layout_constraintStart_toEndOf="@+id/download_speed_icon"
             app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />
 
         <TextView
             android:id="@+id/upload_speed"
+            style="@style/style_downlaod_upload_speed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_small"
             android:text="@string/placeholder_text"
-                tools:text="@string/speed_test_upload_fake_speed"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/large_title_text_size"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed"
             app:layout_constraintStart_toEndOf="@+id/download_speed_unit"
-            app:layout_constraintTop_toTopOf="@+id/download_speed" />
+            app:layout_constraintTop_toTopOf="@+id/download_speed"
+            tools:text="@string/speed_test_upload_fake_speed" />
 
         <TextView
             android:id="@+id/upload_speed_spacer"
@@ -159,7 +151,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/content_description_holder"
             android:padding="@dimen/margin_spacing_tiny"
-            android:src="@drawable/ic_upload_speed"
+            style="@style/style_upload_speed_view"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
             app:layout_constraintStart_toEndOf="@+id/upload_speed_spacer"
             app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />
@@ -170,8 +162,7 @@
             android:layout_height="wrap_content"
             android:text="@string/mbps_upload"
             android:textAlignment="center"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/text_size_12"
+            style="@style/style_mbps_view"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
             app:layout_constraintStart_toEndOf="@+id/upload_speed_icon"
             app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />

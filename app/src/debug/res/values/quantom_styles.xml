@@ -43,6 +43,7 @@
     </style>
 
     <style name="SubHeading" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:textStyle">bold</item>
@@ -147,4 +148,219 @@
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+
+    <!-- Vinisha Group Style based on Developer works We can delete duplicates later -->
+
+    <style name="style_screen_header_text">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
+    </style>
+
+    <style name="style_progressbar_textstatus">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:lineSpacingExtra">@dimen/spacing_4</item>
+    </style>
+
+    <style name="style_progress_button">
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="style_screen_header_backbutton">
+        <item name="android:src">@drawable/ic_header_back</item>
+        <item name="android:tint">@color/purple</item>
+    </style>
+
+    <!-- Pravin -  Group Style based on Developer works We can delete duplicates later -->
+
+    <style name="style_chevron_next_view">
+        <item name="android:src">@drawable/ic_back</item>
+        <item name="android:tint">@color/purple</item>
+        <item name="android:scaleX">-1</item>
+    </style>
+
+    <style name="common_border_divider_style">
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/light_grey</item>
+    </style>
+
+    <style name="single_line_text_content">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="style_form_subHeading" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_20</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_info_label" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="style_disclaimer" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <style name="style_payment_breakup" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="style_qrcode_header" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_22</item>
+    </style>
+
+    <style name="style_qrcode_name" parent="style_qrcode_header">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/lavender</item>
+        <item name="android:textSize">@dimen/text_size_22</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_qrcode_disclaimer" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="style_boldheaders_title" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_24</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_headers_subtitle" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
+    </style>
+
+    <style name="style_disclaimer_small" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/negative_cta</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <!-- radha -  Group Style based on Developer works We can delete duplicates later -->
+
+    <style name="style_downlaod_upload_speed" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/large_title_text_size</item>
+    </style>
+
+    <style name="style_upload_speed_view">
+        <item name="android:src">@drawable/ic_upload_speed</item>
+        <item name="android:tint">@color/light_blue</item>
+        <item name="android:scaleX">-1</item>
+    </style>
+
+    <style name="style_mbps_view" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/lavender</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <style name="style_installation_status_subheading" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <style name="style_appointment_date" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_36</item>
+    </style>
+
+    <style name="style_dismiss_btn_view">
+        <item name="android:src">@drawable/ic_icon_close_blue</item>
+        <item name="android:background">@drawable/blue_background_rounded_corner</item>
+        <item name="android:backgroundTint">@color/light_lavender</item>
+        <item name="android:tint">@color/purple</item>
+    </style>
+
+    <style name="style_progress_state_view">
+        <item name="android:background">@drawable/dark_blue_background_rounded_corner</item>
+        <item name="android:backgroundTint">@color/purple</item>
+    </style>
+
+    <style name="style_progress_canceled_state_view">
+        <item name="android:background">@drawable/dark_blue_background_rounded_corner</item>
+        <item name="android:backgroundTint">@color/strawberry</item>
+    </style>
+
+    <style name="style_notification_vertical_bar_view">
+        <item name="android:background">@drawable/notification_card_vertical_bar</item>
+        <item name="android:backgroundTint">@color/light_blue</item>
+    </style>
+
+    <style name="style_appointment_time" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_21</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_download_upload_speed_dashboard" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_48</item>
+    </style>
+
+    <style name="style_form_calender_year_title" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/small_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_form_calender_title" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/small_title_text_size</item>
+    </style>
+
+    <style name="style_left_arrow_view">
+        <item name="android:background">@drawable/left_arrow</item>
+        <item name="android:backgroundTint">@color/purple</item>
+    </style>
+
+    <style name="style_right_arrow_view">
+        <item name="android:background">@drawable/right_arrow</item>
+        <item name="android:backgroundTint">@color/purple</item>
+    </style>
+
+    <style name="style_calender_error" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/strawberry</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="title_account_sub_header" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/medium_title_text_size</item>
+    </style>
+
 </resources>

@@ -10,33 +10,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <TextView
-        android:fontFamily="@font/arial_bold_mt"
         android:id="@+id/subscription_info_subscription_name"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textColor="@color/title_color_blue"
-        android:textSize="24sp"
+        style="@style/style_boldheaders_title"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Best in World Fiber" />
 
     <TextView
-        android:fontFamily="@font/arial_mt"
+        style="@style/style_headers_subtitle"
         android:id="@+id/subscription_info_subscription_details"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textColor="@color/title_color_blue"
-        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subscription_info_subscription_name"
         tools:text="Speeds up to 940Mbps" />
 
     <TextView
         android:layout_height="wrap_content"
+        style="@style/style_disclaimer_small"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:layout_width="wrap_content"
         android:text="@string/card_payment_fine_print"
-        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/subscription_info_subscription_details" />

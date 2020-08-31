@@ -29,9 +29,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/arial_bold_mt"
             android:text="@string/personal_info"
-            android:textColor="@color/title_color_blue"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            style="@style/style_form_subHeading"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,10 +50,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/arial_mt"
             android:text="@string/email"
-            android:textColor="@color/text_label_color"
-            android:textSize="16sp"
+            style="@style/style_info_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/settings_card_line_break" />
 
@@ -64,9 +60,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/arial_mt"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/personal_info_email_label"
@@ -77,10 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/arial_mt"
             android:text="@string/password"
-            android:textColor="@color/text_label_color"
-            android:textSize="16sp"
+            style="@style/style_info_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/personal_info_email" />
 
@@ -89,8 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hidden_password"
-            android:textColor="@color/black"
-            android:textSize="24sp"
+            style="@style/style_headers_subtitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/personal_info_password_label" />
 
@@ -100,10 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/arial_mt"
             android:text="@string/cellphone"
-            android:textColor="@color/text_label_color"
-            android:textSize="16sp"
+            style="@style/style_info_label"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/personal_info_password" />
 
@@ -112,9 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:fontFamily="@font/arial_mt"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/personal_info_cellphone_label"
             tools:text="(123) 456-7890" />
