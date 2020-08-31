@@ -17,7 +17,7 @@
 
     <TextView
         android:id="@+id/appointment_confirmed_header"
-        style="@style/SubHeading"
+        style="@style/style_screen_header_text"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/medium_margin_spacing"
@@ -37,8 +37,7 @@
         android:paddingStart="@dimen/medium_margin_spacing"
         android:paddingEnd="@dimen/medium_margin_spacing"
         android:text="@string/appointment_confirmed_message"
-        android:textColor="@color/black"
-        android:textSize="@dimen/extra_small_text_size"
+        style="@style/style_qrcode_disclaimer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appointment_confirmed_header" />
 

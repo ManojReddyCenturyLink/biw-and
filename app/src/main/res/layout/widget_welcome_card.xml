@@ -15,7 +15,7 @@
         android:layout_width="@dimen/margin_spacing_tiny"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/cardview_elevation"
-        android:background="@drawable/notification_card_vertical_bar"
+        style="@style/style_notification_vertical_bar_view"
         app:layout_constraintBottom_toBottomOf="@+id/msg"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,6 @@
         android:maxLines="1"
         android:singleLine="true"
         android:text="@string/congratulations"
-        android:textColor="@color/blue"
         app:layout_constraintEnd_toStartOf="@+id/msg_dismiss_button"
         app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
         app:layout_constraintTop_toTopOf="parent" />
@@ -46,8 +45,7 @@
         android:maxLines="2"
         android:paddingBottom="@dimen/margin_spacing_tiny"
         android:text="@string/welcome_msg"
-        android:textColor="@color/blue_dark"
-        android:textSize="12sp"
+        style="@style/style_installation_status_subheading"
         app:layout_constraintEnd_toStartOf="@+id/msg_dismiss_button"
         app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
         app:layout_constraintTop_toBottomOf="@+id/title" />
@@ -61,7 +59,7 @@
         android:background="@drawable/blue_background_rounded_corner"
         android:contentDescription="@string/notification"
         android:padding="@dimen/margin_spacing_really_small"
-        android:src="@drawable/ic_icon_close_blue"
+        style="@style/style_dismiss_btn_view"
         app:layout_constraintBottom_toBottomOf="@+id/notification_side_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/notification_side_bar" />

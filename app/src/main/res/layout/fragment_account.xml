@@ -70,9 +70,7 @@
             android:layout_marginTop="32sp"
             android:fontFamily="@font/arial_bold_mt"
             android:text="@string/placeholder_text"
-            android:textColor="@color/title_color_blue"
-            android:textSize="24sp"
-            android:textStyle="bold"
+            style="@style/style_boldheaders_title"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,8 +81,7 @@
             android:layout_marginTop="12dp"
             android:fontFamily="@font/arial_mt"
             android:text="@string/service_address"
-            android:textColor="@color/text_label_color"
-            android:textSize="16sp"
+            style="@style/style_info_label"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_full_name" />
 
@@ -94,8 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/placeholder_text"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             android:maxLines="2"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_service_label" />
@@ -105,8 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@+id/account_top_background"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
@@ -151,10 +146,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:fontFamily="@font/arial_bold_mt"
+            style="@style/  "
             android:text="@string/settings_preferences"
-            android:textColor="@color/title_color_blue"
-            android:textSize="20sp"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_personal_info_card" />
 
@@ -175,10 +168,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/arial_bold_mt"
             android:text="@string/login_settings"
-            android:textColor="@color/title_color_blue"
-            android:textSize="16sp"
+            style="@style/SubHeading"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_settings_title_line_break" />
 
@@ -187,10 +178,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/arial_mt"
             android:text="@string/biometric_label"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_login_settings_label" />
 
@@ -221,10 +210,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/arial_bold_mt"
             android:text="@string/communication_preferences"
-            android:textColor="@color/title_color_blue"
-            android:textSize="16sp"
+            style="@style/SubHeading"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_preferences_line_break" />
 
@@ -233,10 +220,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/arial_mt"
+            style="@style/single_line_text_content"
             android:text="@string/service_calls_and_texts"
-            android:textColor="@color/black"
-            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_communication_preferences_label" />
 
@@ -254,9 +239,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/arial_mt"
+            style="@style/style_disclaimer"
             android:text="@string/service_calls_description"
-            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/account_service_calls_switch"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_service_calls_label" />
@@ -266,10 +250,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/arial_mt"
             android:text="@string/marketing_emails"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_service_calls_description" />
 
@@ -287,9 +269,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/arial_mt"
+            style="@style/style_disclaimer"
             android:text="@string/marketing_emails_description"
-            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/account_marketing_emails_switch"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_marketing_emails_label" />
@@ -299,10 +280,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:fontFamily="@font/arial_mt"
             android:text="@string/marketing_calls_and_texts"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_marketing_emails_description" />
 
@@ -320,9 +299,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            android:fontFamily="@font/arial_mt"
+            style="@style/style_disclaimer"
             android:text="@string/marketing_calls_description"
-            android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/account_marketing_calls_switch"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_marketing_calls_label" />

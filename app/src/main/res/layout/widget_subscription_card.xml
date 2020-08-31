@@ -21,9 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/above_cardview_elevation"
-            android:fontFamily="@font/arial_bold_mt"
-            android:textColor="@color/title_color_blue"
-            android:textSize="24sp"
+            style="@style/title_account_sub_header"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Best in World Fiber" />
@@ -33,9 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/above_cardview_elevation"
-            android:fontFamily="@font/arial_mt"
-            android:textColor="@color/black"
-            android:textSize="18sp"
+            style="@style/style_form_calender_title"
             app:layout_constraintStart_toStartOf="@id/account_card_plan_name"
             app:layout_constraintTop_toBottomOf="@id/account_card_plan_name"
             tools:text="Speeds up to 940Mbps" />
@@ -58,11 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:elevation="@dimen/above_cardview_elevation"
-            android:fontFamily="@font/arial_bold_mt"
             android:text="@string/payment_information"
-            android:textColor="@color/title_color_blue"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            style="@style/SubHeading"
             app:layout_constraintStart_toStartOf="@id/account_card_plan_name"
             app:layout_constraintTop_toBottomOf="@id/account_card_top_card_line_break" />
 
@@ -72,10 +65,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:elevation="@dimen/above_cardview_elevation"
-            android:fontFamily="@font/arial_mt"
+            style="@style/single_line_text_content"
             android:text="@string/next_payment_date"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
             app:layout_constraintStart_toStartOf="@id/account_card_plan_name"
             app:layout_constraintTop_toBottomOf="@id/account_card_payment_label" />
 
@@ -85,9 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:elevation="@dimen/above_cardview_elevation"
-            android:fontFamily="@font/arial_mt"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toEndOf="@id/account_card_payment_date_label"
             app:layout_constraintTop_toTopOf="@id/account_card_payment_date_label"
             tools:text="04/01/20" />
@@ -97,9 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="@dimen/above_cardview_elevation"
-            android:fontFamily="@font/arial_mt"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="@id/account_card_plan_name"
             app:layout_constraintTop_toBottomOf="@id/account_card_payment_date_label"
             tools:text="Visa ********1234" />

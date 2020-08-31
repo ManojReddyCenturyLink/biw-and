@@ -39,68 +39,59 @@
 
         <TextView
             android:id="@+id/cancel_subscription_header"
+            style="@style/SubHeading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_large"
-            android:fontFamily="@font/arial_bold_mt"
             android:gravity="start"
             android:paddingLeft="@dimen/medium_margin_spacing"
             android:paddingRight="@dimen/medium_margin_spacing"
             android:text="@string/cancel_subscription_sub_header"
-            android:textColor="@color/blue_dark"
-            android:textSize="19sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/cancel_subscription_content"
+            style="@style/single_line_text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin_spacing"
-            android:fontFamily="@font/arial_mt"
             android:gravity="start"
             android:lineSpacingExtra="6sp"
             android:text="@string/manage_subscription_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/small_text_size"
             app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_header"
             tools:ignore="MissingConstraints" />
 
         <View
             android:id="@+id/cancel_subscription_top_divider"
+            style="@style/common_border_divider_style"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@color/light_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_content" />
 
         <TextView
             android:id="@+id/cancel_subscription"
+            style="@style/single_line_text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="18dp"
-            android:fontFamily="@font/arial_mt"
             android:gravity="start"
             android:text="@string/continue_cancellation"
-            android:textColor="@color/black"
-            android:textSize="@dimen/font_size_h4"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_top_divider" />
 
         <ImageView
             android:id="@+id/cancel_subscription_navigate"
+            style="@style/style_chevron_next_view"
             android:layout_width="@dimen/close_icon_size"
             android:layout_height="@dimen/close_icon_size"
             android:layout_marginEnd="@dimen/margin_spacing_tiny"
             android:contentDescription="@string/content_description_holder"
             android:padding="@dimen/margin_spacing_tiny"
-            android:scaleX="-1"
-            android:src="@drawable/ic_back"
-            android:tint="@color/blue"
             app:layout_constraintBottom_toBottomOf="@+id/cancel_subscription_top_divider"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/cancel_subscription_callback_divider" />
@@ -108,9 +99,8 @@
         <View
             android:id="@+id/cancel_subscription_callback_divider"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/cardview_elevation"
+            style="@style/common_border_divider_style"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@color/light_grey"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cancel_subscription" />

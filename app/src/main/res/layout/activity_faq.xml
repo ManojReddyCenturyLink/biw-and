@@ -82,9 +82,8 @@
             <View
                 android:id="@+id/faq_divider_view"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
                 android:layout_marginTop="@dimen/margin_spacing_small"
-                android:background="@color/light_grey"
+                style="@style/common_border_divider_style"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/faq_content_title" />
@@ -108,7 +107,7 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="0dp"
                 android:text="@string/frequently_questions_cant_find"
-                android:textColor="@color/blue_dark"
+                android:textColor="@color/purple"
                 android:textSize="@dimen/small_title_text_size"
                 app:layout_constraintTop_toBottomOf="@+id/questions_answers_list_view" />
 

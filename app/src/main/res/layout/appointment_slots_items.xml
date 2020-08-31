@@ -8,8 +8,7 @@
     <View
         android:id="@+id/heading_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/cardview_elevation"
-        android:background="@color/light_grey"
+       style="@style/common_border_divider_style"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -28,8 +27,7 @@
             android:id="@+id/appointment_time"
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
+            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="8:00am - 10:00am" />

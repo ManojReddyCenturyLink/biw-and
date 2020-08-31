@@ -70,7 +70,7 @@ class QrScanActivity : BaseActivity() {
 
     companion object {
         const val WIFI_DETAILS = "WIFI_INFO"
-        const val ON_COLOR_QR: Long = 0xFF001E60
+        const val ON_COLOR_QR: Long = 0xFF7B8EE1
         const val OFF_COLOR_QR: Long = 0xFFFFFFFF
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, QrScanActivity::class.java)

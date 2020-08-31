@@ -19,7 +19,7 @@
         android:id="@+id/progress_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        style="@style/TextViewProgressStatus"
+        style="@style/style_progressbar_textstatus"
         android:layout_marginTop="@dimen/margin_spacing_really_small"
         android:text="@string/loading"
         android:textAlignment="center"
