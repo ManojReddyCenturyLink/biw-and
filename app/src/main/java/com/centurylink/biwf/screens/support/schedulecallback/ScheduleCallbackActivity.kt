@@ -85,7 +85,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
                 viewModel.logBackButtonClick()
                 finish()
             }
-            subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
+            subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logCancelButtonClick()
                 setResult(Activity.RESULT_OK)

@@ -15,7 +15,7 @@
             <!-- transparent stroke = larger_circle_size - smaller_circle_size -->
             <stroke android:color="@android:color/transparent"
                 android:width="4dp"/>
-            <solid android:color="@color/online_green"/>
+            <solid android:color="@color/kale"/>
             <size
                 android:width="10dp"
                 android:height="10dp"/>
