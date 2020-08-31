@@ -93,6 +93,7 @@
             android:contentDescription="@string/content_description_holder"
             android:padding="@dimen/margin_spacing_tiny"
             style="@style/style_upload_speed_view"
+            android:scaleY="-1"
             app:layout_constraintBottom_toBottomOf="@+id/download_speed_spacer"
             app:layout_constraintStart_toEndOf="@+id/download_speed_spacer"
             app:layout_constraintTop_toTopOf="@+id/download_speed_spacer" />

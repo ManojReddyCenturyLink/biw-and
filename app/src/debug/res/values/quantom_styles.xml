@@ -378,6 +378,12 @@
         <item name="android:fontFamily">@font/arial_bold_mt</item>
     </style>
 
+    <style name="form_auto_populated_fields">
+        <item name="android:background">@drawable/background_thin_border</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
     <style name="style_form_input_fields">
         <item name="android:background">@drawable/background_thin_border</item>
         <item name="android:textColor">@color/eggplant</item>
