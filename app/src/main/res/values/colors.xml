@@ -47,7 +47,4 @@
     <color name="grey_status_bar">#0c000000</color>
     <color name="negative_cta">#53565a</color>
     <color name="divider_grey">#eeeeee</color>
-    <color name="background_purple">#40503296</color>
-    <color name="background_lavender">#EFF1FB</color>
-    <color name="background_main_activity">#F7F8FD</color>
 </resources>

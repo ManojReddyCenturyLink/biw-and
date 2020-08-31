@@ -74,6 +74,30 @@
         <item name="buttonBarNegativeButtonStyle">@style/negativeButton</item>
     </style>
 
+
+
+    <style name="CaldroidDefaultLight" parent="CaldroidDefault">
+        <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
+        <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>
+        <item name="styleCaldroidWeekdayView">@style/CaldroidDefaultWeekdayCell</item>
+    </style>
+
+    <style name="CaldroidDefaultLightGridView" parent="CaldroidDefaultLight">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="CaldroidDefaultLightSquareCell" parent="CaldroidDefaultCell">
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="CaldroidDefaultWeekdayCell" parent="CaldroidDefaultCell">
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--- Pooja M status -->
+
     <style name="positiveButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/purple</item>
     </style>
@@ -367,11 +391,11 @@
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/medium_title_text_size</item>
     </style>
-    
-    
-    
+
+
+
     <!-- Shruti -  Group Style based on Developer works We can delete duplicates later -->
-    
+
     <style name="style_heading" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/text_size_14</item>
@@ -389,7 +413,7 @@
         <item name="android:textColor">@color/eggplant</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
-    
+
     <style name="style_cancellation_date_selection">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/med_grey</item>
