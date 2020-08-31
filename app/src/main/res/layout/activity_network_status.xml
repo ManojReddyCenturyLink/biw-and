@@ -71,13 +71,11 @@
 
             <TextView
                 android:id="@+id/network_status_internet_label"
+                android:textAppearance="@style/style_network_info_headings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_tiny"
-                android:fontFamily="@font/arial_bold_mt"
                 android:text="@string/internet"
-                android:textColor="@color/title_color_blue"
-                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_internet_imageview"
                 app:layout_constraintStart_toEndOf="@id/network_status_internet_imageview"
                 app:layout_constraintTop_toTopOf="@id/network_status_internet_imageview"
@@ -85,12 +83,10 @@
 
             <TextView
                 android:id="@+id/network_status_internet_status"
+                android:textAppearance="@style/style_network_info_online_offline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_tiny"
-                android:fontFamily="@font/arial_mt"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_internet_label"
                 app:layout_constraintStart_toEndOf="@id/network_status_internet_label"
                 tools:text="@string/lowercase_online"
@@ -98,12 +94,10 @@
 
             <TextView
                 android:id="@+id/network_status_internet_status_text"
+                android:textAppearance="@style/style_network_info_internet_modem_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/arial_mt"
-                android:textColor="@color/black"
-                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/network_status_internet_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_internet_label"
                 tools:text="@string/you_are_connected_to_the_internet"
@@ -111,13 +105,11 @@
 
             <TextView
                 android:id="@+id/network_status_modem_label"
+                android:textAppearance="@style/style_network_info_headings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:fontFamily="@font/arial_bold_mt"
-                android:text="Modem"
-                android:textColor="@color/title_color_blue"
-                android:textSize="20sp"
+                android:text="Modem name"
                 app:layout_constraintStart_toStartOf="@id/network_status_internet_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_internet_status_text"
                 />
@@ -125,12 +117,10 @@
 
             <TextView
                 android:id="@+id/network_status_modem_status"
+                android:textAppearance="@style/style_network_info_online_offline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_tiny"
-                android:fontFamily="@font/arial_mt"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_modem_label"
                 app:layout_constraintStart_toEndOf="@id/network_status_modem_label"
                 tools:text="@string/lowercase_online"
@@ -149,12 +139,10 @@
 
             <TextView
                 android:id="@+id/network_status_modem_serial_number"
+                android:textAppearance="@style/style_network_info_internet_modem_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:fontFamily="@font/arial_mt"
-                android:textColor="@color/black"
-                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/network_status_internet_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_modem_label"
                 tools:text="Serial Number C4000XG1950000871"
@@ -175,27 +163,23 @@
 
             <TextView
                 android:id="@+id/network_status_wifi_label"
+                android:textAppearance="@style/style_network_info_headings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/margin_spacing_large"
-                android:fontFamily="@font/arial_bold_mt"
                 android:text="@string/wifi_network"
-                android:textColor="@color/title_color_blue"
-                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/network_status_top_separator_view"
                 />
 
             <TextView
                 android:id="@+id/fields_marked_required_wifi"
+                android:textAppearance="@style/ErrorFields"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_mt"
                 android:visibility="gone"
                 android:text="@string/fields_marked_required"
-                android:textColor="@color/offline_red"
-                android:textSize="@dimen/text_size_12"
                 tools:visibility="visible"
                 app:layout_constraintTop_toTopOf="@id/network_status_wifi_label"
                 app:layout_constraintEnd_toEndOf="@id/network_status_wifi_name_input"
@@ -203,18 +187,18 @@
 
             <TextView
                 android:id="@+id/network_status_wifi_name_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/network_name"
-                android:textColor="@color/font_color_medium_grey"
                 app:layout_constraintStart_toStartOf="@id/network_status_wifi_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_wifi_label"
                 />
 
             <EditText
                 android:id="@+id/network_status_wifi_name_input"
+                style="@style/style_form_input_fields"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
@@ -222,11 +206,8 @@
                 android:layout_marginEnd="@dimen/medium_margin_spacing"
                 android:autofillHints=""
                 android:hint="@string/network_name"
-                android:background="@drawable/background_thin_border"
                 android:inputType="text"
                 android:padding="@dimen/margin_spacing_tiny"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
                 android:maxLength="32"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -237,12 +218,11 @@
 
             <TextView
                 android:id="@+id/network_status_wifi_password_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/network_password"
-                android:textColor="@color/font_color_medium_grey"
                 android:visibility="visible"
                 app:layout_constraintStart_toStartOf="@id/network_status_wifi_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_wifi_name_input"
@@ -251,42 +231,36 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_marginStart="@dimen/spacing_4"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/optional"
                 android:visibility="gone"
-                android:textColor="@color/grey_text_color"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_wifi_password_label"
                 app:layout_constraintStart_toEndOf="@id/network_status_wifi_password_label"
                 />
 
             <TextView
                 android:id="@+id/network_status_wifi_password_restraints_label"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/must_be_8_63_characters"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_wifi_password_label"
                 app:layout_constraintEnd_toEndOf="@id/network_status_wifi_password_input"
                 />
 
             <EditText
                 android:id="@+id/network_status_wifi_password_input"
+                style="@style/style_form_input_fields"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/spacing_4"
                 android:layout_marginEnd="@dimen/medium_margin_spacing"
                 android:autofillHints=""
-                android:background="@drawable/background_thin_border"
                 android:hint="@string/network_password"
                 android:inputType="textPassword"
                 android:padding="@dimen/margin_spacing_tiny"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
                 android:paddingEnd="@dimen/padding_40"
                 android:maxLength="63"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -322,12 +296,10 @@
 
             <TextView
                 android:id="@+id/network_status_wifi_button_text"
+                android:textAppearance="@style/SubHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_bold_mt"
                 android:text="@string/wifi_network_enabled"
-                android:textColor="@drawable/wifi_button_text_color_selector"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_wifi_button"
                 app:layout_constraintEnd_toEndOf="@id/network_status_wifi_button"
                 app:layout_constraintStart_toStartOf="@id/network_status_wifi_button"
@@ -347,13 +319,11 @@
 
             <TextView
                 android:id="@+id/network_status_wifi_button_action_text"
+                android:textAppearance="@style/style_network_info_button_action_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_really_small"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/tap_to_disable_network"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintEnd_toEndOf="@id/network_status_wifi_button"
                 app:layout_constraintStart_toStartOf="@id/network_status_wifi_button"
                 app:layout_constraintTop_toBottomOf="@id/network_status_wifi_button"
@@ -374,27 +344,23 @@
 
             <TextView
                 android:id="@+id/network_status_guest_label"
+                android:textAppearance="@style/style_network_info_headings"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/margin_spacing_large"
-                android:fontFamily="@font/arial_bold_mt"
                 android:text="@string/guest_network"
-                android:textColor="@color/title_color_blue"
-                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/network_status_bot_separator_view"
                 />
 
             <TextView
                 android:id="@+id/fields_marked_required_guest"
+                android:textAppearance="@style/ErrorFields"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_mt"
                 android:visibility="gone"
                 android:text="@string/fields_marked_required"
-                android:textColor="@color/offline_red"
-                android:textSize="@dimen/text_size_12"
                 tools:visibility="visible"
                 app:layout_constraintTop_toTopOf="@id/network_status_guest_label"
                 app:layout_constraintEnd_toEndOf="@id/network_status_guest_name_input"
@@ -402,29 +368,26 @@
 
             <TextView
                 android:id="@+id/network_status_guest_name_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/guest_network_name"
-                android:textColor="@color/font_color_medium_grey"
                 app:layout_constraintStart_toStartOf="@id/network_status_guest_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_guest_label"
                 />
 
             <EditText
                 android:id="@+id/network_status_guest_name_input"
+                style="@style/style_form_input_fields"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_marginTop="@dimen/spacing_4"
                 android:layout_marginEnd="@dimen/medium_margin_spacing"
                 android:autofillHints=""
-                android:background="@drawable/background_thin_border"
                 android:inputType="text"
                 android:padding="@dimen/margin_spacing_tiny"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
                 android:hint="@string/guest_network_name"
                 android:maxLength="32"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -436,25 +399,22 @@
 
             <TextView
                 android:id="@+id/network_status_guest_password_label"
+                android:textAppearance="@style/TextViewLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_small"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/guest_network_password"
                 android:visibility="visible"
-                android:textColor="@color/font_color_medium_grey"
                 app:layout_constraintStart_toStartOf="@id/network_status_guest_label"
                 app:layout_constraintTop_toBottomOf="@id/network_status_guest_name_input"
                 />
 
             <TextView
                 android:id="@+id/network_status_guest_password_restraints_label"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/must_be_8_63_characters"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_guest_password_label"
                 app:layout_constraintEnd_toEndOf="@id/network_status_guest_password_input"
                 />
@@ -462,17 +422,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textAppearance="@style/style_optional_text"
                 android:layout_marginStart="@dimen/spacing_4"
-                android:fontFamily="@font/arial_mt"
                 android:visibility="gone"
-                android:textColor="@color/grey_text_color"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_wifi_password_label"
                 app:layout_constraintStart_toEndOf="@id/network_status_wifi_password_label"
                 />
 
             <EditText
                 android:id="@+id/network_status_guest_password_input"
+                style="@style/style_form_input_fields"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="@dimen/medium_margin_spacing"
@@ -480,11 +439,8 @@
                 android:layout_marginEnd="@dimen/medium_margin_spacing"
                 android:autofillHints=""
                 android:hint="@string/guest_network_password"
-                android:background="@drawable/background_thin_border"
                 android:inputType="textPassword"
                 android:padding="@dimen/margin_spacing_tiny"
-                android:textColor="@color/blue_dark"
-                android:textSize="@dimen/text_size_16"
                 android:maxLength="63"
                 android:paddingEnd="@dimen/padding_40"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -520,12 +476,10 @@
 
             <TextView
                 android:id="@+id/network_status_guest_button_text"
+                android:textAppearance="@style/SubHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/arial_bold_mt"
                 android:text="@string/guest_network_enabled"
-                android:textColor="@drawable/wifi_button_text_color_selector"
-                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/network_status_guest_button"
                 app:layout_constraintEnd_toEndOf="@id/network_status_guest_button"
                 app:layout_constraintStart_toStartOf="@id/network_status_guest_button"
@@ -545,14 +499,12 @@
 
             <TextView
                 android:id="@+id/network_status_guest_button_action_text"
+                android:textAppearance="@style/style_network_info_button_action_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_really_small"
                 android:layout_marginBottom="69dp"
-                android:fontFamily="@font/arial_mt"
                 android:text="@string/tap_to_disable_guest_network"
-                android:textColor="@color/font_color_medium_grey"
-                android:textSize="@dimen/text_size_12"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/network_status_guest_button"
                 app:layout_constraintStart_toStartOf="@id/network_status_guest_button"
