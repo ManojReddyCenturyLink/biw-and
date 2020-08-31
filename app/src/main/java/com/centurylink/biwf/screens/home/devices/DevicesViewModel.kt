@@ -43,7 +43,7 @@ class DevicesViewModel @Inject constructor(
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
         viewModelScope.launch {
             requestModemDetails()
-            requestMcafeeDeviceMapping()
+            //requestMcafeeDeviceMapping()
         }
     }
 
