@@ -96,8 +96,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <!--- Pooja M status -->
-
     <style name="positiveButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:textColor">@color/purple</item>
     </style>
@@ -179,8 +177,6 @@
         <item name="android:src">@drawable/ic_header_back</item>
         <item name="android:tint">@color/purple</item>
     </style>
-
-    <!-- Pravin -  Group Style based on Developer works We can delete duplicates later -->
 
     <style name="style_chevron_next_view">
         <item name="android:src">@drawable/ic_back</item>
@@ -264,8 +260,6 @@
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
-    <!-- radha -  Group Style based on Developer works We can delete duplicates later -->
-
     <style name="style_downlaod_upload_speed" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
@@ -298,7 +292,7 @@
 
     <style name="style_dismiss_btn_view">
         <item name="android:src">@drawable/ic_icon_close_blue</item>
-        <item name="android:background">@drawable/blue_background_rounded_corner</item>
+        <item name="android:background">@drawable/lavendar_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/light_lavender</item>
         <item name="android:tint">@color/purple</item>
     </style>
@@ -386,6 +380,7 @@
     <style name="style_form_input_fields">
         <item name="android:background">@drawable/background_thin_border</item>
         <item name="android:textColor">@color/eggplant</item>
+        <item name="android:editTextColor">@color/eggplant</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
@@ -442,5 +437,4 @@
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
-
 </resources>

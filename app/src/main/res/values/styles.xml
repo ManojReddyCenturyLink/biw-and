@@ -354,7 +354,7 @@
 
     <style name="style_dismiss_btn_view">
         <item name="android:src">@drawable/ic_icon_close_blue</item>
-        <item name="android:background">@drawable/blue_background_rounded_corner</item>
+        <item name="android:background">@drawable/lavendar_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/light_lavender</item>
         <item name="android:tint">@color/purple</item>
     </style>
@@ -366,7 +366,7 @@
 
     <style name="style_progress_state_in_progress">
         <item name="android:background">@drawable/purple_background_rounded_corner</item>
-        <item name="android:backgroundTint">@color/background_main_activity</item>
+        <item name="android:backgroundTint">@color/light_lavender</item>
     </style>
 
     <style name="style_progress_canceled_state_view">
@@ -438,6 +438,7 @@
     <style name="style_form_input_fields">
         <item name="android:background">@drawable/background_thin_border</item>
         <item name="android:editTextColor">@color/eggplant</item>
+        <item name="android:textColor">@color/eggplant</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
@@ -499,5 +500,6 @@
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:inputType">textMultiLine</item>
+        <item name="android:editTextColor">@color/eggplant</item>
     </style>
 </resources>
