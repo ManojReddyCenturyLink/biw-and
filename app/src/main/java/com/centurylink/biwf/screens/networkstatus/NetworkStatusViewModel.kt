@@ -330,7 +330,7 @@ class NetworkStatusViewModel @Inject constructor(
             errors["guestPasswordError"] = "guestPasswordError"
             errors["guestPasswordFieldMandatory"] = "guestPasswordFieldMandatory"
         }
-        if (newGuestName.length == nameMinLength || newGuestName.length > nameMaxLength) {
+        if (newGuestName.length > nameMaxLength) {
             errors["guestNameError"] = "guestNameError"
             errors["guestNameFieldLength"] = "guestNameFieldLength"
         }
@@ -343,7 +343,7 @@ class NetworkStatusViewModel @Inject constructor(
             errors["wifiNameError"] = "wifiNameError"
             errors["wifiNameFieldMandatory"] = "wifiNameFieldMandatory"
         }
-        if (newWifiName.length == nameMinLength || newWifiName.length > nameMaxLength) {
+        if (newWifiName.length > nameMaxLength) {
             errors["wifiNameError"] = "wifiNameError"
             errors["wifiNameFieldLength"] = "wifiNameFieldLength"
         }
@@ -572,7 +572,6 @@ class NetworkStatusViewModel @Inject constructor(
     )
 
     companion object {
-        const val nameMinLength = 1
         const val nameMaxLength = 32
         const val passwordMinLength = 8
         const val passwordMaxLength = 63
