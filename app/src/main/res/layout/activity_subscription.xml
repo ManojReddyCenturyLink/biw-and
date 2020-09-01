@@ -161,7 +161,7 @@
                 android:paddingEnd="@dimen/margin_spacing_really_small"
                 android:text="@string/view_older_statements"
                 android:textAllCaps="false"
-                android:textColor="@color/blue"
+                android:textColor="@color/purple"
                 android:textSize="@dimen/extra_small_text_size"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"

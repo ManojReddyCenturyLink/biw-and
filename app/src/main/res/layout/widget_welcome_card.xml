@@ -56,7 +56,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="@dimen/above_cardview_elevation"
         android:layout_marginEnd="@dimen/above_cardview_elevation"
-        android:background="@drawable/blue_background_rounded_corner"
+        android:background="@drawable/lavendar_background_rounded_corner"
         android:contentDescription="@string/notification"
         android:padding="@dimen/margin_spacing_really_small"
         style="@style/style_dismiss_btn_view"

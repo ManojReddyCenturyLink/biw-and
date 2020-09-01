@@ -14,7 +14,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginEnd="16dp"
         android:scaleType="fitXY"
-        android:tint="@color/blue"
+        android:tint="@color/purple"
         app:layout_constraintBottom_toBottomOf="@id/devices_group_count"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/devices_group_count"

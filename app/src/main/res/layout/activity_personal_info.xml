@@ -59,7 +59,7 @@
 
     <TextView
         android:id="@+id/personal_info_email_input"
-        style="@style/style_form_input_fields"
+        style="@style/form_auto_populated_fields"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/medium_margin_spacing"
