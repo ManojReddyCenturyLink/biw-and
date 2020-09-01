@@ -113,7 +113,7 @@ class NetworkStatusActivity : BaseActivity() {
                         if (it.containsKey("wifiNameError") && it.containsKey(
                                 "wifiNameFieldMandatory"
                             )
-                        ) R.color.strawberry else R.color.dark_grey
+                        ) R.color.strawberry else R.color.med_grey
                     )
                 )
                 bindings.networkStatusWifiNameLabel.text =
@@ -131,7 +131,7 @@ class NetworkStatusActivity : BaseActivity() {
                         if (it.containsKey("wifiPasswordError") && it.containsKey(
                                 "wifiPasswordFieldMandatory"
                             )
-                        ) R.color.strawberry else R.color.dark_grey
+                        ) R.color.strawberry else R.color.med_grey
                     )
                 )
                 bindings.networkStatusWifiPasswordLabel.text =
@@ -175,7 +175,7 @@ class NetworkStatusActivity : BaseActivity() {
                         if (it.containsKey("guestPasswordError") && it.containsKey(
                                 "guestPasswordFieldMandatory"
                             )
-                        ) R.color.strawberry else R.color.dark_grey
+                        ) R.color.strawberry else R.color.med_grey
                     )
                 )
                 bindings.networkStatusGuestPasswordLabel.text =

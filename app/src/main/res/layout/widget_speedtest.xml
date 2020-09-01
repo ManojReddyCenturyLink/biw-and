@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_grey">
+    android:background="@color/background_main_activity">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/login_horizontal_guideline"
@@ -34,13 +34,11 @@
 
         <TextView
             android:id="@+id/download_speed_spacer"
+            style="@style/TextViewSpeedText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_spacing_really_small"
             android:text="000"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/text_size_48"
-            android:textStyle="bold"
             android:visibility="invisible"
             app:layout_constraintEnd_toStartOf="@+id/download_speed_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -51,10 +49,10 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_spacing_really_small"
             style="@style/style_download_upload_speed_dashboard"
+            android:text="@string/placeholder_text"
             app:layout_constraintEnd_toStartOf="@+id/download_speed_icon"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/placeholder_text"
-                tools:text="@string/fake_speed_test_download_speed" />
+            tools:text="@string/fake_speed_test_download_speed" />
 
         <ProgressBar
             android:id="@+id/download_progress_icon"
@@ -134,14 +132,12 @@
 
         <TextView
             android:id="@+id/upload_speed_spacer"
+            style="@style/TextViewSpeedText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
             android:layout_marginEnd="@dimen/margin_spacing_large"
             android:text="000"
-            android:textColor="@color/blue_dark"
-            android:textSize="@dimen/text_size_48"
-            android:textStyle="bold"
             android:visibility="invisible"
             app:layout_constraintStart_toEndOf="@+id/upload_speed_icon"
             app:layout_constraintTop_toTopOf="parent" />
@@ -204,15 +200,11 @@
 
     <Button
         android:id="@+id/run_speed_test_dashboard"
-        style="@style/Widget.AppCompat.Button.Borderless"
+        style="@style/SpeedTestButtonDashboard"
         android:layout_width="180dp"
         android:layout_height="60dp"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:background="@drawable/speed_test_button_background_selector"
         android:text="@string/run_speed_test"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/extra_small_text_size"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/last_speed_test" />

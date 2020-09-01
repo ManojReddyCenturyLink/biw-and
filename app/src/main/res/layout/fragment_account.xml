@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_background_color"
+        android:background="@color/background_main_activity"
         android:paddingBottom="100dp">
 
         <include
@@ -146,7 +146,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            style="@style/  "
             android:text="@string/settings_preferences"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_personal_info_card" />
@@ -307,16 +306,11 @@
 
         <Button
             android:id="@+id/log_out_button"
-            style="?android:attr/borderlessButtonStyle"
-            android:layout_width="80dp"
-            android:layout_height="32dp"
+            style="@style/BorderLessButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="64dp"
-            android:background="@drawable/button_thin_border_transparent_background"
-            android:gravity="center"
             android:text="@string/log_out"
-            android:textAllCaps="false"
-            android:textColor="@color/blue"
-            android:textSize="@dimen/extra_small_text_size"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_marketing_calls_description" />

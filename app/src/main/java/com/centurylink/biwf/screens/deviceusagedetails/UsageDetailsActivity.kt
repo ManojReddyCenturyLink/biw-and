@@ -97,7 +97,7 @@ class UsageDetailsActivity : BaseActivity() {
                     getString(if (it) R.string.device_connected else R.string.connection_paused)
                 binding.tapToRetryText.text =
                     getString(if (it) R.string.tap_to_pause_connection else R.string.tap_to_resume_connection)
-                binding.connectionStatusBtnText.setTextColor(getColor(if (it) R.color.blue else R.color.font_color_medium_grey))
+                binding.connectionStatusBtnText.setTextColor(getColor(if (it) R.color.purple else R.color.med_grey))
             }
         }
         binding.nicknameDeviceNameInput.setText(screenTitle)

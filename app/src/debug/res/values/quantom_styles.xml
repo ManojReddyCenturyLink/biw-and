@@ -3,17 +3,17 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/grey_status_bar</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/lavender</item>
-        <item name="colorPrimaryDark">@color/purple</item>
+        <item name="colorPrimaryDark">@color/eggplant</item>
         <item name="colorAccent">@color/purple</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
     <!-- Custom theme for Home Activity. -->
     <style name="AppTheme.HomeActivity" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
     <!-- Custom theme for Schedule Callback Activity. -->
     <style name="AppTheme.GreyStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
@@ -300,13 +300,18 @@
         <item name="android:tint">@color/purple</item>
     </style>
 
+    <style name="style_progress_state_in_progress">
+        <item name="android:background">@drawable/purple_background_rounded_corner</item>
+        <item name="android:backgroundTint">@color/background_main_activity</item>
+    </style>
+
     <style name="style_progress_state_view">
-        <item name="android:background">@drawable/dark_blue_background_rounded_corner</item>
+        <item name="android:background">@drawable/purple_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/purple</item>
     </style>
 
     <style name="style_progress_canceled_state_view">
-        <item name="android:background">@drawable/dark_blue_background_rounded_corner</item>
+        <item name="android:background">@drawable/purple_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/strawberry</item>
     </style>
 

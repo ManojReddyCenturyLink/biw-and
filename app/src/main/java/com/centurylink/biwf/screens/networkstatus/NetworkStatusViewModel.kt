@@ -242,7 +242,7 @@ class NetworkStatusViewModel @Inject constructor(
                     R.color.purple
                 }
                 false -> {
-                    R.color.dark_grey
+                    R.color.med_grey
                 }
             }
         )
@@ -285,7 +285,7 @@ class NetworkStatusViewModel @Inject constructor(
                     R.color.purple
                 }
                 false -> {
-                    R.color.dark_grey
+                    R.color.med_grey
                 }
             }
         )

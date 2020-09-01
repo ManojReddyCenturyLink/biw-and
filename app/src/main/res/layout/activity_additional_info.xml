@@ -46,18 +46,13 @@
 
     <Button
         android:id="@+id/additional_info_next_btn"
-        style="?android:attr/borderlessButtonStyle"
+        style="@style/primaryButtonBordered"
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_large"
         android:layout_marginEnd="@dimen/medium_margin_spacing"
-        android:background="@drawable/rounded_button_background"
-        android:gravity="center"
         android:text="@string/next"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/additional_info_input" />

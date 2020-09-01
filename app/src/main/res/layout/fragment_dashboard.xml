@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_grey"
+    android:background="@color/background_main_activity"
     android:fillViewport="true">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         android:id="@+id/dashboard_views"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_grey"
+        android:background="@color/background_main_activity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -251,7 +251,7 @@
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:layout_marginRight="@dimen/margin_spacing_small"
             android:layout_marginLeft="@dimen/margin_spacing_small"
-            android:background="@drawable/background_thin_border"
+            android:background="@drawable/round_background_no_border"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/connected_devices_card" />
     </androidx.constraintlayout.widget.ConstraintLayout>

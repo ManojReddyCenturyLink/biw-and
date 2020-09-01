@@ -58,7 +58,6 @@
         <activity
             android:name=".screens.support.FAQActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.GreyStatusBar"
             tools:ignore="LockedOrientationActivity"
             />
         <activity

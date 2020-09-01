@@ -233,7 +233,7 @@
                     android:layout_width="@dimen/padding_0"
                     android:layout_height="@dimen/above_cardview_elevation"
                     android:layout_marginTop="@dimen/margin_spacing_large"
-                    android:background="@color/main_background_color"
+                    android:background="@color/background_main_activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tap_to_retry_text" />
@@ -285,24 +285,20 @@
                     android:layout_width="@dimen/padding_0"
                     android:layout_height="@dimen/above_cardview_elevation"
                     android:layout_marginTop="@dimen/margin_spacing_large"
-                    android:background="@color/main_background_color"
+                    android:background="@color/background_main_activity"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/nickname_device_name_input" />
 
                 <Button
                     android:id="@+id/remove_devices_btn"
-                    style="?android:attr/borderlessButtonStyle"
+                    style="@style/BorderLessButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/margin_spacing_large"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_large"
-                    android:background="@drawable/button_thin_border_background"
                     android:paddingStart="@dimen/margin_spacing_small"
                     android:paddingEnd="@dimen/margin_spacing_small"
                     android:text="@string/remove_device"
-                    android:textAllCaps="false"
-                    android:textColor="@color/blue"
-                    android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/horizontal_view2" />

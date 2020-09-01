@@ -105,16 +105,11 @@
 
         <Button
             android:id="@+id/get_started_btn"
-            style="?android:attr/borderlessButtonStyle"
+            style="@style/primaryButtonBordered"
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            android:background="@drawable/rounded_button_background"
-            android:gravity="center"
             android:text="@string/get_started"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="@dimen/extra_small_text_size"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
