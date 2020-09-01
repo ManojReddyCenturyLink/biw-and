@@ -364,6 +364,11 @@
         <item name="android:backgroundTint">@color/purple</item>
     </style>
 
+    <style name="style_progress_state_in_progress">
+        <item name="android:background">@drawable/purple_background_rounded_corner</item>
+        <item name="android:backgroundTint">@color/background_main_activity</item>
+    </style>
+
     <style name="style_progress_canceled_state_view">
         <item name="android:background">@drawable/purple_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/strawberry</item>
