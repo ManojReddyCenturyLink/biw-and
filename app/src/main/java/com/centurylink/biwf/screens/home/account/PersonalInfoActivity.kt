@@ -146,7 +146,7 @@ class PersonalInfoActivity : BaseActivity() {
             CustomDialogBlueTheme(
                 getString(R.string.how_do_i_change_my_email),
                 getString(R.string.personal_info_popup_msg),
-                getString(R.string.ok_lowercase),
+                getString(R.string.ok),
                 false,
                 ::onDialogCallback
             ).show(fragmentManager, callingActivity?.className)

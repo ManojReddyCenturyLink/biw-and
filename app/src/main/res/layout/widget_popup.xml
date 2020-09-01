@@ -24,7 +24,7 @@
             android:id="@+id/popup_cancel_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_close_popup"
+            android:src="@drawable/ic_close_grey"
             app:layout_constraintBottom_toBottomOf="@+id/popup_title"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/popup_title" />

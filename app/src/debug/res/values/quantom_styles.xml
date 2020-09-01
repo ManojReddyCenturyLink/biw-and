@@ -153,27 +153,6 @@
         <item name="android:tint">@color/purple</item>
     </style>
 
-    <style name="CaldroidDefaultLight" parent="CaldroidDefault">
-        <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
-        <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>
-        <item name="styleCaldroidWeekdayView">@style/CaldroidDefaultWeekdayCell</item>
-    </style>
-
-    <style name="CaldroidDefaultLightGridView" parent="CaldroidDefaultLight">
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <style name="CaldroidDefaultLightSquareCell" parent="CaldroidDefaultCell">
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:background">@color/white</item>
-    </style>
-
-    <style name="CaldroidDefaultWeekdayCell" parent="CaldroidDefaultCell">
-        <item name="android:textColor">@color/med_grey</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-
     <!-- Vinisha Group Style based on Developer works We can delete duplicates later -->
 
     <style name="style_screen_header_text">
@@ -326,7 +305,7 @@
 
     <style name="style_progress_state_in_progress">
         <item name="android:background">@drawable/purple_background_rounded_corner</item>
-        <item name="android:backgroundTint">@color/background_main_activity</item>
+        <item name="android:backgroundTint">@color/light_lavender</item>
     </style>
 
     <style name="style_progress_state_view">
@@ -391,10 +370,6 @@
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/medium_title_text_size</item>
     </style>
-
-
-
-    <!-- Shruti -  Group Style based on Developer works We can delete duplicates later -->
 
     <style name="style_heading" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/purple</item>

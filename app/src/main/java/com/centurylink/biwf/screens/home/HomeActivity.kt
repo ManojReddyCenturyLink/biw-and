@@ -172,12 +172,6 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             viewPagerAdapter.setTabItem(viewModel.upperTabHeaderList)
         }
         TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard) { tab, position ->
-            tab.text = getString(viewModel.lowerTabHeaderList[position].titleRes)
-            binding.vpDashboard.setCurrentItem(tab.position, true)
-        }.attach()
-        binding.vpDashboard.setCurrentItem(1, false)
-
-        TabLayoutMediator(binding.homeUpperTabs, binding.vpDashboard) { tab, position ->
             val tabTextView = TextView(this)
             tab.text = getString(viewModel.lowerTabHeaderList[position].titleRes)
             tab.customView = tabTextView

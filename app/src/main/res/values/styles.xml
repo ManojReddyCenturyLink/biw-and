@@ -432,7 +432,7 @@
 
     <style name="style_form_input_fields">
         <item name="android:background">@drawable/background_thin_border</item>
-        <item name="android:textColor">@color/eggplant</item>
+        <item name="android:editTextColor">@color/eggplant</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 

@@ -11,7 +11,7 @@
     <item android:gravity="center">
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="rectangle">
-            <solid android:color="#40503296"/>
+            <solid android:color="@color/background_purple"/>
             <corners android:radius="@dimen/medium_margin_spacing"/>
         </shape>
     </item>

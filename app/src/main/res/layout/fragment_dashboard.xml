@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_main_activity"
+    android:background="@color/light_lavender"
     android:fillViewport="true">
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         android:id="@+id/dashboard_views"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background_main_activity"
+        android:background="@color/light_lavender"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
