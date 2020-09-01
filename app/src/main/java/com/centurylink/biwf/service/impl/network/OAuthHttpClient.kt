@@ -118,4 +118,4 @@ private const val ACCEPT_HEADER_ALL = "*/*"
 private const val AUTH_HEADER_NAME = "Authorization"
 private const val HTTP_CODE_UNAUTHORIZED = 401
 private const val MAX_AUTH_RETRIES = 1
-private const val DEFAULT_REQUEST_TIMEOUT_MS = 30000L
+private const val DEFAULT_REQUEST_TIMEOUT_MS = 50000L

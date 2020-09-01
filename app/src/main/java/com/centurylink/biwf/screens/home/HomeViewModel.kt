@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     private val assiaRepository: AssiaRepository,
     private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    analyticsManagerInterface: AnalyticsManager
+     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
