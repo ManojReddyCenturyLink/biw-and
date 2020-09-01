@@ -195,7 +195,7 @@
                 android:layout_marginEnd="@dimen/margin_spacing_tiny"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:textColor="@color/blue"
+                android:textColor="@color/purple"
                 app:layout_constraintEnd_toStartOf="@+id/notification_dismiss_button"
                 app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
                 app:layout_constraintTop_toTopOf="parent"

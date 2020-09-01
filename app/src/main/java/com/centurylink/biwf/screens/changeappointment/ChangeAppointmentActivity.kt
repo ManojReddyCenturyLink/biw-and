@@ -223,7 +223,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
                     val oldselectedDate =
                         SimpleDateFormat(DateUtils.STANDARD_FORMAT).parse(selectedDate)
                     calendarFragment.clearBackgroundDrawableForDate(oldselectedDate)
-                    calendarFragment.setTextColorForDate(R.color.blue, oldselectedDate)
+                    calendarFragment.setTextColorForDate(R.color.purple, oldselectedDate)
                     calendarFragment.clearSelectedDates()
                     calendarFragment.setSelectedDate(date)
                     setCustomResourceForSelectedDate(calendarFragment, date)
