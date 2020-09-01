@@ -271,7 +271,7 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
-    <!--    CUSTOM DIALOGUE box TEXTVIEW -->
+    <!--    positive and negative  DIALOG TEXTVIEW styles -->
     <style name="choiceDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="buttonBarPositiveButtonStyle">@style/positiveButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/negativeButton</item>
@@ -346,6 +346,7 @@
         <item name="android:backgroundTint">@color/purple</item>
     </style>
 
+<!--cancel subscription custom dialog view style-->
     <style name="mycustomDialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowMinWidthMajor">95%</item>
         <item name="android:windowMinWidthMinor">95%</item>
