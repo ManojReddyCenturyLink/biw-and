@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.deviceusagedetails
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +10,7 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinator
 import com.centurylink.biwf.databinding.LayoutDevicesUsageInformationBinding
+import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
@@ -32,8 +32,16 @@ class UsageDetailsActivity : BaseActivity() {
 
     private lateinit var binding: LayoutDevicesUsageInformationBinding
 
+    private lateinit var deviceData: DevicesData
+
     override val viewModel by lazy {
-        getViewModel<UsageDetailsViewModel>(viewModelFactory.withInput(intent.getStringExtra(STA_MAC)))
+        getViewModel<UsageDetailsViewModel>(
+            viewModelFactory.withInput(
+                intent.getSerializableExtra(
+                    DEVICE_INFO
+                ) as DevicesData
+            )
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,18 +57,20 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     override fun onBackPressed() {
+        setResult(REQUEST_TO_DEVICES)
         finish()
     }
 
     private fun initViews() {
-        val screenTitle = intent.getStringExtra(HOST_NAME)
+        deviceData = intent.getSerializableExtra(DEVICE_INFO) as DevicesData
+        val screenTitle = deviceData.hostName
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logDoneBtnClick()
-                setResult(Activity.RESULT_OK)
+                setResult(REQUEST_TO_DEVICES)
                 finish()
             }
         }
@@ -89,15 +99,20 @@ class UsageDetailsActivity : BaseActivity() {
                     finish()
                 }
             }
-            pauseUnpauseConnection.observe {
-                binding.connectionStatusIcon.setImageDrawable(getDrawable(if (it) R.drawable.ic_3_bars else R.drawable.ic_network_off))
+            pauseUnpauseConnection.observe { isPaused ->
+                binding.connectionStatusIcon.setImageDrawable(getDrawable(if (isPaused) R.drawable.ic_network_off else R.drawable.ic_3_bars))
                 binding.deviceConnectedBtn.background =
-                    (getDrawable(if (it) R.drawable.light_blue_rounded_background else R.drawable.light_grey_rounded_background))
+                    (getDrawable(if (isPaused) R.drawable.light_grey_rounded_background else R.drawable.light_blue_rounded_background))
                 binding.connectionStatusBtnText.text =
-                    getString(if (it) R.string.device_connected else R.string.connection_paused)
+                    getString(if (isPaused) R.string.connection_paused else R.string.device_connected)
                 binding.tapToRetryText.text =
-                    getString(if (it) R.string.tap_to_pause_connection else R.string.tap_to_resume_connection)
-                binding.connectionStatusBtnText.setTextColor(getColor(if (it) R.color.purple else R.color.med_grey))
+
+                    getString(if (isPaused) R.string.tap_to_resume_connection else R.string.tap_to_pause_connection)
+                binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.font_color_medium_grey else R.color.blue))
+
+                    getString(if (isPaused) R.string.tap_to_pause_connection else R.string.tap_to_resume_connection)
+                binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.purple else R.color.med_grey))
+
             }
         }
         binding.nicknameDeviceNameInput.setText(screenTitle)
@@ -114,7 +129,7 @@ class UsageDetailsActivity : BaseActivity() {
         CustomDialogGreyTheme(
             getString(
                 R.string.remove_device_confirmation_title,
-                intent.getStringExtra(HOST_NAME)
+                deviceData.hostName
             ),
             getString(R.string.remove_device_confirmation_msg),
             getString(R.string.remove),
@@ -130,7 +145,7 @@ class UsageDetailsActivity : BaseActivity() {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 viewModel.logRemoveConnection(true)
-                viewModel.removeDevices(intent.getStringExtra(STA_MAC))
+                viewModel.removeDevices(deviceData.stationMac!!)
             }
             AlertDialog.BUTTON_NEGATIVE -> {
                 viewModel.logRemoveConnection(false)
@@ -139,15 +154,11 @@ class UsageDetailsActivity : BaseActivity() {
     }
 
     companion object {
-        val REQUEST_TO_DEVICES = 1341
-        const val STA_MAC = "STA_MAC"
-        const val HOST_NAME = "HOST_NAME"
-        const val VENDOR_NAME = "VENDOR_NAME"
+        const val REQUEST_TO_DEVICES = 1341
+        const val DEVICE_INFO = "DEVICE_INFO"
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, UsageDetailsActivity::class.java)
-                .putExtra(STA_MAC, bundle.getString(STA_MAC))
-                .putExtra(HOST_NAME, bundle.getString(HOST_NAME))
-                .putExtra(VENDOR_NAME, bundle.getString(VENDOR_NAME))
+                .putExtra(DEVICE_INFO, bundle.getSerializable(DEVICE_INFO))
         }
     }
 }

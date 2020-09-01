@@ -8,7 +8,9 @@ import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinatorDestinations
+import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -27,7 +29,8 @@ class UsageDetailsViewModel constructor(
     private val networkUsageRepository: NetworkUsageRepository,
     private val assiaRepository: AssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    analyticsManagerInterface: AnalyticsManager
+     analyticsManagerInterface: AnalyticsManager,
+    private val mcafeeRepository: McafeeRepository
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     class Factory @Inject constructor(
@@ -35,22 +38,27 @@ class UsageDetailsViewModel constructor(
         private val networkUsageRepository: NetworkUsageRepository,
         private val asiaRepository: AssiaRepository,
         private val modemRebootMonitorService: ModemRebootMonitorService,
-        private val analyticsManagerInterface: AnalyticsManager
-    ) : ViewModelFactoryWithInput<String> {
+        private val analyticsManagerInterface: AnalyticsManager,
+        private val mcafeeRepository: McafeeRepository
+    ) : ViewModelFactoryWithInput<DevicesData> {
 
-        override fun withInput(input: String): ViewModelProvider.Factory {
+        override fun withInput(input: DevicesData): ViewModelProvider.Factory {
             return viewModelFactory {
                 val viewModel = UsageDetailsViewModel(
                     app,
                     networkUsageRepository,
                     asiaRepository,
                     modemRebootMonitorService,
-                    analyticsManagerInterface
+                    analyticsManagerInterface,
+                    mcafeeRepository
                 )
-                viewModel.staMac = input
+                viewModel.staMac = input.stationMac!!
+                viewModel.deviceId = input.mcafeeDeviceId
                 viewModel
             }
         }
+
+
     }
 
     val myState = EventFlow<UsageDetailsCoordinatorDestinations>()
@@ -66,6 +74,7 @@ class UsageDetailsViewModel constructor(
     val downloadSpeedDailyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
+    var deviceId :String =""
     var pauseUnpauseConnection = BehaviorStateFlow<Boolean>()
 
     fun initApis() {
@@ -76,6 +85,7 @@ class UsageDetailsViewModel constructor(
             progressViewFlow.latestValue = true
             requestDailyUsageDetails()
             requestMonthlyUsageDetails()
+            requestStateForDevices()
         }
     }
 
@@ -85,12 +95,11 @@ class UsageDetailsViewModel constructor(
 
     fun onDevicesConnectedClicked() {
         if (pauseUnpauseConnection.value) {
-            pauseUnpauseConnection.latestValue = false
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS)
         } else {
-            pauseUnpauseConnection.latestValue = true
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_DETAILS)
         }
+        updatePauseResumeStatus()
     }
 
     private suspend fun requestDailyUsageDetails() {
@@ -184,6 +193,32 @@ class UsageDetailsViewModel constructor(
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVE_CONFIRMATION_USAGE_DETAILS)
         } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CONFIRMATION_USAGE_DETAILS)
+        }
+    }
+
+    private fun updatePauseResumeStatus() {
+        progressViewFlow.latestValue = true
+        viewModelScope.launch {
+            val macResponse = mcafeeRepository.
+            updateDevicePauseResumeStatus(deviceId, !pauseUnpauseConnection.value)
+            macResponse.fold(ifLeft = {
+                errorMessageFlow.latestValue = it
+            }, ifRight = {
+                pauseUnpauseConnection.latestValue = it.isPaused
+                progressViewFlow.latestValue = false
+            })
+        }
+    }
+
+    private suspend fun requestStateForDevices() {
+        progressViewFlow.latestValue = true
+        val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(deviceId)
+        mcafeeMapping.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+            pauseUnpauseConnection.latestValue = false
+        }) { devicePauseStatus ->
+            pauseUnpauseConnection.latestValue = devicePauseStatus.isPaused
+            progressViewFlow.latestValue = false
         }
     }
 }

@@ -19,6 +19,7 @@ import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import java.util.*
+import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
@@ -91,8 +92,9 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         )
     }
 
-    override fun onConnectionStatusChanged(isPaused: Boolean) {
-        devicesViewModel.logConnectionStatusChanged(isPaused)
+    override fun onConnectionStatusChanged(devicesData: DevicesData) {
+        devicesViewModel.logConnectionStatusChanged(devicesData.isPaused)
+        devicesViewModel.updatePauseResumeStatus(devicesData)
     }
 
     private fun initViews() {
@@ -148,7 +150,9 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             devicesViewModel.logListExpandCollapse()
             return@setOnGroupClickListener false
         }
-        binding.devicesList.expandGroup(0)
+        if(!deviceStatus.deviceSortMap[DeviceStatus.CONNECTED].isNullOrEmpty()) {
+            binding.devicesList.expandGroup(0)
+        }
     }
 
     private fun showConfirmationDialog(vendorName: String?) {

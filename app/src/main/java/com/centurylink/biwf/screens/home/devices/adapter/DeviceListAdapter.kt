@@ -12,6 +12,7 @@ import com.centurylink.biwf.databinding.LayoutDevicelistGroupBlockedBinding
 import com.centurylink.biwf.databinding.LayoutHeaderDevicesconnectedBinding
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
+import java.util.concurrent.ConcurrentHashMap
 
 class DeviceListAdapter(
     var deviceList: HashMap<DeviceStatus, List<DevicesData>>,
@@ -80,7 +81,7 @@ class DeviceListAdapter(
 
     override fun getChildrenCount(groupPosition: Int): Int {
         return when (groupPosition) {
-            0 -> deviceList[DeviceStatus.CONNECTED]!!.size
+            0 -> if (deviceList[DeviceStatus.CONNECTED].isNullOrEmpty())0 else  deviceList[DeviceStatus.CONNECTED]!!.size
             1 -> deviceList[DeviceStatus.BLOCKED]!!.size
             else -> 0
         }
@@ -121,12 +122,12 @@ class DeviceListAdapter(
 
         if (groupPosition == 0) {
             val connectedData = getChild(groupPosition, childPosition)
-
             val deviceName = layoutConnectedDevicesBinding.deviceName
             val deviceSignalStrength = layoutConnectedDevicesBinding.ivNetworkType
             val deviceLayout = layoutConnectedDevicesBinding.devicesListLayout
-            val ivNetworkType = layoutConnectedDevicesBinding.ivNetworkType
             deviceName.text = connectedData.hostName
+            //TODO Remove this when devices comes online
+            connectedData.rssi = -50
             deviceSignalStrength.setImageResource(
                 setSignalStatus(
                     connectedData.rssi!!,
@@ -139,9 +140,8 @@ class DeviceListAdapter(
                     devicesInfo = connectedData
                 )
             }
-            ivNetworkType.setOnClickListener {
-                connectedData.isPaused = !connectedData.isPaused
-                deviceItemClickListener.onConnectionStatusChanged(connectedData.isPaused)
+            deviceSignalStrength.setOnClickListener {
+                deviceItemClickListener.onConnectionStatusChanged(connectedData)
                 notifyDataSetChanged()
             }
             return layoutConnectedDevicesBinding.root
@@ -186,19 +186,20 @@ class DeviceListAdapter(
             }
             if (isPaused) {
                 return R.drawable.ic_off
-            }
-            return when (signalStrength) {
-                in -50..-1 -> {
-                    R.drawable.ic_strong_signal
-                }
-                in -51 downTo -75 -> {
-                    R.drawable.ic_medium_signal
-                }
-                in -76 downTo -90 -> {
-                    R.drawable.ic_weak_signal
-                }
-                else -> {
-                    R.drawable.ic_off
+            } else {
+                return when (signalStrength) {
+                    in -50..-1 -> {
+                        R.drawable.ic_strong_signal
+                    }
+                    in -51 downTo -75 -> {
+                        R.drawable.ic_medium_signal
+                    }
+                    in -76 downTo -90 -> {
+                        R.drawable.ic_weak_signal
+                    }
+                    else -> {
+                        R.drawable.ic_off
+                    }
                 }
             }
         }
@@ -221,6 +222,6 @@ class DeviceListAdapter(
          * Handle click event on Connection Pause or Resume
          *
          */
-        fun onConnectionStatusChanged(isPaused: Boolean)
+        fun onConnectionStatusChanged(isPaused: DevicesData)
     }
 }
