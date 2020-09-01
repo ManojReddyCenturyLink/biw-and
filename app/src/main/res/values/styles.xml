@@ -502,4 +502,10 @@
         <item name="android:inputType">textMultiLine</item>
         <item name="android:editTextColor">@color/eggplant</item>
     </style>
+
+    <style name="form_auto_populated_fields">
+        <item name="android:background">@drawable/background_thin_border</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
 </resources>
