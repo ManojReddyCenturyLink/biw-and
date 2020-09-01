@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/background_main_activity"
+        android:background="@color/light_lavender"
         android:paddingBottom="100dp">
 
         <include
@@ -304,15 +304,26 @@
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_marketing_calls_label" />
 
+        <ImageView
+            android:id="@+id/horizontal_view"
+            android:layout_width="0dp"
+            android:layout_height="2dp"
+            android:contentDescription="@string/content_description_holder"
+            android:elevation="@dimen/above_cardview_elevation"
+            android:src="@drawable/ic_real_dividing_line"
+            android:layout_margin="@dimen/medium_margin_spacing"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/account_marketing_calls_description" />
+
         <Button
             android:id="@+id/log_out_button"
             style="@style/BorderLessButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="64dp"
             android:text="@string/log_out"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/account_marketing_calls_description" />
+            app:layout_constraintTop_toBottomOf="@+id/horizontal_view" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

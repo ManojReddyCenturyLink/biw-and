@@ -141,7 +141,6 @@
                 app:layout_constraintTop_toTopOf="@+id/cancellation_reason_dropdown"
                 app:srcCompat="@drawable/ic_dropdown_arrow" />
 
-
             <TextView
                 android:id="@+id/cancellation_specify_reason_label"
                 android:textAppearance="@style/TextViewLabel"

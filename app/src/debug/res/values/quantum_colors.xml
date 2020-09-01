@@ -22,7 +22,7 @@
     <color name="grey_status_bar">#0c000000</color>
     <color name="negative_cta">#53565a</color>
     <color name="divider_grey">#eeeeee</color>
-
-    <!-- Color Name -->
     <color name="light_lavender">#f7f8fd</color>
+    <color name="background_lavender">#EFF1FB</color>
+    <color name="background_purple">#40503296</color>
 </resources>
