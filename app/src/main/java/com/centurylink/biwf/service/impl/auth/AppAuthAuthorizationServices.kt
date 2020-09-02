@@ -51,19 +51,13 @@ class AppAuthAuthService(
         executeAuthRequest()
     }
 
-    // TODO - Update with actual revoke code when Apigee revoke endpoint is available
     override suspend fun revokeToken(): Boolean {
-        // TODO - Remove this when integrating Apigee revoke endpoint
-        //  (this causes the method to return true since refreshToken will be null)
-        clearState()
-
         val accessToken = tokenStorage.state?.accessToken
         accessToken ?: return true
 
         val revokeRequest = Request.Builder()
             .get()
-            // TODO - Update as needed to accommodate real token revoke endpoint
-            .url("${config.revokeTokenEndpoint}?token=$accessToken")
+            .url("${config.revokeTokenEndpoint}?client_id=${config.clientId}&token=$accessToken")
             .build()
 
         val revokeResponse = withContext(Dispatchers.IO) {
