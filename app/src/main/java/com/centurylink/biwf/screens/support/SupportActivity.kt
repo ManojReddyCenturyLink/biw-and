@@ -163,7 +163,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.incTroubleshooting.apply {
             rebootModemButton.setOnClickListener {
-                handleModemDialogSelection()
+                if (binding.incTroubleshooting.runSpeedTestButton.isActivated) {
+                    handleModemDialogSelection()
+                }
             }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
 //            supportVisitWebsite.setOnClickListener {
