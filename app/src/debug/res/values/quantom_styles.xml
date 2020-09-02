@@ -16,7 +16,7 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <!-- Custom theme for Schedule Callback Activity. -->
+    <!-- Custom theme for Drawer Activities -->
     <style name="AppTheme.GreyStatusBar" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/grey_status_bar</item>
         <item name="android:windowLightStatusBar">true</item>
@@ -43,7 +43,7 @@
         <item name="android:windowFullscreen">true</item>
     </style>
 
-    <!-- TextView Styles-->
+    <!-- Custom Styles for TextView -->
     <style name="style_form_calender_year_title" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
@@ -84,6 +84,7 @@
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:lineSpacingExtra">@dimen/spacing_4</item>
     </style>
+
     <style name="style_progressbar_textstatus">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
@@ -96,6 +97,7 @@
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
+
     <style name="single_line_text_content">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
@@ -155,6 +157,7 @@
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
+
     <style name="style_cancellation_date_selection">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/med_grey</item>
@@ -172,11 +175,13 @@
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
+
     <style name="style_disclaimer" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
+
     <style name="style_optional_text">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/med_grey</item>
@@ -259,12 +264,20 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
+    <style name="HeaderTextView">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/small_title_text_size</item>
+    </style>
+
     <style name="style_devices_usage_subheadings">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
-<style name="form_auto_populated_fields">
+
+    <style name="form_auto_populated_fields">
         <item name="android:background">@drawable/background_thin_border</item>
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textSize">@dimen/text_size_16</item>
@@ -301,8 +314,7 @@
     </style>
 
 
-
-    <!--    positive and negative  DIALOG TEXTVIEW styles -->
+    <!--  Custom Styles for Alert Dialog -->
     <style name="choiceDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="buttonBarPositiveButtonStyle">@style/positiveButton</item>
         <item name="buttonBarNegativeButtonStyle">@style/negativeButton</item>
@@ -324,7 +336,12 @@
         <item name="android:letterSpacing">0.09</item>
     </style>
 
-    <!--    CTA styles -->
+    <style name="mycustomDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowMinWidthMajor">95%</item>
+        <item name="android:windowMinWidthMinor">95%</item>
+    </style>
+
+    <!-- Custom Styles for CTA-->
     <style name="Theme.SwitchButtonTheme" parent="AppTheme">
         <item name="colorAccent">@color/purple</item>
     </style>
@@ -353,6 +370,19 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="edit_text_hint">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:editTextColor">@color/eggplant</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:inputType">textMultiLine</item>
+    </style>
+
+    <style name="hintTitleTextView">
+        <item name="fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+    </style>
+
     <style name="SpeedTestButtonDashboard" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/white</item>
@@ -364,13 +394,12 @@
 
     <style name="style_dismiss_btn_view">
         <item name="android:src">@drawable/ic_icon_close_blue</item>
-        <item name="android:background">@drawable/blue_background_rounded_corner</item>
+        <item name="android:background">@drawable/purple_background_rounded_corner</item>
         <item name="android:backgroundTint">@color/light_lavender</item>
         <item name="android:tint">@color/purple</item>
     </style>
 
-<!--arrow buttons-->
-
+    <!--Custom Styles for image views-->
     <style name="style_screen_header_backbutton">
         <item name="android:src">@drawable/ic_header_back</item>
         <item name="android:tint">@color/purple</item>
@@ -380,6 +409,11 @@
         <item name="android:src">@drawable/ic_back</item>
         <item name="android:tint">@color/purple</item>
         <item name="android:scaleX">-1</item>
+    </style>
+
+    <style name="StyleNextButton">
+        <item name="android:src">@drawable/ic_icon_right</item>
+        <item name="android:tint">@color/purple</item>
     </style>
 
     <style name="style_left_arrow_view">
@@ -392,14 +426,13 @@
         <item name="android:backgroundTint">@color/purple</item>
     </style>
 
-<!--cancel subscription custom dialog view style-->
-    <style name="mycustomDialog" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowMinWidthMajor">95%</item>
-        <item name="android:windowMinWidthMinor">95%</item>
+    <style name="style_upload_speed_view">
+        <item name="android:src">@drawable/ic_upload_speed</item>
+        <item name="android:tint">@color/light_blue</item>
+        <item name="android:scaleX">-1</item>
     </style>
 
-<!--    caldroid styles -->
-
+    <!--Custom Styles for Calendar View-->
     <style name="CaldroidDefaultLight" parent="CaldroidDefault">
         <item name="styleCaldroidGridView">@style/CaldroidDefaultLightGridView</item>
         <item name="styleCaldroidSquareCell">@style/CaldroidDefaultLightSquareCell</item>
@@ -420,23 +453,16 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-  <!--common border divider style -->
+    <!--Custom Styles for divider-->
     <style name="common_border_divider_style">
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/light_grey</item>
     </style>
 
-<!--  upload view style  -->
-    <style name="style_upload_speed_view">
-        <item name="android:src">@drawable/ic_upload_speed</item>
-        <item name="android:tint">@color/light_blue</item>
-        <item name="android:scaleX">-1</item>
-    </style>
-
-<!-- progress view style   -->
+    <!--Custom Styles for progress view-->
     <style name="style_progress_state_in_progress">
         <item name="android:background">@drawable/purple_background_rounded_corner</item>
-        <item name="android:backgroundTint">@color/background_main_activity</item>
+        <item name="android:backgroundTint">@color/light_lavender</item>
     </style>
 
     <style name="style_progress_state_view">
@@ -449,20 +475,20 @@
         <item name="android:backgroundTint">@color/strawberry</item>
     </style>
 
-<!--    notification view style -->
+    <!--Custom Styles for notification view style -->
     <style name="style_notification_vertical_bar_view">
         <item name="android:background">@drawable/notification_card_vertical_bar</item>
         <item name="android:backgroundTint">@color/light_blue</item>
     </style>
 
-<!--  text input border style -->
+    <!--  text input border style -->
     <style name="style_form_input_fields">
         <item name="android:background">@drawable/background_thin_border</item>
         <item name="android:textColor">@color/eggplant</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
-<!--    error view styles -->
+    <!--    error view styles -->
     <style name="ErrorFields" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/strawberry</item>
@@ -474,37 +500,4 @@
         <item name="android:textColor">@color/strawberry</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
-
-<!--    usage not found styles -->
-
-<!--        <style name="title_subHeader" parent="@android:style/TextAppearance">-->
-<!--            <item name="android:textColor">@color/purple</item>-->
-<!--            <item name="android:textStyle">bold</item>-->
-<!--            <item name="android:textSize">@dimen/medium_title_text_size</item>-->
-<!--        </style>-->
-
-<!--        <style name="ButtonProgressStatus">-->
-<!--            <item name="android:textColor">@color/purple</item>-->
-<!--            <item name="android:textStyle">bold</item>-->
-<!--            <item name="android:textSize">@dimen/extra_small_text_size</item>-->
-<!--        </style>-->
-
-<!--        <style name="StyleBackButton">-->
-<!--            <item name="android:src">@drawable/ic_header_back</item>-->
-<!--            <item name="android:tint">@color/purple</item>-->
-<!--        </style>-->
-
-<!--    <style name="HeaderTextView">-->
-<!--        <item name="android:fontFamily">@font/arial_bold_mt</item>-->
-<!--        <item name="android:textColor">@color/purple</item>-->
-<!--        <item name="android:textStyle">bold</item>-->
-<!--        <item name="android:textSize">@dimen/small_title_text_size</item>-->
-<!--    </style>-->
-
-<!--    <style name="style_heading" parent="@android:style/TextAppearance">-->
-<!--        <item name="android:fontFamily">@font/arial_bold_mt</item>-->
-<!--        <item name="android:textColor">@color/purple</item>-->
-<!--        <item name="android:textSize">@dimen/text_size_14</item>-->
-<!--    </style>-->
-
 </resources>
