@@ -5,9 +5,6 @@
     <color name="colorAccent">@color/purple</color>
     <color name="white">@android:color/white</color>
     <color name="grey">#CCCCCC</color>
-    <color name="grey_darker">#545454</color>
-    <color name="grey_card_bg">#979797</color>
-    <color name="line_break_color">#e5e5e5</color>
     <color name="grey_light">#f0f0f0</color>
     <color name="black">#000000</color>
     <color name="primary_dark">#2abb7c</color>
@@ -15,17 +12,9 @@
     <color name="notification_unread_bg">#D3D3D3</color>
     <color name="grey_text_color">#bebebe</color>
 
-    <color name="background_grey">#eeeeee</color>
     <color name="blue">#0047bb</color>
-    <color name="blue_light">#0048bb</color>
     <color name="blue_dark">#001e60</color>
-    <color name="blue_icon_bg">#e5ecf8</color>
-    <color name="grey_blocked_color">#606060</color>
-    <color name="font_color_white">#ffff</color>
-    <color name="font_color_dialog_blue">#1d48bb</color>
     <color name="font_color_medium_grey">#53565a</color>
-    <color name="title_color_blue">#001e60</color>
-    <color name="main_background_color">#eeeeee</color>
     <color name="text_label_color">#a6000000</color>
 
     <!-- Temporarily blocked to remove the Build Breakage, this color file will be replaced by quantum colors-->
@@ -33,17 +22,13 @@
     <color name="lavender">#7b8ee1</color>
     <color name="light_blue">#38c6f4</color>
     <color name="eggplant">#2d005a</color>
-    <color name="mango">#ffb464</color>
     <color name="kale">#1ea096</color>
     <color name="strawberry">#da3155</color>
     <color name="light_grey">#d7e1e6</color>
     <color name="med_grey">#788791</color>
     <color name="dark_grey">#3c414b</color>
-    <color name="orange">#ff7355</color>
-    <color name="med_blue">#0c9ed9</color>
     <color name="grey_status_bar">#0c000000</color>
     <color name="negative_cta">#53565a</color>
-    <color name="divider_grey">#eeeeee</color>
     <color name="light_lavender">#f7f8fd</color>
     <color name="background_lavender">#EFF1FB</color>
     <color name="background_purple">#40503296</color>
