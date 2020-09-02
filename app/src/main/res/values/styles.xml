@@ -258,12 +258,6 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
-    <style name="style_heading" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
-    </style>
-
     <style name="HeaderTextView">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
@@ -500,4 +494,5 @@
         <item name="android:textColor">@color/strawberry</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
+
 </resources>
