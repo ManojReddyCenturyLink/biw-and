@@ -14,7 +14,6 @@
     <string name="biometric_prompt_title">Biometric login for BIWF</string>
     <string name="biometric_prompt_message">Log in using your biometric credential</string>
     <string name="cancel">Cancel</string>
-
     <string name="support">Support</string>
     <string name="call_us"><u>Call us at (123) 456-7890</u></string>
 
@@ -29,7 +28,6 @@
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
     <string name="dialog_notiifcation_title">Delete Notifications</string>
-
     <!--Notification Details Screen -->
     <string name="notification_details">Notification Details</string>
     <string name="webpage_error">Error in Loading Page</string>
@@ -69,10 +67,10 @@
     <string name="modem_reboot_success_title">Success!</string>
     <string name="modem_reboot_success_message">Your modem has been restarted. If you\'re still experiencing issues, please contact support.</string>
     <string name="modem_reboot_success_button">Close</string>
-
     <string name="restart">RESTART</string>
     <string name="restart_modem_confirmation_message">This can take up to 5 minutes. You can close the app while you wait if you want, and your modem will continue restarting in the background.</string>
     <string name="restart_modem_confirmation_title">Do you want to restart your modem?</string>
+
     <!--Account Screen -->
     <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
     <string name="service_calls_description">I would like to receive calls and text messages about my CenturyLink services at the number provided</string>
@@ -139,7 +137,6 @@
     and you will not have access to internet after that date.</string>
     <string name="cancel_subscription_dialog_keepservice">KEEP SERVICE</string>
     <string name="cancel_subscription_dialog_cancel">CANCEL SERVICE</string>
-
     <string name="personal_info_popup_msg">We’re very sorry for the inconvenience, but we are currently unable to accommodate changing email addresses in the app. \n\nYou can change your email by calling our customer support number at 123- 456-7890</string>
     <string name="password_mandatory">Password*</string>
     <string name="confirm_password">Confirm password</string>
@@ -159,7 +156,6 @@
     <string name="statement_payment_details">Payment Details</string>
     <string name="statement_payment_method">Payment method:</string>
     <string name="statement_payment_email">Email:</string>
-
     <string name="statement_billing_address">Billing address:</string>
     <string name="statement_payment_breakdown">Payment Breakdown</string>
     <string name="statement_payment_total">Sales tax</string>
@@ -222,7 +218,6 @@
     <string name="wifi_network">WiFi network</string>
     <string name="internet">Internet</string>
     <string name="restarting">Restarting</string>
-
     <string name="connected_devices_singular">Connected device</string>
     <string name="connected_devices_plural">Connected devices</string>
     <string name="removed_devices">Removed devices</string>
@@ -251,7 +246,6 @@
     <string name="restore_access_confirmation_title">Do you want to restore access to “%s”?</string>
     <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
     <string name="organization">Organization</string>
-
     <string name="must_be_8_63_characters">Must be 8-63 characters</string>
     <string name="network_name_mandatory">Network name*</string>
     <string name="network_password_mandatory">Network password*</string>
@@ -276,18 +270,14 @@
     <string name="cancel_it">CANCEL IT</string>
     <string name="if_you_ve_made_a_mistake_in_cancelling_please_call_us_at_833_250_6306">If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 833-250-6306.</string>
 
-
     <!--QRSCan Activity-->
     <string name="scan_to_join">Scan to join network:</string>
     <string name="scan_to_join_guest">Scan to join guest network:</string>
     <string name="tap_code">Tap code to view full screen</string>
-
-
     <string name="join_code">Join code </string>
     <string name="header_done">DONE</string>
     <string name="scan_network">Scan to join network: </string>
     <string name="brightness_alert">For best results, use full brightness on your phone</string>
-
     <string name="wifi_code">WIFI:T:WPA;S:%1$s;P:%2$s;;</string>
     <string name="nickname_device">Nickname device</string>
 </resources>
