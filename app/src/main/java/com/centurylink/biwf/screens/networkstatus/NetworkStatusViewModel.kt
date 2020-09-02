@@ -131,7 +131,7 @@ class NetworkStatusViewModel @Inject constructor(
     private suspend fun refreshOnlineData() {
         when (val modemResponse = assiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
-                val apiInfo = modemResponse.body.modemInfo.apInfoList
+                val apiInfo = modemResponse.body.modemInfo?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     val onlineStatus = OnlineStatus(apiInfo[0].isAlive)
                     internetStatusFlow.latestValue = onlineStatus
@@ -153,9 +153,9 @@ class NetworkStatusViewModel @Inject constructor(
         when (modemResponse) {
             is AssiaNetworkResponse.Success -> {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
-                val apiInfo = modemResponse.body.modemInfo.apInfoList
-                modemInfoFlow.latestValue = modemResponse.body.modemInfo
+                val apiInfo = modemResponse.body.modemInfo?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                    modemInfoFlow.latestValue = modemResponse.body.modemInfo
                     val modemInfo = apiInfo[0]
                     bssidMap = modemInfo.bssidMap
                     ssidMap = modemInfo.ssidMap
