@@ -44,12 +44,6 @@
     </style>
 
     <!-- TextView Styles-->
-    <style name="HeaderTextView">
-        <item name="android:fontFamily">@font/arial_bold_mt</item>
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/small_title_text_size</item>
-    </style>
     <style name="style_form_calender_year_title" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
@@ -246,11 +240,6 @@
         <item name="android:textSize">@dimen/medium_title_text_size</item>
     </style>
 
-    <style name="style_heading" parent="@android:style/TextAppearance">
-        <item name="android:fontFamily">@font/arial_bold_mt</item>
-        <item name="android:textColor">@color/purple</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
-    </style>
     <style name="style_progress_button">
         <item name="fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
@@ -485,5 +474,18 @@
 <!--            <item name="android:src">@drawable/ic_header_back</item>-->
 <!--            <item name="android:tint">@color/purple</item>-->
 <!--        </style>-->
+
+<!--    <style name="HeaderTextView">-->
+<!--        <item name="android:fontFamily">@font/arial_bold_mt</item>-->
+<!--        <item name="android:textColor">@color/purple</item>-->
+<!--        <item name="android:textStyle">bold</item>-->
+<!--        <item name="android:textSize">@dimen/small_title_text_size</item>-->
+<!--    </style>-->
+
+<!--    <style name="style_heading" parent="@android:style/TextAppearance">-->
+<!--        <item name="android:fontFamily">@font/arial_bold_mt</item>-->
+<!--        <item name="android:textColor">@color/purple</item>-->
+<!--        <item name="android:textSize">@dimen/text_size_14</item>-->
+<!--    </style>-->
 
 </resources>
