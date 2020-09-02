@@ -178,7 +178,7 @@ class DevicesViewModel @Inject constructor(
         when (val modemDetails = asiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_SUCCESS)
-                val apiInfo = modemDetails.body.modemInfo.apInfoList
+                val apiInfo = modemDetails.body.modemInfo?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     uiDevicesTypeDetails =
                         uiDevicesTypeDetails.copy(isModemAlive = apiInfo[0].isAlive)
