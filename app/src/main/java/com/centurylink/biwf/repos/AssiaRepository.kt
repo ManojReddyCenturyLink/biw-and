@@ -26,6 +26,7 @@ class AssiaRepository @Inject constructor(
         val result =
             assiaService.getModemInfo(getV3HeaderMap(token = assiaTokenManager.getAssiaToken()))
         if (result is AssiaNetworkResponse.Success) {
+
             if (!result.body.modemInfo?.apInfoList.isNullOrEmpty()) {
                 val deviceId = result.body.modemInfo.apInfoList[0].deviceId
                 if (!deviceId.isNullOrEmpty()) {
