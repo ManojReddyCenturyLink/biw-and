@@ -126,6 +126,12 @@
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
 
+    <style name="hintTitleTextView">
+        <item name="fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+    </style>
+
     <style name="ButtonProgressStatus">
         <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
@@ -134,6 +140,11 @@
 
     <style name="StyleBackButton">
         <item name="android:src">@drawable/ic_header_back</item>
+        <item name="android:tint">@color/purple</item>
+    </style>
+
+    <style name="StyleNextButton">
+        <item name="android:src">@drawable/ic_icon_right</item>
         <item name="android:tint">@color/purple</item>
     </style>
 
@@ -507,5 +518,11 @@
         <item name="android:background">@drawable/background_thin_border</item>
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="title_devices_sub_header" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/medium_title_text_size</item>
     </style>
 </resources>

@@ -8,7 +8,7 @@
         android:id="@+id/appointment_scheduled_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/margin_spacing_tiny"
+        app:cardCornerRadius="@dimen/margin_spacing_really_small"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 

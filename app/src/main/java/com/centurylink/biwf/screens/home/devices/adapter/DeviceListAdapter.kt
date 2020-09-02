@@ -9,10 +9,9 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.databinding.LayoutBlockedDevicesBinding
 import com.centurylink.biwf.databinding.LayoutConnectedDevicesBinding
 import com.centurylink.biwf.databinding.LayoutDevicelistGroupBlockedBinding
-import com.centurylink.biwf.databinding.LayoutHeaderDevicesconnectedBinding
+import com.centurylink.biwf.databinding.LayoutHeaderDevicesConnectedBinding
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
-import java.util.concurrent.ConcurrentHashMap
 
 class DeviceListAdapter(
     var deviceList: HashMap<DeviceStatus, List<DevicesData>>,
@@ -51,7 +50,7 @@ class DeviceListAdapter(
 
         return (if (groupPosition == 0) {
             val headerDevicesConnectedBinding =
-                LayoutHeaderDevicesconnectedBinding.inflate(layoutInflater)
+                LayoutHeaderDevicesConnectedBinding.inflate(layoutInflater)
             val deviceCount = headerDevicesConnectedBinding.devicesGroupCount
             val connectedDeviceLabel = headerDevicesConnectedBinding.devicesGroupConnectedDevices
             val totalConnectedDevices = getChildrenCount(groupPosition)

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/devices_list_layout"
-    android:background="@drawable/background_thin_border">
+    android:background="@drawable/grey_background_thin_border">
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -19,12 +19,11 @@
         android:id="@+id/device_name"
         android:layout_width="0dp"
         android:layout_height="54dp"
-        android:fontFamily="@font/arial_mt"
+        style="@style/single_line_text_content"
         android:gravity="left|center_vertical"
         android:paddingLeft="@dimen/margin_spacing_really_small"
-        android:textColor="@color/blue_dark"
-        android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toStartOf="@id/barrier"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="LabelFor"
