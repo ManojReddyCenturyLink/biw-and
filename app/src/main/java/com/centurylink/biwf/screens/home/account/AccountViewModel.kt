@@ -195,29 +195,43 @@ class AccountViewModel internal constructor(
         }
     }
 
-    private fun updateUIAccountDetailsFromAccounts(accontDetails: AccountDetails) {
+    private fun updateUIAccountDetailsFromAccounts(accountDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
-            name = accontDetails.name,
-            serviceAddress1 = accontDetails.serviceCompleteAddress ?: "",
-            serviceAddress2 = formatServiceAddress2(accontDetails) ?: "",
-            email = accontDetails.emailAddress ?: "",
-            planName = accontDetails.productNameC ?: "",
-            planSpeed = accontDetails.productPlanNameC ?: "",
-            paymentDate = DateUtils.formatInvoiceDate(accontDetails.lastViewedDate!!),
+            name = accountDetails.name,
+            formattedServiceAddressLine1 = formatServiceAddressLine1(
+                accountDetails.serviceStreet ?: "",
+                accountDetails.serviceUnit ?: ""
+            ),
+            formattedServiceAddressLine2 = formatServiceAddressLine2(
+                accountDetails.serviceCity ?: "",
+                accountDetails.serviceStateProvince ?: "",
+                accountDetails.servicePostalCode ?: ""
+            ),
+            email = accountDetails.emailAddress ?: "",
+            planName = accountDetails.productNameC ?: "",
+            planSpeed = accountDetails.productPlanNameC ?: "",
+            paymentDate = DateUtils.formatInvoiceDate(accountDetails.lastViewedDate!!),
             password = "******",
-            cellPhone = PhoneNumber(accontDetails.phone ?: "").toString(),
-            homePhone = accontDetails.phone,
-            workPhone = accontDetails.phone,
-            serviceCallsAndText = accontDetails.cellPhoneOptInC,
-            paymentMethod = accontDetails.paymentMethodName
+            cellPhone = PhoneNumber(accountDetails.phone ?: "").toString(),
+            homePhone = accountDetails.phone,
+            workPhone = accountDetails.phone,
+            serviceCallsAndText = accountDetails.cellPhoneOptInC,
+            paymentMethod = accountDetails.paymentMethodName
         )
     }
 
-    private fun formatServiceAddress2(accountDetails: AccountDetails): String? {
-        return accountDetails.billingAddress?.run {
-            val billingAddressList = listOf(city, state, postalCode, country)
-            billingAddressList.filterNotNull().joinToString(separator = ", ")
-        }
+    private fun formatServiceAddressLine1(street: String, unit: String) =
+        if (unit.isNotBlank()) "$street $unit" else street
+
+
+    private fun formatServiceAddressLine2(
+        city: String,
+        stateProvince: String,
+        postalCode: String
+    ): String {
+        val cityText = if (city.isNotBlank()) "$city, " else ""
+        val stateProvinceText = if (stateProvince.isNotBlank()) "$stateProvince " else ""
+        return cityText + stateProvinceText + postalCode
     }
 
     private fun updateUIAccountDetailsFromContacts(contactDetails: ContactDetails) {
@@ -241,8 +255,8 @@ class AccountViewModel internal constructor(
 
     data class UiAccountDetails(
         val name: String? = null,
-        val serviceAddress1: String? = null,
-        val serviceAddress2: String? = null,
+        val formattedServiceAddressLine1: String = "",
+        val formattedServiceAddressLine2: String = "",
         val planName: String? = null,
         val planSpeed: String? = null,
         val paymentDate: String? = null,
