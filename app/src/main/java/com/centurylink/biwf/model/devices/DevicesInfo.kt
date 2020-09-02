@@ -1,6 +1,8 @@
 package com.centurylink.biwf.model.devices
 
+import com.centurylink.biwf.model.mcafee.MacDeviceList
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class DevicesInfo(
 
@@ -11,7 +13,7 @@ data class DevicesInfo(
     @SerializedName("message")
     val message: String? = null,
     @SerializedName("data")
-    var devicesDataList: List<DevicesData> = emptyList()
+    var devicesDataList: ArrayList<DevicesData> = ArrayList()
 )
 
 data class DevicesData(
@@ -35,7 +37,7 @@ data class DevicesData(
     @SerializedName("blocked")
     val blocked: Boolean = false,
     @SerializedName("rssi")
-    val rssi: Int? = null,
+    var rssi: Int? = null,
     @SerializedName("parent")
     val parent: String? = null,
     @SerializedName("txRateKbps")
@@ -56,20 +58,23 @@ data class DevicesData(
     val maxSpeed: MaxSpeed? = null,
 
     //TODO: Adding temporary variable to test analytics story, will remove once api gets integrated.
-    var isPaused: Boolean = false
-)
+    var isPaused: Boolean = false,
+
+    var mcafeeDeviceId: String = ""
+
+) : Serializable
 
 data class MaxMode(
     @SerializedName("Band2G")
     val band2G: String? = null,
     @SerializedName("Band5G")
     val band5G: String? = null
-)
+) : Serializable
 
 data class MaxSpeed(
     @SerializedName("Band2G")
     val band2G: String? = null,
     @SerializedName("Band5G")
     val band5G: String? = null
-)
+) : Serializable
 

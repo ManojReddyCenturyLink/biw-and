@@ -73,7 +73,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
             subheaderCenterTitle.text =
                 getString(R.string.cancel_subscription_details_title)
             subheaderRightActionTitle.text =
-                getText(R.string.text_header_cancel)
+                getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logCancelPress()
                 setResult(Activity.RESULT_OK)

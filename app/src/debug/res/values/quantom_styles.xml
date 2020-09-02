@@ -240,8 +240,20 @@
         <item name="android:textSize">@dimen/medium_title_text_size</item>
     </style>
 
+    <style name="title_devices_sub_header" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/medium_title_text_size</item>
+    </style>
+
     <style name="style_progress_button">
         <item name="fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="style_heading" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_14</item>
@@ -252,10 +264,17 @@
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
+<style name="form_auto_populated_fields">
+        <item name="android:background">@drawable/background_thin_border</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
     <style name="SubHeading" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:editTextColor">@color/eggplant</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 

@@ -10,11 +10,9 @@
         android:id="@+id/blocked_device_name"
         android:layout_width="0dp"
         android:layout_height="54dp"
-        android:fontFamily="@font/arial_mt"
+        style="@style/style_info_label"
         android:gravity="start|center_vertical"
         android:paddingLeft="@dimen/margin_spacing_really_small"
-        android:textColor="@color/grey_blocked_color"
-        android:textSize="@dimen/text_size_16"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,5 +30,4 @@
         app:layout_constraintBottom_toBottomOf="@+id/blocked_device_name"
         app:layout_constraintEnd_toEndOf="@+id/blocked_device_name"
         app:layout_constraintTop_toTopOf="@+id/blocked_device_name" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -69,7 +69,7 @@
             android:layout_marginStart="@dimen/margin_spacing_small"
             android:layout_marginEnd="@dimen/margin_spacing_small"
             android:padding="10dp"
-            android:background="@drawable/blue_background_rounded_corner"
+            android:background="@drawable/lavendar_background_rounded_corner"
             android:src="@drawable/ic_three_bars"
             app:layout_constraintBottom_toBottomOf="@+id/qrScan"
             app:layout_constraintEnd_toEndOf="parent"
