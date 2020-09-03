@@ -21,8 +21,6 @@
         android:layout_height="wrap_content"
         android:paddingBottom="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
-        android:paddingLeft="@dimen/medium_margin_spacing"
-        android:paddingRight="@dimen/medium_margin_spacing"
         android:layout_marginTop="@dimen/margin_spacing_large"
         app:layout_constraintTop_toBottomOf="@+id/incHeader"
         />

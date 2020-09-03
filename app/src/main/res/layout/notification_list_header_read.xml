@@ -3,14 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:layout_marginBottom="@dimen/height_20">
+    android:layout_marginTop="@dimen/medium_margin_spacing"
+    android:background="@color/light_lavender">
     <TextView
         android:id="@+id/notification_list_read_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textStyle="bold"
+        android:paddingLeft="@dimen/medium_margin_spacing"
+        android:paddingRight="@dimen/medium_margin_spacing"
         style="@style/style_devices_usage_subheadings"
         android:layout_marginTop="@dimen/medium_margin_spacing"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,6 +24,18 @@
         android:layout_marginTop="@dimen/spacing_4"
         style="@style/style_optional_text"
         android:text="@string/tap_to_view_details"
+        android:paddingLeft="@dimen/medium_margin_spacing"
+        android:paddingRight="@dimen/medium_margin_spacing"
         app:layout_constraintTop_toBottomOf="@id/notification_list_read_title"
         app:layout_constraintStart_toStartOf="parent"/>
+
+    <View
+        android:id="@+id/lavender_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_20"
+        android:background="@color/light_lavender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notification_list_read_detail"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
-    android:layout_marginBottom="@dimen/medium_margin_spacing">
+    android:layout_marginBottom="@dimen/medium_margin_spacing"
+    android:paddingLeft="@dimen/medium_margin_spacing"
+    android:paddingRight="@dimen/medium_margin_spacing">
 
     <TextView
         android:id="@+id/unread_notification_count"

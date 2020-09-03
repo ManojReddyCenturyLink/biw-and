@@ -102,10 +102,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     private fun initView() {
         binding.notificationListRecyclerview.layoutManager =
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val myDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
-        binding.notificationListRecyclerview.addItemDecoration(myDivider)
+           LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 
     private fun getNotificationInformation() {

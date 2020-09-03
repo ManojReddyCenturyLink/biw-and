@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.model.notification.Notification
@@ -109,7 +110,7 @@ class UnReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_unread_detail)
 
-    private var notificationItemBackground : CardView = view.findViewById(R.id.notification_list_unread_background)
+    private var notificationItemBackground : CardView = view.findViewById(R.id.notification_list_unread_card_background)
 
     override fun bind(
         notificationItem: Notification,
@@ -133,7 +134,7 @@ class ReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_titledetail)
 
-    private var notificationItemBackground :CardView = view.findViewById(R.id.notification_list_read_background)
+    private var notificationItemBackground :ConstraintLayout = view.findViewById(R.id.notification_list_read_background)
 
     override fun bind(
         notificationItem: Notification,
