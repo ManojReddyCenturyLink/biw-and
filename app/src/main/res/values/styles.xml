@@ -405,6 +405,14 @@
         <item name="android:tint">@color/purple</item>
     </style>
 
+    <style name="style_speed_test_button_support" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@drawable/speed_test_button_support_background_selector</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/extra_small_text_size</item>
+    </style>
+
     <!--Custom Styles for image views-->
     <style name="style_screen_header_backbutton">
         <item name="android:src">@drawable/ic_header_back</item>
@@ -506,4 +514,5 @@
         <item name="android:textColor">@color/strawberry</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
+
 </resources>

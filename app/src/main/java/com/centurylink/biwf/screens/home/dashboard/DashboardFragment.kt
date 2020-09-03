@@ -141,6 +141,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         observeAccountStatusViews()
         observeWifiDetailsViews()
         getAppointmentStatus()
+        listenForRebootDialog()
 
     }
 
@@ -410,8 +411,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.wifiScanList.adapter = wifiDevicesAdapter
     }
 
-     fun updateView() {
-         dashboardViewModel.initDevicesApis()
+    fun updateView() {
+        dashboardViewModel.initDevicesApis()
     }
 
     override fun onWifiQRScanImageClicked(wifidetails: WifiInfo) {
@@ -424,5 +425,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
 
     override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {
         dashboardViewModel.wifiNetworkEnablement(wifidetails)
+    }
+
+    private fun listenForRebootDialog() {
+        dashboardViewModel.rebootDialogFlow.observe { success ->
+            binding.incSpeedTest.runSpeedTestDashboard.isActivated = true
+        }
     }
 }
