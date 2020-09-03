@@ -82,7 +82,7 @@
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            android:text="@string/if_you_ve_made_a_mistake_in_cancelling_please_call_us_at_833_250_6306"
+            android:text="@string/cancellation_query_contact_details"
             style="@style/style_installation_cancelled_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
