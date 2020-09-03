@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -164,9 +165,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.incTroubleshooting.apply {
             rebootModemButton.setOnClickListener {
-                if (binding.incTroubleshooting.runSpeedTestButton.isActivated) {
-                    handleModemDialogSelection()
-                }
+                if(!binding.incTroubleshooting.downloadProgressIcon.isVisible) {
+                       handleModemDialogSelection()
+               }
             }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
 //            supportVisitWebsite.setOnClickListener {
