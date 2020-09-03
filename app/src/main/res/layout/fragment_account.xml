@@ -145,6 +145,7 @@
             android:id="@+id/account_settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="@style/style_network_info_headings"
             android:layout_marginTop="32dp"
             android:text="@string/settings_preferences"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
@@ -322,6 +323,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/log_out"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_view" />

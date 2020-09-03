@@ -6,8 +6,8 @@
     <path
         android:pathData="M12,1L12,1A11,11 0,0 0,1 12L1,12A11,11 0,0 0,12 23L12,23A11,11 0,0 0,23 12L23,12A11,11 0,0 0,12 1z"
         android:strokeWidth="2"
-        android:fillColor="#0047BB"
-        android:strokeColor="#0047BB"
+        android:fillColor="@color/purple"
+        android:strokeColor="@color/purple"
         android:fillType="evenOdd"/>
     <path
         android:pathData="M12,12m4,0a4,4 0,1 0,-8 0a4,4 0,1 0,8 0"

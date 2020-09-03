@@ -242,7 +242,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         calendarFragment: CalendarFragment,
         date: Date?
     ) {
-        val background = getDrawable(R.drawable.blue_marker)
+        val background = getDrawable(R.drawable.purple_marker)
         calendarFragment.setBackgroundDrawableForDate(background, date)
         calendarFragment.setTextColorForDate(R.color.white, date)
     }
