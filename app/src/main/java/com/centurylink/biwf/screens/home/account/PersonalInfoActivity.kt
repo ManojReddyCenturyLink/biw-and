@@ -148,7 +148,8 @@ class PersonalInfoActivity : BaseActivity() {
                 getString(R.string.personal_info_popup_msg),
                 getString(R.string.ok),
                 false,
-                ::onDialogCallback
+                ::onDialogCallback,
+                true
             ).show(fragmentManager, callingActivity?.className)
         }
         binding.ivPasswordVisibility.setOnClickListener {
