@@ -53,7 +53,6 @@
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
             android:background="@color/purple"
-            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:visibility="invisible">
@@ -115,7 +114,6 @@
             android:layout_height="@dimen/padding_0"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
             android:background="@color/purple"
-            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/home_upper_tabs"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/home_upper_tabs">

@@ -65,7 +65,7 @@ sealed class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
     private val context: Context = view.context
-    private var unReadNotificationCount: TextView = view.findViewById(R.id.notification_list_unread)
+    private var unReadNotificationCount: TextView = view.findViewById(R.id.unread_notification_count)
     private var markAllReadView: TextView = view.findViewById(R.id.notification_list_unread_mark_as_read)
     override fun bind(
         notificationItem: Notification,
@@ -73,7 +73,7 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
     ) {
         if(unreadItemCount>0) {
             val unreadValue: String =
-                context.getString(R.string.notification_screen_unread, unreadItemCount - 1)
+                context.getString(R.string.unread_notification_count, unreadItemCount - 1)
             unReadNotificationCount.text = unreadValue
         }
         markAllReadView.setOnClickListener {
@@ -85,16 +85,18 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
 class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
-    private var clearAllView: TextView = view.findViewById(R.id.notification_list_clearall)
+    //TODO - commenting since feature is not active right now
+    //private var clearAllView: TextView = view.findViewById(R.id.notification_list_clearall)
 
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
     ) {
-        clearAllView.setOnClickListener {
-            // your code to perform when the user clicks on the button
-            notificationItemClickListener.clearAllReadNotification()
-        }
+        //TODO - commenting since feature is not active right now
+//        clearAllView.setOnClickListener {
+//            // your code to perform when the user clicks on the button
+//            notificationItemClickListener.clearAllReadNotification()
+//        }
     }
 }
 

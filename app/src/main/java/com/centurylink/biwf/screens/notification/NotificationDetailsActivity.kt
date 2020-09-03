@@ -50,20 +50,18 @@ class NotificationDetailsActivity : BaseActivity() {
         setContentView(binding.root)
         setActivityHeight()
         initFragment()
-        initView()
+        initHeaders()
     }
 
-    private fun initView() {
-        val displayBackIcon = intent.getBooleanExtra(LAUNCH_FROM_HOME, false)
-        if (displayBackIcon) {
-            binding.notificationDetailsBackIcon.visibility = View.VISIBLE
-        } else {
-            binding.notificationDetailsBackIcon.visibility = View.GONE
-        }
-        binding.notificationDetailsBackIcon.setOnClickListener { finish() }
-        binding.notificationDetailsCloseIcon.setOnClickListener {
-            setResult(Activity.RESULT_OK)
-            finish()
+    private fun initHeaders() {
+        var screenTitle: String = getString(R.string.notification_details)
+        binding.incHeader.apply {
+            subHeaderLeftIcon.visibility = View.VISIBLE
+            subheaderCenterTitle.text = screenTitle
+            subheaderRightActionTitle.text = getText(R.string.done)
+            subheaderRightActionTitle.setOnClickListener { finish() }
+            subHeaderLeftIcon.setOnClickListener { finish()
+            }
         }
     }
 

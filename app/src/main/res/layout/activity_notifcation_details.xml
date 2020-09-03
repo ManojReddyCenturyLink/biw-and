@@ -5,44 +5,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/activity_curved_bg">
 
-    <ImageView
-        android:id="@+id/notification_details_backIcon"
-        android:layout_width="@dimen/close_icon_size"
-        android:layout_height="@dimen/close_icon_size"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:padding="8dp"
-        android:src="@drawable/ic_back"
-        android:tint="@color/purple"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/content_description_holder"
-        />
-
-    <TextView
-        android:id="@+id/notification_details_title"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="@string/notification_details"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/purple"
-        android:textSize="@dimen/small_title_text_size"
-        android:textStyle="bold"
-        android:gravity="center_vertical"
-        app:layout_constraintLeft_toRightOf="@+id/notification_details_backIcon"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/notification_details_closeIcon"
-        android:layout_width="@dimen/close_icon_size"
-        android:layout_height="@dimen/close_icon_size"
-        android:layout_margin="@dimen/medium_margin_spacing"
-        android:src="@drawable/ic_close_icon"
-        android:tint="@color/purple"
+    <include
+        android:id="@+id/incHeader"
+        layout="@layout/widget_subheader_with_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="@string/content_description_holder"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
         android:id="@+id/notification_details_container"
@@ -52,5 +22,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/notification_details_closeIcon" />
+        app:layout_constraintTop_toBottomOf="@+id/incHeader" />
 </androidx.constraintlayout.widget.ConstraintLayout>
