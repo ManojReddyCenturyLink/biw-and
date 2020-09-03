@@ -25,7 +25,7 @@
     <style name="Tab.TextAppearance" parent="TextAppearance.Design.Tab">
         <item name="textAllCaps">false</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">@dimen/font_size_h4</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
     <style name="TransparentActivity" parent="AppTheme">
@@ -48,7 +48,7 @@
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/small_title_text_size</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
     </style>
 
     <style name="style_boldheaders_title" parent="@android:style/TextAppearance">
@@ -143,7 +143,7 @@
     <style name="style_form_calender_title" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
-        <item name="android:textSize">@dimen/small_title_text_size</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
     </style>
 
     <style name="style_disclaimer_small" parent="@android:style/TextAppearance">
@@ -215,7 +215,7 @@
     <style name="style_downlaod_upload_speed" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
-        <item name="android:textSize">@dimen/large_title_text_size</item>
+        <item name="android:textSize">@dimen/text_size_32</item>
     </style>
 
     <style name="style_download_upload_speed_dashboard" parent="@android:style/TextAppearance">
@@ -254,13 +254,13 @@
     <style name="title_account_sub_header" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
-        <item name="android:textSize">@dimen/medium_title_text_size</item>
+        <item name="android:textSize">@dimen/text_size_24</item>
     </style>
 
     <style name="title_devices_sub_header" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
-        <item name="android:textSize">@dimen/medium_title_text_size</item>
+        <item name="android:textSize">@dimen/text_size_24</item>
     </style>
 
     <style name="style_progress_button">
@@ -274,7 +274,7 @@
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/small_title_text_size</item>
+        <item name="android:textSize">@dimen/text_size_18</item>
     </style>
 
     <style name="style_devices_usage_subheadings">
@@ -359,7 +359,7 @@
         <item name="android:textColor">@color/purple</item>
         <item name="android:background">@drawable/button_thin_border_background</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textSize">@dimen/extra_small_text_size</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
     <style name="primaryButtonBordered" parent="Widget.AppCompat.Button.Borderless">
@@ -367,13 +367,13 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:background">@drawable/rounded_button_background</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textSize">@dimen/extra_small_text_size</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
     <style name="BorderLessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>
-        <item name="android:textSize">@dimen/extra_small_text_size</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
         <item name="textAllCaps">true</item>
         <item name="android:gravity">center</item>
     </style>
@@ -388,13 +388,13 @@
     <style name="hintTitleTextView">
         <item name="fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/med_grey</item>
-        <item name="android:textSize">@dimen/extra_small_text_size</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
     <style name="SpeedTestButtonDashboard" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/white</item>
-        <item name="android:textSize">@dimen/extra_small_text_size</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
         <item name="android:background">@drawable/speed_test_button_background_selector</item>
         <item name="textAllCaps">false</item>
         <item name="android:gravity">center</item>

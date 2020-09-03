@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="spacing_14">14dp</dimen>
-
     <dimen name="padding_0">0dp</dimen>
     <dimen name="cardview_elevation">1dp</dimen>
     <dimen name="above_cardview_elevation">2dp</dimen>
@@ -9,18 +7,19 @@
     <dimen name="spacing_4">4dp</dimen>
     <dimen name="margin_spacing_tiny">8dp</dimen>
     <dimen name="margin_spacing_really_small">12dp</dimen>
+    <dimen name="spacing_14">14dp</dimen>
     <dimen name="margin_spacing_small">16dp</dimen>
     <dimen name="height_20">20dp</dimen>
+    <dimen name="margin_22">22dp</dimen>
     <dimen name="medium_margin_spacing">24dp</dimen>
     <dimen name="height_28">28dp</dimen>
     <dimen name="notification_header_height">30dp</dimen>
     <dimen name="margin_spacing_large">32dp</dimen>
     <dimen name="close_icon_size">36dp</dimen>
-    <dimen name="notification_circle_size">60dp</dimen>
     <dimen name="text_entry_height">41dp</dimen>
-    <dimen name="margin_22">22dp</dimen>
     <dimen name="padding_40">40dp</dimen>
     <dimen name="height_54">54dp</dimen>
+    <dimen name="notification_circle_size">60dp</dimen>
 
     <!--  Design Patterns -->
     <dimen name="section_heading_margin_top">48dp</dimen>
@@ -33,23 +32,11 @@
     <dimen name="text_size_16">16sp</dimen>
     <dimen name="text_size_18">18sp</dimen>
     <dimen name="text_size_20">20sp</dimen>
+    <dimen name="text_size_21">21sp</dimen>
     <dimen name="text_size_22">22sp</dimen>
     <dimen name="text_size_24">24sp</dimen>
+    <dimen name="text_size_32">32sp</dimen>
     <dimen name="text_size_36">36sp</dimen>
-    <dimen name="text_size_21">21sp</dimen>
     <dimen name="text_size_48">48sp</dimen>
 
-    <dimen name="extra_small_text_size">14sp</dimen>
-    <dimen name="font_size_h4">16sp</dimen>
-    <dimen name="small_title_text_size">18sp</dimen>
-    <dimen name="small_subcontent_title_text_size">20sp</dimen>
-    <dimen name="medium_title_text_size">24sp</dimen>
-    <dimen name="large_title_text_size">32sp</dimen>
-    <dimen name="small_text_size">16sp</dimen>
-
-<!--    <dimen name="spacing_14_">-14dp</dimen>
-        <dimen name="margin_18">18dp</dimen>
-        <dimen name="margin_42">42dp</dimen>
-        <dimen name="screen_header_height">76dp</dimen>
-        <dimen name="xxs_text_size">12sp</dimen>-->
 </resources>
