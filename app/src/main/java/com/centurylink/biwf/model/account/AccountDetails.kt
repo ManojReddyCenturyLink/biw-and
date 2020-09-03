@@ -30,8 +30,6 @@ data class AccountDetails(
     val productPlanNameC: String? = null,
     @SerializedName("Product_Name__c")
     val productNameC: String? = null,
-    @SerializedName("Service_Address__c")
-    val serviceCompleteAddress: String? = null,
     @SerializedName("Service_City__c")
     val serviceCity: String? = null,
     @SerializedName("Service_Country__c")
@@ -42,6 +40,8 @@ data class AccountDetails(
     val serviceStreet: String? = null,
     @SerializedName("Service_Zip_Postal_Code__c")
     val servicePostalCode: String? = null,
+    @SerializedName("Unit__c")
+    val serviceUnit: String? = null,
     @SerializedName("Phone")
     val phone: String? = null,
     @SerializedName("Secondary_Phone__c")

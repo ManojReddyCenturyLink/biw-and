@@ -104,9 +104,15 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
             }
             accountDetailsInfo.observe { uiAccountDetails ->
                 binding.accountFullName.text = uiAccountDetails.name
-                binding.accountStreetAddress.text =
-                    uiAccountDetails.serviceAddress1
-                binding.accountCityStateAndZip.text = uiAccountDetails.serviceAddress2
+
+                // Service Address
+                binding.accountServiceAddressLine1.text = uiAccountDetails.formattedServiceAddressLine1
+                binding.accountServiceAddressLine2.text = uiAccountDetails.formattedServiceAddressLine2
+                binding.accountServiceAddressLine1.visibility =
+                    if (uiAccountDetails.formattedServiceAddressLine1.isEmpty()) View.GONE else View.VISIBLE
+                binding.accountServiceAddressLine2.visibility =
+                    if (uiAccountDetails.formattedServiceAddressLine2.isEmpty()) View.GONE else View.VISIBLE
+
                 //planInfo
                 binding.accountSubscriptionCard.accountCardPlanName.text =
                     uiAccountDetails.planName ?: " "
@@ -116,6 +122,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                     uiAccountDetails.paymentDate
                 binding.accountSubscriptionCard.accountCardCardNumbers.text =
                     uiAccountDetails.paymentMethod ?: ""
+
                 // Personal Info
                 binding.accountPersonalInfoCard.personalInfoEmail.text = uiAccountDetails.email
                 binding.accountPersonalInfoCard.personalInfoCellphone.text =
@@ -124,6 +131,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                     uiAccountDetails.homePhone
                 binding.accountPersonalInfoCard.personalInfoWorkphone.text =
                     uiAccountDetails.workPhone
+
                 // Preference
                 binding.accountServiceCallsSwitch.isChecked =
                     uiAccountDetails.serviceCallsAndText
