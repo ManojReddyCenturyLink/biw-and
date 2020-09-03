@@ -152,9 +152,21 @@
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
+    <style name="style_description_small" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/negative_cta</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
     <style name="style_info_label" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="style_installation_cancelled_info" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
@@ -234,7 +246,7 @@
 
     <style name="style_qrcode_name" parent="style_qrcode_header">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
-        <item name="android:textColor">@color/lavender</item>
+        <item name="android:textColor">@color/purple</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_22</item>
     </style>
@@ -337,6 +349,8 @@
 
     <!-- Custom Styles for CTA-->
     <style name="Theme.SwitchButtonTheme" parent="AppTheme">
+        <item name="android:colorForeground">@color/light_grey</item>
+        <item name="colorSwitchThumbNormal">@color/med_grey</item>
         <item name="colorAccent">@color/purple</item>
     </style>
 
@@ -481,6 +495,19 @@
         <item name="android:textColor">@color/eggplant</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
+
+    <style name="style_form_input_fields_grey">
+        <item name="android:background">@drawable/background_thin_border</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="style_form_input_fields_purple">
+        <item name="android:background">@drawable/background_thin_border</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
 
     <!--    error view styles -->
     <style name="ErrorFields" parent="@android:style/TextAppearance">

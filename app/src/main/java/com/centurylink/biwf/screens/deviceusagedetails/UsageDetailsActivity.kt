@@ -108,10 +108,9 @@ class UsageDetailsActivity : BaseActivity() {
                 binding.tapToRetryText.text =
 
                     getString(if (isPaused) R.string.tap_to_resume_connection else R.string.tap_to_pause_connection)
-                binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.font_color_medium_grey else R.color.blue))
 
                     getString(if (isPaused) R.string.tap_to_pause_connection else R.string.tap_to_resume_connection)
-                binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.purple else R.color.med_grey))
+                binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.dark_grey else R.color.purple))
 
             }
         }

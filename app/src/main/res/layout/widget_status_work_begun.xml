@@ -39,7 +39,7 @@
                 android:layout_marginTop="@dimen/above_cardview_elevation"
                 android:layout_marginEnd="@dimen/margin_spacing_small"
                 android:text="@string/installation_underway"
-                style="@style/style_installation_status_subheading"
+                style="@style/style_disclaimer"
                 app:layout_constraintEnd_toStartOf="@+id/incProgress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />

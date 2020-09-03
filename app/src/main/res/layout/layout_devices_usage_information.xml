@@ -269,7 +269,7 @@
 
                 <EditText
                     android:id="@+id/nickname_device_name_input"
-                    style="@style/style_form_input_fields"
+                    style="@style/style_form_input_fields_grey"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:autofillHints=""

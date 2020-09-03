@@ -234,7 +234,7 @@ class NetworkStatusViewModel @Inject constructor(
                     R.drawable.ic_three_bars
                 }
                 false -> {
-                    R.drawable.ic_off
+                    R.drawable.ic_wifi_off
                 }
             },
             networkStatusTextColor = when (guestNetworkEnabled) {
@@ -277,7 +277,7 @@ class NetworkStatusViewModel @Inject constructor(
                     R.drawable.ic_three_bars
                 }
                 false -> {
-                    R.drawable.ic_off
+                    R.drawable.ic_wifi_off
                 }
             },
             networkStatusTextColor = when (wifiNetworkEnabled) {

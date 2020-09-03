@@ -141,6 +141,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         observeAccountStatusViews()
         observeWifiDetailsViews()
         getAppointmentStatus()
+        listenForRebootDialog()
 
     }
 
@@ -210,12 +211,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
                 addMarker(
                     MarkerOptions().position(originLatLng)
-                        .icon(bitMapFromVector(R.drawable.blue_marker))
+                        .icon(bitMapFromVector(R.drawable.purple_marker))
                 )
                 /*We’re not going to be getting technician values until after MVP, so commenting for now
                 addMarker(
                     MarkerOptions().position(destinationLatLng)
-                        .icon(bitMapFromVector(R.drawable.green_marker))
+                        .icon(bitMapFromVector(R.drawable.light_blue_marker))
                 )*/
                 animateCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 10f))
             }
@@ -228,7 +229,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
                 addMarker(
                     MarkerOptions().position(originLatLng)
-                        .icon(bitMapFromVector(R.drawable.blue_marker))
+                        .icon(bitMapFromVector(R.drawable.light_blue_marker))
                 )
             }
         }
@@ -410,8 +411,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.wifiScanList.adapter = wifiDevicesAdapter
     }
 
-     fun updateView() {
-         dashboardViewModel.initDevicesApis()
+    fun updateView() {
+        dashboardViewModel.initDevicesApis()
     }
 
     override fun onWifiQRScanImageClicked(wifidetails: WifiInfo) {
@@ -424,5 +425,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
 
     override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {
         dashboardViewModel.wifiNetworkEnablement(wifidetails)
+    }
+
+    private fun listenForRebootDialog() {
+        dashboardViewModel.rebootDialogFlow.observe { success ->
+            binding.incSpeedTest.runSpeedTestDashboard.isActivated = true
+        }
     }
 }

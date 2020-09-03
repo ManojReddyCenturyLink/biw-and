@@ -49,8 +49,7 @@ android {
         def clientId = "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q"
         def redirectUrl = "myapp://com.force.lightning.ctl-fiber--$subDomain"
         def scope = "web api refresh_token"
-        // TODO - Implement the revoke token endpoint when available
-        def revokeTokenEndpoint = ""
+        def revokeTokenEndpoint = "https://centurylink-test1.apigee.net/v1/mobile/revoke"
 
         buildConfigField "String", "AUTHORIZATION_ENDPOINT", "\"$authorizationEndpoint\""
         buildConfigField "String", "TOKEN_ENDPOINT", "\"$tokenEndpoint\""

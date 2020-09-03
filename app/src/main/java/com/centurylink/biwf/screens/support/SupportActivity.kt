@@ -135,25 +135,26 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             modemResetButtonState.observe {
                 binding.incTroubleshooting.rebootModemButton.isActivated = it
             }
-            speedTestButtonState.observe {
-                binding.incTroubleshooting.runSpeedTestButton.isActivated = it
-            }
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             detailedRebootStatusFlow.observe { rebootStatus ->
                 when (rebootStatus) {
                     ModemRebootMonitorService.RebootState.READY -> {
                         setRebootButtonVisibility(false)
+                        setRunSpeedTestButtonVisibility(false)
                     }
                     ModemRebootMonitorService.RebootState.ONGOING -> {
                         setRebootButtonVisibility(true)
+                        setRunSpeedTestButtonVisibility(true)
                     }
                     ModemRebootMonitorService.RebootState.SUCCESS -> {
                         setRebootButtonVisibility(false)
+                        setRunSpeedTestButtonVisibility(false)
                         showModemRebootSuccessDialog()
                     }
                     ModemRebootMonitorService.RebootState.ERROR -> {
                         setRebootButtonVisibility(false)
+                        setRunSpeedTestButtonVisibility(false)
                         showModemRebootErrorDialog()
                     }
                 }
@@ -227,6 +228,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             if (restarting) View.GONE else View.VISIBLE
         binding.incTroubleshooting.rebootingModemButton.root.visibility =
             if (restarting) View.VISIBLE else View.GONE
+    }
+
+    private fun setRunSpeedTestButtonVisibility(restarting: Boolean) {
+        binding.incTroubleshooting.runSpeedTestButton.isActivated =
+            !restarting
     }
 
     companion object {
