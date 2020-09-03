@@ -325,6 +325,12 @@
         <item name="android:letterSpacing">0.03</item>
     </style>
 
+    <style name="TextViewReadNotificationTitle">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
 
     <!--  Custom Styles for Alert Dialog -->
     <style name="choiceDialog" parent="Theme.AppCompat.Light.Dialog">

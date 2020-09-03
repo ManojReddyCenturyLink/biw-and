@@ -4,31 +4,31 @@
     android:id="@+id/notification_list_read_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/notification_unread_bg"
+    app:cardBackgroundColor="@color/white"
+    android:background="@color/light_lavender"
     app:cardCornerRadius="8dp"
-    app:cardElevation="0dp">
+    app:cardElevation="0dp"
+    android:layout_marginTop="-8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/top_card_bg"
         android:padding="16dp">
         <TextView
             android:id="@+id/notification_list_titleread"
-            android:textColor="@color/notification_read_title_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="@dimen/medium_title_text_size"
+            style="@style/TextViewReadNotificationTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/notification_list_titledetail"
-            android:textColor="@color/notification_read_title_color"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="@dimen/extra_small_text_size"
             android:paddingTop="8dp"
+            style="@style/style_optional_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/notification_list_titleread"
             android:background="@android:color/transparent"/>
