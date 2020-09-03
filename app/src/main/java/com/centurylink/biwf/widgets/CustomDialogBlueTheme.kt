@@ -1,8 +1,13 @@
 package com.centurylink.biwf.widgets
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +28,7 @@ open class CustomDialogBlueTheme(
     lateinit var message: String
     lateinit var buttonText: String
     var isErrorPopup: Boolean = false
+    var linkTextToPhone: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +37,7 @@ open class CustomDialogBlueTheme(
             message = arguments!!.getString(KEY_MESSAGE, "")
             buttonText = arguments!!.getString(KEY_BUTTON_TEXT, "")
             isErrorPopup = arguments!!.getBoolean(KEY_IS_ERROR)
+            linkTextToPhone = arguments!!.getBoolean(TEXT_LINK, false)
         }
     }
 
@@ -41,7 +48,18 @@ open class CustomDialogBlueTheme(
     ): View? {
         val rootView: View = inflater.inflate(R.layout.widget_popup, container, false)
         rootView.popup_title.text = title
-        rootView.popup_message.text = message
+        if (linkTextToPhone){
+            val string = SpannableString(message)
+            string.setSpan(ForegroundColorSpan(resources.getColor(R.color.purple)), 190, 203, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            rootView.popup_message.text = string
+            rootView.popup_message.setOnClickListener {
+                val intent = Intent(Intent.ACTION_DIAL)
+                intent.data = Uri.parse("tel:1234567890")
+                startActivity(intent)
+            }
+        }else{
+            rootView.popup_message.text = message
+        }
         rootView.popup_cancel_btn.setOnClickListener {
             dismiss()
             callback(AlertDialog.BUTTON_NEGATIVE)
@@ -69,13 +87,15 @@ open class CustomDialogBlueTheme(
         private const val KEY_MESSAGE = "message"
         private const val KEY_BUTTON_TEXT = "button-text"
         private const val KEY_IS_ERROR = "is-error"
+        private const val TEXT_LINK = "text-link"
 
         operator fun invoke(
             title: String,
             message: String,
             buttonText: String,
             isErrorPopup: Boolean,
-            callback: (buttonType: Int) -> Unit
+            callback: (buttonType: Int) -> Unit,
+            textLink : Boolean = false
         ): CustomDialogBlueTheme {
             return CustomDialogBlueTheme(callback).apply {
                 arguments = Bundle().apply {
@@ -83,6 +103,7 @@ open class CustomDialogBlueTheme(
                     putString(KEY_MESSAGE, message)
                     putString(KEY_BUTTON_TEXT, buttonText)
                     putBoolean(KEY_IS_ERROR, isErrorPopup)
+                    putBoolean(TEXT_LINK, textLink)
                 }
             }
         }

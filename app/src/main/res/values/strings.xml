@@ -137,7 +137,8 @@
     and you will not have access to internet after that date.</string>
     <string name="cancel_subscription_dialog_keepservice">KEEP SERVICE</string>
     <string name="cancel_subscription_dialog_cancel">CANCEL SERVICE</string>
-    <string name="personal_info_popup_msg">We’re very sorry for the inconvenience, but we are currently unable to accommodate changing email addresses in the app. \n\nYou can change your email by calling our customer support number at 123- 456-7890</string>
+
+    <string name="personal_info_popup_msg">We’re very sorry for the inconvenience, but we are currently unable to accommodate changing email addresses in the app. \n\nYou can change your email by calling our customer support number at <a href="tel:1234567890">123- 456-7890</a></string>
     <string name="password_mandatory">Password*</string>
     <string name="confirm_password">Confirm password</string>
     <string name="confirm_password_mandatory">Confirm password*</string>
