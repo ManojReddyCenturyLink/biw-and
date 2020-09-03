@@ -1,7 +1,9 @@
 package com.centurylink.biwf.screens.home.dashboard
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -193,6 +195,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.connectedDevicesCard.root.setOnClickListener {
             dashboardViewModel.logViewDevicesClick()
             viewClickListener.onViewDevicesClick()
+        }
+        binding.incCanceled.youAreAllSetMsg.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            intent.data = Uri.parse(getString(R.string.tel_url))
+            startActivity(intent)
         }
     }
 

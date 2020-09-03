@@ -277,6 +277,12 @@
         <item name="android:textSize">@dimen/small_title_text_size</item>
     </style>
 
+    <style name="style_spinner_item">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
     <style name="style_devices_usage_subheadings">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>

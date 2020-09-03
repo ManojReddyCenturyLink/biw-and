@@ -8,5 +8,5 @@
         android:width="1dip"
         android:color="@color/strawberry"
         />
-    <corners android:radius="8dp"/>
+    <corners android:radius="@dimen/margin_spacing_really_small"/>
 </shape>
