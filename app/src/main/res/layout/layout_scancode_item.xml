@@ -49,6 +49,7 @@
             tools:text="Scan to join network: My Home WiFi" />
 
         <TextView
+            android:id="@+id/view_full_screen"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
