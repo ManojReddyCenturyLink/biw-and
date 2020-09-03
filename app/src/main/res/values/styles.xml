@@ -319,6 +319,27 @@
         <item name="android:letterSpacing">0.03</item>
     </style>
 
+    <!--  text input border style -->
+
+
+    <style name="style_form_input_fields_grey">
+        <item name="android:background">@drawable/background_thin_border</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="style_form_input_fields_purple">
+        <item name="android:background">@drawable/background_thin_border</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="style_installation_cancelled_info" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
 
     <!--  Custom Styles for Alert Dialog -->
     <style name="choiceDialog" parent="Theme.AppCompat.Light.Dialog">

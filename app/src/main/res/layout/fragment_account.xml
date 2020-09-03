@@ -145,7 +145,7 @@
             android:id="@+id/account_settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/style_network_info_headings"
+            style="@style/style_form_subHeading"
             android:layout_marginTop="32dp"
             android:text="@string/settings_preferences"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
