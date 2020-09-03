@@ -92,7 +92,6 @@ class NetworkStatusViewModel @Inject constructor(
 
     private fun modemStatusRefresh() {
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
-            refreshOnlineData()
             requestModemInfo()
             fetchPasswordApi()
         }
@@ -126,25 +125,6 @@ class NetworkStatusViewModel @Inject constructor(
                     requestToEnableNetwork(NetWorkBand.Band2G_Guest4)
                     requestToEnableNetwork(NetWorkBand.Band5G_Guest4)
                 }
-            }
-        }
-    }
-
-    private suspend fun refreshOnlineData() {
-        when (val modemResponse = assiaRepository.getModemInfo()) {
-            is AssiaNetworkResponse.Success -> {
-                val apiInfo = modemResponse.body.modemInfo?.apInfoList
-                if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
-                    val onlineStatus = OnlineStatus(apiInfo[0].isAlive)
-                    internetStatusFlow.latestValue = onlineStatus
-                } else {
-                    val onlineStatus = OnlineStatus(false)
-                    internetStatusFlow.latestValue = onlineStatus
-                }
-            }
-            else -> {
-                // Ignoring Error to avoid Frequent
-                //errorMessageFlow.latestValue = "Modem Info Not Available"
             }
         }
     }
