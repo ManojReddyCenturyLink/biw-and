@@ -270,6 +270,14 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
+
+    <style name="style_spinner_item">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/purple</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+
     <style name="HeaderTextView">
         <item name="android:fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/purple</item>

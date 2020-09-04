@@ -17,10 +17,7 @@ import com.centurylink.biwf.databinding.LayoutScancodeItemBinding
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.google.zxing.EncodeHintType
-import kotlinx.android.synthetic.main.layout_scancode_item.view.devicename
-import kotlinx.android.synthetic.main.layout_scancode_item.view.iv_network_type
-import kotlinx.android.synthetic.main.layout_scancode_item.view.qrScan
-import kotlinx.android.synthetic.main.layout_scancode_item.view.viewdivider
+import kotlinx.android.synthetic.main.layout_scancode_item.view.*
 import net.glxn.qrgen.android.QRCode
 
 class WifiDevicesAdapter(
@@ -69,6 +66,10 @@ class WifiDevicesAdapter(
                 wifiDeviceClickListener.onWifiQRScanImageClicked(wifiDetails)
             }
             itemView.devicename.setOnClickListener {
+                wifiDeviceClickListener.onWifiNameClicked(wifiDetails.name?:"")
+            }
+
+            itemView.view_full_screen.setOnClickListener {
                 wifiDeviceClickListener.onWifiNameClicked(wifiDetails.name?:"")
             }
 
