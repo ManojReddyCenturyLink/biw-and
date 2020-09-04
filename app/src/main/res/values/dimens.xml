@@ -20,7 +20,6 @@
     <dimen name="text_entry_height">41dp</dimen>
     <dimen name="padding_40">40dp</dimen>
     <dimen name="height_54">54dp</dimen>
-    <dimen name="notification_circle_size">60dp</dimen>
 
     <!--  Design Patterns -->
     <dimen name="section_heading_margin_top">48dp</dimen>

@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
-            style="@style/style_optional_text"
+            style="@style/style_med_grey_small_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/notification_list_titleread"
             android:background="@android:color/transparent"/>

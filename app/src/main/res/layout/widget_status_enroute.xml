@@ -39,7 +39,7 @@
                 android:layout_marginTop="@dimen/above_cardview_elevation"
                 android:layout_marginEnd="@dimen/margin_spacing_small"
                 android:text="@string/a_technician_is_on_the_way"
-                style="@style/style_disclaimer"
+                style="@style/style_med_grey_small_text"
                 app:layout_constraintEnd_toStartOf="@+id/incProgress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
@@ -132,7 +132,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="@dimen/margin_spacing_small"
                     android:text="@string/estimated_arrival_window"
-                    style="@style/style_disclaimer"
+                    style="@style/style_med_grey_small_text"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/technician_name" />
 

@@ -18,12 +18,9 @@
     <string name="call_us"><u>Call us at (123) 456-7890</u></string>
 
     <!--Notification Screen -->
-    <string name="notification_title">Notifications</string>
     <string name="unread_notification_count">%d</string>
     <string name="notification_screen_unread">Unread</string>
     <string name="notification_screen_mark_all_read">Mark All as Read</string>
-    <string name="notification_screen_history">Notification History</string>
-    <string name="notification_screen_clearall"><u>Clear All</u></string>
     <string name="notification_screen_warning">Do you want to Clear all notification,
         Once cleared you will not get back ?</string>
     <string name="dialog_yes">Yes</string>

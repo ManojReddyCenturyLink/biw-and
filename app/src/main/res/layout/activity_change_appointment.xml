@@ -92,7 +92,7 @@
 
             <TextView
                 android:id="@+id/installation_appointment_note"
-                style="@style/style_disclaimer"
+                style="@style/style_med_grey_small_text"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/medium_margin_spacing"

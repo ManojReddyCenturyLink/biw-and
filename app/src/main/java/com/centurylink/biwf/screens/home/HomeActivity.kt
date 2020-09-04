@@ -153,16 +153,16 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
 
     private fun initOnClicks() {
         // TODO right now this feature is not in active so commenting for now
-        binding.iBtnNotificationTop.setOnClickListener { viewModel.onNotificationBellClicked() }
-        binding.iBtnNotificationBottom.setOnClickListener { viewModel.onNotificationBellClicked() }
+        //  binding.iBtnNotificationTop.setOnClickListener { viewModel.onNotificationBellClicked() }
+        //  binding.iBtnNotificationBottom.setOnClickListener { viewModel.onNotificationBellClicked() }
         binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
     //isJobTypeInstallation will be used while implementing Service type installation status
     private fun setupTabsViewPager(isExistingUser: Boolean) {
         binding.iBtnNotificationBottom.visibility =
-            if (isExistingUser) View.GONE else View.VISIBLE
-        binding.iBtnNotificationTop.visibility = if (isExistingUser) View.VISIBLE else View.GONE
+            if (isExistingUser) View.GONE else View.INVISIBLE
+        binding.iBtnNotificationTop.visibility = if (isExistingUser) View.INVISIBLE else View.GONE
         binding.homeOnlineStatusBar.visibility = if (isExistingUser) View.VISIBLE else View.GONE
 
         binding.vpDashboard.adapter = viewPagerAdapter

@@ -72,7 +72,7 @@
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:text="@string/installation_has_been_cancelled"
-            style="@style/style_disclaimer"
+            style="@style/style_med_grey_small_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/installation_complete_title" />

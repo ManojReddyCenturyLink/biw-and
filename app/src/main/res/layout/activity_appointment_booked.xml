@@ -37,7 +37,7 @@
         android:paddingStart="@dimen/medium_margin_spacing"
         android:paddingEnd="@dimen/medium_margin_spacing"
         android:text="@string/appointment_confirmed_message"
-        style="@style/style_qrcode_disclaimer"
+        style="@style/style_dark_grey_medium_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/appointment_confirmed_header" />
 
