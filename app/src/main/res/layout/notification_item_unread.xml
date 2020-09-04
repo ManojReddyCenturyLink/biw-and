@@ -82,7 +82,7 @@
     <View
         android:id="@+id/white_background"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="@dimen/margin_spacing_10"
         android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

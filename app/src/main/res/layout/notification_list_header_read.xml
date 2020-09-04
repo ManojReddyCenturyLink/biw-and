@@ -26,16 +26,9 @@
         android:text="@string/tap_to_view_details"
         android:paddingLeft="@dimen/medium_margin_spacing"
         android:paddingRight="@dimen/medium_margin_spacing"
+        android:paddingBottom="@dimen/height_20"
         app:layout_constraintTop_toBottomOf="@id/notification_list_read_title"
         app:layout_constraintStart_toStartOf="parent"/>
 
-    <View
-        android:id="@+id/lavender_background"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_20"
-        android:background="@color/light_lavender"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notification_list_read_detail"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
