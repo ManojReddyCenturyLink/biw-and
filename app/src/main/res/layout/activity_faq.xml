@@ -108,7 +108,7 @@
                 android:paddingTop="0dp"
                 android:text="@string/frequently_questions_cant_find"
                 android:textColor="@color/purple"
-                android:textSize="@dimen/small_title_text_size"
+                android:textSize="@dimen/text_size_18"
                 app:layout_constraintTop_toBottomOf="@+id/questions_answers_list_view" />
 
             <include

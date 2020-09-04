@@ -1,14 +1,10 @@
 <resources>
     <!-- Login Screen -->
     <string name="app_name">BiWF</string>
-    <string name="login_card_title">Log In to Your Account</string>
     <string name="email">Email:</string>
     <string name="password">Password:</string>
     <string name="personal_info_password">Password</string>
-    <string name="log_in">Log In</string>
     <string name="log_out">Log out</string>
-    <string name="interested_in_fiber">Interested in CenturyLink Best in World Fiber?</string>
-    <string name="forgot_password"><u>Forgot Password</u></string>
     <string name="tittle_text_devices">Devices</string>
     <string name="tittle_text_dashboard">Dashboard</string>
     <string name="tittle_text_account">Account</string>
@@ -18,7 +14,6 @@
     <string name="biometric_prompt_title">Biometric login for BIWF</string>
     <string name="biometric_prompt_message">Log in using your biometric credential</string>
     <string name="cancel">Cancel</string>
-
     <string name="support">Support</string>
     <string name="call_us"><u>Call us at (123) 456-7890</u></string>
 
@@ -46,17 +41,14 @@
     <string name="change_installation_appointment">Change</string>
     <string name="cancel_installation_appointment">Cancel</string>
     <string name="welcome_msg">You’re signed up. Keep track of your installation status here on your Dashboard!</string>
-    <string name="change_appointment">Change Appointment</string>
     <string name="fiber_installation_status">Fiber installation status</string>
     <string name="installation_scheduled">Installation has been scheduled</string>
     <string name="text_time_details">Your appointment is between %1$s and %2$s</string>
     <string name="congratulations">Congratulations!</string>
     <string name="faq_topics">Frequently asked questions</string>
     <string name="troubleshooting">Troubleshooting</string>
-    <string name="edit"><u>edit</u></string>
     <string name="visit_website">Visit website</string>
     <string name="restart_modem">Restart modem</string>
-    <string name="if_you_are_experiencing_problems_with_your_network">If you are experiencing problems with your network</string>
     <string name="run_speed_test">Run speed test</string>
     <string name="last_speed_test">Last speed test: \u0020</string>
     <string name="mbps_upload">Mbps \nupload</string>
@@ -67,14 +59,11 @@
     <string name="biometric_dialog_message">Do you want to enable biometrics for login as blazing fast as your WiFi?</string>
     <string name="dont_allow">Don\'t Allow</string>
     <string name="ok">OK</string>
-    <string name="ok_lowercase">Ok</string>
 
     <!--Support / FAQ Screen -->
-    <string name="faq_title">Network Connection</string>
     <string name="faq_subsection_helpful_videos">Helpful videos</string>
     <string name="frequently_asked_questions">Frequently asked questions</string>
     <string name="frequently_questions_cant_find">Can\'t find the answer to your question?</string>
-    <string name="support_live_chat">Live chat</string>
     <string name="support_schedule_a_callback">Schedule a callback</string>
     <string name="modem_reboot_error_title">Modem restart incomplete.</string>
     <string name="modem_reboot_error_message">Please check that your modem is connected to power and try again.</string>
@@ -83,10 +72,10 @@
     <string name="modem_reboot_success_title">Success!</string>
     <string name="modem_reboot_success_message">Your modem has been restarted. If you\'re still experiencing issues, please contact support.</string>
     <string name="modem_reboot_success_button">Close</string>
-
     <string name="restart">RESTART</string>
     <string name="restart_modem_confirmation_message">This can take up to 5 minutes. You can close the app while you wait if you want, and your modem will continue restarting in the background.</string>
     <string name="restart_modem_confirmation_title">Do you want to restart your modem?</string>
+
     <!--Account Screen -->
     <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
     <string name="service_calls_description">I would like to receive calls and text messages about my CenturyLink services at the number provided</string>
@@ -102,7 +91,6 @@
     <string name="next_payment_date">Next payment date:</string>
     <string name="personal_info">Personal info</string>
     <string name="hidden_password">•••••••••</string>
-    <string name="billing_address">Billing address:</string>
     <string name="cellphone">Cell phone:</string>
     <string name="home_phone">Home phone:</string>
     <string name="work_phone">Work phone:</string>
@@ -119,16 +107,9 @@
     <string name="text_header_cancel">CANCEL</string>
     <string name="schedule_callback">Schedule callback</string>
     <string name="visit_website_text">Need more help? Visit our self-diagnostic tool on our website for additional options.</string>
-    <string name="remember_me">Remember Me</string>
-    <string name="learn_more">Learn More</string>
-    <string name="welcome">Welcome</string>
-    <string name="content_description_app_logo">app logo</string>
     <string name="content_description_holder">Content description Holder</string>
     <string name="live_chat_times">8:00am - 5:00pm MST</string>
     <string name="my_account">My Account</string>
-    <string name="online">Online</string>
-    <string name="dash_spacer">-</string>
-    <string name="biwf_home_wifi">BiWF Home Wifi</string>
     <string name="last_speed_test_fake_value">03/02/2020 at 8:52pm</string>
     <string name="fake_speed_test_download_speed">910</string>
     <string name="speed_test_upload_fake_speed">908</string>
@@ -138,12 +119,8 @@
     <string name="additional_information">Additional information</string>
     <string name="additional_info_title">Additional info</string>
     <string name="next">Next</string>
-    <string name="learn_more_activity">Learn More Activity</string>
-    <string name="activity">Activity</string>
     <string name="call_us_now_at_833_250_6306">Call us now at 833-250-6306</string>
     <string name="done">DONE</string>
-    <string name="internet_online">Internet online</string>
-    <string name="internet_offline">Internet offline</string>
 
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>
@@ -176,9 +153,7 @@
     <string name="login_information">Login information</string>
     <string name="email_address">Email address</string>
     <string name="passwords_do_not_match">Passwords do not match</string>
-    <string name="something_went_wrong">Something went wrong, please try again later.</string>
     <string name="how_do_i_change_my_email">How do I change my email?</string>
-    <string name="error">Error</string>
 
     <!-- Subscription Statement Screen-->
     <string name="statment_header">Statement</string>
@@ -187,11 +162,9 @@
     <string name="statement_payment_details">Payment Details</string>
     <string name="statement_payment_method">Payment method:</string>
     <string name="statement_payment_email">Email:</string>
-
     <string name="statement_billing_address">Billing address:</string>
     <string name="statement_payment_breakdown">Payment Breakdown</string>
     <string name="statement_payment_total">Sales tax</string>
-    <string name="statement_payment_promo_label">Promo code - %s </string>
     <string name="statement_payment_promo_info">$X off your monthly bill</string>
     <string name="cost_template">$%s</string>
     <string name="statement_total">Total</string>
@@ -202,17 +175,6 @@
     <string name="manage_my_subscription">Manage my subscription</string>
     <string name="view_older_statements">View older statements</string>
     <string name="card_payment_fine_print">Your card will be charged $65.00 + taxes and fees on the 1st of every month</string>
-    <string name="same_as_service_address">Same as service address</string>
-    <string name="first_name">First name</string>
-    <string name="last_name">Last name</string>
-    <string name="apt_optional">Apt (optional)</string>
-    <string name="street_address">Street address</string>
-    <string name="zip_code">Zip code</string>
-    <string name="state">State</string>
-    <string name="city">City</string>
-    <string name="credit_card_number">Credit card number</string>
-    <string name="expiration_date">Expiration date</string>
-    <string name="cvv">CVV</string>
     <string name="a_technician_is_on_the_way">A technician is on the way</string>
     <string name="estimated_arrival_window">Estimated arrival window</string>
     <string name="installation_underway">Installation underway</string>
@@ -221,7 +183,6 @@
     <string name="get_started">Get started</string>
     <string name="you_re_all_set">You’re all set!</string>
     <string name="installation_complete">Installation complete</string>
-    <string name="new_user_job_type">Fiber Install - For Installations</string>
     <string name="technician_on_the_way">We are on the way!</string>
     <string name="enroute_notification_message">Make sure the area where the modem will be installed is clear for the technician.</string>
     <string name="work_in_progress">Work in progress…</string>
@@ -240,7 +201,6 @@
     <string name="placeholder_text">- -</string>
 
     <!-- Network Status Screen-->
-    <string name="offline">Offline</string>
     <string name="network_status">Network information</string>
     <string name="lowercase_online">online</string>
     <string name="lowercase_offline">offline</string>
@@ -261,12 +221,9 @@
     <string name="guest_network">Guest network</string>
     <string name="network_password">Network password</string>
     <string name="network_name">Network name</string>
-    <string name="network_name_label">Network name:</string>
-    <string name="guest_network_name_label">Guest network name:</string>
     <string name="wifi_network">WiFi network</string>
     <string name="internet">Internet</string>
     <string name="restarting">Restarting</string>
-
     <string name="connected_devices_singular">Connected device</string>
     <string name="connected_devices_plural">Connected devices</string>
     <string name="removed_devices">Removed devices</string>
@@ -296,12 +253,13 @@
     <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
     <string name="organization">Organization</string>
 
-    <string name="must_be_8_63_characters">Must be 8-63 characters</string>
+
+    <string name="must_be_8_63_characters">must be 8-63 characters</string>
+
     <string name="network_name_mandatory">Network name*</string>
     <string name="network_password_mandatory">Network password*</string>
     <string name="guest_network_name_mandatory">Guest network name*</string>
     <string name="guest_network_password_mandatory">Guest network password*</string>
-    <string name="fields_marked_required">Fields marked * are required</string>
 
     <!--Modify/Cancel Appointment Strings-->
     <string name="select_appointment_slot">Select the day and time that works best for you.</string>
@@ -318,7 +276,7 @@
     <string name="installation_cancellation_confirmation_msg">You’ll need to have an installation appointment to get internet.</string>
     <string name="keep_it">KEEP IT</string>
     <string name="cancel_it">CANCEL IT</string>
-    <string name="if_you_ve_made_a_mistake_in_cancelling_please_call_us_at_833_250_6306">If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 833-250-6306.</string>
+    <string name="cancellation_query_contact_details">If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 123-456-7890.</string>
 
 
     <!--QRSCan Activity-->
@@ -326,12 +284,11 @@
     <string name="scan_to_join_guest">Scan to join guest network:</string>
     <string name="tap_code">Tap code to view full screen</string>
 
-
     <string name="join_code">Join code </string>
     <string name="header_done">DONE</string>
     <string name="scan_network">Scan to join network: </string>
     <string name="brightness_alert">For best results, use full brightness on your phone</string>
-
     <string name="wifi_code">WIFI:T:WPA;S:%1$s;P:%2$s;;</string>
     <string name="nickname_device">Nickname device</string>
+    <string name="tel_url">tel:1234567890</string>
 </resources>

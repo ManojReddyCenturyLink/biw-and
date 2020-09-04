@@ -62,6 +62,15 @@ class NetworkStatusActivity : BaseActivity() {
         viewModel.apply {
             progressViewFlow.observe {
                 showProgress(it)
+                if (it) {
+                    bindings.incHeader.apply {
+                        subheaderRightActionTitle.isActivated = false
+                    }
+                } else {
+                    bindings.incHeader.apply {
+                        subheaderRightActionTitle.isActivated = true
+                    }
+                }
             }
             modemInfoFlow.observe {
                 if (!it.apInfoList.isNullOrEmpty()) {
@@ -84,7 +93,8 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusWifiButtonText.text = getString(it.networkStatusText)
                 bindings.networkStatusWifiButtonText.setTextColor(getColor(it.networkStatusTextColor))
                 bindings.networkStatusWifiImage.setImageDrawable(getDrawable(it.statusIcon))
-                bindings.networkStatusWifiButtonActionText.text = getString(it.networkStatusSubText)
+                bindings.networkStatusWifiButtonActionText.text =
+                    getString(it.networkStatusSubText)
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.setText(it.netWorkName)
