@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.model.contact.UpdatedCallsandTextMarketing
 import com.centurylink.biwf.model.contact.UpdatedMarketingEmails
 import com.centurylink.biwf.service.network.ContactApiService
+import com.centurylink.biwf.utility.PhoneNumber
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -38,8 +39,8 @@ class ContactRepository @Inject constructor(
         )
     }
 
-    suspend fun setMarketingCallsAndText(emailValue: Boolean): String {
-        val updatedCallsandTextMarketing = UpdatedCallsandTextMarketing(emailValue)
+    suspend fun setMarketingCallsAndText(emailValue: Boolean,phoneNumber:String): String {
+        val updatedCallsandTextMarketing = UpdatedCallsandTextMarketing(emailValue,phoneNumber)
         val result: FiberServiceResult<Unit> = contactApiService.submitMarketingCalls(
             getContactId()!!,
             updatedCallsandTextMarketing

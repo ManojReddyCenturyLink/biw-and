@@ -61,6 +61,7 @@ class DashboardViewModel @Inject constructor(
     val uploadSpeed: Flow<String> = BehaviorStateFlow()
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
+    val connectedDevicesNumber: Flow<String> = BehaviorStateFlow()
     val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
@@ -104,6 +105,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             requestWifiDetails()
             fetchPasswordApi()
+            requestDevices()
         }
     }
 
@@ -415,6 +417,19 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    private suspend fun requestDevices() {
+        when (val deviceDetails = assiaRepository.getDevicesDetails()) {
+            is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
+                val connectedList = deviceDetails.body.devicesDataList.filter { !it.blocked }.distinct()
+                connectedDevicesNumber.latestValue=connectedList.size.toString()
+            }
+            else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        }
+    }
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
         progressViewFlow.latestValue = true
         viewModelScope.launch {

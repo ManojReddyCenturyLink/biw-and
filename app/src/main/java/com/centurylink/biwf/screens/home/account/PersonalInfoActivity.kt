@@ -72,6 +72,10 @@ class PersonalInfoActivity : BaseActivity() {
             }
         }
         binding.personalInfoEmailInput.text = intent.getStringExtra(USER_ID)
+        val phoneNumber=formatedString(intent.getStringExtra(PHONE_NUMBER),'-',3)
+        val upadtedPhoneNumber= phoneNumber?.let { formatedString(it,'-',7) }
+
+        binding.personalInfoPhoneNumberInput.setText(upadtedPhoneNumber)
         viewModel.error.observe {
             binding.mandatoryFieldsLabel.visibility =
                 if (it.containsKey("fieldMandatory")) View.VISIBLE else View.GONE
@@ -107,7 +111,7 @@ class PersonalInfoActivity : BaseActivity() {
         viewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
                 viewModel.logResetPasswordSuccess()
-                finish()
+                setResultToAccountFragment()
             } else {
                 viewModel.logResetPasswordFailure()
                 val msg = it
@@ -140,6 +144,8 @@ class PersonalInfoActivity : BaseActivity() {
                     )
                 }
             }
+
+
         }
         binding.ivQuestion.setOnClickListener {
             viewModel.logUpdateEmailPopupClick()
@@ -231,7 +237,7 @@ class PersonalInfoActivity : BaseActivity() {
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
-                finish()
+                setResultToAccountFragment()
             }
         }
     }
@@ -242,18 +248,30 @@ class PersonalInfoActivity : BaseActivity() {
                 validateInfoAndUpdatePassword()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                finish()
+                setResultToAccountFragment()
             }
         }
     }
+    private fun setResultToAccountFragment() {
+            val resultIntent = Intent()
+            resultIntent.putExtra(PHONE_NUMBER,binding.personalInfoPhoneNumberInput.text.toString())
+            setResult(REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO, resultIntent)
+            finish()
+    }
 
+    private fun formatedString(str: String, ch: Char, position: Int): String? {
+        return (str.substring(0, position) + ch + str.substring(position))
+    }
     companion object {
         const val PASSWORD_LAYOUT = "LAYOUT_PASSWORD"
         const val CONFIRM_PASSWORD_LAYOUT = "CONFIRM_PASSWORD_LAYOUT"
         const val USER_ID = "USER_ID"
+        const val PHONE_NUMBER = "PHONE_NUMBER"
+        const val REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO: Int = 1101
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, PersonalInfoActivity::class.java)
                 .putExtra(USER_ID, bundle.getString(USER_ID))
+                .putExtra(PHONE_NUMBER, bundle.getString(PHONE_NUMBER))
         }
     }
 }
