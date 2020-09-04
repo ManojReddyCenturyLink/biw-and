@@ -29,8 +29,10 @@ import javax.inject.Singleton
 class RestServiceConfigModule(
     private val baseUrlFiberServices: String,
     private val baseUrlForAwsBucket: String,
+    // TODO - remove this when all Cloudcheck endpoints are accessed via Apigee
     private val baseUrlForAssiaServices: String,
     private val baseUrlForMcafeeServices: String,
+    private val baseUrlForOauthAssiaServices: String,
     private val integrationServerService: IntegrationServerService,
     private val fakeServicesFactory: ServicesFactory? = null
 ) {
@@ -94,6 +96,23 @@ class RestServiceConfigModule(
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForAssiaServices)
+            .addCallAdapterFactory(AssiaNetworkResponseAdapterFactory())
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
+            .build()
+            .asFactory
+    }
+
+    @Singleton
+    @Provides
+    @BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES)
+    fun provideRetrofitForOAuthAssia(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.OAUTH) client: Call.Factory
+    ):ServicesFactory{
+        return fakeServicesFactory ?: Retrofit.Builder()
+            .callFactory(client)
+            .baseUrl(baseUrlForOauthAssiaServices)
             .addCallAdapterFactory(AssiaNetworkResponseAdapterFactory())
             .addConverterFactory(jsonConverters)
             .addConverterFactory(primitiveTypeConverters)
@@ -226,6 +245,12 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun provideAssiaServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): AssiaService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun providesOauthAsiaService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): OAuthAssiaService {
         return factory.create()
     }
 

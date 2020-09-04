@@ -11,6 +11,7 @@ import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -36,20 +37,18 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var appointmentRepository: AppointmentRepository
-
     @MockK
     private lateinit var  modemRebootMonitorService: ModemRebootMonitorService
     @MockK
     private lateinit var userRepository: UserRepository
     @MockK
     private lateinit var assiaRepository: AssiaRepository
-
+    @MockK
+    private lateinit var mockOAuthAssiaRepository: OAuthAssiaRepository
     @MockK
     private lateinit var accountRepository: AccountRepository
-
     @MockK
     private lateinit var mockPreferences: Preferences
-
     @MockK
     private lateinit var analyticsManagerInterface : AnalyticsManager
 
@@ -87,6 +86,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 mockk(),
                 userRepository,
                 assiaRepository,
+                mockOAuthAssiaRepository,
                 accountRepository,
                 mockModemRebootMonitorService,
                 analyticsManagerInterface
@@ -137,7 +137,18 @@ class HomeViewModelTest : ViewModelBaseTest() {
         coEvery { userRepository.getUserDetails() } returns Either.Left(error = "")
         coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Left(error = "")
         viewModel =
-            HomeViewModel(mockk(), appointmentRepository, mockPreferences, mockk(), userRepository,assiaRepository,accountRepository,mockModemRebootMonitorService,analyticsManagerInterface)
+            HomeViewModel(
+                mockk(),
+                appointmentRepository,
+                mockPreferences,
+                mockk(),
+                userRepository,
+                assiaRepository,
+                mockOAuthAssiaRepository,
+                accountRepository,
+                mockModemRebootMonitorService,
+                analyticsManagerInterface
+            )
         launch {
             viewModel.initApis()
         }

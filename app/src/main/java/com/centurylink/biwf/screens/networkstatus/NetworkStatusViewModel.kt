@@ -10,7 +10,7 @@ import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.wifi.NetWorkBand
 import com.centurylink.biwf.model.wifi.UpdateNWPassword
 import com.centurylink.biwf.model.wifi.UpdateNetworkName
-import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class NetworkStatusViewModel @Inject constructor(
-    private val assiaRepository: AssiaRepository,
+    private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
@@ -130,7 +130,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     private suspend fun requestModemInfo() {
-        val modemResponse = assiaRepository.getModemInfo()
+        val modemResponse = oAuthAssiaRepository.getModemInfo()
         progressViewFlow.latestValue = false
         when (modemResponse) {
             is AssiaNetworkResponse.Success -> {

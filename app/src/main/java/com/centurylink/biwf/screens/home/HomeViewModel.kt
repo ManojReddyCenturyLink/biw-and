@@ -14,6 +14,7 @@ import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
@@ -34,6 +35,7 @@ class HomeViewModel @Inject constructor(
     private val integrationServices: IntegrationRestServices,
     private val userRepository: UserRepository,
     private val assiaRepository: AssiaRepository,
+    private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val accountRepository: AccountRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
      analyticsManagerInterface: AnalyticsManager
@@ -183,7 +185,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun requestModemInfo() {
-        when (val modemInfo = assiaRepository.getModemInfo()) {
+        when (val modemInfo = oAuthAssiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
                 val apiInfo = modemInfo.body.modemInfo?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
