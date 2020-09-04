@@ -80,7 +80,7 @@
                 android:padding="@dimen/spacing_3"
                 android:text="@string/placeholder_text_1"
                 android:textAlignment="center"
-                android:textColor="@android:color/white"
+                android:textColor="@color/purple"
                 android:textSize="@dimen/text_size_10"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -131,8 +131,8 @@
 
             <TextView
                 android:id="@+id/cart_badge1"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
+                android:layout_width="20dp"
+                android:layout_height="28dp"
                 android:layout_gravity="right|end|top"
                 android:layout_marginStart="14dp"
                 android:layout_marginTop="3dp"
@@ -141,7 +141,7 @@
                 android:padding="@dimen/spacing_3"
                 android:text="@string/placeholder_text_1"
                 android:textAlignment="center"
-                android:textColor="@android:color/white"
+                android:textColor="@color/purple"
                 android:textSize="@dimen/text_size_10"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
