@@ -81,6 +81,7 @@
             android:layout_width="match_parent"
             style="@style/common_border_divider_style"
             android:layout_marginTop="@dimen/margin_spacing_small"
+            android:layout_marginEnd="@dimen/margin_spacing_small"
             app:layout_constraintTop_toBottomOf="@+id/qrScan" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
