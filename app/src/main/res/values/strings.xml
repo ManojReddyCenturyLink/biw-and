@@ -206,8 +206,8 @@
     <string name="wifi_network_disabled">WiFi network disabled</string>
     <string name="tap_to_disable_network">tap to disable network</string>
     <string name="tap_to_enable_network">tap to enable network</string>
-    <string name="guest_network_enabled">Guest Network Enabled</string>
-    <string name="guest_network_disabled">Guest Network Disabled</string>
+    <string name="guest_network_enabled">Guest network enabled</string>
+    <string name="guest_network_disabled">Guest network disabled</string>
     <string name="tap_to_disable_guest_network">tap to disable guest network</string>
     <string name="tap_to_enable_guest_network">tap to enable guest network</string>
     <string name="optional">(optional)</string>
