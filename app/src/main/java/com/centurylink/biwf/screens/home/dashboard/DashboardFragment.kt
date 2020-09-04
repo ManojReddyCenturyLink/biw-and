@@ -416,6 +416,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
         wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
         binding.wifiScanList.adapter = wifiDevicesAdapter
+        if(wifiList.isNotEmpty()) binding.layoutNetworkList.visibility = View.VISIBLE else binding.layoutNetworkList.visibility = View.GONE
     }
 
     fun updateView() {
