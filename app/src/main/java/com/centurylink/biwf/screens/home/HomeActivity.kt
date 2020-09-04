@@ -110,7 +110,6 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         }
     }
 
-
     private fun refreshPersonalInfo(phoneNumber:String) {
         val allFragments: List<Fragment> =
             supportFragmentManager.fragments
