@@ -39,7 +39,7 @@
                     android:layout_height="wrap_content"
                     android:text="18"
                     android:textColor="@color/purple"
-                    android:textSize="@dimen/medium_title_text_size"
+                    android:textSize="@dimen/text_size_24"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
