@@ -72,9 +72,11 @@ class PersonalInfoActivity : BaseActivity() {
             }
         }
         binding.personalInfoEmailInput.text = intent.getStringExtra(USER_ID)
-        val phoneNumber=formatedString(intent.getStringExtra(PHONE_NUMBER),'-',3)
-        val upadtedPhoneNumber= phoneNumber?.let { formatedString(it,'-',7) }
-
+        val phoneNumber = formatedString(intent.getStringExtra(PHONE_NUMBER), '-', 3)
+        val upadtedPhoneNumber = phoneNumber?.let { formatedString(it, '-', 7) }
+        if (upadtedPhoneNumber != null) {
+            viewModel.onPhoneNumberChanged(upadtedPhoneNumber)
+        }
         binding.personalInfoPhoneNumberInput.setText(upadtedPhoneNumber)
         viewModel.error.observe {
             binding.mandatoryFieldsLabel.visibility =
@@ -237,7 +239,7 @@ class PersonalInfoActivity : BaseActivity() {
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
-                setResultToAccountFragment()
+                finish()
             }
         }
     }
@@ -248,20 +250,22 @@ class PersonalInfoActivity : BaseActivity() {
                 validateInfoAndUpdatePassword()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                setResultToAccountFragment()
+                finish()
             }
         }
     }
+
     private fun setResultToAccountFragment() {
-            val resultIntent = Intent()
-            resultIntent.putExtra(PHONE_NUMBER,binding.personalInfoPhoneNumberInput.text.toString())
-            setResult(REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO, resultIntent)
-            finish()
+        val resultIntent = Intent()
+        resultIntent.putExtra(PHONE_NUMBER, binding.personalInfoPhoneNumberInput.text.toString())
+        setResult(REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO, resultIntent)
+        finish()
     }
 
     private fun formatedString(str: String, ch: Char, position: Int): String? {
         return (str.substring(0, position) + ch + str.substring(position))
     }
+
     companion object {
         const val PASSWORD_LAYOUT = "LAYOUT_PASSWORD"
         const val CONFIRM_PASSWORD_LAYOUT = "CONFIRM_PASSWORD_LAYOUT"
