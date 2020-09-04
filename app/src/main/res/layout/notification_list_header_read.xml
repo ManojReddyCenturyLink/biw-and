@@ -29,6 +29,4 @@
         android:paddingBottom="@dimen/height_20"
         app:layout_constraintTop_toBottomOf="@id/notification_list_read_title"
         app:layout_constraintStart_toStartOf="parent"/>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

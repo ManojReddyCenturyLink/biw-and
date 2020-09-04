@@ -87,6 +87,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/notification_list_unread_card_background"/>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -29,7 +29,6 @@
     <string name="read_notifications">Read Notifications</string>
     <string name="tap_to_view_details">Tap to view details</string>
 
-
     <!--Notification Details Screen -->
     <string name="notification_details">Notification details</string>
     <string name="webpage_error">Error in Loading Page</string>

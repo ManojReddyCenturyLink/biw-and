@@ -86,20 +86,11 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
 class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
-    //TODO - commenting since feature is not active right now
-    //private var clearAllView: TextView = view.findViewById(R.id.notification_list_clearall)
-
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
     ) {
-        //TODO - commenting since feature is not active right now
-//        clearAllView.setOnClickListener {
-//            // your code to perform when the user clicks on the button
-//            notificationItemClickListener.clearAllReadNotification()
-//        }
-    }
-}
+    }}
 
 /**
  * Item View holder class responsible for displaying the Items in the RecyclerView
