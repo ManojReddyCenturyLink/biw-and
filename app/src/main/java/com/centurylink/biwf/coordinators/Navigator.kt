@@ -14,6 +14,7 @@ import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity.Comp
 import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
+import com.centurylink.biwf.screens.home.account.PersonalInfoActivity.Companion.REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO
 import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.login.LoginActivity
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
@@ -145,7 +146,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToPersonalInfoActivity() {
         val bundle = AccountCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(PersonalInfoActivity.newIntent(it, bundle))
+            it.startActivityForResult(
+                PersonalInfoActivity.newIntent(it, bundle),
+                REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO
+            )
         }
     }
 
