@@ -78,24 +78,11 @@
         <item name="android:textSize">@dimen/text_size_18</item>
     </style>
 
-    <style name="TextViewProgressStatus">
-        <item name="android:fontFamily">@font/arial_mt</item>
-        <item name="android:textColor">@color/dark_grey</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:lineSpacingExtra">@dimen/spacing_4</item>
-    </style>
-
     <style name="style_progressbar_textstatus">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:lineSpacingExtra">@dimen/spacing_4</item>
-    </style>
-
-    <style name="style_devices_usage_label">
-        <item name="android:fontFamily">@font/arial_mt</item>
-        <item name="android:textColor">@color/dark_grey</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
     <style name="single_line_text_content">
@@ -116,13 +103,7 @@
         <item name="android:textSize">@dimen/text_size_22</item>
     </style>
 
-    <style name="style_qrcode_disclaimer" parent="@android:style/TextAppearance">
-        <item name="android:fontFamily">@font/arial_mt</item>
-        <item name="android:textColor">@color/dark_grey</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
-    </style>
-
-    <style name="style_network_info_internet_modem_status">
+    <style name="style_dark_grey_medium_text">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textSize">@dimen/text_size_14</item>
@@ -146,12 +127,6 @@
         <item name="android:textSize">@dimen/text_size_18</item>
     </style>
 
-    <style name="style_disclaimer_small" parent="@android:style/TextAppearance">
-        <item name="android:fontFamily">@font/arial_mt</item>
-        <item name="android:textColor">@color/negative_cta</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
-    </style>
-
     <style name="style_description_small" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/negative_cta</item>
@@ -170,31 +145,13 @@
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
-    <style name="style_cancellation_date_selection">
-        <item name="android:fontFamily">@font/arial_mt</item>
-        <item name="android:textColor">@color/med_grey</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
-    </style>
-
     <style name="style_mbps_view" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/lavender</item>
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
 
-    <style name="style_network_info_button_action_text">
-        <item name="android:fontFamily">@font/arial_mt</item>
-        <item name="android:textColor">@color/med_grey</item>
-        <item name="android:textSize">@dimen/text_size_12</item>
-    </style>
-
-    <style name="style_disclaimer" parent="@android:style/TextAppearance">
-        <item name="android:fontFamily">@font/arial_mt</item>
-        <item name="android:textColor">@color/med_grey</item>
-        <item name="android:textSize">@dimen/text_size_12</item>
-    </style>
-
-    <style name="style_optional_text">
+    <style name="style_med_grey_small_text">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textSize">@dimen/text_size_12</item>
@@ -270,7 +227,6 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
-
     <style name="style_spinner_item">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/purple</item>
@@ -327,6 +283,18 @@
         <item name="android:letterSpacing">0.03</item>
     </style>
 
+    <style name="TextViewReadNotificationTitle">
+        <item name="android:fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
+    <style name="style_optional_text">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/med_grey</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
 
     <!--  Custom Styles for Alert Dialog -->
     <style name="choiceDialog" parent="Theme.AppCompat.Light.Dialog">
@@ -515,7 +483,6 @@
         <item name="android:textColor">@color/purple</item>
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
-
 
     <!--    error view styles -->
     <style name="ErrorFields" parent="@android:style/TextAppearance">

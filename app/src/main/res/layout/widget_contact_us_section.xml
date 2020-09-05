@@ -42,7 +42,7 @@
         android:layout_width="@dimen/padding_0"
         android:layout_height="wrap_content"
         android:text="@string/live_chat_times"
-        style="@style/style_disclaimer"
+        style="@style/style_med_grey_small_text"
         app:layout_constraintBottom_toBottomOf="@+id/live_chat_textview"
         app:layout_constraintEnd_toStartOf="@+id/live_chat_navigate_website"
         app:layout_constraintTop_toTopOf="@+id/live_chat_textview" />
@@ -92,7 +92,7 @@
             android:layout_width="@dimen/padding_0"
             android:layout_height="wrap_content"
             android:text="@string/live_chat_times"
-            style="@style/style_disclaimer"
+            style="@style/style_med_grey_small_text"
             app:layout_constraintBottom_toBottomOf="@+id/schedule_callback_textview"
             app:layout_constraintEnd_toStartOf="@+id/schedule_callback_navigate"
             app:layout_constraintTop_toTopOf="@+id/schedule_callback_textview" />

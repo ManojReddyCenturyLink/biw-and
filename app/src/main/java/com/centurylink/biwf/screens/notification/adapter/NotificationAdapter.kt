@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.model.notification.Notification
@@ -65,7 +66,7 @@ sealed class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
     private val context: Context = view.context
-    private var unReadNotificationCount: TextView = view.findViewById(R.id.notification_list_unread)
+    private var unReadNotificationCount: TextView = view.findViewById(R.id.unread_notification_count)
     private var markAllReadView: TextView = view.findViewById(R.id.notification_list_unread_mark_as_read)
     override fun bind(
         notificationItem: Notification,
@@ -73,7 +74,7 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
     ) {
         if(unreadItemCount>0) {
             val unreadValue: String =
-                context.getString(R.string.notification_screen_unread, unreadItemCount - 1)
+                context.getString(R.string.unread_notification_count, unreadItemCount - 1)
             unReadNotificationCount.text = unreadValue
         }
         markAllReadView.setOnClickListener {
@@ -85,18 +86,11 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
 class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
-    private var clearAllView: TextView = view.findViewById(R.id.notification_list_clearall)
-
     override fun bind(
         notificationItem: Notification,
         notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
     ) {
-        clearAllView.setOnClickListener {
-            // your code to perform when the user clicks on the button
-            notificationItemClickListener.clearAllReadNotification()
-        }
-    }
-}
+    }}
 
 /**
  * Item View holder class responsible for displaying the Items in the RecyclerView
@@ -107,7 +101,7 @@ class UnReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_unread_detail)
 
-    private var notificationItemBackground : CardView = view.findViewById(R.id.notification_list_unread_background)
+    private var notificationItemBackground : CardView = view.findViewById(R.id.notification_list_unread_card_background)
 
     override fun bind(
         notificationItem: Notification,
@@ -131,7 +125,7 @@ class ReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_titledetail)
 
-    private var notificationItemBackground :CardView = view.findViewById(R.id.notification_list_read_background)
+    private var notificationItemBackground :ConstraintLayout = view.findViewById(R.id.notification_list_read_background)
 
     override fun bind(
         notificationItem: Notification,
