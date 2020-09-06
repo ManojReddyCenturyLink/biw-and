@@ -117,6 +117,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 if (it) View.VISIBLE else View.INVISIBLE
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
+            binding.incSpeedTest.runSpeedTestDashboard.isActivated = !it
         }
         dashboardViewModel.speedTestButtonState.observe {
             binding.incSpeedTest.runSpeedTestDashboard.isActivated = it

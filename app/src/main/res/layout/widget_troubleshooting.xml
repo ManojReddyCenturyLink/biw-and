@@ -191,17 +191,6 @@
         app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
 
     <Button
-        android:id="@+id/running_speed_test_button"
-        style="@style/style_speed_test_button_support"
-        android:layout_width="@dimen/padding_0"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_spacing_small"
-        android:text="@string/run_speed_test"
-        android:visibility="gone"
-        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/troubleshooting_details" />
-    <Button
         android:id="@+id/reboot_modem_button"
         style="@style/primaryButtonFilled"
         android:layout_width="@dimen/padding_0"
