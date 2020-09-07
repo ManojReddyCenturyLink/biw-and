@@ -15,7 +15,6 @@
     <color name="font_color_medium_grey">#53565a</color>
     <color name="text_label_color">#a6000000</color>
 
-    <!-- Temporarily blocked to remove the Build Breakage, this color file will be replaced by quantum colors-->
     <color name="purple">#503296</color>
     <color name="lavender">#7b8ee1</color>
     <color name="light_blue">#38c6f4</color>
