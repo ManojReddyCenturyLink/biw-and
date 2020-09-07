@@ -15,8 +15,8 @@ class OAuthAssiaRepository @Inject constructor(
     suspend fun getModemInfo(): AssiaNetworkResponse<ModemInfoResponse, AssiaError> {
         val result = oAuthAssiaService.getLineInfo(preferences.getLineId())
         if (result is AssiaNetworkResponse.Success) {
-            val apInfoList = result.body.modemInfo.apInfoList
-            if (apInfoList.isNotEmpty()) {
+            val apInfoList = result.body.modemInfo?.apInfoList
+            if (!apInfoList.isNullOrEmpty()) {
                 val deviceId = apInfoList[0].deviceId
                 if (!deviceId.isNullOrEmpty()) {
                     preferences.saveAssiaId(deviceId)
