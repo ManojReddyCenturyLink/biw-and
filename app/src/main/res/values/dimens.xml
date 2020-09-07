@@ -5,6 +5,7 @@
     <dimen name="above_cardview_elevation">2dp</dimen>
     <dimen name="spacing_3">3dp</dimen>
     <dimen name="spacing_4">4dp</dimen>
+    <dimen name="spacing_negative_4">-4dp</dimen>
     <dimen name="margin_spacing_tiny">8dp</dimen>
     <dimen name="margin_spacing_10">10dp</dimen>
     <dimen name="margin_spacing_really_small">12dp</dimen>
