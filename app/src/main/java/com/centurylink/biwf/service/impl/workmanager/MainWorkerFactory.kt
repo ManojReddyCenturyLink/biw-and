@@ -1,7 +1,7 @@
 package com.centurylink.biwf.service.impl.workmanager
 
 import androidx.work.DelegatingWorkerFactory
-import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,10 +17,10 @@ import javax.inject.Singleton
  */
 @Singleton
 class MainWorkerFactory @Inject constructor(
-    assiaRepository: AssiaRepository
+    oAuthAssiaRepository: OAuthAssiaRepository
 ) : DelegatingWorkerFactory() {
 
     init {
-        addFactory(AssiaWorkerFactory(assiaRepository))
+        addFactory(AssiaWorkerFactory(oAuthAssiaRepository))
     }
 }

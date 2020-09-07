@@ -2,27 +2,31 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/notification_header_height"
-    android:background="@color/white">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/medium_margin_spacing"
+    android:background="@color/light_lavender">
     <TextView
         android:id="@+id/notification_list_read_title"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textStyle="bold"
-        android:textSize="@dimen/text_size_18"
-        android:gravity="center_vertical"
-        android:textColor="@color/black"
+        android:paddingLeft="@dimen/medium_margin_spacing"
+        android:paddingRight="@dimen/medium_margin_spacing"
+        style="@style/style_devices_usage_subheadings"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/notification_screen_history" />
+        android:text="@string/read_notifications" />
     <TextView
-        android:id="@+id/notification_list_clearall"
+        android:id="@+id/notification_list_read_detail"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="@dimen/text_size_14"
-        android:textColor="@color/black"
-        android:gravity="center_vertical"
-        android:text="@string/notification_screen_clearall" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        style="@style/style_med_grey_small_text"
+        android:text="@string/tap_to_view_details"
+        android:paddingLeft="@dimen/medium_margin_spacing"
+        android:paddingRight="@dimen/medium_margin_spacing"
+        android:paddingBottom="@dimen/height_20"
+        app:layout_constraintTop_toBottomOf="@id/notification_list_read_title"
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

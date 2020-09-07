@@ -76,7 +76,7 @@
 
                     <TextView
                         android:id="@+id/daily_usage_text"
-                        android:textAppearance="@style/style_devices_usage_label"
+                        android:textAppearance="@style/single_line_text_content"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:text="@string/today_s_data_usage"
@@ -97,7 +97,7 @@
 
                     <TextView
                         android:id="@+id/download_speed_unit_daily"
-                        android:textAppearance="@style/style_optional_text"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
@@ -119,7 +119,7 @@
 
                     <TextView
                         android:id="@+id/daily_upload_speed_unit"
-                        android:textAppearance="@style/style_optional_text"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
@@ -130,7 +130,7 @@
 
                     <TextView
                         android:id="@+id/biweekly_usage_text"
-                        android:textAppearance="@style/style_devices_usage_label"
+                        android:textAppearance="@style/single_line_text_content"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_spacing_small"
@@ -151,7 +151,7 @@
 
                     <TextView
                         android:id="@+id/download_speed_unit_biweekly"
-                        android:textAppearance="@style/style_optional_text"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
@@ -173,7 +173,7 @@
 
                     <TextView
                         android:id="@+id/upload_speed_unit_biweekly"
-                        android:textAppearance="@style/style_optional_text"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
@@ -218,7 +218,7 @@
 
                 <TextView
                     android:id="@+id/tap_to_retry_text"
-                    android:textAppearance="@style/style_optional_text"
+                    android:textAppearance="@style/style_med_grey_small_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_tiny"
@@ -260,7 +260,7 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:textAppearance="@style/style_optional_text"
+                    android:textAppearance="@style/style_med_grey_small_text"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_4"
                     android:text="@string/optional"

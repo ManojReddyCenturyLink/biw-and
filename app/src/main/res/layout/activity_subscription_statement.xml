@@ -57,7 +57,7 @@
 
             <TextView
                 android:id="@+id/subscription_statement_processed_date"
-                style="@style/style_disclaimer"
+                style="@style/style_med_grey_small_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/medium_margin_spacing"
@@ -206,7 +206,7 @@
 
             <TextView
                 android:id="@+id/subscription_statement_promo_subheader"
-                style="@style/style_disclaimer"
+                style="@style/style_med_grey_small_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"

@@ -183,7 +183,7 @@
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:text="@string/last_speed_test"
             android:textStyle="bold"
-            style="@style/style_optional_text"
+            style="@style/style_med_grey_small_text"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -192,7 +192,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_spacing_small"
-            style="@style/style_optional_text"
+            style="@style/style_med_grey_small_text"
             app:layout_constraintStart_toEndOf="@+id/last_speed_test_title"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="03/02/2020 at 8:52pm" />

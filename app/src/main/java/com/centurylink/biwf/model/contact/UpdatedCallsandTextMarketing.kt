@@ -5,5 +5,7 @@ import java.io.Serializable
 
 data class UpdatedCallsandTextMarketing(
     @SerializedName("Marketing_Opt_In__c")
-    val marketingOptInC: Boolean
+    val marketingOptInC: Boolean,
+    @SerializedName("MobilePhone")
+    val phoneNumber: String
 ) : Serializable

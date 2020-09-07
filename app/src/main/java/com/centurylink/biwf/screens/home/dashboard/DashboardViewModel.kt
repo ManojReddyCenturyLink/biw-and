@@ -21,6 +21,7 @@ import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
@@ -46,6 +47,7 @@ class DashboardViewModel @Inject constructor(
     private val appointmentRepository: AppointmentRepository,
     private val sharedPreferences: Preferences,
     private val assiaRepository: AssiaRepository,
+    private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val devicesRepository: DevicesRepository,
     private val accountRepository: AccountRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
@@ -61,6 +63,7 @@ class DashboardViewModel @Inject constructor(
     val uploadSpeed: Flow<String> = BehaviorStateFlow()
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
+    val connectedDevicesNumber: Flow<String> = BehaviorStateFlow()
     val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
@@ -104,6 +107,7 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             requestWifiDetails()
             fetchPasswordApi()
+            requestDevices()
         }
     }
 
@@ -342,7 +346,7 @@ class DashboardViewModel @Inject constructor(
 
     private suspend fun requestWifiDetails() {
         progressViewFlow.latestValue = true
-        when (val modemResponse = assiaRepository.getModemInfo()) {
+        when (val modemResponse = oAuthAssiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
                 val apiInfo = modemResponse.body.modemInfo?.apInfoList
@@ -415,6 +419,19 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    private suspend fun requestDevices() {
+        when (val deviceDetails = assiaRepository.getDevicesDetails()) {
+            is AssiaNetworkResponse.Success -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
+                val connectedList = deviceDetails.body.devicesDataList.filter { !it.blocked }.distinct()
+                connectedDevicesNumber.latestValue=connectedList.size.toString()
+            }
+            else -> {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        }
+    }
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
         progressViewFlow.latestValue = true
         viewModelScope.launch {

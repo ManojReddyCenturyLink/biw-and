@@ -18,18 +18,19 @@
     <string name="call_us"><u>Call us at (123) 456-7890</u></string>
 
     <!--Notification Screen -->
-    <string name="notification_title">Notifications</string>
-    <string name="notification_screen_unread">Unread (%d)</string>
-    <string name="notification_screen_mark_all_read"><u>Mark All as Read</u></string>
-    <string name="notification_screen_history">Notification History</string>
-    <string name="notification_screen_clearall"><u>Clear All</u></string>
+    <string name="unread_notification_count">%d</string>
+    <string name="notification_screen_unread">Unread</string>
+    <string name="notification_screen_mark_all_read">Mark All as Read</string>
     <string name="notification_screen_warning">Do you want to Clear all notification,
         Once cleared you will not get back ?</string>
     <string name="dialog_yes">Yes</string>
     <string name="dialog_no">No</string>
     <string name="dialog_notiifcation_title">Delete Notifications</string>
+    <string name="read_notifications">Read Notifications</string>
+    <string name="tap_to_view_details">Tap to view details</string>
+
     <!--Notification Details Screen -->
-    <string name="notification_details">Notification Details</string>
+    <string name="notification_details">Notification details</string>
     <string name="webpage_error">Error in Loading Page</string>
 
     <!--Dashboard Screen -->

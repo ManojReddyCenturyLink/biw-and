@@ -18,14 +18,8 @@ import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
-import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.DateUtils
-import com.centurylink.biwf.utility.EventFlow
-import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.PhoneNumber
-import com.centurylink.biwf.utility.ViewModelFactoryWithInput
+import com.centurylink.biwf.utility.*
 import com.centurylink.biwf.utility.preferences.Preferences
-import com.centurylink.biwf.utility.viewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -72,7 +66,7 @@ class AccountViewModel internal constructor(
     val bioMetricFlow: Flow<Boolean> = BehaviorStateFlow(sharedPreferences.getBioMetrics() ?: false)
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
     var progressViewFlow = EventFlow<Boolean>()
-
+    var userPhoneNumberUpdateFlow = EventFlow<String>()
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
         initApiCalls()
@@ -91,6 +85,13 @@ class AccountViewModel internal constructor(
         }
     }
 
+    fun initAccountAndContactApiCalls() {
+        viewModelScope.launch {
+            progressViewFlow.latestValue = true
+            requestAccountDetails()
+            requestContactInfo()
+        }
+    }
     fun onBiometricChange(boolean: Boolean) {
         sharedPreferences.saveBioMetrics(boolean)
         analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_BIOMETRIC, boolean)
@@ -102,7 +103,10 @@ class AccountViewModel internal constructor(
             val result = accountRepository.setServiceCallsAndTexts(serviceCall)
             errorMessageFlow.latestValue = result
         }
-        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_SERVICE_CALLS_AND_TEXT, serviceCall)
+        analyticsManagerInterface.logToggleChangeEvent(
+            AnalyticsKeys.TOGGLE_SERVICE_CALLS_AND_TEXT,
+            serviceCall
+        )
     }
 
     fun onMarketingEmailsChange(boolean: Boolean) {
@@ -111,16 +115,22 @@ class AccountViewModel internal constructor(
             val result = contactRepository.setMarketingEmails(boolean)
             errorMessageFlow.latestValue = result
         }
-        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_EMAILS, boolean)
+        analyticsManagerInterface.logToggleChangeEvent(
+            AnalyticsKeys.TOGGLE_MARKETING_EMAILS,
+            boolean
+        )
     }
 
-    fun onMarketingCallsAndTextsChange(boolean: Boolean) {
+    fun onMarketingCallsAndTextsChange(boolean: Boolean,phoneNumber: String) {
         viewModelScope.launch {
             uiAccountDetails = uiAccountDetails.copy(marketingCallsAndText = boolean)
-            val result = contactRepository.setMarketingCallsAndText(boolean)
-            errorMessageFlow.latestValue = result
+            val result = contactRepository.setMarketingCallsAndText(boolean,phoneNumber)
+            userPhoneNumberUpdateFlow.latestValue = result
         }
-        analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_MARKETING_CALLS_AND_TEXT, boolean)
+        analyticsManagerInterface.logToggleChangeEvent(
+            AnalyticsKeys.TOGGLE_MARKETING_CALLS_AND_TEXT,
+            boolean
+        )
     }
 
     fun onSubscriptionCardClick() {
@@ -132,6 +142,10 @@ class AccountViewModel internal constructor(
         analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.CARD_PERSONAL_INFO)
         val bundle = Bundle()
         bundle.putString(PersonalInfoActivity.USER_ID, accountDetailsInfo.latestValue.email)
+        bundle.putString(
+            PersonalInfoActivity.PHONE_NUMBER,
+            NumberUtil.getOnlyDigits(accountDetailsInfo.latestValue.cellPhone)
+        )
         AccountCoordinatorDestinations.bundle = bundle
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
     }

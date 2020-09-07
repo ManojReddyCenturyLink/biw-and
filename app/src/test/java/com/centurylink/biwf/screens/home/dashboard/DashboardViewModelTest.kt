@@ -58,6 +58,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     private lateinit var accountDetails: AccountDetails
     @MockK
     private lateinit var mockAssiaRepository: AssiaRepository
+    @MockK
+    private lateinit var mockOAuthAssiaRepository: OAuthAssiaRepository
 
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
@@ -144,6 +146,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             appointmentRepository = appointmentRepository,
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
+            oAuthAssiaRepository = mockOAuthAssiaRepository,
             devicesRepository = devicesRepository,
             accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
@@ -210,8 +213,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             appointmentRepository = appointmentRepository,
             sharedPreferences = mockPreferences,
             assiaRepository = mockAssiaRepository,
+            oAuthAssiaRepository = mockOAuthAssiaRepository,
             devicesRepository = devicesRepository,
-            accountRepository=accountRepository,
+            accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface

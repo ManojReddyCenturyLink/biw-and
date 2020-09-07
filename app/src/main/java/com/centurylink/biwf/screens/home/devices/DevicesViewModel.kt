@@ -12,6 +12,7 @@ import com.centurylink.biwf.model.mcafee.DevicePauseStatus
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.McafeeRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -25,6 +26,7 @@ import javax.inject.Inject
 class DevicesViewModel @Inject constructor(
     private val devicesRepository: DevicesRepository,
     private val asiaRepository: AssiaRepository,
+    private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val mcafeeRepository: McafeeRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
@@ -175,7 +177,7 @@ class DevicesViewModel @Inject constructor(
     }
 
     private suspend fun requestModemDetails() {
-        when (val modemDetails = asiaRepository.getModemInfo()) {
+        when (val modemDetails = oAuthAssiaRepository.getModemInfo()) {
             is AssiaNetworkResponse.Success -> {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_SUCCESS)
                 val apiInfo = modemDetails.body.modemInfo?.apInfoList

@@ -110,6 +110,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         dashboardViewModel.latestSpeedTest.observe {
             binding.incSpeedTest.lastSpeedTestTime.text = it
         }
+
+        dashboardViewModel.connectedDevicesNumber.observe {
+            binding.connectedDevicesCard.devicesConnectedNo.text = it
+        }
         dashboardViewModel.progressVisibility.observe {
             binding.incSpeedTest.uploadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
             binding.incSpeedTest.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
@@ -416,7 +420,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
         wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
         binding.wifiScanList.adapter = wifiDevicesAdapter
-        if(wifiList.isNotEmpty()) binding.layoutNetworkList.visibility = View.VISIBLE else binding.layoutNetworkList.visibility = View.GONE
+        if (wifiList.isNotEmpty()) binding.layoutNetworkList.visibility =
+            View.VISIBLE else binding.layoutNetworkList.visibility = View.GONE
     }
 
     fun updateView() {
