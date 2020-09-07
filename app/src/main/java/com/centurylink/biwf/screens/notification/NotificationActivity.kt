@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
@@ -56,6 +57,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         viewModel.myState.observeWith(notificationCoordinator)
 
         initView()
+        initHeaders()
         getNotificationInformation()
     }
 
@@ -86,13 +88,21 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         }
     }
 
+    private fun initHeaders() {
+        var screenTitle: String = getString(R.string.notification_details)
+        binding.incHeader.apply {
+            subHeaderLeftIcon.visibility = View.GONE
+            subheaderCenterTitle.text = screenTitle
+            subheaderRightActionTitle.text = getText(R.string.done)
+            subheaderRightActionTitle.setOnClickListener {
+                finish()
+            }
+        }
+    }
+
     private fun initView() {
         binding.notificationListRecyclerview.layoutManager =
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        val myDivider = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
-        binding.notificationListRecyclerview.addItemDecoration(myDivider)
-        binding.notificationListCloseicon.setOnClickListener { finish() }
+           LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 
     private fun getNotificationInformation() {

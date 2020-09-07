@@ -50,7 +50,7 @@
 
     <TextView
         android:id="@+id/network_description_tv"
-        style="@style/style_qrcode_disclaimer"
+        style="@style/style_dark_grey_medium_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_spacing_small"

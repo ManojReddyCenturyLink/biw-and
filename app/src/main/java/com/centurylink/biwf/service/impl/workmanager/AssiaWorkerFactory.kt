@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.work.ListenableWorker
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
-import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 
 /**
-  Class that allows Worker classes like [ModemRebootMonitorWorker] to be created with access to [AssiaRepository]
+  Class that allows Worker classes like [ModemRebootMonitorWorker] to be created with access to [OAuthAssiaRepository]
  */
-class AssiaWorkerFactory(private val assiaRepository: AssiaRepository) : WorkerFactory() {
+class AssiaWorkerFactory(private val oAuthAssiaRepository: OAuthAssiaRepository) : WorkerFactory() {
 
     override fun createWorker(
         appContext: Context,
@@ -18,7 +18,7 @@ class AssiaWorkerFactory(private val assiaRepository: AssiaRepository) : WorkerF
     ): ListenableWorker? {
         return when (workerClassName) {
             ModemRebootMonitorWorker::class.java.name ->
-                ModemRebootMonitorWorker(appContext, workerParameters, assiaRepository)
+                ModemRebootMonitorWorker(appContext, workerParameters, oAuthAssiaRepository)
             else -> null
         }
     }

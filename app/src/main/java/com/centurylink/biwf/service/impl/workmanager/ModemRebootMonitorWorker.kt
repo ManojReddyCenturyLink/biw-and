@@ -5,7 +5,7 @@ import androidx.work.CoroutineWorker
 import androidx.work.ListenableWorker.Result.failure
 import androidx.work.ListenableWorker.Result.success
 import androidx.work.WorkerParameters
-import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -15,7 +15,7 @@ import timber.log.Timber
 class ModemRebootMonitorWorker constructor(
     context: Context,
     workerParams: WorkerParameters,
-    private val assiaRepository: AssiaRepository
+    private val oAuthAssiaRepository: OAuthAssiaRepository
 ) : CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
@@ -35,7 +35,7 @@ class ModemRebootMonitorWorker constructor(
     }
 
     private suspend fun isRebootComplete(): Boolean {
-        val result = assiaRepository.getModemInfoForcePing()
+        val result = oAuthAssiaRepository.getModemInfoForcePing()
         return result is AssiaNetworkResponse.Success && result.body.modemInfo.apInfoList[0].isAlive
     }
 

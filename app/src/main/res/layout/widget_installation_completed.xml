@@ -97,7 +97,7 @@
                 android:paddingEnd="40dp"
                 android:text="@string/the_network_is_ready_for_you_to_connect_and_start_enjoying_your_blazing_fast_internet"
                 android:textAlignment="center"
-                style="@style/style_disclaimer"
+                style="@style/style_med_grey_small_text"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/you_are_all_set_title" />

@@ -1,6 +1,5 @@
 package com.centurylink.biwf.service.network
 
-import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
@@ -16,9 +15,6 @@ import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface AssiaService {
-
-    @GET("api/v3/wifi/line/info")
-    suspend fun getModemInfo(@HeaderMap header: Map<String, String>): AssiaNetworkResponse<ModemInfoResponse, AssiaError>
 
     @GET("api/v2/wifi/diags/stationinfo")
     suspend fun getDevicesList(@HeaderMap header: Map<String, String>): AssiaNetworkResponse<DevicesInfo, AssiaError>

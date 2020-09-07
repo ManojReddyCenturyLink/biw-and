@@ -83,7 +83,7 @@
 
             <TextView
                 android:id="@+id/cancellation_date_selection"
-                android:textAppearance="@style/style_cancellation_date_selection"
+                android:textAppearance="@style/style_info_label"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/text_entry_height"
                 android:background="@drawable/background_thin_border"
@@ -107,7 +107,7 @@
 
             <TextView
                 android:id="@+id/cancellation_reason_optional_label"
-                android:textAppearance="@style/style_optional_text"
+                android:textAppearance="@style/style_med_grey_small_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -154,7 +154,7 @@
 
             <TextView
                 android:id="@+id/cancellation_specify_reason_optional_label"
-                android:textAppearance="@style/style_optional_text"
+                android:textAppearance="@style/style_med_grey_small_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -192,7 +192,7 @@
 
             <TextView
                 android:id="@+id/cancellation_specify_service_optional_label"
-                android:textAppearance="@style/style_optional_text"
+                android:textAppearance="@style/style_med_grey_small_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
@@ -233,7 +233,7 @@
 
             <TextView
                 android:id="@+id/cancellation_specify_comments_optional_label"
-                android:textAppearance="@style/style_optional_text"
+                android:textAppearance="@style/style_med_grey_small_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"

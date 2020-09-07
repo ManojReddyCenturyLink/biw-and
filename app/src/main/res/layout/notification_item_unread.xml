@@ -1,45 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/notification_list_unread_background"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="#979797"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="0dp">
+    android:layout_height="wrap_content">
+
+<androidx.cardview.widget.CardView
+    android:id="@+id/notification_list_unread_card_background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    app:cardBackgroundColor="@color/white"
+    app:cardCornerRadius="@dimen/margin_spacing_really_small"
+    app:cardElevation="@dimen/spacing_4"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    android:layout_marginStart="@dimen/margin_spacing_really_small"
+    android:layout_marginEnd="@dimen/margin_spacing_really_small">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:padding="@dimen/medium_margin_spacing"
-        android:layout_height="wrap_content">
+        android:padding="@dimen/margin_spacing_really_small"
+        android:layout_height="match_parent"
+        android:background="@drawable/top_card_bg">
+
+        <View
+            android:id="@+id/notification_side_bar"
+            android:layout_width="@dimen/margin_spacing_tiny"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/cardview_elevation"
+            style="@style/style_notification_vertical_bar_view"
+            app:layout_constraintBottom_toBottomOf="@+id/notification_list_unread_detail"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/notification_list_unread_title"
+            style="@style/style_devices_usage_subheadings"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_24"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/notification_list_unread_image"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:maxLines="1"
+            app:layout_constraintEnd_toStartOf="@+id/msg_dismiss_button"
+            app:layout_constraintStart_toEndOf="@id/notification_side_bar"
             app:layout_constraintTop_toTopOf="parent" />
         <TextView
             android:id="@+id/notification_list_unread_detail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            style="@style/style_installation_status_subheading"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
             android:maxLines="2"
             android:ellipsize="end"
             android:background="@android:color/transparent"
             android:paddingTop="8dp"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_14"
-            app:layout_constraintEnd_toStartOf="@+id/notification_list_unread_image"
-            app:layout_constraintStart_toStartOf="parent"
+            android:paddingBottom="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/msg_dismiss_button"
+            app:layout_constraintStart_toEndOf="@id/notification_side_bar"
             app:layout_constraintTop_toBottomOf="@+id/notification_list_unread_title" />
         <ImageView
-            android:id="@+id/notification_list_unread_image"
-            android:layout_width="@dimen/notification_circle_size"
-            android:layout_height="@dimen/notification_circle_size"
-            android:src="@drawable/badge_background"
-            android:tint="@color/white"
+            android:id="@+id/msg_dismiss_button"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            style="@style/style_dismiss_btn_view"
+            android:layout_marginStart="@dimen/above_cardview_elevation"
+            android:layout_marginEnd="@dimen/above_cardview_elevation"
+            android:background="@drawable/lavendar_background_rounded_corner"
+            android:padding="@dimen/margin_spacing_really_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -47,3 +78,14 @@
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>
+
+    <View
+        android:id="@+id/white_background"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_spacing_10"
+        android:background="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notification_list_unread_card_background"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
