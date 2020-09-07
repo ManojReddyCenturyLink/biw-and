@@ -268,9 +268,10 @@
     <string name="installation_has_been_cancelled">Installation has been cancelled</string>
     <string name="installation_cancellation_confirmation_title">Are you sure you want to cancel your appointment?</string>
     <string name="installation_cancellation_confirmation_msg">You’ll need to have an installation appointment to get internet.</string>
-    <string name="keep_it">KEEP IT</string>
+    <string name="keep_it">KEEP IT</string> format
     <string name="cancel_it">CANCEL IT</string>
     <string name="cancellation_query_contact_details">If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 123-456-7890.</string>
+    <string name="cancel_appointment_error_msg">The data couln\'t be read because it isn\'t in the correct format.\n Please try gain</string>
 
     <!--QRSCan Activity-->
     <string name="scan_to_join">Scan to join network:</string>
