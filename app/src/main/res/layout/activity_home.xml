@@ -102,6 +102,8 @@
             app:tabIndicator="@null"
             app:tabIndicatorFullWidth="false"
             app:tabRippleColor="@null"
+            app:tabMode="auto"
+            app:tabGravity="fill"
             app:tabTextAppearance="@style/Tab.TextAppearance"
             app:layout_constraintEnd_toStartOf="@id/iBtnNotificationBottom"
             app:layout_constraintStart_toStartOf="parent"
