@@ -60,10 +60,9 @@ class ModemRebootMonitorService @Inject constructor(
      * Call this method to attempt a modem reboot.
      */
     suspend fun sendRebootModemRequest() {
-        manualEventFlow.postValue(RebootState.ONGOING)
-
         val result = modemRebootRepository.rebootModem()
         if (result.code == ModemRebootRepository.REBOOT_STARTED_SUCCESSFULLY) {
+            manualEventFlow.postValue(RebootState.ONGOING)
             enqueueModemRebootWork()
         } else {
             manualEventFlow.postValue(RebootState.ERROR)
