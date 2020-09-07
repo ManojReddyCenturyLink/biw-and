@@ -64,11 +64,11 @@ class NetworkStatusActivity : BaseActivity() {
                 showProgress(it)
                 if (it) {
                     bindings.incHeader.apply {
-                        subheaderRightActionTitle.isActivated = false
+                        subheaderRightActionTitle.isClickable = false
                     }
                 } else {
                     bindings.incHeader.apply {
-                        subheaderRightActionTitle.isActivated = true
+                        subheaderRightActionTitle.isClickable = true
                     }
                 }
             }
