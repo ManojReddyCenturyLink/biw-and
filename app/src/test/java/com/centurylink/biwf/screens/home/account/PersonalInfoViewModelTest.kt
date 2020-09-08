@@ -82,4 +82,19 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
                 viewModel.callUpdatePasswordApi()
             }
         }
+
+    @Test
+    fun logAnalytics() {
+        viewModel.logResetPasswordSuccess()
+        viewModel.logResetPasswordFailure()
+        viewModel.logUpdateEmailPopupClick()
+    }
+
+    @Test
+    fun testToggleVisibility() {
+        var passwordVisibility : Boolean = false
+        var confirmPasswordVisibility : Boolean = false
+        passwordVisibility = !viewModel.togglePasswordVisibility()
+        confirmPasswordVisibility = !viewModel.toggleConfirmPasswordVisibility()
+    }
 }
