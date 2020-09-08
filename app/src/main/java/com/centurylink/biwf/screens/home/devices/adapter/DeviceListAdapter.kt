@@ -130,7 +130,6 @@ class DeviceListAdapter(
             val stateLoadingProgress = layoutConnectedDevicesBinding.progressIcon
             deviceName.text = connectedData.hostName
             //TODO Remove this when devices comes online
-            connectedData.rssi = -60
             when (connectedData.deviceConnectionStatus) {
                 DeviceConnectionStatus.LOADING -> {
                     stateLoadingProgress.visibility = View.VISIBLE
@@ -146,7 +145,7 @@ class DeviceListAdapter(
                 deviceSignalStrength.setColorFilter(Color.argb(255, 215, 255, 215))}
             }
             deviceSignalStrength.setImageResource(
-                ModemUtils.getConnectionStatusIcon(devicesData = connectedData)
+                ModemUtils.getConnectionStatusIconForDeviceList(devicesData = connectedData)
             )
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onConnectedDevicesClicked(
