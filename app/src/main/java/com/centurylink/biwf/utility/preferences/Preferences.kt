@@ -70,16 +70,15 @@ class Preferences(private val store: KeyValueStore) {
         store.put(LINE_ID, lineId)
     }
 
-    // TODO (BMA-755) - use for v3 endpoint request
     fun getLineId(): String {
-        var lineId = store.get(LINE_ID)
-        // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
 
-        // if (lineId.isNullOrEmpty()) { // TIll DTN ID issue is Fixed
-            lineId = "0101100408"
-        //}
+        // TODO - Uncomment when DTN Salesforce issue is resolved
+//        var lineId = store.get(LINE_ID)
+//        if (lineId.isNullOrEmpty()) {
+//            lineId = "0101100408"
+//        }
 
-        return lineId
+        return "C4000XG1950000308"
     }
 
     private fun removeLineId() {
