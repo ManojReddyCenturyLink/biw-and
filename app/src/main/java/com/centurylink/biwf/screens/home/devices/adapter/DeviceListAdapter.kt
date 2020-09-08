@@ -146,7 +146,7 @@ class DeviceListAdapter(
                 deviceSignalStrength.setColorFilter(Color.argb(255, 215, 255, 215))}
             }
             deviceSignalStrength.setImageResource(
-                ModemUtils.getConnectionStatusIcon(devicesData = connectedData)
+                ModemUtils.getConnectionStatusIconForDeviceList(devicesData = connectedData)
             )
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onConnectedDevicesClicked(

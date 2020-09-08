@@ -209,7 +209,7 @@ class DevicesViewModel @Inject constructor(
         blockInfo.fold(ifRight =
         {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_SUCCESS)
-            requestModemDetails()
+            initApis()
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_FAILURE)
