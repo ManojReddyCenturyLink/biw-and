@@ -17,7 +17,6 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
@@ -185,20 +184,20 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun requestModemInfo() {
-        when (val modemInfo = oAuthAssiaRepository.getModemInfo()) {
-            is AssiaNetworkResponse.Success -> {
-                val apiInfo = modemInfo.body.modemInfo?.apInfoList
+        val modemInfo = oAuthAssiaRepository.getModemInfo()
+        modemInfo.fold(ifRight = {
+                val apiInfo = it?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     networkStatus.latestValue = apiInfo[0].isAlive
                 } else {
                     networkStatus.latestValue = false
                 }
-            }
-            else -> {
+            },
+             ifLeft = {
                 // Ignoring Error API called every 30 seconds
                 //errorMessageFlow.latestValue = modemInfo.toString()
             }
-        }
+        )
     }
 
     private fun modemStatusRefresh() {

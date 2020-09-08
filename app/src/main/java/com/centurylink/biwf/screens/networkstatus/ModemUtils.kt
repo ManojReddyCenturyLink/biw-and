@@ -1,6 +1,9 @@
 package com.centurylink.biwf.screens.networkstatus
 
+import com.centurylink.biwf.R
 import com.centurylink.biwf.model.assia.ApInfo
+import com.centurylink.biwf.model.devices.DeviceConnectionStatus
+import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.wifi.NetWorkBand
 
 class ModemUtils {
@@ -36,5 +39,48 @@ class ModemUtils {
             }
             return wifiNetworkName
         }
+
+        //Icons for buttons are different from list view, added method to get button status icons.
+        fun getConnectionStatusIcon(devicesData: DevicesData): Int {
+            val signalStrength = devicesData.rssi
+            val connectionMode = devicesData.connectedInterface
+            when (devicesData.deviceConnectionStatus) {
+                DeviceConnectionStatus.MODEM_OFF -> {
+                    return R.drawable.ic_cta_wi_fi_disconnected
+                }
+                DeviceConnectionStatus.FAILURE -> {
+                    return R.drawable.ic_wi_fi_off_btn
+                }
+                DeviceConnectionStatus.PAUSED -> {
+                    return R.drawable.ic_wi_fi_off_btn
+                }
+                DeviceConnectionStatus.DEVICE_CONNECTED -> {
+                    if (!connectionMode.isNullOrEmpty() && connectionMode.equals(
+                            "Ethernet",
+                            true
+                        )
+                    ) {
+                        return R.drawable.ic_network_3_bars
+                    } else {
+                        return when (signalStrength) {
+                            in -50..-1 -> {
+                                R.drawable.ic_network_3_bars
+                            }
+                            in -51 downTo -75 -> {
+                                R.drawable.ic_network_2_bars
+                            }
+                            in -76 downTo -90 -> {
+                                R.drawable.ic_network_1_bar
+                            }
+                            else -> {
+                                R.drawable.ic_wi_fi_off_btn
+                            }
+                        }
+                    }
+                }
+                else -> return R.drawable.ic_wi_fi_off_btn
+            }
+        }
+
     }
 }

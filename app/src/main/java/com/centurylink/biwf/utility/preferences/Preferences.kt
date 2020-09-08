@@ -74,9 +74,11 @@ class Preferences(private val store: KeyValueStore) {
     fun getLineId(): String {
         var lineId = store.get(LINE_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
-       // if (lineId.isNullOrEmpty()) { // TIll DTN ID issue is Fixed
-            lineId = "C4000XG1950000308"
-       // }
+
+        // if (lineId.isNullOrEmpty()) { // TIll DTN ID issue is Fixed
+            lineId = "0101100408"
+        //}
+
         return lineId
     }
 
@@ -91,9 +93,9 @@ class Preferences(private val store: KeyValueStore) {
     fun getAssiaId(): String {
         var asiaID = store.get(ASSIA_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
-        if (asiaID.isNullOrEmpty()) {
-            asiaID = "C4000XG1950000308"
-        }
+         if (asiaID.isNullOrEmpty()) {
+             asiaID = "C4000XG1950000308"
+         }
         return asiaID
     }
 

@@ -10,7 +10,9 @@ import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinator
 import com.centurylink.biwf.databinding.LayoutDevicesUsageInformationBinding
+import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
+import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
@@ -99,19 +101,21 @@ class UsageDetailsActivity : BaseActivity() {
                     finish()
                 }
             }
-            pauseUnpauseConnection.observe { isPaused ->
-                binding.connectionStatusIcon.setImageDrawable(getDrawable(if (isPaused) R.drawable.ic_network_off else R.drawable.ic_3_bars))
+            pauseUnpauseConnection.observe {
+                var isPaused = it.isPaused
+                val isModemStatus = intent.getBooleanExtra(MODEM_STATUS,false)
+                if(!isModemStatus){
+                    it.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
+                    isPaused =true
+                }
+                binding.connectionStatusIcon.setImageDrawable(getDrawable(ModemUtils.getConnectionStatusIcon(it)))
                 binding.deviceConnectedBtn.background =
                     (getDrawable(if (isPaused) R.drawable.light_grey_rounded_background else R.drawable.light_blue_rounded_background))
                 binding.connectionStatusBtnText.text =
                     getString(if (isPaused) R.string.connection_paused else R.string.device_connected)
                 binding.tapToRetryText.text =
-
                     getString(if (isPaused) R.string.tap_to_resume_connection else R.string.tap_to_pause_connection)
-
-                    getString(if (isPaused) R.string.tap_to_pause_connection else R.string.tap_to_resume_connection)
                 binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.dark_grey else R.color.purple))
-
             }
         }
         binding.nicknameDeviceNameInput.setText(screenTitle)
@@ -155,9 +159,11 @@ class UsageDetailsActivity : BaseActivity() {
     companion object {
         const val REQUEST_TO_DEVICES = 1341
         const val DEVICE_INFO = "DEVICE_INFO"
+        const val MODEM_STATUS = "MODEM_STATUS"
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, UsageDetailsActivity::class.java)
                 .putExtra(DEVICE_INFO, bundle.getSerializable(DEVICE_INFO))
+                .putExtra(MODEM_STATUS, bundle.getBoolean(MODEM_STATUS,false))
         }
     }
 }

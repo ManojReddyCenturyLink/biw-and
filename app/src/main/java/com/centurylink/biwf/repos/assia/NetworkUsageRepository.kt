@@ -6,7 +6,7 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
 import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
+
 import com.centurylink.biwf.service.network.AssiaTrafficUsageService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -35,14 +35,15 @@ class NetworkUsageRepository @Inject constructor(
         val result = assiaTrafficUsageService.getUsageDetails(
             getHeaderMap(assiaTokenManager.getAssiaToken(), staMac, startDate, endDate)
         )
-        return when(result){
-            is AssiaNetworkResponse.Success -> {
-                formatTrafficUsageResponse(result.body)
-            }
-            else -> {
+
+        return result.fold(
+            ifRight = {
+                formatTrafficUsageResponse(it)
+            },
+            ifLeft =   {
                 throw IllegalStateException("Cannot read value")
             }
-        }
+        )
     }
 
     private fun getHeaderMap(

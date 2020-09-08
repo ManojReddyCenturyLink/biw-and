@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.impl.network
 
+import android.util.Log
 import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.service.auth.TokenService
 import com.centurylink.biwf.service.auth.accessTokenHeader
@@ -118,4 +119,4 @@ private const val ACCEPT_HEADER_ALL = "*/*"
 private const val AUTH_HEADER_NAME = "Authorization"
 private const val HTTP_CODE_UNAUTHORIZED = 401
 private const val MAX_AUTH_RETRIES = 1
-private const val DEFAULT_REQUEST_TIMEOUT_MS = 50000L
+private const val DEFAULT_REQUEST_TIMEOUT_MS = 120000L

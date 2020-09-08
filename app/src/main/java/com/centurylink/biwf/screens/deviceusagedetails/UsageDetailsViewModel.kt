@@ -8,17 +8,19 @@ import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinatorDestinations
+import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.ViewModelFactoryWithInput
 import com.centurylink.biwf.utility.viewModelFactory
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.math.BigDecimal
 import java.math.RoundingMode
 import javax.inject.Inject
@@ -54,6 +56,7 @@ class UsageDetailsViewModel constructor(
                 )
                 viewModel.staMac = input.stationMac!!
                 viewModel.deviceId = input.mcafeeDeviceId
+                viewModel.deviceData = input
                 viewModel
             }
         }
@@ -75,11 +78,11 @@ class UsageDetailsViewModel constructor(
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
     var deviceId :String =""
-    var pauseUnpauseConnection = BehaviorStateFlow<Boolean>()
+    private lateinit var deviceData :DevicesData
+    var pauseUnpauseConnection = EventFlow<DevicesData>()
 
     fun initApis() {
         //TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
-        pauseUnpauseConnection.latestValue = true
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
@@ -94,12 +97,22 @@ class UsageDetailsViewModel constructor(
     }
 
     fun onDevicesConnectedClicked() {
-        if (pauseUnpauseConnection.value) {
+        if (deviceData.isPaused) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS)
         } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_DETAILS)
         }
-        updatePauseResumeStatus()
+       when(deviceData.deviceConnectionStatus){
+           DeviceConnectionStatus.PAUSED,
+           DeviceConnectionStatus.DEVICE_CONNECTED,
+           DeviceConnectionStatus.LOADING,
+           DeviceConnectionStatus.FAILURE ->{
+               updatePauseResumeStatus()
+           }
+           DeviceConnectionStatus.MODEM_OFF->{
+               Timber.e("Cant Perform any Action")
+           }
+       }
     }
 
     private suspend fun requestDailyUsageDetails() {
@@ -172,16 +185,16 @@ class UsageDetailsViewModel constructor(
     private suspend fun invokeBlockedDevice(stationMac: String) {
         val blockInfo = assiaRepository.blockDevices(stationMac)
         progressViewFlow.latestValue = false
-        when (blockInfo) {
-            is AssiaNetworkResponse.Success -> {
+        blockInfo.fold(
+            ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_SUCCESS)
-                removeDevices.latestValue = blockInfo.body.code.equals("1000")
-            }
-            else -> {
+                removeDevices.latestValue = true
+            },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             }
-        }
+        )
     }
 
     fun logDoneBtnClick() {
@@ -200,11 +213,17 @@ class UsageDetailsViewModel constructor(
         progressViewFlow.latestValue = true
         viewModelScope.launch {
             val macResponse = mcafeeRepository.
-            updateDevicePauseResumeStatus(deviceId, !pauseUnpauseConnection.value)
+            updateDevicePauseResumeStatus(deviceId, !deviceData.isPaused)
             macResponse.fold(ifLeft = {
                 errorMessageFlow.latestValue = it
             }, ifRight = {
-                pauseUnpauseConnection.latestValue = it.isPaused
+                deviceData.isPaused = it.isPaused
+                if (it.isPaused) {
+                    deviceData.deviceConnectionStatus = DeviceConnectionStatus.PAUSED
+                } else {
+                    deviceData.deviceConnectionStatus = DeviceConnectionStatus.DEVICE_CONNECTED
+                }
+                pauseUnpauseConnection.latestValue = deviceData
                 progressViewFlow.latestValue = false
             })
         }
@@ -215,9 +234,11 @@ class UsageDetailsViewModel constructor(
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(deviceId)
         mcafeeMapping.fold(ifLeft = {
             errorMessageFlow.latestValue = it
-            pauseUnpauseConnection.latestValue = false
+            deviceData.isPaused = false
+            pauseUnpauseConnection.latestValue = deviceData
         }) { devicePauseStatus ->
-            pauseUnpauseConnection.latestValue = devicePauseStatus.isPaused
+            deviceData.isPaused = devicePauseStatus.isPaused
+            pauseUnpauseConnection.latestValue = deviceData
             progressViewFlow.latestValue = false
         }
     }
