@@ -713,6 +713,16 @@ class DashboardViewModel @Inject constructor(
                 checkSpeedTestStatus(requestId = speedTestId)
             }
         }
+        val oldDownLoad = sharedPreferences.getSpeedTestDownload()
+        val oldUpload = sharedPreferences.getSpeedTestUpload()
+        val oldTime = sharedPreferences.getLastSpeedTestTime()
+        if (oldDownLoad?.isNotEmpty()!! && oldUpload?.isNotEmpty()!! && oldTime?.isNotEmpty()!!) {
+            downloadSpeed.latestValue = oldDownLoad
+            uploadSpeed.latestValue = oldUpload
+            latestSpeedTest.latestValue = oldTime
+        } else {
+            displayEmptyResponse()
+        }
     }
 
     fun logAppointmentStatusState(state: Int) {
