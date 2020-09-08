@@ -14,12 +14,12 @@ typealias McafeeServiceResult<T> = Either<McafeeHttpError, T>
  */
 data class McafeeHttpError(
     val status: Int = 0,
-    val errors: List<McafeeErrorMessage> = emptyList()
+    val errors: McafeeErrorMessage?=null
 ) {
     /**
      * First error-message, if any.
      */
-    val message: McafeeErrorMessage? get() = errors.firstOrNull()
+    val message: McafeeErrorMessage? get() = errors
 }
 
 /**
@@ -27,9 +27,9 @@ data class McafeeHttpError(
  * of JSON objects and each has two string-field called "errorCode" and "message".
  */
 data class McafeeErrorMessage(
-    @SerializedName("error")
-    val error: String,
+    @SerializedName("status")
+    val status: String,
 
-    @SerializedName("error_description")
+    @SerializedName("message")
     val message: String
 )

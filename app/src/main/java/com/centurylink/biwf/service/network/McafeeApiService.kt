@@ -1,4 +1,7 @@
 package com.centurylink.biwf.service.network
+
+import com.centurylink.biwf.model.mcafee.DevicesMapping
+import com.centurylink.biwf.model.mcafee.MappingRequest
 import com.centurylink.biwf.model.McafeeServiceResult
 import com.centurylink.biwf.model.mcafee.*
 import retrofit2.http.Body
