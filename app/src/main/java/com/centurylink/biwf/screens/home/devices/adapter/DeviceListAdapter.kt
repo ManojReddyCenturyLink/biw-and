@@ -130,6 +130,7 @@ class DeviceListAdapter(
             val stateLoadingProgress = layoutConnectedDevicesBinding.progressIcon
             deviceName.text = connectedData.hostName
             //TODO Remove this when devices comes online
+            connectedData.rssi = -60
             when (connectedData.deviceConnectionStatus) {
                 DeviceConnectionStatus.LOADING -> {
                     stateLoadingProgress.visibility = View.VISIBLE
