@@ -1,5 +1,6 @@
 package com.centurylink.biwf.repos
 
+import com.centurylink.biwf.model.AssiaServiceResult
 import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.repos.assia.AssiaTokenManager
 import com.centurylink.biwf.service.network.AssiaService
@@ -14,7 +15,7 @@ class ModemRebootRepository @Inject constructor(
     private val assiaTokenManager: AssiaTokenManager
 ) {
 
-    suspend fun rebootModem(): ModemRebootResponse {
+    suspend fun rebootModem(): AssiaServiceResult<ModemRebootResponse> {
         return assiaService.rebootModem(
             preferences.getAssiaId(),
             getHeaderMap(token = assiaTokenManager.getAssiaToken())

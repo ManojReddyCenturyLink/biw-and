@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -28,7 +29,6 @@ import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
@@ -143,8 +143,6 @@ class DashboardViewModel @Inject constructor(
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RUN_SPEED_TEST_DASHBOARD)
         if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
-        } else {
-            speedTestButtonState.latestValue = false
         }
     }
 
@@ -174,25 +172,25 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun getSpeedTestId() {
-        sharedPreferences.saveSpeedTestFlag(boolean = true)
         progressVisibility.latestValue = true
         speedTestButtonState.latestValue = false
-        latestSpeedTest.latestValue = EMPTY_RESPONSE
+        sharedPreferences.saveSpeedTestFlag(boolean = true)
+        latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
         viewModelScope.launch {
-            when (val speedTestRequest = assiaRepository.startSpeedTest()) {
-                is AssiaNetworkResponse.Success -> {
+            val speedTestRequest = assiaRepository.startSpeedTest()
+            speedTestRequest.fold(
+                ifRight = {
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_SUCCESS)
-                    if (speedTestRequest.body.code == 1000) {
-                        checkSpeedTestStatus(requestId = speedTestRequest.body.speedTestId)
-                    } else {
-                        displayEmptyResponse()
-                    }
-                }
-                else -> {
+                    sharedPreferences.saveSupportSpeedTest(boolean = false)
+                    sharedPreferences.saveSpeedTestId(speedTestId = it.speedTestId)
+                    checkSpeedTestStatus(requestId = it.speedTestId)
+
+                },
+                ifLeft = {
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_FAILURE)
                     displayEmptyResponse()
                 }
-            }
+            )
         }
     }
 
@@ -201,65 +199,57 @@ class DashboardViewModel @Inject constructor(
             var keepChecking = true
             var isSuccessful = false
             while (keepChecking) {
-                when (val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)) {
-                    is AssiaNetworkResponse.Success -> {
+                val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)
+                status.fold(ifRight =
+                {
+                    if (it.data.isFinished) {
                         analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_SUCCESS)
-                        if (status.body.code == 1000) {
-                            if (status.body.data.isFinished) {
-                                isSuccessful = true
-                                keepChecking = false
-                            } else {
-                                delay(SPEED_TEST_REFRESH_INTERVAL)
-                            }
-                        } else {
-                            displayEmptyResponse()
-                            keepChecking = false
-                        }
+                        isSuccessful = true
+                        keepChecking = false
+                    } else {
+                        delay(SPEED_TEST_REFRESH_INTERVAL)
                     }
-                    else -> {
+                },
+                    ifLeft = {
                         analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_FAILURE)
                         displayEmptyResponse()
                         keepChecking = false
+                        sharedPreferences.saveSupportSpeedTest(false)
                     }
-                }
+                )
             }
             if (isSuccessful) getResults()
         }
     }
 
     private suspend fun getResults() {
-        when (val upstreamData = assiaRepository.getUpstreamResults()) {
-            is AssiaNetworkResponse.Success -> {
-                if (upstreamData.body.data.listOfData.isNotEmpty()) {
-                    val uploadMb = upstreamData.body.data.listOfData[0].speedAvg / 1000
-                    uploadSpeed.latestValue = uploadMb.toString()
-                    sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
-                } else {
-                    uploadSpeed.latestValue = EMPTY_RESPONSE
-                }
+        val upstreamData = assiaRepository.getUpstreamResults()
+        upstreamData.fold(ifLeft = { displayEmptyResponse() }, ifRight = {
+            if (it.data.listOfData.isNotEmpty()) {
+                val uploadMb = it.data.listOfData[0].speedAvg / 1000
+                uploadSpeed.latestValue = uploadMb.toString()
+                sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
+            } else {
+                uploadSpeed.latestValue = EMPTY_RESPONSE
             }
-            else -> {
-                displayEmptyResponse()
+        })
+        val downStreamData = assiaRepository.getDownstreamResults()
+        downStreamData.fold(ifLeft = {
+            displayEmptyResponse()
+        }, ifRight = {
+            if (it.data.listOfData.isNotEmpty()) {
+                val downloadMb = it.data.listOfData[0].speedAvg / 1000
+                downloadSpeed.latestValue = downloadMb.toString()
+                latestSpeedTest.latestValue =
+                    formatUtcString(it.data.listOfData[0].timeStamp)
+                sharedPreferences.saveSpeedTestDownload(downloadSpeed = downloadSpeed.latestValue)
+                sharedPreferences.saveLastSpeedTestTime(lastRanTime = latestSpeedTest.latestValue)
+            } else {
+                downloadSpeed.latestValue = EMPTY_RESPONSE
+                latestSpeedTest.latestValue = EMPTY_RESPONSE
             }
-        }
-        when (val downStreamData = assiaRepository.getDownstreamResults()) {
-            is AssiaNetworkResponse.Success -> {
-                if (downStreamData.body.data.listOfData.isNotEmpty()) {
-                    val downloadMb = downStreamData.body.data.listOfData[0].speedAvg / 1000
-                    downloadSpeed.latestValue = downloadMb.toString()
-                    latestSpeedTest.latestValue =
-                        formatUtcString(downStreamData.body.data.listOfData[0].timeStamp)
-                    sharedPreferences.saveSpeedTestDownload(downloadSpeed = downloadSpeed.latestValue)
-                    sharedPreferences.saveLastSpeedTestTime(lastRanTime = latestSpeedTest.latestValue)
-                } else {
-                    downloadSpeed.latestValue = EMPTY_RESPONSE
-                    latestSpeedTest.latestValue = EMPTY_RESPONSE
-                }
-            }
-            else -> {
-                displayEmptyResponse()
-            }
-        }
+        })
+
         progressVisibility.latestValue = false
         speedTestButtonState.latestValue = true
         sharedPreferences.saveSpeedTestFlag(boolean = false)
@@ -346,10 +336,11 @@ class DashboardViewModel @Inject constructor(
 
     private suspend fun requestWifiDetails() {
         progressViewFlow.latestValue = true
-        when (val modemResponse = oAuthAssiaRepository.getModemInfo()) {
-            is AssiaNetworkResponse.Success -> {
+        val modemResponse = oAuthAssiaRepository.getModemInfo()
+        modemResponse.fold(ifRight =
+            {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
-                val apiInfo = modemResponse.body.modemInfo?.apInfoList
+                val apiInfo = it?.apInfoList
                 if (!apiInfo.isNullOrEmpty()) {
                     val modemInfo = apiInfo[0]
                     var regularNetworkName = ""
@@ -385,53 +376,49 @@ class DashboardViewModel @Inject constructor(
                     )
                 }
                 progressViewFlow.latestValue = false
-            }
-            else -> {
+            },ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
                 errorMessageFlow.latestValue = "Error WifiInfo"
-            }
-        }
+            })
     }
 
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
-        when (val netWorkInfo =
-            wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)) {
-            is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
-                val password = netWorkInfo.body.networkName[netWorkBand.name]
-                password?.let {
-                    when (netWorkBand) {
-                        NetWorkBand.Band2G, NetWorkBand.Band5G -> {
-                            regularNetworkWifiPwd = password
-                        }
-                        NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
-                            guestNetworkWifiPwd = password
-                        }
+        val netWorkInfo =
+            wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
+        netWorkInfo.fold(ifRight = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
+            val password = it.networkName[netWorkBand.name]
+            password.let {
+                when (netWorkBand) {
+                    NetWorkBand.Band2G, NetWorkBand.Band5G -> {
+                        regularNetworkWifiPwd = password!!
+                    }
+                    NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
+                        guestNetworkWifiPwd = password!!
                     }
                 }
             }
-            else -> {
+        },
+            ifLeft = {
                 //TODO Currently API is returning Error -Temp Hack for displaying password
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
                 regularNetworkWifiPwd = "test123wifi"
                 guestNetworkWifiPwd = "test123Guest"
-            }
-        }
+            })
     }
 
     private suspend fun requestDevices() {
-        when (val deviceDetails = assiaRepository.getDevicesDetails()) {
-            is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
-                val connectedList = deviceDetails.body.devicesDataList.filter { !it.blocked }.distinct()
+        val deviceDetails = assiaRepository.getDevicesDetails()
+        deviceDetails.fold(ifRight={ deviceList ->
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
+                val connectedList = deviceList.filter { !it.blocked }.distinct()
                 connectedDevicesNumber.latestValue=connectedList.size.toString()
-            }
-            else -> {
+            },ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
-            }
+            })
         }
-    }
+
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
@@ -457,20 +444,18 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestToEnableNetwork(
-        netWorkBand: NetWorkBand,
-        wifiInfo: WifiInfo
+        netWorkBand: NetWorkBand, wifiInfo: WifiInfo
     ) {
         val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(netWorkBand)
-        when (netWorkInfo) {
-            is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
-                updateEnableDisableNetwork(wifiInfo)
-            }
-            else -> {
+        netWorkInfo.fold(ifRight =
+        {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
+            updateEnableDisableNetwork(wifiInfo)
+        },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_FAILURE)
                 errorMessageFlow.latestValue = "Network Enablement Failed"
-            }
-        }
+            })
         progressViewFlow.latestValue = false
     }
 
@@ -479,17 +464,16 @@ class DashboardViewModel @Inject constructor(
         wifiInfo: WifiInfo
     ) {
         val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
-        when (netWorkInfo) {
-            is AssiaNetworkResponse.Success -> {
+        netWorkInfo.fold(
+            ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(wifiInfo)
-            }
-            else -> {
+            },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
                 //TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
-            }
-        }
+            })
         progressViewFlow.latestValue = false
     }
 

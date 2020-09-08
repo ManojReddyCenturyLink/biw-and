@@ -6,19 +6,16 @@ import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
+import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
-import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.mcafee.DevicePauseStatus
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
-import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentLinkedQueue
 import javax.inject.Inject
@@ -34,73 +31,72 @@ class DevicesViewModel @Inject constructor(
 
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
-    var devicesListFlow: Flow<UIDevicesTypeDetails> = BehaviorStateFlow()
+    var devicesListFlow: EventFlow<UIDevicesTypeDetails> = EventFlow()
     val myState = EventFlow<DevicesCoordinatorDestinations>()
     private var uiDevicesTypeDetails: UIDevicesTypeDetails = UIDevicesTypeDetails()
-    private lateinit var devicesInfo: DevicesInfo
+    private lateinit var devicesDataList: MutableList<DevicesData>
+    private var isModemAlive: Boolean = false
 
     init {
-        progressViewFlow.latestValue = true
         initApis()
     }
 
     fun initApis() {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestModemDetails()
+            requestDevices()
+            val macAddresses = getMacAddressesFromDevicesInfo()
+            if (!macAddresses.isNullOrEmpty()) {
+                requestMcafeeDeviceMapping(macAddresses)
+            }
+            val connectedList = devicesDataList.filter { !it.blocked }.distinct()
 
+            if (!connectedList.isNullOrEmpty() && isModemAlive) {
+                getPauseResumeState(connectedList)
+            }
         }
     }
 
     /**
      * Get devices info from Mcafee API
      */
-    private suspend fun requestMcafeeDeviceMapping(deviceList: List<String>){
-        progressViewFlow.latestValue = true
+    private suspend fun requestMcafeeDeviceMapping(deviceList: List<String>) {
         val mcafeeMapping = mcafeeRepository.getMcafeeDeviceIds(deviceList)
         mcafeeMapping.fold(ifLeft = {
             errorMessageFlow.latestValue = it
-        }) { mcafeeDeviceIds ->
-            devicesInfo.devicesDataList.forEach { deviceData ->
+        }, ifRight = { mcafeeDeviceIds ->
+            devicesDataList.forEach { deviceData ->
+                if (!isModemAlive) {
+                    deviceData.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
+                }
                 deviceData.mcafeeDeviceId = mcafeeDeviceIds.firstOrNull {
                     deviceData.stationMac?.replace(":", "-") == it.mac_address
                 }?.devices?.get(0)?.id ?: ""
             }
-            sortAndDisplayDeviceInfo(devicesInfo.devicesDataList)
-        }
+            diplayDevicesListInUI()
+        })
     }
 
     private suspend fun requestDevices() {
         val deviceDetails = asiaRepository.getDevicesDetails()
-        when (deviceDetails) {
-            is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
-                devicesInfo =deviceDetails.body
-                val macAddresses = getMacAddressesFromDevicesInfo(devicesInfo)
-                sortDeviceIdFromMcAfee(macAddresses)
-            }
-            else -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
-                errorMessageFlow.latestValue = "Error DeviceInfo"
-            }
-        }
+        deviceDetails.fold(ifRight =
+        {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
+            devicesDataList = it as MutableList<DevicesData>
+            diplayDevicesListInUI()
+        }, ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
+            errorMessageFlow.latestValue = "Error DeviceInfo"
+        })
     }
 
-    private fun getMacAddressesFromDevicesInfo(devicesInfo: DevicesInfo): List<String> {
-        return devicesInfo.devicesDataList.map { it.stationMac!!.replace(":", "-") }
+
+    private fun getMacAddressesFromDevicesInfo(): List<String> {
+        return devicesDataList.map { it.stationMac!!.replace(":", "-") }
     }
 
-    private fun sortDeviceIdFromMcAfee(deviceStationMacList: List<String>) {
-        if (!deviceStationMacList.isNullOrEmpty()) {
-            initMacList(deviceStationMacList)
-        }
-    }
-
-    private fun initMacList(macList: List<String>) {
-        viewModelScope.launch {
-            requestMcafeeDeviceMapping(macList)
-        }
-    }
 
     private fun getPauseResumeState(connectedList: List<DevicesData>) {
         var concurrentList = ConcurrentLinkedQueue(connectedList)
@@ -110,14 +106,14 @@ class DevicesViewModel @Inject constructor(
                     requestStateForConnectedDevices(item.mcafeeDeviceId)
                 }
             }
-            progressViewFlow.latestValue = false
         }
     }
 
     private suspend fun requestStateForDevices(deviceId: String) {
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(deviceId)
         mcafeeMapping.fold(ifLeft = {
-            // No Op
+            updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
+            diplayDevicesListInUI()
         }) {
             requestToUpdateNetworkStatus(deviceId, !it.isPaused)
         }
@@ -126,89 +122,99 @@ class DevicesViewModel @Inject constructor(
     private suspend fun requestStateForConnectedDevices(deviceId: String) {
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(deviceId)
         mcafeeMapping.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
+            // Hack to ignore the display of Error message
+            updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
+            diplayDevicesListInUI()
         }) {
-            updateUiWithStatus(it)
+            updateDeviceListWithPauseResumeStatus(it)
+            diplayDevicesListInUI()
         }
     }
 
-    private fun updateUiWithStatus(deviceStatus: DevicePauseStatus) {
-        var removedList = uiDevicesTypeDetails.deviceSortMap[DeviceStatus.BLOCKED]
-        var deviceList =
-            uiDevicesTypeDetails.deviceSortMap[DeviceStatus.CONNECTED]!!.toMutableList()
+    private fun diplayDevicesListInUI() {
+        sortAndDisplayDeviceInfo()
+        progressViewFlow.latestValue = false
+    }
 
-        if (!deviceList.isNullOrEmpty()) {
-            for (counter in deviceList.indices) {
-                if (deviceList[counter].mcafeeDeviceId.equals(deviceStatus.deviceId, true)) {
-                    var deviceData = deviceList[counter]
+    private fun updateDeviceListWithPauseResumeStatus(deviceStatus: DevicePauseStatus) {
+        if (!devicesDataList.isNullOrEmpty()) {
+            for (counter in devicesDataList.indices) {
+                if (devicesDataList[counter].mcafeeDeviceId.equals(deviceStatus.deviceId, true)) {
+                    var deviceData = devicesDataList[counter]
                     deviceData.isPaused = deviceStatus.isPaused
-                    deviceList.removeAt(counter)
-                    deviceList.add(counter, deviceData)
+                    if (deviceStatus.isPaused) {
+                        deviceData.deviceConnectionStatus = DeviceConnectionStatus.PAUSED
+                    } else {
+                        deviceData.deviceConnectionStatus = DeviceConnectionStatus.DEVICE_CONNECTED
+                    }
+                    devicesDataList.removeAt(counter)
+                    devicesDataList.add(counter, deviceData)
                 }
             }
         }
-        val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
-
-        deviceMap[DeviceStatus.CONNECTED] = deviceList
-        if (!removedList.isNullOrEmpty()) {
-            deviceMap[DeviceStatus.BLOCKED] = removedList
-        }
-        uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
-        devicesListFlow.latestValue = uiDevicesTypeDetails
     }
 
-    private fun sortAndDisplayDeviceInfo(devicesDataList: ArrayList<DevicesData>) {
+    private fun updateDeviceListWithLoadingErrorStatus(
+        errDeviceId: String,
+        deviceConnectionStatus: DeviceConnectionStatus
+    ) {
+        if (!devicesDataList.isNullOrEmpty()) {
+            for (counter in devicesDataList.indices) {
+                if (devicesDataList[counter].mcafeeDeviceId.equals(errDeviceId, true)) {
+                    var deviceData = devicesDataList[counter]
+                    deviceData.deviceConnectionStatus = deviceConnectionStatus
+                    devicesDataList.removeAt(counter)
+                    devicesDataList.add(counter, deviceData)
+                }
+            }
+        }
+    }
+
+    private fun sortAndDisplayDeviceInfo() {
         val removedList = devicesDataList.filter { it.blocked }.distinct()
         val connectedList = devicesDataList.filter { !it.blocked }.distinct()
-        val deviceMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap()
+        val deviceMap: HashMap<DeviceStatus, MutableList<DevicesData>> = HashMap()
         if (!connectedList.isNullOrEmpty()) {
-            deviceMap[DeviceStatus.CONNECTED] = connectedList
+            deviceMap[DeviceStatus.CONNECTED] = connectedList as MutableList<DevicesData>
         }
         if (!removedList.isNullOrEmpty()) {
-            deviceMap[DeviceStatus.BLOCKED] = removedList
+            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
         }
         uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
         devicesListFlow.latestValue = uiDevicesTypeDetails
-        progressViewFlow.latestValue = false
-        if (!connectedList.isNullOrEmpty()) {
-            getPauseResumeState(connectedList = connectedList)
-        }
-
     }
 
     private suspend fun requestModemDetails() {
-        when (val modemDetails = oAuthAssiaRepository.getModemInfo()) {
-            is AssiaNetworkResponse.Success -> {
+      val modemDetails = oAuthAssiaRepository.getModemInfo()
+                modemDetails.fold(ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_SUCCESS)
-                val apiInfo = modemDetails.body.modemInfo?.apInfoList
+                val apiInfo = it?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                    isModemAlive =  apiInfo[0].isAlive
                     uiDevicesTypeDetails =
-                        uiDevicesTypeDetails.copy(isModemAlive = apiInfo[0].isAlive)
-                    requestDevices()
+                        uiDevicesTypeDetails.copy(isModemAlive = isModemAlive)
                 } else {
+                    isModemAlive =  apiInfo[0].isAlive
                     uiDevicesTypeDetails =
                         uiDevicesTypeDetails.copy(isModemAlive = false)
                 }
-            }
-            else -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_FAILURE)
-                errorMessageFlow.latestValue = "Error DeviceInfo"
-            }
-        }
+            },ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_FAILURE)
+            errorMessageFlow.latestValue = "Error DeviceInfo"
+        })
     }
 
     private suspend fun requestBlocking(stationMac: String) {
         val blockInfo = asiaRepository.unblockDevices(stationMac)
-        when (blockInfo) {
-            is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_SUCCESS)
-                requestModemDetails()
-            }
-            else -> {
+        blockInfo.fold(ifRight =
+        {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_SUCCESS)
+            requestModemDetails()
+        },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
-            }
-        }
+            })
     }
 
     fun unblockDevice(stationMac: String) {
@@ -221,6 +227,7 @@ class DevicesViewModel @Inject constructor(
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.LIST_ITEM_CONNECTED_DEVICES)
         val bundle = Bundle()
         bundle.putSerializable(UsageDetailsActivity.DEVICE_INFO, deviceData)
+        bundle.putBoolean(UsageDetailsActivity.MODEM_STATUS, isModemAlive)
         DevicesCoordinatorDestinations.bundle = bundle
         myState.latestValue = DevicesCoordinatorDestinations.DEVICE_DETAILS
     }
@@ -228,8 +235,11 @@ class DevicesViewModel @Inject constructor(
     private suspend fun requestToUpdateNetworkStatus(deviceId: String, isPaused: Boolean) {
         val macresponse = mcafeeRepository.updateDevicePauseResumeStatus(deviceId, isPaused)
         macresponse.fold(ifLeft = {
+            updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
+            diplayDevicesListInUI()
         }, ifRight = {
-            updateUiWithStatus(it)
+            updateDeviceListWithPauseResumeStatus(it)
+            diplayDevicesListInUI()
         })
     }
 
@@ -259,15 +269,22 @@ class DevicesViewModel @Inject constructor(
 
     fun updatePauseResumeStatus(deviceData: DevicesData) {
         viewModelScope.launch {
-            var deviceId = deviceData.mcafeeDeviceId
-            if (!deviceId.isNullOrEmpty()) {
-                requestStateForDevices(deviceId = deviceId)
+            when (deviceData.deviceConnectionStatus) {
+                DeviceConnectionStatus.FAILURE,
+                DeviceConnectionStatus.DEVICE_CONNECTED,
+                DeviceConnectionStatus.PAUSED -> {
+                    var deviceId = deviceData.mcafeeDeviceId
+                    updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.LOADING)
+                    if (!deviceId.isNullOrEmpty()) {
+                        requestStateForDevices(deviceId = deviceId)
+                    }
+                }
             }
         }
     }
 
     data class UIDevicesTypeDetails(
-        var deviceSortMap: HashMap<DeviceStatus, List<DevicesData>> = HashMap(),
+        var deviceSortMap: HashMap<DeviceStatus, MutableList<DevicesData>> = HashMap(),
         var isModemAlive: Boolean = false
     )
 }
