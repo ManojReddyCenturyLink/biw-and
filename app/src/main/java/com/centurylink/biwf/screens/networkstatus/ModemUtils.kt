@@ -82,8 +82,6 @@ class ModemUtils {
             }
         }
 
-
-
         fun getConnectionStatusIconForDeviceList(devicesData: DevicesData): Int {
             val signalStrength = devicesData.rssi
             val connectionMode = devicesData.connectedInterface
