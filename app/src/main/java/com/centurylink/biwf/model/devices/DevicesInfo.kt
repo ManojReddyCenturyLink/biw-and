@@ -60,7 +60,10 @@ data class DevicesData(
     //TODO: Adding temporary variable to test analytics story, will remove once api gets integrated.
     var isPaused: Boolean = false,
 
-    var mcafeeDeviceId: String = ""
+    var mcafeeDeviceId: String = "",
+
+    var deviceConnectionStatus: DeviceConnectionStatus = DeviceConnectionStatus.LOADING
+
 
 ) : Serializable
 
@@ -77,4 +80,17 @@ data class MaxSpeed(
     @SerializedName("Band5G")
     val band5G: String? = null
 ) : Serializable
+
+enum class DeviceConnectionStatus {
+
+    LOADING, // Progress Bar
+
+    MODEM_OFF, // OFF IMAGE
+
+    PAUSED,// OFF IMAGE
+
+    DEVICE_CONNECTED, // SIGNAL STATE rssi value
+
+    FAILURE, // Background color
+}
 

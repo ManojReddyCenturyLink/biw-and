@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import java.lang.reflect.Type
 import kotlin.reflect.jvm.javaType
 
-private typealias McafeeErrorMessages = List<McafeeErrorMessage>
+private typealias McafeeErrorMessages = McafeeErrorMessage
 
 /**
  * Converts [McafeeHttpError] from incoming JSON from the server when the server

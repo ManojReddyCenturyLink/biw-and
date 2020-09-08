@@ -21,7 +21,7 @@ class McafeeRepository @Inject constructor(
             mcaFeeService.getDevicesMapping(MappingRequest(preferences.getAssiaId(), deviceMacAddresses))
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "0" || it.macDeviceList.isNullOrEmpty()) {
-                Either.Left("No Mapping Devices Found ")
+                return Either.Left("No Mapping Devices Found ")
             }
             return Either.Right(it.macDeviceList)
         }
@@ -32,9 +32,9 @@ class McafeeRepository @Inject constructor(
             mcaFeeService.getNetworkInfo(BlockRequest(preferences.getAssiaId(), deviceId))
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "0") {
-                Either.Left("No Status  Found ")
+                return Either.Left("No Status  Found ")
             }
-            Either.Right(DevicePauseStatus(it.blocked, deviceId))
+            return Either.Right(DevicePauseStatus(it.blocked, deviceId))
         }
     }
 
@@ -45,9 +45,9 @@ class McafeeRepository @Inject constructor(
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "0") {
-                Either.Left("No Status  Found ")
+                return Either.Left("No Status  Found ")
             }
-            Either.Right(DevicePauseStatus(isPaused, deviceId))
+            return Either.Right(DevicePauseStatus(isPaused, deviceId))
         }
     }
 }

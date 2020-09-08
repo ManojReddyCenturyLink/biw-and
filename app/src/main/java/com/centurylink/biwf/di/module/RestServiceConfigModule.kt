@@ -4,7 +4,6 @@ import com.centurylink.biwf.di.qualifier.BaseUrl
 import com.centurylink.biwf.di.qualifier.BaseUrlType
 import com.centurylink.biwf.di.qualifier.ClientType
 import com.centurylink.biwf.di.qualifier.HttpClient
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponseAdapterFactory
 import com.centurylink.biwf.service.impl.network.*
 import com.centurylink.biwf.service.integration.IntegrationServerService
 import com.centurylink.biwf.service.network.*
@@ -96,7 +95,9 @@ class RestServiceConfigModule(
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForAssiaServices)
-            .addCallAdapterFactory(AssiaNetworkResponseAdapterFactory())
+            .addCallAdapterFactory(EitherCallAdapterFactory())
+            .addConverterFactory(EitherConverterFactory())
+            .addConverterFactory(AssiaErrorConverterFactory())
             .addConverterFactory(jsonConverters)
             .addConverterFactory(primitiveTypeConverters)
             .build()
@@ -113,7 +114,9 @@ class RestServiceConfigModule(
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForOauthAssiaServices)
-            .addCallAdapterFactory(AssiaNetworkResponseAdapterFactory())
+            .addCallAdapterFactory(EitherCallAdapterFactory())
+            .addConverterFactory(EitherConverterFactory())
+            .addConverterFactory(AssiaErrorConverterFactory())
             .addConverterFactory(jsonConverters)
             .addConverterFactory(primitiveTypeConverters)
             .build()

@@ -1,6 +1,8 @@
 package com.centurylink.biwf.screens.home.devices.adapter
 
 import android.content.Context
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +12,13 @@ import com.centurylink.biwf.databinding.LayoutBlockedDevicesBinding
 import com.centurylink.biwf.databinding.LayoutConnectedDevicesBinding
 import com.centurylink.biwf.databinding.LayoutDevicelistGroupBlockedBinding
 import com.centurylink.biwf.databinding.LayoutHeaderDevicesConnectedBinding
+import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.DeviceStatus
+import com.centurylink.biwf.screens.networkstatus.ModemUtils
 
 class DeviceListAdapter(
-    var deviceList: HashMap<DeviceStatus, List<DevicesData>>,
+    var deviceList: HashMap<DeviceStatus, MutableList<DevicesData>>,
     private val deviceItemClickListener: DeviceItemClickListener
 ) :
     BaseExpandableListAdapter() {
@@ -47,7 +51,6 @@ class DeviceListAdapter(
     ): View {
         val layoutInflater =
             parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
         return (if (groupPosition == 0) {
             val headerDevicesConnectedBinding =
                 LayoutHeaderDevicesConnectedBinding.inflate(layoutInflater)
@@ -80,7 +83,7 @@ class DeviceListAdapter(
 
     override fun getChildrenCount(groupPosition: Int): Int {
         return when (groupPosition) {
-            0 -> if (deviceList[DeviceStatus.CONNECTED].isNullOrEmpty())0 else  deviceList[DeviceStatus.CONNECTED]!!.size
+            0 -> if (deviceList[DeviceStatus.CONNECTED].isNullOrEmpty()) 0 else deviceList[DeviceStatus.CONNECTED]!!.size
             1 -> deviceList[DeviceStatus.BLOCKED]!!.size
             else -> 0
         }
@@ -124,15 +127,26 @@ class DeviceListAdapter(
             val deviceName = layoutConnectedDevicesBinding.deviceName
             val deviceSignalStrength = layoutConnectedDevicesBinding.ivNetworkType
             val deviceLayout = layoutConnectedDevicesBinding.devicesListLayout
+            val stateLoadingProgress = layoutConnectedDevicesBinding.progressIcon
             deviceName.text = connectedData.hostName
             //TODO Remove this when devices comes online
-            connectedData.rssi = -50
+            connectedData.rssi = -60
+            when (connectedData.deviceConnectionStatus) {
+                DeviceConnectionStatus.LOADING -> {
+                    stateLoadingProgress.visibility = View.VISIBLE
+                    deviceSignalStrength.visibility = View.GONE
+                }
+                DeviceConnectionStatus.DEVICE_CONNECTED,
+                DeviceConnectionStatus.PAUSED,
+                DeviceConnectionStatus.MODEM_OFF ->{
+                    stateLoadingProgress.visibility = View.GONE
+                    deviceSignalStrength.visibility = View.VISIBLE
+                }
+                DeviceConnectionStatus.FAILURE->{
+                deviceSignalStrength.setColorFilter(Color.argb(255, 215, 255, 215))}
+            }
             deviceSignalStrength.setImageResource(
-                setSignalStatus(
-                    connectedData.rssi!!,
-                    connectedData.connectedInterface,
-                    connectedData.isPaused
-                )
+                ModemUtils.getConnectionStatusIcon(devicesData = connectedData)
             )
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onConnectedDevicesClicked(
@@ -150,6 +164,7 @@ class DeviceListAdapter(
             val deviceLayout = layoutBlockedDevicesBinding.blockedDeviceName
             val blockedData = getChild(groupPosition, childPosition)
             val blockedDeviceName = layoutBlockedDevicesBinding.blockedDeviceName
+
             blockedDeviceName.text = blockedData.hostName
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onRemovedDevicesClicked(
@@ -169,40 +184,6 @@ class DeviceListAdapter(
         return deviceList.size
     }
 
-    private fun setSignalStatus(
-        signalStrength: Int,
-        connectionMode: String?,
-        isPaused: Boolean
-    ): Int {
-        if (!isModemAlive) {
-            return R.drawable.ic_off
-        } else {
-            if (!connectionMode.isNullOrEmpty() && connectionMode.equals("Ethernet", true)) {
-                return if (isPaused)
-                    R.drawable.ic_cta_ethernet_off
-                else
-                    R.drawable.ic_ethernet
-            }
-            if (isPaused) {
-                return R.drawable.ic_off
-            } else {
-                return when (signalStrength) {
-                    in -50..-1 -> {
-                        R.drawable.ic_strong_signal
-                    }
-                    in -51 downTo -75 -> {
-                        R.drawable.ic_medium_signal
-                    }
-                    in -76 downTo -90 -> {
-                        R.drawable.ic_weak_signal
-                    }
-                    else -> {
-                        R.drawable.ic_off
-                    }
-                }
-            }
-        }
-    }
 
     interface DeviceItemClickListener {
         /**

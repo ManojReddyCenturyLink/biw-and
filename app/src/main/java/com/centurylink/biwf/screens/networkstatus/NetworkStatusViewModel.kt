@@ -12,7 +12,6 @@ import com.centurylink.biwf.model.wifi.UpdateNWPassword
 import com.centurylink.biwf.model.wifi.UpdateNetworkName
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Errors
@@ -129,15 +128,15 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+
     private suspend fun requestModemInfo() {
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         progressViewFlow.latestValue = false
-        when (modemResponse) {
-            is AssiaNetworkResponse.Success -> {
+        modemResponse.fold(ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
-                val apiInfo = modemResponse.body.modemInfo?.apInfoList
+                val apiInfo = it?.apInfoList
+                modemInfoFlow.latestValue = it
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
-                    modemInfoFlow.latestValue = modemResponse.body.modemInfo
                     val modemInfo = apiInfo[0]
                     bssidMap = modemInfo.bssidMap
                     ssidMap = modemInfo.ssidMap
@@ -166,14 +165,13 @@ class NetworkStatusViewModel @Inject constructor(
                 } else {
                     setOfflineNetworkInformation()
                 }
-            }
-            else -> {
+            },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
                 // Ignoring Error to avoid Frequent
                 //errorMessageFlow.latestValue = "Modem Info Not Available"
                 setOfflineNetworkInformation()
-            }
-        }
+            })
     }
 
     private fun setOfflineNetworkInformation() {
@@ -344,10 +342,10 @@ class NetworkStatusViewModel @Inject constructor(
 
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
-        when (netWorkInfo) {
-            is AssiaNetworkResponse.Success -> {
+        netWorkInfo.fold( ifRight =
+             {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
-                val password = netWorkInfo.body.networkName[netWorkBand.name]
+                val password = it.networkName[netWorkBand.name]
                 password?.let {
                     when (netWorkBand) {
                         NetWorkBand.Band2G, NetWorkBand.Band5G -> {
@@ -359,15 +357,14 @@ class NetworkStatusViewModel @Inject constructor(
                     }
                 }
                 updatePasswords()
-            }
-            else -> {
+            },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
                 //TODO Currently API is returning Error -Temp Hack for displaying password
                 existingWifiPwd = "test123wifi"
                 existingGuestPwd = "test123Guest"
                 updatePasswords()
-            }
-        }
+            })
     }
 
     private fun updatePasswords() {
@@ -384,49 +381,46 @@ class NetworkStatusViewModel @Inject constructor(
             netWorkBand,
             UpdateNWPassword(password)
         )
-        when (netWorkInfo) {
-            is AssiaNetworkResponse.Success -> {
+        netWorkInfo.fold(ifRight =
+             {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_SUCCESS)
-                if (netWorkInfo.body.code != "1000") {
-                    submitFlow = true
-                }
-            }
-            else -> {
+
+            },
+           ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_FAILURE)
                 submitFlow = true
             }
-        }
+        )
     }
 
     private suspend fun requestToEnableNetwork(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
-        when (netWorkInfo) {
-            is AssiaNetworkResponse.Success -> {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
-                updateEnableDisableNetwork(netWorkBand, true)
-            }
-            else -> {
+        netWorkInfo.fold(ifRight =
+        {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
+            updateEnableDisableNetwork(netWorkBand, true)
+        },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_FAILURE)
                 errorMessageFlow.latestValue = "Network Enablement Failed"
-            }
-        }
+            })
     }
 
     private suspend fun requestToDisableNetwork(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
-        when (netWorkInfo) {
-            is AssiaNetworkResponse.Success -> {
+        netWorkInfo.fold(
+            ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(netWorkBand, false)
-            }
-            else -> {
+            },
+            ifLeft =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
                 //TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
             }
-        }
+        )
     }
 
     private fun updateEnableDisableNetwork(netWorkBand: NetWorkBand, isEnable: Boolean) {
@@ -452,18 +446,16 @@ class NetworkStatusViewModel @Inject constructor(
             netWorkBand,
             UpdateNetworkName(networkName)
         )
-        when (netWorkInfo) {
-            is AssiaNetworkResponse.Success -> {
+        netWorkInfo.fold(
+            ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_SUCCESS)
-                if (netWorkInfo.body.code != "1000") {
-                    submitFlow = true
-                }
-            }
-            else -> {
+
+            },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_FAILURE)
                 submitFlow = true
             }
-        }
+                )
     }
 
     private fun submitData() {

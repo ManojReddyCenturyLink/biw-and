@@ -1,7 +1,8 @@
 package com.centurylink.biwf.repos.assia
 
-import com.centurylink.biwf.service.impl.aasia.AssiaNetworkResponse
+import android.util.Log
 import com.centurylink.biwf.service.network.AssiaTokenService
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -15,9 +16,13 @@ class AssiaTokenManager @Inject constructor(private val assiaTokenService: Assia
     suspend fun getAssiaToken(): String {
         if (assiaToken.isEmpty()) {
             val response = assiaTokenService.getAssiaToken()
-            if (response is AssiaNetworkResponse.Success) {
-                assiaToken = response.body.accessToken
-            }
+            response.fold(ifRight = {
+                assiaToken = it.accessToken
+                return assiaToken
+
+            },ifLeft = {
+                Timber.e("Issue obtaining Assia Token")
+            })
         }
         return assiaToken
     }

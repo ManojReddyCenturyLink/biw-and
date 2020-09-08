@@ -210,11 +210,11 @@
                     android:id="@+id/connection_status_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/padding_0"
-                    android:src="@drawable/ic_3_bars"
-                    android:layout_marginStart="@dimen/spacing_4"
+                    android:src="@drawable/ic_network_3_bars"
+                    android:layout_marginStart="@dimen/margin_spacing_tiny"
+                    app:layout_constraintTop_toTopOf="@+id/device_connected_btn"
                     app:layout_constraintStart_toEndOf="@+id/connection_status_btn_text"
-                    app:layout_constraintTop_toTopOf="@+id/connection_status_btn_text"
-                    app:layout_constraintBottom_toBottomOf="@+id/connection_status_btn_text"/>
+                    app:layout_constraintBottom_toBottomOf="@+id/device_connected_btn"/>
 
                 <TextView
                     android:id="@+id/tap_to_retry_text"

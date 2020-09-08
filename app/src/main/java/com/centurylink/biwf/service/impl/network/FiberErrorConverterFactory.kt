@@ -1,5 +1,6 @@
 package com.centurylink.biwf.service.impl.network
 
+import android.util.Log
 import com.centurylink.biwf.model.FiberErrorMessage
 import com.centurylink.biwf.model.FiberHttpError
 import okhttp3.ResponseBody
