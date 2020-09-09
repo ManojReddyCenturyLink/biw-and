@@ -66,6 +66,7 @@ class DashboardViewModel @Inject constructor(
     val connectedDevicesNumber: Flow<String> = BehaviorStateFlow()
     val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
+    var cancelAppointmentError = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
     var isAccountStatus = EventFlow<Boolean>()
     val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
@@ -674,7 +675,9 @@ class DashboardViewModel @Inject constructor(
         cancelAppointmentDetails.fold(ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_FAILURE)
             progressViewFlow.latestValue = false
-            errorMessageFlow.latestValue = it
+            if (it != null) {
+                cancelAppointmentError.latestValue = it
+            }
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_SUCCESS)
             progressViewFlow.latestValue = false
