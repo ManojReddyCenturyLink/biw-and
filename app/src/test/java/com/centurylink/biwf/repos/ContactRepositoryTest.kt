@@ -3,6 +3,7 @@ package com.centurylink.biwf.repos
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.service.network.ContactApiService
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -29,7 +30,7 @@ class ContactRepositoryTest : BaseRepositoryTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { mockPreferences.getValueByID(any()) } returns "12345"
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
         val contactDetailString = readJson("contact.json")
         contactDetails = fromJson(contactDetailString)
         contactRepository = ContactRepository(mockPreferences, contactApiService)
@@ -57,7 +58,7 @@ class ContactRepositoryTest : BaseRepositoryTest() {
                     fiberHttpError
                 )
                 val contactIfo = contactRepository.getContactDetails()
-                Assert.assertEquals(contactIfo.mapLeft { it }, Either.Left("Error"))
+                Assert.assertEquals(contactIfo.mapLeft { it }, Either.Left(Constants.ERROR))
             }
         }
     }

@@ -1,0 +1,24 @@
+{
+  "code": "0",
+  "mac_address": "",
+  "mac_device_list": [
+    {
+      "devices": [
+        {
+          "id": "E0-C7-67-097509736C2808AE34C6C3F6CEE60756BFEAEA009C21C1EE9E52244CED85DED7",
+          "member_id": ""
+        }
+      ],
+      "mac_address": "E0-C7-67-8C-BE-28"
+    },
+    {
+      "devices": [
+        {
+          "id": "CC-FA-00-F42D90B3852A66101FA8802D4B560D46AD59AE0A2A2EBD63D1E8FC96DE4ECFC3",
+          "member_id": ""
+        }
+      ],
+      "mac_address": "CC-FA-00-C6-F5-A6"
+    }
+  ]
+}

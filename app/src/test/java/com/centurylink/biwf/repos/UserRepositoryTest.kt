@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.FiberHttpError
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.service.network.UserService
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -34,7 +35,7 @@ class UserRepositoryTest : BaseRepositoryTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { mockPreferences.getValueByID(any()) } returns "12345"
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
         val userInfoString = readJson("user.json")
         val userDetailsString = readJson("userdetails.json")
         userInfo = fromJson(userInfoString)
@@ -66,14 +67,14 @@ class UserRepositoryTest : BaseRepositoryTest() {
         runBlockingTest {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = "Error"))
                 )
                 coEvery { userService.qetUserInfo() } returns Either.Left(fiberHttpError)
                 val userInformation = userRepository.getUserInfo()
                 Assert.assertEquals(
                     userInformation.mapLeft { it },
-                    Either.Left("Error")
+                    Either.Left(Constants.ERROR)
                 )
             }
         }
@@ -104,14 +105,14 @@ class UserRepositoryTest : BaseRepositoryTest() {
         runBlockingTest {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = Constants.ERROR))
                 )
                 coEvery { userService.getCompleteUserDetails(any()) } returns Either.Left(
                     fiberHttpError
                 )
                 val userDetailsInfo = userRepository.getUserDetails()
-                Assert.assertEquals(userDetailsInfo.mapLeft { it }, Either.Left("Error"))
+                Assert.assertEquals(userDetailsInfo.mapLeft { it }, Either.Left(Constants.ERROR))
             }
         }
     }
@@ -132,8 +133,8 @@ class UserRepositoryTest : BaseRepositoryTest() {
         runBlockingTest {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = Constants.ERROR))
                 )
                 coEvery { userService.updatePassword(any(), any()) } returns Either.Left(
                     fiberHttpError

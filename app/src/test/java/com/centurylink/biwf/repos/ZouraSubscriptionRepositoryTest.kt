@@ -5,6 +5,7 @@ import com.centurylink.biwf.model.FiberErrorMessage
 import com.centurylink.biwf.model.FiberHttpError
 import com.centurylink.biwf.model.subscription.SubscriptionDates
 import com.centurylink.biwf.service.network.ZuoraSubscriptionApiService
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -31,7 +32,7 @@ class ZouraSubscriptionRepositoryTest : BaseRepositoryTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { mockPreferences.getValueByID(any()) } returns "12345"
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
         val jsonString = readJson("subscriptiondate.json")
         subscriptionDate = fromJson(jsonString)
         zuoraSubscriptionRepository =
@@ -57,14 +58,14 @@ class ZouraSubscriptionRepositoryTest : BaseRepositoryTest() {
         runBlockingTest {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = Constants.ERROR))
                 )
                 coEvery { zuoraSubscriptionService.getSubscriptionDate(any()) } returns Either.Left(
                     fiberHttpError
                 )
                 val subscriptionDetails = zuoraSubscriptionRepository.getSubscriptionDate()
-                Assert.assertEquals(subscriptionDetails.mapLeft { it }, Either.Left("Error"))
+                Assert.assertEquals(subscriptionDetails.mapLeft { it }, Either.Left(Constants.ERROR))
             }
         }
     }

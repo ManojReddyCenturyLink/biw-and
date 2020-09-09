@@ -4,6 +4,7 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.appointment.*
 import com.centurylink.biwf.service.network.AppointmentService
 import com.centurylink.biwf.service.network.IntegrationRestServices
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -11,9 +12,9 @@ import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import org.amshove.kluent.any
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.threeten.bp.LocalDateTime
 
@@ -32,12 +33,27 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
 
     private lateinit var appointments: Appointments
 
+    private lateinit var appointmentSlots: AppointmentSlots
+
+    private lateinit var appointmentResponse: AppointmentResponse
+
+    private lateinit var cancelResponse: CancelResponse
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { mockPreferences.getValueByID(any()) } returns "12345"
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
         val appointmentString = readJson("appointments.json")
         appointments = fromJson(appointmentString)
+        val appointmentSlotsString = readJson("getslots.json")
+        appointmentSlots = fromJson(appointmentSlotsString)
+
+        val appointmentChangeString = readJson("appointmentchange.json")
+        appointmentResponse = fromJson(appointmentChangeString)
+
+        val cancelResponseString = readJson("cancelresponse.json")
+        cancelResponse = fromJson(cancelResponseString)
+
         coEvery {
             appointmentService.getAppointmentDetails(any())
         } returns Either.Right(appointments)
@@ -46,7 +62,7 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun testgetAppointmentErrorInfo() {
+    fun testGetAppointmentErrorInfo() {
         runBlocking {
             launch {
                 coEvery {
@@ -100,11 +116,11 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
     fun testgetAppointmentErrorEmptyRecords() {
         runBlocking {
             launch {
-                var modifiedappointments = Appointments(records = emptyList())
-                every { mockPreferences.getValueByID(any()) } returns "123"
+                val modifiedAppointments = Appointments(records = emptyList())
+                every { mockPreferences.getValueByID(any()) } returns Constants.ID
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
-                } returns Either.Right(modifiedappointments)
+                } returns Either.Right(modifiedAppointments)
                 val appInfo = appointmentRepository.getAppointmentInfo()
                 Assert.assertEquals(
                     appInfo.map { it.appointmentId },
@@ -114,9 +130,8 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
         }
     }
 
-    @Ignore   // todo revisit this test
     @Test
-    fun testgetAppointmentSuccess() {
+    fun testGetAppointmentSuccess() {
         runBlocking {
             launch {
                 val serviceRecord = serviceRecords(ServiceResource(id = "12345", name = "Pravin"))
@@ -127,14 +142,15 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     arrivalWindowStarTime = LocalDateTime.now(),
                     appointmentStatus = ServiceStatus.SCHEDULED,
                     JobType = "Installation",
+                    appointmentNumber = "1111",
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
-                var modifiedappointments = Appointments(records = listOf(tempRecords))
+                val modifiedAppointments = Appointments(totalSize = 1,done = true,records = listOf(tempRecords))
                 every { mockPreferences.getValueByID(any()) } returns "123"
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
-                } returns Either.Right(modifiedappointments)
+                } returns Either.Right(modifiedAppointments)
                 val appInfo = appointmentRepository.getAppointmentInfo()
                 Assert.assertEquals(
                     appInfo.map { it.appointmentId },
@@ -160,7 +176,7 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
-                var emptyJobtypeApp = Appointments(records = listOf(emptyJobtype))
+                val emptyJobtypeApp = Appointments(records = listOf(emptyJobtype))
 
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
@@ -190,11 +206,11 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
-                var modifiedappointments = Appointments(records = listOf(emptyStartTime))
+                val modifiedAppointments = Appointments(records = listOf(emptyStartTime))
                 every { mockPreferences.getValueByID(any()) } returns "123"
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
-                } returns Either.Right(modifiedappointments)
+                } returns Either.Right(modifiedAppointments)
                 val emptyStartTimeAppInfo = appointmentRepository.getAppointmentInfo()
                 Assert.assertEquals(
                     emptyStartTimeAppInfo.mapLeft { it },
@@ -220,11 +236,11 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
-                var emptyendappointments = Appointments(records = listOf(emptyendTime))
+                val emptyendAppointments = Appointments(records = listOf(emptyendTime))
                 every { mockPreferences.getValueByID(any()) } returns "123"
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
-                } returns Either.Right(emptyendappointments)
+                } returns Either.Right(emptyendAppointments)
                 val emptySendTimeAppInfo = appointmentRepository.getAppointmentInfo()
                 Assert.assertEquals(
                     emptySendTimeAppInfo.mapLeft { it },
@@ -234,49 +250,12 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
         }
     }
 
-    @Ignore   // todo revisit this test
     @Test
-    fun testEmptyStatusConditions() {
+    fun testEmptyServiceResourcesId() {
         runBlocking {
             launch {
-                val emptyString: String? = null
-                val emptyDate: LocalDateTime? = null
-                val emptyStatus: ServiceStatus? = null
-                val serviceRecord = serviceRecords(ServiceResource(id = "12345", name = "Pravin"))
-                val serviceResources = ServiceResources(records = listOf(serviceRecord))
-                val emptyStatusApp = AppointmentRecords(
-                    id = "08pf00000008dTjAAI",
-                    arrivalWindowEndTime = LocalDateTime.now(),
-                    arrivalWindowStarTime = LocalDateTime.now(),
-                    appointmentStatus = emptyStatus,
-                    JobType = "Installation",
-                    latitude = "39.852448",
-                    longitude = "39.852448", serviceResources = serviceResources
-                )
-                var modifiedappointments = Appointments(records = listOf(emptyStatusApp))
-                every { mockPreferences.getValueByID(any()) } returns "123"
-                coEvery {
-                    appointmentService.getAppointmentDetails(any())
-                } returns Either.Right(modifiedappointments)
-                val emptyStartTimeAppInfo = appointmentRepository.getAppointmentInfo()
-                Assert.assertEquals(
-                    emptyStartTimeAppInfo.mapLeft { it },
-                    Either.Left("Mandatory Records  is Empty")
-                )
-            }
-        }
-    }
-
-    @Ignore   // todo revisit this test
-    @Test
-    fun testEmptyServiceResources() {
-        runBlocking {
-            launch {
-                val emptyString: String? = null
-                val serviceRecord = serviceRecords(ServiceResource(id = "12345", name = "Pravin"))
-
-                val appointmentssall = AppointmentRecords(
-                    id = "08pf00000008dTjAAI",
+                val appointmentRecords = AppointmentRecords(
+                    id = "",
                     arrivalWindowEndTime = LocalDateTime.now(),
                     arrivalWindowStarTime = LocalDateTime.now(),
                     appointmentStatus = ServiceStatus.SCHEDULED,
@@ -284,39 +263,15 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = ServiceResources()
                 )
-                var emptyendappointments = Appointments(records = listOf(appointmentssall))
+                val emptyEndAppointments = Appointments(records = listOf(appointmentRecords))
                 every { mockPreferences.getValueByID(any()) } returns "123"
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
-                } returns Either.Right(emptyendappointments)
+                } returns Either.Right(emptyEndAppointments)
                 val emptySendTimeAppInfo = appointmentRepository.getAppointmentInfo()
                 Assert.assertEquals(
                     emptySendTimeAppInfo.mapLeft { it },
-                    Either.Left("Mandatory Records  is Empty")
-                )
-
-                //Empty ServiceResources
-                val emptyserviceResources =
-                    ServiceResources(records = listOf(serviceRecords(ServiceResource())))
-
-                val emptyJobtype = AppointmentRecords(
-                    id = "08pf00000008dTjAAI",
-                    arrivalWindowEndTime = LocalDateTime.now(),
-                    arrivalWindowStarTime = LocalDateTime.now(),
-                    appointmentStatus = ServiceStatus.SCHEDULED,
-                    JobType = emptyString,
-                    latitude = "39.852448",
-                    longitude = "39.852448", serviceResources = emptyserviceResources
-                )
-                var emptyJobtypeApp = Appointments(records = listOf(emptyJobtype))
-
-                coEvery {
-                    appointmentService.getAppointmentDetails(any())
-                } returns Either.Right(emptyJobtypeApp)
-                val appInfo = appointmentRepository.getAppointmentInfo()
-                Assert.assertEquals(
-                    appInfo.mapLeft { it },
-                    Either.Left("Mandatory Records  is Empty")
+                    Either.Left("Appointment id is Empty")
                 )
             }
         }
@@ -339,7 +294,7 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = emptyserviceResources
                 )
-                var emptyJobtypeApp = Appointments(records = listOf(emptyJobtype))
+                val emptyJobtypeApp = Appointments(records = listOf(emptyJobtype))
 
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
@@ -352,4 +307,59 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
+
+    @Test
+    fun getAppointmentSlots() {
+        runBlocking {
+            launch {
+                coEvery {
+                    appointmentService.getAppointmentSlots(
+                        any(),
+                        any()
+                    )
+                } returns Either.Right(
+                    appointmentSlots
+                )
+                val appointmentSlotsInfo = appointmentRepository.getAppointmentSlots("", "")
+                Assert.assertEquals(
+                    appointmentSlotsInfo.map { it.serviceAppointmentId },
+                    Either.Right(Constants.SERVICE_APPOINTMENT_NUMBER)
+                )
+            }
+        }
+    }
+
+    @Test
+    fun modifyAppointmentInfo() {
+        runBlocking {
+            launch {
+                coEvery { appointmentService.reScheduleAppointment(any()) } returns Either.Right(
+                    appointmentResponse
+                )
+                val appointmentInfo = appointmentRepository.modifyAppointmentInfo(any())
+                Assert.assertEquals(
+                    appointmentInfo.map { it.serviceAppointmentId },
+                    Either.Right(Constants.SERVICE_APPOINTMENT_NUMBER)
+                )
+            }
+        }
+    }
+
+    @Test
+    fun cancelAppointment() {
+        runBlocking {
+            launch {
+                coEvery { appointmentService.cancelAppointment(any()) } returns Either.Right(
+                    cancelResponse
+                )
+                val cancelAppointmentInfo = appointmentRepository.cancelAppointment(any())
+                Assert.assertEquals(cancelAppointmentInfo.map { it.status }, Either.Right("OK"))
+                Assert.assertEquals(
+                    cancelAppointmentInfo.map { it.serviceAppointmentNumber },
+                    Either.Right(Constants.SERVICE_APPOINTMENT_NUMBER)
+                )
+            }
+        }
+    }
+
 }

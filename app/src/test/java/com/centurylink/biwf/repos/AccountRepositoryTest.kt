@@ -4,7 +4,9 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.FiberErrorMessage
 import com.centurylink.biwf.model.FiberHttpError
 import com.centurylink.biwf.model.account.AccountDetails
+import com.centurylink.biwf.model.account.PaymentInfoResponse
 import com.centurylink.biwf.service.network.AccountApiService
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -28,42 +30,45 @@ class AccountRepositoryTest : BaseRepositoryTest() {
 
     private lateinit var accountDetails: AccountDetails
 
+    private lateinit var paymentInfoResponse: PaymentInfoResponse
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { mockPreferences.getValueByID(any()) } returns "12345"
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
+        val paymentString = readJson("paymentinfo.json")
+        paymentInfoResponse = fromJson(paymentString)
         accountRepository = AccountRepository(mockPreferences, accountApiService)
     }
 
     @Test
-    fun testgetAccountDetails() {
+    fun testGetAccountDetails() {
         runBlocking {
             launch {
                 coEvery { accountApiService.getAccountDetails(any()) } returns Either.Right(
                     accountDetails
                 )
                 val accountInfo = accountRepository.getAccountDetails()
-                Assert.assertEquals(accountInfo.map { it.name }, Either.Right("James Cameroon"))
-                Assert.assertEquals(accountInfo.map { it.Id }, Either.Right("001q000001GZ900AAD"))
+                Assert.assertEquals(accountInfo.map { it.name }, Either.Right(Constants.ACCOUNT_NAME))
+                Assert.assertEquals(accountInfo.map { it.Id }, Either.Right(Constants.ACCOUNT_ID))
             }
         }
     }
 
     @Test
-    fun testgetAccountDetailsError() {
+    fun testGetAccountDetailsError() {
         runBlocking {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = Constants.ERROR))
                 )
                 coEvery { accountApiService.getAccountDetails(any()) } returns Either.Left(
                     fiberHttpError
                 )
                 val accountInfo = accountRepository.getAccountDetails()
-                Assert.assertEquals(accountInfo.mapLeft { it }, Either.Left("Error"))
+                Assert.assertEquals(accountInfo.mapLeft { it }, Either.Left(Constants.ERROR))
             }
         }
     }
@@ -89,8 +94,8 @@ class AccountRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = Constants.ERROR))
                 )
                 coEvery {
                     accountApiService.submitServiceCallDetails(
@@ -103,5 +108,14 @@ class AccountRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
-
+    @Test
+    fun testGetLiveCardDetails() {
+        runBlocking {
+            launch {
+                coEvery { accountApiService.getLiveCardInfo(any()) } returns Either.Right(paymentInfoResponse)
+                val accountInfo = accountRepository.getLiveCardDetails()
+                Assert.assertEquals(accountInfo.map { it.isDone },  Either.Right(true))
+            }
+        }
+    }
 }
