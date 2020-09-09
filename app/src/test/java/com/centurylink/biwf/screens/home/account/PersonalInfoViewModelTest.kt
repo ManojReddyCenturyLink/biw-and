@@ -108,7 +108,6 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
         Assert.assertSame(false, viewModel.toggleConfirmPasswordVisibility())
     }
 
-
     @Test
     fun togglePasswordVisibility() {
         viewModel.togglePasswordVisibility()

@@ -10,6 +10,4 @@ object Constants {
     const val ACCOUNT_NAME: String = "James Cameroon"
     const val ACCOUNT_ID: String = "001q000001GZ900AAD"
     const val SERVICE_APPOINTMENT_NUMBER: String = "08pf00000008gvCAAQ"
-
-
 }
