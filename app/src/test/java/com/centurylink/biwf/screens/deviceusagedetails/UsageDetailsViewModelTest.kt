@@ -1,4 +1,4 @@
-package com.centurylink.biwf.screens.home.deviceusagedetails
+package com.centurylink.biwf.screens.deviceusagedetails
 
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.ViewModelBaseTest
@@ -6,7 +6,6 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
-import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.TestCoroutineRule
 import io.mockk.MockKAnnotations
@@ -58,6 +57,14 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         runBlockingTest {
             launch {
                 //viewModel.initApis()
+            }
+        }
+
+    @Test
+    fun `on Remove Devices Clicked`() =
+        runBlockingTest {
+            launch {
+                viewModel.removeDevices("")
             }
         }
 
