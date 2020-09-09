@@ -157,6 +157,7 @@ class SupportViewModel @Inject constructor(
                 if (it.data.listOfData.isNotEmpty()) {
                     val uploadMb = it.data.listOfData[0].speedAvg / 1000
                     uploadSpeed.latestValue = uploadMb.toString()
+                    sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
                 } else {
                     uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
                 }
@@ -176,6 +177,8 @@ class SupportViewModel @Inject constructor(
                     downloadSpeed.latestValue = downloadMb.toString()
                     latestSpeedTest.latestValue =
                         formatUtcString(it.data.listOfData[0].timeStamp)
+                    sharedPreferences.saveSpeedTestDownload(downloadSpeed = downloadSpeed.latestValue)
+                    sharedPreferences.saveLastSpeedTestTime(lastRanTime = latestSpeedTest.latestValue)
                 } else {
                     downloadSpeed.latestValue = EMPTY_RESPONSE
                     latestSpeedTest.latestValue = EMPTY_RESPONSE
@@ -201,6 +204,7 @@ class SupportViewModel @Inject constructor(
         progressVisibility.latestValue = false
         speedTestButtonState.latestValue = true
         modemResetButtonState.latestValue = true
+        sharedPreferences.saveSupportSpeedTest(false)
     }
 
     private suspend fun requestFaqDetailsInfo() {
