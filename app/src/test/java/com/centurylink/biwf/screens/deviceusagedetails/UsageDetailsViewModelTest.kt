@@ -56,7 +56,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun requestDailyUsageDetailsApiCall() =
         runBlockingTest {
             launch {
-                //viewModel.initApis()
+                viewModel.initApis()
             }
         }
 
