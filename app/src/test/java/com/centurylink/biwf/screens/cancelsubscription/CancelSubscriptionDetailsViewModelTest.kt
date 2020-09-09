@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.cases.CaseResponse
 import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.repos.CaseRepository
+import com.centurylink.biwf.utility.Constants
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -49,37 +50,21 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
         caseResponse = fromJson(caseRespString)
         case = fromJson(jsonString)
         recordID = fromJson(recordIdString)
-        coEvery { caseRepository.getRecordTypeId() } returns Either.Right("12345")
+        coEvery { caseRepository.getRecordTypeId() } returns Either.Right(Constants.ID)
         run { analyticsManagerInterface }
-        coEvery {
-            caseRepository.createDeactivationRequest(
-                any(),
-                any(),
-                any(),
-                any(),
-                any(),
-                any()
-            )
-        } returns Either.Right(caseResponse)
         coEvery { caseRepository.getCaseId() } returns Either.Right(case)
-        viewModel = CancelSubscriptionDetailsViewModel(caseRepository, mockModemRebootMonitorService, analyticsManagerInterface)
+        viewModel = CancelSubscriptionDetailsViewModel(
+            caseRepository,
+            mockModemRebootMonitorService,
+            analyticsManagerInterface
+        )
     }
 
-    @Ignore
+
     @Test
     fun testPerformCancellationRequestSuccess() {
         runBlockingTest {
-            viewModel.performCancellationRequest()
-            Assert.assertEquals(
-                viewModel.successDeactivation.first(), caseResponse.success
-            )
-        }
-    }
-
-    @Ignore
-    @Test
-    fun testPerformCancellationRequestError() {
-        runBlockingTest {
+            viewModel.onCancellationDateSelected(Date())
             coEvery {
                 caseRepository.createDeactivationRequest(
                     any(),
@@ -89,10 +74,10 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
                     any(),
                     any()
                 )
-            } returns Either.Left("Error in Submitting")
+            } returns Either.Right(caseResponse)
             viewModel.performCancellationRequest()
             Assert.assertEquals(
-                viewModel.errorMessageFlow.first(), "Error in Submitting"
+                viewModel.successDeactivation.first(), caseResponse.success
             )
         }
     }
@@ -105,7 +90,7 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
             recordTypeId.isAccessible = true
             viewModel.initApis()
             Assert.assertEquals(
-                recordTypeId.get(viewModel), "12345"
+                recordTypeId.get(viewModel), Constants.ID
             )
         }
     }
@@ -121,33 +106,21 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
         }
     }
 
-    @Ignore
     @Test
-    fun testPerformOnSubmitCancellation(){
-        runBlockingTest {
-           viewModel.onSubmitCancellation()
-            var expectedDate = viewModel.performSubmitEvent.value!!.peekContent()
-            Assert.assertEquals( com.centurylink.biwf.utility.DateUtils.toSimpleString(expectedDate,
-                com.centurylink.biwf.utility.DateUtils.STANDARD_FORMAT), com.centurylink.biwf.utility.DateUtils.toSimpleString((Date()),
-                com.centurylink.biwf.utility.DateUtils.STANDARD_FORMAT))
-        }
-    }
-
-    @Test
-    fun testonCancellationReasonOther(){
+    fun testonCancellationReasonOther() {
         runBlockingTest {
             viewModel.onCancellationReason("other")
             var expectedvalue = viewModel.displayReasonSelectionEvent.value!!.peekContent()
-            Assert.assertEquals( expectedvalue,true)
+            Assert.assertEquals(expectedvalue, true)
         }
     }
 
     @Test
-    fun testonCancellationReasonexcpetOther(){
+    fun testonCancellationReasonexcpetOther() {
         runBlockingTest {
             viewModel.onCancellationReason("Moving")
             var expectedvalue = viewModel.displayReasonSelectionEvent.value!!.peekContent()
-            Assert.assertEquals( expectedvalue,false)
+            Assert.assertEquals(expectedvalue, false)
         }
     }
 
@@ -159,7 +132,8 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
         cancellationComments.isAccessible = true
         viewModel.onCancellationCommentsChanged("Hello")
         Assert.assertEquals(
-            cancellationComments.get(viewModel), "Hello")
+            cancellationComments.get(viewModel), "Hello"
+        )
     }
 
     @Test
@@ -169,33 +143,68 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
         cancellationReasonExplanation.isAccessible = true
         viewModel.onOtherCancellationChanged("Hello")
         Assert.assertEquals(
-            cancellationReasonExplanation.get(viewModel), "Hello")
+            cancellationReasonExplanation.get(viewModel), "Hello"
+        )
     }
 
     @Test
-    fun testOnDateSelected(){
+    fun testOnDateSelected() {
         runBlockingTest {
             viewModel.onCancellationDateSelected(Date())
             var expectedDate = viewModel.cancelSubscriptionDateEvent.value!!.peekContent()
-            Assert.assertEquals( com.centurylink.biwf.utility.DateUtils.toSimpleString(expectedDate,
-                com.centurylink.biwf.utility.DateUtils.STANDARD_FORMAT), com.centurylink.biwf.utility.DateUtils.toSimpleString((Date()),
-                com.centurylink.biwf.utility.DateUtils.STANDARD_FORMAT))
+            Assert.assertEquals(
+                com.centurylink.biwf.utility.DateUtils.toSimpleString(
+                    expectedDate,
+                    com.centurylink.biwf.utility.DateUtils.STANDARD_FORMAT
+                ), com.centurylink.biwf.utility.DateUtils.toSimpleString(
+                    (Date()),
+                    com.centurylink.biwf.utility.DateUtils.STANDARD_FORMAT
+                )
+            )
         }
     }
 
     @Test
-    fun testOnDateChanged(){
+    fun testOnDateChanged() {
         runBlockingTest {
             viewModel.onDateChange()
             viewModel.onRatingChanged(4.0f)
             var expectedDate = viewModel.changeDateEvent.value!!.peekContent()
-            Assert.assertEquals(expectedDate,Unit)
+            Assert.assertEquals(expectedDate, Unit)
             val cancellationDate: Field =
                 CancelSubscriptionDetailsViewModel::class.java.getDeclaredField("cancellationDate")
-            cancellationDate.isAccessible=true
-            val emptyDate:Date?=null
+            cancellationDate.isAccessible = true
+            val emptyDate: Date? = null
             cancellationDate.set(viewModel, emptyDate);
             viewModel.onSubmitCancellation()
         }
     }
+
+    @Test
+    fun logSubmitButtonClick() {
+        Assert.assertNotNull(viewModel.logSubmitButtonClick())
+    }
+
+    @Test
+    fun logBackPress() {
+        Assert.assertNotNull(viewModel.logBackPress())
+    }
+
+    @Test
+    fun logCancelPress() {
+        Assert.assertNotNull(viewModel.logCancelPress())
+    }
+
+    @Test
+    fun discardCancellationRequest() {
+        Assert.assertNotNull(viewModel.discardCancellationRequest())
+    }
+
+    @Test
+    fun onSubmitCancellation() {
+        viewModel.onCancellationDateSelected(Date())
+        viewModel.onSubmitCancellation()
+        Assert.assertNotNull(viewModel.performSubmitEvent)
+    }
+
 }

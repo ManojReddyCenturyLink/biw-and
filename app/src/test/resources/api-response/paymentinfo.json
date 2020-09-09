@@ -1,0 +1,11 @@
+{
+   "done": true,
+   "records": [
+      {
+         "Zuora__BillCycleDay__c": "Auto-set",
+         "Credit_Card_Summary__c": "MasterCard ************5454",
+         "Name": "ctl test612"
+      }
+   ],
+   "totalSize": 1
+}

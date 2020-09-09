@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.model.cases.RecordIdData
 import com.centurylink.biwf.service.network.CaseApiService
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -39,7 +40,7 @@ class CaseRepositoryTest : BaseRepositoryTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { mockPreferences.getValueByID(any()) } returns "12345"
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
         val jsonString = readJson("case.json")
         val caseRespString = readJson("cancelsubscription.json")
         val recordIdString = readJson("caseid.json")
@@ -100,10 +101,10 @@ class CaseRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
+                    Constants.STATUS_CODE,
                     listOf(
                         FiberErrorMessage(
-                            errorCode = "1000",
+                            errorCode = Constants.ERROR_CODE_1000,
                             message = "Record Id  Records is Empty"
                         )
                     )
@@ -222,12 +223,12 @@ class CaseRepositoryTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun testgetCaseIdError() {
+    fun testGetCaseIdError() {
         runBlocking {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode =Constants.ERROR_CODE_1000, message = "Error"))
                 )
                 coEvery { caseApiService.getCaseNumber() } returns Either.Left(fiberHttpError)
                 val casedetailsInfo = caseRepository.getCaseId()

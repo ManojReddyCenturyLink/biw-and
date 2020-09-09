@@ -11,6 +11,7 @@ import com.centurylink.biwf.model.speedtest.*
 import com.centurylink.biwf.repos.assia.AssiaTokenManager
 import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.service.network.AssiaTokenService
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -38,7 +39,6 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
 
     @MockK
     private lateinit var assiaTokenManager: AssiaTokenManager
-
 
     private lateinit var modemInfoResponse: ModemInfoResponse
 
@@ -93,7 +93,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                modemInfoResponse= ModemInfoResponse(code = "1064",modemInfo = ModemInfo())
+                modemInfoResponse= ModemInfoResponse(code = Constants.ERROR_CODE_1064,modemInfo = ModemInfo())
                 coEvery { assiaService.getModemInfo(any()) } returns Either.Right(modemInfoResponse)
 
                 val modemInfo = assiaRepository.getModemInfo()
@@ -127,7 +127,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                modemInfoResponse= ModemInfoResponse(code = "1064",modemInfo = ModemInfo())
+                modemInfoResponse= ModemInfoResponse(code =Constants.ERROR_CODE_1064,modemInfo = ModemInfo())
                 coEvery { assiaService.getModemInfo(any()) } returns Either.Right(modemInfoResponse)
 
                 val modemInfo = assiaRepository.getModemInfoForcePing()
@@ -161,7 +161,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 val devicesData=DevicesData()
-                devicesInfo= DevicesInfo(code = "1604",error = "",message = "",devicesDataList = arrayListOf(devicesData) )
+                devicesInfo= DevicesInfo(code = Constants.ERROR_CODE_1064,error = "",message = "",devicesDataList = arrayListOf(devicesData) )
                 coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 val deviceInfo = assiaRepository.getDevicesDetails()
                 Assert.assertEquals(deviceInfo.mapLeft { it }, Either.Left(""))
@@ -193,7 +193,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                speedTestRequestResult= SpeedTestRequestResult(code = 1604)
+                speedTestRequestResult= SpeedTestRequestResult(code =Constants.ERROR_CODE_1064.toInt())
                 coEvery { assiaService.startSpeedTest(any()) } returns Either.Right(speedTestRequestResult)
                 val speedTestInfo = assiaRepository.startSpeedTest()
                 Assert.assertEquals(speedTestInfo.mapLeft { it }, Either.Left(""))
@@ -210,7 +210,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
                 val speedTestInformation = assiaRepository.checkSpeedTestStatus(111)
                 Assert.assertEquals(
                     speedTestInformation.map { it.code },
-                    Either.Right(1000)
+                    Either.Right(Constants.ERROR_CODE_1000.toInt())
                 )
                 Assert.assertEquals(
                     speedTestInformation.map { it.data.currentStep },
@@ -225,7 +225,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                speedTestStatus= SpeedTestStatus(code = 1604,message = "",data = SpeedTestStatusNestedResults(currentStep = "",isFinished = false))
+                speedTestStatus= SpeedTestStatus(code = Constants.ERROR_CODE_1064.toInt(),message = "",data = SpeedTestStatusNestedResults(currentStep = "",isFinished = false))
                 coEvery { assiaService.checkSpeedTestResults(any()) } returns Either.Right(speedTestStatus)
                 val speedTestInfo = assiaRepository.checkSpeedTestStatus(111)
                 Assert.assertEquals(speedTestInfo.mapLeft { it }, Either.Left(""))
@@ -242,7 +242,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
                 val speedTestInformation = assiaRepository.getUpstreamResults()
                 Assert.assertEquals(
                     speedTestInformation.map { it.code},
-                    Either.Right(1000)
+                    Either.Right(Constants.ERROR_CODE_1000.toInt())
                 )
 
                 Assert.assertEquals(
@@ -259,7 +259,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 val speedTestResult=SpeedTestResult(speedAvg = 100,timeStamp = "")
-                speedTestResponse= SpeedTestResponse(code = 1604,message = "",data = SpeedTestNestedResults(name = "",listOfData = arrayOf(speedTestResult)))
+                speedTestResponse= SpeedTestResponse(code = Constants.ERROR_CODE_1064.toInt(),message = "",data = SpeedTestNestedResults(name = "",listOfData = arrayOf(speedTestResult)))
                 coEvery { assiaService.checkSpeedTestUpStreamResults(any()) } returns Either.Right(speedTestResponse)
                 val speedTestInfo = assiaRepository.getUpstreamResults()
                 Assert.assertEquals(speedTestInfo.mapLeft { it }, Either.Left(""))
@@ -276,7 +276,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
                 val speedTestInformation = assiaRepository.getDownstreamResults()
                 Assert.assertEquals(
                     speedTestInformation.map { it.code},
-                    Either.Right(1000)
+                    Either.Right(Constants.ERROR_CODE_1000.toInt())
                 )
 
                 Assert.assertEquals(
@@ -294,7 +294,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
 
                 val speedTestResult=SpeedTestResult(speedAvg = 100,timeStamp = "")
-                speedTestResponse= SpeedTestResponse(code = 1604,message = "",data = SpeedTestNestedResults(name = "",listOfData = arrayOf(speedTestResult)))
+                speedTestResponse= SpeedTestResponse(code = Constants.ERROR_CODE_1064.toInt(),message = "",data = SpeedTestNestedResults(name = "",listOfData = arrayOf(speedTestResult)))
                 coEvery { assiaService.checkSpeedTestDownStreamResults(any()) } returns Either.Right(speedTestResponse)
                 val speedTestInfo = assiaRepository.getDownstreamResults()
                 Assert.assertEquals(speedTestInfo.mapLeft { it }, Either.Left(""))
@@ -311,7 +311,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
                 val speedTestInformation = assiaRepository.blockDevices("")
                 Assert.assertEquals(
                     speedTestInformation.map { it.code},
-                    Either.Right("1000")
+                    Either.Right(Constants.ERROR_CODE_1000)
                 )
                 Assert.assertEquals(
                     speedTestInformation.map { it.data},
@@ -326,7 +326,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                blockResponse= BlockResponse(code = "1604",message = "",data = "")
+                blockResponse= BlockResponse(code = Constants.ERROR_CODE_1064,message = "",data = "")
                 coEvery { assiaService.blockDevice(any(),any(),any()) } returns Either.Right(blockResponse)
                 val speedTestInfo = assiaRepository.blockDevices("")
                 Assert.assertEquals(speedTestInfo.mapLeft { it }, Either.Left(""))
@@ -343,7 +343,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
                 val speedTestInformation = assiaRepository.unblockDevices("")
                 Assert.assertEquals(
                     speedTestInformation.map { it.code},
-                    Either.Right("1000")
+                    Either.Right(Constants.ERROR_CODE_1000)
                 )
                 Assert.assertEquals(
                     speedTestInformation.map { it.data},
@@ -358,7 +358,7 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                blockResponse= BlockResponse(code = "1604",message = "",data = "")
+                blockResponse= BlockResponse(code = Constants.ERROR_CODE_1064,message = "",data = "")
                 coEvery { assiaService.unBlockDevice(any(),any(),any()) } returns Either.Right(blockResponse)
                 val speedTestInfo = assiaRepository.unblockDevices("")
                 Assert.assertEquals(speedTestInfo.mapLeft { it }, Either.Left(""))

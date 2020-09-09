@@ -5,7 +5,9 @@ import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.SubscriptionCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
+import com.centurylink.biwf.model.account.Attributes
 import com.centurylink.biwf.model.account.PaymentList
+import com.centurylink.biwf.model.account.RecordsItem
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
@@ -93,5 +95,33 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
             SubscriptionCoordinatorDestinations.EDIT_PAYMENT,
             viewModel.myState.first()
         )
+    }
+
+    @Test
+    fun launchStatement() = runBlockingTest {
+        launch {
+            viewModel.launchStatement(
+                RecordsItem(
+                    createdDate = "",
+                    zuoraInvoiceC = "",
+                    attributes = Attributes(),
+                    id = ""
+                )
+            )
+            Assert.assertEquals(viewModel.myState.first().name, "STATEMENT")
+        }
+    }
+
+    @Test
+    fun launchManageSubscription() = runBlockingTest {
+        launch {
+            viewModel.launchManageSubscription()
+            Assert.assertEquals(viewModel.myState.first().name, "MANAGE_MY_SUBSCRIPTION")
+        }
+    }
+
+    @Test
+    fun logDoneBtnClick() {
+        Assert.assertNotNull(viewModel.logDoneBtnClick())
     }
 }
