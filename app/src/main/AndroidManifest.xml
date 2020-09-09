@@ -35,16 +35,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".screens.forgotpassword.ForgotPasswordActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            />
-        <activity
-            android:name=".screens.learnmore.LearnMoreActivity"
-            android:screenOrientation="portrait"
-            tools:ignore="LockedOrientationActivity"
-            />
-        <activity
             android:name=".screens.home.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.HomeActivity"
