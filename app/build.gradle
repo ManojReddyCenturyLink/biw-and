@@ -40,7 +40,7 @@ android {
         def subDomain = "qa"
 
         // Salesforce
-        def rootSalesforceUrl = "https://$subDomain-qa101.cs16.force.com/fiber"
+        def rootSalesforceUrl = "https://$subDomain-qa101.cs16.force.com/phish"
         def baseSalesforceUrl = "$rootSalesforceUrl/services/data/v46.0/"
 
         // Auth
@@ -217,6 +217,9 @@ dependencies {
 
     //Google Firebase SDK for Google Analytics
     implementation "com.google.firebase:firebase-analytics-ktx:$googleAnalyticsVersion"
+
+    implementation "androidx.security:security-crypto:1.0.0-alpha02"
+
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

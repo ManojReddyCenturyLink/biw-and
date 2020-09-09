@@ -82,5 +82,45 @@ class ModemUtils {
             }
         }
 
+        fun getConnectionStatusIconForDeviceList(devicesData: DevicesData): Int {
+            val signalStrength = devicesData.rssi
+            val connectionMode = devicesData.connectedInterface
+            when (devicesData.deviceConnectionStatus) {
+                DeviceConnectionStatus.MODEM_OFF -> {
+                    return R.drawable.ic_cta_wi_fi_disconnected
+                }
+                DeviceConnectionStatus.FAILURE -> {
+                    return R.drawable.ic_off
+                }
+                DeviceConnectionStatus.PAUSED -> {
+                    return R.drawable.ic_off
+                }
+                DeviceConnectionStatus.DEVICE_CONNECTED -> {
+                    if (!connectionMode.isNullOrEmpty() && connectionMode.equals(
+                            "Ethernet",
+                            true
+                        )
+                    ) {
+                        return R.drawable.ic_ethernet
+                    } else {
+                        return when (signalStrength) {
+                            in -50..-1 -> {
+                                R.drawable.ic_strong_signal
+                            }
+                            in -51 downTo -75 -> {
+                                R.drawable.ic_medium_signal
+                            }
+                            in -76 downTo -90 -> {
+                                R.drawable.ic_weak_signal
+                            }
+                            else -> {
+                                R.drawable.ic_off
+                            }
+                        }
+                    }
+                }
+                else -> return R.drawable.ic_off
+            }
+        }
     }
 }

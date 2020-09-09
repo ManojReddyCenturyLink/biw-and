@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.FiberHttpError
 import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.payment.PaymentDetails
 import com.centurylink.biwf.service.network.ZuoraPaymentService
+import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -34,7 +35,7 @@ class ZuoraPaymentRepositoryTest : BaseRepositoryTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        every { mockPreferences.getValueByID(any()) } returns "12345"
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
         val jsonPaymentListString = readJson("zuorapayment.json")
         paymentList = fromJson(jsonPaymentListString)
         val jsonPaymentDetailsString = readJson("zuorastatement.json")
@@ -88,14 +89,14 @@ class ZuoraPaymentRepositoryTest : BaseRepositoryTest() {
         runBlockingTest {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = Constants.ERROR))
                 )
                 coEvery { zuoraPaymentService.getZuoraPaymentDetails(any()) } returns Either.Left(
                     fiberHttpError
                 )
                 val zuoraPaymentDetails = zuoraPaymentRepository.getInvoicesList()
-                Assert.assertEquals(zuoraPaymentDetails.mapLeft { it }, Either.Left("Error"))
+                Assert.assertEquals(zuoraPaymentDetails.mapLeft { it }, Either.Left(Constants.ERROR))
 
             }
         }
@@ -106,14 +107,14 @@ class ZuoraPaymentRepositoryTest : BaseRepositoryTest() {
         runBlockingTest {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Error"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = Constants.ERROR))
                 )
                 coEvery { zuoraPaymentService.getPaymentDetails(any()) } returns Either.Left(
                     fiberHttpError
                 )
                 val zuoraPaymentDetails = zuoraPaymentRepository.getPaymentInformation("12345")
-                Assert.assertEquals(zuoraPaymentDetails.mapLeft { it }, Either.Left("Error"))
+                Assert.assertEquals(zuoraPaymentDetails.mapLeft { it }, Either.Left(Constants.ERROR))
             }
         }
     }

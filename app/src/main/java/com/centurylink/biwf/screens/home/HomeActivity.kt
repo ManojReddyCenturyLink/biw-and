@@ -24,14 +24,12 @@ import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.dashboard.adapter.HomeViewPagerAdapter
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
-import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import timber.log.Timber
 import javax.inject.Inject
-
 
 class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     ChoiceDialogFragment.BioMetricDialogCallback {
@@ -48,7 +46,6 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     override val viewModel by lazy {
         ViewModelProvider(this, factory).get(HomeViewModel::class.java)
     }
-    private val adapter by lazy { TabsPagerRecyclerAdapter(this, this) }
     private val viewPagerAdapter by lazy { HomeViewPagerAdapter(this, this) }
 
     private lateinit var binding: ActivityHomeBinding
@@ -101,16 +98,15 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             refreshDevices()
         } else if (resultCode == NetworkStatusActivity.REQUEST_TO_HOME) {
             refreshDashboardFragment()
-        }
-        else if (resultCode == PersonalInfoActivity.REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO) {
-            val phoneNumber=data?.getStringExtra(PersonalInfoActivity.PHONE_NUMBER)
+        } else if (resultCode == PersonalInfoActivity.REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO) {
+            val phoneNumber = data?.getStringExtra(PersonalInfoActivity.PHONE_NUMBER)
             if (phoneNumber != null) {
                 refreshPersonalInfo(phoneNumber)
             }
         }
     }
 
-    private fun refreshPersonalInfo(phoneNumber:String) {
+    private fun refreshPersonalInfo(phoneNumber: String) {
         val allFragments: List<Fragment> =
             supportFragmentManager.fragments
         for (fragment in allFragments) {
@@ -119,6 +115,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             }
         }
     }
+
     private fun refreshDashboardFragment() {
         val allFragments: List<Fragment> =
             supportFragmentManager.fragments

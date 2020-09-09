@@ -78,4 +78,14 @@ class CancelSubscriptionViewModelTest : ViewModelBaseTest() {
             )
         }
     }
+
+    @Test
+    fun logCancelPress() {
+        Assert.assertNotNull(viewModel.logCancelPress())
+    }
+
+    @Test
+    fun discardCancellationRequest() {
+        Assert.assertNotNull(viewModel.logBackPress())
+    }
 }

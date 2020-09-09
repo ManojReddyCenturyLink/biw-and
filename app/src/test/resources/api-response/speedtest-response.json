@@ -1,0 +1,13 @@
+{
+      "code": 1000,
+      "data": {
+         "list": [
+            {
+               "average": 348020,
+               "timestamp": "2020-09-01T12:51:56+0000"
+            }
+         ],
+         "name": "broadbandusthroughputsummary"
+      },
+      "message": "Success"
+}

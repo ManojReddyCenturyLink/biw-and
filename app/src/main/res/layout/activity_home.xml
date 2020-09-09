@@ -102,11 +102,16 @@
             app:tabIndicator="@null"
             app:tabIndicatorFullWidth="false"
             app:tabRippleColor="@null"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabPaddingBottom="@dimen/spacing_negative_4"
+            app:tabPaddingEnd="@dimen/padding_0"
+            app:tabPaddingStart="@dimen/padding_0"
+            app:tabPaddingTop="@dimen/padding_0"
             app:tabTextAppearance="@style/Tab.TextAppearance"
             app:layout_constraintEnd_toStartOf="@id/iBtnNotificationBottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/home_online_status_bar"
-            />
+            app:layout_constraintTop_toBottomOf="@+id/home_online_status_bar" />
 
         <!-- TODO right now this feature is not in active so commenting for now -->
         <androidx.constraintlayout.widget.ConstraintLayout

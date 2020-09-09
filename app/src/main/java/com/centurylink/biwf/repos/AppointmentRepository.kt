@@ -92,11 +92,14 @@ class AppointmentRepository @Inject constructor(
         return result.mapLeft { it.message?.message.toString() }
     }
 
-    suspend fun cancelAppointment(cancelAppointmentInfo: CancelAppointmentInfo): Either<String, CancelResponse> {
+    suspend fun cancelAppointment(cancelAppointmentInfo: CancelAppointmentInfo): Either<String?, CancelResponse> {
         //val result: FiberServiceResult<AppointmentResponse> =
         //  integrationRestServices.submitAppointments(rescheduleInfo)
         val result: FiberServiceResult<CancelResponse> =
             appointmentService.cancelAppointment(cancelAppointmentInfo)
-        return result.mapLeft { it.message?.message.toString() }
+
+        return result.mapLeft {
+            if( it.message?.message.toString().contains("System.JSONException")) "Exception in Canceling Appointment" else  it.message?.message
+            }
     }
 }

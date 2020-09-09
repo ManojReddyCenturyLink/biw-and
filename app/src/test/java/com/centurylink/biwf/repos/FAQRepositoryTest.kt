@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.model.cases.RecordIdData
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.service.network.FaqApiService
+import com.centurylink.biwf.utility.Constants
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -62,7 +63,7 @@ class FAQRepositoryTest : BaseRepositoryTest() {
                     100,
                     listOf(
                         FiberErrorMessage(
-                            errorCode = "1000",
+                            errorCode = Constants.ERROR_CODE_1000,
                             message = "RecordType Id is Empty"
                         )
                     )
@@ -120,8 +121,8 @@ class FAQRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
-                    100,
-                    listOf(FiberErrorMessage(errorCode = "1000", message = "Record Id  Records is Empty"))
+                    Constants.STATUS_CODE,
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = "Record Id  Records is Empty"))
                 )
                 coEvery { faqService.getRecordTypeId(any()) } returns Either.Left(fiberHttpError)
                 val recordIdDetails = faqRepository.getKnowledgeRecordTypeId()

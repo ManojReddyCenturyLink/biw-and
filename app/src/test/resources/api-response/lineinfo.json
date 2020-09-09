@@ -1,0 +1,148 @@
+{
+   "code": 1000,
+   "message": "Success",
+   "data": {
+      "lineId": "C4000XG1950000308",
+      "dsTputKbps": {
+         "timestamp": "2020-08-31T11:21:33+0000",
+         "url": "",
+         "latestSample": 324315,
+         "sampleMax": 349369,
+         "average": 323786,
+         "percentile": 323985,
+         "serviceDetection": 0
+      },
+      "usTputKbps": {
+         "timestamp": "2020-08-31T11:21:38+0000",
+         "url": null,
+         "latestSample": 343801,
+         "sampleMax": 357035,
+         "average": 338758,
+         "percentile": 343140,
+         "serviceDetection": 0
+      },
+      "latencyMs": {
+         "timestamp": "2020-08-31T11:21:28+0000",
+         "value": 5
+      },
+      "alive": true,
+      "servicePlan": null,
+      "apInfos": [
+         {
+            "deviceId": "C4000XG1950000308",
+            "lineId": "C4000XG1950000308",
+            "modelName": "Greenwave C4000XG",
+            "lastIpAddress": "72.68.195.66",
+            "lastBootupTime": "2020-08-31T10:36:48+0000",
+            "cpeBootupTime": "2020-08-31T10:28:31+0000",
+            "lastUploadTimestamp": "2020-08-31T11:21:39+0000",
+            "firstConnectionTime": "2020-08-04T14:59:58+0000",
+            "cpeFirmwareVersion": "CGX005-01.01.13.00",
+            "agentVersion": "2.11.4",
+            "isAlive": true,
+            "timezone": "GMT",
+            "ssidMap": {
+               "Band5G_Guest4": "CenturyLink0308-Guest",
+               "Band5G": "CenturyLink03089",
+               "Band2G_Guest4": "CenturyLink0308-Guest",
+               "Band2G": "CenturyLink03089"
+            },
+            "bssidMap": {
+               "02:6A:E3:8F:FA:B2": "Band5G_Guest4",
+               "02:6A:E3:8F:FA:B1": "Band2G_Guest4"
+            },
+            "channelMap": {},
+            "bandwidthMap": {},
+            "modeMap": {},
+            "ipInfo": null,
+            "optimizationState": {
+               "enabled": false,
+               "applicable": true
+            },
+            "serverInfo": "ctlink-staging-02.cloudcheck.net:9000",
+            "configurationGroups": [
+               "dataCollectionLanActive",
+               "centurylink_usSpeedTest",
+               "scanOff",
+               "dataCollection"
+            ],
+            "label": null,
+            "isp": "CenturyLink_US",
+            "userDefinedProfile": null,
+            "configProfile": null,
+            "parentDeviceId": null,
+            "backhaulInterface": null,
+            "location": "",
+            "gatewayIpAddress": "192.168.88.1",
+            "dsRateKbps": 0,
+            "usRateKbps": 0,
+            "servicePlan": "",
+            "profileId": 1,
+            "capabilities": [
+               {
+                  "name": "REBOOT",
+                  "type": "ACTION"
+               },
+               {
+                  "name": "CHANGE_SSID",
+                  "type": "ACTION"
+               },
+               {
+                  "name": "CHANGE_WIFI_PASSWORD",
+                  "type": "ACTION"
+               },
+               {
+                  "name": "INTERFACE_STATE",
+                  "type": "ACTION"
+               },
+               {
+                  "name": "CHANGE_WIFI_ENCRYPTION",
+                  "type": "ACTION"
+               },
+               {
+                  "name": "CHANGE_WIFI_SECURITY",
+                  "type": "ACTION"
+               }
+            ],
+            "isRootAp": true,
+            "lanIpAddress": "192.168.0.1",
+            "lanNetworkMask": "255.255.255.0",
+            "lanMacAddress": "88:6A:E3:8F:FA:A5",
+            "dataCollectionEnabled": true
+         }
+      ],
+      "capabilities": [
+         {
+            "name": "REBOOT",
+            "type": "ACTION"
+         },
+         {
+            "name": "CHANGE_SSID",
+            "type": "ACTION"
+         },
+         {
+            "name": "CHANGE_WIFI_PASSWORD",
+            "type": "ACTION"
+         },
+         {
+            "name": "PARENTAL_CONTROL",
+            "type": "FEATURE"
+         },
+         {
+            "name": "CHANGE_WIFI_ENCRYPTION",
+            "type": "ACTION"
+         },
+         {
+            "name": "CHANGE_WIFI_SECURITY",
+            "type": "ACTION"
+         }
+      ],
+      "networks": [
+         "Main",
+         "Guest"
+      ],
+      "optimizationState": {
+         "enabled": false
+      }
+   }
+}

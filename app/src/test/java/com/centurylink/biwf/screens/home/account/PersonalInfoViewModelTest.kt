@@ -11,6 +11,7 @@ import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -84,17 +85,41 @@ class PersonalInfoViewModelTest : ViewModelBaseTest() {
         }
 
     @Test
-    fun logAnalytics() {
-        viewModel.logResetPasswordSuccess()
-        viewModel.logResetPasswordFailure()
-        viewModel.logUpdateEmailPopupClick()
+    fun onValidateInput_PasswordAndConfirmPasswordGreaterThanTenDigits() {
+        viewModel.onPhoneNumberChanged("89089089090000034")
+        viewModel.onConfirmPasswordValueChanged("abc@1234")
+        viewModel.onPasswordValueChanged("abc@5678")
+        error.value = viewModel.validateInput()
+        assertThat("Password Mismatch Check", error.value!!.contains("passwordMismatchError"))
     }
 
     @Test
-    fun testToggleVisibility() {
-        var passwordVisibility : Boolean = false
-        var confirmPasswordVisibility : Boolean = false
-        passwordVisibility = !viewModel.togglePasswordVisibility()
-        confirmPasswordVisibility = !viewModel.toggleConfirmPasswordVisibility()
+    fun onValidateInput_PasswordAndConfirmPasswordLessThanSixDigits() {
+        viewModel.onPhoneNumberChanged("89089")
+        viewModel.onConfirmPasswordValueChanged("abc@1234")
+        viewModel.onPasswordValueChanged("abc@5678")
+        error.value = viewModel.validateInput()
+        assertThat("Password Mismatch Check", error.value!!.contains("passwordMismatchError"))
+    }
+
+    @Test
+    fun toggleConfirmPasswordVisibility() {
+        viewModel.toggleConfirmPasswordVisibility()
+        Assert.assertSame(false, viewModel.toggleConfirmPasswordVisibility())
+    }
+
+    @Test
+    fun togglePasswordVisibility() {
+        viewModel.togglePasswordVisibility()
+        Assert.assertSame(false, viewModel.togglePasswordVisibility())
+    }
+
+    @Test
+    fun analyticsManagerInterface_handle() {
+        Assert.assertNotNull(analyticsManagerInterface)
+        viewModel.logResetPasswordSuccess()
+        viewModel.logResetPasswordFailure()
+        viewModel.logUpdateEmailPopupClick()
+        viewModel.onConfirmPasswordValueChanged("test")
     }
 }
