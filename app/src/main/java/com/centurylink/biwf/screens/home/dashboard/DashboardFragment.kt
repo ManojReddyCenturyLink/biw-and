@@ -22,6 +22,7 @@ import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -101,6 +102,16 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         dashboardViewModel.errorMessageFlow.observe {
             showRetry(it.isNotEmpty())
         }
+
+        dashboardViewModel.cancelAppointmentError.observe {
+            CustomDialogBlueTheme(
+                getString(R.string.error_title),
+                it,
+                getString(R.string.ok),
+                true,
+                ::onErrorDialogCallback
+            ).show(fragManager!!, DashboardFragment::class.simpleName)
+        }
         dashboardViewModel.downloadSpeed.observe {
             binding.incSpeedTest.downloadSpeed.text = it
         }
@@ -121,6 +132,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 if (it) View.VISIBLE else View.INVISIBLE
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
+            binding.incSpeedTest.runSpeedTestDashboard.isActivated = !it
         }
         dashboardViewModel.speedTestButtonState.observe {
             binding.incSpeedTest.runSpeedTestDashboard.isActivated = it
@@ -443,6 +455,13 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun listenForRebootDialog() {
         dashboardViewModel.rebootDialogFlow.observe { success ->
             binding.incSpeedTest.runSpeedTestDashboard.isActivated = true
+        }
+    }
+    private fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+
+            }
         }
     }
 }

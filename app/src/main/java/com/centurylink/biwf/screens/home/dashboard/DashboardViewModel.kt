@@ -66,6 +66,7 @@ class DashboardViewModel @Inject constructor(
     val connectedDevicesNumber: Flow<String> = BehaviorStateFlow()
     val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
+    var cancelAppointmentError = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
     var isAccountStatus = EventFlow<Boolean>()
     val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
@@ -674,7 +675,9 @@ class DashboardViewModel @Inject constructor(
         cancelAppointmentDetails.fold(ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_FAILURE)
             progressViewFlow.latestValue = false
-            errorMessageFlow.latestValue = it
+            if (it != null) {
+                cancelAppointmentError.latestValue = it
+            }
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_SUCCESS)
             progressViewFlow.latestValue = false
@@ -696,6 +699,16 @@ class DashboardViewModel @Inject constructor(
                 latestSpeedTest.latestValue = EMPTY_RESPONSE
                 checkSpeedTestStatus(requestId = speedTestId)
             }
+        }
+        val oldDownLoad = sharedPreferences.getSpeedTestDownload()
+        val oldUpload = sharedPreferences.getSpeedTestUpload()
+        val oldTime = sharedPreferences.getLastSpeedTestTime()
+        if (oldDownLoad?.isNotEmpty()!! && oldUpload?.isNotEmpty()!! && oldTime?.isNotEmpty()!!) {
+            downloadSpeed.latestValue = oldDownLoad
+            uploadSpeed.latestValue = oldUpload
+            latestSpeedTest.latestValue = oldTime
+        } else {
+            displayEmptyResponse()
         }
     }
 

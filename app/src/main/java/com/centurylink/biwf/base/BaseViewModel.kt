@@ -16,7 +16,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.DateTimeFormatterBuilder
 import org.threeten.bp.format.SignStyle
@@ -117,8 +119,9 @@ abstract class BaseViewModel(
     }
 
     fun formatUtcString(utcString: String): String {
-        val myDate =
-            LocalDateTime.from(DateTimeFormatter.ISO_DATE_TIME.parse(utcString.substringBefore('+')))
+        val zoneId: ZoneId? = ZoneId.systemDefault()
+        val myDate = Instant.parse( utcString.substringBefore('+')+"Z" )
+            .atZone(ZoneId.of( zoneId.toString()))
         val amPm = if (myDate.hour < 12) "am" else "pm"
         val dateTimeFormatter = DateTimeFormatterBuilder()
             .appendValue(ChronoField.MONTH_OF_YEAR, 2, 2, SignStyle.NEVER)

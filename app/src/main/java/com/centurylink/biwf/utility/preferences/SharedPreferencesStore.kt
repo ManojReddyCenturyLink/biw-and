@@ -2,7 +2,10 @@ package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.viewbinding.BuildConfig
+import android.security.keystore.KeyGenParameterSpec
+import android.security.keystore.KeyProperties
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
 
 class SharedPreferencesStore(private val context: Context) :
     KeyValueStore {
@@ -44,10 +47,30 @@ class SharedPreferencesStore(private val context: Context) :
     }
 
     private fun sharedPreferences(): SharedPreferences {
-        return context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
+
+        val spec = KeyGenParameterSpec.Builder(
+            PREF_NAME,
+            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+        )
+            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+            .setKeySize(MasterKey.DEFAULT_AES_GCM_MASTER_KEY_SIZE)
+            .build()
+
+        val masterKey: MasterKey = MasterKey.Builder(context)
+            .setKeyGenParameterSpec(spec)
+            .build()
+
+        return EncryptedSharedPreferences.create(
+            context,
+            PREF_NAME,
+            masterKey, // masterKey created above
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        );
     }
 
     companion object {
-        private val PREF_NAME = BuildConfig.LIBRARY_PACKAGE_NAME + ".SharedPrefs"
+        private val PREF_NAME = "_androidx_security_master_key_"
     }
 }
