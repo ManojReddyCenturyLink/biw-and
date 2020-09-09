@@ -86,8 +86,8 @@ class SupportViewModel @Inject constructor(
         if (rebootOngoing) {
             speedTestButtonState?.latestValue = false
         } else {
-            if (status == ModemRebootMonitorService.RebootState.SUCCESS) speedTestButtonState?.latestValue =
-                true
+            if (status == ModemRebootMonitorService.RebootState.SUCCESS)
+                speedTestButtonState?.latestValue = true
         }
     }
 
