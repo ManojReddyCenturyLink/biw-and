@@ -11,11 +11,9 @@ import com.centurylink.biwf.screens.changeappointment.AppointmentBookedActivity
 import com.centurylink.biwf.screens.changeappointment.ChangeAppointmentActivity
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity.Companion.REQUEST_TO_DEVICES
-import com.centurylink.biwf.screens.forgotpassword.ForgotPasswordActivity
 import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity
 import com.centurylink.biwf.screens.home.account.PersonalInfoActivity.Companion.REQUEST_TO_ACCOUNT_FROM_PERSONAL_INFO
-import com.centurylink.biwf.screens.learnmore.LearnMoreActivity
 import com.centurylink.biwf.screens.login.LoginActivity
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationActivity
@@ -40,18 +38,6 @@ class Navigator @Inject constructor() : LifecycleObserver {
 
     fun observe(activity: AppCompatActivity) {
         ActivityObserver.observe(activity)
-    }
-
-    fun navigateToForgotPassword() {
-        activity?.also {
-            it.startActivity(ForgotPasswordActivity.newIntent(it))
-        }
-    }
-
-    fun navigateToLearnMore() {
-        activity?.also {
-            it.startActivity(LearnMoreActivity.newIntent(it))
-        }
     }
 
     fun navigateToHomeScreen() {
