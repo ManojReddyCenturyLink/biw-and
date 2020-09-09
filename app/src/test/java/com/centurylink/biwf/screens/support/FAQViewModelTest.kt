@@ -96,4 +96,29 @@ class FAQViewModelTest : ViewModelBaseTest() {
             }
         }
     }
+
+    @Test
+    fun testLogBackButtonClick() {
+        Assert.assertNotNull(viewModel.logBackButtonClick())
+    }
+
+    @Test
+    fun testLogDoneButtonClick() {
+        Assert.assertNotNull(viewModel.logDoneButtonClick())
+    }
+
+    @Test
+    fun testLogLiveChatLaunch() {
+        Assert.assertNotNull(viewModel.logLiveChatLaunch())
+    }
+
+    @Test
+    fun testLogItemExpanded() {
+        Assert.assertNotNull(viewModel.logItemExpanded())
+    }
+
+    @Test
+    fun testLogItemCollapsed() {
+        Assert.assertNotNull(viewModel.logItemCollapsed())
+    }
 }
