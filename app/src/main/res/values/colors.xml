@@ -6,12 +6,8 @@
     <color name="grey_light">#f0f0f0</color>
     <color name="black">#000000</color>
     <color name="primary_dark">#2abb7c</color>
-    <color name="notification_read_title_color">#979797</color>
-    <color name="notification_unread_bg">#D3D3D3</color>
     <color name="grey_text_color">#bebebe</color>
 
-    <color name="blue">#0047bb</color>
-    <color name="blue_dark">#001e60</color>
     <color name="font_color_medium_grey">#53565a</color>
     <color name="text_label_color">#a6000000</color>
 
