@@ -132,6 +132,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                     if (it) View.VISIBLE else View.INVISIBLE
                 binding.incTroubleshooting.uploadProgressIcon.visibility =
                     if (it) View.VISIBLE else View.INVISIBLE
+                binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
             }
             modemResetButtonState.observe {
                 binding.incTroubleshooting.rebootModemButton.isActivated = it
