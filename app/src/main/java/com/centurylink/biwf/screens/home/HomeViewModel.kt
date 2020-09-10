@@ -17,6 +17,7 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
+import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.service.network.TestRestServices
@@ -83,8 +84,11 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun onSupportClicked() {
+    fun onSupportClicked(isExistingUser: Boolean) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)
+        val bundle = Bundle()
+        bundle.putBoolean(SupportActivity.IS_EXISTING_USER, isExistingUser)
+        HomeCoordinatorDestinations.bundle = bundle
         myState.latestValue = HomeCoordinatorDestinations.SUPPORT
     }
 
