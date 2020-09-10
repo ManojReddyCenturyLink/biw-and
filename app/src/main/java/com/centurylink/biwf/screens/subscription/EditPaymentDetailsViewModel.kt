@@ -50,7 +50,7 @@ class EditPaymentDetailsViewModel @Inject constructor(
     }
 
     companion object {
-        const val BASE_SUBSCRIPTION_URL = "https://qa-qa101.cs16.force.com/fiber/apex/vf_fiberBuyFlowPaymentMobile?userId="
+        const val BASE_SUBSCRIPTION_URL = "https://qa-qa101.cs16.force.com/phish/apex/vf_fiberBuyFlowPaymentMobile?userId="
         const val WEB_PAGE_PROGRESS_COMPLETE = 100
         const val GENERIC_WEB_VIEW_ERROR = "Generic Web View Error"
     }
