@@ -113,6 +113,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun initViews() {
+        val isExistingUser: Boolean = intent.getBooleanExtra(IS_EXISTING_USER, false)
+        if(isExistingUser) binding.incTroubleshooting.root.visibility = View.VISIBLE
+        else binding.incTroubleshooting.root.visibility = View.GONE
         setApiProgressViews(
             binding.progressOverlay.root,
             binding.retryOverlay.retryViewLayout,
@@ -243,9 +246,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         const val ORG_ID = "00Df0000002HOQc"
         const val DEPLOYMENT_ID = "572f0000000Cauc"
         const val BUTTON_ID = "573f000000000zz"
+        const val IS_EXISTING_USER = "IS_EXISTING_USER"
 
-        fun newIntent(context: Context): Intent {
+        fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, SupportActivity::class.java)
+                .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
         }
     }
 }
