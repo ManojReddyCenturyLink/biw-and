@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -322,17 +321,6 @@ class DashboardViewModel @Inject constructor(
             timeZone = it.timeZone,
             appointmentNumber = it.appointmentNumber
         )
-    }
-
-    private suspend fun requestNotificationDetails() {
-        progressViewFlow.latestValue = true
-        val notificationDetails = notificationRepository.getNotificationDetails()
-        notificationDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            notificationListDetails.latestValue = it
-            progressViewFlow.latestValue = false
-        }
     }
 
     private suspend fun requestWifiDetails() {
