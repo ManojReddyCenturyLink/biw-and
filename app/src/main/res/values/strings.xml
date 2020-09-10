@@ -283,4 +283,7 @@
     <string name="wifi_code">WIFI:T:WPA;S:%1$s;P:%2$s;;</string>
     <string name="nickname_device">Nickname device</string>
     <string name="tel_url">tel:1234567890</string>
+    <!-- NO Network Error messages-->
+    <string name="err_no_network_connectivity_title">No Network</string>
+    <string name="err_no_network_connectivity_message">Please check your internet connection</string>
 </resources>
