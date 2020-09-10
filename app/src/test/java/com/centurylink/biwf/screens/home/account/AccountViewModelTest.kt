@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.home.account
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
-import com.centurylink.biwf.coordinators.AccountCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.PaymentInfoResponse
 import com.centurylink.biwf.model.contact.ContactDetails
@@ -13,18 +12,18 @@ import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
 import com.centurylink.biwf.service.auth.AuthService
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Constants
-import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 
 class AccountViewModelTest : ViewModelBaseTest() {
@@ -49,6 +48,9 @@ class AccountViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
     private lateinit var paymentInfoResponse: PaymentInfoResponse
+    private lateinit var uiAccountDetails: AccountViewModel.UiAccountDetails
+    private var accountDetailsInfo: Flow<AccountViewModel.UiAccountDetails> = BehaviorStateFlow()
+    private lateinit var accountDetails: AccountDetails
 
     @Before
     fun setup() {
@@ -65,15 +67,9 @@ class AccountViewModelTest : ViewModelBaseTest() {
         )
         coEvery { mockUserRepository.getUserInfo() } returns Either.Right(UserInfo())
         coEvery { mockUserRepository.getUserDetails() } returns Either.Right(UserDetails())
-        coEvery { mockAccountRepository.getAccountDetails() } returns Either.Right(
-            AccountDetails(
-                marketingOptInC = "",
-                emailOptInC = false,
-                cellPhoneOptInC = false,
-                isBillingAddressUpdated = false,
-                lastViewedDate = DateUtils.formatInvoiceDate("2020-05-14T14:09:58.000+0000")
-            )
-        )
+        val accountString = readJson("account.json")
+        accountDetails = fromJson(accountString)
+        coEvery { mockAccountRepository.getAccountDetails() } returns Either.Right(accountDetails)
         run { analyticsManagerInterface }
         viewModel = AccountViewModel(
             accountRepository = mockAccountRepository,
@@ -83,6 +79,24 @@ class AccountViewModelTest : ViewModelBaseTest() {
             authService = mockAuthService,
             modemRebootMonitorService = mockModemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface
+        )
+        uiAccountDetails = AccountViewModel.UiAccountDetails(
+            name = null,
+            formattedServiceAddressLine1 = "",
+            formattedServiceAddressLine2 = "",
+            planName = null,
+            planSpeed = null,
+            paymentDate = null,
+            paymentMethod = null,
+            email = null,
+            password = null,
+            cellPhone = null,
+            homePhone = null,
+            workPhone = null,
+            biometricStatus = false,
+            serviceCallsAndText = false,
+            marketingEmails = true,
+            marketingCallsAndText = false
         )
     }
 
@@ -111,21 +125,25 @@ class AccountViewModelTest : ViewModelBaseTest() {
         Assert.assertNotNull(viewModel.refreshBiometrics())
     }
 
-    @Ignore
     @Test
     fun onPersonalInfoCardClick_navigateToPersonalInfoScreen() {
         Assert.assertNotNull(viewModel.onPersonalInfoCardClick())
-        Assert.assertEquals(
-            "Personal Info Screen wasn't Launched",
-            AccountCoordinatorDestinations.PROFILE_INFO,
-            viewModel.myState
-        )
     }
 
     @Test
     fun onSubscriptionInfoCardClick_navigateToSubscriptionScreen() = runBlockingTest {
         launch {
-            viewModel.onSubscriptionCardClick()
+            Assert.assertNotNull(viewModel.onSubscriptionCardClick())
+        }
+    }
+
+    @Test
+    fun getLiveCardDetailsApiFailureTest() = runBlockingTest {
+        launch {
+            coEvery { mockAccountRepository.getLiveCardDetails() } returns Either.Left(
+                ""
+            )
+            viewModel.initApiCalls()
         }
     }
 
@@ -137,10 +155,29 @@ class AccountViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
+    fun initAccountAndContactApiCallsErrorCaseTest() = runBlockingTest {
+        launch {
+            coEvery { mockContactRepository.getContactDetails() } returns Either.Left(
+                ""
+            )
+            coEvery { mockUserRepository.getUserInfo() } returns Either.Left("")
+            coEvery { mockUserRepository.getUserDetails() } returns Either.Left("")
+            coEvery { mockAccountRepository.getAccountDetails() } returns Either.Left("")
+            viewModel.initAccountAndContactApiCalls()
+        }
+    }
+
+    @Test
     fun onLogOutClickTest() = runBlockingTest {
         launch {
+            coEvery { mockAuthService.revokeToken() } returns true
             viewModel.onLogOutClick()
             Assert.assertNotNull(viewModel.onLogOutClick())
         }
+    }
+
+    @Test
+    fun `get values from UiAccountDetails`() {
+        Assert.assertEquals(uiAccountDetails, AccountViewModel.UiAccountDetails())
     }
 }
