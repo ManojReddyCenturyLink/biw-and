@@ -69,7 +69,7 @@ class EditPaymentDetailsViewModelTest : ViewModelBaseTest() {
         viewModel.onRetryClicked()
         Assert.assertEquals(
             viewModel.subscriptionUrlFlow.first(),
-            "https://qa-qa101.cs16.force.com/fiber/apex/vf_fiberBuyFlowPaymentMobile?userId=MockAccountId"
+            "https://qa-qa101.cs16.force.com/phish/apex/vf_fiberBuyFlowPaymentMobile?userId=MockAccountId"
         )
     }
 
