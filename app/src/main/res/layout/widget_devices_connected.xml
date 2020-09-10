@@ -37,7 +37,7 @@
                     android:id="@+id/devices_connected_no"
                     android:layout_width="@dimen/padding_0"
                     android:layout_height="wrap_content"
-                    android:text="18"
+                    android:text="@string/empty_string"
                     android:textColor="@color/purple"
                     android:textSize="@dimen/text_size_24"
                     android:textStyle="bold"

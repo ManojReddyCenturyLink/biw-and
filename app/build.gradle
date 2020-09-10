@@ -40,7 +40,7 @@ android {
         def subDomain = "qa"
 
         // Salesforce
-        def rootSalesforceUrl = "https://$subDomain-qa101.cs16.force.com/fiber"
+        def rootSalesforceUrl = "https://$subDomain-qa101.cs16.force.com/phish"
         def baseSalesforceUrl = "$rootSalesforceUrl/services/data/v46.0/"
 
         // Auth
