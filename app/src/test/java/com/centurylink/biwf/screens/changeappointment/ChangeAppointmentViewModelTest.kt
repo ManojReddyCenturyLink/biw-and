@@ -18,6 +18,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.threeten.bp.LocalDateTime
 import java.text.SimpleDateFormat
@@ -110,6 +111,7 @@ class ChangeAppointmentViewModelTest : ViewModelBaseTest() {
         }
     }
 
+    @Ignore
     @Test
     fun testOnAppointmentSelectedDate() {
         runBlockingTest {

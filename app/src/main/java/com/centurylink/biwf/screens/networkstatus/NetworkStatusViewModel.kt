@@ -63,7 +63,7 @@ class NetworkStatusViewModel @Inject constructor(
         initApi()
     }
 
-    private fun initApi() {
+    fun initApi() {
         viewModelScope.launch {
             requestModemInfo()
             fetchPasswordApi()
