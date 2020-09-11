@@ -285,5 +285,5 @@
     <string name="tel_url">tel:1234567890</string>
     <!-- NO Network Error messages-->
     <string name="err_no_network_connectivity_title">No network</string>
-    <string name="err_no_network_connectivity_message">Please check your internet connection</string>
+    <string name="err_no_network_connectivity_message">Please check your internet connection.</string>
 </resources>
