@@ -19,6 +19,7 @@ import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.utility.EventFlow
