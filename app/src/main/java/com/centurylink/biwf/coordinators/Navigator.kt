@@ -48,9 +48,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToSupport() {
+        val bundle = HomeCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(
-                SupportActivity.newIntent(it),
+                SupportActivity.newIntent(it, bundle),
                 SupportActivity.REQUEST_TO_HOME
             )
         }

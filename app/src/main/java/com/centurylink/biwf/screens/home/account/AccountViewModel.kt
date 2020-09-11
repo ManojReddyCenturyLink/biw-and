@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.home.account
 
+import android.content.Context
 import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
@@ -70,10 +71,12 @@ class AccountViewModel internal constructor(
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
     val paymentInfo: Flow<PaymentInfo> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
+    var noInternetMessage = EventFlow<Boolean>()
     val bioMetricFlow: Flow<Boolean> = BehaviorStateFlow(sharedPreferences.getBioMetrics() ?: false)
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
     var progressViewFlow = EventFlow<Boolean>()
     var userPhoneNumberUpdateFlow = EventFlow<String>()
+
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
         initApiCalls()
@@ -129,10 +132,10 @@ class AccountViewModel internal constructor(
         )
     }
 
-    fun onMarketingCallsAndTextsChange(boolean: Boolean,phoneNumber: String) {
+    fun onMarketingCallsAndTextsChange(boolean: Boolean, phoneNumber: String) {
         viewModelScope.launch {
             uiAccountDetails = uiAccountDetails.copy(marketingCallsAndText = boolean)
-            val result = contactRepository.setMarketingCallsAndText(boolean,phoneNumber)
+            val result = contactRepository.setMarketingCallsAndText(boolean, phoneNumber)
             userPhoneNumberUpdateFlow.latestValue = result
         }
         analyticsManagerInterface.logToggleChangeEvent(
@@ -162,18 +165,22 @@ class AccountViewModel internal constructor(
         bioMetricFlow.latestValue = sharedPreferences.getBioMetrics() ?: false
     }
 
-    fun onLogOutClick() {
-        viewModelScope.launch {
-            val result = authService.revokeToken()
-            if (result) {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_SUCCESS)
-                sharedPreferences.clearUserSettings()
-                modemRebootMonitorService.cancelWork()
-                myState.latestValue = AccountCoordinatorDestinations.LOG_IN
-            } else {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_FAILURE)
-                Timber.e("Auth Token Revoke Failed")
+    fun onLogOutClick(context: Context) {
+        if (AppUtil.isOnline(context)) {
+            viewModelScope.launch {
+                val result = authService.revokeToken()
+                if (result) {
+                    analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_SUCCESS)
+                    sharedPreferences.clearUserSettings()
+                    modemRebootMonitorService.cancelWork()
+                    myState.latestValue = AccountCoordinatorDestinations.LOG_IN
+                } else {
+                    analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_FAILURE)
+                    Timber.e("Auth Token Revoke Failed")
+                }
             }
+        } else {
+            noInternetMessage.latestValue = true
         }
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_LOG_OUT)
     }

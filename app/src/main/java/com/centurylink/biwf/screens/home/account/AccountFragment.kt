@@ -5,16 +5,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.LifecycleOwner
+import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.AccountCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.FragmentAccountBinding
 import com.centurylink.biwf.screens.home.HomeActivity
+import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.NumberUtil.Companion.getOnlyDigits
 import com.centurylink.biwf.utility.getViewModel
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.google.android.material.switchmaterial.SwitchMaterial
 import timber.log.Timber
 import javax.inject.Inject
@@ -39,6 +43,8 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
     private val viewModel by lazy {
         getViewModel<AccountViewModel>(viewModelFactory.withInput(this))
     }
+
+    private val fragManager by lazy { activity?.supportFragmentManager }
 
     lateinit var binding: FragmentAccountBinding
 
@@ -99,6 +105,18 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
             }
             errorMessageFlow.observe {
                 showRetry(it.isNotEmpty())
+            }
+            noInternetMessage.observe {
+               if(it)
+               {
+                   CustomDialogBlueTheme(
+                       getString(R.string.err_no_network_connectivity_title),
+                       getString(R.string.err_no_network_connectivity_message),
+                       getString(R.string.discard_changes_and_close),
+                       true,
+                       ::onErrorDialogCallback
+                   ).show(fragManager!!, DashboardFragment::class.simpleName)
+               }
             }
             bioMetricFlow.observe { boolean ->
                 binding.accountBiometricSwitch.isChecked = boolean
@@ -161,7 +179,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
             viewModel.onPersonalInfoCardClick()
         }
         binding.logOutButton.setOnClickListener {
-            viewModel.onLogOutClick()
+            viewModel.onLogOutClick(requireActivity())
         }
     }
 
@@ -175,6 +193,14 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                     binding.accountMarketingCallsSwitch.isChecked, it
 
                 )
+            }
+        }
+    }
+
+    private fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+
             }
         }
     }

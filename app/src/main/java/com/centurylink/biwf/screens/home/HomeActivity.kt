@@ -160,15 +160,19 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         }
         viewModel.activeUserTabBarVisibility.observe {
             setupTabsViewPager(it)
+            setSupportButtonOnClick(it)
         }
         viewModel.networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
+    }
+
+    private fun setSupportButtonOnClick(isExistingUser: Boolean) {
+        binding.supportButton.setOnClickListener{ viewModel.onSupportClicked(isExistingUser)}
     }
 
     private fun initOnClicks() {
         // TODO right now this feature is not in active so commenting for now
         //  binding.iBtnNotificationTop.setOnClickListener { viewModel.onNotificationBellClicked() }
         //  binding.iBtnNotificationBottom.setOnClickListener { viewModel.onNotificationBellClicked() }
-        binding.supportButton.setOnClickListener { viewModel.onSupportClicked() }
     }
 
     //isJobTypeInstallation will be used while implementing Service type installation status
