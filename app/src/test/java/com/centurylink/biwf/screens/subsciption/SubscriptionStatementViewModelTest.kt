@@ -87,7 +87,7 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
                 Assert.assertEquals(uiStatementDetails.email, "pravin.kumar@accenture.com")
                 Assert.assertEquals(uiStatementDetails.planName, "Fiber Gigabit")
                 Assert.assertEquals(uiStatementDetails.planCost, "65.00")
-                Assert.assertEquals(uiStatementDetails.successfullyProcessed, "05/14/2020")
+                Assert.assertEquals(uiStatementDetails.successfullyProcessed, "05/14/20")
                 Assert.assertEquals(uiStatementDetails.promoCode, null)
                 Assert.assertEquals(uiStatementDetails.paymentMethod, null)
                 Assert.assertEquals(uiStatementDetails.salesTaxCost, "0.00")
