@@ -50,7 +50,7 @@ class CancelSubscriptionViewModelTest : ViewModelBaseTest() {
         runBlockingTest {
             launch {
                 viewModel.initApis()
-                var finalDate = DateUtils.toSimpleString(Date(), DateUtils.STANDARD_FORMAT)
+                var finalDate = DateUtils.toSimpleString(Date(), DateUtils.CANCEL_APPOINTMENT_DATE_FORMAT)
                 Assert.assertEquals(
                     viewModel.cancelSubscriptionDate.latestValue.subscriptionEndDate,
                     finalDate
