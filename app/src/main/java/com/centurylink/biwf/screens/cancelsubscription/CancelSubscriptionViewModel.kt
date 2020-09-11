@@ -45,7 +45,7 @@ class CancelSubscriptionViewModel @Inject constructor(
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_SUBSCRIPTION_DATE_SUCCESS)
             cancelSubscriptionDate.latestValue = UiCancelSubscriptionDetails(
-                subscriptionEndDate = DateUtils.toSimpleString(it, DateUtils.STANDARD_FORMAT)
+                subscriptionEndDate = DateUtils.toSimpleString(it, DateUtils.CANCEL_APPOINTMENT_DATE_FORMAT)
             )
             progressViewFlow.latestValue = false
         }
