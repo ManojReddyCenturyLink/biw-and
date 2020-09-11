@@ -650,11 +650,6 @@ class DashboardViewModel @Inject constructor(
         isAccountStatus.latestValue = isAccountActive
     }
 
-    companion object {
-        const val EMPTY_RESPONSE = "- -"
-        const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L
-    }
-
     fun requestAppointmentCancellation() {
         viewModelScope.launch {
             cancelAppointment()
@@ -688,9 +683,9 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun checkForOngoingSpeedTest() {
-        speedTestButtonState.latestValue = !rebootOngoing
         val ongoingTest: Boolean = sharedPreferences.getSupportSpeedTest()
         if (ongoingTest) {
+            speedTestButtonState.latestValue = false
             sharedPreferences.saveSupportSpeedTest(boolean = false)
             val speedTestId = sharedPreferences.getSpeedTestId()
             if (speedTestId != null) {
@@ -775,4 +770,9 @@ class DashboardViewModel @Inject constructor(
     data class wifiScanStatus(
         var wifiListDetails: ArrayList<WifiInfo> = arrayListOf()
     )
+
+    companion object {
+        const val EMPTY_RESPONSE = "- -"
+        const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L
+    }
 }
