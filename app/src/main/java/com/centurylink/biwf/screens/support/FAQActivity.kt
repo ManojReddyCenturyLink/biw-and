@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -16,7 +17,9 @@ import com.centurylink.biwf.coordinators.FAQCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
 import com.centurylink.biwf.screens.support.adapter.ExpandableContentAdapter
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.salesforce.android.chat.core.ChatConfiguration
 import com.salesforce.android.chat.ui.ChatUI
 import com.salesforce.android.chat.ui.ChatUIClient
@@ -37,6 +40,8 @@ class FAQActivity : BaseActivity(){
     override val viewModel by lazy {
         ViewModelProvider(this, factory).get(FAQViewModel::class.java)
     }
+
+    private val fragmentManager = supportFragmentManager
 
     private lateinit var binding: ActivityFaqBinding
 
@@ -124,9 +129,23 @@ class FAQActivity : BaseActivity(){
             scheduleCallbackRow.setOnClickListener { viewModel.navigateToScheduleCallback() }
             liveChatTextview.setOnClickListener {
                 viewModel.logLiveChatLaunch()
-                chatUIClient?.startChatSession(
-                    this@FAQActivity
-                )
+                if (AppUtil.isOnline(this@FAQActivity)) {
+                    chatUIClient?.startChatSession(
+                        this@FAQActivity
+                    )
+                }
+                else{
+                    CustomDialogBlueTheme(
+                        getString(R.string.err_no_network_connectivity_title),
+                        getString(R.string.err_no_network_connectivity_message),
+                        getString(R.string.discard_changes_and_close),
+                        true,
+                        ::onDialogCallback
+                    ).show(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                }
             }
         }
         binding.faqVideoList.layoutManager =
@@ -159,6 +178,14 @@ class FAQActivity : BaseActivity(){
             .onResult { _, uiClient ->
                 chatUIClient = uiClient
             }
+    }
+
+    private fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                finish()
+            }
+        }
     }
 
     companion object {

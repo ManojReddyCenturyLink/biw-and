@@ -20,7 +20,9 @@ import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetails
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.salesforce.android.chat.core.ChatConfiguration
 import com.salesforce.android.chat.ui.ChatUI
@@ -43,6 +45,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         ViewModelProvider(this, factory).get(SupportViewModel::class.java)
     }
 
+    private val fragmentManager = supportFragmentManager
     private lateinit var adapter: SupportFAQAdapter
     private lateinit var binding: ActivitySupportBinding
     private lateinit var chatUIClient: ChatUIClient
@@ -174,17 +177,27 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                }
             }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
-//            supportVisitWebsite.setOnClickListener {
-//                viewModel.logVisitWebsite()
-//                //TODO Add Website feature when url is available
-//            }
         }
 
         binding.incContactUs.liveChatTextview.setOnClickListener {
             viewModel.logLiveChatLaunch()
-            chatUIClient?.startChatSession(
-                this
-            )
+            if (AppUtil.isOnline(this)) {
+                chatUIClient?.startChatSession(
+                    this
+                )
+            }
+            else{
+                CustomDialogBlueTheme(
+                    getString(R.string.err_no_network_connectivity_title),
+                    getString(R.string.err_no_network_connectivity_message),
+                    getString(R.string.discard_changes_and_close),
+                    true,
+                    ::onDialogCallback
+                ).show(
+                    fragmentManager,
+                    callingActivity?.className
+                )
+            }
         }
         binding.incContactUs.scheduleCallbackRow.setOnClickListener { viewModel.launchScheduleCallback() }
     }
@@ -238,6 +251,14 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun setRunSpeedTestButtonVisibility(restarting: Boolean) {
         binding.incTroubleshooting.runSpeedTestButton.isActivated =
             !restarting
+    }
+
+    private fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                finish()
+            }
+        }
     }
 
     companion object {
