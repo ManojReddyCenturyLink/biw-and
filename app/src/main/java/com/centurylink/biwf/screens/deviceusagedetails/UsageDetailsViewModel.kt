@@ -238,6 +238,11 @@ class UsageDetailsViewModel constructor(
             pauseUnpauseConnection.latestValue = deviceData
         }) { devicePauseStatus ->
             deviceData.isPaused = devicePauseStatus.isPaused
+            if (deviceData.isPaused) {
+                deviceData.deviceConnectionStatus = DeviceConnectionStatus.PAUSED
+            } else {
+                deviceData.deviceConnectionStatus = DeviceConnectionStatus.DEVICE_CONNECTED
+            }
             pauseUnpauseConnection.latestValue = deviceData
             progressViewFlow.latestValue = false
         }
