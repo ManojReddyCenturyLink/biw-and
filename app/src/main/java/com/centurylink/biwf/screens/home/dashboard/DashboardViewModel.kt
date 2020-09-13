@@ -295,37 +295,7 @@ class DashboardViewModel @Inject constructor(
     }
 
     private suspend fun requestAppointmentDetails() {
-        val appointmentDetails = appointmentRepository.getAppointmentInfo()
-        appointmentDetails.fold(ifLeft = {
-            progressViewFlow.latestValue = false
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_FAILURE)
-            if (it.equals("No Appointment Records", ignoreCase = true)) {
-                refresh = false
-                isAccountStatus.latestValue = true
-                initDevicesApis()
-            }
-
-        }) {
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
-            progressViewFlow.latestValue = false
-            cancellationDetails = mockInstanceforCancellation(it)
-            refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
-                    it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
-            if (!it.jobType.contains(HomeViewModel.intsall) && it.serviceStatus?.name.equals(
-                    ServiceStatus.CANCELED.name
-                )
-            ) {
-                isAccountStatus.latestValue = true
-                initDevicesApis()
-            } else {
-                if (!installationStatus) {
-                    updateAppointmentStatus(it)
-                } else {
-                    isAccountStatus.latestValue = true
-                    initDevicesApis()
-                }
-            }
-        }
+        recurringAppointmentCall()
         if (refresh) {
             refreshAppointmentDetails()
         }
