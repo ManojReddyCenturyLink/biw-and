@@ -12,7 +12,7 @@ data class AccountDetails(
     val lastName: String = "",
     @SerializedName("AccountStatus__c")
     var accountStatus: String = "",
-    @SerializedName("DTN__c")
+    @SerializedName("DTN_Text__c")
     var lineId: String? = null,
     @SerializedName("FirstName__c")
     val firstName: String = "",
