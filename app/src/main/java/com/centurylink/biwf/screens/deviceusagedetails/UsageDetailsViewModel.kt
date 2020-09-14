@@ -18,7 +18,6 @@ import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.ViewModelFactoryWithInput
 import com.centurylink.biwf.utility.viewModelFactory
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.math.BigDecimal
@@ -60,8 +59,6 @@ class UsageDetailsViewModel constructor(
                 viewModel
             }
         }
-
-
     }
 
     val myState = EventFlow<UsageDetailsCoordinatorDestinations>()
