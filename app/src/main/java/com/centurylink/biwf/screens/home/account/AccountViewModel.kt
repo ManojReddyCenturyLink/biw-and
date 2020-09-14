@@ -227,10 +227,6 @@ class AccountViewModel internal constructor(
     }
 
     private fun updateUIAccountDetailsFromAccounts(accountDetails: AccountDetails) {
-        var nextPaymentDate = "n/a"
-        if (!accountDetails.nextPaymentDate.isNullOrEmpty()) {
-            nextPaymentDate = accountDetails.nextPaymentDate
-        }
         uiAccountDetails = uiAccountDetails.copy(
             name = accountDetails.name,
             formattedServiceAddressLine1 = formatServiceAddressLine1(
@@ -245,7 +241,6 @@ class AccountViewModel internal constructor(
             email = accountDetails.emailAddress ?: "",
             planName = accountDetails.productNameC ?: "",
             planSpeed = accountDetails.productPlanNameC ?: "",
-            paymentDate = nextPaymentDate,
             password = "******",
             cellPhone = PhoneNumber(accountDetails.phone ?: "").toString(),
             homePhone = accountDetails.phone,
