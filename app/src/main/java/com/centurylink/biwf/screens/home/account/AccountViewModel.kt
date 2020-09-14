@@ -229,7 +229,7 @@ class AccountViewModel internal constructor(
     private fun updateUIAccountDetailsFromAccounts(accountDetails: AccountDetails) {
         var nextPaymentDate = "n/a"
         if (!accountDetails.nextPaymentDate.isNullOrEmpty()) {
-            nextPaymentDate = DateUtils.formatInvoiceDate(accountDetails.nextPaymentDate)
+            nextPaymentDate = accountDetails.nextPaymentDate
         }
         uiAccountDetails = uiAccountDetails.copy(
             name = accountDetails.name,

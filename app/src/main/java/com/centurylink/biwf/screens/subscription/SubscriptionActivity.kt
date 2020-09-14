@@ -135,7 +135,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
 
     companion object {
         const val PAYMENT_CARD: String = "PaymentCard"
-
+        const val REQUEST_TO_SUBSCRIPTION_DETAILS = 1403
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, SubscriptionActivity::class.java).putExtra(
                 PAYMENT_CARD, bundle.getString(PAYMENT_CARD)

@@ -104,8 +104,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             if (phoneNumber != null) {
                 refreshPersonalInfo(phoneNumber)
             }
-        } else if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT){
-            refreshAccountFragment()
+        } else if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT) {
+            refreshPaymentInfoOnAccounts()
         }
     }
 
@@ -233,6 +233,16 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+            }
+        }
+    }
+
+    private fun refreshPaymentInfoOnAccounts() {
+        val allFragments: List<Fragment> =
+            supportFragmentManager.fragments
+        for (fragment in allFragments) {
+            if (fragment is AccountFragment) {
+                fragment.retryClicked()
             }
         }
     }
