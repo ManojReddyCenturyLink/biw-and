@@ -1,9 +1,11 @@
 package com.centurylink.biwf.screens.subscription
 
+import android.content.Context
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
@@ -35,13 +37,16 @@ class EditPaymentDetailsViewModel @Inject constructor(
     }
 
     // TODO address race condition going on between this method and onWebViewError()
-    fun onWebViewProgress(progress: Int) {
-        if (progress == WEB_PAGE_PROGRESS_COMPLETE) {
-            progressViewFlow.latestValue = false
+    fun onWebViewProgress(progress: Int, context: Context) {
+        if(AppUtil.isOnline(context)){
+            if (progress == WEB_PAGE_PROGRESS_COMPLETE) {
+                progressViewFlow.latestValue = false
+            }
         }
     }
 
     fun onWebViewError() {
+        progressViewFlow.latestValue = false
         errorMessageFlow.latestValue = GENERIC_WEB_VIEW_ERROR
     }
 

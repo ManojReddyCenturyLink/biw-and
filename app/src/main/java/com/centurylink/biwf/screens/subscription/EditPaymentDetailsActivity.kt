@@ -26,10 +26,13 @@ class EditPaymentDetailsActivity : BaseActivity() {
     }
 
     private val webViewClient by lazy {
-        object: WebViewClient() {
+        object : WebViewClient() {
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-                viewModel.onWebViewProgress(binding.webView.progress)
+                viewModel.onWebViewProgress(
+                    binding.webView.progress,
+                    this@EditPaymentDetailsActivity
+                )
             }
 
             override fun onReceivedError(
