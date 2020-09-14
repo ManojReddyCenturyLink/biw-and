@@ -273,13 +273,13 @@ class AccountViewModel internal constructor(
     }
 
     private fun updateUIAccountDetailsFromLivePaymentInfo(paymentInfo: PaymentInfo) {
-        var nextRenewalDate ="n/a"
-        if(!paymentInfo.nextRenewalDate.isNullOrEmpty()){
+        var nextRenewalDate = "n/a"
+        if (!paymentInfo.nextRenewalDate.isNullOrEmpty()) {
             nextRenewalDate = DateUtils.formatAppointmentBookedDate(paymentInfo.nextRenewalDate)
         }
         uiAccountDetails = uiAccountDetails.copy(
             paymentMethod = paymentInfo.creditCardSummary,
-            paymentDate =  nextRenewalDate
+            paymentDate = nextRenewalDate
         )
         updateAccountFlow()
     }
