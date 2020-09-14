@@ -53,7 +53,9 @@ data class AccountDetails(
     @SerializedName("LastViewedDate")
     val lastViewedDate: String? = null,
     @SerializedName("ShippingAddress")
-    val shippingAddress: BillingAddress? = null
+    val shippingAddress: BillingAddress? = null,
+    @SerializedName("Next_Renewal_Date__c")
+    val nextPaymentDate: String? = null
 ) : Serializable
 
 data class BillingAddress(

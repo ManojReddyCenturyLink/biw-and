@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.home.account
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -226,6 +227,10 @@ class AccountViewModel internal constructor(
     }
 
     private fun updateUIAccountDetailsFromAccounts(accountDetails: AccountDetails) {
+        var nextPaymentDate = "n/a"
+        if (!accountDetails.nextPaymentDate.isNullOrEmpty()) {
+            nextPaymentDate = DateUtils.formatInvoiceDate(accountDetails.nextPaymentDate)
+        }
         uiAccountDetails = uiAccountDetails.copy(
             name = accountDetails.name,
             formattedServiceAddressLine1 = formatServiceAddressLine1(
@@ -240,7 +245,7 @@ class AccountViewModel internal constructor(
             email = accountDetails.emailAddress ?: "",
             planName = accountDetails.productNameC ?: "",
             planSpeed = accountDetails.productPlanNameC ?: "",
-            paymentDate = DateUtils.formatInvoiceDate(accountDetails.lastViewedDate!!),
+            paymentDate = nextPaymentDate,
             password = "******",
             cellPhone = PhoneNumber(accountDetails.phone ?: "").toString(),
             homePhone = accountDetails.phone,
