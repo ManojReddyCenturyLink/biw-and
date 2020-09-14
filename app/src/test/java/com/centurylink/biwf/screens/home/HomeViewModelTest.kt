@@ -156,8 +156,6 @@ class HomeViewModelTest : ViewModelBaseTest() {
         }
     }
 
-
-
     @Test
     fun `on Biometric Yes Response`() = runBlockingTest {
         launch {
@@ -171,5 +169,4 @@ class HomeViewModelTest : ViewModelBaseTest() {
     fun onStart_displayNewUserTabBar() {
         viewModel.activeUserTabBarVisibility.value shouldEqual false
     }
-
 }

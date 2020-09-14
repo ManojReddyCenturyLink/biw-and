@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.dashboard
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -37,6 +36,7 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -76,14 +76,11 @@ class DashboardViewModel @Inject constructor(
     private lateinit var guestNetworkInfo: WifiInfo
     private var regularNetworkWifiPwd: String = ""
     private var guestNetworkWifiPwd: String = ""
-
     private var isEnable: Boolean = true
     private var isAccountActive: Boolean = true
     val wifiListDetailsUpdated = BehaviorStateFlow<wifiScanStatus>()
     private var ssidMap: HashMap<String, String> = HashMap()
     private var bssidMap: HashMap<String, String> = HashMap()
-
-    private lateinit var cancelAppointmentInstance: AppointmentRecordsInfo
     private lateinit var cancellationDetails: AppointmentRecordsInfo
     private lateinit var appointmentDetails: AppointmentRecordsInfo
     private var refresh: Boolean = false
@@ -94,9 +91,7 @@ class DashboardViewModel @Inject constructor(
         )
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private var rebootOngoing = false
-
     var installationStatus: Boolean
-
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
         installationStatus = sharedPreferences.getInstallationStatus()
@@ -160,7 +155,7 @@ class DashboardViewModel @Inject constructor(
                 isAccountActive = false
                 isAccountStatus.latestValue = isAccountActive
                 requestAppointmentDetails()
-                progressViewFlow.latestValue =false
+                progressViewFlow.latestValue = false
                 if (installationStatus) {
                     initDevicesApis()
                 }
@@ -266,22 +261,16 @@ class DashboardViewModel @Inject constructor(
     }
 
     private fun refreshAppointmentDetails() {
+
         viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
-            requestAppointmentDetails()
+            recurringAppointmentCall()
         }
     }
 
-    private suspend fun requestAppointmentDetails() {
+    private suspend fun recurringAppointmentCall() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
-            progressViewFlow.latestValue = false
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_FAILURE)
-            if (it.equals("No Appointment Records", ignoreCase = true)) {
-                refresh = false
-                isAccountStatus.latestValue =true
-                initDevicesApis()
-            }
-
+            Timber.i("Error in Appointments")
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
@@ -289,20 +278,24 @@ class DashboardViewModel @Inject constructor(
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
             if (!it.jobType.contains(HomeViewModel.intsall) && it.serviceStatus?.name.equals(
-                    ServiceStatus.CANCELED.name)
+                    ServiceStatus.CANCELED.name
+                )
             ) {
                 isAccountStatus.latestValue = true
                 initDevicesApis()
-            }
-            else {
+            } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
-                }else{
-                    isAccountStatus.latestValue =true
+                } else {
+                    isAccountStatus.latestValue = true
                     initDevicesApis()
                 }
             }
         }
+    }
+
+    private suspend fun requestAppointmentDetails() {
+        recurringAppointmentCall()
         if (refresh) {
             refreshAppointmentDetails()
         }
@@ -324,63 +317,52 @@ class DashboardViewModel @Inject constructor(
         )
     }
 
-    private suspend fun requestNotificationDetails() {
-        progressViewFlow.latestValue = true
-        val notificationDetails = notificationRepository.getNotificationDetails()
-        notificationDetails.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
-        }) {
-            notificationListDetails.latestValue = it
-            progressViewFlow.latestValue = false
-        }
-    }
-
     private suspend fun requestWifiDetails() {
         progressViewFlow.latestValue = true
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         modemResponse.fold(ifRight =
-            {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
-                val apiInfo = it?.apInfoList
-                if (!apiInfo.isNullOrEmpty()) {
-                    val modemInfo = apiInfo[0]
-                    var regularNetworkName = ""
-                    var guestNetworkName = ""
-                    ssidMap = modemInfo.ssidMap
-                    bssidMap = modemInfo.bssidMap
-                    regularNetworkName = ModemUtils.getRegularNetworkName(modemInfo)
-                    guestNetworkName = ModemUtils.getGuestNetworkName(modemInfo)
-                    val guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfo)
-                    val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfo)
-                    regularNetworkInfo = regularNetworkInstance.copy(
-                        type = NetWorkBand.Band5G.name,
-                        name = regularNetworkName,
-                        password = regularNetworkWifiPwd,
-                        enabled = wifiNetworkEnabled
+        {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
+            val apiInfo = it?.apInfoList
+            if (!apiInfo.isNullOrEmpty()) {
+                val modemInfo = apiInfo[0]
+                var regularNetworkName = ""
+                var guestNetworkName = ""
+                ssidMap = modemInfo.ssidMap
+                bssidMap = modemInfo.bssidMap
+                regularNetworkName = ModemUtils.getRegularNetworkName(modemInfo)
+                guestNetworkName = ModemUtils.getGuestNetworkName(modemInfo)
+                val guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfo)
+                val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfo)
+                regularNetworkInfo = regularNetworkInstance.copy(
+                    type = NetWorkBand.Band5G.name,
+                    name = regularNetworkName,
+                    password = regularNetworkWifiPwd,
+                    enabled = wifiNetworkEnabled
+                )
+                guestNetworkInfo = guestNetworkInstance.copy(
+                    category = NetWorkCategory.GUEST,
+                    type = NetWorkBand.Band2G_Guest4.name,
+                    name = guestNetworkName,
+                    password = guestNetworkWifiPwd,
+                    enabled = guestNetworkEnabled
+                )
+                wifiListDetails.latestValue = wifiScanStatus(
+                    ArrayList(
+                        (WifiDetails(
+                            listOf(
+                                regularNetworkInfo,
+                                guestNetworkInfo
+                            )
+                        )).wifiList
                     )
-                    guestNetworkInfo = guestNetworkInstance.copy(
-                        category = NetWorkCategory.GUEST,
-                        type = NetWorkBand.Band2G_Guest4.name,
-                        name = guestNetworkName,
-                        password = guestNetworkWifiPwd,
-                        enabled = guestNetworkEnabled
-                    )
-                    wifiListDetails.latestValue = wifiScanStatus(
-                        ArrayList(
-                            (WifiDetails(
-                                listOf(
-                                    regularNetworkInfo,
-                                    guestNetworkInfo
-                                )
-                            )).wifiList
-                        )
-                    )
-                }
-                progressViewFlow.latestValue = false
-            },ifLeft = {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
-                errorMessageFlow.latestValue = "Error WifiInfo"
-            })
+                )
+            }
+            progressViewFlow.latestValue = false
+        }, ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
+            errorMessageFlow.latestValue = "Error WifiInfo"
+        })
     }
 
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
@@ -410,15 +392,15 @@ class DashboardViewModel @Inject constructor(
 
     private suspend fun requestDevices() {
         val deviceDetails = assiaRepository.getDevicesDetails()
-        deviceDetails.fold(ifRight={ deviceList ->
+        deviceDetails.fold(ifRight = { deviceList ->
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
-                val connectedList = deviceList.filter { !it.blocked }.distinct()
-                connectedDevicesNumber.latestValue=connectedList.size.toString()
-            },ifLeft = {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
-                errorMessageFlow.latestValue = "Error DeviceInfo"
-            })
-        }
+            val connectedList = deviceList.filter { !it.blocked }.distinct()
+            connectedDevicesNumber.latestValue = connectedList.size.toString()
+        }, ifLeft = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
+            errorMessageFlow.latestValue = "Error DeviceInfo"
+        })
+    }
 
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
         progressViewFlow.latestValue = true
@@ -466,7 +448,7 @@ class DashboardViewModel @Inject constructor(
     ) {
         val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
         netWorkInfo.fold(
-            ifRight =  {
+            ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(wifiInfo)
             },
@@ -650,11 +632,6 @@ class DashboardViewModel @Inject constructor(
         isAccountStatus.latestValue = isAccountActive
     }
 
-    companion object {
-        const val EMPTY_RESPONSE = "- -"
-        const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L
-    }
-
     fun requestAppointmentCancellation() {
         viewModelScope.launch {
             cancelAppointment()
@@ -688,9 +665,9 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun checkForOngoingSpeedTest() {
-        speedTestButtonState.latestValue = !rebootOngoing
         val ongoingTest: Boolean = sharedPreferences.getSupportSpeedTest()
         if (ongoingTest) {
+            speedTestButtonState.latestValue = false
             sharedPreferences.saveSupportSpeedTest(boolean = false)
             val speedTestId = sharedPreferences.getSpeedTestId()
             if (speedTestId != null) {
@@ -775,4 +752,9 @@ class DashboardViewModel @Inject constructor(
     data class wifiScanStatus(
         var wifiListDetails: ArrayList<WifiInfo> = arrayListOf()
     )
+
+    companion object {
+        const val EMPTY_RESPONSE = "- -"
+        const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L
+    }
 }
