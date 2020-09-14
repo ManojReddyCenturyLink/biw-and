@@ -108,7 +108,6 @@ class UsageDetailsActivity : BaseActivity() {
                     it.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
                     isPaused =true
                 }
-                it.rssi =95
                 binding.connectionStatusIcon.setImageDrawable(getDrawable(ModemUtils.getConnectionStatusIcon(it)))
                 binding.deviceConnectedBtn.background =
                     (getDrawable(if (isPaused) R.drawable.light_grey_rounded_background else R.drawable.light_blue_rounded_background))
