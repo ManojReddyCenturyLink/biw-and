@@ -221,16 +221,12 @@ class AccountViewModel internal constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_LIVE_CARD_INFO_SUCCESS)
             if (it.isDone) {
                 paymentInfo.latestValue = it.list[0]
-                updateUIAccountDetailsFromLivePaymentInfo(paymentInfo.latestValue.creditCardSummary)
+                updateUIAccountDetailsFromLivePaymentInfo(it.list[0])
             }
         }
     }
 
     private fun updateUIAccountDetailsFromAccounts(accountDetails: AccountDetails) {
-        var nextPaymentDate = "n/a"
-        if (!accountDetails.nextPaymentDate.isNullOrEmpty()) {
-            nextPaymentDate = DateUtils.formatInvoiceDate(accountDetails.nextPaymentDate)
-        }
         uiAccountDetails = uiAccountDetails.copy(
             name = accountDetails.name,
             formattedServiceAddressLine1 = formatServiceAddressLine1(
@@ -245,7 +241,6 @@ class AccountViewModel internal constructor(
             email = accountDetails.emailAddress ?: "",
             planName = accountDetails.productNameC ?: "",
             planSpeed = accountDetails.productPlanNameC ?: "",
-            paymentDate = nextPaymentDate,
             password = "******",
             cellPhone = PhoneNumber(accountDetails.phone ?: "").toString(),
             homePhone = accountDetails.phone,
@@ -277,9 +272,14 @@ class AccountViewModel internal constructor(
         updateAccountFlow()
     }
 
-    private fun updateUIAccountDetailsFromLivePaymentInfo(cardNumbers: String) {
+    private fun updateUIAccountDetailsFromLivePaymentInfo(paymentInfo: PaymentInfo) {
+        var nextRenewalDate ="n/a"
+        if(!paymentInfo.nextRenewalDate.isNullOrEmpty()){
+            nextRenewalDate = DateUtils.formatAppointmentBookedDate(paymentInfo.nextRenewalDate)
+        }
         uiAccountDetails = uiAccountDetails.copy(
-            paymentMethod = cardNumbers
+            paymentMethod = paymentInfo.creditCardSummary,
+            paymentDate =  nextRenewalDate
         )
         updateAccountFlow()
     }
