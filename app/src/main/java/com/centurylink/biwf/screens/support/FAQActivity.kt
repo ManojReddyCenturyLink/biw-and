@@ -16,14 +16,16 @@ import com.centurylink.biwf.coordinators.FAQCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityFaqBinding
 import com.centurylink.biwf.screens.support.adapter.ExpandableContentAdapter
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.NoNetworkErrorPopup
 import com.salesforce.android.chat.core.ChatConfiguration
 import com.salesforce.android.chat.ui.ChatUI
 import com.salesforce.android.chat.ui.ChatUIClient
 import com.salesforce.android.chat.ui.ChatUIConfiguration
 import javax.inject.Inject
 
-class FAQActivity : BaseActivity(){
+class FAQActivity : BaseActivity() {
 
     @Inject
     lateinit var faqCoordinator: FAQCoordinator
@@ -37,6 +39,8 @@ class FAQActivity : BaseActivity(){
     override val viewModel by lazy {
         ViewModelProvider(this, factory).get(FAQViewModel::class.java)
     }
+
+    private val fragmentManager = supportFragmentManager
 
     private lateinit var binding: ActivityFaqBinding
 
@@ -124,9 +128,16 @@ class FAQActivity : BaseActivity(){
             scheduleCallbackRow.setOnClickListener { viewModel.navigateToScheduleCallback() }
             liveChatTextview.setOnClickListener {
                 viewModel.logLiveChatLaunch()
-                chatUIClient?.startChatSession(
-                    this@FAQActivity
-                )
+                if (AppUtil.isOnline(this@FAQActivity)) {
+                    chatUIClient?.startChatSession(
+                        this@FAQActivity
+                    )
+                } else {
+                    NoNetworkErrorPopup.showNoInternetDialog(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                }
             }
         }
         binding.faqVideoList.layoutManager =

@@ -72,8 +72,8 @@ class PersonalInfoActivity : BaseActivity() {
             }
         }
         binding.personalInfoEmailInput.text = intent.getStringExtra(USER_ID)
-        val phoneNumber = formatedString(intent.getStringExtra(PHONE_NUMBER), '-', 3)
-        val upadtedPhoneNumber = phoneNumber?.let { formatedString(it, '-', 7) }
+        val phoneNumber = formattedString(intent.getStringExtra(PHONE_NUMBER), '-', 3)
+        val upadtedPhoneNumber = phoneNumber?.let { formattedString(it, '-', 7) }
         if (upadtedPhoneNumber != null) {
             viewModel.onPhoneNumberChanged(upadtedPhoneNumber)
         }
@@ -146,7 +146,6 @@ class PersonalInfoActivity : BaseActivity() {
                     )
                 }
             }
-
 
         }
         binding.ivQuestion.setOnClickListener {
@@ -262,8 +261,11 @@ class PersonalInfoActivity : BaseActivity() {
         finish()
     }
 
-    private fun formatedString(str: String, ch: Char, position: Int): String? {
-        return (str.substring(0, position) + ch + str.substring(position))
+    private fun formattedString(str: String, ch: Char, position: Int): String? {
+        if (str.isNotEmpty())
+            return (str.substring(0, position) + ch + str.substring(position))
+        else
+            return ""
     }
 
     companion object {
