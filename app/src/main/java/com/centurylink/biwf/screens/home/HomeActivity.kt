@@ -24,6 +24,7 @@ import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.dashboard.adapter.HomeViewPagerAdapter
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
+import com.centurylink.biwf.screens.subscription.EditPaymentDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayout
@@ -103,6 +104,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             if (phoneNumber != null) {
                 refreshPersonalInfo(phoneNumber)
             }
+        } else if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT){
+            refreshAccountFragment()
         }
     }
 

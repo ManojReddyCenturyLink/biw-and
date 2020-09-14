@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.subscription
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -63,12 +62,13 @@ class EditPaymentDetailsActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
                 viewModel.logBackPress()
+                setResult(REQUEST_TO_REFRESH_PAYMENT)
                 finish()
             }
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logDonePress()
-                setResult(Activity.RESULT_OK)
+                setResult(REQUEST_TO_REFRESH_PAYMENT)
                 finish()
             }
         }
@@ -109,6 +109,7 @@ class EditPaymentDetailsActivity : BaseActivity() {
     }
 
     companion object {
+        const val REQUEST_TO_REFRESH_PAYMENT= 1039
         const val REQUEST_TO_EDIT_PAYMENT_DETAILS = 1103
         fun newIntent(context: Context) = Intent(context, EditPaymentDetailsActivity::class.java)
     }
