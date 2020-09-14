@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 import java.lang.reflect.Field
@@ -59,7 +58,6 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
             analyticsManagerInterface
         )
     }
-
 
     @Test
     fun testPerformCancellationRequestSuccess() {

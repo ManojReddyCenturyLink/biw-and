@@ -112,7 +112,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                    CustomDialogBlueTheme(
                        getString(R.string.err_no_network_connectivity_title),
                        getString(R.string.err_no_network_connectivity_message),
-                       getString(R.string.discard_changes_and_close),
+                       getString(R.string.ok),
                        true,
                        ::onErrorDialogCallback
                    ).show(fragManager!!, DashboardFragment::class.simpleName)

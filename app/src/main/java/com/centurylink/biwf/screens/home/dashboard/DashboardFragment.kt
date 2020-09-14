@@ -21,6 +21,7 @@ import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
@@ -132,10 +133,14 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 if (it) View.VISIBLE else View.INVISIBLE
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
-            binding.incSpeedTest.runSpeedTestDashboard.isActivated = !it
         }
         dashboardViewModel.speedTestButtonState.observe {
             binding.incSpeedTest.runSpeedTestDashboard.isActivated = it
+        }
+        dashboardViewModel.detailedRebootStatusFlow.observe { rebootState ->
+            if(rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+            }
         }
         initOnClicks()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
@@ -159,7 +164,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         observeAccountStatusViews()
         observeWifiDetailsViews()
         getAppointmentStatus()
-        listenForRebootDialog()
 
     }
 
