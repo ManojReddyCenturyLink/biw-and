@@ -159,14 +159,12 @@ class FAQActivity : BaseActivity() {
 
     private fun initLiveChat() {
         val chatConfiguration =
-            ChatConfiguration.Builder(
-                ORG_ID,
-                BUTTON_ID,
-                DEPLOYMENT_ID,
-                AGENT_POD
-            ).build()
-
-        ChatUI.configure(ChatUIConfiguration.create(chatConfiguration)).createClient(this)
+            ChatConfiguration.Builder(ORG_ID, BUTTON_ID, DEPLOYMENT_ID, AGENT_POD).build()
+        val uiConfig = ChatUIConfiguration.Builder()
+            .chatConfiguration(chatConfiguration)
+            .defaultToMinimized(false)
+            .build()
+        ChatUI.configure(uiConfig).createClient(this)
             .onResult { _, uiClient ->
                 chatUIClient = uiClient
             }
