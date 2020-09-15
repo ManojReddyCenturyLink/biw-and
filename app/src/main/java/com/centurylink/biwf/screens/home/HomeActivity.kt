@@ -51,6 +51,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
 
     private lateinit var binding: ActivityHomeBinding
 
+    private lateinit var onTabSelectedListener : TabLayout.OnTabSelectedListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -63,6 +65,22 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             binding.main,
             binding.retryOverlay.root
         )
+        onTabSelectedListener =  object :  TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.vpDashboard.currentItem = tab.position
+                val text = tab.customView as TextView?
+                if (text != null) {
+                    text.typeface = Typeface.DEFAULT_BOLD
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                val text = tab.customView as TextView?
+                if (text != null) {
+                    text.typeface = Typeface.DEFAULT
+                }
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        }
         initViews()
         initOnClicks()
 
@@ -202,22 +220,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             tabTextView.typeface = ResourcesCompat.getFont(applicationContext, R.font.arial_mt)
             binding.vpDashboard.setCurrentItem(tab.position, true)
         }.attach()
-        binding.homeUpperTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.vpDashboard.currentItem = tab.position
-                val text = tab.customView as TextView?
-                if (text != null) {
-                    text.typeface = Typeface.DEFAULT_BOLD
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                val text = tab.customView as TextView?
-                if (text != null) {
-                    text.typeface = Typeface.DEFAULT
-                }
-            }
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
+        binding.homeUpperTabs.addOnTabSelectedListener(onTabSelectedListener)
         binding.vpDashboard.setCurrentItem(1, false)
     }
 

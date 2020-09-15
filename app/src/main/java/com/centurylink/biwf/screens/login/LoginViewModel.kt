@@ -22,7 +22,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class LoginViewModel internal constructor(
-    sharedPreferences: Preferences,
+    val sharedPreferences: Preferences,
     private val authService: AuthService<*>,
     // TODO We should remove this, as outstanding work is cancelled on logout and we won't
     //  support showing the modem reboot dialogs on the Login screen
@@ -59,6 +59,20 @@ class LoginViewModel internal constructor(
     )
 
     init {
+        handleSignInFlow()
+    }
+
+    private fun showLoginScreen() {
+        viewModelScope.launch {
+            try {
+                authService.launchSignInFlow()
+            } catch (error: Throwable) {
+                Timber.e(error)
+            }
+        }
+    }
+
+    fun handleSignInFlow() {
         val showBiometrics = sharedPreferences.getBioMetrics() ?: false
         val hasToken = !(authService.tokenStorage as AppAuthTokenStorage).state?.accessToken.isNullOrEmpty()
 
@@ -67,17 +81,7 @@ class LoginViewModel internal constructor(
         } else if (hasToken) {
             onLoginSuccess()
         } else {
-            showLoginFlow()
-        }
-    }
-
-    private fun showLoginFlow() {
-        viewModelScope.launch {
-            try {
-                authService.launchSignInFlow()
-            } catch (error: Throwable) {
-                Timber.e(error)
-            }
+            showLoginScreen()
         }
     }
 
@@ -90,7 +94,7 @@ class LoginViewModel internal constructor(
     }
 
     fun onBiometricFailure() {
-        showLoginFlow()
+        showLoginScreen()
     }
 }
 

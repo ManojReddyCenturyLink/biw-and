@@ -52,6 +52,11 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         handleIntent()
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.handleSignInFlow()
+    }
+
     override fun onBackPressed() {
         finishAffinity()
     }
@@ -109,7 +114,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     override fun onNewIntent(newIntent: Intent?) {
         super.onNewIntent(newIntent)
-
         intent = newIntent
         handleIntent()
     }
