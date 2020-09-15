@@ -51,9 +51,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        deviceData = DevicesData("", "", "", "", "", "", "",
-            "", false, null, "", "", "", "", "", "",
-            null, null)
+        deviceData = fromJson(readJson("devicedata.json"))
         run { analyticsManagerInterface }
         viewModel = UsageDetailsViewModel(
             app = BIWFApp(),
