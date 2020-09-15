@@ -107,10 +107,15 @@ class SubscriptionStatementViewModel @Inject constructor(
     }
 
     private fun formatBillingAddress(accountDetails: AccountDetails): String? {
-        return accountDetails.billingAddress?.run {
-            val billingAddressList = listOf(street, city, state, postalCode, country)
-            billingAddressList.filterNotNull().joinToString(separator = ", ")
+        val formattedServiceAddressLine1 = accountDetails.billingAddress?.run {
+            val billingAddressList = listOf(street, city)
+            billingAddressList.filterNotNull().joinToString(separator = " ")
         }
+        val formattedServiceAddressLine2 = accountDetails.billingAddress?.run {
+            val billingAddressList = listOf(state, postalCode)
+            billingAddressList.filterNotNull().joinToString(separator = " ")
+        }
+        return "$formattedServiceAddressLine1, $formattedServiceAddressLine2"
     }
 
     data class UiStatementDetails(
