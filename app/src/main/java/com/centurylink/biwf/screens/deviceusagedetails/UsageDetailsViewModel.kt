@@ -54,7 +54,7 @@ class UsageDetailsViewModel constructor(
                     mcafeeRepository
                 )
                 viewModel.staMac = input.stationMac!!
-                viewModel.deviceId = input.mcafeeDeviceId
+                viewModel.macAfeeDeviceId = input.mcafeeDeviceId
                 viewModel.deviceData = input
                 viewModel
             }
@@ -74,7 +74,7 @@ class UsageDetailsViewModel constructor(
     val downloadSpeedDailyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
-    var deviceId :String =""
+    var macAfeeDeviceId :String =""
     private lateinit var deviceData :DevicesData
     var pauseUnpauseConnection = EventFlow<DevicesData>()
 
@@ -104,7 +104,9 @@ class UsageDetailsViewModel constructor(
            DeviceConnectionStatus.DEVICE_CONNECTED,
            DeviceConnectionStatus.LOADING,
            DeviceConnectionStatus.FAILURE ->{
-               updatePauseResumeStatus()
+               if (!macAfeeDeviceId.isNullOrEmpty()) {
+                   updatePauseResumeStatus()
+               }
            }
            DeviceConnectionStatus.MODEM_OFF->{
                Timber.e("Cant Perform any Action")
@@ -210,7 +212,7 @@ class UsageDetailsViewModel constructor(
         progressViewFlow.latestValue = true
         viewModelScope.launch {
             val macResponse = mcafeeRepository.
-            updateDevicePauseResumeStatus(deviceId, !deviceData.isPaused)
+            updateDevicePauseResumeStatus(macAfeeDeviceId, !deviceData.isPaused)
             macResponse.fold(ifLeft = {
                 errorMessageFlow.latestValue = it
             }, ifRight = {
@@ -227,14 +229,19 @@ class UsageDetailsViewModel constructor(
     }
 
     private suspend fun requestStateForDevices() {
-        progressViewFlow.latestValue = true
-        val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(deviceId)
+        val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(macAfeeDeviceId)
         mcafeeMapping.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
+           // On Error we are updating the device Icon with Failure icon instead of wifi icon
             deviceData.isPaused = false
             pauseUnpauseConnection.latestValue = deviceData
+            deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
         }) { devicePauseStatus ->
             deviceData.isPaused = devicePauseStatus.isPaused
+            if (deviceData.isPaused) {
+                deviceData.deviceConnectionStatus = DeviceConnectionStatus.PAUSED
+            } else {
+                deviceData.deviceConnectionStatus = DeviceConnectionStatus.DEVICE_CONNECTED
+            }
             pauseUnpauseConnection.latestValue = deviceData
             progressViewFlow.latestValue = false
         }

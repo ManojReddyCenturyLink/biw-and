@@ -99,11 +99,29 @@ class DevicesViewModel @Inject constructor(
 
 
     private fun getPauseResumeState(connectedList: List<DevicesData>) {
-        var concurrentList = ConcurrentLinkedQueue(connectedList)
+        val concurrentList = ConcurrentLinkedQueue(connectedList)
         viewModelScope.launch {
             for (item in concurrentList) {
                 if (!item.mcafeeDeviceId.isNullOrEmpty()) {
                     requestStateForConnectedDevices(item.mcafeeDeviceId)
+                } else{
+                    // Typically the MACAFEE Device Id is needed for Making Api Calls to Apigee For some reasons the device Id is not got
+                    updateEmptyDeviceIdListWithLoadingErrorStatus(item.stationMac!!)
+                    diplayDevicesListInUI()
+                }
+            }
+        }
+    }
+
+    private fun updateEmptyDeviceIdListWithLoadingErrorStatus(
+        stationMac: String) {
+        if (!devicesDataList.isNullOrEmpty()) {
+            for (counter in devicesDataList.indices) {
+                if (devicesDataList[counter].stationMac.equals(stationMac, true)) {
+                    val deviceData = devicesDataList[counter]
+                    deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
+                    devicesDataList.removeAt(counter)
+                    devicesDataList.add(counter, deviceData)
                 }
             }
         }
@@ -140,7 +158,7 @@ class DevicesViewModel @Inject constructor(
         if (!devicesDataList.isNullOrEmpty()) {
             for (counter in devicesDataList.indices) {
                 if (devicesDataList[counter].mcafeeDeviceId.equals(deviceStatus.deviceId, true)) {
-                    var deviceData = devicesDataList[counter]
+                    val deviceData = devicesDataList[counter]
                     deviceData.isPaused = deviceStatus.isPaused
                     if (deviceStatus.isPaused) {
                         deviceData.deviceConnectionStatus = DeviceConnectionStatus.PAUSED
