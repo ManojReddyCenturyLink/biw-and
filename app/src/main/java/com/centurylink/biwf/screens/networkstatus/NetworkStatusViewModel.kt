@@ -128,7 +128,6 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
-
     private suspend fun requestModemInfo() {
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         progressViewFlow.latestValue = false

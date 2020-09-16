@@ -56,6 +56,7 @@ class QrScanActivity : BaseActivity() {
             subheaderCenterTitle.text = getText(R.string.join_code)
             subheaderRightActionTitle.text = getText(R.string.header_done)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logDoneButtonClick()
                 finish()
             }
         }

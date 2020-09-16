@@ -89,6 +89,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     }
 
     fun onAppointmentSelectedDate(date: Date) {
+        //todo-add selected date log here
         appointmentDate = DateUtils.toSimpleString(date, DateUtils.STANDARD_FORMAT)
         var appointmentList = slotForAppointments[appointmentDate]
         if (appointmentList.isNullOrEmpty()) {
