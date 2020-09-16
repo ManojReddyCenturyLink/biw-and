@@ -89,6 +89,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     }
 
     fun onAppointmentSelectedDate(date: Date) {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.DATE_TAP_CHANGE_APPOINTMENT)
         appointmentDate = DateUtils.toSimpleString(date, DateUtils.STANDARD_FORMAT)
         var appointmentList = slotForAppointments[appointmentDate]
         if (appointmentList.isNullOrEmpty()) {
@@ -211,6 +212,10 @@ class ChangeAppointmentViewModel @Inject constructor(
 
     fun logBackClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_CHANGE_APPOINTMENT)
+    }
+
+    fun logAppointmentSelected() {
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.SLOT_TAP_CHANGE_APPOINTMENT)
     }
 
     data class UIAppointmentModel(

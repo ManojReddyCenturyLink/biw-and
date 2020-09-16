@@ -32,7 +32,7 @@ class AnalyticsKeys {
         const val SCREEN_DASHBOARD = "Dashboard Screen"
         const val SCREEN_MODIFY_APPOINTMENT = "Modify Appointment Screen"
         const val APPOINTMENT_CONFIRMATION_SCREEN = "Appointment Confirmation Screen"
-        const val SCREEN_SCHEDULE_APPOINTMENT = "Appointment Scheduled Screen"
+        const val SCREEN_SCHEDULE_APPOINTMENT = "Appointment Scheduled/Dispatched Screen"
         const val SCREEN_ENROUTE_APPOINTMENT = "Technician Enroute Screen"
         const val SCREEN_IN_PROGRESS_APPOINTMENT = "Work In Progress Screen"
         const val SCREEN_COMPLETED_APPOINTMENT = "Installation Completed Screen"
@@ -92,10 +92,11 @@ class AnalyticsKeys {
         const val BUTTON_RUN_SPEED_TEST_DASHBOARD = "Run Speed Test Button Dashboard"
         const val BUTTON_CONNECTED_DEVICES_DASHBOARD = "Visit Connected Devices Dashboard"
         const val BUTTON_CHANGE_APPOINTMENT_DASHBOARD = "Change Appointment Dashboard"
-        const val BUTTON_CANCEL_APPOINTMENT_DASHBOARD = "Cancel Appointment Dashboard"
+        const val BUTTON_CANCEL_APPOINTMENT_DASHBOARD = "Cancel Appointment Confirmation Popup"
         const val BUTTON_GET_STARTED_DASHBOARD = "Get Started Button Dashboard"
         const val BUTTON_BACK_CHANGE_APPOINTMENT = "Back Button Modify Appointment"
-        const val BUTTON_DONE_NETWORK_INFORMATION = "Back Button Network Information"
+        const val BUTTON_DONE_NETWORK_INFORMATION = "Done Button Network Information"
+        const val BUTTON_DONE_QR_CODE = "Done Button Join QR Code Screen"
         const val WIFI_NETWORK_STATE_CHANGE_NETWORK_INFORMATION = "Wifi Network State Change Network Information"
         const val GUEST_NETWORK_STATE_CHANGE_NETWORK_INFORMATION = "Guest Network State Change Network Information"
         const val BUTTON_NEXT_CHANGE_APPOINTMENT = "Next Button Modify Appointment"
@@ -106,6 +107,9 @@ class AnalyticsKeys {
         const val ALERT_ENABLE_BIOMETRICS_DONT_ALLOW = "Enable Biometrics Don't Allow Popup"
         const val ALERT_KEEP_CANCEL_APPOINTMENT_CONFIRMATION = "Keep It Cancel Appointment Confirmation"
         const val ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION= "Cancel It Cancel Appointment Confirmation"
+        const val DATE_TAP_CHANGE_APPOINTMENT = "Date Selected Modify Appointment"
+        const val SLOT_TAP_CHANGE_APPOINTMENT = "Slot Selected Modify Appointment"
+
         /*TODO: For later use
         const val BUTTON_NOTIFICATION_ICON_DASHBOARD = "Notification Icon Dashboard"
         const val BUTTON_RESTART_MODEM_DASHBOARD = "Restart Modem Button Dashboard"
@@ -215,7 +219,5 @@ class AnalyticsKeys {
         const val UPDATE_NETWORK_NAME_FAILURE = "Update Network Name Api Failure"
         const val UPDATE_NETWORK_PASSWORD_SUCCESS = "Update Network Password Api Success"
         const val UPDATE_NETWORK_PASSWORD_FAILURE = "Update Network Password Api Failure"
-//      const val GET_NOTIFICATION_DETAILS_SUCCESS = "Get Notification Details Api Success"
-//      const val GET_NOTIFICATION_DETAILS_FAILURE = "Get Notification Details Api Failure"
     }
 }

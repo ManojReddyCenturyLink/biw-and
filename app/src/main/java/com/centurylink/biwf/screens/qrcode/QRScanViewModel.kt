@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.graphics.Bitmap
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
+import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.wifi.WifiInfo
@@ -48,6 +49,10 @@ class QRScanViewModel constructor(
                 .withHint(EncodeHintType.MARGIN, 0)
                 .bitmap()
         qrScanFlow.latestValue = QrScanInfo(qrCode, wifiInfo.name!!)
+    }
+
+    fun logDoneButtonClick(){
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_QR_CODE)
     }
 
     fun QRCode.withColor(onColor: Long, offColor: Long) =

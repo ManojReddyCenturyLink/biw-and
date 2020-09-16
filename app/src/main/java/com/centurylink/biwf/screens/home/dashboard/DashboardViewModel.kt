@@ -92,6 +92,7 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private var rebootOngoing = false
     var installationStatus: Boolean
+
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
         installationStatus = sharedPreferences.getInstallationStatus()
@@ -309,7 +310,6 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             Timber.i("Error in Appointments")
         }) {
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
@@ -599,9 +599,9 @@ class DashboardViewModel @Inject constructor(
 
     fun logCancelAppointmentAlertClick(positive: Boolean) {
         if (positive) {
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION)
-        } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_KEEP_CANCEL_APPOINTMENT_CONFIRMATION)
+        } else {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION)
         }
     }
 
