@@ -310,7 +310,6 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             Timber.i("Error in Appointments")
         }) {
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
