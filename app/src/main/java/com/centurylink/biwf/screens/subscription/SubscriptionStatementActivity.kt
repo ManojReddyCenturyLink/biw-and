@@ -88,8 +88,7 @@ class SubscriptionStatementActivity : BaseActivity() {
                         R.string.statement_processed_date,
                         uiAccountInfo.successfullyProcessed
                     )
-                binding.subscriptionPaymentMethodContent.text =
-                    if(!uiAccountInfo.paymentMethod.isNullOrEmpty()) uiAccountInfo.paymentMethod else intent.getStringExtra(SUBSCRIPTION_STATEMENT_PAYMENT_METHOD)
+                binding.subscriptionPaymentMethodContent.text = uiAccountInfo.paymentMethod
                 binding.subscriptionStatementPlanName.text = uiAccountInfo.planName
                 binding.subscriptionStatementPlanCost.text =
                     getString(R.string.cost_template, uiAccountInfo.planCost)
@@ -109,13 +108,11 @@ class SubscriptionStatementActivity : BaseActivity() {
         const val SUBSCRIPTION_STATEMENT_INVOICE_ID: String = "SUBSCRIPTION_STATEMENT_INVOICE_ID"
         const val REQUEST_TO_STATEMENT: Int = 1102
         const val SUBSCRIPTION_STATEMENT_DATE: String = "SUBSCRIPTION_STATEMENT_DATE"
-        const val SUBSCRIPTION_STATEMENT_PAYMENT_METHOD: String = "SUBSCRIPTION_STATEMENT_PAYMENT_METHOD"
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, SubscriptionStatementActivity::class.java).putExtra(
                 SUBSCRIPTION_STATEMENT_INVOICE_ID,
                 bundle.getString(SUBSCRIPTION_STATEMENT_INVOICE_ID)
-            ).putExtra(SUBSCRIPTION_STATEMENT_DATE, bundle.getString(SUBSCRIPTION_STATEMENT_DATE)).putExtra(
-                SUBSCRIPTION_STATEMENT_PAYMENT_METHOD,bundle.getString(SUBSCRIPTION_STATEMENT_PAYMENT_METHOD))
+            ).putExtra(SUBSCRIPTION_STATEMENT_DATE, bundle.getString(SUBSCRIPTION_STATEMENT_DATE))
         }
     }
 }

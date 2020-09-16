@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -60,9 +59,10 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             planDetails.observe {
                 binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it
             }
+            paymentmethod.observe {
+                binding.currentPaymentMethod.text = it
+            }
         }
-        binding.currentPaymentMethod.text = intent.getStringExtra(PAYMENT_CARD)
-        viewModel.paymentmethod=intent.getStringExtra(PAYMENT_CARD)
         prepareRecyclerView()
         initViews()
     }
@@ -76,12 +76,16 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         viewModel.launchStatement(item)
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             EditPaymentDetailsActivity.REQUEST_TO_EDIT_PAYMENT_DETAILS -> {
-                if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT) {
-                    resultValue = resultCode
+                resultValue = resultCode
+                if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS) {
+                    setResult(resultCode)
+                    finish()
+                } else if(resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION){
                     viewModel.initApis()
                 }
             }
