@@ -6,6 +6,9 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.assia.ApInfo
+import com.centurylink.biwf.model.assia.ModemInfo
+import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.repos.AccountRepository
@@ -60,6 +63,9 @@ class HomeViewModelTest : ViewModelBaseTest() {
         every { mockPreferences.getUserType() } returns true
         coEvery { userRepository.getUserInfo() } returns Either.Right(
             UserInfo()
+        )
+        coEvery {mockOAuthAssiaRepository .getModemInfo() } returns Either.Right(
+            ModemInfo()
         )
         coEvery { userRepository.getUserDetails() } returns Either.Right(
             UserDetails()
@@ -168,5 +174,17 @@ class HomeViewModelTest : ViewModelBaseTest() {
     @Test
     fun onStart_displayNewUserTabBar() {
         viewModel.activeUserTabBarVisibility.value shouldEqual false
+    }
+
+    @Test
+    fun testAnalyticsButtonClicked(){
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull(analyticsManagerInterface)
+                viewModel.onBiometricNoResponse()
+                viewModel.onSupportClicked(true)
+                viewModel.onBiometricYesResponse()
+            }
+        }
     }
 }

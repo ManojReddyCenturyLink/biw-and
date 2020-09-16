@@ -9,6 +9,11 @@ import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
+import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
+import com.centurylink.biwf.model.speedtest.SpeedTestResponse
+import com.centurylink.biwf.model.speedtest.SpeedTestStatus
+import com.centurylink.biwf.model.speedtest.SpeedTestStatusNestedResults
+import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
@@ -79,6 +84,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: DashboardViewModel
 
+    private lateinit var speedTestResponse: SpeedTestResponse
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -141,6 +148,23 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
+        coEvery { mockAssiaRepository.startSpeedTest()} returns  Either.Right(
+            SpeedTestRequestResult(
+                code = 0,
+                message="",
+                speedTestId=0
+            )
+        )
+        coEvery { mockAssiaRepository.checkSpeedTestStatus(0)  } returns Either.Right(
+            SpeedTestStatus(
+                code = 0,
+                message="",
+                data = SpeedTestStatusNestedResults(currentStep="",isFinished=true)
+            )
+        )
+        speedTestResponse = fromJson(readJson("speedtest-response.json"))
+        coEvery { mockAssiaRepository. getUpstreamResults()} returns  Either.Right(speedTestResponse)
+        coEvery { mockAssiaRepository. getDownstreamResults()} returns  Either.Right(speedTestResponse)
         viewModel = DashboardViewModel(
             notificationRepository = notificationRepository,
             appointmentRepository = appointmentRepository,
@@ -316,5 +340,72 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     fun `get values from AppointmentComplete`() {
         Assert.assertEquals("", appointmentComplete.jobType)
         Assert.assertEquals(ServiceStatus.COMPLETED, appointmentComplete.status)
+    }
+
+    @Test
+    fun testAnalyticsButtonClicked(){
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull(analyticsManagerInterface)
+                viewModel.logCancelAppointmentClick()
+                viewModel.navigateToNetworkInformation("")
+                viewModel.navigateToQRScan(WifiInfo())
+                viewModel.getStartedClicked()
+                viewModel.logViewDevicesClick()
+                viewModel.logDismissNotification()
+                viewModel.startSpeedTest()
+                viewModel.logCancelAppointmentAlertClick(true)
+            }
+        }
+    }
+    @Test
+    fun testLogAppointmentStatusState(){
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull( viewModel.logAppointmentStatusState(1))
+                Assert.assertNotNull( viewModel.logAppointmentStatusState(2))
+                Assert.assertNotNull( viewModel.logAppointmentStatusState(3))
+                Assert.assertNotNull( viewModel.logAppointmentStatusState(4))
+                Assert.assertNotNull( viewModel.logAppointmentStatusState(5))
+            }
+        }
+    }
+
+    @Test
+    fun testLogCancelAppointmentAlertClickFailure(){
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull(viewModel.logCancelAppointmentAlertClick(false))
+            }
+        }
+    }
+
+    @Test
+    fun testCheckForOngoingSpeedTest(){
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull( viewModel.checkForOngoingSpeedTest())
+            }
+        }
+    }
+
+    @Test
+    fun testHandleRebootStatus(){
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull(
+                    viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.ONGOING)
+                )
+            }
+        }
+    }
+
+    @Test
+    fun testRequestAppointmentCancellationSucess(){
+        runBlockingTest {
+            launch {
+
+            }
+        }
     }
 }

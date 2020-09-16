@@ -149,12 +149,12 @@ class SupportViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testHandleRebootStatus(){
+        //TODO revisit this case
       runBlockingTest {
           launch {
-             viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.ONGOING)
-             viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.ERROR)
-             viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.SUCCESS)
-             viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.READY)
+              Assert.assertNotNull(
+                  viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.ONGOING)
+              )
           }
       }
     }
