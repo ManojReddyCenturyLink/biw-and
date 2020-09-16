@@ -77,7 +77,6 @@ class SubscriptionStatementViewModel @Inject constructor(
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_SUCCESS)
             uiStatementDetails = uiStatementDetails.copy(
-                paymentMethod = it.paymentMethodName,
                 billingAddress = formatBillingAddress(it) ?: ""
             )
         }
@@ -95,6 +94,7 @@ class SubscriptionStatementViewModel @Inject constructor(
             val salesTaxCost: Double = it.salesTaxAmount?.replace("$", "")?.toDouble() ?: 0.0
             val totalCost: Double = planCost + salesTaxCost
             uiStatementDetails = uiStatementDetails.copy(
+                paymentMethod = it.zuoraPaymentMethod?:"",
                 planName = it.productPlanNameC,
                 successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
                 planCost = String.format("%.2f", planCost),
@@ -107,10 +107,15 @@ class SubscriptionStatementViewModel @Inject constructor(
     }
 
     private fun formatBillingAddress(accountDetails: AccountDetails): String? {
-        return accountDetails.billingAddress?.run {
-            val billingAddressList = listOf(street, city, state, postalCode, country)
-            billingAddressList.filterNotNull().joinToString(separator = ", ")
+        val formattedServiceAddressLine1 = accountDetails.billingAddress?.run {
+            val billingAddressList = listOf(street, city)
+            billingAddressList.filterNotNull().joinToString(separator = " ")
         }
+        val formattedServiceAddressLine2 = accountDetails.billingAddress?.run {
+            val billingAddressList = listOf(state, postalCode)
+            billingAddressList.filterNotNull().joinToString(separator = " ")
+        }
+        return "$formattedServiceAddressLine1, $formattedServiceAddressLine2"
     }
 
     data class UiStatementDetails(

@@ -46,10 +46,10 @@ class ModemUtils {
             val connectionMode = devicesData.connectedInterface
             when (devicesData.deviceConnectionStatus) {
                 DeviceConnectionStatus.MODEM_OFF -> {
-                    return R.drawable.ic_cta_wi_fi_disconnected
+                    return R.drawable.ic_network_no_internet
                 }
                 DeviceConnectionStatus.FAILURE -> {
-                    return R.drawable.ic_wi_fi_off_btn
+                    return R.drawable.ic_icon_reload
                 }
                 DeviceConnectionStatus.PAUSED -> {
                     return R.drawable.ic_wi_fi_off_btn
@@ -73,12 +73,12 @@ class ModemUtils {
                                 R.drawable.ic_network_1_bar
                             }
                             else -> {
-                                R.drawable.ic_wi_fi_off_btn
+                                R.drawable.ic_network_no_internet
                             }
                         }
                     }
                 }
-                else -> return R.drawable.ic_wi_fi_off_btn
+                else -> return R.drawable.ic_network_no_internet
             }
         }
 
@@ -90,7 +90,7 @@ class ModemUtils {
                     return R.drawable.ic_cta_wi_fi_disconnected
                 }
                 DeviceConnectionStatus.FAILURE -> {
-                    return R.drawable.ic_off
+                    return R.drawable.ic_icon_reload
                 }
                 DeviceConnectionStatus.PAUSED -> {
                     return R.drawable.ic_off
@@ -114,12 +114,12 @@ class ModemUtils {
                                 R.drawable.ic_weak_signal
                             }
                             else -> {
-                                R.drawable.ic_off
+                                R.drawable.ic_cta_wi_fi_disconnected
                             }
                         }
                     }
                 }
-                else -> return R.drawable.ic_off
+                else -> return R.drawable.ic_cta_wi_fi_disconnected
             }
         }
     }

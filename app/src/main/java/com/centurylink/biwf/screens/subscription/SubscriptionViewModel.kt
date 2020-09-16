@@ -40,12 +40,12 @@ class SubscriptionViewModel @Inject constructor(
     var paymentmethod:String=""
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SUBSCRIPTION)
-        progressViewFlow.latestValue = true
         initApis()
     }
 
     fun initApis() {
         viewModelScope.launch {
+            progressViewFlow.latestValue = true
             requestAccountDetails()
             requestInvoiceList()
         }

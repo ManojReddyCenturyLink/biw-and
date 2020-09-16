@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/primaryButtonFilled"
+    style="@style/primaryButtonFilledLavender"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -11,13 +11,13 @@
         android:layout_width="@dimen/notification_header_height"
         android:layout_height="@dimen/notification_header_height"
         android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/ic_loading" />
+        android:indeterminateDrawable="@drawable/ic_loading_lavender" />
 
     <TextView
         android:id="@+id/progress_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/style_progress_button"
+        style="@style/style_progress_button_support"
         android:paddingEnd="@dimen/margin_spacing_small"
         android:text="@string/restarting"/>
 </LinearLayout>

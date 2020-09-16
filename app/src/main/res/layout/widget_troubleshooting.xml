@@ -188,7 +188,7 @@
 
     <Button
         android:id="@+id/reboot_modem_button"
-        style="@style/primaryButtonFilled"
+        style="@style/style_reboot_modem_button_support"
         android:layout_width="@dimen/padding_0"
         android:layout_height="@dimen/padding_0"
         android:layout_marginStart="@dimen/margin_spacing_tiny"

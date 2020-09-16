@@ -117,7 +117,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     private fun initViews() {
         val isExistingUser: Boolean = intent.getBooleanExtra(IS_EXISTING_USER, false)
-        if(isExistingUser) binding.incTroubleshooting.root.visibility = View.VISIBLE
+        if (isExistingUser) binding.incTroubleshooting.root.visibility = View.VISIBLE
         else binding.incTroubleshooting.root.visibility = View.GONE
         setApiProgressViews(
             binding.progressOverlay.root,
@@ -172,9 +172,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         binding.incTroubleshooting.apply {
             rebootModemButton.setOnClickListener {
-                if(!binding.incTroubleshooting.downloadProgressIcon.isVisible) {
-                       handleModemDialogSelection()
-               }
+                if (!binding.incTroubleshooting.downloadProgressIcon.isVisible) {
+                    handleModemDialogSelection()
+                }
             }
             runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
         }
@@ -182,11 +182,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding.incContactUs.liveChatTextview.setOnClickListener {
             viewModel.logLiveChatLaunch()
             if (AppUtil.isOnline(this)) {
-                chatUIClient?.startChatSession(
-                    this
-                )
-            }
-            else{
+                chatUIClient?.startChatSession(this)
+            } else {
                 showNoInternetDialog(fragmentManager, callingActivity?.className)
             }
         }
@@ -220,8 +217,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun initLiveChat() {
         val chatConfiguration =
             ChatConfiguration.Builder(ORG_ID, BUTTON_ID, DEPLOYMENT_ID, AGENT_POD).build()
-
-        ChatUI.configure(ChatUIConfiguration.create(chatConfiguration)).createClient(this)
+        val uiConfig = ChatUIConfiguration.Builder()
+            .chatConfiguration(chatConfiguration)
+            .defaultToMinimized(false)
+            .build()
+        ChatUI.configure(uiConfig).createClient(this)
             .onResult { _, uiClient ->
                 chatUIClient = uiClient
             }

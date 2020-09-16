@@ -89,12 +89,12 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
                 Assert.assertEquals(uiStatementDetails.planCost, "65.00")
                 Assert.assertEquals(uiStatementDetails.successfullyProcessed, "05/14/20")
                 Assert.assertEquals(uiStatementDetails.promoCode, null)
-                Assert.assertEquals(uiStatementDetails.paymentMethod, null)
+                Assert.assertEquals(uiStatementDetails.paymentMethod, "Credit Card Visa ************8291")
                 Assert.assertEquals(uiStatementDetails.salesTaxCost, "0.00")
                 Assert.assertEquals(uiStatementDetails.totalCost, "65.00")
                 Assert.assertEquals(
                     uiStatementDetails.billingAddress,
-                    "8581 Emerson Court, Denver, Colorado, 80229, United States"
+                    "8581 Emerson Court Denver, Colorado 80229"
                 )
             }
         }

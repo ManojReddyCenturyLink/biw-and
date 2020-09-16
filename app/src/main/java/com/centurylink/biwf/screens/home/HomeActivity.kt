@@ -24,6 +24,7 @@ import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.dashboard.adapter.HomeViewPagerAdapter
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
+import com.centurylink.biwf.screens.subscription.EditPaymentDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayout
@@ -50,6 +51,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
 
     private lateinit var binding: ActivityHomeBinding
 
+    private lateinit var onTabSelectedListener : TabLayout.OnTabSelectedListener
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -62,6 +65,22 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             binding.main,
             binding.retryOverlay.root
         )
+        onTabSelectedListener =  object :  TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                binding.vpDashboard.currentItem = tab.position
+                val text = tab.customView as TextView?
+                if (text != null) {
+                    text.typeface = Typeface.DEFAULT_BOLD
+                }
+            }
+            override fun onTabUnselected(tab: TabLayout.Tab) {
+                val text = tab.customView as TextView?
+                if (text != null) {
+                    text.typeface = Typeface.DEFAULT
+                }
+            }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+        }
         initViews()
         initOnClicks()
 
@@ -103,6 +122,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             if (phoneNumber != null) {
                 refreshPersonalInfo(phoneNumber)
             }
+        } else if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT) {
+            refreshPaymentInfoOnAccounts()
         }
     }
 
@@ -199,22 +220,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             tabTextView.typeface = ResourcesCompat.getFont(applicationContext, R.font.arial_mt)
             binding.vpDashboard.setCurrentItem(tab.position, true)
         }.attach()
-        binding.homeUpperTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab) {
-                binding.vpDashboard.currentItem = tab.position
-                val text = tab.customView as TextView?
-                if (text != null) {
-                    text.typeface = Typeface.DEFAULT_BOLD
-                }
-            }
-            override fun onTabUnselected(tab: TabLayout.Tab) {
-                val text = tab.customView as TextView?
-                if (text != null) {
-                    text.typeface = Typeface.DEFAULT
-                }
-            }
-            override fun onTabReselected(tab: TabLayout.Tab) {}
-        })
+        binding.homeUpperTabs.addOnTabSelectedListener(onTabSelectedListener)
         binding.vpDashboard.setCurrentItem(1, false)
     }
 
@@ -230,6 +236,16 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+            }
+        }
+    }
+
+    private fun refreshPaymentInfoOnAccounts() {
+        val allFragments: List<Fragment> =
+            supportFragmentManager.fragments
+        for (fragment in allFragments) {
+            if (fragment is AccountFragment) {
+                fragment.retryClicked()
             }
         }
     }

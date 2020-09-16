@@ -95,7 +95,8 @@ class Navigator @Inject constructor() : LifecycleObserver {
 
     fun navigateToSubscriptionActivity() {
         activity?.also {
-            it.startActivity(SubscriptionActivity.newIntent(it, HomeCoordinatorDestinations.bundle))
+            it.startActivityForResult(SubscriptionActivity.newIntent(it, HomeCoordinatorDestinations.bundle),
+                SubscriptionActivity.REQUEST_TO_SUBSCRIPTION_DETAILS)
         }
     }
 
