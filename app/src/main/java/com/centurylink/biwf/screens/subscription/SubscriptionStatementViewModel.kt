@@ -77,7 +77,6 @@ class SubscriptionStatementViewModel @Inject constructor(
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_SUCCESS)
             uiStatementDetails = uiStatementDetails.copy(
-                paymentMethod = it.paymentMethodName,
                 billingAddress = formatBillingAddress(it) ?: ""
             )
         }
@@ -95,6 +94,7 @@ class SubscriptionStatementViewModel @Inject constructor(
             val salesTaxCost: Double = it.salesTaxAmount?.replace("$", "")?.toDouble() ?: 0.0
             val totalCost: Double = planCost + salesTaxCost
             uiStatementDetails = uiStatementDetails.copy(
+                paymentMethod = it.zuoraPaymentMethod?:"",
                 planName = it.productPlanNameC,
                 successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
                 planCost = String.format("%.2f", planCost),
