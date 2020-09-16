@@ -122,7 +122,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             if (phoneNumber != null) {
                 refreshPersonalInfo(phoneNumber)
             }
-        } else if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT) {
+        } else if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS ||
+            resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION
+        ) {
             refreshPaymentInfoOnAccounts()
         }
     }

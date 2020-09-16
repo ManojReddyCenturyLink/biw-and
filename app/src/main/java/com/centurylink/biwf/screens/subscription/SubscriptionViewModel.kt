@@ -37,7 +37,7 @@ class SubscriptionViewModel @Inject constructor(
     val invoicesListResponse: Flow<PaymentList> = BehaviorStateFlow()
     var progressViewFlow = EventFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
-    var paymentmethod:String=""
+    var paymentmethod: Flow<String> = BehaviorStateFlow()
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SUBSCRIPTION)
         initApis()
@@ -48,6 +48,7 @@ class SubscriptionViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             requestAccountDetails()
             requestInvoiceList()
+            requestCardInfo()
         }
     }
 
@@ -93,10 +94,6 @@ class SubscriptionViewModel @Inject constructor(
             SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_DATE,
             item.createdDate
         )
-        bundle.putString(
-            SubscriptionStatementActivity.SUBSCRIPTION_STATEMENT_PAYMENT_METHOD,
-            paymentmethod
-        )
         SubscriptionCoordinatorDestinations.bundle = bundle
         myState.latestValue = SubscriptionCoordinatorDestinations.STATEMENT
     }
@@ -118,6 +115,21 @@ class SubscriptionViewModel @Inject constructor(
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_INVOICES_LIST_SUCCESS)
             invoicesListResponse.latestValue = it
+        }
+    }
+
+    private suspend fun requestCardInfo() {
+        val cardInfoResponse = accountRepository.getLiveCardDetails()
+        cardInfoResponse.fold(
+            ifLeft = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_LIVE_CARD_INFO_FAILURE)
+                errorMessageFlow.latestValue = it
+            }
+        ) {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_LIVE_CARD_INFO_SUCCESS)
+            if (it.isDone) {
+                paymentmethod.latestValue = it.list.firstOrNull()?.creditCardSummary ?: ""
+            }
             progressViewFlow.latestValue = false
         }
     }
