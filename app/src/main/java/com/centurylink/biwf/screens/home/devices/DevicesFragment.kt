@@ -2,7 +2,6 @@ package com.centurylink.biwf.screens.home.devices
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -57,7 +56,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         retainInstance = false
         devicesViewModel.apply {
             devicesListFlow.observe {
-                Log.i("JAQUAR", "STATE CHANGED")
                 populateDeviceList(it)
             }
         }
@@ -179,7 +177,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             devicesViewModel.logListExpandCollapse()
             return@setOnGroupClickListener false
         }
-
     }
 
     private fun showConfirmationDialog(vendorName: String?) {
