@@ -176,6 +176,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
         binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
             disableSwipeToRefresh()
+            devicesViewModel.logListExpandCollapse()
             return@setOnGroupClickListener false
         }
 
