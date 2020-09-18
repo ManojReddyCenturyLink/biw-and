@@ -72,6 +72,11 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         return binding.root
     }
 
+    override fun onResume() {
+        viewModel.logScreenLaunch()
+        super.onResume()
+    }
+
     override fun retryClicked() {
         showProgress(true)
         viewModel.initApiCalls()
