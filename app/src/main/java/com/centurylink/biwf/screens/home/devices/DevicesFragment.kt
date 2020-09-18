@@ -8,6 +8,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -89,6 +90,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
+        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_ALWAYS_SCROLL
         disableSwipeToRefresh()
         devicesViewModel.logRemoveDevicesItemClick()
         blockDeviceMac = deviceInfo.stationMac!!
