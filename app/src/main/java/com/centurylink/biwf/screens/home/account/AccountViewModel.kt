@@ -219,7 +219,10 @@ class AccountViewModel internal constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_LIVE_CARD_INFO_SUCCESS)
             if (it.isDone) {
                 paymentInfo.latestValue = it.list[0]
-                updateUIAccountDetailsFromLivePaymentInfo(it.list[0])
+                val creditCardInfo = it.list.firstOrNull()?.creditCardSummary
+                if (!creditCardInfo.isNullOrEmpty()) {
+                    updateUIAccountDetailsFromLivePaymentInfo(creditCardInfo)
+                }
                 progressViewFlow.latestValue = false
             }
         }
@@ -275,9 +278,9 @@ class AccountViewModel internal constructor(
         updateAccountFlow()
     }
 
-    private fun updateUIAccountDetailsFromLivePaymentInfo(paymentInfo: PaymentInfo) {
+    private fun updateUIAccountDetailsFromLivePaymentInfo(creditCardInfo: String) {
         uiAccountDetails = uiAccountDetails.copy(
-            paymentMethod = paymentInfo.creditCardSummary
+            paymentMethod = creditCardInfo
         )
         updateAccountFlow()
     }
