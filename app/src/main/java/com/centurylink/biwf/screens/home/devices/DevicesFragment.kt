@@ -89,7 +89,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
-        binding.pullToRefresh.isEnabled = false
+        disableSwipeToRefresh()
         devicesViewModel.logRemoveDevicesItemClick()
         blockDeviceMac = deviceInfo.stationMac!!
         showConfirmationDialog(
