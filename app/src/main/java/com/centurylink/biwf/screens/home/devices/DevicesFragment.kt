@@ -9,6 +9,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
 import android.widget.AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL
+import android.widget.AbsListView.TRANSCRIPT_MODE_NORMAL
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -223,6 +224,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onResume() {
+        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_NORMAL
         disableSwipeToRefresh()
         super.onResume()
     }
