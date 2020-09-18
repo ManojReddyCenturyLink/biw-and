@@ -2,10 +2,13 @@ package com.centurylink.biwf.screens.home.devices
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
+import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.widget.AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL
+import android.widget.AbsListView.TRANSCRIPT_MODE_NORMAL
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -20,9 +23,9 @@ import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import java.util.*
-import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import kotlin.collections.HashMap
+
 
 class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
 
@@ -53,7 +56,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         retainInstance = false
         devicesViewModel.apply {
             devicesListFlow.observe {
-                Log.i("JAQUAR","STATE CHANGED")
                 populateDeviceList(it)
             }
         }
@@ -87,6 +89,8 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
+        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_ALWAYS_SCROLL
+        disableSwipeToRefresh()
         devicesViewModel.logRemoveDevicesItemClick()
         blockDeviceMac = deviceInfo.stationMac!!
         showConfirmationDialog(
@@ -120,6 +124,27 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
         binding.devicesList.isEnabled = true
         binding.devicesList.setAdapter(deviceAdapter)
+
+        binding.devicesList.setOnTouchListener(OnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    enableSwipeToRefresh()
+                }
+                MotionEvent.ACTION_CANCEL -> {
+                    enableSwipeToRefresh()
+                }
+
+            }
+            false
+        })
+
+        binding.devicesList.setOnGroupCollapseListener {
+            disableSwipeToRefresh()
+        }
+
+        binding.devicesList.setOnGroupExpandListener {
+            disableSwipeToRefresh()
+        }
     }
 
     private fun observeViews() {
@@ -144,16 +169,13 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         if (deviceAdapter.deviceList.size > 1) {
             binding.devicesList.expandGroup(1)
         }
+        if (!deviceStatus.deviceSortMap[DeviceStatus.CONNECTED].isNullOrEmpty()) {
+            binding.devicesList.expandGroup(0)
+        }
         binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
-            if (groupPosition == 1) {
-                binding.devicesList.expandGroup(1)
-                return@setOnGroupClickListener true
-            }
+            disableSwipeToRefresh()
             devicesViewModel.logListExpandCollapse()
             return@setOnGroupClickListener false
-        }
-        if(!deviceStatus.deviceSortMap[DeviceStatus.CONNECTED].isNullOrEmpty()) {
-            binding.devicesList.expandGroup(0)
         }
     }
 
@@ -186,8 +208,22 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
-    fun stopSwipeToRefresh() {
+    private fun stopSwipeToRefresh() {
         binding.pullToRefresh.isRefreshing = false
         isRefresh = false
+    }
+
+    private fun disableSwipeToRefresh() {
+        binding.pullToRefresh.isEnabled = false
+    }
+
+    private fun enableSwipeToRefresh() {
+        binding.pullToRefresh.isEnabled = true
+    }
+
+    override fun onResume() {
+        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_NORMAL
+        disableSwipeToRefresh()
+        super.onResume()
     }
 }
