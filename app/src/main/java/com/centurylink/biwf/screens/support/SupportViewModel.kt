@@ -106,7 +106,6 @@ class SupportViewModel @Inject constructor(
         viewModelScope.launch {
             requestModemInfo()
         }
-       // networkStatus.latestValue = false
     }
 
     private suspend fun requestModemInfo() {

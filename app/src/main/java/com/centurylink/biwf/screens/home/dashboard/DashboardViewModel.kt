@@ -114,7 +114,6 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             requestModemInfo()
         }
-      //  networkStatus.latestValue = false
     }
 
     fun initAccountDetails() {
