@@ -95,7 +95,6 @@ class DashboardViewModel @Inject constructor(
     var installationStatus: Boolean
 
     init {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
         installationStatus = sharedPreferences.getInstallationStatus()
         progressViewFlow.latestValue = true
         initAccountDetails()
@@ -356,7 +355,6 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-
     private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
         return AppointmentRecordsInfo(
             serviceAppointmentStartDate = it.serviceAppointmentStartDate,
@@ -456,6 +454,10 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
         })
+    }
+
+    fun logScreenLaunch() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
     }
 
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {

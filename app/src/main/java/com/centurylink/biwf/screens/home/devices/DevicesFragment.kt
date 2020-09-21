@@ -26,7 +26,6 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
-
 class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
 
     override val lifecycleOwner: LifecycleOwner = this
@@ -222,6 +221,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onResume() {
+        devicesViewModel.logScreenLaunch()
         binding.devicesList.transcriptMode = TRANSCRIPT_MODE_NORMAL
         disableSwipeToRefresh()
         super.onResume()

@@ -79,7 +79,6 @@ class AccountViewModel internal constructor(
     var userPhoneNumberUpdateFlow = EventFlow<String>()
 
     init {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
         initApiCalls()
     }
 
@@ -164,6 +163,10 @@ class AccountViewModel internal constructor(
 
     fun refreshBiometrics() {
         bioMetricFlow.latestValue = sharedPreferences.getBioMetrics() ?: false
+    }
+
+    fun logScreenLaunch() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
     }
 
     fun onLogOutClick(context: Context) {
