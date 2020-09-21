@@ -57,6 +57,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         navigator.observe(this)
         viewModel.myState.observeWith(supportCoordinator)
         initHeaders()
+        initButtonStates()
         initLiveChat()
         initViews()
         observeViews()
@@ -107,6 +108,22 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         }
     }
 
+    private fun initButtonStates() {
+        viewModel.networkStatus.observe {
+            if(!it) {
+                binding.incTroubleshooting.runSpeedTestButton.isActivated = false
+                binding.incTroubleshooting.runSpeedTestButton.isEnabled = false
+                binding.incTroubleshooting.rebootModemButton.isActivated = false
+                binding.incTroubleshooting.rebootModemButton.isEnabled = false
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initButtonStates()
+    }
+
     private fun observeViews() {
         viewModel.apply {
             faqSectionInfo.observe {
@@ -141,7 +158,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
             }
             modemResetButtonState.observe {
-                binding.incTroubleshooting.rebootModemButton.isActivated = it
+                viewModel.networkStatus.observe { networkStatus ->
+                    if(networkStatus)  binding.incTroubleshooting.rebootModemButton.isActivated = it
+                }
             }
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
@@ -188,6 +207,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             }
         }
         binding.incContactUs.scheduleCallbackRow.setOnClickListener { viewModel.launchScheduleCallback() }
+        initButtonStates()
     }
 
     private fun handleModemDialogSelection() {

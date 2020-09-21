@@ -9,6 +9,7 @@ import com.centurylink.biwf.coordinators.SupportCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
@@ -23,6 +24,7 @@ class SupportViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     private val assiaRepository: AssiaRepository,
+    private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val sharedPreferences: Preferences,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
@@ -32,6 +34,7 @@ class SupportViewModel @Inject constructor(
     val myState = EventFlow<SupportCoordinatorDestinations>()
     val downloadSpeed: Flow<String> = BehaviorStateFlow()
     val uploadSpeed: Flow<String> = BehaviorStateFlow()
+    val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
     val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
@@ -43,6 +46,7 @@ class SupportViewModel @Inject constructor(
 
     init {
         initApis()
+        initModemStatusRefresh()
     }
 
     private suspend fun checkForRunningSpeedTest() {
@@ -96,6 +100,29 @@ class SupportViewModel @Inject constructor(
         if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId()
         }
+    }
+
+    private fun initModemStatusRefresh() {
+        viewModelScope.launch {
+            requestModemInfo()
+        }
+    }
+
+    private suspend fun requestModemInfo() {
+        val modemInfo = oAuthAssiaRepository.getModemInfo()
+        modemInfo.fold(ifRight = {
+            val apiInfo = it?.apInfoList
+            if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                networkStatus.latestValue = apiInfo[0].isAlive
+            } else {
+                networkStatus.latestValue = false
+            }
+        },
+            ifLeft = {
+                // Ignoring Error API called every 30 seconds
+                //errorMessageFlow.latestValue = modemInfo.toString()
+            }
+        )
     }
 
     private fun getSpeedTestId() {
