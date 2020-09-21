@@ -101,9 +101,10 @@ class SupportViewModel @Inject constructor(
     private fun getSpeedTestId() {
         progressVisibility.latestValue = true
         speedTestButtonState.latestValue = false
+        sharedPreferences.saveSpeedTestFlag(boolean = true)
         modemResetButtonState.latestValue = false
+        latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
         viewModelScope.launch {
-            latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
             val speedTestRequest = assiaRepository.startSpeedTest()
             speedTestRequest.fold(
                 ifRight = {
