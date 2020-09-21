@@ -35,8 +35,8 @@
         style="@style/style_screen_header_text"
         android:paddingTop="3dp"
         android:textAlignment="center"
-        app:layout_constraintEnd_toStartOf="@+id/barrier"
-        app:layout_constraintStart_toEndOf="@id/sub_header_leftIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="@string/support" />
 
