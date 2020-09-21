@@ -73,6 +73,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var enrouteMapFragment: SupportMapFragment? = null
     private var workBegunMapFragment: SupportMapFragment? = null
     private var originLatLng = LatLng(0.0, 0.0)
+    private var speedTestCount: Int = 0
     //private var destinationLatLng = LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -231,11 +232,14 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         incCompleted.visibility = View.GONE
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
-       dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-          if(networkStatusOnline) {
-              dashboardViewModel.startSpeedTest(false)
-          }
-      }
+        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+            if (networkStatusOnline && speedTestCount < 1) {
+                dashboardViewModel.startSpeedTest(false)
+                speedTestCount++
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+            }
+        }
     }
 
     private fun initOnClicks() {

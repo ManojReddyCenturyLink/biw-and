@@ -103,7 +103,7 @@ class SupportViewModel @Inject constructor(
     }
 
     private fun initModemStatusRefresh() {
-        viewModelScope.launch {
+        viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
         }
     }
