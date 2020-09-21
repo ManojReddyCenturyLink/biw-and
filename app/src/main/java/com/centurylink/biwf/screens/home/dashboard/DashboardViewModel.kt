@@ -70,6 +70,7 @@ class DashboardViewModel @Inject constructor(
     var progressViewFlow = EventFlow<Boolean>()
     var isAccountStatus = EventFlow<Boolean>()
     val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
+    val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val regularNetworkInstance = WifiInfo()
     val guestNetworkInstance = WifiInfo()
     private lateinit var regularNetworkInfo: WifiInfo
@@ -98,6 +99,7 @@ class DashboardViewModel @Inject constructor(
         installationStatus = sharedPreferences.getInstallationStatus()
         progressViewFlow.latestValue = true
         initAccountDetails()
+        initModemStatusRefresh()
     }
 
     fun initDevicesApis() {
@@ -106,6 +108,13 @@ class DashboardViewModel @Inject constructor(
             fetchPasswordApi()
             requestDevices()
         }
+    }
+
+    private fun initModemStatusRefresh() {
+        viewModelScope.launch {
+            requestModemInfo()
+        }
+      //  networkStatus.latestValue = false
     }
 
     fun initAccountDetails() {
@@ -129,6 +138,23 @@ class DashboardViewModel @Inject constructor(
                 requestToGetNetworkPassword(NetWorkBand.Band2G_Guest4)
             }
         }
+    }
+
+    private suspend fun requestModemInfo() {
+        val modemInfo = oAuthAssiaRepository.getModemInfo()
+        modemInfo.fold(ifRight = {
+            val apiInfo = it?.apInfoList
+            if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                networkStatus.latestValue = apiInfo[0].isAlive
+            } else {
+                networkStatus.latestValue = false
+            }
+        },
+            ifLeft = {
+                // Ignoring Error API called every 30 seconds
+                //errorMessageFlow.latestValue = modemInfo.toString()
+            }
+        )
     }
 
     override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
