@@ -144,7 +144,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     getString(R.string.speed_test_error_message),
                     getString(R.string.modem_reboot_error_button_positive),
                     getString(R.string.modem_reboot_error_button_negative),
-                    ::onScreenExitConfirmation
+                    ::speedTestDialogCallback
                 ).show(fragManager!!, DashboardFragment::class.simpleName)
             }
         }
@@ -429,7 +429,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
-    private fun onScreenExitConfirmation(buttonType: Int) {
+    private fun speedTestDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 dashboardViewModel.startSpeedTest(true)
