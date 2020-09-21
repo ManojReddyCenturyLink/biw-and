@@ -86,6 +86,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             logScreenLaunch()
             checkForOngoingSpeedTest()
         }
+        dashboardViewModel.checkForOngoingSpeedTest()
+        initButtonStates()
+        listenForRebootDialog()
     }
 
     override fun onCreateView(
@@ -148,14 +151,31 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 ).show(fragManager!!, DashboardFragment::class.simpleName)
             }
         }
-        dashboardViewModel.speedTestButtonState.observe {
-            binding.incSpeedTest.runSpeedTestDashboard.isActivated = it
+        dashboardViewModel.speedTestButtonState.observe { speedTestButtonState ->
+            dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+                if (networkStatusOnline) {
+                    binding.incSpeedTest.runSpeedTestDashboard.isActivated = speedTestButtonState
+                    binding.incSpeedTest.runSpeedTestDashboard.isEnabled = speedTestButtonState
+                } else {
+                    binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                    binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                }
+            }
         }
         dashboardViewModel.detailedRebootStatusFlow.observe { rebootState ->
             if(rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
-                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+                   if (networkStatusOnline) {
+                        binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                        binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                   } else {
+                       binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                       binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                   }
+                }
             }
         }
+        initButtonStates()
         initOnClicks()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
@@ -166,6 +186,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         initViews()
         setupMap()
         initWifiScanViews()
+        listenForRebootDialog()
     }
 
     override fun retryClicked() {
@@ -179,6 +200,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         observeWifiDetailsViews()
         getAppointmentStatus()
 
+    }
+
+    private fun initButtonStates() {
+       dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+           if (!networkStatusOnline) {
+               binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+               binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+           }
+       }
     }
 
     private fun observeAccountStatusViews() {
@@ -201,7 +231,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         incCompleted.visibility = View.GONE
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
-        dashboardViewModel.startSpeedTest(false)
+       dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+          if(networkStatusOnline) {
+              dashboardViewModel.startSpeedTest(false)
+          }
+      }
     }
 
     private fun initOnClicks() {
@@ -480,7 +514,16 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
 
     private fun listenForRebootDialog() {
         dashboardViewModel.rebootDialogFlow.observe { success ->
-            binding.incSpeedTest.runSpeedTestDashboard.isActivated = true
+            dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+                if (networkStatusOnline && success) {
+                    binding.incSpeedTest.runSpeedTestDashboard.isActivated = true
+                    binding.incSpeedTest.runSpeedTestDashboard.isEnabled = true
+                }
+                else {
+                    binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                    binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                }
+            }
         }
     }
     private fun onErrorDialogCallback(buttonType: Int) {

@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -31,6 +32,9 @@ class SupportViewModelTest : ViewModelBaseTest() {
     private lateinit var mocksharedPreferences: Preferences
 
     @MockK
+    private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
+
+    @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
 
     private lateinit var faq: Faq
@@ -46,6 +50,7 @@ class SupportViewModelTest : ViewModelBaseTest() {
             faqRepository = mockFAQRepository,
             modemRebootMonitorService = mockModemRebootMonitorService,
             assiaRepository = mockAssiaRepository,
+            oAuthAssiaRepository = oAuthAssiaRepository,
             sharedPreferences = mocksharedPreferences,
             analyticsManagerInterface = analyticsManagerInterface
         )

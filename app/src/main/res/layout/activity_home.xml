@@ -190,7 +190,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/medium_margin_spacing"
-            android:background="@drawable/support_button_background"
+            android:background="@drawable/ic_support_fab"
             android:drawableLeft="@drawable/ic_support"
             android:drawablePadding="@dimen/margin_spacing_really_small"
             android:padding="@dimen/margin_spacing_really_small"

@@ -174,7 +174,7 @@ class AssiaRepository @Inject constructor(
         // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
-        headerMap["pastXHours"] = 1
+        headerMap["pastXHours"] = 0
         return headerMap
     }
 
@@ -183,7 +183,7 @@ class AssiaRepository @Inject constructor(
         // TODO remove "Authorization" from map when Cloudcheck URLs updated
         headerMap["Authorization"] = "bearer $token"
         headerMap["assiaId"] = preferences.getAssiaId()
-        headerMap["pastXHours"] = 1
+        headerMap["pastXHours"] = 0
         headerMap["rtFlagBroadBandSpeed"] = true
         return headerMap
     }
