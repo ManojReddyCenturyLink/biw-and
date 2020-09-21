@@ -740,9 +740,10 @@ class DashboardViewModel @Inject constructor(
     }
 
     fun checkForOngoingSpeedTest() {
-        val ongoingTest: Boolean = sharedPreferences.getSupportSpeedTest()
+        val ongoingTest: Boolean = sharedPreferences.getSpeedTestFlag()
         if (ongoingTest) {
-            speedTestButtonState.latestValue = false
+            progressVisibility.latestValue = sharedPreferences.getSpeedTestFlag()
+            speedTestButtonState.latestValue = !sharedPreferences.getSpeedTestFlag()
             sharedPreferences.saveSupportSpeedTest(boolean = false)
             val speedTestId = sharedPreferences.getSpeedTestId()
             if (speedTestId != null) {
