@@ -109,6 +109,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
             binding.vpDashboard.currentItem = 0
+            refreshPaymentInfoOnAccounts()
         } else if (resultCode == DashboardFragment.REFRESH_APPOINTMENT) {
             binding.vpDashboard.currentItem = 1
             refreshAppointmentsInDashBoardFragment()
