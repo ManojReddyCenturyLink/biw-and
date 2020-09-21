@@ -140,6 +140,17 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
         }
+        dashboardViewModel.speedTestError.observe{
+            if (it) {
+                CustomDialogGreyTheme(
+                    getString(R.string.speed_test_error_title),
+                    getString(R.string.speed_test_error_message),
+                    getString(R.string.modem_reboot_error_button_positive),
+                    getString(R.string.modem_reboot_error_button_negative),
+                    ::speedTestDialogCallback
+                ).show(fragManager!!, DashboardFragment::class.simpleName)
+            }
+        }
         dashboardViewModel.speedTestButtonState.observe { speedTestButtonState ->
             dashboardViewModel.networkStatus.observe { networkStatusOnline ->
                 if (networkStatusOnline) {
@@ -222,13 +233,13 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
           if(networkStatusOnline) {
-               dashboardViewModel.startSpeedTest()
+              dashboardViewModel.startSpeedTest(false)
           }
       }
     }
 
     private fun initOnClicks() {
-        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest() }
+        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest(true) }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener {
             dashboardViewModel.logCancelAppointmentClick()
@@ -448,6 +459,14 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             AlertDialog.BUTTON_NEGATIVE -> {
                 dashboardViewModel.logCancelAppointmentAlertClick(true)
+            }
+        }
+    }
+
+    private fun speedTestDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.startSpeedTest(true)
             }
         }
     }

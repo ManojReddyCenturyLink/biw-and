@@ -1,6 +1,7 @@
 package com.centurylink.biwf.screens.support
 
 import android.os.Bundle
+import androidx.core.text.isDigitsOnly
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -10,7 +11,6 @@ import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
-import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -41,7 +41,7 @@ class SupportViewModel @Inject constructor(
     val modemResetButtonState: Flow<Boolean> = BehaviorStateFlow()
     private var recordTypeId: String = ""
     var progressViewFlow = EventFlow<Boolean>()
-
+    var speedTestError = EventFlow<Boolean>()
     private var rebootOngoing = false
 
     init {
@@ -65,7 +65,7 @@ class SupportViewModel @Inject constructor(
         val oldDownLoad = sharedPreferences.getSpeedTestDownload()
         val oldUpload = sharedPreferences.getSpeedTestUpload()
         val oldTime = sharedPreferences.getLastSpeedTestTime()
-        if (oldDownLoad?.isNotEmpty()!! && oldUpload?.isNotEmpty()!! && oldTime?.isNotEmpty()!!) {
+        if (oldDownLoad?.isDigitsOnly()!! && oldUpload?.isDigitsOnly()!! && oldTime?.isNotEmpty()!!) {
             downloadSpeed.latestValue = oldDownLoad
             uploadSpeed.latestValue = oldUpload
             latestSpeedTest.latestValue = oldTime
@@ -130,7 +130,7 @@ class SupportViewModel @Inject constructor(
         speedTestButtonState.latestValue = false
         modemResetButtonState.latestValue = false
         viewModelScope.launch {
-            latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
+            latestSpeedTest.latestValue = EMPTY_RESPONSE
             val speedTestRequest = assiaRepository.startSpeedTest()
             speedTestRequest.fold(
                 ifRight = {
@@ -177,21 +177,26 @@ class SupportViewModel @Inject constructor(
     }
 
     private suspend fun getResults() {
+        var uploadSpeedError  = false
+        var downloadSpeedError  = false
         val upstreamData = assiaRepository.getUpstreamResults()
         upstreamData.fold(
             ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_UPSTREAM_RESULTS_SUCCESS)
-                if (it.data.listOfData.isNotEmpty()) {
+                if (it.data.listOfData.isNotEmpty() && !it.data.listOfData.equals(EMPTY_RESPONSE)) {
                     val uploadMb = it.data.listOfData[0].speedAvg / 1000
                     uploadSpeed.latestValue = uploadMb.toString()
                     sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
-                } else {
-                    uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+                }
+                else {
+                    uploadSpeed.latestValue = EMPTY_RESPONSE
+                    uploadSpeedError=true
                 }
             },
            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_UPSTREAM_RESULTS_FAILURE)
-                uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
+                uploadSpeed.latestValue = EMPTY_RESPONSE
+                uploadSpeedError=true
             }
         )
 
@@ -199,7 +204,7 @@ class SupportViewModel @Inject constructor(
         downStreamData.fold(
             ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DOWNSTREAM_RESULT_SUCCESS)
-                if (it.data.listOfData.isNotEmpty()) {
+                if (it.data.listOfData.isNotEmpty() && !it.data.listOfData.equals(EMPTY_RESPONSE)) {
                     val downloadMb = it.data.listOfData[0].speedAvg / 1000
                     downloadSpeed.latestValue = downloadMb.toString()
                     latestSpeedTest.latestValue =
@@ -209,15 +214,19 @@ class SupportViewModel @Inject constructor(
                 } else {
                     downloadSpeed.latestValue = EMPTY_RESPONSE
                     latestSpeedTest.latestValue = EMPTY_RESPONSE
+                    downloadSpeedError=true
                 }
             },
             ifLeft =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DOWNSTREAM_RESULT_FAILURE)
                 downloadSpeed.latestValue = EMPTY_RESPONSE
                 latestSpeedTest.latestValue = EMPTY_RESPONSE
+                downloadSpeedError=true
             }
         )
-
+       if(uploadSpeedError && downloadSpeedError){
+           speedTestError.latestValue=true
+       }
         sharedPreferences.saveSupportSpeedTest(false)
         progressVisibility.latestValue = false
         speedTestButtonState.latestValue = true
@@ -225,6 +234,7 @@ class SupportViewModel @Inject constructor(
     }
 
     private fun displayEmptyResponse() {
+        speedTestError.latestValue=true
         downloadSpeed.latestValue = EMPTY_RESPONSE
         uploadSpeed.latestValue = EMPTY_RESPONSE
         latestSpeedTest.latestValue = EMPTY_RESPONSE

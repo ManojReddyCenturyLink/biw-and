@@ -71,6 +71,8 @@
     <string name="restart">RESTART</string>
     <string name="restart_modem_confirmation_message">This can take up to 5 minutes. You can close the app while you wait if you want, and your modem will continue restarting in the background.</string>
     <string name="restart_modem_confirmation_title">Do you want to restart your modem?</string>
+    <string name="speed_test_error_title">Speed test error.</string>
+    <string name="speed_test_error_message">The data couldn\'t be read because it is missing.</string>
 
     <!--Account Screen -->
     <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
