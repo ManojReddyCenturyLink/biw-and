@@ -46,7 +46,7 @@
     <string name="visit_website">Visit website</string>
     <string name="restart_modem">Restart modem</string>
     <string name="run_speed_test">Run speed test</string>
-    <string name="last_speed_test">Last speed test: \u0020</string>
+    <string name="last_speed_test">last speed test: \u0020</string>
     <string name="mbps_upload">Mbps \nupload</string>
     <string name="mbps_download">Mbps \ndownload</string>
     <string name="live_chat">Live chat</string>
@@ -250,7 +250,7 @@
     <string name="restore_access_confirmation_title">Do you want to restore access to “%s”?</string>
     <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
     <string name="organization">Organization</string>
-    <string name="tap_to_edit_network">Tap to edit network</string>
+    <string name="tap_to_edit_network">tap to edit network</string>
     <string name="must_be_8_63_characters">must be 8-63 characters</string>
     <string name="network_name_mandatory">Network name*</string>
     <string name="network_password_mandatory">Network password*</string>
@@ -277,7 +277,7 @@
     <!--QRSCan Activity-->
     <string name="scan_to_join">Scan to join network:</string>
     <string name="scan_to_join_guest">Scan to join guest network:</string>
-    <string name="tap_code">Tap code to view full screen</string>
+    <string name="tap_code">tap code to view full screen</string>
     <string name="join_code">Join code </string>
     <string name="header_done">DONE</string>
     <string name="scan_network">Scan to join network: </string>
