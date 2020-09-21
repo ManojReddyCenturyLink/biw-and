@@ -62,16 +62,21 @@ class EditPaymentDetailsActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
                 viewModel.logBackPress()
-                setResult(REQUEST_TO_REFRESH_PAYMENT)
+                setResult(REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION)
                 finish()
             }
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logDonePress()
-                setResult(REQUEST_TO_REFRESH_PAYMENT)
+                setResult(REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS)
                 finish()
             }
         }
+    }
+
+    override fun onBackPressed() {
+        setResult(REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION)
+        finish()
     }
 
     private fun setupProgressViews() {
@@ -109,7 +114,8 @@ class EditPaymentDetailsActivity : BaseActivity() {
     }
 
     companion object {
-        const val REQUEST_TO_REFRESH_PAYMENT= 1039
+        const val REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS= 1039
+        const val REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION= 12339
         const val REQUEST_TO_EDIT_PAYMENT_DETAILS = 1103
         fun newIntent(context: Context) = Intent(context, EditPaymentDetailsActivity::class.java)
     }

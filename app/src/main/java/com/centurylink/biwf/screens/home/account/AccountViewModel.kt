@@ -2,7 +2,6 @@ package com.centurylink.biwf.screens.home.account
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -206,7 +205,6 @@ class AccountViewModel internal constructor(
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_CONTACT_DETAILS_SUCCESS)
             updateUIAccountDetailsFromContacts(it)
-            progressViewFlow.latestValue = false
         }
     }
 
@@ -221,12 +219,20 @@ class AccountViewModel internal constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_LIVE_CARD_INFO_SUCCESS)
             if (it.isDone) {
                 paymentInfo.latestValue = it.list[0]
-                updateUIAccountDetailsFromLivePaymentInfo(it.list[0])
+                val creditCardInfo = it.list.firstOrNull()?.creditCardSummary
+                if (!creditCardInfo.isNullOrEmpty()) {
+                    updateUIAccountDetailsFromLivePaymentInfo(creditCardInfo)
+                }
+                progressViewFlow.latestValue = false
             }
         }
     }
 
     private fun updateUIAccountDetailsFromAccounts(accountDetails: AccountDetails) {
+        var nextRenewalDate = "n/a"
+        if (!accountDetails.nextRenewalDate.isNullOrEmpty()) {
+            nextRenewalDate = DateUtils.formatAppointmentBookedDate(accountDetails.nextRenewalDate)
+        }
         uiAccountDetails = uiAccountDetails.copy(
             name = accountDetails.name,
             formattedServiceAddressLine1 = formatServiceAddressLine1(
@@ -246,7 +252,7 @@ class AccountViewModel internal constructor(
             homePhone = accountDetails.phone,
             workPhone = accountDetails.phone,
             serviceCallsAndText = accountDetails.cellPhoneOptInC,
-            paymentMethod = accountDetails.paymentMethodName
+            paymentDate = nextRenewalDate
         )
     }
 
@@ -272,14 +278,9 @@ class AccountViewModel internal constructor(
         updateAccountFlow()
     }
 
-    private fun updateUIAccountDetailsFromLivePaymentInfo(paymentInfo: PaymentInfo) {
-        var nextRenewalDate = "n/a"
-        if (!paymentInfo.nextRenewalDate.isNullOrEmpty()) {
-            nextRenewalDate = DateUtils.formatAppointmentBookedDate(paymentInfo.nextRenewalDate)
-        }
+    private fun updateUIAccountDetailsFromLivePaymentInfo(creditCardInfo: String) {
         uiAccountDetails = uiAccountDetails.copy(
-            paymentMethod = paymentInfo.creditCardSummary,
-            paymentDate = nextRenewalDate
+            paymentMethod = creditCardInfo
         )
         updateAccountFlow()
     }
