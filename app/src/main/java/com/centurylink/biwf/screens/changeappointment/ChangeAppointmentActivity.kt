@@ -89,6 +89,12 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         viewModel.initApis()
     }
 
+    override fun onSlotSelected(slotInfo: String) {
+        viewModel.logAppointmentSelected()
+        binding.availableAppointmentSlotError.visibility = View.GONE
+        selectedSlot = slotInfo
+    }
+
     private fun displaySlotError() {
         binding.incHeader.apply {
             subheaderRightActionTitle.isEnabled = true
@@ -267,11 +273,6 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         arrowButton?.isClickable = false
     }
 
-    companion object {
-        val REQUEST_TO_DASHBOARD = 1100
-        fun newIntent(context: Context) = Intent(context, ChangeAppointmentActivity::class.java)
-    }
-
     private fun iterateBetweenDates(start: Date, end: Date, sortedMap: Map<String, List<String>>) {
         var current = DateUtils.addDays(start, -10)
         var finalEndDate = DateUtils.addDays(end, 15)
@@ -301,8 +302,8 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
     }
 
-    override fun onSlotSelected(slotInfo: String) {
-        binding.availableAppointmentSlotError.visibility = View.GONE
-        selectedSlot = slotInfo
+    companion object {
+        val REQUEST_TO_DASHBOARD = 1100
+        fun newIntent(context: Context) = Intent(context, ChangeAppointmentActivity::class.java)
     }
 }

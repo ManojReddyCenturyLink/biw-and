@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.model.speedtest.*
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
@@ -31,6 +32,9 @@ class SupportViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var mocksharedPreferences: Preferences
+
+    @MockK
+    private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
 
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
@@ -60,9 +64,9 @@ class SupportViewModelTest : ViewModelBaseTest() {
         )
         coEvery { mockAssiaRepository.checkSpeedTestStatus(0)  } returns Either.Right(
             SpeedTestStatus(
-            code = 0,
-            message="",
-            data = SpeedTestStatusNestedResults(currentStep="",isFinished=true))
+                code = 0,
+                message="",
+                data = SpeedTestStatusNestedResults(currentStep="",isFinished=true))
         )
         coEvery { mockAssiaRepository. getUpstreamResults()} returns  Either.Right(speedTestResponse)
         coEvery { mockAssiaRepository. getDownstreamResults()} returns  Either.Right(speedTestResponse)
@@ -71,6 +75,7 @@ class SupportViewModelTest : ViewModelBaseTest() {
             faqRepository = mockFAQRepository,
             modemRebootMonitorService = mockModemRebootMonitorService,
             assiaRepository = mockAssiaRepository,
+            oAuthAssiaRepository = oAuthAssiaRepository,
             sharedPreferences = mocksharedPreferences,
             analyticsManagerInterface = analyticsManagerInterface
         )

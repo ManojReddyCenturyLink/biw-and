@@ -70,6 +70,7 @@ class DashboardViewModel @Inject constructor(
     var progressViewFlow = EventFlow<Boolean>()
     var isAccountStatus = EventFlow<Boolean>()
     val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
+    val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val regularNetworkInstance = WifiInfo()
     val guestNetworkInstance = WifiInfo()
     private lateinit var regularNetworkInfo: WifiInfo
@@ -92,11 +93,12 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private var rebootOngoing = false
     var installationStatus: Boolean
+
     init {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
         installationStatus = sharedPreferences.getInstallationStatus()
         progressViewFlow.latestValue = true
         initAccountDetails()
+        initModemStatusRefresh()
     }
 
     fun initDevicesApis() {
@@ -104,6 +106,12 @@ class DashboardViewModel @Inject constructor(
             requestWifiDetails()
             fetchPasswordApi()
             requestDevices()
+        }
+    }
+
+    private fun initModemStatusRefresh() {
+        viewModelScope.launch {
+            requestModemInfo()
         }
     }
 
@@ -128,6 +136,23 @@ class DashboardViewModel @Inject constructor(
                 requestToGetNetworkPassword(NetWorkBand.Band2G_Guest4)
             }
         }
+    }
+
+    private suspend fun requestModemInfo() {
+        val modemInfo = oAuthAssiaRepository.getModemInfo()
+        modemInfo.fold(ifRight = {
+            val apiInfo = it?.apInfoList
+            if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                networkStatus.latestValue = apiInfo[0].isAlive
+            } else {
+                networkStatus.latestValue = false
+            }
+        },
+            ifLeft = {
+                // Ignoring Error API called every 30 seconds
+                //errorMessageFlow.latestValue = modemInfo.toString()
+            }
+        )
     }
 
     override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
@@ -309,7 +334,6 @@ class DashboardViewModel @Inject constructor(
         appointmentDetails.fold(ifLeft = {
             Timber.i("Error in Appointments")
         }) {
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
@@ -330,7 +354,6 @@ class DashboardViewModel @Inject constructor(
             }
         }
     }
-
 
     private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
         return AppointmentRecordsInfo(
@@ -431,6 +454,10 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
         })
+    }
+
+    fun logScreenLaunch() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
     }
 
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
@@ -599,9 +626,9 @@ class DashboardViewModel @Inject constructor(
 
     fun logCancelAppointmentAlertClick(positive: Boolean) {
         if (positive) {
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION)
-        } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_KEEP_CANCEL_APPOINTMENT_CONFIRMATION)
+        } else {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION)
         }
     }
 

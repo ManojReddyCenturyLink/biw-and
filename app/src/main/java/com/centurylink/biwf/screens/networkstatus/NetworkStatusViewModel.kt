@@ -92,7 +92,6 @@ class NetworkStatusViewModel @Inject constructor(
     private fun modemStatusRefresh() {
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
-            fetchPasswordApi()
         }
     }
 
@@ -127,7 +126,6 @@ class NetworkStatusViewModel @Inject constructor(
             }
         }
     }
-
 
     private suspend fun requestModemInfo() {
         val modemResponse = oAuthAssiaRepository.getModemInfo()

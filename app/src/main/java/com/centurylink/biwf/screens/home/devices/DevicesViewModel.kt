@@ -42,7 +42,6 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun initApis() {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
         progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestModemDetails()
@@ -283,6 +282,10 @@ class DevicesViewModel @Inject constructor(
 
     fun logRemoveDevicesItemClick() {
         analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.LIST_ITEM_REMOVED_DEVICES)
+    }
+
+    fun logScreenLaunch() {
+        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
     }
 
     fun updatePauseResumeStatus(deviceData: DevicesData) {
