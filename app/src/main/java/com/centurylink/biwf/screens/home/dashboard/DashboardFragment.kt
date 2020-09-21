@@ -134,6 +134,17 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
         }
+        dashboardViewModel.speedTestError.observe{
+            if (it) {
+                CustomDialogGreyTheme(
+                    getString(R.string.speed_test_error_title),
+                    getString(R.string.speed_test_error_message),
+                    getString(R.string.modem_reboot_error_button_positive),
+                    getString(R.string.modem_reboot_error_button_negative),
+                    ::onScreenExitConfirmation
+                ).show(fragManager!!, DashboardFragment::class.simpleName)
+            }
+        }
         dashboardViewModel.speedTestButtonState.observe {
             binding.incSpeedTest.runSpeedTestDashboard.isActivated = it
         }
@@ -187,11 +198,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         incCompleted.visibility = View.GONE
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
-        dashboardViewModel.startSpeedTest()
+        dashboardViewModel.startSpeedTest(false)
     }
 
     private fun initOnClicks() {
-        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest() }
+        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest(true) }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener {
             dashboardViewModel.logCancelAppointmentClick()
@@ -411,6 +422,14 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             AlertDialog.BUTTON_NEGATIVE -> {
                 dashboardViewModel.logCancelAppointmentAlertClick(true)
+            }
+        }
+    }
+
+    private fun onScreenExitConfirmation(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.startSpeedTest(true)
             }
         }
     }

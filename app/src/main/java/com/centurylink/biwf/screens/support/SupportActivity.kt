@@ -140,6 +140,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                     if (it) View.VISIBLE else View.INVISIBLE
                 binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
             }
+            speedTestError.observe{
+                if (it) {
+                    speedTestErrorDialog()
+                }
+            }
             modemResetButtonState.observe {
                 binding.incTroubleshooting.rebootModemButton.isActivated = it
             }
@@ -210,6 +215,27 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             }
             AlertDialog.BUTTON_NEGATIVE -> {
                 /* no-op */
+            }
+        }
+    }
+
+    private fun speedTestErrorDialog() {
+        CustomDialogGreyTheme(
+            getString(R.string.speed_test_error_title),
+            getString(R.string.speed_test_error_message),
+            getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.modem_reboot_error_button_negative),
+            ::speedTestDialogCallback
+        ).show(
+            supportFragmentManager,
+            callingActivity?.className
+        )
+    }
+
+    private fun speedTestDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                viewModel.startSpeedTest()
             }
         }
     }
