@@ -82,7 +82,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
 
     override fun onResume() {
         super.onResume()
-        dashboardViewModel.checkForOngoingSpeedTest()
+        dashboardViewModel.apply {
+            logScreenLaunch()
+            checkForOngoingSpeedTest()
+        }
     }
 
     override fun onCreateView(
