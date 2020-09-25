@@ -48,7 +48,7 @@
                     android:id="@+id/devices_connected_textview"
                     android:layout_width="@dimen/padding_0"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_spacing_small"
+                    android:layout_marginStart="@dimen/margin_spacing_10"
                     android:text="@string/connected_devices_plural"
                     android:textColor="@color/dark_grey"
                     android:textSize="@dimen/text_size_16"
