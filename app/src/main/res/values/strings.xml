@@ -168,6 +168,7 @@
     <string name="statement_total">Total</string>
     <string name="previous_statements">Previous statements</string>
     <string name="edit_billing_information">Edit billing information</string>
+    <string name="billing_information_message_label">Note: changes may take up to a minute to appear on the Account screen after submission</string>
     <string name="subscription">Subscription</string>
     <string name="my_subscription">My subscription</string>
     <string name="manage_my_subscription">Manage my subscription</string>
