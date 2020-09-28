@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.appointment.*
 import com.centurylink.biwf.service.network.AppointmentService
 import com.centurylink.biwf.service.network.IntegrationRestServices
+import com.centurylink.biwf.utility.EnvironmentPath
 import com.centurylink.biwf.utility.preferences.Preferences
 import org.threeten.bp.LocalDateTime
 import javax.inject.Inject
@@ -27,13 +28,11 @@ class AppointmentRepository @Inject constructor(
     }
 
     suspend fun getAppointmentInfo(): Either<String, AppointmentRecordsInfo> {
-        val query =
-            "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude, ServiceTerritory.OperatingHours.TimeZone,Appointment_Number_Text__c,(SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s'"
         val accountId = getAccountId()
         if (accountId.isNullOrEmpty()) {
             return Either.Left("Account ID is not available")
         }
-        val finalQuery = String.format(query, accountId)
+        val finalQuery = String.format(EnvironmentPath.APPOINTMENT_INFO_QUERY, accountId)
         val result: FiberServiceResult<Appointments> =
             appointmentService.getAppointmentDetails(finalQuery)
          // val result: FiberServiceResult<Appointments> =

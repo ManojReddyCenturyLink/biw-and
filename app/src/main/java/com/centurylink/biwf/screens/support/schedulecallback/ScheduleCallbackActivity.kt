@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
@@ -92,6 +93,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
                 finish()
             }
         }
+        binding.callUsNowTextview.text= resources.getString(R.string.call_us_now_at).plus(" ").plus(BuildConfig.MOBILE_NUMBER)
         binding.callUsNowLayout.setOnClickListener { viewModel.launchCallDialer() }
     }
 

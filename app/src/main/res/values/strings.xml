@@ -111,13 +111,13 @@
     <string name="last_speed_test_fake_value">03/02/2020 at 8:52pm</string>
     <string name="fake_speed_test_download_speed">910</string>
     <string name="speed_test_upload_fake_speed">908</string>
-    <string name="tel">tel:833-250-6306</string>
+    <string name="tel">tel:</string>
     <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
     <string name="reason_for_call_back"><font color="#503296" size="16"><b>Please give us more information about the help you need. </b></font><font color="#788791" size="12">(optional)</font></string>
     <string name="additional_information">Additional information</string>
     <string name="additional_info_title">Additional info</string>
     <string name="next">Next</string>
-    <string name="call_us_now_at_833_250_6306">Call us now at 833-250-6306</string>
+    <string name="call_us_now_at">Call us now at</string>
     <string name="done">DONE</string>
 
     <!--Cancel Subscription Detail Screen -->
@@ -168,6 +168,7 @@
     <string name="statement_total">Total</string>
     <string name="previous_statements">Previous statements</string>
     <string name="edit_billing_information">Edit billing information</string>
+    <string name="billing_information_message_label">Note: changes may take up to a minute to appear on the Account screen after submission</string>
     <string name="subscription">Subscription</string>
     <string name="my_subscription">My subscription</string>
     <string name="manage_my_subscription">Manage my subscription</string>
