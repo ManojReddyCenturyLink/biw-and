@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.service.network.FaqApiService
+import com.centurylink.biwf.utility.EnvironmentPath
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,17 +18,13 @@ class FAQRepository @Inject constructor(
         if (recordTypeId.isNullOrEmpty()) {
             Either.Left("RecordType Id is Empty")
         }
-        val query =
-            "SELECT ArticleNumber, ArticleTotalViewCount, Article_Content__c, Article_Url__c, Id, Language, Section__c, Title FROM Knowledge__kav WHERE IsDeleted=false AND PublishStatus='Online' AND ValidationStatus='Validated'AND RecordTypeId='%s'"
-        val finalQuery = String.format(query, recordTypeId)
+        val finalQuery = String.format(EnvironmentPath.FAQ_QUESTION_DETAILS_QUERY, recordTypeId)
         val result: FiberServiceResult<Faq> = faqService.getFaqDetails(finalQuery)
         return result.mapLeft { it.message?.message.toString() }
     }
 
     suspend fun getKnowledgeRecordTypeId(): Either<String, String> {
-        val query =
-            "SELECT Id FROM RecordType WHERE SobjectType = 'Knowledge__kav' AND DeveloperName ='Fiber'"
-        val result: FiberServiceResult<RecordId> = faqService.getRecordTypeId(query)
+        val result: FiberServiceResult<RecordId> = faqService.getRecordTypeId(EnvironmentPath.KNOWLEDGE_RECORD_TYPE_ID_QUERY)
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val id = it.records.elementAtOrElse(0) { null }?.Id
             if (id.isNullOrEmpty()) {

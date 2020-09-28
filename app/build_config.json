@@ -1,0 +1,70 @@
+{
+  "MAP_API_KEY": "AIzaSyARNegQ6g1SR7cHz_7LAQ7WbnP01nOi6YI",
+  "MOBILE_NUMBER": "833-250-6306",
+  "productFlavors": {
+    "dev": {
+      "SALES_FORCE_VERSION": "v46.0",
+      "APIGEE_VERSION": "v1",
+      "CTL_APP_NAME": "BIWF",
+      "CTL_APP_BUNDLE": "com.quantum.BIWF",
+      "APIGEE_URL": "centurylink-test1.apigee.net",
+      "SALESFORCE_URL": "qa-qa101.cs16.force.com",
+      "COMMUNITY_NAME": "phish",
+      "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+      "live_chat": {
+        "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
+        "ORG_ID": "00Df0000002HOQc",
+        "DEPLOYMENT_ID": "572f0000000Cauc",
+        "BUTTON_ID": "573f000000000zz"
+      }
+    },
+    "qa_notused": {
+      "SALES_FORCE_VERSION": "v46.0",
+      "APIGEE_VERSION": "v1",
+      "CTL_APP_NAME": "BIWF",
+      "CTL_APP_BUNDLE": "com.quantum.BIWF",
+      "APIGEE_URL": "centurylink-test1.apigee.net",
+      "SALESFORCE_URL": "qa-qa101.cs16.force.com",
+      "COMMUNITY_NAME": "phish",
+      "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+      "live_chat": {
+        "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
+        "ORG_ID": "00Df0000002HOQc",
+        "DEPLOYMENT_ID": "572f0000000Cauc",
+        "BUTTON_ID": "573f000000000zz"
+      }
+    },
+    "sit": {
+      "SALES_FORCE_VERSION": "v46.0",
+      "APIGEE_VERSION": "v1",
+      "CTL_APP_NAME": "BIWF",
+      "CTL_APP_BUNDLE": "com.quantum.BIWF",
+      "APIGEE_URL": "centurylink-test1.apigee.net",
+      "SALESFORCE_URL": "qa-qa101.cs16.force.com",
+      "COMMUNITY_NAME": "phish",
+      "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+      "live_chat": {
+        "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
+        "ORG_ID": "00Df0000002HOQc",
+        "DEPLOYMENT_ID": "572f0000000Cauc",
+        "BUTTON_ID": "573f000000000zz"
+      }
+    },
+    "prod": {
+      "SALES_FORCE_VERSION": "v46.0",
+      "APIGEE_VERSION": "v1",
+      "CTL_APP_NAME": "BIWF",
+      "CTL_APP_BUNDLE": "com.quantum.BIWF.Prod",
+      "APIGEE_URL": "centurylink-test1.apigee.net",
+      "SALESFORCE_URL": "qa-qa101.cs16.force.com",
+      "COMMUNITY_NAME": "phish",
+      "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+      "live_chat": {
+        "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
+        "ORG_ID": "00Df0000002HOQc",
+        "DEPLOYMENT_ID": "572f0000000Cauc",
+        "BUTTON_ID": "573f000000000zz"
+      }
+    }
+  }
+}

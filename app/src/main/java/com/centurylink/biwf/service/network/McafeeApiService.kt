@@ -10,6 +10,8 @@ import com.centurylink.biwf.model.mcafee.DevicePauseStatusResponse
 import com.centurylink.biwf.model.mcafee.DeviceUpdateResponse
 import com.centurylink.biwf.model.mcafee.DevicesMapping
 import com.centurylink.biwf.model.mcafee.MappingRequest
+import com.centurylink.biwf.model.mcafee.*
+import com.centurylink.biwf.utility.EnvironmentPath
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -21,12 +23,14 @@ import retrofit2.http.Query
  */
 interface McafeeApiService {
 
-    @POST("mcafee/macaddress/mapping")
+    @POST(EnvironmentPath.API_DEVICES_MAPPING_PATH)
     suspend fun getDevicesMapping(@Body mappingRequest: MappingRequest): McafeeServiceResult<DevicesMapping>
 
-    @POST("mcafee/get-network-access")
-    suspend fun getNetworkInfo(@Body blockRequest: BlockRequest): McafeeServiceResult<DevicePauseStatusResponse>
+    @POST(EnvironmentPath.API_GET_NETWORK_ACCESS_PATH)
+    suspend fun getNetworkInfo(@Body blockRequest: BlockRequest) :McafeeServiceResult<DevicePauseStatusResponse>
 
+    @PUT(EnvironmentPath.API_UPDATE_NETWORK_ACCESS_PATH)
+    suspend fun updateNetWorkInfo(@Body devicePauseStatusRequest: DevicePauseStatusRequest) :McafeeServiceResult<DeviceUpdateResponse>
     @PUT("mcafee/network-access")
     suspend fun updateNetWorkInfo(@Body devicePauseStatusRequest: DevicePauseStatusRequest): McafeeServiceResult<DeviceUpdateResponse>
 

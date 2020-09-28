@@ -4,21 +4,22 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.user.UpdatedPassword
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
+import com.centurylink.biwf.utility.EnvironmentPath
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface UserService {
-    @GET("sobjects/User")
+    @GET(EnvironmentPath.API_USER_DETAILS_PATH)
     suspend fun qetUserInfo(): FiberServiceResult<UserInfo>
 
-    @POST("sobjects/User/{user-id}/password")
+    @POST(EnvironmentPath.API_UPDATE_PASSWORD_PATH)
     suspend fun updatePassword(
-        @Path("user-id") id: String,
+        @Path(EnvironmentPath.USER_ID) id: String,
         @Body updatedPassword: UpdatedPassword
     ): FiberServiceResult<Unit>
 
-    @GET("sobjects/User/{user-id}")
-    suspend fun getCompleteUserDetails(@Path("user-id") id: String): FiberServiceResult<UserDetails>
+    @GET(EnvironmentPath.API_USER_ID_PATH)
+    suspend fun getCompleteUserDetails(@Path(EnvironmentPath.USER_ID) id: String): FiberServiceResult<UserDetails>
 }

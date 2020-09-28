@@ -9,6 +9,7 @@ import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
 import com.centurylink.biwf.model.speedtest.SpeedTestResponse
 import com.centurylink.biwf.model.speedtest.SpeedTestStatus
+import com.centurylink.biwf.utility.EnvironmentPath
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -17,47 +18,47 @@ import retrofit2.http.Path
 
 interface AssiaService {
 
-    @GET("api/v3/wifi/line/info")
+    @GET(EnvironmentPath.API_MODEM_INFO_PATH)
     suspend fun getModemInfo(@HeaderMap header: Map<String, String>): AssiaServiceResult<ModemInfoResponse>
 
 
-    @GET("api/v2/wifi/diags/stationinfo")
+    @GET(EnvironmentPath.API_DEVICE_LIST_PATH)
     suspend fun getDevicesList(@HeaderMap header: Map<String, String>): AssiaServiceResult<DevicesInfo>
 
     @JvmSuppressWildcards
-    @POST("api/v2/wifi/diagsrt/rtactions/start")
+    @POST(EnvironmentPath.API_SPEED_TEST_START_PATH)
     suspend fun startSpeedTest(@HeaderMap header: Map<String, Any>): AssiaServiceResult<SpeedTestRequestResult>
 
     @JvmSuppressWildcards
-    @GET("api/v2/wifi/diagsrt/rtactions/status")
+    @GET(EnvironmentPath.API_SPEED_TEST_STATUS_PATH)
     suspend fun checkSpeedTestResults(@HeaderMap header: Map<String, Any>): AssiaServiceResult<SpeedTestStatus>
 
     @JvmSuppressWildcards
-    @GET("api/v2/wifi/diagsrt/ap/broadbandusthroughputsummary")
+    @GET(EnvironmentPath.API_SPEED_TEST_UP_RESULT_PATH)
     suspend fun checkSpeedTestUpStreamResults(@HeaderMap header: Map<String, Any>): AssiaServiceResult<SpeedTestResponse>
 
     @JvmSuppressWildcards
-    @GET("api/v2/wifi/diagsrt/ap/broadbanddsthroughputsummary")
+    @GET(EnvironmentPath.API_SPEED_TEST_DOWN_RESULT_PATH)
     suspend fun checkSpeedTestDownStreamResults(@HeaderMap header: Map<String, Any>): AssiaServiceResult<SpeedTestResponse>
 
 
-    @POST("api/v2/wifi/operations/ap/{assiaId}/reboot")
+    @POST(EnvironmentPath.API_REBOOT_MODEM_PATH)
     suspend fun rebootModem(
-        @Path("assiaId") id: String,
+        @Path(EnvironmentPath.ASSIA_ID) id: String,
         @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<ModemRebootResponse>
 
-    @POST("api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block")
+    @POST(EnvironmentPath.API_BLOCK_UNBLOCK_DEVICE_PATH)
     suspend fun blockDevice(
-        @Path("assiaId") id: String,
-        @Path("stationMacAddress") macAddress: String,
+        @Path(EnvironmentPath.ASSIA_ID) id: String,
+        @Path(EnvironmentPath.STATION_MAC_ADDRESS) macAddress: String,
         @HeaderMap header: Map<String, String>
     ) : AssiaServiceResult<BlockResponse>
 
-    @DELETE("api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block")
+    @DELETE(EnvironmentPath.API_BLOCK_UNBLOCK_DEVICE_PATH)
     suspend fun unBlockDevice(
-        @Path("assiaId") id: String,
-        @Path("stationMacAddress") macAddress: String,
+        @Path(EnvironmentPath.ASSIA_ID) id: String,
+        @Path(EnvironmentPath.STATION_MAC_ADDRESS) macAddress: String,
         @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<BlockResponse>
 }

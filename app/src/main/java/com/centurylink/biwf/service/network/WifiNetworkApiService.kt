@@ -2,46 +2,47 @@ package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.AssiaServiceResult
 import com.centurylink.biwf.model.wifi.*
+import com.centurylink.biwf.utility.EnvironmentPath
 
 import retrofit2.http.*
 
 interface WifiNetworkApiService {
 
-    @GET("api/v2/wifi/operations/ssid/{wifiDeviceId}/{interface}")
+    @GET(EnvironmentPath.API_GET_POST_SSID_PATH)
     suspend fun getNetworkName(
-        @Path("wifiDeviceId") wifiDeviceId: String,
-        @Path("interface") interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<NetworkDetails>
 
-    @POST("api/v2/wifi/operations/ssid/{wifiDeviceId}/{interface}")
+    @POST(EnvironmentPath.API_GET_POST_SSID_PATH)
     suspend fun updateNetworkName(
-        @Path("wifiDeviceId") wifiDeviceId: String,
-        @Path("interface") interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>,
+        @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>,
         @Body updateNetworkName: UpdateNetworkName
     ): AssiaServiceResult<UpdateNetworkResponse>
 
-    @POST("api/v2/wifi/operations/enableintf/{wifiDeviceId}/{interface}")
+    @POST(EnvironmentPath.API_ENABLE_REGULAR_GUEST_WIFI_PATH)
     suspend fun enableNetwork(
-        @Path("wifiDeviceId") wifiDeviceId: String,
-        @Path("interface") interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<UpdateNetworkResponse>
 
-    @POST("api/v2/wifi/operations/wifipwd/{wifiDeviceId}/{interface}")
+    @POST(EnvironmentPath.API_GET_CHANGE_NETWORK_PASSWORD_PATH)
     suspend fun updateNetworkPassword(
-        @Path("wifiDeviceId") wifiDeviceId: String,
-        @Path("interface") interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>,
+        @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>,
         @Body updateNwPwd: UpdateNWPassword
     ): AssiaServiceResult<UpdateNetworkResponse>
 
-    @POST("api/v2/wifi/operations/disableintf/{wifiDeviceId}/{interface}")
+    @POST(EnvironmentPath.API_DISABLE_REGULAR_GUEST_WIFI_PATH)
     suspend fun disableNetwork(
-        @Path("wifiDeviceId") wifiDeviceId: String,
-        @Path("interface") interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<UpdateNetworkResponse>
 
-    @GET("api/v2/wifi/operations/wifipwd/{wifiDeviceId}/{interface}")
+    @GET(EnvironmentPath.API_GET_CHANGE_NETWORK_PASSWORD_PATH)
     suspend fun getNetworkPassword(
-        @Path("wifiDeviceId") wifiDeviceId: String,
-        @Path("interface") interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<NetworkDetails>
 }
