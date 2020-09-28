@@ -73,8 +73,7 @@ class McafeeRepository @Inject constructor(
 
     suspend fun fetchDeviceDetails():
             Either<String, List<DevicesItem>> {
-        val result = mcaFeeService.getDeviceDetails(preferences.getAssiaId(),getMcAfeeHeaderMap())
-        Log.i("JAMESBOND","DEvices List"+result)
+        val result = mcaFeeService.getDeviceDetails(preferences.getAssiaId(), getMcAfeeHeaderMap())
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "0") {
                 return Either.Left("Something went wrong!")

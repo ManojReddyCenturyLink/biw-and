@@ -57,12 +57,6 @@ class DevicesViewModel @Inject constructor(
             if (!connectedList.isNullOrEmpty() && isModemAlive) {
                 getPauseResumeState(connectedList)
             }
-
-            //TODO: Remove later
-            val res = mcafeeRepository.updateDeviceName("Tablet","Tablet","00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF")
-            Log.d("lazy 1"," $res")
-            val res1 = mcafeeRepository.fetchDeviceDetails()
-            Log.d("lazy 2"," $res1")
         }
     }
 
@@ -246,10 +240,10 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
-    private suspend fun requestMcAfeeDevices(){
+    private suspend fun requestMcAfeeDevices() {
         val macAfeeDevices = mcafeeRepository.fetchDeviceDetails()
         macAfeeDevices.fold(ifLeft = {
-        },ifRight = {
+        }, ifRight = {
         })
     }
 
