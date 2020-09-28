@@ -53,6 +53,7 @@ class NetworkStatusViewModel @Inject constructor(
     val errorSubmitValue = EventFlow<Boolean>()
     val regularNetworkStatusFlow: Flow<UINetworkModel> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
+    var isApiComplete = false
     val guestNetworkStatusFlow: Flow<UINetworkModel> = BehaviorStateFlow()
     private var regularNetworkInstance = UINetworkModel()
     private var guestNetworkInstance = UINetworkModel()
@@ -372,6 +373,7 @@ class NetworkStatusViewModel @Inject constructor(
             setGuestWifiInfo(existingGuestName, existingGuestPwd, guestNetworkEnabled)
         regularNetworkStatusFlow.latestValue = regularNetworkInstance
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
+        isApiComplete = true
     }
 
     private suspend fun requestToUpdateNetWorkPassword(netWorkBand: NetWorkBand, password: String) {
