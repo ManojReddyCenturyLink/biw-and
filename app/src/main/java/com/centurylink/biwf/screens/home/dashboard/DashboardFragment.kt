@@ -273,6 +273,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             intent.data = Uri.parse(getString(R.string.tel_url))
             startActivity(intent)
         }
+        binding.tapToEditNetwork.setOnClickListener{dashboardViewModel.navigateToNetworkInformation("")}
     }
 
     private fun setupMap() {
