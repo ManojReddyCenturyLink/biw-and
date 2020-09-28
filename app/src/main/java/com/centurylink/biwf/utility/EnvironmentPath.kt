@@ -126,6 +126,8 @@ class EnvironmentPath {
         const val API_GET_NETWORK_ACCESS_PATH = "mcafee/get-network-access"
         const val API_UPDATE_NETWORK_ACCESS_PATH = "mcafee/network-access"
         const val API_DEVICES_MAPPING_PATH = "mcafee/macaddress/mapping"
+        const val API_UPDATE_DEVICE_INFO_PATH = "mcafee/update-device"
+        const val API_GET_DEVICE_INFO_PATH = "mcafee/get-device"
 
         //Regular and Guest Wifi network
         const val API_ENABLE_REGULAR_GUEST_WIFI_PATH =
