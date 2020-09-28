@@ -528,8 +528,9 @@
     </style>
 
     <style name="style_calender_error" parent="@android:style/TextAppearance">
-        <item name="android:fontFamily">@font/arial_bold_mt</item>
-        <item name="android:textColor">@color/strawberry</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/calender_error</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
     </style>
+
 </resources>

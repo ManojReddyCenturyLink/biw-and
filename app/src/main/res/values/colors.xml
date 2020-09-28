@@ -26,4 +26,5 @@
     <color name="background_lavender">#EFF1FB</color>
     <color name="background_purple">#40503296</color>
     <color name="mango">#ffb464</color>
+    <color name="calender_error">#d54848</color>
 </resources>
