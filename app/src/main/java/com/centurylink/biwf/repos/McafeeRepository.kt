@@ -1,8 +1,15 @@
 package com.centurylink.biwf.repos
 
+import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
-import com.centurylink.biwf.model.mcafee.*
+import com.centurylink.biwf.model.mcafee.BlockRequest
+import com.centurylink.biwf.model.mcafee.DeviceInfoRequest
+import com.centurylink.biwf.model.mcafee.DevicePauseStatus
+import com.centurylink.biwf.model.mcafee.DevicePauseStatusRequest
+import com.centurylink.biwf.model.mcafee.DevicesItem
+import com.centurylink.biwf.model.mcafee.MacDeviceList
+import com.centurylink.biwf.model.mcafee.MappingRequest
 import com.centurylink.biwf.service.network.McafeeApiService
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
@@ -48,6 +55,31 @@ class McafeeRepository @Inject constructor(
                 return Either.Left("No Status  Found ")
             }
             return Either.Right(DevicePauseStatus(isPaused, deviceId))
+        }
+    }
+
+    suspend fun updateDeviceName(deviceType: String, deviceName: String, deviceId: String):
+            Either<String, String> {
+        val result = mcaFeeService.updateDeviceInfo(
+            DeviceInfoRequest(deviceType, preferences.getAssiaId(), deviceName, deviceId)
+        )
+        return result.mapLeft { it.message?.message.toString() }.flatMap {
+            if (it.code != "0") {
+                return Either.Left("Something went wrong!")
+            }
+            return Either.Right(it.message)
+        }
+    }
+
+    suspend fun fetchDeviceDetails():
+            Either<String, List<DevicesItem>> {
+        val result = mcaFeeService.getDeviceDetails(preferences.getAssiaId())
+        Log.d("lazy "," "+result)
+        return result.mapLeft { it.message?.message.toString() }.flatMap {
+            if (it.code != "0") {
+                return Either.Left("Something went wrong!")
+            }
+            return Either.Right(it.devices)
         }
     }
 }
