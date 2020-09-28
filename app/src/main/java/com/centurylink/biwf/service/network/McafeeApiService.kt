@@ -11,11 +11,7 @@ import com.centurylink.biwf.model.mcafee.DeviceUpdateResponse
 import com.centurylink.biwf.model.mcafee.DevicesMapping
 import com.centurylink.biwf.model.mcafee.MappingRequest
 import com.centurylink.biwf.utility.EnvironmentPath
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Mcafee Api services interface
@@ -35,5 +31,5 @@ interface McafeeApiService {
     suspend fun updateDeviceInfo(@Body deviceInfoRequest: DeviceInfoRequest): McafeeServiceResult<DeviceInfoResponse>
 
     @GET(EnvironmentPath.API_GET_DEVICE_INFO_PATH)
-    suspend fun getDeviceDetails(@Query("serialNumber") serialNumber: String): McafeeServiceResult<DeviceDetailsResponse>
+    suspend fun getDeviceDetails(@Query("serialNumber") serialNumber: String,@HeaderMap header: Map<String, String>): McafeeServiceResult<DeviceDetailsResponse>
 }

@@ -14,13 +14,13 @@ data class DeviceDetailsResponse(
 
 data class DevicesItem(
     @SerializedName("os")
-    val os: ConfigException.Null? = null,
+    val os: String? = null,
     @SerializedName("os_version")
-    val osVersion: ConfigException.Null? = null,
+    val osVersion: String? = null,
     @SerializedName("name")
     val name: String = "",
     @SerializedName("csp_client_id")
-    val cspClientId: ConfigException.Null? = null,
+    val cspClientId: ConfigException? = null,
     @SerializedName("device_type")
     val deviceType: String = "",
     @SerializedName("enforcement_type")

@@ -45,6 +45,7 @@ class DevicesViewModel @Inject constructor(
     fun initApis() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
+            requestMcAfeeDevices()
             requestModemDetails()
             requestDevices()
             val macAddresses = getMacAddressesFromDevicesInfo()
@@ -243,6 +244,13 @@ class DevicesViewModel @Inject constructor(
         viewModelScope.launch {
             requestBlocking(stationMac)
         }
+    }
+
+    private suspend fun requestMcAfeeDevices(){
+        val macAfeeDevices = mcafeeRepository.fetchDeviceDetails()
+        macAfeeDevices.fold(ifLeft = {
+        },ifRight = {
+        })
     }
 
     fun navigateToUsageDetails(deviceData: DevicesData) {

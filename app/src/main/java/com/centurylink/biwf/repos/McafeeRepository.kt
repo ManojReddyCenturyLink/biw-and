@@ -73,13 +73,19 @@ class McafeeRepository @Inject constructor(
 
     suspend fun fetchDeviceDetails():
             Either<String, List<DevicesItem>> {
-        val result = mcaFeeService.getDeviceDetails(preferences.getAssiaId())
-        Log.d("lazy "," "+result)
+        val result = mcaFeeService.getDeviceDetails(preferences.getAssiaId(),getMcAfeeHeaderMap())
+        Log.i("JAMESBOND","DEvices List"+result)
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "0") {
                 return Either.Left("Something went wrong!")
             }
             return Either.Right(it.devices)
         }
+    }
+
+    private fun getMcAfeeHeaderMap(): Map<String, String> {
+        val headerMap = mutableMapOf<String, String>()
+        headerMap["Content-Type"] = "application/json"
+        return headerMap
     }
 }
