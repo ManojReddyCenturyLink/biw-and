@@ -166,13 +166,6 @@ class RestServiceConfigModule(
     fun provideTestRestServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): TestRestServices {
         return factory.create()
     }
-
-    @Singleton
-    @Provides
-    fun provideApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): ApiServices {
-        return factory.create()
-    }
-
     @Singleton
     @Provides
     fun provideAccountServices(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): AccountApiService {

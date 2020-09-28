@@ -1,17 +1,17 @@
 package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.FiberServiceResult
-import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.subscription.SubscriptionDates
+import com.centurylink.biwf.utility.EnvironmentPath
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ZuoraSubscriptionApiService {
 
-    @GET("sobjects/Zuora__Subscription__c/{account-id}")
-    suspend fun getSubscriptionDetails(@Path("account-id") id: String): FiberServiceResult<Unit>
+    @GET(EnvironmentPath.API_SUBSCRIPTION_DETAILS_PATH)
+    suspend fun getSubscriptionDetails(@Path(EnvironmentPath.ACCOUNT_ID) id: String): FiberServiceResult<Unit>
 
-    @GET("query/")
-    suspend fun getSubscriptionDate(@Query("q") id: String): FiberServiceResult<SubscriptionDates>
+    @GET(EnvironmentPath.SALES_FORCE_QUERY_SLASH)
+    suspend fun getSubscriptionDate(@Query(EnvironmentPath.SALES_FORCE_QUERY_VALUE) id: String): FiberServiceResult<SubscriptionDates>
 }

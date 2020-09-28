@@ -9,6 +9,7 @@ import com.centurylink.biwf.model.cases.Cases
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.service.network.CaseApiService
 import com.centurylink.biwf.utility.DateUtils
+import com.centurylink.biwf.utility.EnvironmentPath
 import com.centurylink.biwf.utility.preferences.Preferences
 import java.util.*
 import javax.inject.Inject
@@ -59,9 +60,7 @@ class CaseRepository @Inject constructor(
     }
 
     suspend fun getRecordTypeId(): Either<String, String> {
-        val query =
-            "SELECT Id FROM RecordType WHERE SobjectType = 'Case' AND DeveloperName ='Fiber'"
-        val result: FiberServiceResult<RecordId> = caseApiService.getRecordTpeId(query)
+        val result: FiberServiceResult<RecordId> = caseApiService.getRecordTpeId(EnvironmentPath.RECORD_TYPE_ID_QUERY)
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val id = it.records.elementAtOrElse(0) { null }?.Id
             if (id.isNullOrEmpty()) {

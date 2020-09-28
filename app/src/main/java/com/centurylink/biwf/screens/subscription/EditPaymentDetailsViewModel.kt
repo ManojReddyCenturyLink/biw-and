@@ -6,6 +6,7 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.AppUtil
+import com.centurylink.biwf.utility.EnvironmentPath
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class EditPaymentDetailsViewModel @Inject constructor(
     val errorMessageFlow = EventFlow<String>()
     val subscriptionUrlFlow = EventFlow<String>()
 
-    private val subscriptionUrl = BASE_SUBSCRIPTION_URL + preferences.getValueByID(Preferences.USER_ID)
+    private val subscriptionUrl = EnvironmentPath.getBaseSubscriptionUrl() + preferences.getValueByID(Preferences.USER_ID)
 
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_EDIT_PAYMENT_DETAILS)
@@ -55,7 +56,6 @@ class EditPaymentDetailsViewModel @Inject constructor(
     }
 
     companion object {
-        const val BASE_SUBSCRIPTION_URL = "https://qa-qa101.cs16.force.com/phish/apex/vf_fiberBuyFlowPaymentMobile?userId="
         const val WEB_PAGE_PROGRESS_COMPLETE = 100
         const val GENERIC_WEB_VIEW_ERROR = "Generic Web View Error"
     }
