@@ -7,6 +7,6 @@
         android:pathData="M12,1L12,1A11,11 0,0 0,1 12L1,12A11,11 0,0 0,12 23L12,23A11,11 0,0 0,23 12L23,12A11,11 0,0 0,12 1z"
         android:strokeWidth="2"
         android:fillColor="#00000000"
-        android:strokeColor="@color/calender_error"
+        android:strokeColor="@color/error_red"
         android:fillType="evenOdd"/>
 </vector>
