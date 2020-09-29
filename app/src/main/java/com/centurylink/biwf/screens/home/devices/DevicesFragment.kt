@@ -92,8 +92,13 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         disableSwipeToRefresh()
         devicesViewModel.logRemoveDevicesItemClick()
         blockDeviceMac = deviceInfo.stationMac!!
+        var nickName = if (!deviceInfo.mcAfeeName.isNullOrEmpty()) {
+            deviceInfo.mcAfeeName
+        } else {
+            deviceInfo.hostName ?: ""
+        }
         showConfirmationDialog(
-            deviceInfo.hostName?.toUpperCase(Locale.getDefault())?.capitalize()
+            nickName?.toUpperCase(Locale.getDefault())?.capitalize()
         )
     }
 
