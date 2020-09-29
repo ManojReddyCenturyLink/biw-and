@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,9 +17,12 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityChangeAppointmentBinding
 import com.centurylink.biwf.screens.changeappointment.adapter.AppointmentSlotsAdapter
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.widgets.CalendarFragment
+import com.centurylink.biwf.widgets.GeneralErrorPopUp
+import com.centurylink.biwf.widgets.NoNetworkErrorPopup
 import com.roomorama.caldroid.CaldroidFragment
 import com.roomorama.caldroid.CaldroidListener
 import java.text.SimpleDateFormat
@@ -47,6 +51,8 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
     private lateinit var calendarFragment: CalendarFragment
 
     private var finalSlotMap: Map<String, List<String>> = mapOf()
+
+    private val fragmentManager = supportFragmentManager
 
     override val viewModel by lazy {
         ViewModelProvider(this, factory).get(ChangeAppointmentViewModel::class.java)
@@ -91,7 +97,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
 
     override fun onSlotSelected(slotInfo: String) {
         viewModel.logAppointmentSelected()
-        binding.availableAppointmentSlotError.visibility = View.GONE
+        setErrorStates(false)
         selectedSlot = slotInfo
     }
 
@@ -100,7 +106,18 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             subheaderRightActionTitle.isEnabled = true
             subheaderRightActionTitle.isClickable = true
         }
-        binding.availableAppointmentSlotError.visibility = View.VISIBLE
+        setErrorStates(true)
+    }
+
+    private fun setErrorStates(isError: Boolean) {
+        appointmentSlotAdapter.isError = isError
+        binding.availableAppointmentSlotError.isVisible = isError
+        binding.availableAppointmentViewErrorTop.isVisible = isError
+        binding.availableAppointmentViewErrorBottom.isVisible = isError
+        binding.availableAppointmentViewErrorLeft.isVisible = isError
+        binding.availableAppointmentViewErrorRight.isVisible = isError
+        binding.separatorView.isVisible = !isError
+        appointmentSlotAdapter.notifyDataSetChanged()
     }
 
     private fun displayAppointmentError() {
@@ -109,6 +126,10 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             subheaderRightActionTitle.isClickable = true
         }
         binding.errorInSelectedSlot.visibility = View.VISIBLE
+        GeneralErrorPopUp.showGeneralErrorDialog(
+            fragmentManager,
+            callingActivity?.className
+        )
     }
 
     private fun initViews() {
@@ -125,10 +146,18 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             subheaderRightActionTitle.isClickable = true
             subheaderRightActionTitle.setOnClickListener {
                 if (!selectedDate.isNullOrEmpty()) {
-                    viewModel.onNextClicked(
-                        selectedDate,
-                        selectedSlot
-                    )
+                    if (AppUtil.isOnline(this@ChangeAppointmentActivity)) {
+                        viewModel.onNextClicked(
+                            selectedDate,
+                            selectedSlot
+                        )
+                    }
+                else {
+                        NoNetworkErrorPopup.showNoInternetDialog(
+                            fragmentManager,
+                            callingActivity?.className
+                        )
+                    }
                 }
                 if (!selectedSlot.isNullOrEmpty()) {
                     subheaderRightActionTitle.isEnabled = false
