@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.deviceusagedetails
 
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.BIWFApp
@@ -202,11 +201,11 @@ class UsageDetailsViewModel constructor(
     }
 
     fun onDoneBtnClick(nickname: String) {
-        if (!nickname.isNullOrEmpty()) {
+        if (!nickname.isNullOrEmpty() && nickname != deviceData.mcAfeeName) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
             progressViewFlow.latestValue = true
             viewModelScope.launch {
-                updateDeviceName("", nickname, deviceData.mcafeeDeviceId)
+                updateDeviceName(deviceData.mcAfeeDeviceType, nickname, deviceData.mcafeeDeviceId)
             }
         }
     }
@@ -218,66 +217,6 @@ class UsageDetailsViewModel constructor(
         }, ifRight = {
             mcAfeedeviceList = it
         })
-    }
-
-    private fun vinishaCode(nickname: String) {
-        viewModelScope.launch {
-            val result = mcafeeRepository.fetchDeviceDetails()
-            Log.d("lara 222", " $result")
-            result.fold(
-                ifLeft = {
-                    Log.d("lara", "in failure fetchDeviceDetails  $result")
-                    errorMessageFlow.latestValue = it
-                },
-                ifRight = {
-                    Log.d("lara", "in success fetchDeviceDetails")
-                    for (i in 0..it.size) {
-                        //  Check for availability of the Nick Name in devices List
-                        if (it[i].name == nickname) {
-                            var formattedNickname: String = nickname
-                            if (formattedNickname.length >= 13) {
-                                if (nickname.get(14).toInt() != 9) {
-                                    formattedNickname = formattedNickname.substring(0, 12)
-                                    formattedNickname =
-                                        if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus(
-                                            "(1)"
-                                        ) else formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
-                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
-                                } else {
-                                    formattedNickname = formattedNickname.substring(0, 11)
-                                    formattedNickname =
-                                        formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
-                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
-                                }
-                            } else {
-                                if (formattedNickname.get(formattedNickname.length - 2)
-                                        .toString() == "(" && formattedNickname.get(
-                                        formattedNickname.length
-                                    ).toString() == ")"
-                                ) {
-                                    // && formattedNickname.get(formattedNickname.length -1).toInt() check if its an INTEGER
-                                    formattedNickname =
-                                        formattedNickname.substring(0, formattedNickname.length)
-                                    formattedNickname =
-                                        formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
-                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
-                                } else {
-                                    formattedNickname =
-                                        if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus(
-                                            "(1)"
-                                        ) else formattedNickname.plus(
-                                            "( ${nickname.get(nickname.length - 1).toInt() + 1} )"
-                                        )
-                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
-                                }
-                            }
-                        } else {
-                            //  If the NickName is of 15 or less Characters [IPhoneNameisVM] and unique submit
-                            updateDeviceName(it[i].deviceType, nickname, it[i].id)
-                        }
-                    }
-                })
-        }
     }
 
     private suspend fun updateDeviceName(

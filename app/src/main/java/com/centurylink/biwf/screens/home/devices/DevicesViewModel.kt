@@ -36,7 +36,7 @@ class DevicesViewModel @Inject constructor(
     var devicesListFlow: EventFlow<UIDevicesTypeDetails> = EventFlow()
     val myState = EventFlow<DevicesCoordinatorDestinations>()
     private var uiDevicesTypeDetails: UIDevicesTypeDetails = UIDevicesTypeDetails()
-    private lateinit var devicesDataList: MutableList<DevicesData>
+    private var devicesDataList: MutableList<DevicesData> = mutableListOf()
     private var isModemAlive: Boolean = false
 
     init {
@@ -45,6 +45,7 @@ class DevicesViewModel @Inject constructor(
 
     fun initApis() {
         progressViewFlow.latestValue = true
+        devicesDataList.clear()
         viewModelScope.launch {
             requestModemDetails()
             requestDevices()
@@ -99,7 +100,7 @@ class DevicesViewModel @Inject constructor(
         }, ifRight = {
 
             updatMcAfeeDevicesInfo(it)
-            diplayDevicesListInUI()
+            displayDevicesListInUI()
         })
     }
 
@@ -132,7 +133,7 @@ class DevicesViewModel @Inject constructor(
                 } else {
                     // Typically the MACAFEE Device Id is needed for Making Api Calls to Apigee For some reasons the device Id is not got
                     updateEmptyDeviceIdListWithLoadingErrorStatus(item.stationMac!!)
-                    diplayDevicesListInUI()
+                    displayDevicesListInUI()
                 }
             }
         }
@@ -157,7 +158,7 @@ class DevicesViewModel @Inject constructor(
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(deviceId)
         mcafeeMapping.fold(ifLeft = {
             updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
-            diplayDevicesListInUI()
+            displayDevicesListInUI()
         }) {
             requestToUpdateNetworkStatus(deviceId, !it.isPaused)
         }
@@ -168,14 +169,14 @@ class DevicesViewModel @Inject constructor(
         mcafeeMapping.fold(ifLeft = {
             // Hack to ignore the display of Error message
             updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
-            diplayDevicesListInUI()
+            displayDevicesListInUI()
         }) {
             updateDeviceListWithPauseResumeStatus(it)
-            diplayDevicesListInUI()
+            displayDevicesListInUI()
         }
     }
 
-    private fun diplayDevicesListInUI() {
+    private fun displayDevicesListInUI() {
         sortAndDisplayDeviceInfo()
         progressViewFlow.latestValue = false
     }
@@ -259,19 +260,14 @@ class DevicesViewModel @Inject constructor(
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_FAILURE)
                 errorMessageFlow.latestValue = "Error DeviceInfo"
             })
+        progressViewFlow.latestValue = false
     }
 
     fun unblockDevice(stationMac: String) {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestBlocking(stationMac)
         }
-    }
-
-    private suspend fun requestMcAfeeDevices() {
-        val macAfeeDevices = mcafeeRepository.fetchDeviceDetails()
-        macAfeeDevices.fold(ifLeft = {
-        }, ifRight = {
-        })
     }
 
     fun navigateToUsageDetails(deviceData: DevicesData) {
@@ -287,10 +283,10 @@ class DevicesViewModel @Inject constructor(
         val macresponse = mcafeeRepository.updateDevicePauseResumeStatus(deviceId, isPaused)
         macresponse.fold(ifLeft = {
             updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
-            diplayDevicesListInUI()
+            displayDevicesListInUI()
         }, ifRight = {
             updateDeviceListWithPauseResumeStatus(it)
-            diplayDevicesListInUI()
+            displayDevicesListInUI()
         })
     }
 

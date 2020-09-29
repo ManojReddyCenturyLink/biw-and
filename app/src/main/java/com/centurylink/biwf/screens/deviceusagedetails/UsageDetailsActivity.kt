@@ -79,7 +79,7 @@ class UsageDetailsActivity : BaseActivity() {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                val nickname = if(binding.nicknameDeviceNameInput.text.toString().isNotEmpty()) binding.nicknameDeviceNameInput.text.toString() else binding.nicknameDeviceNameInput.hint.toString()
+                val nickname = if (binding.nicknameDeviceNameInput.text.toString().isNotEmpty()) binding.nicknameDeviceNameInput.text.toString() else screenTitle
                 viewModel.onDoneBtnClick(nickname)
             }
         }
@@ -96,8 +96,11 @@ class UsageDetailsActivity : BaseActivity() {
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             showErrorPopup.observe {
                 if (it) {
-                    GeneralErrorPopUp.showGeneralErrorDialog(fragmentManager, callingActivity?.className)
-                }else{
+                    GeneralErrorPopUp.showGeneralErrorDialog(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                } else {
                     setResult(REQUEST_TO_DEVICES)
                     finish()
                 }
@@ -118,12 +121,18 @@ class UsageDetailsActivity : BaseActivity() {
             }
             pauseUnpauseConnection.observe {
                 var isPaused = it.isPaused
-                val isModemStatus = intent.getBooleanExtra(MODEM_STATUS,false)
-                if(!isModemStatus){
+                val isModemStatus = intent.getBooleanExtra(MODEM_STATUS, false)
+                if (!isModemStatus) {
                     it.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
-                    isPaused =true
+                    isPaused = true
                 }
-                binding.connectionStatusIcon.setImageDrawable(getDrawable(ModemUtils.getConnectionStatusIcon(it)))
+                binding.connectionStatusIcon.setImageDrawable(
+                    getDrawable(
+                        ModemUtils.getConnectionStatusIcon(
+                            it
+                        )
+                    )
+                )
                 binding.deviceConnectedBtn.background =
                     (getDrawable(if (isPaused) R.drawable.light_grey_rounded_background else R.drawable.light_blue_rounded_background))
                 binding.connectionStatusBtnText.text =
@@ -133,7 +142,7 @@ class UsageDetailsActivity : BaseActivity() {
                 binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.dark_grey else R.color.purple))
             }
         }
-        binding.nicknameDeviceNameInput.setHint(screenTitle)
+        binding.nicknameDeviceNameInput.hint = screenTitle
         binding.deviceConnectedBtn.setOnClickListener {
             viewModel.onDevicesConnectedClicked()
         }
@@ -147,7 +156,7 @@ class UsageDetailsActivity : BaseActivity() {
         CustomDialogGreyTheme(
             getString(
                 R.string.remove_device_confirmation_title,
-                deviceData.hostName
+                deviceData.mcAfeeName
             ),
             getString(R.string.remove_device_confirmation_msg),
             getString(R.string.remove),
@@ -178,7 +187,7 @@ class UsageDetailsActivity : BaseActivity() {
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, UsageDetailsActivity::class.java)
                 .putExtra(DEVICE_INFO, bundle.getSerializable(DEVICE_INFO))
-                .putExtra(MODEM_STATUS, bundle.getBoolean(MODEM_STATUS,false))
+                .putExtra(MODEM_STATUS, bundle.getBoolean(MODEM_STATUS, false))
         }
     }
 }

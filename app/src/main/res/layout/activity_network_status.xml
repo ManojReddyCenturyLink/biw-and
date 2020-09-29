@@ -19,7 +19,7 @@
 
     <include
         android:id="@+id/progress_overlay"
-        layout="@layout/widget_loading_overlay_grey_bg"
+        layout="@layout/widget_loading_overlay_transparent_bg"
         android:layout_width="@dimen/padding_0"
         android:layout_height="@dimen/padding_0"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,7 +31,7 @@
 
     <include
         android:id="@+id/retry_overlay"
-        layout="@layout/widget_retry_overlay_grey_bg"
+        layout="@layout/widget_retry_overlay_transparent_bg"
         android:layout_width="@dimen/padding_0"
         android:layout_height="@dimen/padding_0"
         android:visibility="gone"
