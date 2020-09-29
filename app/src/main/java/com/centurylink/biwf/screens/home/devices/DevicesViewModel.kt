@@ -9,6 +9,7 @@ import com.centurylink.biwf.coordinators.DevicesCoordinatorDestinations
 import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.mcafee.DevicePauseStatus
+import com.centurylink.biwf.model.mcafee.DevicesItem
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.McafeeRepository
@@ -45,15 +46,14 @@ class DevicesViewModel @Inject constructor(
     fun initApis() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
-            requestMcAfeeDevices()
             requestModemDetails()
             requestDevices()
             val macAddresses = getMacAddressesFromDevicesInfo()
             if (!macAddresses.isNullOrEmpty()) {
                 requestMcafeeDeviceMapping(macAddresses)
             }
+            fetchMcDevices()
             val connectedList = devicesDataList.filter { !it.blocked }.distinct()
-
             if (!connectedList.isNullOrEmpty() && isModemAlive) {
                 getPauseResumeState(connectedList)
             }
@@ -86,6 +86,7 @@ class DevicesViewModel @Inject constructor(
         {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             devicesDataList = it as MutableList<DevicesData>
+            diplayDevicesListInUI()
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
@@ -97,8 +98,25 @@ class DevicesViewModel @Inject constructor(
         result.fold(ifLeft = {
             Timber.e("Mcafee Device List Error ")
         }, ifRight = {
-
+            updatMcAfeeDevicesInfo(it)
+            diplayDevicesListInUI()
         })
+    }
+
+
+    private fun updatMcAfeeDevicesInfo(mcAfeeList: List<DevicesItem>) {
+        if (!devicesDataList.isNullOrEmpty()) {
+            for (counter in devicesDataList.indices) {
+                val deviceData = devicesDataList[counter]
+                val devicesItem = mcAfeeList.firstOrNull { it.id == deviceData.mcafeeDeviceId }
+                if (devicesItem != null) {
+                    devicesDataList.removeAt(counter)
+                    deviceData.mcAfeeName = devicesItem.name
+                    deviceData.mcAfeeDeviceType = devicesItem.deviceType
+                    devicesDataList.add(counter, deviceData)
+                }
+            }
+        }
     }
 
     private fun getMacAddressesFromDevicesInfo(): List<String> {

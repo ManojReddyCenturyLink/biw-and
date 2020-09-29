@@ -128,7 +128,14 @@ class DeviceListAdapter(
             val deviceSignalStrength = layoutConnectedDevicesBinding.ivNetworkType
             val deviceLayout = layoutConnectedDevicesBinding.devicesListLayout
             val stateLoadingProgress = layoutConnectedDevicesBinding.progressIcon
-            deviceName.text = connectedData.hostName
+
+            var nickName = ""
+            nickName = if (!connectedData.mcAfeeName.isNullOrEmpty()) {
+                connectedData.mcAfeeName
+            } else {
+                connectedData.hostName ?: ""
+            }
+            deviceName.text = nickName
             //TODO Remove this when devices comes online
             when (connectedData.deviceConnectionStatus) {
                 DeviceConnectionStatus.LOADING -> {
