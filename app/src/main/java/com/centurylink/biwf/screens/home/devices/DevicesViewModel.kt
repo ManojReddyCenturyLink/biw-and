@@ -17,6 +17,7 @@ import com.centurylink.biwf.screens.deviceusagedetails.UsageDetailsActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.ConcurrentLinkedQueue
 import javax.inject.Inject
 
@@ -85,10 +86,18 @@ class DevicesViewModel @Inject constructor(
         {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             devicesDataList = it as MutableList<DevicesData>
-            diplayDevicesListInUI()
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
+        })
+    }
+
+    private suspend fun fetchMcDevices() {
+        val result = mcafeeRepository.fetchDeviceDetails()
+        result.fold(ifLeft = {
+            Timber.e("Mcafee Device List Error ")
+        }, ifRight = {
+
         })
     }
 
