@@ -16,6 +16,7 @@ import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
 
 class UsageDetailsActivity : BaseActivity() {
@@ -35,6 +36,8 @@ class UsageDetailsActivity : BaseActivity() {
     private lateinit var binding: LayoutDevicesUsageInformationBinding
 
     private lateinit var deviceData: DevicesData
+
+    private val fragmentManager = supportFragmentManager
 
     override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(
@@ -72,9 +75,7 @@ class UsageDetailsActivity : BaseActivity() {
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 val nickname = if(binding.nicknameDeviceNameInput.text.toString().isNotEmpty()) binding.nicknameDeviceNameInput.text.toString() else binding.nicknameDeviceNameInput.hint.toString()
-                viewModel.logDoneBtnClick(nickname)
-                setResult(REQUEST_TO_DEVICES)
-                finish()
+                viewModel.onDoneBtnClick(nickname)
             }
         }
         setApiProgressViews(
@@ -88,6 +89,14 @@ class UsageDetailsActivity : BaseActivity() {
             myState.observeWith(usageDetailsCoordinator)
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+            showErrorPopup.observe {
+                if (it) {
+                    GeneralErrorPopUp.showGeneralErrorDialog(fragmentManager, callingActivity?.className)
+                }else{
+                    setResult(REQUEST_TO_DEVICES)
+                    finish()
+                }
+            }
             uploadSpeedDaily.observe { binding.dailyUploadSpeed.text = it }
             uploadSpeedMonthly.observe { binding.biweeklyUploadSpeed.text = it }
             downloadSpeedDaily.observe { binding.dailyDownloadSpeed.text = it }

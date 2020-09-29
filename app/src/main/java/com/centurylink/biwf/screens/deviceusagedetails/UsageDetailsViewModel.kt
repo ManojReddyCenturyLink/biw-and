@@ -65,6 +65,7 @@ class UsageDetailsViewModel constructor(
     val myState = EventFlow<UsageDetailsCoordinatorDestinations>()
     val progressViewFlow = EventFlow<Boolean>()
     val errorMessageFlow = EventFlow<String>()
+    val showErrorPopup = EventFlow<Boolean>()
     val uploadSpeedMonthly: BehaviorStateFlow<String> = BehaviorStateFlow()
     val uploadSpeedDaily: BehaviorStateFlow<String> = BehaviorStateFlow()
     val downloadSpeedMonthly: BehaviorStateFlow<String> = BehaviorStateFlow()
@@ -200,8 +201,8 @@ class UsageDetailsViewModel constructor(
 //todo
 //If NickName Already exist suffix with (i) for Ex:Iphone(1)
 //If the NickName is of 15 Character [IPhoneNameisVM] and its duplicate update as [IPhoneNamei(1)]
-    fun logDoneBtnClick(nickname: String) {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+    fun onDoneBtnClick(nickname: String) {
+    analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
         progressViewFlow.latestValue = true
 
         viewModelScope.launch {
@@ -254,12 +255,14 @@ class UsageDetailsViewModel constructor(
         nickname: String,
         id: String
     ) {
+        progressViewFlow.latestValue = false
         val result = mcafeeRepository.updateDeviceName(deviceType, nickname, id)
         result.fold(
             ifLeft = {
-                Log.d("lara", "in failure updateDeviceName   $result")
+                showErrorPopup.latestValue = true
             },
             ifRight = {
+                showErrorPopup.latestValue = false
                 Log.d("lara", "in success updateDeviceName")
             })
     }
