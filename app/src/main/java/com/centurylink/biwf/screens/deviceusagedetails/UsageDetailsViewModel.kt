@@ -11,6 +11,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinatorDestinations
 import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
+import com.centurylink.biwf.model.mcafee.DevicesItem
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
@@ -79,12 +80,14 @@ class UsageDetailsViewModel constructor(
     var macAfeeDeviceId: String = ""
     private lateinit var deviceData: DevicesData
     var pauseUnpauseConnection = EventFlow<DevicesData>()
+    var mcAfeedeviceList: List<DevicesItem> = emptyList()
 
     fun initApis() {
         //TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
+            fetchMcDevicesNames()
             requestDailyUsageDetails()
             requestMonthlyUsageDetails()
             requestStateForDevices()
@@ -198,13 +201,28 @@ class UsageDetailsViewModel constructor(
         )
     }
 
-//todo
-//If NickName Already exist suffix with (i) for Ex:Iphone(1)
-//If the NickName is of 15 Character [IPhoneNameisVM] and its duplicate update as [IPhoneNamei(1)]
     fun onDoneBtnClick(nickname: String) {
-    analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
         progressViewFlow.latestValue = true
+        if (!mcAfeedeviceList.isNullOrEmpty()) {
+            val matchedList = mcAfeedeviceList.filter{it.name.startsWith(nickname)}
+            //Update the Name as per the logic and Submit it
 
+        } else {
+           //update the Name to server
+        }
+    }
+
+    private suspend fun fetchMcDevicesNames() {
+        val result = mcafeeRepository.fetchDeviceDetails()
+        result.fold(ifLeft = {
+            Timber.e("Mcafee Device List Error ")
+        }, ifRight = {
+            mcAfeedeviceList = it
+        })
+    }
+
+    private fun vinishaCode(nickname: String) {
         viewModelScope.launch {
             val result = mcafeeRepository.fetchDeviceDetails()
             Log.d("lara 222", " $result")
@@ -222,7 +240,10 @@ class UsageDetailsViewModel constructor(
                             if (formattedNickname.length >= 13) {
                                 if (nickname.get(14).toInt() != 9) {
                                     formattedNickname = formattedNickname.substring(0, 12)
-                                    formattedNickname = if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus("(1)") else formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
+                                    formattedNickname =
+                                        if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus(
+                                            "(1)"
+                                        ) else formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
                                     updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
                                 } else {
                                     formattedNickname = formattedNickname.substring(0, 11)
@@ -231,13 +252,24 @@ class UsageDetailsViewModel constructor(
                                     updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
                                 }
                             } else {
-                                if (formattedNickname.get(formattedNickname.length - 2).toString() == "(" && formattedNickname.get(formattedNickname.length).toString() == ")") {
+                                if (formattedNickname.get(formattedNickname.length - 2)
+                                        .toString() == "(" && formattedNickname.get(
+                                        formattedNickname.length
+                                    ).toString() == ")"
+                                ) {
                                     // && formattedNickname.get(formattedNickname.length -1).toInt() check if its an INTEGER
-                                    formattedNickname = formattedNickname.substring(0, formattedNickname.length)
-                                    formattedNickname = formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
+                                    formattedNickname =
+                                        formattedNickname.substring(0, formattedNickname.length)
+                                    formattedNickname =
+                                        formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
                                     updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
                                 } else {
-                                    formattedNickname = if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus("(1)") else formattedNickname.plus("( ${nickname.get(nickname.length - 1).toInt() + 1} )")
+                                    formattedNickname =
+                                        if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus(
+                                            "(1)"
+                                        ) else formattedNickname.plus(
+                                            "( ${nickname.get(nickname.length - 1).toInt() + 1} )"
+                                        )
                                     updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
                                 }
                             }
