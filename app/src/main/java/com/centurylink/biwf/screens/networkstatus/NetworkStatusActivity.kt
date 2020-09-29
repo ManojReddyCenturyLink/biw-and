@@ -47,7 +47,7 @@ class NetworkStatusActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                if(viewModel.isApiComplete) {
+                if(viewModel.networkInfoComplete) {
                   validateNameAndPassword()
                 }
             }
