@@ -76,7 +76,6 @@ class DevicesViewModel @Inject constructor(
                     deviceData.stationMac?.replace(":", "-") == it.mac_address
                 }?.devices?.get(0)?.id ?: ""
             }
-            diplayDevicesListInUI()
         })
     }
 
@@ -86,7 +85,6 @@ class DevicesViewModel @Inject constructor(
         {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             devicesDataList = it as MutableList<DevicesData>
-            diplayDevicesListInUI()
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
@@ -97,6 +95,7 @@ class DevicesViewModel @Inject constructor(
         val result = mcafeeRepository.fetchDeviceDetails()
         result.fold(ifLeft = {
             Timber.e("Mcafee Device List Error ")
+            errorMessageFlow.latestValue = it
         }, ifRight = {
             updatMcAfeeDevicesInfo(it)
             diplayDevicesListInUI()

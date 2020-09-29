@@ -170,7 +170,13 @@ class DeviceListAdapter(
             val blockedData = getChild(groupPosition, childPosition)
             val blockedDeviceName = layoutBlockedDevicesBinding.blockedDeviceName
 
-            blockedDeviceName.text = blockedData.hostName
+            var nickName = ""
+            nickName = if (!blockedData.mcAfeeName.isNullOrEmpty()) {
+                blockedData.mcAfeeName
+            } else {
+                blockedData.hostName ?: ""
+            }
+            blockedDeviceName.text = nickName
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onRemovedDevicesClicked(
                     devicesInfo = blockedData
