@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.home.devices
 
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -103,7 +102,7 @@ class DevicesViewModel @Inject constructor(
             for (item in concurrentList) {
                 if (!item.mcafeeDeviceId.isNullOrEmpty()) {
                     requestStateForConnectedDevices(item.mcafeeDeviceId)
-                } else{
+                } else {
                     // Typically the MACAFEE Device Id is needed for Making Api Calls to Apigee For some reasons the device Id is not got
                     updateEmptyDeviceIdListWithLoadingErrorStatus(item.stationMac!!)
                     diplayDevicesListInUI()
@@ -113,7 +112,8 @@ class DevicesViewModel @Inject constructor(
     }
 
     private fun updateEmptyDeviceIdListWithLoadingErrorStatus(
-        stationMac: String) {
+        stationMac: String
+    ) {
         if (!devicesDataList.isNullOrEmpty()) {
             for (counter in devicesDataList.indices) {
                 if (devicesDataList[counter].stationMac.equals(stationMac, true)) {
@@ -202,20 +202,20 @@ class DevicesViewModel @Inject constructor(
     }
 
     private suspend fun requestModemDetails() {
-      val modemDetails = oAuthAssiaRepository.getModemInfo()
-                modemDetails.fold(ifRight =  {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_SUCCESS)
-                val apiInfo = it?.apInfoList
-                if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
-                    isModemAlive =  apiInfo[0].isAlive
-                    uiDevicesTypeDetails =
-                        uiDevicesTypeDetails.copy(isModemAlive = isModemAlive)
-                } else {
-                    isModemAlive =  apiInfo[0].isAlive
-                    uiDevicesTypeDetails =
-                        uiDevicesTypeDetails.copy(isModemAlive = false)
-                }
-            },ifLeft = {
+        val modemDetails = oAuthAssiaRepository.getModemInfo()
+        modemDetails.fold(ifRight = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_SUCCESS)
+            val apiInfo = it?.apInfoList
+            if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                isModemAlive = apiInfo[0].isAlive
+                uiDevicesTypeDetails =
+                    uiDevicesTypeDetails.copy(isModemAlive = isModemAlive)
+            } else {
+                isModemAlive = apiInfo[0].isAlive
+                uiDevicesTypeDetails =
+                    uiDevicesTypeDetails.copy(isModemAlive = false)
+            }
+        }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
         })

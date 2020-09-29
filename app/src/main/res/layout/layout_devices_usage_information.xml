@@ -46,14 +46,14 @@
             android:id="@+id/layout_traffic_details"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_margin="@dimen/medium_margin_spacing"
             android:clipToPadding="true"
+            android:fadeScrollbars="false"
             android:fillViewport="true"
             android:fitsSystemWindows="true"
-            android:fadeScrollbars="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="@dimen/medium_margin_spacing">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -76,109 +76,109 @@
 
                     <TextView
                         android:id="@+id/daily_usage_text"
-                        android:textAppearance="@style/single_line_text_content"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:text="@string/today_s_data_usage"
+                        android:textAppearance="@style/single_line_text_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/daily_download_speed"
-                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:letterSpacing="-0.04"
                         android:text="--"
+                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         app:layout_constraintEnd_toStartOf="@+id/download_speed_unit_daily"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/daily_usage_text" />
 
                     <TextView
                         android:id="@+id/download_speed_unit_daily"
-                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
                         android:paddingBottom="@dimen/margin_spacing_tiny"
                         android:text="@string/mb_download"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         app:layout_constraintBottom_toBottomOf="@+id/daily_download_speed"
                         app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                         app:layout_constraintStart_toEndOf="@+id/daily_download_speed" />
 
                     <TextView
                         android:id="@+id/daily_upload_speed"
-                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:letterSpacing="-0.04"
                         android:text="--"
+                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                         app:layout_constraintTop_toTopOf="@+id/daily_download_speed" />
 
                     <TextView
                         android:id="@+id/daily_upload_speed_unit"
-                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
                         android:paddingBottom="@dimen/margin_spacing_tiny"
                         android:text="@string/mb_upload"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         app:layout_constraintBottom_toBottomOf="@+id/daily_upload_speed"
                         app:layout_constraintStart_toEndOf="@+id/daily_upload_speed" />
 
                     <TextView
                         android:id="@+id/biweekly_usage_text"
-                        android:textAppearance="@style/single_line_text_content"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_spacing_small"
                         android:text="@string/last_two_week"
+                        android:textAppearance="@style/single_line_text_content"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/daily_download_speed" />
 
                     <TextView
                         android:id="@+id/biweekly_download_speed"
-                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:letterSpacing="-0.04"
                         android:text="--"
+                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/biweekly_usage_text" />
 
                     <TextView
                         android:id="@+id/download_speed_unit_biweekly"
-                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
                         android:paddingBottom="@dimen/margin_spacing_tiny"
                         android:text="@string/mb_download"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         app:layout_constraintBottom_toBottomOf="@+id/biweekly_download_speed"
                         app:layout_constraintEnd_toStartOf="@+id/vertical_guideline"
                         app:layout_constraintStart_toEndOf="@+id/biweekly_download_speed" />
 
                     <TextView
                         android:id="@+id/biweekly_upload_speed"
-                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:letterSpacing="-0.04"
                         android:text="--"
+                        android:textAppearance="@style/style_devices_usage_download_upload_speed"
                         app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
                         app:layout_constraintTop_toTopOf="@+id/biweekly_download_speed" />
 
                     <TextView
                         android:id="@+id/upload_speed_unit_biweekly"
-                        android:textAppearance="@style/style_med_grey_small_text"
                         android:layout_width="@dimen/padding_0"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_spacing_tiny"
                         android:paddingBottom="@dimen/margin_spacing_tiny"
                         android:text="@string/mb_upload"
+                        android:textAppearance="@style/style_med_grey_small_text"
                         app:layout_constraintBottom_toBottomOf="@+id/biweekly_upload_speed"
                         app:layout_constraintStart_toEndOf="@+id/biweekly_upload_speed" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -191,39 +191,38 @@
                     android:background="@drawable/light_blue_rounded_background"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/layout_troubleshooting_details" />
 
                 <TextView
                     android:id="@+id/connection_status_btn_text"
-                    android:textAppearance="@style/SubHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/device_connected"
                     android:textAllCaps="false"
+                    android:textAppearance="@style/SubHeading"
+                    app:layout_constraintBottom_toBottomOf="@id/device_connected_btn"
                     app:layout_constraintEnd_toEndOf="@id/device_connected_btn"
                     app:layout_constraintStart_toStartOf="@id/device_connected_btn"
-                    app:layout_constraintBottom_toBottomOf="@id/device_connected_btn"
                     app:layout_constraintTop_toTopOf="@id/device_connected_btn" />
 
                 <ImageView
                     android:id="@+id/connection_status_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/padding_0"
-                    android:src="@drawable/ic_network_3_bars"
                     android:layout_marginStart="@dimen/margin_spacing_tiny"
-                    app:layout_constraintTop_toTopOf="@+id/device_connected_btn"
+                    android:src="@drawable/ic_network_3_bars"
+                    app:layout_constraintBottom_toBottomOf="@+id/device_connected_btn"
                     app:layout_constraintStart_toEndOf="@+id/connection_status_btn_text"
-                    app:layout_constraintBottom_toBottomOf="@+id/device_connected_btn"/>
+                    app:layout_constraintTop_toTopOf="@+id/device_connected_btn" />
 
                 <TextView
                     android:id="@+id/tap_to_retry_text"
-                    android:textAppearance="@style/style_med_grey_small_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_tiny"
                     android:text="@string/tap_to_pause_connection"
                     android:textAlignment="center"
+                    android:textAppearance="@style/style_med_grey_small_text"
                     app:layout_constraintEnd_toEndOf="@+id/device_connected_btn"
                     app:layout_constraintStart_toStartOf="@+id/device_connected_btn"
                     app:layout_constraintTop_toBottomOf="@+id/device_connected_btn" />
@@ -240,30 +239,30 @@
 
                 <TextView
                     android:id="@+id/organization"
-                    android:textAppearance="@style/style_devices_usage_subheadings"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_spacing_large"
                     android:text="@string/organization"
+                    android:textAppearance="@style/style_devices_usage_subheadings"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/horizontal_view" />
 
                 <TextView
                     android:id="@+id/nickname_device"
-                    android:textAppearance="@style/TextViewLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/text_size_16"
                     android:text="@string/nickname_device"
+                    android:textAppearance="@style/TextViewLabel"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/organization" />
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:textAppearance="@style/style_med_grey_small_text"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_4"
                     android:text="@string/optional"
+                    android:textAppearance="@style/style_med_grey_small_text"
                     app:layout_constraintBottom_toBottomOf="@id/nickname_device"
                     app:layout_constraintStart_toEndOf="@id/nickname_device" />
 
@@ -272,10 +271,12 @@
                     style="@style/style_form_input_fields_grey"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
-                    android:autofillHints=""
-                    android:inputType="text"
-                    android:padding="@dimen/margin_spacing_tiny"
                     android:layout_marginTop="@dimen/spacing_4"
+                    android:autofillHints=""
+                    android:hint=""
+                    android:inputType="text"
+                    android:maxLength="15"
+                    android:padding="@dimen/margin_spacing_tiny"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/nickname_device" />

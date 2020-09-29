@@ -71,7 +71,8 @@ class UsageDetailsActivity : BaseActivity() {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                viewModel.logDoneBtnClick()
+                val nickname = if(binding.nicknameDeviceNameInput.text.toString().isNotEmpty()) binding.nicknameDeviceNameInput.text.toString() else binding.nicknameDeviceNameInput.hint.toString()
+                viewModel.logDoneBtnClick(nickname)
                 setResult(REQUEST_TO_DEVICES)
                 finish()
             }
@@ -118,7 +119,7 @@ class UsageDetailsActivity : BaseActivity() {
                 binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.dark_grey else R.color.purple))
             }
         }
-        binding.nicknameDeviceNameInput.setText(screenTitle)
+        binding.nicknameDeviceNameInput.setHint(screenTitle)
         binding.deviceConnectedBtn.setOnClickListener {
             viewModel.onDevicesConnectedClicked()
         }

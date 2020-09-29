@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.deviceusagedetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.BIWFApp
@@ -30,7 +31,7 @@ class UsageDetailsViewModel constructor(
     private val networkUsageRepository: NetworkUsageRepository,
     private val assiaRepository: AssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-     analyticsManagerInterface: AnalyticsManager,
+    analyticsManagerInterface: AnalyticsManager,
     private val mcafeeRepository: McafeeRepository
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
@@ -74,8 +75,8 @@ class UsageDetailsViewModel constructor(
     val downloadSpeedDailyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
-    var macAfeeDeviceId :String =""
-    private lateinit var deviceData :DevicesData
+    var macAfeeDeviceId: String = ""
+    private lateinit var deviceData: DevicesData
     var pauseUnpauseConnection = EventFlow<DevicesData>()
 
     fun initApis() {
@@ -99,19 +100,19 @@ class UsageDetailsViewModel constructor(
         } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_DETAILS)
         }
-       when(deviceData.deviceConnectionStatus){
-           DeviceConnectionStatus.PAUSED,
-           DeviceConnectionStatus.DEVICE_CONNECTED,
-           DeviceConnectionStatus.LOADING,
-           DeviceConnectionStatus.FAILURE ->{
-               if (!macAfeeDeviceId.isNullOrEmpty()) {
-                   updatePauseResumeStatus()
-               }
-           }
-           DeviceConnectionStatus.MODEM_OFF->{
-               Timber.e("Cant Perform any Action")
-           }
-       }
+        when (deviceData.deviceConnectionStatus) {
+            DeviceConnectionStatus.PAUSED,
+            DeviceConnectionStatus.DEVICE_CONNECTED,
+            DeviceConnectionStatus.LOADING,
+            DeviceConnectionStatus.FAILURE -> {
+                if (!macAfeeDeviceId.isNullOrEmpty()) {
+                    updatePauseResumeStatus()
+                }
+            }
+            DeviceConnectionStatus.MODEM_OFF -> {
+                Timber.e("Cant Perform any Action")
+            }
+        }
     }
 
     private suspend fun requestDailyUsageDetails() {
@@ -196,8 +197,71 @@ class UsageDetailsViewModel constructor(
         )
     }
 
-    fun logDoneBtnClick() {
+//todo
+//If NickName Already exist suffix with (i) for Ex:Iphone(1)
+//If the NickName is of 15 Character [IPhoneNameisVM] and its duplicate update as [IPhoneNamei(1)]
+    fun logDoneBtnClick(nickname: String) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+        progressViewFlow.latestValue = true
+
+        viewModelScope.launch {
+            val result = mcafeeRepository.fetchDeviceDetails()
+            Log.d("lara 222", " $result")
+            result.fold(
+                ifLeft = {
+                    Log.d("lara", "in failure fetchDeviceDetails  $result")
+                    errorMessageFlow.latestValue = it
+                },
+                ifRight = {
+                    Log.d("lara", "in success fetchDeviceDetails")
+                    for (i in 0..it.size) {
+                        //  Check for availability of the Nick Name in devices List
+                        if (it[i].name == nickname) {
+                            var formattedNickname: String = nickname
+                            if (formattedNickname.length >= 13) {
+                                if (nickname.get(14).toInt() != 9) {
+                                    formattedNickname = formattedNickname.substring(0, 12)
+                                    formattedNickname = if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus("(1)") else formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
+                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
+                                } else {
+                                    formattedNickname = formattedNickname.substring(0, 11)
+                                    formattedNickname =
+                                        formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
+                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
+                                }
+                            } else {
+                                if (formattedNickname.get(formattedNickname.length - 2).toString() == "(" && formattedNickname.get(formattedNickname.length).toString() == ")") {
+                                    // && formattedNickname.get(formattedNickname.length -1).toInt() check if its an INTEGER
+                                    formattedNickname = formattedNickname.substring(0, formattedNickname.length)
+                                    formattedNickname = formattedNickname.plus("( ${nickname[nickname.length - 1].toInt() + 1} )")
+                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
+                                } else {
+                                    formattedNickname = if (formattedNickname.plus("(1)") != nickname) formattedNickname.plus("(1)") else formattedNickname.plus("( ${nickname.get(nickname.length - 1).toInt() + 1} )")
+                                    updateDeviceName(it[i].deviceType, formattedNickname, it[i].id)
+                                }
+                            }
+                        } else {
+                            //  If the NickName is of 15 or less Characters [IPhoneNameisVM] and unique submit
+                            updateDeviceName(it[i].deviceType, nickname, it[i].id)
+                        }
+                    }
+                })
+        }
+    }
+
+    private suspend fun updateDeviceName(
+        deviceType: String,
+        nickname: String,
+        id: String
+    ) {
+        val result = mcafeeRepository.updateDeviceName(deviceType, nickname, id)
+        result.fold(
+            ifLeft = {
+                Log.d("lara", "in failure updateDeviceName   $result")
+            },
+            ifRight = {
+                Log.d("lara", "in success updateDeviceName")
+            })
     }
 
     fun logRemoveConnection(removeConnection: Boolean) {
@@ -211,8 +275,10 @@ class UsageDetailsViewModel constructor(
     private fun updatePauseResumeStatus() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
-            val macResponse = mcafeeRepository.
-            updateDevicePauseResumeStatus(macAfeeDeviceId, !deviceData.isPaused)
+            val macResponse = mcafeeRepository.updateDevicePauseResumeStatus(
+                macAfeeDeviceId,
+                !deviceData.isPaused
+            )
             macResponse.fold(ifLeft = {
                 errorMessageFlow.latestValue = it
             }, ifRight = {
@@ -231,7 +297,7 @@ class UsageDetailsViewModel constructor(
     private suspend fun requestStateForDevices() {
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(macAfeeDeviceId)
         mcafeeMapping.fold(ifLeft = {
-           // On Error we are updating the device Icon with Failure icon instead of wifi icon
+            // On Error we are updating the device Icon with Failure icon instead of wifi icon
             deviceData.isPaused = false
             pauseUnpauseConnection.latestValue = deviceData
             deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
