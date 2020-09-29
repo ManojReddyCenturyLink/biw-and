@@ -684,11 +684,8 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
-    fun navigateToNetworkInformation(networkName: String) {
+    fun navigateToNetworkInformation() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.CARD_NETWORK_INFO)
-        val bundle = Bundle()
-        bundle.putString(NetworkStatusActivity.NETWORK_NAME, networkName)
-        DashboardCoordinatorDestinations.bundle = bundle
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 
