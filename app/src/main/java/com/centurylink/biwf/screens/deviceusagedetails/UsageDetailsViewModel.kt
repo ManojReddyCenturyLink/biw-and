@@ -202,14 +202,12 @@ class UsageDetailsViewModel constructor(
     }
 
     fun onDoneBtnClick(nickname: String) {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
-        progressViewFlow.latestValue = true
-        if (!mcAfeedeviceList.isNullOrEmpty()) {
-            val matchedList = mcAfeedeviceList.filter{it.name.startsWith(nickname)}
-            //Update the Name as per the logic and Submit it
-
-        } else {
-           //update the Name to server
+        if (!nickname.isNullOrEmpty()) {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+            progressViewFlow.latestValue = true
+            viewModelScope.launch {
+                updateDeviceName("", nickname, deviceData.mcafeeDeviceId)
+            }
         }
     }
 
@@ -287,15 +285,15 @@ class UsageDetailsViewModel constructor(
         nickname: String,
         id: String
     ) {
-        progressViewFlow.latestValue = false
         val result = mcafeeRepository.updateDeviceName(deviceType, nickname, id)
         result.fold(
             ifLeft = {
+                progressViewFlow.latestValue = false
                 showErrorPopup.latestValue = true
             },
             ifRight = {
+                progressViewFlow.latestValue = false
                 showErrorPopup.latestValue = false
-                Log.d("lara", "in success updateDeviceName")
             })
     }
 
