@@ -42,7 +42,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     private lateinit var binding: FragmentDevicesBinding
 
     private lateinit var deviceAdapter: DeviceListAdapter
-    var isRefresh = false
+    private var isRefresh = false
 
     private var blockDeviceMac: String = ""
 
@@ -92,7 +92,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         disableSwipeToRefresh()
         devicesViewModel.logRemoveDevicesItemClick()
         blockDeviceMac = deviceInfo.stationMac!!
-        var nickName = if (!deviceInfo.mcAfeeName.isNullOrEmpty()) {
+        val nickName = if (!deviceInfo.mcAfeeName.isNullOrEmpty()) {
             deviceInfo.mcAfeeName
         } else {
             deviceInfo.hostName ?: ""
