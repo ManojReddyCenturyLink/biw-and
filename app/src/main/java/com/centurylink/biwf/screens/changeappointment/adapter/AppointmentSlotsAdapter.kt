@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.databinding.AppointmentSlotsItemsBinding
+import com.centurylink.biwf.R
 
 class AppointmentSlotsAdapter(
     var slotList: List<String>,
@@ -11,6 +12,7 @@ class AppointmentSlotsAdapter(
 ) : RecyclerView.Adapter<AppointmentSlotsAdapter.SlotsViewHolder>() {
 
     var lastSelectedPosition = -1
+    var isError: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SlotsViewHolder {
         return SlotsViewHolder(AppointmentSlotsItemsBinding.inflate(LayoutInflater.from(parent.context), parent, false))
@@ -26,6 +28,11 @@ class AppointmentSlotsAdapter(
     inner class SlotsViewHolder(private var binding: AppointmentSlotsItemsBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(slotInfo: String, position: Int) {
+            if(isError) {
+                binding.appointmentSelectRadioBtn.setBackgroundResource(R.drawable.ic_radio_error)
+            } else {
+                binding.appointmentSelectRadioBtn.setBackgroundResource(R.drawable.radiobutton_selector)
+            }
             binding.appointmentTime.text = slotInfo
             binding.appointmentSelectRadioBtn.setOnClickListener {
                 lastSelectedPosition = adapterPosition
