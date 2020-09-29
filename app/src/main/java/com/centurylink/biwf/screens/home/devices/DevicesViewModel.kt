@@ -98,6 +98,7 @@ class DevicesViewModel @Inject constructor(
             Timber.e("Mcafee Device List Error ")
             errorMessageFlow.latestValue = it
         }, ifRight = {
+
             updatMcAfeeDevicesInfo(it)
             displayDevicesListInUI()
         })
