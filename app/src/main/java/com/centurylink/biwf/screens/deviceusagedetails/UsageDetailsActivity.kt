@@ -68,7 +68,12 @@ class UsageDetailsActivity : BaseActivity() {
 
     private fun initViews() {
         deviceData = intent.getSerializableExtra(DEVICE_INFO) as DevicesData
-        val screenTitle = deviceData.hostName
+        var nickName = if (!deviceData.mcAfeeName.isNullOrEmpty()) {
+            deviceData.mcAfeeName
+        } else {
+            deviceData.hostName ?: ""
+        }
+        val screenTitle = nickName
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
