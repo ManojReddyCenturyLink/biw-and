@@ -21,7 +21,6 @@ import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.widgets.CalendarFragment
-import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import com.centurylink.biwf.widgets.NoNetworkErrorPopup
 import com.roomorama.caldroid.CaldroidFragment
 import com.roomorama.caldroid.CaldroidListener
@@ -126,10 +125,6 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             subheaderRightActionTitle.isClickable = true
         }
         binding.errorInSelectedSlot.visibility = View.VISIBLE
-        GeneralErrorPopUp.showGeneralErrorDialog(
-            fragmentManager,
-            callingActivity?.className
-        )
     }
 
     private fun initViews() {
