@@ -20,6 +20,7 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
 
 class UsageDetailsActivity : BaseActivity() {
