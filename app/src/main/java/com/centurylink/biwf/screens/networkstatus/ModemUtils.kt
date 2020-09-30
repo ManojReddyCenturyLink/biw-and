@@ -5,9 +5,15 @@ import com.centurylink.biwf.model.assia.ApInfo
 import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.wifi.NetWorkBand
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class ModemUtils {
     companion object {
+        val PAT_DEFAULT1: Pattern = Pattern.compile(
+            "(.*?)"
+                    + "(?:\\-(\\d+)\\-)?(\\.[^.]*)?")
+
         fun getGuestNetworkName(apiInfo: ApInfo): String {
             var guestNetworkName = ""
             if (apiInfo.ssidMap.containsKey(NetWorkBand.Band5G_Guest4.name)) {
@@ -121,6 +127,32 @@ class ModemUtils {
                 }
                 else -> return R.drawable.ic_cta_wi_fi_disconnected
             }
+        }
+
+        fun getNewName(
+            filename: String?,
+            fileList: ArrayList<String?>
+        ): String? {
+            var filename = filename
+            if (fileExists(filename, fileList)) {
+                val m: Matcher = PAT_DEFAULT1.matcher(filename)
+                if (m.matches()) {
+                    val prefix: String = m.group(1)
+                    val last: String = m.group(2)
+                    var suffix: String = m.group(3)
+                    if (suffix == null) suffix = ""
+                    var count = last?.toInt() ?: 0
+                    do {
+                        count++
+                        filename = "$prefix-$count$suffix"
+                    } while (fileExists(filename, fileList))
+                }
+            }
+            return filename
+        }
+
+        private fun fileExists(filename: String?, fileList: ArrayList<String?>): Boolean {
+            return fileList.contains(filename)
         }
     }
 }
