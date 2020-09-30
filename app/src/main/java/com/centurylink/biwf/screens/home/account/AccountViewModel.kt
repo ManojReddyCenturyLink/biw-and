@@ -100,6 +100,7 @@ class AccountViewModel internal constructor(
             progressViewFlow.latestValue = true
             requestAccountDetails()
             requestContactInfo()
+            progressViewFlow.latestValue = false
         }
     }
 
