@@ -207,6 +207,8 @@ class UsageDetailsViewModel constructor(
             viewModelScope.launch {
                 updateDeviceName(deviceData.mcAfeeDeviceType, nickname, deviceData.mcafeeDeviceId)
             }
+        } else {
+            showErrorPopup.latestValue = false
         }
     }
 

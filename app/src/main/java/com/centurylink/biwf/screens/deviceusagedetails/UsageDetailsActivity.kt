@@ -1,9 +1,12 @@
 package com.centurylink.biwf.screens.deviceusagedetails
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.OnFocusChangeListener
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -15,6 +18,7 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
@@ -79,7 +83,9 @@ class UsageDetailsActivity : BaseActivity() {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                val nickname = if (binding.nicknameDeviceNameInput.text.toString().isNotEmpty()) binding.nicknameDeviceNameInput.text.toString() else screenTitle
+                val nickname = if (binding.nicknameDeviceNameInput.text.toString()
+                        .isNotEmpty()
+                ) binding.nicknameDeviceNameInput.text.toString() else screenTitle
                 viewModel.onDoneBtnClick(nickname)
             }
         }
@@ -96,10 +102,7 @@ class UsageDetailsActivity : BaseActivity() {
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             showErrorPopup.observe {
                 if (it) {
-                    GeneralErrorPopUp.showGeneralErrorDialog(
-                        fragmentManager,
-                        callingActivity?.className
-                    )
+                    showAlertDialog(true)
                 } else {
                     setResult(REQUEST_TO_DEVICES)
                     finish()
@@ -148,24 +151,48 @@ class UsageDetailsActivity : BaseActivity() {
         }
         binding.removeDevicesBtn.setOnClickListener {
             viewModel.onRemoveDevicesClicked()
-            showAlertDialog()
+            showAlertDialog(false)
+        }
+        binding.nicknameDeviceNameInput.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboard()
+            }
         }
     }
 
-    private fun showAlertDialog() {
-        CustomDialogGreyTheme(
-            getString(
-                R.string.remove_device_confirmation_title,
-                deviceData.mcAfeeName
-            ),
-            getString(R.string.remove_device_confirmation_msg),
-            getString(R.string.remove),
-            getString(R.string.text_header_cancel),
-            ::onDialogCallback
-        ).show(
-            supportFragmentManager,
-            UsageDetailsActivity::class.simpleName
-        )
+    private fun hideKeyboard() {
+        val imm : InputMethodManager =
+            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.nicknameDeviceNameInput.windowToken, 0);
+    }
+
+    private fun showAlertDialog(displayBlueDialog : Boolean) {
+        if (displayBlueDialog){
+            CustomDialogBlueTheme(
+                title = getString(R.string.error_title),
+                message = getString(R.string.password_reset_error_msg),
+                buttonText = getString(R.string.discard_changes_and_close),
+                isErrorPopup = true,
+                callback = ::onErrorDialogCallback
+            ).show(
+                fragmentManager,
+                callingActivity?.className
+            )
+        }else{
+            CustomDialogGreyTheme(
+                getString(
+                    R.string.remove_device_confirmation_title,
+                    deviceData.mcAfeeName
+                ),
+                getString(R.string.remove_device_confirmation_msg),
+                getString(R.string.remove),
+                getString(R.string.text_header_cancel),
+                ::onDialogCallback
+            ).show(
+                supportFragmentManager,
+                UsageDetailsActivity::class.simpleName
+            )
+        }
     }
 
     private fun onDialogCallback(buttonType: Int) {
@@ -176,6 +203,15 @@ class UsageDetailsActivity : BaseActivity() {
             }
             AlertDialog.BUTTON_NEGATIVE -> {
                 viewModel.logRemoveConnection(false)
+            }
+        }
+    }
+
+    private fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         }
     }
