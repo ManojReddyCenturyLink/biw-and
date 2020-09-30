@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.deviceusagedetails
 
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.BIWFApp
@@ -14,6 +15,7 @@ import com.centurylink.biwf.model.mcafee.DevicesItem
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
+import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -80,6 +82,7 @@ class UsageDetailsViewModel constructor(
     private lateinit var deviceData: DevicesData
     var pauseUnpauseConnection = EventFlow<DevicesData>()
     var mcAfeedeviceList: List<DevicesItem> = emptyList()
+    var mcAfeedeviceNames: ArrayList<String> = ArrayList()
 
     fun initApis() {
         //TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
@@ -205,7 +208,8 @@ class UsageDetailsViewModel constructor(
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
             progressViewFlow.latestValue = true
             viewModelScope.launch {
-                updateDeviceName(deviceData.mcAfeeDeviceType, nickname, deviceData.mcafeeDeviceId)
+                 var distinctName = ModemUtils.generateNewNickName(nickname,mcAfeedeviceNames)
+                updateDeviceName(deviceData.mcAfeeDeviceType, distinctName, deviceData.mcafeeDeviceId)
             }
         }
     }
@@ -214,8 +218,10 @@ class UsageDetailsViewModel constructor(
         val result = mcafeeRepository.fetchDeviceDetails()
         result.fold(ifLeft = {
             Timber.e("Mcafee Device List Error ")
-        }, ifRight = {
-            mcAfeedeviceList = it
+        }, ifRight = { devicesItemList ->
+            mcAfeedeviceList = devicesItemList
+            mcAfeedeviceNames = ArrayList(devicesItemList.map { it.name }.toMutableList())
+            Log.i("JAQUAR","MC DEVICES NAME "+mcAfeedeviceNames)
         })
     }
 
