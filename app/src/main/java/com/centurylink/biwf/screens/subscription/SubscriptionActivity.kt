@@ -35,7 +35,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
     }
     private lateinit var binding: ActivitySubscriptionBinding
     private lateinit var paymentInvoicesAdapter: PaymentInvoicesAdapter
-    private var resultValue = Activity.RESULT_OK
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +67,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
     }
 
     override fun onBackPressed() {
-        setResult(resultValue)
+        setResult(EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS)
         finish()
     }
 
@@ -81,7 +80,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             EditPaymentDetailsActivity.REQUEST_TO_EDIT_PAYMENT_DETAILS -> {
-                resultValue = resultCode
                 if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS) {
                     setResult(resultCode)
                     finish()
@@ -122,7 +120,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logDoneBtnClick()
-                setResult(resultValue)
+                setResult(EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS)
                 finish()
             }
         }

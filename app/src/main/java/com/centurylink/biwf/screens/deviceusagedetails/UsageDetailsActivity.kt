@@ -16,6 +16,7 @@ import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
 
 class UsageDetailsActivity : BaseActivity() {
@@ -35,6 +36,8 @@ class UsageDetailsActivity : BaseActivity() {
     private lateinit var binding: LayoutDevicesUsageInformationBinding
 
     private lateinit var deviceData: DevicesData
+
+    private val fragmentManager = supportFragmentManager
 
     override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(
@@ -65,15 +68,19 @@ class UsageDetailsActivity : BaseActivity() {
 
     private fun initViews() {
         deviceData = intent.getSerializableExtra(DEVICE_INFO) as DevicesData
-        val screenTitle = deviceData.hostName
+        var nickName = if (!deviceData.mcAfeeName.isNullOrEmpty()) {
+            deviceData.mcAfeeName
+        } else {
+            deviceData.hostName ?: ""
+        }
+        val screenTitle = nickName
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                viewModel.logDoneBtnClick()
-                setResult(REQUEST_TO_DEVICES)
-                finish()
+                val nickname = if (binding.nicknameDeviceNameInput.text.toString().isNotEmpty()) binding.nicknameDeviceNameInput.text.toString() else screenTitle
+                viewModel.onDoneBtnClick(nickname)
             }
         }
         setApiProgressViews(
@@ -87,6 +94,17 @@ class UsageDetailsActivity : BaseActivity() {
             myState.observeWith(usageDetailsCoordinator)
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+            showErrorPopup.observe {
+                if (it) {
+                    GeneralErrorPopUp.showGeneralErrorDialog(
+                        fragmentManager,
+                        callingActivity?.className
+                    )
+                } else {
+                    setResult(REQUEST_TO_DEVICES)
+                    finish()
+                }
+            }
             uploadSpeedDaily.observe { binding.dailyUploadSpeed.text = it }
             uploadSpeedMonthly.observe { binding.biweeklyUploadSpeed.text = it }
             downloadSpeedDaily.observe { binding.dailyDownloadSpeed.text = it }
@@ -103,12 +121,18 @@ class UsageDetailsActivity : BaseActivity() {
             }
             pauseUnpauseConnection.observe {
                 var isPaused = it.isPaused
-                val isModemStatus = intent.getBooleanExtra(MODEM_STATUS,false)
-                if(!isModemStatus){
+                val isModemStatus = intent.getBooleanExtra(MODEM_STATUS, false)
+                if (!isModemStatus) {
                     it.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
-                    isPaused =true
+                    isPaused = true
                 }
-                binding.connectionStatusIcon.setImageDrawable(getDrawable(ModemUtils.getConnectionStatusIcon(it)))
+                binding.connectionStatusIcon.setImageDrawable(
+                    getDrawable(
+                        ModemUtils.getConnectionStatusIcon(
+                            it
+                        )
+                    )
+                )
                 binding.deviceConnectedBtn.background =
                     (getDrawable(if (isPaused) R.drawable.light_grey_rounded_background else R.drawable.light_blue_rounded_background))
                 binding.connectionStatusBtnText.text =
@@ -118,7 +142,7 @@ class UsageDetailsActivity : BaseActivity() {
                 binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.dark_grey else R.color.purple))
             }
         }
-        binding.nicknameDeviceNameInput.setText(screenTitle)
+        binding.nicknameDeviceNameInput.hint = screenTitle
         binding.deviceConnectedBtn.setOnClickListener {
             viewModel.onDevicesConnectedClicked()
         }
@@ -132,7 +156,7 @@ class UsageDetailsActivity : BaseActivity() {
         CustomDialogGreyTheme(
             getString(
                 R.string.remove_device_confirmation_title,
-                deviceData.hostName
+                deviceData.mcAfeeName
             ),
             getString(R.string.remove_device_confirmation_msg),
             getString(R.string.remove),
@@ -163,7 +187,7 @@ class UsageDetailsActivity : BaseActivity() {
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, UsageDetailsActivity::class.java)
                 .putExtra(DEVICE_INFO, bundle.getSerializable(DEVICE_INFO))
-                .putExtra(MODEM_STATUS, bundle.getBoolean(MODEM_STATUS,false))
+                .putExtra(MODEM_STATUS, bundle.getBoolean(MODEM_STATUS, false))
         }
     }
 }

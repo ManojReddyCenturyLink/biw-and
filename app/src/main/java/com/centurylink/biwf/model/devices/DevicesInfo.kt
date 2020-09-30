@@ -62,6 +62,10 @@ data class DevicesData(
 
     var mcafeeDeviceId: String = "",
 
+    var mcAfeeName:String ="",
+
+    var mcAfeeDeviceType:String ="",
+
     var deviceConnectionStatus: DeviceConnectionStatus = DeviceConnectionStatus.LOADING
 
 
