@@ -57,8 +57,9 @@
                 android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:paddingStart="@dimen/medium_margin_spacing"
                 android:paddingEnd="@dimen/medium_margin_spacing"
+                android:paddingTop="@dimen/margin_spacing_small"
                 android:text="@string/error_in_selected_slot"
-                style="@style/style_calender_error"
+                style="@style/style_calender_appointment_error"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +118,7 @@
 
             <TextView
                 android:id="@+id/available_appointment_slot_error"
-                style="@style/style_calender_error"
+                style="@style/style_calender_slot_error"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_spacing_6"

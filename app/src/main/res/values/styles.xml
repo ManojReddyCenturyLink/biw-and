@@ -527,9 +527,15 @@
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
 
-    <style name="style_calender_error" parent="@android:style/TextAppearance">
+    <style name="style_calender_slot_error" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/error_red</item>
         <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <style name="style_calender_appointment_error" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/strawberry</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 </resources>
