@@ -81,6 +81,7 @@ class DevicesViewModel @Inject constructor(
     }
 
     private suspend fun requestDevices() {
+        progressViewFlow.latestValue = true
         val deviceDetails = asiaRepository.getDevicesDetails()
         deviceDetails.fold(ifRight =
         {
@@ -103,7 +104,6 @@ class DevicesViewModel @Inject constructor(
             displayDevicesListInUI()
         })
     }
-
 
     private fun updatMcAfeeDevicesInfo(mcAfeeList: List<DevicesItem>) {
         if (!devicesDataList.isNullOrEmpty()) {
