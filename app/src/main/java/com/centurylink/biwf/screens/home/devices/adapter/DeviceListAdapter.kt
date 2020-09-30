@@ -1,8 +1,6 @@
 package com.centurylink.biwf.screens.home.devices.adapter
 
 import android.content.Context
-import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -128,7 +126,14 @@ class DeviceListAdapter(
             val deviceSignalStrength = layoutConnectedDevicesBinding.ivNetworkType
             val deviceLayout = layoutConnectedDevicesBinding.devicesListLayout
             val stateLoadingProgress = layoutConnectedDevicesBinding.progressIcon
-            deviceName.text = connectedData.hostName
+
+            var nickName = ""
+            nickName = if (!connectedData.mcAfeeName.isNullOrEmpty()) {
+                connectedData.mcAfeeName
+            } else {
+                connectedData.hostName ?: ""
+            }
+            deviceName.text = nickName
             //TODO Remove this when devices comes online
             when (connectedData.deviceConnectionStatus) {
                 DeviceConnectionStatus.LOADING -> {
@@ -163,7 +168,13 @@ class DeviceListAdapter(
             val blockedData = getChild(groupPosition, childPosition)
             val blockedDeviceName = layoutBlockedDevicesBinding.blockedDeviceName
 
-            blockedDeviceName.text = blockedData.hostName
+            var nickName = ""
+            nickName = if (!blockedData.mcAfeeName.isNullOrEmpty()) {
+                blockedData.mcAfeeName
+            } else {
+                blockedData.hostName ?: ""
+            }
+            blockedDeviceName.text = nickName
             deviceLayout.setOnClickListener {
                 deviceItemClickListener.onRemovedDevicesClicked(
                     devicesInfo = blockedData

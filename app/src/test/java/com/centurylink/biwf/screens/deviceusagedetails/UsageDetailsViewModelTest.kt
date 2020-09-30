@@ -70,7 +70,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun logAnalytics() {
-        viewModel.logDoneBtnClick()
+        viewModel.onDoneBtnClick("")
         viewModel.onRemoveDevicesClicked()
         viewModel.logRemoveConnection(true)
         viewModel.logRemoveConnection(false)

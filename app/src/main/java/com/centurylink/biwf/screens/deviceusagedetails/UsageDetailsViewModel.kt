@@ -10,6 +10,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.UsageDetailsCoordinatorDestinations
 import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
+import com.centurylink.biwf.model.mcafee.DevicesItem
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
@@ -30,7 +31,7 @@ class UsageDetailsViewModel constructor(
     private val networkUsageRepository: NetworkUsageRepository,
     private val assiaRepository: AssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-     analyticsManagerInterface: AnalyticsManager,
+    analyticsManagerInterface: AnalyticsManager,
     private val mcafeeRepository: McafeeRepository
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
@@ -64,6 +65,7 @@ class UsageDetailsViewModel constructor(
     val myState = EventFlow<UsageDetailsCoordinatorDestinations>()
     val progressViewFlow = EventFlow<Boolean>()
     val errorMessageFlow = EventFlow<String>()
+    val showErrorPopup = EventFlow<Boolean>()
     val uploadSpeedMonthly: BehaviorStateFlow<String> = BehaviorStateFlow()
     val uploadSpeedDaily: BehaviorStateFlow<String> = BehaviorStateFlow()
     val downloadSpeedMonthly: BehaviorStateFlow<String> = BehaviorStateFlow()
@@ -74,15 +76,17 @@ class UsageDetailsViewModel constructor(
     val downloadSpeedDailyUnit: BehaviorStateFlow<String> = BehaviorStateFlow()
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
-    var macAfeeDeviceId :String =""
-    private lateinit var deviceData :DevicesData
+    var macAfeeDeviceId: String = ""
+    private lateinit var deviceData: DevicesData
     var pauseUnpauseConnection = EventFlow<DevicesData>()
+    var mcAfeedeviceList: List<DevicesItem> = emptyList()
 
     fun initApis() {
         //TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
+            fetchMcDevicesNames()
             requestDailyUsageDetails()
             requestMonthlyUsageDetails()
             requestStateForDevices()
@@ -99,19 +103,19 @@ class UsageDetailsViewModel constructor(
         } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_DETAILS)
         }
-       when(deviceData.deviceConnectionStatus){
-           DeviceConnectionStatus.PAUSED,
-           DeviceConnectionStatus.DEVICE_CONNECTED,
-           DeviceConnectionStatus.LOADING,
-           DeviceConnectionStatus.FAILURE ->{
-               if (!macAfeeDeviceId.isNullOrEmpty()) {
-                   updatePauseResumeStatus()
-               }
-           }
-           DeviceConnectionStatus.MODEM_OFF->{
-               Timber.e("Cant Perform any Action")
-           }
-       }
+        when (deviceData.deviceConnectionStatus) {
+            DeviceConnectionStatus.PAUSED,
+            DeviceConnectionStatus.DEVICE_CONNECTED,
+            DeviceConnectionStatus.LOADING,
+            DeviceConnectionStatus.FAILURE -> {
+                if (!macAfeeDeviceId.isNullOrEmpty()) {
+                    updatePauseResumeStatus()
+                }
+            }
+            DeviceConnectionStatus.MODEM_OFF -> {
+                Timber.e("Cant Perform any Action")
+            }
+        }
     }
 
     private suspend fun requestDailyUsageDetails() {
@@ -196,8 +200,40 @@ class UsageDetailsViewModel constructor(
         )
     }
 
-    fun logDoneBtnClick() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+    fun onDoneBtnClick(nickname: String) {
+        if (!nickname.isNullOrEmpty() && nickname != deviceData.mcAfeeName) {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+            progressViewFlow.latestValue = true
+            viewModelScope.launch {
+                updateDeviceName(deviceData.mcAfeeDeviceType, nickname, deviceData.mcafeeDeviceId)
+            }
+        }
+    }
+
+    private suspend fun fetchMcDevicesNames() {
+        val result = mcafeeRepository.fetchDeviceDetails()
+        result.fold(ifLeft = {
+            Timber.e("Mcafee Device List Error ")
+        }, ifRight = {
+            mcAfeedeviceList = it
+        })
+    }
+
+    private suspend fun updateDeviceName(
+        deviceType: String,
+        nickname: String,
+        id: String
+    ) {
+        val result = mcafeeRepository.updateDeviceName(deviceType, nickname, id)
+        result.fold(
+            ifLeft = {
+                progressViewFlow.latestValue = false
+                showErrorPopup.latestValue = true
+            },
+            ifRight = {
+                progressViewFlow.latestValue = false
+                showErrorPopup.latestValue = false
+            })
     }
 
     fun logRemoveConnection(removeConnection: Boolean) {
@@ -211,8 +247,10 @@ class UsageDetailsViewModel constructor(
     private fun updatePauseResumeStatus() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
-            val macResponse = mcafeeRepository.
-            updateDevicePauseResumeStatus(macAfeeDeviceId, !deviceData.isPaused)
+            val macResponse = mcafeeRepository.updateDevicePauseResumeStatus(
+                macAfeeDeviceId,
+                !deviceData.isPaused
+            )
             macResponse.fold(ifLeft = {
                 errorMessageFlow.latestValue = it
             }, ifRight = {
@@ -231,7 +269,7 @@ class UsageDetailsViewModel constructor(
     private suspend fun requestStateForDevices() {
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(macAfeeDeviceId)
         mcafeeMapping.fold(ifLeft = {
-           // On Error we are updating the device Icon with Failure icon instead of wifi icon
+            // On Error we are updating the device Icon with Failure icon instead of wifi icon
             deviceData.isPaused = false
             pauseUnpauseConnection.latestValue = deviceData
             deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE

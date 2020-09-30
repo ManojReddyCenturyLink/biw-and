@@ -3,217 +3,44 @@
   "message": "Success",
   "data": [
     {
-      "stationMac": "8C:85:90:AC:B7:15",
-      "hostname": "AMAC02W31TBHTD8",
+      "stationMac": "38:F9:D3:E9:A7:E6",
+      "hostname": "AMAC02YR6ZELVCG",
       "vendorName": "APPLE",
-      "maxSpeed": {
-        "Band2G": 67165,
-        "Band5G": 206468
-      },
+      "maxSpeed": {},
       "type": "Apple",
-      "lastConnectionDate": null,
-      "firstConnectionTime": "2020-05-29T23:27:31+0000",
+      "lastConnectionDate": "2020-09-25T07:45:42+0000",
+      "firstConnectionTime": "2020-09-12T22:59:27+0000",
       "connectedInterface": "Band5G",
-      "ipAddress": "192.168.0.2",
+      "ipAddress": "172.16.0.2",
       "blocked": false,
-      "rssi": -44,
-      "parent": "C4000XG1950000871",
-      "txRateKbps": 1300000,
-      "rxRateKbps": 1170000,
-      "userDefinedProfile": null,
-      "location": "",
-      "deviceId": null,
-      "maxMode": {
-        "Band2G": "ModeAC",
-        "Band5G": "ModeAC"
-      }
-    },
-    {
-      "stationMac": "EE:E9:95:EB:38:19",
-      "hostname": "UNKNOWN (EB:38:19)",
-      "vendorName": "UNKNOWN",
-      "maxSpeed": {
-      },
-      "type": "UNKNOWN",
-      "lastConnectionDate": "2020-06-18T18:18:28+0000",
-      "firstConnectionTime": "2020-06-17T15:07:33+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "fe80::bf8b:b516:3760:180f",
-      "blocked": false,
-      "rssi": -65,
-      "parent": "C4000XG1950000871",
+      "rssi": 0,
+      "parent": "C4000XG1950000308",
       "txRateKbps": 0,
       "rxRateKbps": 0,
       "userDefinedProfile": null,
       "location": "",
       "deviceId": null,
-      "maxMode": {
-        "Band5G": "ModeAC"
-      }
+      "maxMode": {}
     },
     {
-      "stationMac": "B8:41:A4:5E:0E:77",
-      "hostname": "MIMAS",
-      "vendorName": "APPLE",
-      "maxSpeed": {
-      },
-      "type": "Apple",
-      "lastConnectionDate": null,
-      "firstConnectionTime": "2020-06-17T15:01:13+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "192.168.0.3",
-      "blocked": false,
-      "rssi": -85,
-      "parent": "C4000XG1950000871",
-      "txRateKbps": 866600,
-      "rxRateKbps": 585000,
-      "userDefinedProfile": null,
-      "location": "",
-      "deviceId": null,
-      "maxMode": {
-        "Band5G": "ModeAC"
-      }
-    },
-    {
-      "stationMac": "2C:1F:23:C9:63:D9",
-      "hostname": "IPOD-TOUCH",
-      "vendorName": "APPLE",
-      "maxSpeed": {
-      },
-      "type": "iPod",
-      "lastConnectionDate": null,
-      "firstConnectionTime": "2020-06-17T20:52:47+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "192.168.0.4",
+      "stationMac": "DC:A6:32:8B:FF:CC",
+      "hostname": "UBUNTU",
+      "vendorName": "RASPBERRY",
+      "maxSpeed": {},
+      "type": "Mini_PC",
+      "lastConnectionDate": "2020-09-25T11:27:54+0000",
+      "firstConnectionTime": "2020-09-12T23:07:26+0000",
+      "connectedInterface": "Ethernet",
+      "ipAddress": "172.16.0.3",
       "blocked": false,
       "rssi": 0,
-      "parent": "C4000XG1950000871",
-      "txRateKbps": 150000,
-      "rxRateKbps": 121500,
-      "userDefinedProfile": null,
-      "location": "",
-      "deviceId": null,
-      "maxMode": {
-        "Band5G": "ModeN"
-      }
-    },
-    {
-      "stationMac": "8C:85:90:AC:B7:15",
-      "hostname": "Vinisha's Phone - Blocked",
-      "vendorName": "One Plus",
-      "maxSpeed": {
-        "Band2G": 67165,
-        "Band5G": 206468
-      },
-      "type": "One Plus",
-      "lastConnectionDate": null,
-      "firstConnectionTime": "2020-05-29T23:27:31+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "192.168.0.2",
-      "blocked": true,
-      "rssi": -55,
-      "parent": "C4000XG1950000871",
-      "txRateKbps": 1300000,
-      "rxRateKbps": 1170000,
-      "userDefinedProfile": null,
-      "location": "",
-      "deviceId": null,
-      "maxMode": {
-        "Band2G": "ModeAC",
-        "Band5G": "ModeAC"
-      }
-    },
-    {
-      "stationMac": "EE:E9:95:EB:38:19",
-      "hostname": "Pravin iPhone -Blocked",
-      "vendorName": "UNKNOWN",
-      "maxSpeed": {
-      },
-      "type": "UNKNOWN",
-      "lastConnectionDate": "2020-06-18T18:18:28+0000",
-      "firstConnectionTime": "2020-06-17T15:07:33+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "fe80::bf8b:b516:3760:180f",
-      "blocked": true,
-      "rssi": 0,
-      "parent": "C4000XG1950000871",
+      "parent": null,
       "txRateKbps": 0,
       "rxRateKbps": 0,
       "userDefinedProfile": null,
       "location": "",
       "deviceId": null,
-      "maxMode": {
-        "Band5G": "ModeAC"
-      }
-    },
-    {
-      "stationMac": "B8:41:A4:5E:0E:77",
-      "hostname": "Accenture Laptop -Blocked",
-      "vendorName": "APPLE",
-      "maxSpeed": {
-      },
-      "type": "Apple",
-      "lastConnectionDate": null,
-      "firstConnectionTime": "2020-06-17T15:01:13+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "192.168.0.3",
-      "blocked": true,
-      "rssi": -58,
-      "parent": "C4000XG1950000871",
-      "txRateKbps": 866600,
-      "rxRateKbps": 585000,
-      "userDefinedProfile": null,
-      "location": "",
-      "deviceId": null,
-      "maxMode": {
-        "Band5G": "ModeAC"
-      }
-    },
-    {
-      "stationMac": "2C:1F:23:C9:63:D9",
-      "hostname": "Apple Blocked TV",
-      "vendorName": "APPLE",
-      "maxSpeed": {
-      },
-      "type": "iPod",
-      "lastConnectionDate": null,
-      "firstConnectionTime": "2020-06-17T20:52:47+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "192.168.0.4",
-      "blocked": true,
-      "rssi": -54,
-      "parent": "C4000XG1950000871",
-      "txRateKbps": 150000,
-      "rxRateKbps": 121500,
-      "userDefinedProfile": null,
-      "location": "",
-      "deviceId": null,
-      "maxMode": {
-        "Band5G": "ModeN"
-      }
-    },
-    {
-      "stationMac": "2C:1F:23:C9:63:D9",
-      "hostname": "Apple Blocked GGTV",
-      "vendorName": "APPLE",
-      "maxSpeed": {
-      },
-      "type": "iPod",
-      "lastConnectionDate": null,
-      "firstConnectionTime": "2020-06-17T20:52:47+0000",
-      "connectedInterface": "Band5G",
-      "ipAddress": "192.168.0.4",
-      "blocked": true,
-      "rssi": -54,
-      "parent": "C4000XG1950000871",
-      "txRateKbps": 150000,
-      "rxRateKbps": 121500,
-      "userDefinedProfile": null,
-      "location": "",
-      "deviceId": null,
-      "maxMode": {
-        "Band5G": "ModeN"
-      }
+      "maxMode": {}
     }
   ]
 }
