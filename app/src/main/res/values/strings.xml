@@ -241,8 +241,11 @@
     <string name="last_two_week">Last two weeks data usage:</string>
     <string name="device_connected">Device connected</string>
     <string name="connection_paused">Connection paused</string>
+    <string name="not_connected">Not connected</string>
     <string name="tap_to_pause_connection">tap to pause connection</string>
     <string name="tap_to_resume_connection">tap to resume connection</string>
+    <string name="connect_device_pause_unpause">connect device to network to pause or unpause</string>
+    <string name="error_loading_device_status">error loading device status - tap to retry</string>
     <string name="tap_to_view">Tap to view</string>
     <string name="view_my_dashboard">View my dashboard</string>
     <string name="add_appointment_to_calendar">Add appointment to calendar</string>

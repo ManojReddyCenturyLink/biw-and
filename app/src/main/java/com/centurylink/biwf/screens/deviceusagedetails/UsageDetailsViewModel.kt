@@ -261,6 +261,7 @@ class UsageDetailsViewModel constructor(
             )
             macResponse.fold(ifLeft = {
                 errorMessageFlow.latestValue = it
+                deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
             }, ifRight = {
                 deviceData.isPaused = it.isPaused
                 if (it.isPaused) {
