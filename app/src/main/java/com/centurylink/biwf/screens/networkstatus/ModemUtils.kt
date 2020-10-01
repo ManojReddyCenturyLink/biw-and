@@ -12,7 +12,7 @@ class ModemUtils {
         private val PAT_FILE_NAME: Pattern = Pattern.compile(
             "(.*?)"
                     + "(?:\\-(\\d+)\\-)?(\\.[^.]*)?")
-        private val MAX_NICKNAMELENGTH = 15
+        private val MAX_NICKNAMELENGTH = 17
 
         fun getGuestNetworkName(apiInfo: ApInfo): String {
             var guestNetworkName = ""
@@ -130,12 +130,12 @@ class ModemUtils {
         }
 
         fun generateNewNickName(
-            filename: String,
-            fileList: ArrayList<String>
+            nickname: String,
+            devicesList: ArrayList<String>
         ): String {
-            var filename = filename
-            if (fileExists(filename, fileList)) {
-                val m = PAT_FILE_NAME.matcher(filename)
+            var newNickname = nickname
+            if (fileExists(newNickname, devicesList)) {
+                val m = PAT_FILE_NAME.matcher(newNickname)
                 if (m.matches()) {
                     val prefix = m.group(1)
                     val last = m.group(2)
@@ -144,18 +144,18 @@ class ModemUtils {
                     var count = last?.toInt() ?: 0
                     do {
                         count++
-                        filename = "$prefix-$count$suffix"
+                        newNickname = "$prefix-$count$suffix"
                         if (prefix.length == MAX_NICKNAMELENGTH) {
-                            filename = if (count > 9) {
+                            newNickname = if (count > 9) {
                                 prefix.substring(0, prefix.length - 3) + "-" + count
                             } else {
                                 prefix.substring(0, prefix.length - 2) + "-" + count
                             }
                         }
-                    } while (fileExists(filename!!, fileList))
+                    } while (fileExists(newNickname!!, devicesList))
                 }
             }
-            return filename
+            return newNickname
         }
 
         private fun fileExists(filename: String, fileList: ArrayList<String>): Boolean {

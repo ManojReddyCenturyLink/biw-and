@@ -204,11 +204,11 @@ class UsageDetailsViewModel constructor(
     }
 
     fun onDoneBtnClick(nickname: String) {
-        if (!nickname.isNullOrEmpty() && nickname != deviceData.mcAfeeName) {
+        if (nickname.isNotEmpty() && nickname != deviceData.mcAfeeName) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
             progressViewFlow.latestValue = true
             viewModelScope.launch {
-                 var distinctName = ModemUtils.generateNewNickName(nickname,mcAfeedeviceNames)
+                 val distinctName = ModemUtils.generateNewNickName(nickname,mcAfeedeviceNames)
                 updateDeviceName(deviceData.mcAfeeDeviceType, distinctName, deviceData.mcafeeDeviceId)
             }
         } else {
