@@ -211,6 +211,8 @@ class UsageDetailsViewModel constructor(
                  var distinctName = ModemUtils.generateNewNickName(nickname,mcAfeedeviceNames)
                 updateDeviceName(deviceData.mcAfeeDeviceType, distinctName, deviceData.mcafeeDeviceId)
             }
+        } else {
+            showErrorPopup.latestValue = false
         }
     }
 

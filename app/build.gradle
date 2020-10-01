@@ -135,6 +135,7 @@ android {
             def releaseMapsApiKey = getLocalProperty("release_maps_api_key")
             manifestPlaceholders = [mapsApiKey: "$releaseMapsApiKey"]
             minifyEnabled false
+            signingConfig signingConfigs.release
         }
     }
 
