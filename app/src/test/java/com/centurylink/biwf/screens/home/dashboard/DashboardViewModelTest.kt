@@ -348,12 +348,12 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             launch {
                 Assert.assertNotNull(analyticsManagerInterface)
                 viewModel.logCancelAppointmentClick()
-                viewModel.navigateToNetworkInformation("")
+                viewModel.navigateToNetworkInformation()
                 viewModel.navigateToQRScan(WifiInfo())
                 viewModel.getStartedClicked()
                 viewModel.logViewDevicesClick()
                 viewModel.logDismissNotification()
-                viewModel.startSpeedTest()
+                viewModel.startSpeedTest(true)
                 viewModel.logCancelAppointmentAlertClick(true)
             }
         }
