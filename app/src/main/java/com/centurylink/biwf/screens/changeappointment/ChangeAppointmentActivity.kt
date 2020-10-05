@@ -155,8 +155,8 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
                     }
                 }
                 if (!selectedSlot.isNullOrEmpty()) {
-                    subheaderRightActionTitle.isEnabled = false
-                    subheaderRightActionTitle.isClickable = false
+                    subheaderRightActionTitle.isEnabled = true
+                    subheaderRightActionTitle.isClickable = true
                 }
             }
         }
