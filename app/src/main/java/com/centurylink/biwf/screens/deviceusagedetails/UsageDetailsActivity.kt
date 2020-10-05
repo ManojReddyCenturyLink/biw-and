@@ -20,7 +20,6 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
-import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
 
 class UsageDetailsActivity : BaseActivity() {
@@ -86,7 +85,7 @@ class UsageDetailsActivity : BaseActivity() {
                 val nickname = if (binding.nicknameDeviceNameInput.text.toString()
                         .isNotEmpty()
                 ) binding.nicknameDeviceNameInput.text.toString() else screenTitle
-                viewModel.onDoneBtnClick(nickname)
+                validateNickName(nickname)
             }
         }
         setApiProgressViews(
@@ -179,6 +178,23 @@ class UsageDetailsActivity : BaseActivity() {
             if (!hasFocus) {
                 hideKeyboard()
             }
+        }
+    }
+
+    private fun validateNickName(nickname: String) {
+        if (viewModel.validateInput(nickname)) {
+            CustomDialogBlueTheme(
+                title = getString(R.string.error_title),
+                message = getString(R.string.error_nickname_field),
+                buttonText = getString(R.string.discard_changes_and_close),
+                isErrorPopup = true,
+                callback = ::onErrorDialogCallback
+            ).show(
+                fragmentManager,
+                callingActivity?.className
+            )
+        } else {
+            viewModel.onDoneBtnClick(nickname)
         }
     }
 

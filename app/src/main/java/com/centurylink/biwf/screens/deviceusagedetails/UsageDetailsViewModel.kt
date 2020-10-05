@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.deviceusagedetails
 
-import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.BIWFApp
@@ -25,6 +24,8 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.math.BigDecimal
 import java.math.RoundingMode
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -208,7 +209,7 @@ class UsageDetailsViewModel constructor(
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
             progressViewFlow.latestValue = true
             viewModelScope.launch {
-                 val distinctName = ModemUtils.generateNewNickName(nickname,mcAfeedeviceNames)
+                 val distinctName = ModemUtils.generateNewNickName(nickname.trim(),mcAfeedeviceNames)
                 updateDeviceName(deviceData.mcAfeeDeviceType, distinctName, deviceData.mcafeeDeviceId)
             }
         } else {
@@ -223,7 +224,6 @@ class UsageDetailsViewModel constructor(
         }, ifRight = { devicesItemList ->
             mcAfeedeviceList = devicesItemList
             mcAfeedeviceNames = ArrayList(devicesItemList.map { it.name }.toMutableList())
-            Log.i("JAQUAR","MC DEVICES NAME "+mcAfeedeviceNames)
         })
     }
 
@@ -293,5 +293,11 @@ class UsageDetailsViewModel constructor(
             pauseUnpauseConnection.latestValue = deviceData
             progressViewFlow.latestValue = false
         }
+    }
+
+    fun validateInput(nickname: String): Boolean {
+        val specialCharacter: Pattern = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~.]")
+        val hasSpecial: Matcher = specialCharacter.matcher(nickname)
+        return hasSpecial.find()
     }
 }
