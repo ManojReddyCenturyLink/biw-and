@@ -16,6 +16,8 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 ext.localProperties = new Properties()
 def propFile = rootProject.file('local.properties')
+def jsonFile = file('build_config.json')
+def parsedJson = new groovy.json.JsonSlurper().parseText(jsonFile.text)
 if (propFile.exists()) {
     localProperties.load(propFile.newDataInputStream())
 }
@@ -23,9 +25,8 @@ ext.getLocalProperty = { propertyName ->
     def property = localProperties.getProperty(propertyName)
     return property == null ? "" : property
 }
-
 android {
-
+    flavorDimensions "environment"
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
@@ -36,32 +37,9 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        def subDomain = "qa"
-
-        // Salesforce
-        def rootSalesforceUrl = "https://$subDomain-qa101.cs16.force.com/phish"
-        def baseSalesforceUrl = "$rootSalesforceUrl/services/data/v46.0/"
-
-        // Auth
-        def authorizationEndpoint = "https://centurylink-test1.apigee.net/v1/mobile/auth"
-        def tokenEndpoint = "https://centurylink-test1.apigee.net/v1/mobile/salesforce-access-token"
-        def clientId = "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q"
-        def redirectUrl = "myapp://com.force.lightning.ctl-fiber--$subDomain"
-        def scope = "web api refresh_token"
-        def revokeTokenEndpoint = "https://centurylink-test1.apigee.net/v1/mobile/revoke"
-
-        buildConfigField "String", "AUTHORIZATION_ENDPOINT", "\"$authorizationEndpoint\""
-        buildConfigField "String", "TOKEN_ENDPOINT", "\"$tokenEndpoint\""
-        buildConfigField "String", "CLIENT_ID", "\"$clientId\""
-        buildConfigField "String", "REDIRECT_URL", "\"$redirectUrl\""
-        buildConfigField "String", "SCOPE", "\"$scope\""
-        buildConfigField "String", "REVOKE_TOKEN_ENDPOINT", "\"$revokeTokenEndpoint\""
-        buildConfigField "String", "ROOT_SALESFORCE_URL", "\"$rootSalesforceUrl\""
-        buildConfigField "String", "BASE_SALESFORCE_URL", "\"$baseSalesforceUrl\""
-
+        buildConfigField "String", "MOBILE_NUMBER", "\"$parsedJson.MOBILE_NUMBER\""
         // Google Maps
-        manifestPlaceholders = [mapsApiKey: "AIzaSyARNegQ6g1SR7cHz_7LAQ7WbnP01nOi6YI"]
+        manifestPlaceholders = [mapsApiKey: parsedJson.MAP_API_KEY]
     }
 
     signingConfigs {
@@ -83,25 +61,81 @@ android {
         }
     }
 
+    productFlavors {
+        dev {
+            applicationIdSuffix ".debug"
+            dimension "environment"
+            buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.dev.CTL_APP_NAME\"")
+            buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.dev.CTL_APP_BUNDLE\"")
+            buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.dev.APIGEE_URL\"")
+            buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.dev.SALESFORCE_URL\"")
+            buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.dev.COMMUNITY_NAME\"")
+            buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.dev.CLIENT_ID\"")
+            buildConfigField("String", "SALES_FORCE_VERSION", "\"$parsedJson.productFlavors.dev.SALES_FORCE_VERSION\"")
+            buildConfigField("String", "APEGEE_VERSION", "\"$parsedJson.productFlavors.dev.APIGEE_VERSION\"")
+            buildConfigField("String", "AGENT_POD", "\"$parsedJson.productFlavors.dev.live_chat.AGENT_POD\"")
+            buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.dev.live_chat.ORG_ID\"")
+            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.dev.live_chat.DEPLOYMENT_ID\"")
+            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.dev.live_chat.BUTTON_ID\"")
+        }
+//        qa {
+//            applicationIdSuffix ".qa"
+//            dimension "environment"
+//            buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.qa.CTL_APP_NAME\"")
+//            buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.qa.CTL_APP_BUNDLE\"")
+//            buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.qa.APIGEE_URL\"")
+//            buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.qa.SALESFORCE_URL\"")
+//            buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.qa.COMMUNITY_NAME\"")
+//            buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.qa.CLIENT_ID\"")
+//            buildConfigField("String", "SALES_FORCE_VERSION", "\"$parsedJson.productFlavors.qa.SALES_FORCE_VERSION\"")
+//            buildConfigField("String", "APEGEE_VERSION", "\"$parsedJson.productFlavors.qa.APIGEE_VERSION\"")
+//            buildConfigField("String", "AGENT_POD", "\"$parsedJson.productFlavors.qa.live_chat.AGENT_POD\"")
+//            buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.qa.live_chat.ORG_ID\"")
+//            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.qa.live_chat.DEPLOYMENT_ID\"")
+//            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.qa.live_chat.BUTTON_ID\"")
+//        }
+        sit {
+            applicationIdSuffix ".sit"
+            dimension "environment"
+            buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.sit.CTL_APP_NAME\"")
+            buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.sit.CTL_APP_BUNDLE\"")
+            buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.sit.APIGEE_URL\"")
+            buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.sit.SALESFORCE_URL\"")
+            buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.sit.COMMUNITY_NAME\"")
+            buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.sit.CLIENT_ID\"")
+            buildConfigField("String", "SALES_FORCE_VERSION", "\"$parsedJson.productFlavors.sit.SALES_FORCE_VERSION\"")
+            buildConfigField("String", "APEGEE_VERSION", "\"$parsedJson.productFlavors.sit.APEGEE_VERSION\"")
+            buildConfigField("String", "AGENT_POD", "\"$parsedJson.productFlavors.sit.live_chat.AGENT_POD\"")
+            buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.sit.live_chat.ORG_ID\"")
+            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.sit.live_chat.DEPLOYMENT_ID\"")
+            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.sit.live_chat.BUTTON_ID\"")
+
+        }
+        prod {
+            dimension "environment"
+            buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.prod.CTL_APP_NAME\"")
+            buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.prod.CTL_APP_BUNDLE\"")
+            buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.prod.APIGEE_URL\"")
+            buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.prod.SALESFORCE_URL\"")
+            buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.prod.COMMUNITY_NAME\"")
+            buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.prod.CLIENT_ID\"")
+            buildConfigField("String", "SALES_FORCE_VERSION", "\"$parsedJson.productFlavors.prod.SALES_FORCE_VERSION\"")
+            buildConfigField("String", "APEGEE_VERSION", "\"$parsedJson.productFlavors.prod.APEGEE_VERSION\"")
+            buildConfigField("String", "AGENT_POD", "\"$parsedJson.productFlavors.prod.live_chat.AGENT_POD\"")
+            buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.prod.live_chat.ORG_ID\"")
+            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.prod.live_chat.DEPLOYMENT_ID\"")
+            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.prod.live_chat.BUTTON_ID\"")
+        }
+    }
+
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
-        }
-        sit {
-            initWith debug
-            applicationIdSuffix ".sit"
-            // TODO - Override build config variables with SIT endpoint/environment info when
-            //  available
         }
         release {
             def releaseMapsApiKey = getLocalProperty("release_maps_api_key")
             manifestPlaceholders = [mapsApiKey: "$releaseMapsApiKey"]
-
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            // TODO - Override build config variables with Release endpoint/environment info when
-            //  available
         }
     }
 

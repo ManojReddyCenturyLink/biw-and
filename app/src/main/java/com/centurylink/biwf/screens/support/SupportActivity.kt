@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
@@ -157,6 +158,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                     if (it) View.VISIBLE else View.INVISIBLE
                 binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
             }
+            speedTestError.observe{
+                if (it) {
+                    speedTestErrorDialog()
+                }
+            }
             modemResetButtonState.observe {
                 viewModel.networkStatus.observe { networkStatus ->
                     if(networkStatus)  binding.incTroubleshooting.rebootModemButton.isActivated = it
@@ -234,9 +240,35 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         }
     }
 
+    private fun speedTestErrorDialog() {
+        CustomDialogGreyTheme(
+            getString(R.string.speed_test_error_title),
+            getString(R.string.speed_test_error_message),
+            getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.modem_reboot_error_button_negative),
+            ::speedTestDialogCallback
+        ).show(
+            supportFragmentManager,
+            callingActivity?.className
+        )
+    }
+
+    private fun speedTestDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                viewModel.startSpeedTest()
+            }
+        }
+    }
+
     private fun initLiveChat() {
         val chatConfiguration =
-            ChatConfiguration.Builder(ORG_ID, BUTTON_ID, DEPLOYMENT_ID, AGENT_POD).build()
+            ChatConfiguration.Builder(
+                BuildConfig.ORG_ID,
+                BuildConfig.BUTTON_ID,
+                BuildConfig.DEPLOYMENT_ID,
+                BuildConfig.AGENT_POD
+            ).build()
         val uiConfig = ChatUIConfiguration.Builder()
             .chatConfiguration(chatConfiguration)
             .defaultToMinimized(false)
@@ -266,10 +298,6 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     companion object {
         const val REQUEST_TO_HOME: Int = 12200
-        const val AGENT_POD = "d.la1-c1cs-ord.salesforceliveagent.com"
-        const val ORG_ID = "00Df0000002HOQc"
-        const val DEPLOYMENT_ID = "572f0000000Cauc"
-        const val BUTTON_ID = "573f000000000zz"
         const val IS_EXISTING_USER = "IS_EXISTING_USER"
 
         fun newIntent(context: Context, bundle: Bundle): Intent {

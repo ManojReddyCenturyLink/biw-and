@@ -5,9 +5,15 @@ import com.centurylink.biwf.model.assia.ApInfo
 import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.wifi.NetWorkBand
+import java.util.regex.Pattern
 
 class ModemUtils {
     companion object {
+        private val PAT_FILE_NAME: Pattern = Pattern.compile(
+            "(.*?)"
+                    + "(?:\\-(\\d+)\\-)?(\\.[^.]*)?")
+        private val MAX_NICKNAMELENGTH = 17
+
         fun getGuestNetworkName(apiInfo: ApInfo): String {
             var guestNetworkName = ""
             if (apiInfo.ssidMap.containsKey(NetWorkBand.Band5G_Guest4.name)) {
@@ -121,6 +127,39 @@ class ModemUtils {
                 }
                 else -> return R.drawable.ic_cta_wi_fi_disconnected
             }
+        }
+
+        fun generateNewNickName(
+            nickname: String,
+            devicesList: ArrayList<String>
+        ): String {
+            var newNickname = nickname
+            if (fileExists(newNickname, devicesList)) {
+                val m = PAT_FILE_NAME.matcher(newNickname)
+                if (m.matches()) {
+                    val prefix = m.group(1)
+                    val last = m.group(2)
+                    var suffix = m.group(3)
+                    if (suffix == null) suffix = ""
+                    var count = last?.toInt() ?: 0
+                    do {
+                        count++
+                        newNickname = "$prefix-$count$suffix"
+                        if (prefix.length == MAX_NICKNAMELENGTH) {
+                            newNickname = if (count > 9) {
+                                prefix.substring(0, prefix.length - 3) + "-" + count
+                            } else {
+                                prefix.substring(0, prefix.length - 2) + "-" + count
+                            }
+                        }
+                    } while (fileExists(newNickname!!, devicesList))
+                }
+            }
+            return newNickname
+        }
+
+        private fun fileExists(filename: String, fileList: ArrayList<String>): Boolean {
+            return fileList.contains(filename)
         }
     }
 }

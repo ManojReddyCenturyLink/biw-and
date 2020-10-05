@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@color/light_lavender"
     android:fillViewport="true">
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:paddingBottom="80dp"
@@ -265,6 +266,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
+                android:id="@+id/tap_to_edit_network"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_spacing_small"

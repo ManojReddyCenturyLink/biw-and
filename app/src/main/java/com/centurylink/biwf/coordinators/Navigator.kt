@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
@@ -119,7 +120,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToPhoneDialler() {
-        WebLinkUtil.handleClick(activity!!.getString(R.string.tel), activity!!)
+        WebLinkUtil.handleClick(activity!!.getString(R.string.tel).plus(BuildConfig.MOBILE_NUMBER), activity!!)
     }
 
     fun navigateToCancelSubscriptionDetails() {
@@ -178,9 +179,8 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToNetworkInformationScreen() {
-        val bundle = DashboardCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivityForResult(NetworkStatusActivity.newIntent(it, bundle), 0)
+            it.startActivityForResult(NetworkStatusActivity.newIntent(it), 0)
         }
     }
 

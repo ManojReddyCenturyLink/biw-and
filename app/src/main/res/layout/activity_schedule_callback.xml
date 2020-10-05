@@ -91,7 +91,6 @@
                 android:id="@+id/call_us_now_textview"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
-                android:text="@string/call_us_now_at_833_250_6306"
                 style="@style/single_line_text_content"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

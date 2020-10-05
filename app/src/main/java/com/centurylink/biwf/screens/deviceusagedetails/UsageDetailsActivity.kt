@@ -1,9 +1,12 @@
 package com.centurylink.biwf.screens.deviceusagedetails
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.View.OnFocusChangeListener
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AlertDialog
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -15,6 +18,7 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
@@ -35,6 +39,8 @@ class UsageDetailsActivity : BaseActivity() {
     private lateinit var binding: LayoutDevicesUsageInformationBinding
 
     private lateinit var deviceData: DevicesData
+
+    private val fragmentManager = supportFragmentManager
 
     override val viewModel by lazy {
         getViewModel<UsageDetailsViewModel>(
@@ -65,15 +71,21 @@ class UsageDetailsActivity : BaseActivity() {
 
     private fun initViews() {
         deviceData = intent.getSerializableExtra(DEVICE_INFO) as DevicesData
-        val screenTitle = deviceData.hostName
+        var nickName = if (!deviceData.mcAfeeName.isNullOrEmpty()) {
+            deviceData.mcAfeeName
+        } else {
+            deviceData.hostName ?: ""
+        }
+        val screenTitle = nickName
         binding.activityHeaderView.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                viewModel.logDoneBtnClick()
-                setResult(REQUEST_TO_DEVICES)
-                finish()
+                val nickname = if (binding.nicknameDeviceNameInput.text.toString()
+                        .isNotEmpty()
+                ) binding.nicknameDeviceNameInput.text.toString() else screenTitle
+                validateNickName(nickname)
             }
         }
         setApiProgressViews(
@@ -87,6 +99,14 @@ class UsageDetailsActivity : BaseActivity() {
             myState.observeWith(usageDetailsCoordinator)
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+            showErrorPopup.observe {
+                if (it) {
+                    showAlertDialog(true)
+                } else {
+                    setResult(REQUEST_TO_DEVICES)
+                    finish()
+                }
+            }
             uploadSpeedDaily.observe { binding.dailyUploadSpeed.text = it }
             uploadSpeedMonthly.observe { binding.biweeklyUploadSpeed.text = it }
             downloadSpeedDaily.observe { binding.dailyDownloadSpeed.text = it }
@@ -103,12 +123,18 @@ class UsageDetailsActivity : BaseActivity() {
             }
             pauseUnpauseConnection.observe {
                 var isPaused = it.isPaused
-                val isModemStatus = intent.getBooleanExtra(MODEM_STATUS,false)
-                if(!isModemStatus){
+                val isModemStatus = intent.getBooleanExtra(MODEM_STATUS, false)
+                if (!isModemStatus) {
                     it.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
-                    isPaused =true
+                    isPaused = true
                 }
-                binding.connectionStatusIcon.setImageDrawable(getDrawable(ModemUtils.getConnectionStatusIcon(it)))
+                binding.connectionStatusIcon.setImageDrawable(
+                    getDrawable(
+                        ModemUtils.getConnectionStatusIcon(
+                            it
+                        )
+                    )
+                )
                 binding.deviceConnectedBtn.background =
                     (getDrawable(if (isPaused) R.drawable.light_grey_rounded_background else R.drawable.light_blue_rounded_background))
                 binding.connectionStatusBtnText.text =
@@ -118,30 +144,71 @@ class UsageDetailsActivity : BaseActivity() {
                 binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.dark_grey else R.color.purple))
             }
         }
-        binding.nicknameDeviceNameInput.setText(screenTitle)
+        binding.nicknameDeviceNameInput.hint = screenTitle
         binding.deviceConnectedBtn.setOnClickListener {
             viewModel.onDevicesConnectedClicked()
         }
         binding.removeDevicesBtn.setOnClickListener {
             viewModel.onRemoveDevicesClicked()
-            showAlertDialog()
+            showAlertDialog(false)
+        }
+        binding.nicknameDeviceNameInput.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+            if (!hasFocus) {
+                hideKeyboard()
+            }
         }
     }
 
-    private fun showAlertDialog() {
-        CustomDialogGreyTheme(
-            getString(
-                R.string.remove_device_confirmation_title,
-                deviceData.hostName
-            ),
-            getString(R.string.remove_device_confirmation_msg),
-            getString(R.string.remove),
-            getString(R.string.text_header_cancel),
-            ::onDialogCallback
-        ).show(
-            supportFragmentManager,
-            UsageDetailsActivity::class.simpleName
-        )
+    private fun validateNickName(nickname: String) {
+        if (viewModel.validateInput(nickname)) {
+            CustomDialogBlueTheme(
+                title = getString(R.string.error_title),
+                message = getString(R.string.error_nickname_field),
+                buttonText = getString(R.string.discard_changes_and_close),
+                isErrorPopup = true,
+                callback = ::onErrorDialogCallback
+            ).show(
+                fragmentManager,
+                callingActivity?.className
+            )
+        } else {
+            viewModel.onDoneBtnClick(nickname)
+        }
+    }
+
+    private fun hideKeyboard() {
+        val imm : InputMethodManager =
+            this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(binding.nicknameDeviceNameInput.windowToken, 0);
+    }
+
+    private fun showAlertDialog(displayBlueDialog : Boolean) {
+        if (displayBlueDialog){
+            CustomDialogBlueTheme(
+                title = getString(R.string.error_title),
+                message = getString(R.string.password_reset_error_msg),
+                buttonText = getString(R.string.discard_changes_and_close),
+                isErrorPopup = true,
+                callback = ::onErrorDialogCallback
+            ).show(
+                fragmentManager,
+                callingActivity?.className
+            )
+        }else{
+            CustomDialogGreyTheme(
+                getString(
+                    R.string.remove_device_confirmation_title,
+                    deviceData.mcAfeeName
+                ),
+                getString(R.string.remove_device_confirmation_msg),
+                getString(R.string.remove),
+                getString(R.string.text_header_cancel),
+                ::onDialogCallback
+            ).show(
+                supportFragmentManager,
+                UsageDetailsActivity::class.simpleName
+            )
+        }
     }
 
     private fun onDialogCallback(buttonType: Int) {
@@ -156,6 +223,15 @@ class UsageDetailsActivity : BaseActivity() {
         }
     }
 
+    private fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
+    }
+
     companion object {
         const val REQUEST_TO_DEVICES = 1341
         const val DEVICE_INFO = "DEVICE_INFO"
@@ -163,7 +239,7 @@ class UsageDetailsActivity : BaseActivity() {
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, UsageDetailsActivity::class.java)
                 .putExtra(DEVICE_INFO, bundle.getSerializable(DEVICE_INFO))
-                .putExtra(MODEM_STATUS, bundle.getBoolean(MODEM_STATUS,false))
+                .putExtra(MODEM_STATUS, bundle.getBoolean(MODEM_STATUS, false))
         }
     }
 }

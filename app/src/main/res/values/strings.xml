@@ -46,7 +46,7 @@
     <string name="visit_website">Visit website</string>
     <string name="restart_modem">Restart modem</string>
     <string name="run_speed_test">Run speed test</string>
-    <string name="last_speed_test">Last speed test: \u0020</string>
+    <string name="last_speed_test">last speed test: \u0020</string>
     <string name="mbps_upload">Mbps \nupload</string>
     <string name="mbps_download">Mbps \ndownload</string>
     <string name="live_chat">Live chat</string>
@@ -71,6 +71,8 @@
     <string name="restart">RESTART</string>
     <string name="restart_modem_confirmation_message">This can take up to 5 minutes. You can close the app while you wait if you want, and your modem will continue restarting in the background.</string>
     <string name="restart_modem_confirmation_title">Do you want to restart your modem?</string>
+    <string name="speed_test_error_title">Speed test error.</string>
+    <string name="speed_test_error_message">The data couldn\'t be read because it is missing.</string>
 
     <!--Account Screen -->
     <string name="settings_preferences"><![CDATA[Settings & preferences]]></string>
@@ -109,13 +111,13 @@
     <string name="last_speed_test_fake_value">03/02/2020 at 8:52pm</string>
     <string name="fake_speed_test_download_speed">910</string>
     <string name="speed_test_upload_fake_speed">908</string>
-    <string name="tel">tel:833-250-6306</string>
+    <string name="tel">tel:</string>
     <string name="info_call_back">Just let us know what you need and we’ll call you right back</string>
     <string name="reason_for_call_back"><font color="#503296" size="16"><b>Please give us more information about the help you need. </b></font><font color="#788791" size="12">(optional)</font></string>
     <string name="additional_information">Additional information</string>
     <string name="additional_info_title">Additional info</string>
     <string name="next">Next</string>
-    <string name="call_us_now_at_833_250_6306">Call us now at 833-250-6306</string>
+    <string name="call_us_now_at">Call us now at</string>
     <string name="done">DONE</string>
 
     <!--Cancel Subscription Detail Screen -->
@@ -166,6 +168,7 @@
     <string name="statement_total">Total</string>
     <string name="previous_statements">Previous statements</string>
     <string name="edit_billing_information">Edit billing information</string>
+    <string name="billing_information_message_label">Note: changes may take up to a minute to appear on the Account screen after submission</string>
     <string name="subscription">Subscription</string>
     <string name="my_subscription">My subscription</string>
     <string name="manage_my_subscription">Manage my subscription</string>
@@ -188,6 +191,7 @@
     <string name="error_repeated_password">invalid repeated password</string>
     <string name="error_password_length">Your password must be at least 8 characters long.</string>
     <string name="error_title">An error has occurred.</string>
+    <string name="error_nickname_field"><![CDATA[Special characters [!@#\/$%&*()_+=|<>?{}[]~.] are not allowed.]]></string>
     <string name="loading">Loading</string>
     <string name="save_changes_msg">Do you want to save your changes?</string>
     <string name="save">SAVE</string>
@@ -248,7 +252,7 @@
     <string name="restore_access_confirmation_title">Do you want to restore access to “%s”?</string>
     <string name="restore_access_confirmation_msg">You can remove it again later if you change your mind.</string>
     <string name="organization">Organization</string>
-    <string name="tap_to_edit_network">Tap to edit network</string>
+    <string name="tap_to_edit_network">tap to edit network</string>
     <string name="must_be_8_63_characters">must be 8-63 characters</string>
     <string name="network_name_mandatory">Network name*</string>
     <string name="network_password_mandatory">Network password*</string>
@@ -275,7 +279,7 @@
     <!--QRSCan Activity-->
     <string name="scan_to_join">Scan to join network:</string>
     <string name="scan_to_join_guest">Scan to join guest network:</string>
-    <string name="tap_code">Tap code to view full screen</string>
+    <string name="tap_code">tap code to view full screen</string>
     <string name="join_code">Join code </string>
     <string name="header_done">DONE</string>
     <string name="scan_network">Scan to join network: </string>

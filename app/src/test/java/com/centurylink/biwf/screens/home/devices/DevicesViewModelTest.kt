@@ -10,7 +10,10 @@ import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.mcafee.DevicePauseStatus
 import com.centurylink.biwf.model.mcafee.DevicesMapping
-import com.centurylink.biwf.repos.*
+import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.DevicesRepository
+import com.centurylink.biwf.repos.McafeeRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.service.network.AssiaTokenService
 import com.centurylink.biwf.service.network.OAuthAssiaService
@@ -23,6 +26,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 class DevicesViewModelTest : ViewModelBaseTest() {
@@ -78,7 +82,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
         )
     }
 
-    @Test
+    @Test @Ignore
     fun testDevicesSectionSuccess() {
         runBlockingTest {
             launch {
@@ -103,7 +107,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
         }
     }
 
-    @Test
+    @Test @Ignore
     fun testDevicesSectionFailure() {
         runBlockingTest {
             launch {

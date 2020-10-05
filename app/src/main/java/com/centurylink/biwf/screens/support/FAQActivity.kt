@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.FAQCoordinator
@@ -159,7 +160,7 @@ class FAQActivity : BaseActivity() {
 
     private fun initLiveChat() {
         val chatConfiguration =
-            ChatConfiguration.Builder(ORG_ID, BUTTON_ID, DEPLOYMENT_ID, AGENT_POD).build()
+            ChatConfiguration.Builder(BuildConfig.ORG_ID, BuildConfig.BUTTON_ID, BuildConfig.DEPLOYMENT_ID, BuildConfig.AGENT_POD).build()
         val uiConfig = ChatUIConfiguration.Builder()
             .chatConfiguration(chatConfiguration)
             .defaultToMinimized(false)
@@ -172,10 +173,6 @@ class FAQActivity : BaseActivity() {
 
     companion object {
         const val FAQ_TITLE: String = "FaqTitle"
-        const val AGENT_POD = "d.la1-c1cs-ord.salesforceliveagent.com"
-        const val ORG_ID = "00Df0000002HOQc"
-        const val DEPLOYMENT_ID = "572f0000000Cauc"
-        const val BUTTON_ID = "573f000000000zz"
         const val REQUEST_TO_HOME: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {

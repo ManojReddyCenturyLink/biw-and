@@ -15,8 +15,8 @@ android:toDegrees="1080">
       <path
           android:pathData="M20.5,9.5v11h-12L8.5,9.5h12z"
           android:strokeWidth="3"
-          android:fillColor="#503296"
-          android:strokeColor="#503296"
+          android:fillColor="#d7e1e6"
+          android:strokeColor="#d7e1e6"
           android:fillType="evenOdd"/>
     </group>
   </vector>

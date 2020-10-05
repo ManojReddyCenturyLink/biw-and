@@ -73,6 +73,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var enrouteMapFragment: SupportMapFragment? = null
     private var workBegunMapFragment: SupportMapFragment? = null
     private var originLatLng = LatLng(0.0, 0.0)
+    private var speedTestCount: Int = 0
     //private var destinationLatLng = LatLng(0.0, 0.0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -139,6 +140,17 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 if (it) View.VISIBLE else View.INVISIBLE
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
+        }
+        dashboardViewModel.speedTestError.observe{
+            if (it) {
+                CustomDialogGreyTheme(
+                    getString(R.string.speed_test_error_title),
+                    getString(R.string.speed_test_error_message),
+                    getString(R.string.modem_reboot_error_button_positive),
+                    getString(R.string.modem_reboot_error_button_negative),
+                    ::speedTestDialogCallback
+                ).show(fragManager!!, DashboardFragment::class.simpleName)
+            }
         }
         dashboardViewModel.speedTestButtonState.observe { speedTestButtonState ->
             dashboardViewModel.networkStatus.observe { networkStatusOnline ->
@@ -220,15 +232,18 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         incCompleted.visibility = View.GONE
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
-       dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-          if(networkStatusOnline) {
-               dashboardViewModel.startSpeedTest()
-          }
-      }
+        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+            if (networkStatusOnline && speedTestCount < 1) {
+                dashboardViewModel.startSpeedTest(false)
+                speedTestCount++
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+            }
+        }
     }
 
     private fun initOnClicks() {
-        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest() }
+        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest(true) }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener {
             dashboardViewModel.logCancelAppointmentClick()
@@ -258,6 +273,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             intent.data = Uri.parse(getString(R.string.tel_url))
             startActivity(intent)
         }
+        binding.tapToEditNetwork.setOnClickListener{dashboardViewModel.navigateToNetworkInformation()}
     }
 
     private fun setupMap() {
@@ -452,6 +468,14 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    private fun speedTestDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.startSpeedTest(true)
+            }
+        }
+    }
+
     interface ViewClickListener {
         /**
          * Handle click event
@@ -486,7 +510,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     }
 
     override fun onWifiNameClicked(networkName: String) {
-        dashboardViewModel.navigateToNetworkInformation(networkName)
+        dashboardViewModel.navigateToNetworkInformation()
     }
 
     override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {

@@ -47,7 +47,9 @@ class NetworkStatusActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                validateNameAndPassword()
+                if(viewModel.networkInfoComplete) {
+                  validateNameAndPassword()
+                }
             }
         }
     }
@@ -378,12 +380,10 @@ class NetworkStatusActivity : BaseActivity() {
     }
 
     companion object {
-        const val NETWORK_NAME: String = "NETWORK_NAME"
         const val REQUEST_TO_HOME: Int = 101
         fun newIntent(context: Context) = Intent(context, NetworkStatusActivity::class.java)
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, NetworkStatusActivity::class.java)
-                .putExtra(NETWORK_NAME, bundle.getString(NETWORK_NAME))
         }
     }
 }
