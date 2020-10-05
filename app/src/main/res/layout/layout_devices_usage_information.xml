@@ -268,7 +268,7 @@
 
                 <EditText
                     android:id="@+id/nickname_device_name_input"
-                    style="@style/style_form_input_fields_grey"
+                    style="@style/style_form_input_fields"
                     android:layout_width="0dp"
                     android:layout_height="40dp"
                     android:layout_marginTop="@dimen/spacing_4"
