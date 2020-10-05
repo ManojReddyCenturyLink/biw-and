@@ -14,9 +14,6 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * Repository class for all API calls from mcafee server with suspend functions
- */
 @Singleton
 class McafeeRepository @Inject constructor(
     private val preferences: Preferences,
