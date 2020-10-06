@@ -23,6 +23,7 @@ import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.centurylink.biwf.widgets.NoNetworkErrorPopup.Companion.showNoInternetDialog
 import com.salesforce.android.chat.core.ChatConfiguration
@@ -241,23 +242,21 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun speedTestErrorDialog() {
-        CustomDialogGreyTheme(
-            getString(R.string.speed_test_error_title),
-            getString(R.string.speed_test_error_message),
-            getString(R.string.modem_reboot_error_button_positive),
-            getString(R.string.modem_reboot_error_button_negative),
-            ::speedTestDialogCallback
+        CustomDialogBlueTheme(
+            title = getString(R.string.speed_test_error_title),
+            message = getString(R.string.speed_test_error_message),
+            buttonText = getString(R.string.ok),
+            isErrorPopup = true,
+            callback = ::onErrorDialogCallback
         ).show(
             supportFragmentManager,
             callingActivity?.className
         )
     }
 
-    private fun speedTestDialogCallback(buttonType: Int) {
+    private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> {
-                viewModel.startSpeedTest()
-            }
+            AlertDialog.BUTTON_POSITIVE -> { /** no op **/ }
         }
     }
 
