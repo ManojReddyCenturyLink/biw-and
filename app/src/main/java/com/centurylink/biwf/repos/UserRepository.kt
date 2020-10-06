@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * This class interacts with User API Services. This Repository class
+ * UserRepository - This class interacts with User API Services. This Repository class
  * gets the data from the network . It handles all the Contact related information from the Salesforce
  * backend  and the View models can consume the Contact related information and display in the Activity
  * or Fragments.
@@ -109,7 +109,7 @@ class UserRepository @Inject constructor(
      * backend.
      *
      * @param password
-     * @return
+     * @return Error Message in case of Error and Empty String in case of Success.
      */
     suspend fun resetPassWord(password: String): String {
         val userId = getUserId()

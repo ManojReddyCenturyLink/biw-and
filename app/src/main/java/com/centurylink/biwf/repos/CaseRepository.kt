@@ -28,8 +28,7 @@ import javax.inject.Singleton
 @Singleton
 class CaseRepository @Inject constructor(
     private val preferences: Preferences,
-    private val caseApiService: CaseApiService
-) {
+    private val caseApiService: CaseApiService) {
 
     /**
      * This method is used to get the Account Id that is stored in the  Shared Preferences

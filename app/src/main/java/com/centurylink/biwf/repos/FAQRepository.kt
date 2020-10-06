@@ -16,7 +16,7 @@ import javax.inject.Singleton
  * backend  and the View models can consume the FAQ related information and display in the Activity
  * or Fragments.
  *
- * @property faqService FAQService for Instance for interacting with the Sales force FAQ API.
+ * @property faqService FAQService  Instance for interacting with the Sales force FAQ API.
  * @constructor Create  Faq repository
  */
 @Singleton
