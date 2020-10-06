@@ -122,11 +122,40 @@ class UsageDetailsActivity : BaseActivity() {
                 }
             }
             pauseUnpauseConnection.observe {
-                var isPaused = it.isPaused
                 val isModemStatus = intent.getBooleanExtra(MODEM_STATUS, false)
                 if (!isModemStatus) {
                     it.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
-                    isPaused = true
+                    binding.deviceConnectedBtn.background =
+                        (getDrawable(R.drawable.light_gray_rounded_borderless_background))
+                    binding.connectionStatusBtnText.text =
+                        getString(R.string.not_connected)
+                    binding.tapToRetryText.text =
+                        getString(R.string.connect_device_pause_unpause)
+                    binding.connectionStatusBtnText.setTextColor(getColor(R.color.med_grey))
+                } else {
+                    when (it.deviceConnectionStatus) {
+                        DeviceConnectionStatus.PAUSED -> {
+                            binding.deviceConnectedBtn.background =
+                                getDrawable(R.drawable.light_grey_rounded_background)
+                            binding.connectionStatusBtnText.text = getString(R.string.connection_paused)
+                            binding.tapToRetryText.text = getString(R.string.tap_to_resume_connection)
+                            binding.connectionStatusBtnText.setTextColor(getColor(R.color.dark_grey))
+                        }
+                        DeviceConnectionStatus.DEVICE_CONNECTED -> {
+                            binding.deviceConnectedBtn.background =
+                                getDrawable(R.drawable.light_blue_rounded_background)
+                            binding.connectionStatusBtnText.text = getString(R.string.device_connected)
+                            binding.tapToRetryText.text = getString(R.string.tap_to_pause_connection)
+                            binding.connectionStatusBtnText.setTextColor(getColor(R.color.purple))
+                        }
+                        DeviceConnectionStatus.FAILURE -> {
+                            binding.deviceConnectedBtn.background =
+                                getDrawable(R.drawable.light_blue_rounded_background)
+                            binding.connectionStatusBtnText.text = ""
+                            binding.tapToRetryText.text =
+                                getString(R.string.error_loading_device_status)
+                        }
+                    }
                 }
                 binding.connectionStatusIcon.setImageDrawable(
                     getDrawable(
@@ -135,13 +164,6 @@ class UsageDetailsActivity : BaseActivity() {
                         )
                     )
                 )
-                binding.deviceConnectedBtn.background =
-                    (getDrawable(if (isPaused) R.drawable.light_grey_rounded_background else R.drawable.light_blue_rounded_background))
-                binding.connectionStatusBtnText.text =
-                    getString(if (isPaused) R.string.connection_paused else R.string.device_connected)
-                binding.tapToRetryText.text =
-                    getString(if (isPaused) R.string.tap_to_resume_connection else R.string.tap_to_pause_connection)
-                binding.connectionStatusBtnText.setTextColor(getColor(if (isPaused) R.color.dark_grey else R.color.purple))
             }
         }
         binding.nicknameDeviceNameInput.hint = screenTitle
