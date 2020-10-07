@@ -7,6 +7,7 @@ import com.centurylink.biwf.coordinators.DashboardCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
@@ -85,6 +86,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     private lateinit var viewModel: DashboardViewModel
 
     private lateinit var speedTestResponse: SpeedTestResponse
+
+    private lateinit var modemInfo: ModemInfo
 
     @Before
     fun setup() {
@@ -165,6 +168,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         speedTestResponse = fromJson(readJson("speedtest-response.json"))
         coEvery { mockAssiaRepository. getUpstreamResults()} returns  Either.Right(speedTestResponse)
         coEvery { mockAssiaRepository. getDownstreamResults()} returns  Either.Right(speedTestResponse)
+        modemInfo = fromJson(readJson("modemInfo.json"))
+        coEvery { mockOAuthAssiaRepository.getModemInfo() } returns  Either.Right(modemInfo)
         viewModel = DashboardViewModel(
             notificationRepository = notificationRepository,
             appointmentRepository = appointmentRepository,

@@ -54,12 +54,6 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         MockKAnnotations.init(this, relaxed = true)
         deviceData = fromJson(readJson("devicedata.json"))
         run { analyticsManagerInterface }
-        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("",true)} returns Either.Right(
-            DevicePauseStatus(
-                isPaused =  true,
-                deviceId = ""
-            )
-        )
         viewModel = UsageDetailsViewModel(
             app = BIWFApp(),
             networkUsageRepository = networkUsageRepository,
@@ -189,9 +183,8 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun validateInputTest(){
         runBlockingTest {
             launch {
-            viewModel.validateInput("")
+                Assert.assertEquals(false, viewModel.validateInput("nickname"))
             }
-            Assert.assertEquals(false , viewModel.validateInput(""))
         }
     }
 }
