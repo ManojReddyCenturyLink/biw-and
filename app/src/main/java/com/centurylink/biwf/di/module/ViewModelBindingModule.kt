@@ -19,7 +19,9 @@ import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
 import com.centurylink.biwf.screens.support.FAQViewModel
 import com.centurylink.biwf.screens.support.SupportViewModel
 import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoViewModel
+import com.centurylink.biwf.screens.support.schedulecallback.ContactInfoViewModel
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackViewModel
+import com.centurylink.biwf.screens.support.schedulecallback.SelectTimeViewModel
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import dagger.Binds
 import dagger.MapKey
@@ -98,6 +100,16 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(AdditionalInfoViewModel::class)
     abstract fun bindAdditionalInfoViewModel(additionalInfoViewModel: AdditionalInfoViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SelectTimeViewModel::class)
+    abstract fun bindSelectTimeViewModel(selectTimeViewModel: SelectTimeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ContactInfoViewModel::class)
+    abstract fun bindContactInfoViewModel(contactInfoViewModel: ContactInfoViewModel): ViewModel
 
     @Binds
     @IntoMap

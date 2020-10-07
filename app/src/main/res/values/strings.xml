@@ -120,6 +120,10 @@
     <string name="call_us_now_at">Call us now at</string>
     <string name="done">DONE</string>
 
+    <!--Schedule Callback Screen -->
+    <string name="select_time">Select time</string>
+    <string name="contact_info">Contact info</string>
+
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>
     <string name="cancel_subscription_details_sub_header"> We’re sorry to see you go.</string>

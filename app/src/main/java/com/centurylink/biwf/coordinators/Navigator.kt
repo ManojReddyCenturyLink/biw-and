@@ -26,7 +26,9 @@ import com.centurylink.biwf.screens.subscription.SubscriptionStatementActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoActivity
+import com.centurylink.biwf.screens.support.schedulecallback.ContactInfoActivity
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
+import com.centurylink.biwf.screens.support.schedulecallback.SelectTimeActivity
 import com.centurylink.biwf.utility.WebLinkUtil
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -208,6 +210,20 @@ class Navigator @Inject constructor() : LifecycleObserver {
                 AppointmentBookedActivity.newIntent(it, bundle),
                 ChangeAppointmentActivity.REQUEST_TO_DASHBOARD
             )
+        }
+    }
+
+    fun navigateToContactInfo() {
+        val bundle = AdditionalInfoCoordinatorDestinations.bundle
+        activity?.also {
+                it.startActivity(ContactInfoActivity.newIntent(it, bundle))
+        }
+    }
+
+    fun navigateToSelectTime() {
+        val bundle = ContactInfoCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivity(SelectTimeActivity.newIntent(it, bundle))
         }
     }
 

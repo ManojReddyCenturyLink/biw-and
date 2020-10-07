@@ -1,26 +1,7 @@
 package com.centurylink.biwf.di.component
 
 import com.centurylink.biwf.BIWFApp
-import com.centurylink.biwf.di.activityinjector.AdditionalInfoActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.AppointmentBookedActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.BaseActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.CancelSubscriptionDetailsInjectorModule
-import com.centurylink.biwf.di.activityinjector.CancelSubscriptionInjectorModule
-import com.centurylink.biwf.di.activityinjector.ChangeAppointmentActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.EditPaymentDetailsActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.FAQActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.HomeActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.LoginActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.NetworkStatusActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.NotificationActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.NotificationDetailsActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.PersonalInfoActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.QRScanInjectorModule
-import com.centurylink.biwf.di.activityinjector.ScheduleCallbackInjectorModule
-import com.centurylink.biwf.di.activityinjector.SubscriptionActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.SubscriptionStatementActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.SupportActivityInjectorModule
-import com.centurylink.biwf.di.activityinjector.UsageDetailsActivityInjectorModule
+import com.centurylink.biwf.di.activityinjector.*
 import com.centurylink.biwf.di.fragmentinjector.AccountFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.BaseFragmentInjectorModule
 import com.centurylink.biwf.di.fragmentinjector.CustomWebFragmentInjectorModule
@@ -58,6 +39,8 @@ import javax.inject.Singleton
         (CancelSubscriptionInjectorModule::class),
         (ScheduleCallbackInjectorModule::class),
         (AdditionalInfoActivityInjectorModule::class),
+        (SelectTimeActivityInjectorModule::class),
+        (ContactInfoActivityInjectorModule::class),
         (SubscriptionActivityInjectorModule::class),
         (EditPaymentDetailsActivityInjectorModule::class),
         (NetworkStatusActivityInjectorModule::class),
