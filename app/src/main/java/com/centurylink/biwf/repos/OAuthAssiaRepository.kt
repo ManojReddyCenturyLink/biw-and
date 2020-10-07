@@ -6,11 +6,28 @@ import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.service.network.OAuthAssiaService
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
+import javax.inject.Singleton
 
+/**
+ * OAuthAssiaRepository - OAuth Asia Repository class interacts with OAuthAssiaService. This Repository class
+ * gets the data from the network. It handles all the Devices related information from the Asia CloudCheck
+ * backend through APIGEE gateway.The View models can consume the Devices related information and display in the Activity
+ * or Fragments.
+ *
+ * @property preferences preference Instance for storing the value in shared preferences.
+ * @property oAuthAssiaService OAuthAssiaService  Instance for interacting with the AssiaCloudcheck API through Gateways..
+ * @constructor Create  OAuthAssiaRepository
+ */
+@Singleton
 class OAuthAssiaRepository @Inject constructor(
     private val preferences: Preferences,
     private val oAuthAssiaService: OAuthAssiaService
 ) {
+    /**
+     * Get Modem Info API is used for getting the details about the Modem and the Network.
+     *
+     * @return  ModemInfo instance if the API is success and error message in case of failure
+     */
     suspend fun getModemInfo(): Either<String, ModemInfo> {
         val result = oAuthAssiaService.getLineInfo(preferences.getLineId())
         return result.mapLeft { it.message?.message.toString() }.flatMap { it->
@@ -33,6 +50,12 @@ class OAuthAssiaRepository @Inject constructor(
     // prevents Assia from sending us cached data in the response, but is more expensive so it
     // should only be used for certain use cases which require it. Rebooting uses this method for
     // obtaining the instantaneous "isAlive" value
+    /**
+     * ModemRealTime Information can be obtained from this function.
+     * if "forceping=true" returns non cached API response.
+     *
+     * @return  ModemInfo instance if the API is success and error message in case of failure.
+     */
     suspend fun getModemInfoForcePing(): Either<String, ModemInfo> {
         val result = oAuthAssiaService.getLineInfo(preferences.getLineId(), forcePing = true)
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
