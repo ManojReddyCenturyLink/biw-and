@@ -104,6 +104,11 @@ class McafeeRepository @Inject constructor(
         }
     }
 
+    /**
+     * The Suspend function used to fetch the device information from the McAfee server
+     *
+     * @return The List of deviceItem in case of Success and error message in case of Failure.
+     */
     suspend fun fetchDeviceDetails():
             Either<String, List<DevicesItem>> {
         val result = mcaFeeService.getDeviceDetails(preferences.getAssiaId(), getMcAfeeHeaderMap())
@@ -115,6 +120,11 @@ class McafeeRepository @Inject constructor(
         }
     }
 
+    /**
+     * sets the HeaderMap Needed for McAfee endPoints
+     *
+     * @return Map includes the McAfee Header Information
+     */
     private fun getMcAfeeHeaderMap(): Map<String, String> {
         val headerMap = mutableMapOf<String, String>()
         headerMap["Content-Type"] = "application/json"
