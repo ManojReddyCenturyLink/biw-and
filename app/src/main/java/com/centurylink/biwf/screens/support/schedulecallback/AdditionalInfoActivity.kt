@@ -42,7 +42,7 @@ class AdditionalInfoActivity : BaseActivity() {
                 viewModel.logBackButtonClick()
                 finish()
             }
-            subheaderRightActionTitle.text = getText(R.string.done)
+            subheaderRightActionTitle.text = getText(R.string.additional_info_cancel)
             subheaderRightActionTitle.setOnClickListener {
                 viewModel.logCancelButtonClick()
                 setResult(Activity.RESULT_OK)
