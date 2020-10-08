@@ -143,12 +143,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
         dashboardViewModel.speedTestError.observe{
             if (it) {
-                CustomDialogGreyTheme(
-                    getString(R.string.speed_test_error_title),
-                    getString(R.string.speed_test_error_message),
-                    getString(R.string.modem_reboot_error_button_positive),
-                    getString(R.string.modem_reboot_error_button_negative),
-                    ::speedTestDialogCallback
+                CustomDialogBlueTheme(
+                    title = getString(R.string.speed_test_error_title),
+                    message = getString(R.string.speed_test_error_message),
+                    buttonText = getString(R.string.ok),
+                    isErrorPopup = true,
+                    callback = ::onErrorDialogCallback
                 ).show(fragManager!!, DashboardFragment::class.simpleName)
             }
         }
@@ -531,11 +531,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
         }
     }
+
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> {
-
-            }
+            AlertDialog.BUTTON_POSITIVE -> { /** no op **/ }
         }
     }
 }

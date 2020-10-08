@@ -12,20 +12,46 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Account repository AccountRepository class - This class interacts with Account API Services. This Repository class
+ * gets the data from the network . It handles all the Account related information from the Salesforce
+ * backend  and the View models can consume the Account related information and display in the Activity
+ * or Fragments.
+ *
+ * @property preferences preference Instance for storing the value in shared preferences.
+ * @property accountApiService  accountApiService Instance for interacting with the Sales force Accounts API.
+ * @constructor Creates  Account repository Instance.
+ */
 @Singleton
 class AccountRepository @Inject constructor(
     private val preferences: Preferences,
     private val accountApiService: AccountApiService
 ) {
 
+    /**
+     * This method is used to get the Account Id that is stored in the  Shared Preferences
+     * @return The Account Id.
+     */
     private fun getAccountId(): String? {
         return preferences.getValueByID(Preferences.ACCOUNT_ID)
     }
 
+    /**
+     * This method stores the Line Id in the Preferences. The Line Id is used for the purpose of
+     * getting the Devices information from Cloudcheck.
+     * @param lineId The LineId used for getting the devices information from cloudcheck.
+     */
     private fun saveLineId(lineId: String) {
         preferences.saveLineId(lineId)
     }
 
+    /**
+     * The Suspend function used for the purpose of fetching the AccountDetails from the Salesforce
+     * backend
+     *
+     * @return AccountDetails if the API is success it returns the AccountDetails instance
+     * @return Error in String format in case of API failure.
+     */
     suspend fun getAccountDetails(): Either<String, AccountDetails> {
         val result: FiberServiceResult<AccountDetails> =
             accountApiService.getAccountDetails(getAccountId()!!)
@@ -40,6 +66,12 @@ class AccountRepository @Inject constructor(
         return result.mapLeft { it.message?.message.toString() }
     }
 
+    /**
+     * The Suspend function used for the purpose of setting the Services calls enablement for the user
+     *
+     * @param callValue the true/false value whether service call is enabled
+     * @return Empty String if the API calls is Success and Error message in terms of errors
+     */
     suspend fun setServiceCallsAndTexts(callValue: Boolean): String {
         val updatedServiceCallsAndTexts = UpdatedServiceCallsAndTexts(callValue)
         val result: FiberServiceResult<Unit> = accountApiService.submitServiceCallDetails(
@@ -52,9 +84,18 @@ class AccountRepository @Inject constructor(
         )
     }
 
-    suspend fun getLiveCardDetails():Either<String,PaymentInfoResponse> {
-        val finalQuery = String.format(EnvironmentPath.LIVE_CARD_DETAILS_QUERY, preferences.getValueByID(Preferences.ACCOUNT_ID))
+    /**
+     * The Suspend function used for the purpose of getting the liveCard Details
+     *
+     * @return PaymentInfoResponse gives the information if API is Success else it will give error
+     * message in string.
+     */
+    suspend fun getLiveCardDetails(): Either<String, PaymentInfoResponse> {
+        val finalQuery = String.format(
+            EnvironmentPath.LIVE_CARD_DETAILS_QUERY,
+            preferences.getValueByID(Preferences.ACCOUNT_ID)
+        )
         val result = accountApiService.getLiveCardInfo(finalQuery)
-       return result.mapLeft { it.message.toString() }
+        return result.mapLeft { it.message.toString() }
     }
 }

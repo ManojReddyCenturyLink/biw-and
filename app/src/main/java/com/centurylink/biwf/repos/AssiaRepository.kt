@@ -14,12 +14,21 @@ import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Assia repository
+ *
+ * @property preferences
+ * @property assiaService
+ * @property assiaTokenManager
+ * @constructor Create empty Assia repository
+ */
 @Singleton
 class AssiaRepository @Inject constructor(
     private val preferences: Preferences,
     private val assiaService: AssiaService,
     private val assiaTokenManager: AssiaTokenManager
 ) {
+
 
     suspend fun getModemInfo(): Either<String, ModemInfo>  {
         val result =
