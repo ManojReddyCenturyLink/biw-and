@@ -297,4 +297,15 @@
     <!-- NO Network Error messages-->
     <string name="err_no_network_connectivity_title">No network</string>
     <string name="err_no_network_connectivity_message">Please check your internet connection.</string>
+
+    <!-- Contact Info screen -->
+    <string name="contact_info_label">Contact information</string>
+    <string name="contact_info_first_name_label">First name</string>
+    <string name="contact_info_last_name_label">Last name</string>
+    <string name="contact_info_email_label">Email</string>
+    <string name="contact_info_phone_number">Phone number</string>
+    <string name="contact_info_phone_number_hint">000-000-0000</string>
+    <string name="contact_info_select_phone_number_content">Which phone number would you like us to contact you on? </string>
+    <string name="mobile">Mobile</string>
+    <string name="enter_valid_phone_number_error">Please enter a valid phone number</string>
 </resources>

@@ -48,10 +48,12 @@ class ContactInfoActivity: BaseActivity() {
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
+                viewModel.logBackButtonClick()
                 finish()
             }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
             subheaderRightActionTitle.setOnClickListener {
+                viewModel.logCancelButtonClick()
                 setResult(Activity.RESULT_OK)
                 finish()
             }
@@ -66,6 +68,7 @@ class ContactInfoActivity: BaseActivity() {
 
     companion object {
         const val CONTACT_INFO: String = "ContactInfo"
+        const val REQUEST_TO_HOME: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, ContactInfoActivity::class.java)
