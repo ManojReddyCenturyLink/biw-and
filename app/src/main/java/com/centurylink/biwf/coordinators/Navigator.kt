@@ -216,14 +216,16 @@ class Navigator @Inject constructor() : LifecycleObserver {
     fun navigateToContactInfo() {
         val bundle = AdditionalInfoCoordinatorDestinations.bundle
         activity?.also {
-                it.startActivity(ContactInfoActivity.newIntent(it, bundle))
+                it.startActivityForResult(ContactInfoActivity.newIntent(it, bundle),
+                ContactInfoActivity.REQUEST_TO_HOME)
         }
     }
 
     fun navigateToSelectTime() {
         val bundle = ContactInfoCoordinatorDestinations.bundle
         activity?.also {
-            it.startActivity(SelectTimeActivity.newIntent(it, bundle))
+            it.startActivityForResult(SelectTimeActivity.newIntent(it, bundle),
+            SelectTimeActivity.REQUEST_TO_HOME)
         }
     }
 

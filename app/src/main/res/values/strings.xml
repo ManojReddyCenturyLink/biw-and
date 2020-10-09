@@ -123,6 +123,13 @@
     <!--Schedule Callback Screen -->
     <string name="select_time">Select time</string>
     <string name="contact_info">Contact info</string>
+    <string name="select_time_heading">When would you like us to call? </string>
+    <string name="next_available_time_label">Next available time</string>
+    <string name="next_available_time_subtext">most people recieve a call within 15 minutes</string>
+    <string name="specific_callback_time_label">I want to pick a specific time</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="call_me">Call me</string>
 
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>

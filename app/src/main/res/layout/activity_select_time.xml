@@ -16,4 +16,156 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/select_callback_time_heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_margin_spacing"
+        android:text="@string/select_time_heading"
+        style="@style/SubHeading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/incHeader" />
+
+    <TextView
+        android:id="@+id/next_available_callback_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/single_line_text_content"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:layout_marginStart="@dimen/height_54"
+        app:layout_constraintTop_toBottomOf="@id/select_callback_time_heading"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/next_available_time_label"/>
+
+    <TextView
+        android:id="@+id/next_available_callback_time_subtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/next_available_callback_time_label"
+        app:layout_constraintTop_toBottomOf="@id/next_available_callback_time_label"
+        android:textAppearance="@style/style_med_grey_small_text"
+        android:text="@string/next_available_time_subtext"/>
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/height_28"
+        app:layout_constraintTop_toBottomOf="@id/select_callback_time_heading"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/next_available_callback_time_label">
+
+        <RadioButton
+            android:id="@+id/next_available_callback_time_radiobtn"
+            android:background="@drawable/radiobutton_selector"
+            android:button="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:id="@+id/specific_callback_time_radiobtn"
+            android:checked="true"
+            android:background="@drawable/radiobutton_selector"
+            android:button="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/close_icon_size"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/specific_callback_time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/single_line_text_content"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:layout_marginStart="@dimen/height_54"
+        app:layout_constraintTop_toBottomOf="@id/next_available_callback_time_subtext"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/specific_callback_time_label"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/vertical_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent=".55" />
+
+    <TextView
+        android:id="@+id/specific_callback_time_date_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:text="@string/date"
+        android:textAppearance="@style/style_installation_status_subheading"
+        app:layout_constraintTop_toBottomOf="@id/specific_callback_time_label"
+        app:layout_constraintStart_toStartOf="@id/specific_callback_time_label"/>
+
+    <TextView
+        android:id="@+id/specific_callback_time_time_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:text="@string/time"
+        android:textAppearance="@style/style_installation_status_subheading"
+        app:layout_constraintTop_toBottomOf="@id/specific_callback_time_label"
+        app:layout_constraintStart_toStartOf="@id/vertical_guideline"/>
+
+    <TextView
+        android:id="@+id/callback_date_selection"
+        android:textAppearance="@style/style_callback_date_time_selection"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/text_entry_height"
+        android:background="@drawable/background_thin_border"
+        android:drawableStart="@drawable/ic_calendar"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:drawablePadding="@dimen/margin_spacing_10"
+        android:layout_marginEnd="@dimen/margin_spacing_10"
+        android:gravity="start|center_vertical"
+        android:padding="@dimen/margin_spacing_10"
+        android:textColor="@color/eggplant"
+        app:layout_constraintTop_toBottomOf="@+id/specific_callback_time_date_heading"
+        app:layout_constraintStart_toStartOf="@id/specific_callback_time_date_heading"
+        app:layout_constraintEnd_toStartOf="@id/specific_callback_time_time_heading"/>
+
+    <TextView
+        android:id="@+id/callback_time_selection"
+        android:textAppearance="@style/style_callback_date_time_selection"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/text_entry_height"
+        android:background="@drawable/background_thin_border"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:layout_marginEnd="@dimen/margin_spacing_large"
+        android:gravity="start|center_vertical"
+        android:padding="@dimen/margin_spacing_10"
+        app:layout_constraintTop_toBottomOf="@+id/specific_callback_time_time_heading"
+        app:layout_constraintStart_toStartOf="@id/vertical_guideline"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/call_me_button"
+        style="@style/primaryButtonBordered"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        android:text="@string/call_me"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/callback_time_selection" />
+
+    <include
+        android:id="@+id/call_me_progress_button"
+        layout="@layout/widget_schedule_callback_progress_cta"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/medium_margin_spacing"
+        android:layout_marginEnd="@dimen/medium_margin_spacing"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/callback_time_selection" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

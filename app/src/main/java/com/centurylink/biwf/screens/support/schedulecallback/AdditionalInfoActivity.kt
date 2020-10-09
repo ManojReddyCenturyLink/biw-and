@@ -45,7 +45,7 @@ class AdditionalInfoActivity : BaseActivity() {
     }
 
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.additional_info_title)
+        val screenTitle: String = getString(R.string.additional_info_title)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
@@ -65,6 +65,18 @@ class AdditionalInfoActivity : BaseActivity() {
        binding.additionalInfoNextBtn.setOnClickListener {
            viewModel.launchContactInfo()
        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TO_HOME -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    setResult(RESULT_OK)
+                    finish()
+                }
+            }
+        }
     }
 
     companion object {
