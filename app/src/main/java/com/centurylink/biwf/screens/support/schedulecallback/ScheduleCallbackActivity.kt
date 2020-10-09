@@ -35,6 +35,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     }
     private lateinit var adapter: ScheduleCallbackAdapter
     private lateinit var binding: ActivityScheduleCallbackBinding
+    private var isExistingUserState: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +78,8 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     }
 
     private fun initHeaders() {
+        isExistingUserState = intent.getBooleanExtra(IS_EXISTING_USER, false)
+        viewModel.isExistingUser = isExistingUserState
         binding.scheduleCallbackRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val screenTitle: String = getString(R.string.schedule_callback)
@@ -104,8 +107,10 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
 
     companion object {
         const val REQUEST_TO_HOME: Int = 1100
-        fun newIntent(context: Context): Intent {
+        const val IS_EXISTING_USER = "IS_EXISTING_USER"
+        fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, ScheduleCallbackActivity::class.java)
+                .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
         }
     }
 }

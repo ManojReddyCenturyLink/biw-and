@@ -33,7 +33,6 @@ class ContactInfoActivity: BaseActivity() {
     }
     private lateinit var binding: ActivityContactInfoBinding
     private var isExistingUserWithPhoneNumber: Boolean = true
-    private var isExistingUser: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +57,7 @@ class ContactInfoActivity: BaseActivity() {
 
 
     private fun initViews() {
+        val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
         if(isExistingUser) {
             binding.contactInfoExistingUser.layoutContactInfoExistingUserWithPhoneNumber.visibility =
                 if (isExistingUserWithPhoneNumber) View.VISIBLE else View.GONE
@@ -171,12 +171,12 @@ class ContactInfoActivity: BaseActivity() {
     }
 
     companion object {
-        const val CONTACT_INFO: String = "ContactInfo"
+        const val IS_EXISTING_USER = "isExistingUser"
         const val REQUEST_TO_HOME: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, ContactInfoActivity::class.java)
-                .putExtra(CONTACT_INFO, bundle.getString(CONTACT_INFO))
+                .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
         }
     }
 }

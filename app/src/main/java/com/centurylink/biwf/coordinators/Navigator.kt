@@ -113,9 +113,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     fun navigateToScheduleCallback() {
+        val bundle = SupportCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(
-                ScheduleCallbackActivity.newIntent(it),
+                ScheduleCallbackActivity.newIntent(it, bundle),
                 ScheduleCallbackActivity.REQUEST_TO_HOME
             )
         }

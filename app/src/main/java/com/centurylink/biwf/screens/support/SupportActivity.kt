@@ -213,7 +213,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 showNoInternetDialog(fragmentManager, callingActivity?.className)
             }
         }
-        binding.incContactUs.scheduleCallbackRow.setOnClickListener { viewModel.launchScheduleCallback() }
+        binding.incContactUs.scheduleCallbackRow.setOnClickListener { viewModel.launchScheduleCallback(isExistingUser) }
         initButtonStates()
     }
 

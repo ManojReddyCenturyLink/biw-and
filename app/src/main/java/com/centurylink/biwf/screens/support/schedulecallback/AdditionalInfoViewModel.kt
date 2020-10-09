@@ -32,9 +32,9 @@ class AdditionalInfoViewModel @Inject constructor(
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_NEXT_ADDITIONAL_INFO)
     }
 
-    fun launchContactInfo() {
+    fun launchContactInfo(isExistingUser: Boolean) {
         val bundle = Bundle()
-        bundle.putString(ContactInfoActivity.CONTACT_INFO, "Contact info")
+        bundle.putBoolean(ContactInfoActivity.IS_EXISTING_USER, isExistingUser)
         AdditionalInfoCoordinatorDestinations.bundle = bundle
         myState.latestValue = AdditionalInfoCoordinatorDestinations.CONTACT_INFO
     }

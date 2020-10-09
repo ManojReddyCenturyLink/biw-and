@@ -29,6 +29,7 @@ class AdditionalInfoActivity : BaseActivity() {
         ViewModelProvider(this, factory).get(AdditionalInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityAdditionalInfoBinding
+    private var isExistingUser: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,9 +68,10 @@ class AdditionalInfoActivity : BaseActivity() {
     }
 
     private fun initOnClicks() {
-       binding.additionalInfoNextBtn.setOnClickListener {
+        binding.additionalInfoNextBtn.setOnClickListener {
            viewModel.logNextButtonClick()
-           viewModel.launchContactInfo()
+            isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
+            viewModel.launchContactInfo(isExistingUser)
        }
     }
 
@@ -88,11 +90,12 @@ class AdditionalInfoActivity : BaseActivity() {
     companion object {
         const val ADDITIONAL_INFO: String = "AdditionalInfo"
         const val REQUEST_TO_HOME: Int = 1100
+        const val IS_EXISTING_USER = "isExistingUser"
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
-            return Intent(context, AdditionalInfoActivity::class.java).putExtra(
-                ADDITIONAL_INFO, bundle.getString(ADDITIONAL_INFO)
-            )
+            return Intent(context, AdditionalInfoActivity::class.java)
+                .putExtra(ADDITIONAL_INFO, bundle.getString(ADDITIONAL_INFO))
+                .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
         }
     }
 }
