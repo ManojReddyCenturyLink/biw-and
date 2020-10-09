@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Login Screen -->
     <string name="app_name">BiWF</string>
     <string name="email">Email:</string>
@@ -293,4 +293,7 @@
     <!-- NO Network Error messages-->
     <string name="err_no_network_connectivity_title">No network</string>
     <string name="err_no_network_connectivity_message">Please check your internet connection.</string>
+
+    <!--Additional Info screen-->
+    <string name="additional_info_cancel">CANCEL</string>
 </resources>
