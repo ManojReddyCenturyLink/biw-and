@@ -40,9 +40,8 @@ class ContactInfoViewModel @Inject constructor(
 
     fun validateInput(): Errors {
         val errors = Errors()
-        if (phoneNumberValue.isEmpty()) {
+        if (phoneNumberValue.isEmpty() || phoneNumberValue.length < mobileMinLength ) {
             errors["mobileNumberError"] = "mobileNumberError"
-            errors["fieldMandatory"] = "fieldMandatory"
         }
         this.error.latestValue = errors
         return errors
@@ -76,5 +75,9 @@ class ContactInfoViewModel @Inject constructor(
         }
         this.phoneNumberValue = phone.toString()
         return this.phoneNumberValue
+    }
+
+    companion object {
+        const val mobileMinLength = 12
     }
 }

@@ -81,6 +81,7 @@
         android:enabled="false"
         android:inputType="phone"
         android:padding="@dimen/margin_spacing_tiny"
+        android:focusedByDefault="false"
         app:layout_constraintTop_toBottomOf="@id/contact_info_phone_number"
         app:layout_constraintStart_toEndOf="@id/radio_group"
         app:layout_constraintEnd_toEndOf="@id/layout_contact_info_existing_user_with_phone_number"

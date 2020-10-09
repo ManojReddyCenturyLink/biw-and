@@ -16,7 +16,7 @@ import javax.inject.Inject
 class AdditionalInfoActivity : BaseActivity() {
 
     @Inject
-    lateinit var additionalInfoCoodinator: AdditionalInfoCoordinator
+    lateinit var additionalInfoCoordinator: AdditionalInfoCoordinator
 
     @Inject
     lateinit var navigator: Navigator
@@ -34,7 +34,7 @@ class AdditionalInfoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAdditionalInfoBinding.inflate(layoutInflater)
         navigator.observe(this)
-        viewModel.myState.observeWith(additionalInfoCoodinator)
+        viewModel.myState.observeWith(additionalInfoCoordinator)
         setContentView(binding.root)
         initHeaders()
         initOnClicks()
@@ -42,6 +42,11 @@ class AdditionalInfoActivity : BaseActivity() {
 
     override fun onBackPressed() {
         finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.additionalInfoInput.text.clear()
     }
 
     private fun initHeaders() {

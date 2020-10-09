@@ -5,8 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
@@ -15,7 +15,6 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityContactInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
-import com.google.firebase.crashlytics.internal.common.CommonUtils.hideKeyboard
 import javax.inject.Inject
 
 class ContactInfoActivity: BaseActivity() {
@@ -33,6 +32,8 @@ class ContactInfoActivity: BaseActivity() {
         ViewModelProvider(this, factory).get(ContactInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityContactInfoBinding
+    private var isExistingUserWithPhoneNumber: Boolean = true
+    private var isExistingUser: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,12 +41,38 @@ class ContactInfoActivity: BaseActivity() {
         navigator.observe(this)
         viewModel.myState.observeWith(contactInfoCoordinator)
         setContentView(binding.root)
+        initViews()
         initHeaders()
         initOnClicks()
     }
 
     override fun onBackPressed() {
         finish()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text.clear()
+        binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.text.clear()
+    }
+
+
+    private fun initViews() {
+        if(isExistingUser) {
+            binding.contactInfoExistingUser.layoutContactInfoExistingUserWithPhoneNumber.visibility =
+                if (isExistingUserWithPhoneNumber) View.VISIBLE else View.GONE
+            binding.contactInfoExistingUser.layoutContactInfoExistingUserWithoutPhoneNumber.visibility =
+                if (isExistingUserWithPhoneNumber) View.GONE else View.VISIBLE
+
+            if (isExistingUserWithPhoneNumber) {
+                formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput)
+            } else {
+                formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput)
+            }
+        } else {
+            binding.contactNewUser.root.isVisible = true
+            binding.contactInfoExistingUser.root.isVisible = false
+        }
     }
 
     private fun initHeaders() {
@@ -78,10 +105,6 @@ class ContactInfoActivity: BaseActivity() {
                     R.drawable.background_thin_border
                 )
         }
-        val editText1 =  binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput
-        val editText2 =  binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput
-       formatPhoneNumber(editText1)
-       formatPhoneNumber(editText2)
     }
 
     private fun formatPhoneNumber(edit : EditText)
@@ -120,14 +143,17 @@ class ContactInfoActivity: BaseActivity() {
             binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.isEnabled=true
         }
         binding.contactInfoNextBtn.setOnClickListener {
-            if(binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.isChecked || binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.text.isNullOrEmpty())
-                validatePhoneNUmber()
-            else
-            viewModel.launchSelectTime()
+            if(isExistingUserWithPhoneNumber) {
+                if(binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.isChecked) {
+                    validatePhoneNumber()
+                } else {
+                    viewModel.launchSelectTime()
+                }
+            } else { validatePhoneNumber() }
         }
     }
 
-    private fun validatePhoneNUmber() {
+    private fun validatePhoneNumber() {
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
             viewModel.launchSelectTime()
