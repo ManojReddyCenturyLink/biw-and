@@ -67,6 +67,18 @@ class AdditionalInfoActivity : BaseActivity() {
        }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TO_HOME -> {
+               if (resultCode == Activity.RESULT_OK) {
+                    setResult(RESULT_OK)
+                    finish()
+                }
+            }
+        }
+    }
+
     companion object {
         const val ADDITIONAL_INFO: String = "AdditionalInfo"
         const val REQUEST_TO_HOME: Int = 1100
