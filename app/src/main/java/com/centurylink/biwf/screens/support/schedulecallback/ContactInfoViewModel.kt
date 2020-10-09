@@ -1,7 +1,6 @@
 package com.centurylink.biwf.screens.support.schedulecallback
 
 import android.os.Bundle
-import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.ContactInfoCoordinatorDestinations
@@ -19,17 +18,6 @@ class ContactInfoViewModel @Inject constructor(
     var error = EventFlow<Errors>()
     private var phoneNumberValue: String = ""
 
-    init {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_CONTACT_INFO)
-    }
-
-    fun logBackButtonClick() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_CONTACT_INFO)
-    }
-
-    fun logCancelButtonClick() {
-        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CANCEL_CONTACT_INFO)
-    }
 
     fun launchSelectTime() {
         val bundle = Bundle()

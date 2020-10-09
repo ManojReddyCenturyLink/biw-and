@@ -25,7 +25,6 @@ class AnalyticsKeys {
         const val SCREEN_FAQ = "FAQ Screen"
         const val SCREEN_SCHEDULE_CALLBACK_SUPPORT = "Schedule-Callback Screen"
         const val SCREEN_ADDITIONAL_INFO = "Additional Info Screen"
-        const val SCREEN_CONTACT_INFO = "Contact Info Screen"
         /*Device Module*/
         const val SCREEN_DEVICES = "Devices Screen"
         const val SCREEN_DEVICE_DETAILS = "Devices Details Screen"
@@ -87,8 +86,6 @@ class AnalyticsKeys {
         const val BUTTON_NEXT_ADDITIONAL_INFO = "Next Button Additional Info Screen"
         const val BUTTON_CANCEL_ADDITIONAL_INFO = "Cancel Button Additional Info Screen"
         const val BUTTON_BACK_ADDITIONAL_INFO = "Back Button Additional Info Screen"
-        const val BUTTON_CANCEL_CONTACT_INFO = "Cancel Button Contact Info Screen"
-        const val BUTTON_BACK_CONTACT_INFO = "Back Button Contact Info Screen"
         const val EXPAND_LIST_FAQ_DETAILS = "FAQ Details list expand"
         const val COLLAPSE_LIST_FAQ_DETAILS = "FAQ Details list collapse"
         /*Dashboard Module*/

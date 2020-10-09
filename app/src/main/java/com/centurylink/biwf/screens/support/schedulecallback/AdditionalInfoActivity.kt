@@ -68,6 +68,7 @@ class AdditionalInfoActivity : BaseActivity() {
 
     private fun initOnClicks() {
        binding.additionalInfoNextBtn.setOnClickListener {
+           viewModel.logNextButtonClick()
            viewModel.launchContactInfo()
        }
     }
