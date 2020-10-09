@@ -35,6 +35,7 @@
         android:layout_marginEnd="@dimen/medium_margin_spacing"
         android:background="@drawable/background_thin_border"
         android:gravity="top|start"
+        android:maxLength="255"
         android:hint="@string/additional_information"
         android:padding="@dimen/margin_spacing_tiny"
         android:scrollbars="vertical"
