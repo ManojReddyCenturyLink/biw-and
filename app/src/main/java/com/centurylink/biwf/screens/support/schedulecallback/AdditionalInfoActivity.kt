@@ -71,7 +71,7 @@ class AdditionalInfoActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_TO_HOME -> {
-                if (resultCode == Activity.RESULT_OK) {
+               if (resultCode == Activity.RESULT_OK) {
                     setResult(RESULT_OK)
                     finish()
                 }
