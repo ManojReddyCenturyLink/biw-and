@@ -145,6 +145,12 @@
         <item name="android:textSize">@dimen/text_size_16</item>
     </style>
 
+    <style name="style_callback_date_time_selection" parent="@android:style/TextAppearance">
+        <item name="android:fontFamily">@font/arial_mt</item>
+        <item name="android:textColor">@color/eggplant</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+    </style>
+
     <style name="style_mbps_view" parent="@android:style/TextAppearance">
         <item name="android:fontFamily">@font/arial_mt</item>
         <item name="android:textColor">@color/lavender</item>
@@ -243,6 +249,13 @@
     <style name="style_progress_button_support">
         <item name="fontFamily">@font/arial_bold_mt</item>
         <item name="android:textColor">@color/background_purple</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <style name="style_progress_button_schedule_callback">
+        <item name="fontFamily">@font/arial_bold_mt</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
@@ -483,6 +496,12 @@
     <style name="CaldroidDefaultWeekdayCell" parent="CaldroidDefaultCell">
         <item name="android:textColor">@color/med_grey</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="style_callback_date_time_picker" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/purple</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <!--Custom Styles for divider-->

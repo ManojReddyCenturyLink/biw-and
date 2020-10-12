@@ -7,11 +7,19 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
+import com.centurylink.biwf.coordinators.AdditionalInfoCoordinator
+import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityAdditionalInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
 class AdditionalInfoActivity : BaseActivity() {
+
+    @Inject
+    lateinit var additionalInfoCoordinator: AdditionalInfoCoordinator
+
+    @Inject
+    lateinit var navigator: Navigator
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
@@ -21,10 +29,13 @@ class AdditionalInfoActivity : BaseActivity() {
         ViewModelProvider(this, factory).get(AdditionalInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityAdditionalInfoBinding
+    private var isExistingUser: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAdditionalInfoBinding.inflate(layoutInflater)
+        navigator.observe(this)
+        viewModel.myState.observeWith(additionalInfoCoordinator)
         setContentView(binding.root)
         initHeaders()
         initOnClicks()
@@ -34,8 +45,13 @@ class AdditionalInfoActivity : BaseActivity() {
         finish()
     }
 
+    override fun onResume() {
+        super.onResume()
+        binding.additionalInfoInput.text.clear()
+    }
+
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.additional_info_title)
+        val screenTitle: String = getString(R.string.additional_info_title)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
@@ -52,17 +68,34 @@ class AdditionalInfoActivity : BaseActivity() {
     }
 
     private fun initOnClicks() {
-        binding.additionalInfoNextBtn.setOnClickListener { viewModel.logNextButtonClick() }
+        binding.additionalInfoNextBtn.setOnClickListener {
+           viewModel.logNextButtonClick()
+            isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
+            viewModel.launchContactInfo(isExistingUser)
+       }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            REQUEST_TO_HOME -> {
+               if (resultCode == Activity.RESULT_OK) {
+                    setResult(RESULT_OK)
+                    finish()
+                }
+            }
+        }
     }
 
     companion object {
         const val ADDITIONAL_INFO: String = "AdditionalInfo"
         const val REQUEST_TO_HOME: Int = 1100
+        const val IS_EXISTING_USER = "isExistingUser"
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
-            return Intent(context, AdditionalInfoActivity::class.java).putExtra(
-                ADDITIONAL_INFO, bundle.getString(ADDITIONAL_INFO)
-            )
+            return Intent(context, AdditionalInfoActivity::class.java)
+                .putExtra(ADDITIONAL_INFO, bundle.getString(ADDITIONAL_INFO))
+                .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
         }
     }
 }

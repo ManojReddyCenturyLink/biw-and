@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/primaryButtonBordered"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="@dimen/margin_spacing_tiny">
+
+    <ProgressBar
+        android:id="@+id/progress_icon"
+        android:layout_width="@dimen/notification_header_height"
+        android:layout_height="@dimen/notification_header_height"
+        android:indeterminate="true"
+        android:indeterminateDrawable="@drawable/ic_loading_light_grey" />
+
+    <TextView
+        android:id="@+id/progress_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/style_progress_button_schedule_callback"
+        android:paddingEnd="@dimen/margin_spacing_small"
+        android:text="@string/call_me"/>
+</LinearLayout>

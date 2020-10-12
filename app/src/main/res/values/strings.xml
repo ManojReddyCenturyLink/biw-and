@@ -120,6 +120,17 @@
     <string name="call_us_now_at">Call us now at</string>
     <string name="done">DONE</string>
 
+    <!--Schedule Callback Screen -->
+    <string name="select_time">Select time</string>
+    <string name="contact_info">Contact info</string>
+    <string name="select_time_heading">When would you like us to call? </string>
+    <string name="next_available_time_label">Next available time</string>
+    <string name="next_available_time_subtext">most people recieve a call within 15 minutes</string>
+    <string name="specific_callback_time_label">I want to pick a specific time</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="call_me">Call me</string>
+
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>
     <string name="cancel_subscription_details_sub_header"> We’re sorry to see you go.</string>
@@ -296,4 +307,15 @@
 
     <!--Additional Info screen-->
     <string name="additional_info_cancel">CANCEL</string>
+
+    <!-- Contact Info screen -->
+    <string name="contact_info_label">Contact information</string>
+    <string name="contact_info_first_name_label">First name</string>
+    <string name="contact_info_last_name_label">Last name</string>
+    <string name="contact_info_email_label">Email</string>
+    <string name="contact_info_phone_number">Phone number</string>
+    <string name="contact_info_phone_number_hint">000-000-0000</string>
+    <string name="contact_info_select_phone_number_content">Which phone number would you like us to contact you on? </string>
+    <string name="mobile">Mobile</string>
+    <string name="enter_valid_phone_number_error">Please enter a valid phone number</string>
 </resources>
