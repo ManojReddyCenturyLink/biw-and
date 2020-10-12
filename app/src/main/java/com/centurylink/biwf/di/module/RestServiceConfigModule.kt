@@ -26,6 +26,7 @@ import com.centurylink.biwf.service.network.McafeeApiService
 import com.centurylink.biwf.service.network.NotificationService
 import com.centurylink.biwf.service.network.OAuthAssiaService
 import com.centurylink.biwf.service.network.ServicesFactory
+import com.centurylink.biwf.service.network.SpeedTestService
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.service.network.UserService
 import com.centurylink.biwf.service.network.WifiNetworkApiService
@@ -290,6 +291,12 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun providesMcafeeUsersService(@BaseUrl(BaseUrlType.MCAFEE_SERVICES) factory: ServicesFactory): McafeeApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun providesSpeedTestService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): SpeedTestService {
         return factory.create()
     }
 }

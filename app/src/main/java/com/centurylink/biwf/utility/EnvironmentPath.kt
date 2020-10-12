@@ -114,13 +114,9 @@ class EnvironmentPath {
         const val API_MODEM_INFO_PATH = "api/v3/wifi/line/info"
         const val API_DEVICE_LIST_PATH = "api/v2/wifi/diags/stationinfo"
         const val API_USAGE_INFO_PATH = "station-traffic"
+        const val API_SPEED_TEST_PATH = "speed-test-request"
+        const val API_SPEED_TEST_STATUS = "speed-test-status"
         const val API_REBOOT_MODEM_PATH = "api/v2/wifi/operations/ap/{assiaId}/reboot"
-        const val API_SPEED_TEST_START_PATH = "api/v2/wifi/diagsrt/rtactions/start"
-        const val API_SPEED_TEST_STATUS_PATH = "api/v2/wifi/diagsrt/rtactions/status"
-        const val API_SPEED_TEST_UP_RESULT_PATH =
-            "api/v2/wifi/diagsrt/ap/broadbandusthroughputsummary"
-        const val API_SPEED_TEST_DOWN_RESULT_PATH =
-            "api/v2/wifi/diagsrt/ap/broadbanddsthroughputsummary"
         const val API_BLOCK_UNBLOCK_DEVICE_PATH =
             "api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block"
         const val API_CASE_FOR_SUBSCRIPTION_PATH = "sobjects/Case"
@@ -147,5 +143,6 @@ class EnvironmentPath {
         const val SCOPE = "web api refresh_token"
         const val AWS_BASE_URL = "https://bucketforapi.s3-eu-west-1.amazonaws.com/"
         const val BILLING_DETAILS = "invoice1.json"
+        const val CALL_BACK_URL = "ctl-fiber--qa.my.salesforce.com/services/apexrest/SpeedTest/*"
     }
 }

@@ -9,7 +9,13 @@ import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
-import com.centurylink.biwf.repos.*
+import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.DevicesRepository
+import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
+import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -38,6 +44,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @MockK
     lateinit var accountRepository: AccountRepository
+
+    @MockK
+    lateinit var speedTestRepository: SpeedTestRepository
 
     @MockK
     lateinit var modemRebootMonitorService: ModemRebootMonitorService
@@ -151,7 +160,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
             modemRebootMonitorService = modemRebootMonitorService,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            speedTestRepository = speedTestRepository
         )
     }
 
@@ -218,7 +228,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
             modemRebootMonitorService = modemRebootMonitorService,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            speedTestRepository = speedTestRepository
         )
         runBlockingTest {
             val method = viewModel.javaClass.getDeclaredMethod(

@@ -150,12 +150,12 @@ class Preferences(private val store: KeyValueStore) {
         store.putBoolean(SUPPORT_SPEED_TEST_STARTED, boolean)
     }
 
-    fun saveSpeedTestId(speedTestId: Int) {
+    fun saveSpeedTestId(speedTestId: String) {
         store.put(SPEED_TEST_ID, speedTestId)
     }
 
-    fun getSpeedTestId(): Int? {
-        return store.getInt(SPEED_TEST_ID)
+    fun getSpeedTestId(): String? {
+        return store.get(SPEED_TEST_ID)
     }
 
     // Should only be used for logout, currently
