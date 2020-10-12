@@ -12,6 +12,10 @@ data class UpdateNetworkResponse(
     @SerializedName("message")
     val message: String = "",
     @SerializedName("data")
-    val data: Boolean
+    val data: Boolean,
+    @SerializedName("createErrorRecord")
+    val createErrorRecord: Boolean =false,
+    @SerializedName("uniqueErrorCode")
+    val errorCode: String = ""
 ) : Serializable
 
