@@ -27,6 +27,14 @@ abstract class BaseFragment : Fragment(), LiveDataObserver {
         AndroidSupportInjection.inject(this)
     }
 
+    /**
+     * Function to display the Progress Bar view when the APi is loading.
+     *
+     * @param progressView - The Progress bar view
+     * @param retryView - The Retry layout view
+     * @param layout - The root view
+     * @param retryOverlayView The RetryOverlayview.
+     */
     fun setApiProgressViews(
         layout: View,
         progressView: View,
@@ -42,12 +50,22 @@ abstract class BaseFragment : Fragment(), LiveDataObserver {
         }
     }
 
+    /**
+     * Function to show Progress and hide other views.
+     *
+     * @param showProgress
+     */
     fun showProgress(showProgress: Boolean) {
         this.progressView?.visibility = if (showProgress) View.VISIBLE else View.GONE
         this.layoutView?.visibility = if (showProgress) View.GONE else View.VISIBLE
         this.retryOverlayView?.visibility = View.GONE
     }
 
+    /**
+     * Function to show Retry view when the API calls fail and hide other views.
+     *
+     * @param showReload
+     */
     fun showRetry(showReload: Boolean) {
         this.progressView?.visibility = View.GONE
         this.retryOverlayView?.visibility = if (showReload) View.VISIBLE else View.GONE
