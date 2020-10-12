@@ -6,7 +6,6 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
 import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
-
 import com.centurylink.biwf.service.network.AssiaTrafficUsageService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -32,10 +31,9 @@ class NetworkUsageRepository @Inject constructor(
             startDate = LocalDate.now().minusDays(15).toString().plus("T00:00:00-0000")
             endDate = LocalDate.now().minusDays(1).toString().plus("T00:00:00-0000")
         }
-        val result = assiaTrafficUsageService.getUsageDetails(
-            getHeaderMap(assiaTokenManager.getAssiaToken(), staMac, startDate, endDate)
-        )
-
+        val headerMap = mutableMapOf<String, String>()
+            headerMap["From"] = "mobile"
+        val result = assiaTrafficUsageService.getUsageDetails(headerMap, preferences.getAssiaId(),startDate,staMac)
         return result.fold(
             ifRight = {
                 formatTrafficUsageResponse(it)
