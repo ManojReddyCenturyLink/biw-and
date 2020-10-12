@@ -3,7 +3,9 @@ package com.centurylink.biwf.model.appointment
 import com.google.gson.annotations.SerializedName
 import org.threeten.bp.LocalDateTime
 
-
+/**
+ * Model class for account details screen
+ */
 data class Appointments(
     @SerializedName("totalSize")
     val totalSize: Int = 0,

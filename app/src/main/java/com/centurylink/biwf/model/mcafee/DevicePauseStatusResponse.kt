@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.mcafee
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Model class for block devices pause status response info
+ */
 data class DevicePauseStatusResponse(
     @SerializedName("code")
     val code: String = "",

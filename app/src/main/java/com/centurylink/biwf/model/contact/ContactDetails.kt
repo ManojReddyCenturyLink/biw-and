@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.contact
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * Model class for case contact details
+ */
 data class ContactDetails(
     @SerializedName("Id")
     val Id: String = "",

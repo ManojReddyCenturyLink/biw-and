@@ -4,6 +4,14 @@ import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.core.os.bundleOf
 
+/**
+ * Tabs base item - tab view
+ *
+ * @property indextype - selected tab position
+ * @property titleRes - selected tab position name
+ * @property bundle - saved instance
+ * @constructor Create empty Tabs base item
+ */
 open class TabsBaseItem (val indextype: Int, @StringRes val titleRes: Int, val bundle: Bundle= bundleOf()){
 
     companion object {

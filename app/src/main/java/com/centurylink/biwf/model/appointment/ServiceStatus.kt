@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.appointment
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * enum class for service status details
+ */
 enum class ServiceStatus {
     @SerializedName("Scheduled")
     SCHEDULED,

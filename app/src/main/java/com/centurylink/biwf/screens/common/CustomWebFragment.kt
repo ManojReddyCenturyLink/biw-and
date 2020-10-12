@@ -19,6 +19,12 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.databinding.FragmentWebviewBinding
 
+/**
+ * Custom web fragment - This display web pages inside our application
+ *
+ * @constructor Create empty Custom web fragment
+ */
+
 class CustomWebFragment : BaseFragment() {
 
     companion object {
@@ -42,6 +48,19 @@ class CustomWebFragment : BaseFragment() {
     private var url: String? = null
     private var reloadCount = 0
 
+    /**
+     * On create view - The onCreateView method is called when Fragment should create its View
+     *                  object hierarchy
+     *
+     * @param inflater - LayoutInflater: The LayoutInflater object that can be used to
+     *                   inflate any views in the fragment,
+     * @param container - ViewGroup: If non-null, this is the parent view that the fragment's UI
+     *                    should be attached to. The fragment should not add the view itself,
+     *                    but this can be used to generate the LayoutParams of the view.
+     *                    This value may be null.
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
+     * @return - Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,6 +74,15 @@ class CustomWebFragment : BaseFragment() {
         return binding.root
     }
 
+    /**
+     * On view created - This gives subclasses a chance to initialize themselves once they know
+     *                   their view hierarchy has been completely created
+     *
+     * @param view-View: The View returned by onCreateView(android.view.LayoutInflater,
+     *                   android.view.ViewGroup, android.os.Bundle).
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
+     *                            from a previous saved state as given here. This value may be null.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         savedInstanceState?.let {
@@ -65,21 +93,40 @@ class CustomWebFragment : BaseFragment() {
         initWebViewProperties()
     }
 
+    /**
+     * On save instance state - Called to ask the fragment to save its current dynamic state,
+     * so it can later be reconstructed in a new instance of its process is restarted
+     *
+     * @param outState - Bundle: Bundle in which to place your saved state.
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(RELOAD_COUNT, reloadCount)
         super.onSaveInstanceState(outState)
     }
 
+    /**
+     * On resume - Called when the fragment is visible to the user and actively running
+     *
+     */
     override fun onResume() {
         super.onResume()
         webView.onResume()
     }
 
+    /**
+     * On pause - Called when the Fragment is no longer resumed
+     *
+     */
     override fun onPause() {
         super.onPause()
         webView.onPause()
     }
 
+    /**
+     * On destroy view - Called when the view previously created by onCreateView(LayoutInflater,
+     * ViewGroup, Bundle) has been detached from the fragment.
+     *
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         // Destroy the WebView completely.
@@ -89,6 +136,10 @@ class CustomWebFragment : BaseFragment() {
         webView.destroy()
     }
 
+    /**
+     * Init web view properties
+     *
+     */
     private fun initWebViewProperties() {
         // Get the web view settings instance.
         val settings = webView.settings
@@ -131,8 +182,19 @@ class CustomWebFragment : BaseFragment() {
         webView.loadUrl(url)
     }
 
+    /**
+     * Default web chrome client
+     *
+     * @constructor Create empty Default web chrome client
+     */
     internal open class DefaultWebChromeClient : WebChromeClient() {}
 
+    /**
+     * Default web view client - This class Allow the user to navigate backward and forward through
+     *                           their web page history that's maintained by your WebView
+     *
+     * @constructor Create empty Default web view client
+     */
     internal open class DefaultWebViewClient : WebViewClient() {
         // Decide how a new url will be loaded. If this method returns false, it means current
         // webView will handle the url. If this method returns true, it means host application
