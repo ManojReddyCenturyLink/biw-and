@@ -1,6 +1,9 @@
 package com.centurylink.biwf.model.cases
 
 import com.google.gson.annotations.SerializedName
+/**
+ * Model class for case subscription create request details
+ */
 data class CaseCreate(
     @SerializedName("ContactId")
     val contactId: String = "",

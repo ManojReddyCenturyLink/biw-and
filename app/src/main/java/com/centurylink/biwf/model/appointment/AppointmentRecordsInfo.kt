@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.appointment
 
 import org.threeten.bp.LocalDateTime
 
+/**
+ * Model class for appointment record info
+ */
 data class AppointmentRecordsInfo(
     val serviceAppointmentStartDate: LocalDateTime,
     val serviceAppointmentEndTime: LocalDateTime,

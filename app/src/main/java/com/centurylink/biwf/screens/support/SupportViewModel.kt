@@ -13,6 +13,7 @@ import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
+import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -285,8 +286,11 @@ class SupportViewModel @Inject constructor(
         myState.latestValue = SupportCoordinatorDestinations.FAQ
     }
 
-    fun launchScheduleCallback() {
+    fun launchScheduleCallback(isExistingUser: Boolean) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.SCHEDULE_A_CALLBACK_SUPPORT)
+        val bundle = Bundle()
+        bundle.putBoolean(ScheduleCallbackActivity.IS_EXISTING_USER, isExistingUser)
+        SupportCoordinatorDestinations.bundle = bundle
         myState.latestValue = SupportCoordinatorDestinations.SCHEDULE_CALLBACK
     }
 

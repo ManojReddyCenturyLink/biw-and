@@ -78,7 +78,7 @@ class SupportViewModelTest : ViewModelBaseTest() {
         Assert.assertNotNull(analyticsManagerInterface)
         viewModel.logDoneButtonClick()
         viewModel.logLiveChatLaunch()
-        viewModel.launchScheduleCallback()
+        viewModel.launchScheduleCallback(isExistingUser = true)
         viewModel.startSpeedTest()
     }
 

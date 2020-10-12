@@ -246,6 +246,9 @@ dependencies {
     //SwipeRefreshLayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
 
+    //Custom Time Picker Dialog
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+
     // Google Analytics Tag Manager
     implementation "com.google.android.gms:play-services-tagmanager:$googleTagManagerVersion"
 

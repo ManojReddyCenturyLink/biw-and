@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.account
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * Model class for payment details
+ */
 data class PaymentInfoResponse(
     @SerializedName("totalSize")
     val totalSize: Int,

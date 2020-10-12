@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.appointment
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+/**
+ * Model class for service appointments details
+ */
 data class ServiceAppointments(
 
     @SerializedName("Id")

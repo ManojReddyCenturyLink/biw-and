@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.speedtest
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * Data class for speed test status details
+ */
 data class SpeedTestStatus(
     @SerializedName("code")
     val code: Int = 0,

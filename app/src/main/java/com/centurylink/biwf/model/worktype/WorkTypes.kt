@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.worktype
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+/**
+ * Data class for work types
+ */
 data class WorkTypes(
     @SerializedName("Id") var id: String? = null,
     @SerializedName("OwnerId") var ownerId: String? = null,
