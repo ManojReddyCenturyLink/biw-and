@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.assia
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * Model class for modem details
+ */
 data class ModemInfoResponse(
     @SerializedName("code")
     val code: String = "",

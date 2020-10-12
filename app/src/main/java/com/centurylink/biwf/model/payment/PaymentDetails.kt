@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.payment
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Data class for payment details
+ */
 class PaymentDetails(
     @SerializedName("Id")
     val invoiceId: String? = null,

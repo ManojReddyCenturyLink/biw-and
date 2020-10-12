@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.faq
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Model class for frequently asked questions info
+ */
 data class Faq(
     @SerializedName("totalSize")
     val totalSize: Int? = null,

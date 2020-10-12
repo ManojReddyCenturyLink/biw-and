@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.mcafee
 import com.google.gson.annotations.SerializedName
 import com.typesafe.config.ConfigException
 
+/**
+ * Model class for block device details response info
+ */
 data class DeviceDetailsResponse(
     @SerializedName("code")
     val code: String = "",

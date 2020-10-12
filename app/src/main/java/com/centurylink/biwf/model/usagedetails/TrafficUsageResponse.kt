@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.usagedetails
 import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Data class for traffic usage details
+ */
 data class TrafficUsageResponse(
     @SerializedName("code")
     val code: Int = 0,

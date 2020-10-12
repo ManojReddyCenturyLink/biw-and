@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.mcafee
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Model class for block devices request info
+ */
 data class DeviceInfoRequest(
     @SerializedName("deviceType")
     val deviceType: String = "",

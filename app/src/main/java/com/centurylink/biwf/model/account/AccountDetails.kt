@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.account
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * Model class for account details screen
+ */
 data class AccountDetails(
     @SerializedName("Id")
     val Id: String = "",

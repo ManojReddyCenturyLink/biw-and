@@ -1,9 +1,11 @@
 package com.centurylink.biwf.model.devices
 
-import com.centurylink.biwf.model.mcafee.MacDeviceList
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+/**
+ * Model class for device info
+ */
 data class DevicesInfo(
 
     @SerializedName("error")
