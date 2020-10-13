@@ -35,6 +35,10 @@ allprojects {
         }
         maven { url 'https://jitpack.io' }
         jcenter()
+        maven {
+            url "https://software.mobile.pendo.io/artifactory/android-release"
+        }
+        mavenCentral()
     }
 }
 

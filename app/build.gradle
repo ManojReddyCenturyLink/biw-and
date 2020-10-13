@@ -77,6 +77,7 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.dev.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.dev.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.dev.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "PENDO_APIKEY", "\"$parsedJson.productFlavors.dev.PENDO_APIKEY\"")
         }
 //        qa {
 //            applicationIdSuffix ".qa"
@@ -93,6 +94,7 @@ android {
 //            buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.qa.live_chat.ORG_ID\"")
 //            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.qa.live_chat.DEPLOYMENT_ID\"")
 //            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.qa.live_chat.BUTTON_ID\"")
+//            buildConfigField("String", "PENDO_APIKEY", "\"$parsedJson.productFlavors.qa.PENDO_APIKEY\"")
 //        }
         sit {
             applicationIdSuffix ".sit"
@@ -109,6 +111,7 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.sit.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.sit.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.sit.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "PENDO_APIKEY", "\"$parsedJson.productFlavors.sit.PENDO_APIKEY\"")
 
         }
         prod {
@@ -125,6 +128,7 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.prod.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.prod.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.prod.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "PENDO_APIKEY", "\"$parsedJson.productFlavors.prod.PENDO_APIKEY\"")
         }
     }
 
@@ -260,6 +264,7 @@ dependencies {
 
     implementation "androidx.security:security-crypto:1.0.0-alpha02"
 
+    implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"

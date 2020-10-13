@@ -141,6 +141,19 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="sdk.pendo.io.activities.PendoGateActivity" android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="pendo-debff383"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="debff383" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service android:name=".service.impl.auth.AppAuthResponseService">
             <intent-filter>
                 <action android:name="com.centurylink.HANDLE_AUTHORIZATION_RESPONSE"/>

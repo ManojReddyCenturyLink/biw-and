@@ -17,6 +17,7 @@ import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.NumberUtil.Companion.getOnlyDigits
+import com.centurylink.biwf.utility.PendoUtil
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.google.android.material.switchmaterial.SwitchMaterial
@@ -94,7 +95,10 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
             viewModel.onMarketingEmailsChange((view as SwitchMaterial).isChecked)
         }
         binding.accountMarketingCallsSwitch.setOnClickListener { view ->
-            viewModel.onMarketingCallsAndTextsChange((view as SwitchMaterial).isChecked,binding.accountPersonalInfoCard.personalInfoCellphone.text.toString())
+            viewModel.onMarketingCallsAndTextsChange(
+                (view as SwitchMaterial).isChecked,
+                binding.accountPersonalInfoCard.personalInfoCellphone.text.toString()
+            )
         }
         binding.accountServiceCallsSwitch.setOnClickListener { view ->
             viewModel.onServiceCallsAndTextsChange((view as SwitchMaterial).isChecked)
@@ -112,16 +116,15 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                 showRetry(it.isNotEmpty())
             }
             noInternetMessage.observe {
-               if(it)
-               {
-                   CustomDialogBlueTheme(
-                       getString(R.string.err_no_network_connectivity_title),
-                       getString(R.string.err_no_network_connectivity_message),
-                       getString(R.string.ok),
-                       true,
-                       ::onErrorDialogCallback
-                   ).show(fragManager!!, DashboardFragment::class.simpleName)
-               }
+                if (it) {
+                    CustomDialogBlueTheme(
+                        getString(R.string.err_no_network_connectivity_title),
+                        getString(R.string.err_no_network_connectivity_message),
+                        getString(R.string.ok),
+                        true,
+                        ::onErrorDialogCallback
+                    ).show(fragManager!!, DashboardFragment::class.simpleName)
+                }
             }
             bioMetricFlow.observe { boolean ->
                 binding.accountBiometricSwitch.isChecked = boolean
@@ -130,11 +133,14 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                 viewModel.initAccountAndContactApiCalls()
             }
             accountDetailsInfo.observe { uiAccountDetails ->
+                PendoUtil.initPendoSDK(context = activity, visitorId = uiAccountDetails.email ?: "")
                 binding.accountFullName.text = uiAccountDetails.name
 
                 // Service Address
-                binding.accountServiceAddressLine1.text = uiAccountDetails.formattedServiceAddressLine1
-                binding.accountServiceAddressLine2.text = uiAccountDetails.formattedServiceAddressLine2
+                binding.accountServiceAddressLine1.text =
+                    uiAccountDetails.formattedServiceAddressLine1
+                binding.accountServiceAddressLine2.text =
+                    uiAccountDetails.formattedServiceAddressLine2
                 binding.accountServiceAddressLine1.visibility =
                     if (uiAccountDetails.formattedServiceAddressLine1.isEmpty()) View.GONE else View.VISIBLE
                 binding.accountServiceAddressLine2.visibility =
