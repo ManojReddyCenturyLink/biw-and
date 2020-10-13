@@ -146,10 +146,11 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="pendo-debff383"/>
+                <data android:scheme="@string/APP_SCHEME"
+                    tools:ignore="AppLinkUrlError" />
             </intent-filter>
             <intent-filter>
-                <action android:name="debff383" />
+                <action android:name="@string/APP_PUSH_IDENTIFIER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

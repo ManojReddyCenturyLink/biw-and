@@ -1,7 +1,11 @@
 package com.centurylink.biwf.utility
 
-import androidx.fragment.app.FragmentActivity
+import android.app.Activity
+import android.content.Context
+import android.util.Log
+import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.BuildConfig
+import com.centurylink.biwf.R
 import sdk.pendo.io.Pendo
 import sdk.pendo.io.Pendo.PendoInitParams
 
@@ -13,20 +17,28 @@ import sdk.pendo.io.Pendo.PendoInitParams
 class PendoUtil {
 
     companion object {
-        /**
-         * It will initialises the pendo sdk
+
+        /** It will initialises the pendo sdk with out visitor
+         *
          */
-        fun initPendoSDK(context: FragmentActivity?, visitorId: String) {
+        fun initPendoSDKWithoutVisitor(context: BIWFApp) {
+            Pendo.initSdkWithoutVisitor(context,BuildConfig.APP_KEY,null)
+        }
+
+        /**
+         * It will initialises the pendo sdk with visitor
+         */
+        fun initPendoSDKWithVisitor(context: Activity, visitorId: String) {
             val pendoParams = PendoInitParams()
             pendoParams.visitorId = visitorId
 
             //send Visitor Level Data
             val userData: MutableMap<String, Any> = HashMap()
-            userData["age"] = 27
             userData["country"] = "USA"
             pendoParams.userData = userData
 
-            Pendo.initSDK(context, BuildConfig.PENDO_APIKEY, pendoParams)
+            Pendo.initSDK(context,BuildConfig.APP_KEY,pendoParams)
         }
     }
+
 }
