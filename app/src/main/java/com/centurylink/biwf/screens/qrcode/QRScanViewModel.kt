@@ -16,6 +16,16 @@ import com.google.zxing.EncodeHintType
 import net.glxn.qrgen.android.QRCode
 import javax.inject.Inject
 
+/**
+ * Q r scan view model
+ *
+ * @property wifiInfo - wifiInfo instance to handle wifi information
+ * @property resources - resource instance to handle resources information
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class QRScanViewModel constructor(
     private var wifiInfo: WifiInfo,
     modemRebootMonitorService: ModemRebootMonitorService,
@@ -38,10 +48,17 @@ class QRScanViewModel constructor(
 
     val qrScanFlow: BehaviorStateFlow<QrScanInfo> = BehaviorStateFlow()
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         generateQrCodeInfo()
     }
 
+    /**
+     * Generate qr code info - It used to generate Qr code information
+     *
+     */
     private fun generateQrCodeInfo() {
         val qrdata = resources.getString(R.string.wifi_code, wifiInfo.name, wifiInfo.password)
         val qrCode: Bitmap =
@@ -51,10 +68,20 @@ class QRScanViewModel constructor(
         qrScanFlow.latestValue = QrScanInfo(qrCode, wifiInfo.name!!)
     }
 
+    /**
+     * Log done button click - It will handle done button click events
+     *
+     */
     fun logDoneButtonClick(){
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_QR_CODE)
     }
 
+    /**
+     * With color - customizes qr code color
+     *
+     * @param onColor - returns on color
+     * @param offColor - returns off color
+     */
     fun QRCode.withColor(onColor: Long, offColor: Long) =
         this.withColor(onColor.toInt(), offColor.toInt())
 
