@@ -89,6 +89,8 @@ class EnvironmentPath {
             "oauth/token?username=biwftest&password=BiwfTest1&client_id=spapi&client_secret=oBj2xZc&grant_type=password"
         const val ASSIA_BASE_URL = "https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/"
         const val API_LINE_INFO_PATH = "wifi-line-info"
+        const val API_WIFI_OPERATIONS_ENABLE = "wifi-operations-enable"
+        const val API_WIFI_OPERATIONS_DISABLE = "wifi-operations-disable"
         const val API_ACCOUNT_DETAILS_PATH = "sobjects/Account/{account-id}"
         const val ACCOUNT_ID = "account-id"
         const val CONTACT_ID = "contact-id"
