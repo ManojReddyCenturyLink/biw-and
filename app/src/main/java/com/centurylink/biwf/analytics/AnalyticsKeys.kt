@@ -1,5 +1,10 @@
 package com.centurylink.biwf.analytics
 
+/**
+ * Common Class All the Analytics keys will be configured
+ *
+ * @constructor Create empty Analytics keys
+ */
 class AnalyticsKeys {
     companion object {
         /***Event Tags***/

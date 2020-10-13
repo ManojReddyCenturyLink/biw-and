@@ -33,6 +33,7 @@ import com.centurylink.biwf.service.network.WifiNetworkApiService
 import com.centurylink.biwf.service.network.ZuoraPaymentService
 import com.centurylink.biwf.service.network.ZuoraSubscriptionApiService
 import com.centurylink.biwf.service.network.create
+import com.centurylink.biwf.service.network.*
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -291,6 +292,12 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun providesMcafeeUsersService(@BaseUrl(BaseUrlType.MCAFEE_SERVICES) factory: ServicesFactory): McafeeApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun providesWifiStatusService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): WifiStatusService {
         return factory.create()
     }
 

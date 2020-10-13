@@ -17,6 +17,7 @@ import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
+import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -56,6 +57,11 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @MockK
     lateinit var wifiNetworkManagementRepository: WifiNetworkManagementRepository
+
+    @MockK
+    lateinit var wifiStatusRepository: WifiStatusRepository
+
+
 
     @MockK
     lateinit var mockPreferences: Preferences
@@ -159,6 +165,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             devicesRepository = devicesRepository,
             accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
+            wifiStatusRepository = wifiStatusRepository,
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface,
             speedTestRepository = speedTestRepository
@@ -227,6 +234,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             devicesRepository = devicesRepository,
             accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
+            wifiStatusRepository = wifiStatusRepository,
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface,
             speedTestRepository = speedTestRepository
