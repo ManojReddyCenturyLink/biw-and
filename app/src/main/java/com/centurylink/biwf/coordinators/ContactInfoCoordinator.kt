@@ -4,6 +4,12 @@ import android.os.Bundle
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * ContactInfoCoordinator -  This  class is used for the purpose of Navigation
+ * flow from the ContactInfo Activity.
+ *
+ * @constructor Create empty Contact info coordinator
+ */
 @Singleton
 class ContactInfoCoordinator @Inject constructor() :
     Coordinator<ContactInfoCoordinatorDestinations> {
@@ -11,6 +17,11 @@ class ContactInfoCoordinator @Inject constructor() :
     @Inject
     lateinit var navigator: Navigator
 
+    /**
+     * Navigate to ContactInfoCoordinatorDestinations from Contact info Screen
+     *
+     * @param destination The destination enum constants for Contact Info Screens.
+     */
     override fun navigateTo(destination: ContactInfoCoordinatorDestinations) {
         when (destination) {
             ContactInfoCoordinatorDestinations.SELECT_TIME
@@ -21,6 +32,11 @@ class ContactInfoCoordinator @Inject constructor() :
     }
 }
 
+/**
+ * Contact info coordinator destinations
+ *
+ * @constructor Create  Contact info coordinator destinations
+ */
 enum class ContactInfoCoordinatorDestinations {
     SELECT_TIME;
 

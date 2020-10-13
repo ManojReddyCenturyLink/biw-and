@@ -17,6 +17,7 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
 
 /**
@@ -29,6 +30,8 @@ class NetworkStatusActivity : BaseActivity() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
+    private val fragmentManager = supportFragmentManager
 
     override val viewModel by lazy {
         ViewModelProvider(this, factory).get(NetworkStatusViewModel::class.java)
@@ -234,6 +237,10 @@ class NetworkStatusActivity : BaseActivity() {
                     setResult(REQUEST_TO_HOME)
                     finish()
                 }
+            }
+
+            errorMessageFlow.observe {
+                displayGeneralError()
             }
         }
     }
@@ -449,6 +456,12 @@ class NetworkStatusActivity : BaseActivity() {
                 finish()
             }
         }
+    }
+
+    private fun displayGeneralError(){
+        GeneralErrorPopUp.showGeneralErrorDialog(
+            fragmentManager,
+            callingActivity?.className)
     }
 
     /**

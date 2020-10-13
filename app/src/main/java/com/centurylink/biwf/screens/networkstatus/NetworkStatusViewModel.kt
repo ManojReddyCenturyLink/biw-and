@@ -12,6 +12,7 @@ import com.centurylink.biwf.model.wifi.UpdateNWPassword
 import com.centurylink.biwf.model.wifi.UpdateNetworkName
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
+import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Errors
@@ -34,6 +35,7 @@ import javax.inject.Inject
 class NetworkStatusViewModel @Inject constructor(
     private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
+    private val wifiStatusRepository: WifiStatusRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
@@ -454,7 +456,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     private suspend fun requestToEnableNetwork(netWorkBand: NetWorkBand) {
-        val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(netWorkBand)
+        val netWorkInfo = wifiStatusRepository.enableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
         netWorkInfo.fold(ifRight =
         {
@@ -468,7 +470,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     private suspend fun requestToDisableNetwork(netWorkBand: NetWorkBand) {
-        val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
+        val netWorkInfo = wifiStatusRepository.disableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
         netWorkInfo.fold(
             ifRight =  {
@@ -479,6 +481,7 @@ class NetworkStatusViewModel @Inject constructor(
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
                 //TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
+
             }
         )
     }

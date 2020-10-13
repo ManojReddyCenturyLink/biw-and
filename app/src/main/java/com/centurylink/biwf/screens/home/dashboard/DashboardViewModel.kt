@@ -23,6 +23,7 @@ import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
+import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
@@ -51,6 +52,7 @@ class DashboardViewModel @Inject constructor(
     private val devicesRepository: DevicesRepository,
     private val accountRepository: AccountRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
+    private val wifiStatusRepository: WifiStatusRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
@@ -504,7 +506,7 @@ class DashboardViewModel @Inject constructor(
     private suspend fun requestToEnableNetwork(
         netWorkBand: NetWorkBand, wifiInfo: WifiInfo
     ) {
-        val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(netWorkBand)
+        val netWorkInfo = wifiStatusRepository.enableNetwork(netWorkBand)
         netWorkInfo.fold(ifRight =
         {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
@@ -521,7 +523,7 @@ class DashboardViewModel @Inject constructor(
         netWorkBand: NetWorkBand,
         wifiInfo: WifiInfo
     ) {
-        val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
+        val netWorkInfo = wifiStatusRepository.disableNetwork(netWorkBand)
         netWorkInfo.fold(
             ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
