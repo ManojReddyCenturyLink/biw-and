@@ -5,9 +5,6 @@ import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesData
-import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
-import com.centurylink.biwf.model.speedtest.SpeedTestResponse
-import com.centurylink.biwf.model.speedtest.SpeedTestStatus
 import com.centurylink.biwf.repos.assia.AssiaTokenManager
 import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -75,62 +72,7 @@ class AssiaRepository @Inject constructor(
                 return Either.Right(it.devicesDataList)
             }
         }
-
     }
-
-    suspend fun startSpeedTest():  Either<String,SpeedTestRequestResult> {
-        val result =  assiaService.startSpeedTest(getHeaderToStartSpeedTest(token = assiaTokenManager.getAssiaToken()))
-        return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            it.let {
-                if (it.code != 1000) {
-                    return Either.Left(it.message)
-                }
-                return Either.Right(it)
-            }
-        }
-    }
-
-    suspend fun checkSpeedTestStatus(speedTestId: Int): Either<String, SpeedTestStatus> {
-        val result = assiaService.checkSpeedTestResults(
-            getHeaderStatus(
-                token = assiaTokenManager.getAssiaToken(),
-                requestId = speedTestId
-            )
-        )
-        return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            it.let {
-                if (it.code != 1000) {
-                   return Either.Left(it.message)
-                }
-               return Either.Right(it)
-            }
-        }
-    }
-
-    suspend fun getUpstreamResults(): Either<String,SpeedTestResponse> {
-        val result = assiaService.checkSpeedTestUpStreamResults(getHeaderMapWithXhours(token = assiaTokenManager.getAssiaToken()))
-        return result.mapLeft { it.message?.message.toString()}.flatMap { it ->
-            it.let {
-                if (it.code != 1000) {
-                    return Either.Left(it.message)
-                }
-                return Either.Right(it)
-            }
-        }
-    }
-
-    suspend fun getDownstreamResults(): Either<String,SpeedTestResponse> {
-        val result =  assiaService.checkSpeedTestDownStreamResults(getHeaderMapWithXhours(token = assiaTokenManager.getAssiaToken()))
-        return result.mapLeft { it.message?.message.toString()}.flatMap { it ->
-            it.let {
-                if (it.code != 1000) {
-                    return Either.Left(it.message)
-                }
-                return Either.Right(it)
-            }
-        }
-    }
-
 
     suspend fun blockDevices(stationmac: String): Either<String,BlockResponse> {
         val result = assiaService.blockDevice(

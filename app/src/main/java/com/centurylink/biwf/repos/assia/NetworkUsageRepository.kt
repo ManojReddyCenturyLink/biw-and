@@ -57,7 +57,7 @@ class NetworkUsageRepository @Inject constructor(
             ifRight = {
                 formatTrafficUsageResponse(it)
             },
-            ifLeft =   {
+            ifLeft = {
                 throw IllegalStateException("Cannot read value")
             }
         )

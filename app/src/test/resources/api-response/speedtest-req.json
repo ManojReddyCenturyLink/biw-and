@@ -1,5 +1,10 @@
 {
-   "code": 1000,
-   "message": "Success",
-   "data": -1786431370
+   "status": "SUCCESS",
+   "message": "",
+   "uniqueErrorCode": 0,
+   "createErrorRecord": false,
+   "assiaId": "C4000XG1950000308",
+   "requestId": "1662625911",
+   "callBackUrl": "ctl-fiber--qa.my.salesforce.com/services/apexrest/SpeedTest/*",
+   "success": true
 }

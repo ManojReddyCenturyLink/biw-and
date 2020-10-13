@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
+import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -35,6 +36,9 @@ class SupportViewModelTest : ViewModelBaseTest() {
     private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
 
     @MockK
+    private lateinit var speedTestRepository: SpeedTestRepository
+
+    @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
 
     private lateinit var faq: Faq
@@ -52,7 +56,8 @@ class SupportViewModelTest : ViewModelBaseTest() {
             assiaRepository = mockAssiaRepository,
             oAuthAssiaRepository = oAuthAssiaRepository,
             sharedPreferences = mocksharedPreferences,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            speedTestRepository= speedTestRepository
         )
         val jsonString = readJson("faqnosection.json")
         val recordIdString = readJson("caseid.json")

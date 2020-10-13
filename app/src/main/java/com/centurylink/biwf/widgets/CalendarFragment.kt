@@ -783,7 +783,7 @@ class CalendarFragment : CaldroidFragment() {
     override fun getDateItemClickListener(): OnItemClickListener? {
         if (dateItemClickListener == null) {
             dateItemClickListener =
-                OnItemClickListener { parent, view, position, id ->
+                OnItemClickListener { parent, view, position, _ ->
                     val dateTime: DateTime = super.dateInMonthsList.get(position)
                     if (caldroidListener != null) {
                         if (!enableClickOnDisabledDates) {
