@@ -41,7 +41,21 @@ import timber.log.Timber
 import javax.inject.Inject
 
 /**
- *  ViewModel class to handle dashboard related business logic and data classes.
+ * Dashboard view model-ViewModel class to handle dashboard related business logic and data classes.
+ *
+ * @property notificationRepository-repository instance to handle notification api calls
+ * @property appointmentRepository-repository instance to handle appointment api calls
+ * @property sharedPreferences-sharedPreferences instance toto store and retrive data with in our app
+ * @property assiaRepository-repository instance to handle assia services related api calls
+ * @property oAuthAssiaRepository-repository instance to handle authentication assia services
+ *                                  related api calls
+ * @property devicesRepository-repository instance to handle devices related api calls
+ * @property accountRepository-repository instance to handle account related api calls
+ * @property wifiNetworkManagementRepository-repository instance to handle wifi network related api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService-service instance to modem reboot actions
+ * @param analyticsManagerInterface-analytics instance to track events in firebase
  */
 class DashboardViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
@@ -104,6 +118,9 @@ class DashboardViewModel @Inject constructor(
         initModemStatusRefresh()
     }
 
+    /**
+     * Init devices apis
+     */
     fun initDevicesApis() {
         viewModelScope.launch {
             requestWifiDetails()
@@ -112,18 +129,27 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Init modem status refresh
+     */
     private fun initModemStatusRefresh() {
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
         }
     }
 
-    fun initAccountDetails() {
+    /**
+     * Init account details
+     */
+    private fun initAccountDetails() {
         viewModelScope.launch {
             requestAccountDetails()
         }
     }
 
+    /**
+     * Fetch password api
+     */
     private fun fetchPasswordApi() {
         viewModelScope.launch {
             //Fetching Password for Regular Network
@@ -141,6 +167,9 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request modem info
+     */
     private suspend fun requestModemInfo() {
         val modemInfo = oAuthAssiaRepository.getModemInfo()
         modemInfo.fold(ifRight = {
@@ -158,18 +187,26 @@ class DashboardViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Handle reboot status
+     *
+     * @param status - ModemRebootMonitorService status to check in which the device reboot process
+     */
     override suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
         super.handleRebootStatus(status)
         rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
     }
 
-    fun startSpeedTest(displayPopUp:Boolean) {
+    fun startSpeedTest(displayPopUp: Boolean) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RUN_SPEED_TEST_DASHBOARD)
         if (!progressVisibility.latestValue && !rebootOngoing) {
             getSpeedTestId(displayPopUp)
         }
     }
 
+    /**
+     * Request account details
+     */
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
@@ -195,7 +232,12 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun getSpeedTestId(displayPopUp:Boolean) {
+    /**
+     * Get speed test id
+     *
+     * @param displayPopUp - this will confirm to show the  speed test popup or not
+     */
+    private fun getSpeedTestId(displayPopUp: Boolean) {
         progressVisibility.latestValue = true
         speedTestButtonState.latestValue = false
         sharedPreferences.saveSpeedTestFlag(boolean = true)
@@ -207,14 +249,15 @@ class DashboardViewModel @Inject constructor(
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_SUCCESS)
                     sharedPreferences.saveSupportSpeedTest(boolean = false)
                     sharedPreferences.saveSpeedTestId(speedTestId = it.speedTestId)
-                    checkSpeedTestStatus(requestId = it.speedTestId,
+                    checkSpeedTestStatus(
+                        requestId = it.speedTestId,
                         displayErrorPopUp = displayPopUp
                     )
 
                 },
                 ifLeft = {
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_FAILURE)
-                    if(displayPopUp) {
+                    if (displayPopUp) {
                         speedTestError.latestValue = true
                     }
                     displayEmptyResponse()
@@ -223,7 +266,13 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
-    private fun checkSpeedTestStatus(requestId: Int,displayErrorPopUp: Boolean) {
+    /**
+     * Check speed test status
+     *
+     * @param requestId - speed test request Id
+     * @param displayErrorPopUp - this will confirm to show the  speed test error popup or not
+     */
+    private fun checkSpeedTestStatus(requestId: Int, displayErrorPopUp: Boolean) {
         viewModelScope.launch {
             var keepChecking = true
             var isSuccessful = false
@@ -241,7 +290,7 @@ class DashboardViewModel @Inject constructor(
                 },
                     ifLeft = {
                         analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_FAILURE)
-                        if(displayErrorPopUp) {
+                        if (displayErrorPopUp) {
                             speedTestError.latestValue = true
                         }
                         displayEmptyResponse()
@@ -254,25 +303,30 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Get results
+     */
     private suspend fun getResults() {
         var uploadSpeedError = false
-        var downloadSpeedError  = false
+        var downloadSpeedError = false
         val upstreamData = assiaRepository.getUpstreamResults()
-        upstreamData.fold(ifLeft = { displayEmptyResponse()
-            uploadSpeedError=true }, ifRight = {
+        upstreamData.fold(ifLeft = {
+            displayEmptyResponse()
+            uploadSpeedError = true
+        }, ifRight = {
             if (it.data.listOfData.isNotEmpty() && !it.data.listOfData.equals(EMPTY_RESPONSE)) {
                 val uploadMb = it.data.listOfData[0].speedAvg / 1000
                 uploadSpeed.latestValue = uploadMb.toString()
                 sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
             } else {
                 uploadSpeed.latestValue = EMPTY_RESPONSE
-                uploadSpeedError=true
+                uploadSpeedError = true
             }
         })
         val downStreamData = assiaRepository.getDownstreamResults()
         downStreamData.fold(ifLeft = {
             displayEmptyResponse()
-            downloadSpeedError=true
+            downloadSpeedError = true
         }, ifRight = {
             if (it.data.listOfData.isNotEmpty() && !it.data.listOfData.equals(EMPTY_RESPONSE)) {
                 val downloadMb = it.data.listOfData[0].speedAvg / 1000
@@ -284,17 +338,20 @@ class DashboardViewModel @Inject constructor(
             } else {
                 downloadSpeed.latestValue = EMPTY_RESPONSE
                 latestSpeedTest.latestValue = EMPTY_RESPONSE
-                downloadSpeedError=true
+                downloadSpeedError = true
             }
         })
-        if(uploadSpeedError && downloadSpeedError){
-            speedTestError.latestValue=true
+        if (uploadSpeedError && downloadSpeedError) {
+            speedTestError.latestValue = true
         }
         progressVisibility.latestValue = false
         speedTestButtonState.latestValue = true
         sharedPreferences.saveSpeedTestFlag(boolean = false)
     }
 
+    /**
+     * Display empty response
+     */
     private fun displayEmptyResponse() {
         downloadSpeed.latestValue = EMPTY_RESPONSE
         uploadSpeed.latestValue = EMPTY_RESPONSE
@@ -304,13 +361,18 @@ class DashboardViewModel @Inject constructor(
         sharedPreferences.saveSpeedTestFlag(boolean = false)
     }
 
+    /**
+     * Refresh appointment details
+     */
     private fun refreshAppointmentDetails() {
         viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
             recurringAppointmentCall()
         }
     }
 
-
+    /**
+     * Request appointment details
+     */
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
@@ -318,7 +380,7 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_FAILURE)
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
-                isAccountStatus.latestValue =true
+                isAccountStatus.latestValue = true
                 initDevicesApis()
             }
 
@@ -329,16 +391,16 @@ class DashboardViewModel @Inject constructor(
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
             if (!it.jobType.contains(HomeViewModel.intsall) && it.serviceStatus?.name.equals(
-                    ServiceStatus.CANCELED.name)
+                    ServiceStatus.CANCELED.name
+                )
             ) {
                 isAccountStatus.latestValue = true
                 initDevicesApis()
-            }
-            else {
+            } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
-                }else{
-                    isAccountStatus.latestValue =true
+                } else {
+                    isAccountStatus.latestValue = true
                     initDevicesApis()
                 }
             }
@@ -348,6 +410,9 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Recurring appointment call
+     */
     private suspend fun recurringAppointmentCall() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
@@ -374,6 +439,12 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Mock instance for cancellation
+     *
+     * @param it- AppointmentRecordsInfo instance
+     * @return - it will return updated AppointmentRecordsInfo instance
+     */
     private fun mockInstanceforCancellation(it: AppointmentRecordsInfo): AppointmentRecordsInfo {
         return AppointmentRecordsInfo(
             serviceAppointmentStartDate = it.serviceAppointmentStartDate,
@@ -390,6 +461,9 @@ class DashboardViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Request wifi details
+     */
     private suspend fun requestWifiDetails() {
         progressViewFlow.latestValue = true
         val modemResponse = oAuthAssiaRepository.getModemInfo()
@@ -438,6 +512,11 @@ class DashboardViewModel @Inject constructor(
         })
     }
 
+    /**
+     * Request to get network password
+     *
+     * @param netWorkBand - it will tell which type network brand it is
+     */
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo =
             wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
@@ -463,6 +542,9 @@ class DashboardViewModel @Inject constructor(
             })
     }
 
+    /**
+     * Request devices
+     */
     private suspend fun requestDevices() {
         val deviceDetails = assiaRepository.getDevicesDetails()
         deviceDetails.fold(ifRight = { deviceList ->
@@ -475,10 +557,18 @@ class DashboardViewModel @Inject constructor(
         })
     }
 
+    /**
+     * Log screen launch- track the analytics for dashboard launch
+     */
     fun logScreenLaunch() {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
     }
 
+    /**
+     * Wifi network enablement
+     *
+     * @param wifiInfo
+     */
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
@@ -503,6 +593,12 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request to enable network
+     *
+     * @param netWorkBand -it will tell which type network brand it is
+     * @param wifiInfo -wifiInfo instance to read wifi details
+     */
     private suspend fun requestToEnableNetwork(
         netWorkBand: NetWorkBand, wifiInfo: WifiInfo
     ) {
@@ -519,6 +615,12 @@ class DashboardViewModel @Inject constructor(
         progressViewFlow.latestValue = false
     }
 
+    /**
+     * Request to disable network
+     *
+     * @param netWorkBand -it will tell which type network brand it is
+     * @param wifiInfo -wifiInfo instance to read wifi details
+     */
     private suspend fun requestToDisableNetwork(
         netWorkBand: NetWorkBand,
         wifiInfo: WifiInfo
@@ -537,6 +639,11 @@ class DashboardViewModel @Inject constructor(
         progressViewFlow.latestValue = false
     }
 
+    /**
+     * Update enable disable network
+     *
+     * @param wifiInfo -wifiInfo instance to read wifi details
+     */
     private fun updateEnableDisableNetwork(wifiInfo: WifiInfo) {
         isEnable = !wifiInfo.enabled!!
         when (wifiInfo.type) {
@@ -558,6 +665,11 @@ class DashboardViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Update appointment status
+     *
+     * @param it
+     */
     private fun updateAppointmentStatus(
         it: AppointmentRecordsInfo
     ) {
@@ -639,10 +751,18 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Log cancel appointment click-track the analytics for cancel appointment button click
+     */
     fun logCancelAppointmentClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CANCEL_APPOINTMENT_DASHBOARD)
     }
 
+    /**
+     * Log cancel appointment alert click-track the analytics for cancel appointment alert dialog click
+     *
+     * @param positive- it will tell which alert dialog button is clicked
+     */
     fun logCancelAppointmentAlertClick(positive: Boolean) {
         if (positive) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_KEEP_CANCEL_APPOINTMENT_CONFIRMATION)
@@ -651,11 +771,19 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Get change appointment-track the analytics for change appointment button click
+     */
     fun getChangeAppointment() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CHANGE_APPOINTMENT_DASHBOARD)
         myState.latestValue = DashboardCoordinatorDestinations.CHANGE_APPOINTMENT
     }
 
+    /**
+     * Display sorted notifications
+     *
+     * @param notificationList- list nof notifications
+     */
     fun displaySortedNotifications(notificationList: List<Notification>) {
         val unreadNotificationList: MutableList<Notification> = notificationList.asSequence()
             .filter { it.isUnRead }
@@ -664,6 +792,11 @@ class DashboardViewModel @Inject constructor(
         notifications.value = unreadNotificationList
     }
 
+    /**
+     * Mark notification as read
+     *
+     * @param notificationItem - read notification instance
+     */
     fun markNotificationAsRead(notificationItem: Notification) {
         if (notificationItem.isUnRead) {
             mergedNotificationList.remove(notificationItem)
@@ -678,6 +811,11 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Navigate to notification details screen
+     *
+     * @param notificationItem - selected notification instance for navigation
+     */
     fun navigateToNotificationDetails(notificationItem: Notification) {
         val bundle = Bundle()
         bundle.putString(NotificationDetailsActivity.URL_TO_LAUNCH, notificationItem.detialUrl)
@@ -686,11 +824,19 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
+    /**
+     * Navigate to network information screen
+     */
     fun navigateToNetworkInformation() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.CARD_NETWORK_INFO)
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 
+    /**
+     * Navigate to q r scan sc reen
+     *
+     * @param wifiInfo -wifiInfo instance to read wifi details
+     */
     fun navigateToQRScan(wifiInfo: WifiInfo) {
         analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.QR_IMAGE)
         val bundle = Bundle()
@@ -699,6 +845,9 @@ class DashboardViewModel @Inject constructor(
         myState.latestValue = DashboardCoordinatorDestinations.QR_CODE_SCANNING
     }
 
+    /**
+     * Get started clicked-track the analytics for get started button click
+     */
     fun getStartedClicked() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_GET_STARTED_DASHBOARD)
         sharedPreferences.setInstallationStatus(true)
@@ -706,6 +855,10 @@ class DashboardViewModel @Inject constructor(
         isAccountStatus.latestValue = isAccountActive
     }
 
+    /**
+     * Request appointment cancellation- it will invoke api call for appointment cancellation
+     *
+     */
     fun requestAppointmentCancellation() {
         viewModelScope.launch {
             cancelAppointment()
@@ -738,6 +891,9 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Check for ongoing speed test status
+     */
     fun checkForOngoingSpeedTest() {
         val ongoingTest: Boolean = sharedPreferences.getSpeedTestFlag()
         if (ongoingTest) {
@@ -764,6 +920,11 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Log appointment status state - track the analytics based on status
+     *
+     * @param state-appointment status value
+     */
     fun logAppointmentStatusState(state: Int) {
         when (state) {
             1 -> analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SCHEDULE_APPOINTMENT)
@@ -774,16 +935,25 @@ class DashboardViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Log view devices click -track the analytics connected devices click
+     */
     fun logViewDevicesClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_CONNECTED_DEVICES_DASHBOARD)
     }
 
+    /**
+     * Log dismiss notification- track the analytics when dismiss notification
+     */
     fun logDismissNotification() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DISMISS_NOTIFICATION)
     }
 
     abstract class UiDashboardAppointmentInformation
 
+    /**
+     * model calss for appointment schedule states
+     */
     data class AppointmentScheduleState(
         val jobType: String,
         val status: ServiceStatus,
@@ -794,6 +964,9 @@ class DashboardViewModel @Inject constructor(
         val appointmentNumber: String
     ) : UiDashboardAppointmentInformation()
 
+    /**
+     * model calss for appointment engineer status
+     */
     data class AppointmentEngineerStatus(
         val jobType: String, val status: ServiceStatus,
         val serviceLatitude: String,
@@ -805,6 +978,9 @@ class DashboardViewModel @Inject constructor(
         val serviceEngineerProfilePic: String
     ) : UiDashboardAppointmentInformation()
 
+    /**
+     * model calss for appointment engineer wip status
+     */
     data class AppointmentEngineerWIP(
         val jobType: String,
         val status: ServiceStatus,
@@ -814,16 +990,25 @@ class DashboardViewModel @Inject constructor(
         val serviceEngineerProfilePic: String
     ) : UiDashboardAppointmentInformation()
 
+    /**
+     * model calss for appointment complete
+     */
     data class AppointmentComplete(
         val jobType: String,
         val status: ServiceStatus
     ) : UiDashboardAppointmentInformation()
 
+    /**
+     * model calss for appointment canceled
+     */
     data class AppointmentCanceled(
         val serviceAppointmentTime: String,
         val status: ServiceStatus
     ) : UiDashboardAppointmentInformation()
 
+    /**
+     * model calss for wifi scan status
+     */
     data class wifiScanStatus(
         var wifiListDetails: ArrayList<WifiInfo> = arrayListOf()
     )
