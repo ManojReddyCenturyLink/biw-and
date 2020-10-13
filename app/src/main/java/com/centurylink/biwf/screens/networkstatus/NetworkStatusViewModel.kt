@@ -12,6 +12,7 @@ import com.centurylink.biwf.model.wifi.UpdateNWPassword
 import com.centurylink.biwf.model.wifi.UpdateNetworkName
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
+import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Errors
@@ -20,9 +21,21 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Network status view model
+ *
+ * @property oAuthAssiaRepository - repository instance to handle oAuth assia api calls
+ * @property wifiNetworkManagementRepository - repository instance to handle wifi network
+ * management api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class NetworkStatusViewModel @Inject constructor(
     private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
+    private val wifiStatusRepository: WifiStatusRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
@@ -58,12 +71,19 @@ class NetworkStatusViewModel @Inject constructor(
     private var regularNetworkInstance = UINetworkModel()
     private var guestNetworkInstance = UINetworkModel()
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_NETWORK_INFORMATION)
         progressViewFlow.latestValue = true
         initApi()
     }
 
+    /**
+     * Init api - It will start all the api calls initialisation
+     *
+     */
     fun initApi() {
         viewModelScope.launch {
             requestModemInfo()
@@ -72,6 +92,10 @@ class NetworkStatusViewModel @Inject constructor(
         modemStatusRefresh()
     }
 
+    /**
+     * Fetch password api - It will handle password fetching logic from API
+     *
+     */
     private fun fetchPasswordApi() {
         viewModelScope.launch {
             //fetch WifiRegular Network Password
@@ -90,12 +114,20 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Modem status refresh - It is used to refresh modem status depending on delay
+     *
+     */
     private fun modemStatusRefresh() {
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
         }
     }
 
+    /**
+     * Wifi network enablement - It will handle wifi network enable and disable logic
+     *
+     */
     fun wifiNetworkEnablement() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.WIFI_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
         viewModelScope.launch {
@@ -112,6 +144,10 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Guest network enablement - It will handle guest network enable and disable logic
+     *
+     */
     fun guestNetworkEnablement() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.GUEST_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
         viewModelScope.launch {
@@ -128,6 +164,10 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request modem info - It is used handle modem request info logic
+     *
+     */
     private suspend fun requestModemInfo() {
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         progressViewFlow.latestValue = false
@@ -173,6 +213,10 @@ class NetworkStatusViewModel @Inject constructor(
             })
     }
 
+    /**
+     * Set offline network information - It will handle offline network information logic
+     *
+     */
     private fun setOfflineNetworkInformation() {
         val onlineStatus = OnlineStatus(false)
         internetStatusFlow.latestValue = onlineStatus
@@ -184,6 +228,14 @@ class NetworkStatusViewModel @Inject constructor(
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
     }
 
+    /**
+     * Set guest wifi info - It is used set guest wifi network info
+     *
+     * @param name - The guest wifi network name to be set
+     * @param pwd - The guest wifi network password to be set
+     * @param guestNetworkEnabled - The boolean value to set guest wifi network enable and disable
+     * @return - This will return updated guest network wifi view
+     */
     private fun setGuestWifiInfo(
         name: String, pwd: String,
         guestNetworkEnabled: Boolean
@@ -227,6 +279,14 @@ class NetworkStatusViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Set regular wifi info - It is used set regular wifi network info
+     *
+     * @param name - The regular wifi network name to be set
+     * @param pwd - The regular wifi network password to be set
+     * @param wifiNetworkEnabled - The boolean value to set regular wifi network enable and disable
+     * @return -  This will return updated regular wifi network view
+     */
     private fun setRegularWifiInfo(
         name: String, pwd: String,
         wifiNetworkEnabled: Boolean
@@ -270,33 +330,67 @@ class NetworkStatusViewModel @Inject constructor(
         )
     }
 
+    /**
+     * On done click - It will handle done button click event logic
+     *
+     */
     fun onDoneClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_SAVE_CLICK_NETWORK_INFORMATION)
         progressViewFlow.latestValue = true
         submitData()
     }
 
+    /**
+     * Toggle password visibility - It will handle toggling password visibility logic
+     *
+     * @return - negates the visibility
+     */
     fun togglePasswordVisibility(): Boolean {
         passwordVisibility = !passwordVisibility
         return passwordVisibility
     }
 
+    /**
+     * On guest password value changed - It used to handle change in guest network passwork
+     *
+     * @param passwordValue - This is the guest network password to be updated
+     */
     fun onGuestPasswordValueChanged(passwordValue: String) {
         this.newGuestPwd = passwordValue
     }
 
+    /**
+     * On guest name value changed - It used to handle change in guest network name
+     *
+     * @param nameValue - This is the guest network name to be updated
+     */
     fun onGuestNameValueChanged(nameValue: String) {
         this.newGuestName = nameValue
     }
 
+    /**
+     * On wifi name value changed - It used to handle change in network name
+     *
+     * @param wifiNameValue - his is the network name to be updated
+     */
     fun onWifiNameValueChanged(wifiNameValue: String) {
         this.newWifiName = wifiNameValue
     }
 
+    /**
+     * On wifi password value changed - It used to handle change in network password
+     *
+     * @param wifiPasswordValue - his is the network password to be updated
+     */
     fun onWifiPasswordValueChanged(wifiPasswordValue: String) {
         this.newWifiPwd = wifiPasswordValue
     }
 
+    /**
+     * Validate input - It will validate inputs for networks screen
+     *
+     * @return - return errors based network screen inputs
+     */
     fun validateInput(): Errors {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_NETWORK_INFORMATION)
         val errors = Errors()
@@ -339,6 +433,11 @@ class NetworkStatusViewModel @Inject constructor(
         return errors
     }
 
+    /**
+     * Request to get network password
+     *
+     * @param netWorkBand - Network Band to update network details through API call
+     */
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         netWorkInfo.fold( ifRight =
@@ -366,6 +465,10 @@ class NetworkStatusViewModel @Inject constructor(
             })
     }
 
+    /**
+     * Update passwords - It used to update regular and guest wifi network passwords
+     *
+     */
     private fun updatePasswords() {
         regularNetworkInstance =
             setRegularWifiInfo(existingWifiNwName, existingWifiPwd, regularNetworkEnabled)
@@ -376,6 +479,12 @@ class NetworkStatusViewModel @Inject constructor(
         networkInfoComplete = true
     }
 
+    /**
+     * Request to update net work password
+     *
+     * @param netWorkBand - Network Band types of the server.
+     * @param password - The password to be updated
+     */
     private suspend fun requestToUpdateNetWorkPassword(netWorkBand: NetWorkBand, password: String) {
         val netWorkInfo = wifiNetworkManagementRepository.updateNetworkPassword(
             netWorkBand,
@@ -393,8 +502,13 @@ class NetworkStatusViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Request to enable network
+     *
+     * @param netWorkBand - Network Band types of the server to request network enablement
+     */
     private suspend fun requestToEnableNetwork(netWorkBand: NetWorkBand) {
-        val netWorkInfo = wifiNetworkManagementRepository.enableNetwork(netWorkBand)
+        val netWorkInfo = wifiStatusRepository.enableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
         netWorkInfo.fold(ifRight =
         {
@@ -407,8 +521,13 @@ class NetworkStatusViewModel @Inject constructor(
             })
     }
 
+    /**
+     * Request to disable network
+     *
+     * @param netWorkBand -  Network Band types of the server to request  network disablement
+     */
     private suspend fun requestToDisableNetwork(netWorkBand: NetWorkBand) {
-        val netWorkInfo = wifiNetworkManagementRepository.disableNetwork(netWorkBand)
+        val netWorkInfo = wifiStatusRepository.disableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
         netWorkInfo.fold(
             ifRight =  {
@@ -419,10 +538,18 @@ class NetworkStatusViewModel @Inject constructor(
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
                 //TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
+
             }
         )
     }
 
+    /**
+     * Update enable disable network
+     *
+     * @param netWorkBand -  Network Band types of the server to update network enablement and
+     * disablement
+     * @param isEnable  - The boolean value to update network enablement and disablement
+     */
     private fun updateEnableDisableNetwork(netWorkBand: NetWorkBand, isEnable: Boolean) {
         if (netWorkBand == NetWorkBand.Band5G || netWorkBand == NetWorkBand.Band2G) {
             regularNetworkEnabled = isEnable
@@ -438,6 +565,12 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request to update wifi network info
+     *
+     * @param netWorkBand - Network Band types of the server to update wifi network information
+     * @param networkName - Network name to be updated through network band
+     */
     private suspend fun requestToUpdateWifiNetworkInfo(
         netWorkBand: NetWorkBand,
         networkName: String
@@ -458,6 +591,10 @@ class NetworkStatusViewModel @Inject constructor(
                 )
     }
 
+    /**
+     * Submit data - It handles Updating Regular Network Name and Regular Network password
+     *
+     */
     private fun submitData() {
         viewModelScope.launch {
             // Update Regular Network NAme
@@ -507,10 +644,19 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Log discard changes and close click - It will handle discard button click event logic for
+     * error dialog
+     *
+     */
     fun logDiscardChangesAndCloseClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ERROR_POPUP_NETWORK_INFORMATION)
     }
 
+    /**
+     * Log discard changes click - It will handle discard button click event logic for alert dialog
+     *
+     */
     fun logDiscardChangesClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_DISCARD_CLICK_NETWORK_INFORMATION)
     }
@@ -545,6 +691,11 @@ class NetworkStatusViewModel @Inject constructor(
         var statusIcon: Int = R.drawable.ic_three_bars
     )
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val nameMaxLength = 32
         const val passwordMinLength = 8

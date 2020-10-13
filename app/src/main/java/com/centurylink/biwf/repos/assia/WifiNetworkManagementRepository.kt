@@ -4,6 +4,8 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.wifi.*
 import com.centurylink.biwf.service.network.WifiNetworkApiService
+import com.centurylink.biwf.service.network.WifiStatusService
+import com.centurylink.biwf.utility.EnvironmentPath
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -61,35 +63,6 @@ class WifiNetworkManagementRepository @Inject constructor(
                 Either.Left(it.message)
             }
             Either.Right(it)
-        }
-    }
-
-
-    suspend fun enableNetwork(interfaceType: NetWorkBand): Either<String, UpdateNetworkResponse> {
-        val result = wifiNetworkApiService.enableNetwork(
-            preferences.getAssiaId(),
-            interfaceType,
-            getHeaderMap(token = assiaTokenManager.getAssiaToken())
-        )
-        return result.mapLeft { it.message?.message.toString() }.flatMap {
-            if (it.code != "1000") {
-                Either.Left(it.message)
-            }
-            Either.Right(it)
-        }
-    }
-
-    suspend fun disableNetwork(interfaceType: NetWorkBand): Either<String,UpdateNetworkResponse> {
-        val result = wifiNetworkApiService.disableNetwork(
-            preferences.getAssiaId(),
-            interfaceType,
-            getHeaderMap(token = assiaTokenManager.getAssiaToken())
-        )
-        return result.mapLeft { it.message?.message.toString() }.flatMap {
-                if (it.code != "1000") {
-                    Either.Left(it.message)
-                }
-                Either.Right(it)
         }
     }
 

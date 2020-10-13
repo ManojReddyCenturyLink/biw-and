@@ -6,7 +6,7 @@ import com.centurylink.biwf.BuildConfig
 class EnvironmentPath {
     companion object {
 
-        private fun getSalesForceBaseURl(): String {
+        fun getSalesForceBaseURl(): String {
             return "https://" + BuildConfig.SALESFORCE_URL
         }
 
@@ -89,6 +89,8 @@ class EnvironmentPath {
             "oauth/token?username=biwftest&password=BiwfTest1&client_id=spapi&client_secret=oBj2xZc&grant_type=password"
         const val ASSIA_BASE_URL = "https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/"
         const val API_LINE_INFO_PATH = "wifi-line-info"
+        const val API_WIFI_OPERATIONS_ENABLE = "wifi-operations-enable"
+        const val API_WIFI_OPERATIONS_DISABLE = "wifi-operations-disable"
         const val API_ACCOUNT_DETAILS_PATH = "sobjects/Account/{account-id}"
         const val ACCOUNT_ID = "account-id"
         const val CONTACT_ID = "contact-id"
@@ -114,16 +116,14 @@ class EnvironmentPath {
         const val API_MODEM_INFO_PATH = "api/v3/wifi/line/info"
         const val API_DEVICE_LIST_PATH = "api/v2/wifi/diags/stationinfo"
         const val API_USAGE_INFO_PATH = "station-traffic"
+        const val API_SPEED_TEST_PATH = "speed-test-request"
+        const val API_SPEED_TEST_STATUS = "speed-test-status"
         const val API_REBOOT_MODEM_PATH = "api/v2/wifi/operations/ap/{assiaId}/reboot"
-        const val API_SPEED_TEST_START_PATH = "api/v2/wifi/diagsrt/rtactions/start"
-        const val API_SPEED_TEST_STATUS_PATH = "api/v2/wifi/diagsrt/rtactions/status"
-        const val API_SPEED_TEST_UP_RESULT_PATH =
-            "api/v2/wifi/diagsrt/ap/broadbandusthroughputsummary"
-        const val API_SPEED_TEST_DOWN_RESULT_PATH =
-            "api/v2/wifi/diagsrt/ap/broadbanddsthroughputsummary"
         const val API_BLOCK_UNBLOCK_DEVICE_PATH =
             "api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block"
         const val API_CASE_FOR_SUBSCRIPTION_PATH = "sobjects/Case"
+        const val API_SUPPORT_SERVICES_PATH =
+            "phish/services/apexrest/ServiceAndSupportAPI"
 
         //McAfee
         const val API_GET_NETWORK_ACCESS_PATH = "mcafee/get-network-access"
@@ -147,5 +147,6 @@ class EnvironmentPath {
         const val SCOPE = "web api refresh_token"
         const val AWS_BASE_URL = "https://bucketforapi.s3-eu-west-1.amazonaws.com/"
         const val BILLING_DETAILS = "invoice1.json"
+        const val CALL_BACK_URL = "ctl-fiber--qa.my.salesforce.com/services/apexrest/SpeedTest/*"
     }
 }

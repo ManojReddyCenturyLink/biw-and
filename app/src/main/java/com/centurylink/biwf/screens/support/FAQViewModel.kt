@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.support
 
+import android.os.Bundle
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -7,6 +8,7 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.FAQCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
 import com.centurylink.biwf.repos.FAQRepository
+import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
@@ -74,8 +76,11 @@ class FAQViewModel @Inject constructor(
         faqDetailsInfo.latestValue = UiFAQQuestionsDetails(questionMap)
     }
 
-    fun navigateToScheduleCallback() {
+    fun navigateToScheduleCallback(isExistingUser: Boolean) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SCHEDULE_A_CALLBACK_FAQ_DETAILS)
+        val bundle = Bundle()
+        bundle.putBoolean(ScheduleCallbackActivity.IS_EXISTING_USER, isExistingUser)
+        FAQCoordinatorDestinations.bundle = bundle
         myState.latestValue = FAQCoordinatorDestinations.SCHEDULE_CALLBACK
     }
 

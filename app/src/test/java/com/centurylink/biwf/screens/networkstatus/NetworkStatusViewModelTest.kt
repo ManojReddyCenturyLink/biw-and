@@ -11,6 +11,8 @@ import com.centurylink.biwf.model.wifi.UpdateNetworkResponse
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
+import com.centurylink.biwf.repos.assia.WifiStatusRepository
+import com.centurylink.biwf.repos.assia.WifiStatusRepository_Factory
 import com.centurylink.biwf.service.network.WifiNetworkApiService
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.TestCoroutineRule
@@ -41,6 +43,9 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
     private lateinit var  wifiNetworkManagementRepository : WifiNetworkManagementRepository
 
     @MockK
+    private lateinit var wifiStatusRepository: WifiStatusRepository
+
+    @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
 
     private lateinit var wifiInfo : WifiInfo
@@ -66,6 +71,7 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
         viewModel = NetworkStatusViewModel(
             oAuthAssiaRepository = oAuthAssiaRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
+            wifiStatusRepository = wifiStatusRepository,
             modemRebootMonitorService = mockModemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface
         )
@@ -135,23 +141,6 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
             }
         }
 
-    @Test
-    fun testRequestToEnableNetwork() {
-        runBlockingTest {
-            launch {
-                coEvery {
-                    val networkBand = NetWorkBand.Band2G
-                    wifiNetworkManagementRepository.enableNetwork(networkBand) } returns Either.Right(
-                    UpdateNetworkResponse(
-                        code = "",
-                        message = "",
-                        data = true
-                    )
-                )
-                analyticsManagerInterface.logApiCall("Enable Network Api Success")
-            }
-            }
-        }
 
     @Test
     fun testRequestModemInfo() {
@@ -183,19 +172,6 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
 //            }
 //        }
 //    }
-
-
-    @Test
-    fun testRequestToEnableNetworkError() {
-        runBlockingTest {
-            launch {
-                coEvery {
-                    val networkBand = NetWorkBand.Band2G
-                    wifiNetworkManagementRepository.enableNetwork(networkBand) } returns Either.Left("Not working")
-                analyticsManagerInterface.logApiCall("Request to Get Network Api Failure")
-            }
-        }
-    }
 
 
     @Test

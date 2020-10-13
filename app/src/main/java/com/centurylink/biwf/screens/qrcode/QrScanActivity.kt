@@ -13,6 +13,11 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import javax.inject.Inject
 
+/**
+ * Qr scan activity - this class handle common methods related to Qr code screen
+ *
+ * @constructor Create empty Qr scan activity
+ */
 class QrScanActivity : BaseActivity() {
 
     @Inject
@@ -34,6 +39,13 @@ class QrScanActivity : BaseActivity() {
         )
     }
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScanCodeBinding.inflate(layoutInflater)
@@ -43,6 +55,10 @@ class QrScanActivity : BaseActivity() {
         observeViews()
     }
 
+    /**
+     * Adjust screen brightness - It is used to update the screen brightness to full
+     *
+     */
     private fun adjustScreenBrightness() {
         // Updating the screen brightness to full
         val layout = window.attributes
@@ -50,6 +66,10 @@ class QrScanActivity : BaseActivity() {
         window.attributes = layout
     }
 
+    /**
+     * Init headers - It will initialize screen headers
+     *
+     */
     private fun initHeaders() {
         binding.incHeader.apply {
             subHeaderLeftIcon.visibility = View.INVISIBLE
@@ -62,6 +82,10 @@ class QrScanActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Observe views - It is used to observe views
+     *
+     */
     private fun observeViews() {
         viewModel.qrScanFlow.observe {
             binding.barcodeView.setImageBitmap(it.wifiQrCode)
@@ -69,6 +93,11 @@ class QrScanActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val WIFI_DETAILS = "WIFI_INFO"
         const val ON_COLOR_QR: Long = 0xFF7B8EE1

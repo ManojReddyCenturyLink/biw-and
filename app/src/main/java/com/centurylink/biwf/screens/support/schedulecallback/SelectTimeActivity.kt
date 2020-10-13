@@ -6,11 +6,13 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.databinding.ActivitySelectTimeBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -29,6 +31,13 @@ class SelectTimeActivity: BaseActivity() {
     private lateinit var binding: ActivitySelectTimeBinding
     private lateinit var timePicker: TimePickerDialog
     private var isNextAvailableSlot: Boolean = false
+    private lateinit var customerCareOption: String
+    private lateinit var additionalInfo: String
+    private lateinit var phoneNumber: String
+    private lateinit var userId: String
+    private lateinit var handleOption: String
+    private lateinit var ASAP: String
+    private lateinit var fullDateAndTime: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +52,7 @@ class SelectTimeActivity: BaseActivity() {
         initHeaders()
         initTextWatchers()
         initOnClicks()
+        observeViews()
     }
 
     override fun onBackPressed() {
@@ -54,6 +64,7 @@ class SelectTimeActivity: BaseActivity() {
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
+                setResult(Activity.RESULT_CANCELED)
                 finish()
             }
             subheaderRightActionTitle.text = getText(R.string.text_header_cancel)
@@ -63,6 +74,26 @@ class SelectTimeActivity: BaseActivity() {
             }
         }
     }
+
+    private fun observeViews() {
+        viewModel.scheduleCallbackFlow.observe {
+            binding.callMeButton.visibility =  if(it) View.GONE else View.VISIBLE
+            binding.callMeProgressButton.root.visibility = if(it) View.VISIBLE else View.GONE
+        }
+        viewModel.errorFlow.observe {
+            if(it) {
+                GeneralErrorPopUp.showGeneralErrorDialog(
+                    supportFragmentManager, callingActivity?.className
+                )
+            }
+        }
+        viewModel.isScheduleCallbackSuccessful.observe {
+            if(it) {
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
+        }
 
     private fun initTextWatchers() {
         val defaultTimeSlot = viewModel.getDefaultTimeSlot()
@@ -76,6 +107,20 @@ class SelectTimeActivity: BaseActivity() {
         binding.callbackTimeSelection.setOnClickListener { viewModel.onTimeChange() }
         binding.nextAvailableCallbackTimeRadiobtn.setOnClickListener { isNextAvailableSlot = true }
         binding.specificCallbackTimeRadiobtn.setOnClickListener { isNextAvailableSlot = false }
+        binding.callMeButton.setOnClickListener {
+            customerCareOption = intent.getStringExtra(SELECT_TIME)
+            additionalInfo = intent.getStringExtra(ADDITIONAL_INFO)
+            phoneNumber = intent.getStringExtra(PHONE_NUMBER)
+            userId = intent.getStringExtra(USER_ID)
+            if(binding.nextAvailableCallbackTimeRadiobtn.isChecked) {
+                ASAP = "true"
+                fullDateAndTime = ""
+            } else {
+                ASAP = "false"
+                fullDateAndTime = viewModel.formatDateAndTime(binding.callbackDateSelection.text, binding.callbackTimeSelection.text)
+            }
+            viewModel.supportService(userId, phoneNumber, ASAP, customerCareOption, fullDateAndTime, additionalInfo)
+        }
     }
 
     private fun displayDatePicker() {
@@ -167,6 +212,9 @@ class SelectTimeActivity: BaseActivity() {
 
     companion object {
         const val SELECT_TIME: String = "SelectTime"
+        const val ADDITIONAL_INFO: String = "AdditionalInfo"
+        const val PHONE_NUMBER: String = "PhoneNumber"
+        const val USER_ID: String = "UserId"
         const val CALENDER_MAX_LIMIT: Long = 7776000000
         const val TIME_PICKER_HOUR_INTERVAL = 1
         const val TIME_PICKER_MIN_INTERVAL = 15
@@ -175,6 +223,9 @@ class SelectTimeActivity: BaseActivity() {
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, SelectTimeActivity::class.java)
                 .putExtra(SELECT_TIME, bundle.getString(SELECT_TIME))
+                .putExtra(ADDITIONAL_INFO, bundle.getString(ADDITIONAL_INFO))
+                .putExtra(PHONE_NUMBER, bundle.getString(PHONE_NUMBER))
+                .putExtra(USER_ID, bundle.getString(USER_ID))
         }
     }
 }

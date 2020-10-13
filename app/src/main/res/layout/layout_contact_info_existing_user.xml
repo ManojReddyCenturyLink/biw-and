@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="@dimen/height_28"
-        android:text="123-456-7890"
+        tools:text="123-456-7890"
         app:layout_constraintStart_toEndOf="@id/radio_group"
         app:layout_constraintTop_toTopOf="@+id/layout_contact_info_existing_user_with_phone_number" />
 

@@ -6,6 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.databinding.AppointmentSlotsItemsBinding
 import com.centurylink.biwf.R
 
+/**
+ * Appointment slots adapter
+ *
+ * @property slotList - The list of slots for appointment
+ * @property slotSelectListener - This will listen to Selected slots
+ * @constructor Create empty Appointment slots adapter
+ */
 class AppointmentSlotsAdapter(
     var slotList: List<String>,
     private val slotSelectListener: SlotClickListener
@@ -25,8 +32,20 @@ class AppointmentSlotsAdapter(
 
     override fun getItemCount(): Int = slotList.size
 
+    /**
+     * Slots view holder
+     *
+     * @property binding - This binds appointment slots items
+     * @constructor Create empty Slots view holder
+     */
     inner class SlotsViewHolder(private var binding: AppointmentSlotsItemsBinding) : RecyclerView.ViewHolder(binding.root) {
 
+        /**
+         * Bind - This handles binding logic for provided slots information
+         *
+         * @param slotInfo - slot information
+         * @param position - The position to check last selected radio button
+         */
         fun bind(slotInfo: String, position: Int) {
             if(isError) {
                 binding.appointmentSelectRadioBtn.setBackgroundResource(R.drawable.ic_radio_error)
@@ -43,11 +62,17 @@ class AppointmentSlotsAdapter(
         }
     }
 
+    /**
+     * Slot click listener - Interface to handle slot click listeners
+     *
+     * @constructor Create empty Slot click listener
+     */
     interface SlotClickListener {
 
         /**
-         * Handle click event on Item click
+         * On slot selected - Abstract method to implemented
          *
+         * @param slotInfo - Slot information
          */
         fun onSlotSelected(slotInfo: String)
 

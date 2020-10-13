@@ -1,5 +1,6 @@
 package com.centurylink.biwf.coordinators
 
+import android.os.Bundle
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,7 +31,7 @@ class FAQCoordinator @Inject constructor() : Coordinator<FAQCoordinatorDestinati
      *
      */
     private fun navigateToScheduleCallback() {
-        navigator.navigateToScheduleCallback()
+        navigator.navigateToScheduleCallbackFromFAQ()
     }
 }
 
@@ -41,4 +42,8 @@ class FAQCoordinator @Inject constructor() : Coordinator<FAQCoordinatorDestinati
  */
 enum class FAQCoordinatorDestinations {
     SCHEDULE_CALLBACK;
+
+    companion object {
+        lateinit var bundle: Bundle
+    }
 }
