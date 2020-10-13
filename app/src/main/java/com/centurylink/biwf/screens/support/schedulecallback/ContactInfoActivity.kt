@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
@@ -15,7 +16,7 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityContactInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
-import timber.log.Timber
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import javax.inject.Inject
 
 class ContactInfoActivity: BaseActivity() {
@@ -207,6 +208,27 @@ class ContactInfoActivity: BaseActivity() {
                 phoneNumber = binding.contactNewUser.contactInfoPhoneNumberInput.text.toString()
                 userId = viewModel.userId
                 validatePhoneNumber()
+            }
+        }
+        binding.contactNewUser.ivQuestion.setOnClickListener {
+            CustomDialogBlueTheme(
+                getString(R.string.email_question_popup_heading),
+                getString(R.string.email_question_popup_text),
+                getString(
+                    R.string.ok
+                ),
+                true,
+                ::onErrorDialogCallback
+            ).show(
+                supportFragmentManager,
+                callingActivity?.className
+            )
+        }
+    }
+
+    private fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
             }
         }
     }

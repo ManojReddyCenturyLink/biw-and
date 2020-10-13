@@ -7,12 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.databinding.ActivitySelectTimeBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
-import com.centurylink.biwf.widgets.GeneralErrorPopUp
+import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import java.text.SimpleDateFormat
 import java.time.LocalDate
@@ -35,7 +36,6 @@ class SelectTimeActivity: BaseActivity() {
     private lateinit var additionalInfo: String
     private lateinit var phoneNumber: String
     private lateinit var userId: String
-    private lateinit var handleOption: String
     private lateinit var ASAP: String
     private lateinit var fullDateAndTime: String
 
@@ -82,8 +82,17 @@ class SelectTimeActivity: BaseActivity() {
         }
         viewModel.errorFlow.observe {
             if(it) {
-                GeneralErrorPopUp.showGeneralErrorDialog(
-                    supportFragmentManager, callingActivity?.className
+                CustomDialogBlueTheme(
+                    getString(R.string.error_title),
+                    getString(R.string.password_reset_error_msg),
+                    getString(
+                        R.string.discard_changes_and_close
+                    ),
+                    true,
+                    ::onErrorDialogCallback
+                ).show(
+                    supportFragmentManager,
+                    callingActivity?.className
                 )
             }
         }
@@ -96,12 +105,20 @@ class SelectTimeActivity: BaseActivity() {
         }
 
     private fun initTextWatchers() {
-        val defaultTimeSlot = viewModel.getDefaultTimeSlot()
-        binding.callbackTimeSelection.text = defaultTimeSlot
-        val defaultDateSlot = viewModel.getDefaultDateSlot()
-        binding.callbackDateSelection.text = defaultDateSlot
+        binding.callbackTimeSelection.text = viewModel.getDefaultTimeSlot()
+        binding.callbackDateSelection.text = viewModel.getDefaultDateSlot()
     }
 
+    private fun onErrorDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                binding.callbackTimeSelection.text = viewModel.getDefaultTimeSlot()
+                binding.callbackDateSelection.text = viewModel.getDefaultDateSlot()
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
+        }
+    }
     private fun initOnClicks() {
         binding.callbackDateSelection.setOnClickListener { viewModel.onDateChange() }
         binding.callbackTimeSelection.setOnClickListener { viewModel.onTimeChange() }
