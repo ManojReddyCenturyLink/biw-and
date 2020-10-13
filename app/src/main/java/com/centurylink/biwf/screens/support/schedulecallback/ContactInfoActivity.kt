@@ -19,7 +19,7 @@ import com.centurylink.biwf.utility.afterTextChanged
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import javax.inject.Inject
 
-class ContactInfoActivity: BaseActivity() {
+class ContactInfoActivity : BaseActivity() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
@@ -34,11 +34,9 @@ class ContactInfoActivity: BaseActivity() {
         ViewModelProvider(this, factory).get(ContactInfoViewModel::class.java)
     }
     private lateinit var binding: ActivityContactInfoBinding
-    private var isExistingUserWithPhoneNumber: Boolean = true
     private lateinit var customerCareOption: String
     private lateinit var additionalInfo: String
     private lateinit var phoneNumber: String
-    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,12 +57,11 @@ class ContactInfoActivity: BaseActivity() {
         customerCareOption = intent.getStringExtra(CUSTOMER_CARE_OPTION)
         additionalInfo = intent.getStringExtra(ADDITIONAL_INFO)
         viewModel.accountDetailsInfo.observe {
-            binding.contactInfoExistingUser.contactInfoPhoneNumber.text = viewModel.uiAccountDetails.cellPhone?.let {
-                formattedString(
-                    it, '-', 4
-                )
+            binding.contactInfoExistingUser.contactInfoPhoneNumber.text =
+                viewModel.uiAccountDetails.cellPhone?.let {
+                    formattedString(it)
+                }
             }
-        }
         viewModel.progressViewFlow.observe { showProgress(it) }
         setApiProgressViews(
             binding.progressOverlay.root,
@@ -73,19 +70,19 @@ class ContactInfoActivity: BaseActivity() {
             binding.retryOverlay.root
         )
         val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
-        if(isExistingUser) {
+        if (isExistingUser) {
             viewModel.isExistingUserWithPhoneNumberState.observe {
-            binding.contactInfoExistingUser.layoutContactInfoExistingUserWithPhoneNumber.visibility =
-                if (it) View.VISIBLE else View.GONE
-            binding.contactInfoExistingUser.layoutContactInfoExistingUserWithoutPhoneNumber.visibility =
-                if (it) View.GONE else View.VISIBLE
+                binding.contactInfoExistingUser.layoutContactInfoExistingUserWithPhoneNumber.visibility =
+                    if (it) View.VISIBLE else View.GONE
+                binding.contactInfoExistingUser.layoutContactInfoExistingUserWithoutPhoneNumber.visibility =
+                    if (it) View.GONE else View.VISIBLE
 
-            if (it) {
-                formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput)
-            } else {
-                formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput)
+                if (it) {
+                    formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput)
+                } else {
+                    formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput)
+                }
             }
-        }
         } else {
             binding.contactNewUser.root.isVisible = true
             binding.contactInfoExistingUser.root.isVisible = false
@@ -93,14 +90,13 @@ class ContactInfoActivity: BaseActivity() {
         }
     }
 
-    private fun formattedString(str: String, ch: Char, position: Int): String? {
-        if (str.isNotEmpty()) {
-            val substring1 = str.substring(1, position)
-            val substring2 = str.substring(position + 2)
-            return substring1.plus(ch).plus(substring2)
-        }
-        else
-            return ""
+    private fun formattedString(str: String): String? {
+        return if (str.isNotEmpty()) {
+            val substring1 = str.substring(1, 4)
+            val substring2 = str.substring(6)
+            substring1.plus("-").plus(substring2)
+        } else
+            ""
     }
 
     private fun initHeaders() {
@@ -145,68 +141,68 @@ class ContactInfoActivity: BaseActivity() {
         }
     }
 
-    private fun formatPhoneNumber(edit : EditText)
-    {
+    private fun formatPhoneNumber(edit: EditText) {
         edit.addTextChangedListener(
-        afterTextChanged { editable ->
-            val validatedString =
-                viewModel.onPhoneNumberChanged(editable.toString())
+            afterTextChanged { editable ->
+                val validatedString =
+                    viewModel.onPhoneNumberChanged(editable.toString())
                 edit.also {
-                /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
-                /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
-                it.removeTextChangedListener(this)
-                /** set the new text to the EditText  */
-                /** set the new text to the EditText  */
-                it.setText(validatedString)
-                /** bring the cursor to the end of input  */
-                /** bring the cursor to the end of input  */
-                it.setSelection( edit.text.toString().length)
-                /* bring back the watcher and go on listening to change events */
-                it.addTextChangedListener(this)
+                    /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
+                    /** remove the watcher  so you can not capture the affectation you are going to make, to avoid infinite loop on text change  */
+                    it.removeTextChangedListener(this)
+                    /** set the new text to the EditText  */
+                    /** set the new text to the EditText  */
+                    it.setText(validatedString)
+                    /** bring the cursor to the end of input  */
+                    /** bring the cursor to the end of input  */
+                    it.setSelection(edit.text.toString().length)
+                    /* bring back the watcher and go on listening to change events */
+                    it.addTextChangedListener(this)
+                }
             }
-        }
         )
     }
 
     private fun initOnClicks() {
         binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumber.setOnClickListener {
-            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.isEnabled=false
-            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text=null
+            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.isEnabled = false
+            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text = null
             binding.contactInfoExistingUser.errorValidPhoneNumber.visibility = View.GONE
-            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.background=getDrawable(R.drawable.background_thin_border)
-            binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.background = getDrawable(R.drawable.ic_radio_empty)
+            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.background =
+                getDrawable(R.drawable.background_thin_border)
+            binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.background =
+                getDrawable(R.drawable.ic_radio_empty)
         }
         binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.setOnClickListener {
-            binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.background = getDrawable(R.drawable.ic_selected)
-            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.isEnabled=true
+            binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.background =
+                getDrawable(R.drawable.ic_selected)
+            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.isEnabled = true
         }
         binding.contactInfoNextBtn.setOnClickListener {
             val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
             if (isExistingUser) {
-                if (!binding.contactInfoExistingUser.contactInfoPhoneNumber.text.isNullOrEmpty()) {
+                if (viewModel.isExistingUserWithPhoneNumber) {
+                    //existing user with phone number
                     if (binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.isChecked) {
-                        //second radio button checked - user with phone number
+                        //existing user with user input phone number
                         phoneNumber =
                             binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text.toString()
-                        userId = viewModel.userId
                         validatePhoneNumber()
-                    } else if(binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumber.isChecked) {
-                        //first radio button checked - user with phone number
+                    } else if (binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumber.isChecked) {
+                        //existing user with default phone number
                         phoneNumber =
                             binding.contactInfoExistingUser.contactInfoPhoneNumber.text.toString()
-                        userId = viewModel.userId
-                        viewModel.launchSelectTime(customerCareOption, additionalInfo, phoneNumber, userId)
+                        viewModel.launchSelectTime(customerCareOption, additionalInfo, phoneNumber)
                     }
-                } else {
-                    //user without phone number
+                } else if (!viewModel.isExistingUserWithPhoneNumber) {
+                    //existing user without phone number
                     phoneNumber =
                         binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.text.toString()
-                    userId = viewModel.userId
                     validatePhoneNumber()
                 }
             } else {
+                //non existing user
                 phoneNumber = binding.contactNewUser.contactInfoPhoneNumberInput.text.toString()
-                userId = viewModel.userId
                 validatePhoneNumber()
             }
         }
@@ -236,7 +232,7 @@ class ContactInfoActivity: BaseActivity() {
     private fun validatePhoneNumber() {
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
-            viewModel.launchSelectTime(customerCareOption, additionalInfo, phoneNumber, userId)
+            viewModel.launchSelectTime(customerCareOption, additionalInfo, phoneNumber)
         }
     }
 
@@ -247,7 +243,7 @@ class ContactInfoActivity: BaseActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     setResult(RESULT_OK)
                     finish()
-                } else if(resultCode == Activity.RESULT_CANCELED) {
+                } else if (resultCode == Activity.RESULT_CANCELED) {
                     val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
                     if (isExistingUser) {
                         binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text.clear()

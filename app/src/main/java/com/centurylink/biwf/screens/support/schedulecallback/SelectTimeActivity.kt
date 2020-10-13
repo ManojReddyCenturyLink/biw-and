@@ -35,8 +35,7 @@ class SelectTimeActivity: BaseActivity() {
     private lateinit var customerCareOption: String
     private lateinit var additionalInfo: String
     private lateinit var phoneNumber: String
-    private lateinit var userId: String
-    private lateinit var ASAP: String
+    private lateinit var asap: String
     private lateinit var fullDateAndTime: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -128,15 +127,14 @@ class SelectTimeActivity: BaseActivity() {
             customerCareOption = intent.getStringExtra(SELECT_TIME)
             additionalInfo = intent.getStringExtra(ADDITIONAL_INFO)
             phoneNumber = intent.getStringExtra(PHONE_NUMBER)
-            userId = intent.getStringExtra(USER_ID)
             if(binding.nextAvailableCallbackTimeRadiobtn.isChecked) {
-                ASAP = "true"
+                asap = "true"
                 fullDateAndTime = ""
             } else {
-                ASAP = "false"
+                asap = "false"
                 fullDateAndTime = viewModel.formatDateAndTime(binding.callbackDateSelection.text, binding.callbackTimeSelection.text)
             }
-            viewModel.supportService(userId, phoneNumber, ASAP, customerCareOption, fullDateAndTime, additionalInfo)
+            viewModel.supportService(phoneNumber, asap, customerCareOption, fullDateAndTime, additionalInfo)
         }
     }
 
@@ -231,7 +229,6 @@ class SelectTimeActivity: BaseActivity() {
         const val SELECT_TIME: String = "SelectTime"
         const val ADDITIONAL_INFO: String = "AdditionalInfo"
         const val PHONE_NUMBER: String = "PhoneNumber"
-        const val USER_ID: String = "UserId"
         const val CALENDER_MAX_LIMIT: Long = 7776000000
         const val TIME_PICKER_HOUR_INTERVAL = 1
         const val TIME_PICKER_MIN_INTERVAL = 15
@@ -242,7 +239,6 @@ class SelectTimeActivity: BaseActivity() {
                 .putExtra(SELECT_TIME, bundle.getString(SELECT_TIME))
                 .putExtra(ADDITIONAL_INFO, bundle.getString(ADDITIONAL_INFO))
                 .putExtra(PHONE_NUMBER, bundle.getString(PHONE_NUMBER))
-                .putExtra(USER_ID, bundle.getString(USER_ID))
         }
     }
 }
