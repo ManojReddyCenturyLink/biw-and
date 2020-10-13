@@ -1,0 +1,32 @@
+{
+  "stationMac": "8C:85:90:AC:B7:15",
+  "hostname": "AMAC02W31TBHTD8",
+  "vendorName": "APPLE",
+  "type": "Apple",
+  "lastConnectionDate": null,
+  "firstConnectionTime": "2020-05-29T23:27:31+0000",
+  "connectedInterface": "Band5G",
+  "ipAddress": "192.168.0.2",
+  "blocked": false,
+  "rssi": -44,
+  "parent": "C4000XG1950000871",
+  "txRateKbps": 1300000,
+  "rxRateKbps": 1170000,
+  "userDefinedProfile": null,
+  "location": "",
+  "deviceId": null,
+  "maxMode": {
+    "Band2G": "ModeAC",
+    "Band5G": "ModeAC"
+  },
+  "maxSpeed": {
+  }
+}
+
+
+
+
+
+
+
+
