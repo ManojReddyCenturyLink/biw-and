@@ -1,11 +1,8 @@
 package com.centurylink.biwf.utility
 
 import android.app.Activity
-import android.content.Context
-import android.util.Log
 import com.centurylink.biwf.BIWFApp
 import com.centurylink.biwf.BuildConfig
-import com.centurylink.biwf.R
 import sdk.pendo.io.Pendo
 import sdk.pendo.io.Pendo.PendoInitParams
 
@@ -22,7 +19,7 @@ class PendoUtil {
          *
          */
         fun initPendoSDKWithoutVisitor(context: BIWFApp) {
-            Pendo.initSdkWithoutVisitor(context,BuildConfig.APP_KEY,null)
+            Pendo.initSdkWithoutVisitor(context, BuildConfig.APP_KEY, null)
         }
 
         /**
@@ -31,13 +28,7 @@ class PendoUtil {
         fun initPendoSDKWithVisitor(context: Activity, visitorId: String) {
             val pendoParams = PendoInitParams()
             pendoParams.visitorId = visitorId
-
-            //send Visitor Level Data
-            val userData: MutableMap<String, Any> = HashMap()
-            userData["country"] = "USA"
-            pendoParams.userData = userData
-
-            Pendo.initSDK(context,BuildConfig.APP_KEY,pendoParams)
+            Pendo.initSDK(context, BuildConfig.APP_KEY, pendoParams)
         }
     }
 
