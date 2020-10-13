@@ -1,13 +1,68 @@
 {
-      "code": 1000,
-      "data": {
-         "list": [
-            {
-               "average": 348020,
-               "timestamp": "2020-09-01T12:51:56+0000"
-            }
-         ],
-         "name": "broadbandusthroughputsummary"
-      },
-      "message": "Success"
+  "status": "SUCCESS",
+  "message": "",
+  "uniqueErrorCode": 0,
+  "createErrorRecord": false,
+  "assiaId": "C4000XG1950000308",
+  "requestId": "1662625911",
+  "callBackUrl": "ctl-fiber--qa.my.salesforce.com/services/apexrest/SpeedTest/*",
+  "statusResponse": {
+    "code": 1000,
+    "message": "Success",
+    "data": {
+      "currentStep": "FINISHED",
+      "finished": true
+    }
+  },
+  "downloadSpeedSummary": {
+    "code": 1000,
+    "message": "Success",
+    "data": {
+      "list": [
+        {
+          "average": 621031,
+          "std": 0.0,
+          "detection": 0,
+          "numErrorFreeSamples": 1,
+          "sampleMaxPercentile": 693345,
+          "latestSampleTimestamp": 1602436219000,
+          "sampleMax": 693345,
+          "videoQuality": 7,
+          "serviceDetection": 0,
+          "percentile": [
+            621031
+          ],
+          "latestSample": 621031,
+          "primaryIp": "205.171.3.100",
+          "timestamp": "2020-10-11T17:10:30+0000"
+        }
+      ],
+      "name": "broadbanddsthroughputsummary"
+    }
+  },
+  "uploadSpeedSummary": {
+    "code": 1000,
+    "message": "Success",
+    "data": {
+      "list": [
+        {
+          "average": 156241,
+          "std": 0.0,
+          "numErrorFreeSamples": 1,
+          "sampleMaxPercentile": 204800,
+          "latestSampleTimestamp": 1602436229000,
+          "sampleMax": 204800,
+          "serviceDetection": 0,
+          "percentile": [
+            156241
+          ],
+          "latestSample": 156241,
+          "primaryIp": "205.171.3.100",
+          "timestamp": "2020-10-11T17:10:30+0000"
+        }
+      ],
+      "name": "broadbandusthroughputsummary"
+    }
+  },
+  "success": true
 }

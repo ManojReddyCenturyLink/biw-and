@@ -22,11 +22,11 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.DevicesRepository
 import com.centurylink.biwf.repos.NotificationRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
+import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
-import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -67,6 +67,7 @@ class DashboardViewModel @Inject constructor(
     private val accountRepository: AccountRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
     private val wifiStatusRepository: WifiStatusRepository,
+    private val speedTestRepository: SpeedTestRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
@@ -243,7 +244,7 @@ class DashboardViewModel @Inject constructor(
         sharedPreferences.saveSpeedTestFlag(boolean = true)
         latestSpeedTest.latestValue = DashboardViewModel.EMPTY_RESPONSE
         viewModelScope.launch {
-            val speedTestRequest = assiaRepository.startSpeedTest()
+            val speedTestRequest = speedTestRepository.startSpeedTest()
             speedTestRequest.fold(
                 ifRight = {
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_SUCCESS)
@@ -253,7 +254,6 @@ class DashboardViewModel @Inject constructor(
                         requestId = it.speedTestId,
                         displayErrorPopUp = displayPopUp
                     )
-
                 },
                 ifLeft = {
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.START_SPEED_TEST_FAILURE)
@@ -272,12 +272,12 @@ class DashboardViewModel @Inject constructor(
      * @param requestId - speed test request Id
      * @param displayErrorPopUp - this will confirm to show the  speed test error popup or not
      */
-    private fun checkSpeedTestStatus(requestId: Int, displayErrorPopUp: Boolean) {
+    private fun checkSpeedTestStatus(requestId: String, displayErrorPopUp: Boolean) {
         viewModelScope.launch {
             var keepChecking = true
             var isSuccessful = false
             while (keepChecking) {
-                val status = assiaRepository.checkSpeedTestStatus(speedTestId = requestId)
+                val status = speedTestRepository.checkSpeedTestStatus(speedTestId = requestId)
                 status.fold(ifRight =
                 {
                     if (it.data.isFinished) {
@@ -309,30 +309,28 @@ class DashboardViewModel @Inject constructor(
     private suspend fun getResults() {
         var uploadSpeedError = false
         var downloadSpeedError = false
-        val upstreamData = assiaRepository.getUpstreamResults()
-        upstreamData.fold(ifLeft = {
-            displayEmptyResponse()
-            uploadSpeedError = true
+        val result = speedTestRepository.getSpeedTestResults(sharedPreferences.getSpeedTestId()!!)
+        result.fold(ifLeft = { displayEmptyResponse()
+            uploadSpeedError=true
+            downloadSpeedError=true
         }, ifRight = {
-            if (it.data.listOfData.isNotEmpty() && !it.data.listOfData.equals(EMPTY_RESPONSE)) {
-                val uploadMb = it.data.listOfData[0].speedAvg / 1000
+            val uploadStreamData = it.uploadSpeedSummary.speedTestNestedResults
+            val downloadStreamData = it.downloadSpeedSummary.speedTestNestedResults
+
+            if (uploadStreamData.list!!.isNotEmpty() && !uploadStreamData.list.equals(EMPTY_RESPONSE)) {
+                val uploadMb = uploadStreamData.list[0].average/1000
                 uploadSpeed.latestValue = uploadMb.toString()
                 sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
             } else {
                 uploadSpeed.latestValue = EMPTY_RESPONSE
                 uploadSpeedError = true
             }
-        })
-        val downStreamData = assiaRepository.getDownstreamResults()
-        downStreamData.fold(ifLeft = {
-            displayEmptyResponse()
-            downloadSpeedError = true
-        }, ifRight = {
-            if (it.data.listOfData.isNotEmpty() && !it.data.listOfData.equals(EMPTY_RESPONSE)) {
-                val downloadMb = it.data.listOfData[0].speedAvg / 1000
+
+            if (downloadStreamData.list!!.isNotEmpty() && !downloadStreamData.equals(EMPTY_RESPONSE)) {
+                val downloadMb = downloadStreamData.list[0].average/1000
                 downloadSpeed.latestValue = downloadMb.toString()
                 latestSpeedTest.latestValue =
-                    formatUtcString(it.data.listOfData[0].timeStamp)
+                    formatUtcString(downloadStreamData.list[0].timestamp)
                 sharedPreferences.saveSpeedTestDownload(downloadSpeed = downloadSpeed.latestValue)
                 sharedPreferences.saveLastSpeedTestTime(lastRanTime = latestSpeedTest.latestValue)
             } else {
