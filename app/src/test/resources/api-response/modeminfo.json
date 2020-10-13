@@ -1,0 +1,27 @@
+{
+  "modeminforesponse": {
+    "code": 1000,
+    "message": "Success",
+    "modemInfo": {
+      "lineId": "C4000XG1950000308",
+      "modelName" : "Greenwave C4000XG",
+      "apInfoList" : {
+        "deviceId" : "C4000XG1950000308",
+        "lineId": "C4000XG1950000308",
+        "modelName": "Greenwave C4000XG",
+        "isRootAp" : true,
+        "isAlive" : true,
+        "ssidMap": {
+          "Band5G_Guest4": "CenturyLink0308-Guest",
+          "Band5G": "CenturyLink03089",
+          "Band2G_Guest4": "CenturyLink0308-Guest",
+          "Band2G": "CenturyLink03089"
+        },
+        "bssidMap": {
+          "02:6A:E3:8F:FA:B2": "Band5G_Guest4",
+          "02:6A:E3:8F:FA:B1": "Band2G_Guest4"
+        }
+      }
+    }
+  }
+}
