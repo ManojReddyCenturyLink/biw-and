@@ -7,11 +7,7 @@ import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.utility.EnvironmentPath
-import retrofit2.http.DELETE
-import retrofit2.http.GET
-import retrofit2.http.HeaderMap
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface AssiaService {
 

@@ -43,7 +43,7 @@ class SupportCoordinator @Inject constructor() : Coordinator<SupportCoordinatorD
      *
      */
     private fun navigateToScheduleCallback() {
-        navigator.navigateToScheduleCallback()
+        navigator.navigateToScheduleCallbackFromSupport()
     }
 
     private fun navigateToLiveChat() {}

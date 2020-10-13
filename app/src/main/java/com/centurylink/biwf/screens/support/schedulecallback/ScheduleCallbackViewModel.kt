@@ -17,7 +17,7 @@ class ScheduleCallbackViewModel @Inject constructor(
 
     val myState = EventFlow<ScheduleCallbackCoordinatorDestinations>()
     val topicList: List<TopicList> = dummyList()
-    var isExistingUser: Boolean = false
+    var isExistingUserState: Boolean = false
 
     //currently we are hard coding data, once api will be there will update its value.
     var progressViewFlow = EventFlow<Boolean>()
@@ -35,9 +35,13 @@ class ScheduleCallbackViewModel @Inject constructor(
         analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.LIST_ITEM_SCHEDULE_CALLBACK)
         ScheduleCallbackCoordinatorDestinations.bundle = Bundle().apply {
             putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
-            putBoolean(AdditionalInfoActivity.IS_EXISTING_USER, isExistingUser)
+            putBoolean(AdditionalInfoActivity.IS_EXISTING_USER, isExistingUserState)
         }
         myState.latestValue = ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO
+    }
+
+    fun setIsExistingUserState(isExistingUser: Boolean) {
+        isExistingUserState = isExistingUser
     }
 
     private fun dummyList(): List<TopicList> {

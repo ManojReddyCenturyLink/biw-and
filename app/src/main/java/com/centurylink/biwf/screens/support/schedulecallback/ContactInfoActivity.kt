@@ -15,6 +15,7 @@ import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityContactInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
+import timber.log.Timber
 import javax.inject.Inject
 
 class ContactInfoActivity: BaseActivity() {
@@ -33,6 +34,10 @@ class ContactInfoActivity: BaseActivity() {
     }
     private lateinit var binding: ActivityContactInfoBinding
     private var isExistingUserWithPhoneNumber: Boolean = true
+    private lateinit var customerCareOption: String
+    private lateinit var additionalInfo: String
+    private lateinit var phoneNumber: String
+    private lateinit var userId: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,34 +54,56 @@ class ContactInfoActivity: BaseActivity() {
         finish()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text.clear()
-        binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.text.clear()
-    }
-
-
     private fun initViews() {
+        customerCareOption = intent.getStringExtra(CUSTOMER_CARE_OPTION)
+        additionalInfo = intent.getStringExtra(ADDITIONAL_INFO)
+        viewModel.accountDetailsInfo.observe {
+            binding.contactInfoExistingUser.contactInfoPhoneNumber.text = viewModel.uiAccountDetails.cellPhone?.let {
+                formattedString(
+                    it, '-', 4
+                )
+            }
+        }
+        viewModel.progressViewFlow.observe { showProgress(it) }
+        setApiProgressViews(
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.constraintLayout,
+            binding.retryOverlay.root
+        )
         val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
         if(isExistingUser) {
+            viewModel.isExistingUserWithPhoneNumberState.observe {
             binding.contactInfoExistingUser.layoutContactInfoExistingUserWithPhoneNumber.visibility =
-                if (isExistingUserWithPhoneNumber) View.VISIBLE else View.GONE
+                if (it) View.VISIBLE else View.GONE
             binding.contactInfoExistingUser.layoutContactInfoExistingUserWithoutPhoneNumber.visibility =
-                if (isExistingUserWithPhoneNumber) View.GONE else View.VISIBLE
+                if (it) View.GONE else View.VISIBLE
 
-            if (isExistingUserWithPhoneNumber) {
+            if (it) {
                 formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput)
             } else {
                 formatPhoneNumber(binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput)
             }
+        }
         } else {
             binding.contactNewUser.root.isVisible = true
             binding.contactInfoExistingUser.root.isVisible = false
+            formatPhoneNumber(binding.contactNewUser.contactInfoPhoneNumberInput)
         }
     }
 
+    private fun formattedString(str: String, ch: Char, position: Int): String? {
+        if (str.isNotEmpty()) {
+            val substring1 = str.substring(1, position)
+            val substring2 = str.substring(position + 2)
+            return substring1.plus(ch).plus(substring2)
+        }
+        else
+            return ""
+    }
+
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.contact_info)
+        val screenTitle: String = getString(R.string.contact_info)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
@@ -90,18 +117,30 @@ class ContactInfoActivity: BaseActivity() {
         }
 
         viewModel.error.observe {
-            binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.background =
-                if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.ic_selected_error) else getDrawable(R.drawable.ic_selected)
-            binding.contactInfoExistingUser.errorValidPhoneNumber.visibility =
-                if (it.containsKey("mobileNumberError")) View.VISIBLE else View.GONE
-            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.background =
-                if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
-                    R.drawable.background_thin_border
-                )
-            binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.background =
-                if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
-                    R.drawable.background_thin_border
-                )
+            val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
+            if (isExistingUser) {
+                binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.background =
+                    if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.ic_selected_error) else getDrawable(
+                        R.drawable.ic_selected
+                    )
+                binding.contactInfoExistingUser.errorValidPhoneNumber.visibility =
+                    if (it.containsKey("mobileNumberError")) View.VISIBLE else View.GONE
+                binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.background =
+                    if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                        R.drawable.background_thin_border
+                    )
+                binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.background =
+                    if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                        R.drawable.background_thin_border
+                    )
+            } else {
+                binding.contactNewUser.errorValidPhoneNumberNewUser.visibility =
+                    if (it.containsKey("mobileNumberError")) View.VISIBLE else View.GONE
+                binding.contactNewUser.contactInfoPhoneNumberInput.background =
+                    if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                        R.drawable.background_thin_border
+                    )
+            }
         }
     }
 
@@ -141,20 +180,41 @@ class ContactInfoActivity: BaseActivity() {
             binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.isEnabled=true
         }
         binding.contactInfoNextBtn.setOnClickListener {
-            if(isExistingUserWithPhoneNumber) {
-                if(binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.isChecked) {
-                    validatePhoneNumber()
+            val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
+            if (isExistingUser) {
+                if (!binding.contactInfoExistingUser.contactInfoPhoneNumber.text.isNullOrEmpty()) {
+                    if (binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.isChecked) {
+                        //second radio button checked - user with phone number
+                        phoneNumber =
+                            binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text.toString()
+                        userId = viewModel.userId
+                        validatePhoneNumber()
+                    } else if(binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumber.isChecked) {
+                        //first radio button checked - user with phone number
+                        phoneNumber =
+                            binding.contactInfoExistingUser.contactInfoPhoneNumber.text.toString()
+                        userId = viewModel.userId
+                        viewModel.launchSelectTime(customerCareOption, additionalInfo, phoneNumber, userId)
+                    }
                 } else {
-                    viewModel.launchSelectTime()
+                    //user without phone number
+                    phoneNumber =
+                        binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.text.toString()
+                    userId = viewModel.userId
+                    validatePhoneNumber()
                 }
-            } else { validatePhoneNumber() }
+            } else {
+                phoneNumber = binding.contactNewUser.contactInfoPhoneNumberInput.text.toString()
+                userId = viewModel.userId
+                validatePhoneNumber()
+            }
         }
     }
 
     private fun validatePhoneNumber() {
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
-            viewModel.launchSelectTime()
+            viewModel.launchSelectTime(customerCareOption, additionalInfo, phoneNumber, userId)
         }
     }
 
@@ -165,6 +225,17 @@ class ContactInfoActivity: BaseActivity() {
                 if (resultCode == Activity.RESULT_OK) {
                     setResult(RESULT_OK)
                     finish()
+                } else if(resultCode == Activity.RESULT_CANCELED) {
+                    val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
+                    if (isExistingUser) {
+                        binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text.clear()
+                        binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.text.clear()
+                    } else {
+                        binding.contactNewUser.contactInfoFirstNameInput.text.clear()
+                        binding.contactNewUser.contactInfoLastNameInput.text.clear()
+                        binding.contactNewUser.contactInfoEmailInput.text.clear()
+                        binding.contactNewUser.contactInfoPhoneNumberInput.text.clear()
+                    }
                 }
             }
         }
@@ -172,11 +243,15 @@ class ContactInfoActivity: BaseActivity() {
 
     companion object {
         const val IS_EXISTING_USER = "isExistingUser"
+        const val CUSTOMER_CARE_OPTION = "CustomerCareOption"
+        const val ADDITIONAL_INFO = "AdditionalInfo"
         const val REQUEST_TO_HOME: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, ContactInfoActivity::class.java)
                 .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
+                .putExtra(CUSTOMER_CARE_OPTION, bundle.getString(CUSTOMER_CARE_OPTION))
+                .putExtra(ADDITIONAL_INFO, bundle.getString(ADDITIONAL_INFO))
         }
     }
 }

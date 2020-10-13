@@ -12,6 +12,7 @@ import com.centurylink.biwf.service.impl.network.McafeeErrorConverterFactory
 import com.centurylink.biwf.service.impl.network.PrimitiveTypeConverterFactory
 import com.centurylink.biwf.service.impl.network.asFactory
 import com.centurylink.biwf.service.integration.IntegrationServerService
+import com.centurylink.biwf.service.network.SupportService
 import com.centurylink.biwf.service.network.AccountApiService
 import com.centurylink.biwf.service.network.AppointmentService
 import com.centurylink.biwf.service.network.AssiaService
@@ -54,6 +55,7 @@ import javax.inject.Singleton
 @Module
 class RestServiceConfigModule(
     private val baseUrlFiberServices: String,
+    private val baseUrlSupportServices: String,
     private val baseUrlForAwsBucket: String,
     // TODO - remove this when all Cloudcheck endpoints are accessed via Apigee
     private val baseUrlForAssiaServices: String,
@@ -75,6 +77,25 @@ class RestServiceConfigModule(
             .registerTypeAdapterFactory(primitiveTypeConverters)
             .create()
         return GsonConverterFactory.create(gson)
+    }
+
+    @Singleton
+    @Provides
+    @BaseUrl(BaseUrlType.SUPPORT_SERVICES)
+    fun provideSupportRetrofit(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.OAUTH) client: Call.Factory
+    ): ServicesFactory {
+        return fakeServicesFactory ?: Retrofit.Builder()
+            .callFactory(client)
+            .baseUrl(baseUrlSupportServices)
+            .addCallAdapterFactory(EitherCallAdapterFactory())
+            .addConverterFactory(EitherConverterFactory())
+            .addConverterFactory(FiberErrorConverterFactory())
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
+            .build()
+            .asFactory
     }
 
     @Singleton
@@ -294,6 +315,13 @@ class RestServiceConfigModule(
     fun providesMcafeeUsersService(@BaseUrl(BaseUrlType.MCAFEE_SERVICES) factory: ServicesFactory): McafeeApiService {
         return factory.create()
     }
+
+    @Singleton
+    @Provides
+    fun provideSupportService(@BaseUrl(BaseUrlType.SUPPORT_SERVICES) factory: ServicesFactory): SupportService {
+        return factory.create()
+    }
+
 
     @Singleton
     @Provides
