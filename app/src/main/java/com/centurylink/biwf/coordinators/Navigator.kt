@@ -150,10 +150,24 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     /**
-     * Navigate to schedule callback
+     * Navigate to schedule callback screen from FAQ Screen.
      *
      */
-    fun navigateToScheduleCallback() {
+    fun navigateToScheduleCallbackFromFAQ() {
+        val bundle = FAQCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(
+                ScheduleCallbackActivity.newIntent(it, bundle),
+                ScheduleCallbackActivity.REQUEST_TO_HOME
+            )
+        }
+    }
+
+    /**
+     * Navigate to schedule callback screen from Support Screen.
+     *
+     */
+    fun navigateToScheduleCallbackFromSupport() {
         val bundle = SupportCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(

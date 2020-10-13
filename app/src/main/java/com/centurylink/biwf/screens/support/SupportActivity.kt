@@ -136,6 +136,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     private fun initViews() {
         val isExistingUser: Boolean = intent.getBooleanExtra(IS_EXISTING_USER, false)
+        viewModel.setExistingUserState(isExistingUser)
         if (isExistingUser) binding.incTroubleshooting.root.visibility = View.VISIBLE
         else binding.incTroubleshooting.root.visibility = View.GONE
         setApiProgressViews(

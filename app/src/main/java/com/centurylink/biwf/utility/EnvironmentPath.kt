@@ -6,7 +6,7 @@ import com.centurylink.biwf.BuildConfig
 class EnvironmentPath {
     companion object {
 
-        private fun getSalesForceBaseURl(): String {
+        fun getSalesForceBaseURl(): String {
             return "https://" + BuildConfig.SALESFORCE_URL
         }
 
@@ -122,6 +122,8 @@ class EnvironmentPath {
         const val API_BLOCK_UNBLOCK_DEVICE_PATH =
             "api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block"
         const val API_CASE_FOR_SUBSCRIPTION_PATH = "sobjects/Case"
+        const val API_SUPPORT_SERVICES_PATH =
+            "phish/services/apexrest/ServiceAndSupportAPI"
 
         //McAfee
         const val API_GET_NETWORK_ACCESS_PATH = "mcafee/get-network-access"

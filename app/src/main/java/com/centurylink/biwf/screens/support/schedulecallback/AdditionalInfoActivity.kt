@@ -30,6 +30,8 @@ class AdditionalInfoActivity : BaseActivity() {
     }
     private lateinit var binding: ActivityAdditionalInfoBinding
     private var isExistingUser: Boolean = false
+    private lateinit var customerCareOption: String
+    private lateinit var additionalInfo: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,12 +47,8 @@ class AdditionalInfoActivity : BaseActivity() {
         finish()
     }
 
-    override fun onResume() {
-        super.onResume()
-        binding.additionalInfoInput.text.clear()
-    }
-
     private fun initHeaders() {
+        customerCareOption = intent.getStringExtra(ADDITIONAL_INFO)
         val screenTitle: String = getString(R.string.additional_info_title)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
@@ -70,8 +68,9 @@ class AdditionalInfoActivity : BaseActivity() {
     private fun initOnClicks() {
         binding.additionalInfoNextBtn.setOnClickListener {
            viewModel.logNextButtonClick()
+            additionalInfo = binding.additionalInfoInput.text.toString()
             isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
-            viewModel.launchContactInfo(isExistingUser)
+            viewModel.launchContactInfo(isExistingUser, customerCareOption, additionalInfo)
        }
     }
 
@@ -82,7 +81,9 @@ class AdditionalInfoActivity : BaseActivity() {
                if (resultCode == Activity.RESULT_OK) {
                     setResult(RESULT_OK)
                     finish()
-                }
+               } else if(resultCode == Activity.RESULT_CANCELED) {
+                   binding.additionalInfoInput.text.clear()
+               }
             }
         }
     }

@@ -9,6 +9,7 @@ annotation class BaseUrl(val type: BaseUrlType)
 
 enum class BaseUrlType {
     FIBER_SERVICES,
+    SUPPORT_SERVICES,
     AWS_BUCKET_SERVICES,
     // TODO - remove this when all Cloudcheck endpoints are accessed via Apigee
     ASSIA_SERVICES,

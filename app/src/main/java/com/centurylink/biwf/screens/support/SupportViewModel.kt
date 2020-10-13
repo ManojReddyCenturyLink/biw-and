@@ -47,6 +47,7 @@ class SupportViewModel @Inject constructor(
     var progressViewFlow = EventFlow<Boolean>()
     var speedTestError = EventFlow<Boolean>()
     private var rebootOngoing = false
+    private var existingUserState = false
 
     init {
         initApis()
@@ -282,8 +283,13 @@ class SupportViewModel @Inject constructor(
         analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.FAQ_ITEM_SUPPORT)
         val bundle = Bundle()
         bundle.putString(FAQActivity.FAQ_TITLE, faqSectionSelected)
+        bundle.putBoolean(FAQActivity.IS_EXISTING_USER, existingUserState)
         SupportCoordinatorDestinations.bundle = bundle
         myState.latestValue = SupportCoordinatorDestinations.FAQ
+    }
+
+    fun setExistingUserState(isExistingUser: Boolean) {
+        existingUserState = isExistingUser
     }
 
     fun launchScheduleCallback(isExistingUser: Boolean) {

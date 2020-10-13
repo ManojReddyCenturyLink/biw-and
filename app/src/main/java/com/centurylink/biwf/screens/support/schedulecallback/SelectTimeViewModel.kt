@@ -1,10 +1,15 @@
 package com.centurylink.biwf.screens.support.schedulecallback
 
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
+import com.centurylink.biwf.model.support.SupportServicesReq
+import com.centurylink.biwf.repos.SupportRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -13,18 +18,27 @@ import javax.inject.Inject
 
 class SelectTimeViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
-    analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager,
+    private val supportRepository: SupportRepository
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
 
     private var callbackDate: Date? = null
     private var callbackTime: String? = null
+    var scheduleCallbackFlow = EventFlow<Boolean>()
+    var errorFlow = EventFlow<Boolean>()
     val changeCallbackDateEvent: EventLiveData<Unit> = MutableLiveData()
     val changeCallbackTimeEvent: EventLiveData<Unit> = MutableLiveData()
     val callbackDateUpdateEvent: EventLiveData<Date> = MutableLiveData()
     val callbackTimeUpdateEvent: EventLiveData<String> = MutableLiveData()
     private var nextDay: Boolean = false
+    var isScheduleCallbackSuccessful = EventFlow<Boolean>()
 
+    init {
+        isScheduleCallbackSuccessful.latestValue = false
+        errorFlow.latestValue = false
+        scheduleCallbackFlow.latestValue = false
+    }
 
     fun onDateChange() {
         changeCallbackDateEvent.emit(Unit)
@@ -42,6 +56,35 @@ class SelectTimeViewModel @Inject constructor(
     fun onCallbackTimeSelected(callbackTimeInfo: String) {
         callbackTime = callbackTimeInfo
         callbackTimeUpdateEvent.emit(callbackTime!!)
+    }
+
+
+    fun supportService(userId: String, phoneNumber: String, ASAP: String, customerCareOption: String, fullDateAndTime: String, additionalInfo: String) {
+        scheduleCallbackFlow.latestValue = true
+        viewModelScope.launch {
+            supportServiceInfo(SupportServicesReq(userId, phoneNumber, ASAP, customerCareOption, ASAP, fullDateAndTime, additionalInfo))
+        }
+    }
+
+    private suspend fun supportServiceInfo(data: SupportServicesReq) {
+        val deviceDetails = supportRepository.supportServiceInfo(data)
+        deviceDetails.fold(ifRight =
+        {
+            scheduleCallbackFlow.latestValue = false
+            if(it.status == "SUCCESS") {
+                scheduleCallbackFlow.latestValue = false
+                isScheduleCallbackSuccessful.latestValue = true
+                errorFlow.latestValue = false
+            } else {
+                scheduleCallbackFlow.latestValue = false
+                isScheduleCallbackSuccessful.latestValue = false
+                errorFlow.latestValue = true
+            }
+        }, ifLeft = {
+            scheduleCallbackFlow.latestValue = false
+            isScheduleCallbackSuccessful.latestValue = false
+            errorFlow.latestValue = true
+        })
     }
 
     fun getDefaultTimeSlot(): String {
@@ -96,6 +139,31 @@ class SelectTimeViewModel @Inject constructor(
             localTimeHoursString = zeroString.plus(localTimeHoursString)
         }
         return localTimeHoursString.plus(":").plus(localTimeMinutesString).plus(amPm)
+    }
+
+    fun formatDateAndTime(date: CharSequence, time: CharSequence): String {
+        val selectedMonth = date.substring(0, 2)
+        val selectedDate = date.substring(3, 5)
+        var selectedYear = date.substring(6)
+
+        var selectedHour = Integer.parseInt(time.substring(0, 2))
+        val selectedMin = time.substring(3, 5)
+        val selectedAMPM = time.substring(5)
+        if (selectedAMPM == "PM" && selectedHour != 12) {
+            selectedHour = selectedHour + 12
+        } else if(selectedAMPM == "AM" && selectedHour == 12) {
+            selectedHour = 0
+        }
+
+        var selectedHourString = selectedHour.toString()
+        selectedYear = ("20").plus(selectedYear)
+        if(selectedHourString.length == 1) {
+            selectedHourString = ("0").plus(selectedHourString)
+        }
+
+        val fullDateAndTime = selectedYear.plus("-").plus(selectedMonth).plus("-").plus(selectedDate)
+            .plus(" ").plus(selectedHourString).plus(":").plus(selectedMin).plus(":").plus("00")
+        return fullDateAndTime
     }
 
     fun getDefaultDateSlot(): String {
