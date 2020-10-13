@@ -20,6 +20,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Network status view model
+ *
+ * @property oAuthAssiaRepository - repository instance to handle oAuth assia api calls
+ * @property wifiNetworkManagementRepository - repository instance to handle wifi network
+ * management api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class NetworkStatusViewModel @Inject constructor(
     private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val wifiNetworkManagementRepository: WifiNetworkManagementRepository,
@@ -58,12 +69,19 @@ class NetworkStatusViewModel @Inject constructor(
     private var regularNetworkInstance = UINetworkModel()
     private var guestNetworkInstance = UINetworkModel()
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_NETWORK_INFORMATION)
         progressViewFlow.latestValue = true
         initApi()
     }
 
+    /**
+     * Init api - It will start all the api calls initialisation
+     *
+     */
     fun initApi() {
         viewModelScope.launch {
             requestModemInfo()
@@ -96,6 +114,10 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Wifi network enablement - It will handle wifi network enable and disable logic
+     *
+     */
     fun wifiNetworkEnablement() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.WIFI_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
         viewModelScope.launch {
@@ -112,6 +134,10 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Guest network enablement - It will guest network enable and disable logic
+     *
+     */
     fun guestNetworkEnablement() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.GUEST_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
         viewModelScope.launch {
@@ -270,33 +296,67 @@ class NetworkStatusViewModel @Inject constructor(
         )
     }
 
+    /**
+     * On done click - It will handle done button click event logic
+     *
+     */
     fun onDoneClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_SAVE_CLICK_NETWORK_INFORMATION)
         progressViewFlow.latestValue = true
         submitData()
     }
 
+    /**
+     * Toggle password visibility - It will handle toggling password visibility logic
+     *
+     * @return - negates the visibility
+     */
     fun togglePasswordVisibility(): Boolean {
         passwordVisibility = !passwordVisibility
         return passwordVisibility
     }
 
+    /**
+     * On guest password value changed - It used to handle change in guest network passwork
+     *
+     * @param passwordValue - This is the guest network password to be updated
+     */
     fun onGuestPasswordValueChanged(passwordValue: String) {
         this.newGuestPwd = passwordValue
     }
 
+    /**
+     * On guest name value changed - It used to handle change in guest network name
+     *
+     * @param nameValue - This is the guest network name to be updated
+     */
     fun onGuestNameValueChanged(nameValue: String) {
         this.newGuestName = nameValue
     }
 
+    /**
+     * On wifi name value changed - It used to handle change in network name
+     *
+     * @param wifiNameValue - his is the network name to be updated
+     */
     fun onWifiNameValueChanged(wifiNameValue: String) {
         this.newWifiName = wifiNameValue
     }
 
+    /**
+     * On wifi password value changed - It used to handle change in network password
+     *
+     * @param wifiPasswordValue - his is the network password to be updated
+     */
     fun onWifiPasswordValueChanged(wifiPasswordValue: String) {
         this.newWifiPwd = wifiPasswordValue
     }
 
+    /**
+     * Validate input - It will validate inputs for networks screen
+     *
+     * @return - return errors based network screen inputs
+     */
     fun validateInput(): Errors {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_NETWORK_INFORMATION)
         val errors = Errors()
@@ -507,10 +567,19 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Log discard changes and close click - It will handle discard button click event logic for
+     * error dialog
+     *
+     */
     fun logDiscardChangesAndCloseClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ERROR_POPUP_NETWORK_INFORMATION)
     }
 
+    /**
+     * Log discard changes click - It will handle discard button click event logic for alert dialog
+     *
+     */
     fun logDiscardChangesClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_DISCARD_CLICK_NETWORK_INFORMATION)
     }
@@ -545,6 +614,11 @@ class NetworkStatusViewModel @Inject constructor(
         var statusIcon: Int = R.drawable.ic_three_bars
     )
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val nameMaxLength = 32
         const val passwordMinLength = 8

@@ -19,6 +19,11 @@ import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
+/**
+ * Network status activity - this class handle common methods related to Network screen
+ *
+ * @constructor Create empty Network status activity
+ */
 class NetworkStatusActivity : BaseActivity() {
     private lateinit var bindings: ActivityNetworkStatusBinding
 
@@ -29,6 +34,13 @@ class NetworkStatusActivity : BaseActivity() {
         ViewModelProvider(this, factory).get(NetworkStatusViewModel::class.java)
     }
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindings = ActivityNetworkStatusBinding.inflate(layoutInflater)
@@ -40,6 +52,10 @@ class NetworkStatusActivity : BaseActivity() {
         initEnableDisableEventClicks()
     }
 
+    /**
+     * Init headers - It will initialize screen headers
+     *
+     */
     private fun initHeaders() {
         var screenTitle: String = getString(R.string.network_status)
         bindings.incHeader.apply {
@@ -54,6 +70,10 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Init views - It will initialize the views
+     *
+     */
     private fun initViews() {
         setApiProgressViews(
             bindings.progressOverlay.root,
@@ -218,12 +238,20 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Init on clicks - It will initialize the onclick listeners
+     *
+     */
     private fun initOnClicks() {
         // will remove once rest of the network calls are implemented
         bindings.ivPasswordVisibility.setOnClickListener { toggleNetworkTextVisibility() }
         bindings.ivGuestPasswordVisibility.setOnClickListener { toggleGuestTextVisibility() }
     }
 
+    /**
+     * Validate name and password - It is used to validate the network name and network password
+     *
+     */
     private fun validateNameAndPassword() {
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
@@ -231,6 +259,10 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Toggle network text visibility - It will handle network password visibility
+     *
+     */
     private fun toggleNetworkTextVisibility() {
         if (viewModel.togglePasswordVisibility()) {
             bindings.ivPasswordVisibility.setImageDrawable(
@@ -253,6 +285,10 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Toggle guest text visibility - It will handle guest network password visibility
+     *
+     */
     private fun toggleGuestTextVisibility() {
         if (viewModel.togglePasswordVisibility()) {
             bindings.ivGuestPasswordVisibility.setImageDrawable(
@@ -275,6 +311,10 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Watch text changes - It is used to observe, text changes in network screen
+     *
+     */
     private fun watchTextChanges() {
         bindings.networkStatusWifiPasswordInput.addTextChangedListener(
             afterTextChanged {
@@ -302,6 +342,11 @@ class NetworkStatusActivity : BaseActivity() {
         )
     }
 
+    /**
+     * Init enable disable event clicks - It will handle enable and disable event click
+     * listeners
+     *
+     */
     private fun initEnableDisableEventClicks() {
         bindings.networkStatusWifiButton.setOnClickListener {
             viewModel.wifiNetworkEnablement()
@@ -311,6 +356,10 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Show blue theme pop up - It shows the error dialog
+     *
+     */
     private fun showBlueThemePopUp() {
         CustomDialogBlueTheme(
             getString(R.string.error_title),
@@ -326,10 +375,18 @@ class NetworkStatusActivity : BaseActivity() {
         )
     }
 
+    /**
+     * On back pressed - This will handle back key click listeners
+     *
+     */
     override fun onBackPressed() {
         showGreyThemePopUp()
     }
 
+    /**
+     * Show grey theme pop up - It shows the alert dialog to save or discard changes
+     *
+     */
     private fun showGreyThemePopUp() {
         CustomDialogGreyTheme(
             getString(R.string.save_changes_msg),
@@ -341,6 +398,11 @@ class NetworkStatusActivity : BaseActivity() {
             .show(supportFragmentManager, NetworkStatusActivity::class.simpleName)
     }
 
+    /**
+     * On dialog callback- It will handle the dialog callback listeners
+     *
+     * @param buttonType - its return the which button is pressed negative or positive
+     */
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
@@ -350,6 +412,10 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Show alert dialog - It shows alert dialog
+     *
+     */
     private fun showAlertDialog() {
         CustomDialogGreyTheme(
             getString(R.string.save_changes_msg),
@@ -363,6 +429,12 @@ class NetworkStatusActivity : BaseActivity() {
         )
     }
 
+    /**
+     * On screen exit confirmation dialog callback- It will handle the on screen exit confirmation
+     * dialog callback listeners
+     *
+     * @param buttonType - its return the which button is pressed negative or positive
+     */
     private fun onScreenExitConfirmationDialogCallback(buttonType: Int) {
         when (buttonType) {
             // TODO - This has to be replaced with API calls
@@ -379,6 +451,11 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val REQUEST_TO_HOME: Int = 101
         fun newIntent(context: Context) = Intent(context, NetworkStatusActivity::class.java)
