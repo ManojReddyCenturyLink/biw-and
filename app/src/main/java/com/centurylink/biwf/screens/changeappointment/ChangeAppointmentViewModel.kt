@@ -68,16 +68,30 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Init apis with dates - It initializes the Apis' with dates
+     *
+     * @param date - The date to request first slot
+     */
     private fun initApisWithDates(date: String) {
         viewModelScope.launch {
             getFirstRequestSlots(date)
         }
     }
 
+    /**
+     * Get first request slots
+     *
+     * @param date - The date to request appointment slots
+     */
     private suspend fun getFirstRequestSlots(date: String) {
         requestAppointmentSlots(date)
     }
 
+    /**
+     * Request appointment details - It will handle request appointment logic
+     *
+     */
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
@@ -89,6 +103,11 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request appointment slots - It will handle requested appointment slots logic through APIs'
+     *
+     * @param date - The date to request appointment slot
+     */
     private suspend fun requestAppointmentSlots(date: String) {
         val appointmentSlots = appointmentRepository
             .getAppointmentSlots(appointmentId, date)
@@ -104,7 +123,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     /**
      * On appointment selected date - It will handle appointment logic for selected date
      *
-     * @param date - returns selected date for appointment
+     * @param date - The selected date for appointment
      */
     fun onAppointmentSelectedDate(date: Date) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.DATE_TAP_CHANGE_APPOINTMENT)
@@ -161,6 +180,11 @@ class ChangeAppointmentViewModel @Inject constructor(
         splitSlots()
     }
 
+    /**
+     * Format input date - It is used to format date for appointment slots
+     *
+     * @param slots - The slots to be formatted
+     */
     private fun formatInputDate(slots: HashMap<String, List<String>>) {
         val sdf: DateFormat = SimpleDateFormat(DateUtils.STANDARD_FORMAT)
         slots.forEach { (key, value) ->
@@ -222,6 +246,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         return nextCallDate.before(lastCallDate)
     }
 
+    /**
+     * Reschedule appointment info - It will reschedule appointment information through APIs'
+     *
+     */
     private suspend fun rescheduleAppointmentInfo() {
         val rescheduleslots = appointmentRepository.modifyAppointmentInfo(rescheduleInfo)
         rescheduleslots.fold(ifLeft = {
@@ -235,6 +263,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Split slots - It is used to split slots according to arrival start time and end time
+     *
+     */
     private fun splitSlots() {
         val separatedSlots = appointmentSlots.split("-".toRegex()).map { it.trim() }
         val date12Format = SimpleDateFormat("hh:mm a")
@@ -247,6 +279,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         submitAppointment()
     }
 
+    /**
+     * Submit appointment
+     *
+     */
     private fun submitAppointment() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {

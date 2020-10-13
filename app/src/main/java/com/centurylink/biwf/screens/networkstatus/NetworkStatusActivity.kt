@@ -458,6 +458,10 @@ class NetworkStatusActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Display general error - It shows general error dialog popup
+     *
+     */
     private fun displayGeneralError(){
         GeneralErrorPopUp.showGeneralErrorDialog(
             fragmentManager,

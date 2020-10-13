@@ -92,6 +92,10 @@ class NetworkStatusViewModel @Inject constructor(
         modemStatusRefresh()
     }
 
+    /**
+     * Fetch password api - It will handle password fetching logic from API
+     *
+     */
     private fun fetchPasswordApi() {
         viewModelScope.launch {
             //fetch WifiRegular Network Password
@@ -110,6 +114,10 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Modem status refresh - It is used to refresh modem status depending on delay
+     *
+     */
     private fun modemStatusRefresh() {
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
@@ -137,7 +145,7 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     /**
-     * Guest network enablement - It will guest network enable and disable logic
+     * Guest network enablement - It will handle guest network enable and disable logic
      *
      */
     fun guestNetworkEnablement() {
@@ -156,6 +164,10 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request modem info - It is used handle modem request info logic
+     *
+     */
     private suspend fun requestModemInfo() {
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         progressViewFlow.latestValue = false
@@ -201,6 +213,10 @@ class NetworkStatusViewModel @Inject constructor(
             })
     }
 
+    /**
+     * Set offline network information - It will handle offline network information logic
+     *
+     */
     private fun setOfflineNetworkInformation() {
         val onlineStatus = OnlineStatus(false)
         internetStatusFlow.latestValue = onlineStatus
@@ -212,6 +228,14 @@ class NetworkStatusViewModel @Inject constructor(
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
     }
 
+    /**
+     * Set guest wifi info - It is used set guest wifi network info
+     *
+     * @param name - The guest wifi network name to be set
+     * @param pwd - The guest wifi network password to be set
+     * @param guestNetworkEnabled - The boolean value to set guest wifi network enable and disable
+     * @return - This will return updated guest network wifi view
+     */
     private fun setGuestWifiInfo(
         name: String, pwd: String,
         guestNetworkEnabled: Boolean
@@ -255,6 +279,14 @@ class NetworkStatusViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Set regular wifi info - It is used set regular wifi network info
+     *
+     * @param name - The regular wifi network name to be set
+     * @param pwd - The regular wifi network password to be set
+     * @param wifiNetworkEnabled - The boolean value to set regular wifi network enable and disable
+     * @return -  This will return updated regular wifi network view
+     */
     private fun setRegularWifiInfo(
         name: String, pwd: String,
         wifiNetworkEnabled: Boolean
@@ -401,6 +433,11 @@ class NetworkStatusViewModel @Inject constructor(
         return errors
     }
 
+    /**
+     * Request to get network password
+     *
+     * @param netWorkBand - Network Band to update network details through API call
+     */
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         netWorkInfo.fold( ifRight =
@@ -428,6 +465,10 @@ class NetworkStatusViewModel @Inject constructor(
             })
     }
 
+    /**
+     * Update passwords - It used to update regular and guest wifi network passwords
+     *
+     */
     private fun updatePasswords() {
         regularNetworkInstance =
             setRegularWifiInfo(existingWifiNwName, existingWifiPwd, regularNetworkEnabled)
@@ -438,6 +479,12 @@ class NetworkStatusViewModel @Inject constructor(
         networkInfoComplete = true
     }
 
+    /**
+     * Request to update net work password
+     *
+     * @param netWorkBand - Network Band types of the server.
+     * @param password - The password to be updated
+     */
     private suspend fun requestToUpdateNetWorkPassword(netWorkBand: NetWorkBand, password: String) {
         val netWorkInfo = wifiNetworkManagementRepository.updateNetworkPassword(
             netWorkBand,
@@ -455,6 +502,11 @@ class NetworkStatusViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Request to enable network
+     *
+     * @param netWorkBand - Network Band types of the server to request network enablement
+     */
     private suspend fun requestToEnableNetwork(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiStatusRepository.enableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
@@ -469,6 +521,11 @@ class NetworkStatusViewModel @Inject constructor(
             })
     }
 
+    /**
+     * Request to disable network
+     *
+     * @param netWorkBand -  Network Band types of the server to request  network disablement
+     */
     private suspend fun requestToDisableNetwork(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiStatusRepository.disableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
@@ -486,6 +543,13 @@ class NetworkStatusViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Update enable disable network
+     *
+     * @param netWorkBand -  Network Band types of the server to update network enablement and
+     * disablement
+     * @param isEnable  - The boolean value to update network enablement and disablement
+     */
     private fun updateEnableDisableNetwork(netWorkBand: NetWorkBand, isEnable: Boolean) {
         if (netWorkBand == NetWorkBand.Band5G || netWorkBand == NetWorkBand.Band2G) {
             regularNetworkEnabled = isEnable
@@ -501,6 +565,12 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request to update wifi network info
+     *
+     * @param netWorkBand - Network Band types of the server to update wifi network information
+     * @param networkName - Network name to be updated through network band
+     */
     private suspend fun requestToUpdateWifiNetworkInfo(
         netWorkBand: NetWorkBand,
         networkName: String
@@ -521,6 +591,10 @@ class NetworkStatusViewModel @Inject constructor(
                 )
     }
 
+    /**
+     * Submit data - It handles Updating Regular Network Name and Regular Network password
+     *
+     */
     private fun submitData() {
         viewModelScope.launch {
             // Update Regular Network NAme
