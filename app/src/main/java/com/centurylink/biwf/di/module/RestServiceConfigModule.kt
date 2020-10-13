@@ -30,10 +30,10 @@ import com.centurylink.biwf.service.network.SpeedTestService
 import com.centurylink.biwf.service.network.TestRestServices
 import com.centurylink.biwf.service.network.UserService
 import com.centurylink.biwf.service.network.WifiNetworkApiService
+import com.centurylink.biwf.service.network.WifiStatusService
 import com.centurylink.biwf.service.network.ZuoraPaymentService
 import com.centurylink.biwf.service.network.ZuoraSubscriptionApiService
 import com.centurylink.biwf.service.network.create
-import com.centurylink.biwf.service.network.*
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
