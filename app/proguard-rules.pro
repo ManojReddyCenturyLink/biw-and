@@ -208,10 +208,6 @@
 # Top-level functions that can only be used by Kotlin.
 -dontwarn retrofit2.-KotlinExtensions
 -dontwarn retrofit2.KotlinExtensions$*
-
-# A resource is loaded with a relative path so the package of this class must be preserved.
--keepnames class okhttp3.internal.publicsuffix.PublicSuffixDatabase
-
 ### Other
 -dontwarn com.google.errorprone.annotations.*
 
@@ -408,3 +404,49 @@ public static final *** NULL;
     @com.google.gson.annotations.SerializedName <fields>;
 }
 -keepclassmembernames class com.salesforce.androidsdk.auth.SalesforceTLSSocketFactory { *; }
+
+
+-keep class okio.** { *; }
+-dontwarn okio.**
+-keep class retrofit.** { *; }
+-dontwarn retrofit.**
+-keep class rx.** { *; }
+-dontwarn rx.**
+-keep class sdk.pendo.** { *; }
+-dontwarn sdk.pendo.**
+-keepattributes Signature
+-keep class sun.misc.Unsafe { *; }
+-dontwarn external.sdk.pendo.io.mozilla.**
+-dontwarn external.sdk.pendo.io.il.mozilla.**
+-dontwarn org.slf4j.**
+-dontwarn retrofit2.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
+-dontwarn com.jakewharton.rxbinding.**
+-keep class com.daimajia.easing.** { *; }
+-keep interface com.daimajia.easing.** { *; }
+-keep class external.sdk.pendo.io.mozilla.** { *; }
+-keep class external.sdk.pendo.io.il.mozilla.** { *; }
+-keep class org.apache.commons.lang3.** { *; }
+-keep class io.reactivex.** { *; }
+-dontwarn io.reactivex.**
+-keep class com.google.gson.** { *; }
+-dontwarn com.google.gson.**
+-keep class com.trello.rxlifecycle3.** { *; }
+-dontwarn com.trello.rxlifecycle3.**
+-keep class kotlin.jvm.internal.** { *; }
+-dontwarn kotlin.jvm.internal.**
+-keep class com.jayway.jsonpath.** { *; }
+-dontwarn com.jayway.jsonpath.**
+-keep class okhttp3.internal.platform.** { *; }
+-dontwarn okhttp3.internal.platform.**
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+    public void set*(...);
+}
+
+-keepnames public class * extends android.support.v4.app.Fragment
+-keepnames public class * extends android.app.Fragment
+-keepnames public class * extends androidx.fragment.**

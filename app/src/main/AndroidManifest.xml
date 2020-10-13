@@ -141,6 +141,20 @@
             </intent-filter>
         </activity>
 
+        <activity android:name="sdk.pendo.io.activities.PendoGateActivity" android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/APP_SCHEME"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="@string/APP_PUSH_IDENTIFIER" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service android:name=".service.impl.auth.AppAuthResponseService">
             <intent-filter>
                 <action android:name="com.centurylink.HANDLE_AUTHORIZATION_RESPONSE"/>

@@ -6,6 +6,7 @@ import androidx.work.Configuration
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.service.impl.workmanager.MainWorkerFactory
 import com.centurylink.biwf.utility.InitUtility
+import com.centurylink.biwf.utility.PendoUtil
 import com.jakewharton.threetenabp.AndroidThreeTen
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -30,6 +31,7 @@ open class BIWFApp : Application(), HasAndroidInjector, Configuration.Provider {
         //init Dagger dependency injection
         InitUtility.initDependencyInjection(this)
         navigator = Navigator()
+        PendoUtil.initPendoSDKWithoutVisitor(this)
     }
 
     override fun androidInjector(): AndroidInjector<Any> {

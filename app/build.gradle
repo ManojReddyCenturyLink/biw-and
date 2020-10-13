@@ -77,6 +77,9 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.dev.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.dev.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.dev.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.dev.pendo.APP_KEY\"")
+            resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
+            resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
         }
 //        qa {
 //            applicationIdSuffix ".qa"
@@ -93,6 +96,9 @@ android {
 //            buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.qa.live_chat.ORG_ID\"")
 //            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.qa.live_chat.DEPLOYMENT_ID\"")
 //            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.qa.live_chat.BUTTON_ID\"")
+//            buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.qa.pendo.APP_KEY\"")
+//        resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
+//        resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
 //        }
         sit {
             applicationIdSuffix ".sit"
@@ -109,7 +115,9 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.sit.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.sit.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.sit.live_chat.BUTTON_ID\"")
-
+            buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.sit.pendo.APP_KEY\"")
+            resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
+            resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
         }
         prod {
             dimension "environment"
@@ -125,6 +133,9 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.prod.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.prod.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.prod.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.prod.pendo.APP_KEY\"")
+            resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
+            resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
         }
     }
 
@@ -132,12 +143,15 @@ android {
         debug {
             //TODO will disable proguard before merging in master- this is just testing purpose
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
             def releaseMapsApiKey = getLocalProperty("release_maps_api_key")
             manifestPlaceholders = [mapsApiKey: "$releaseMapsApiKey"]
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -167,6 +181,11 @@ android {
         exclude 'license/*'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/license.txt'
+    }
+
+    lintOptions {
+        // but continue the build even when errors are found:
+        abortOnError false
     }
 }
 
@@ -260,6 +279,7 @@ dependencies {
 
     implementation "androidx.security:security-crypto:1.0.0-alpha02"
 
+    implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
