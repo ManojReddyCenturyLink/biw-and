@@ -320,4 +320,11 @@
     <string name="contact_info_select_phone_number_content">Which phone number would you like us to contact you on? </string>
     <string name="mobile">Mobile</string>
     <string name="enter_valid_phone_number_error">Please enter a valid phone number</string>
+    <string-array name="customer_care_options">
+        <item>I want to know more about Fiber Internet</item>
+        <item>I\'m having trouble signing up for Fiber Internet</item>
+        <item>I can\'t sign into my account</item>
+        <item>I have questions about my account</item>
+        <item>I need something not listed here</item>
+    </string-array>
 </resources>
