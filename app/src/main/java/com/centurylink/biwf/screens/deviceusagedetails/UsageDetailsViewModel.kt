@@ -92,7 +92,7 @@ class UsageDetailsViewModel constructor(
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
     var macAfeeDeviceId: String = ""
-    private lateinit var deviceData: DevicesData
+    private var deviceData: DevicesData = DevicesData()
     var pauseUnpauseConnection = EventFlow<DevicesData>()
     var mcAfeedeviceList: List<DevicesItem> = emptyList()
     var mcAfeedeviceNames: ArrayList<String> = ArrayList()
@@ -126,7 +126,7 @@ class UsageDetailsViewModel constructor(
      *
      */
     fun onDevicesConnectedClicked() {
-        if (deviceData.isPaused) {
+        if (deviceData?.isPaused) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS)
         } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_DETAILS)
@@ -146,6 +146,60 @@ class UsageDetailsViewModel constructor(
         }
     }
 
+    /**
+     * Remove devices - it will handle the remove devices logic
+     *
+     * @param stationMac
+     */
+    fun removeDevices(stationMac: String) {
+        viewModelScope.launch {
+            progressViewFlow.latestValue = true
+            invokeBlockedDevice(stationMac)
+        }
+    }
+
+    /**
+     * On done btn click - It handles the done button click logic
+     *
+     * @param nickname
+     */
+    fun onDoneBtnClick(nickname: String) {
+        if (nickname.isNotEmpty() && nickname != deviceData.mcAfeeName) {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
+            progressViewFlow.latestValue = true
+            viewModelScope.launch {
+                 val distinctName = ModemUtils.generateNewNickName(nickname.trim(),mcAfeedeviceNames)
+                updateDeviceName(deviceData.mcAfeeDeviceType, distinctName, deviceData.mcafeeDeviceId)
+            }
+        } else {
+            showErrorPopup.latestValue = false
+        }
+    }
+
+    /**
+     * Log remove connection - it handles related to usage details cancellation analytics
+     *
+     * @param removeConnection
+     */
+    fun logRemoveConnection(removeConnection: Boolean) {
+        if (removeConnection) {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVE_CONFIRMATION_USAGE_DETAILS)
+        } else {
+            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CONFIRMATION_USAGE_DETAILS)
+        }
+    }
+
+    /**
+     * Validate input- it will do validation for the provided string
+     * @param nickname name to validated
+     * @return - it returns the formatted string
+     */
+    fun validateInput(nickname: String): Boolean {
+        val specialCharacter: Pattern = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~.]")
+        val hasSpecial: Matcher = specialCharacter.matcher(nickname)
+        return hasSpecial.find()
+    }
+
     private suspend fun requestDailyUsageDetails() {
         try {
             val result = networkUsageRepository.getUsageDetails(true, staMac)
@@ -160,7 +214,6 @@ class UsageDetailsViewModel constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_USAGE_DETAILS_DAILY_FAILURE)
             errorMessageFlow.latestValue = e.toString()
         }
-
     }
 
     private suspend fun requestMonthlyUsageDetails() {
@@ -206,91 +259,6 @@ class UsageDetailsViewModel constructor(
         }
     }
 
-    /**
-     * Remove devices - it will handle the remove devices logic
-     *
-     * @param stationMac
-     */
-    fun removeDevices(stationMac: String) {
-        viewModelScope.launch {
-            progressViewFlow.latestValue = true
-            invokeBlockedDevice(stationMac)
-        }
-    }
-
-    private suspend fun invokeBlockedDevice(stationMac: String) {
-        val blockInfo = assiaRepository.blockDevices(stationMac)
-        progressViewFlow.latestValue = false
-        blockInfo.fold(
-            ifRight = {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_SUCCESS)
-                removeDevices.latestValue = true
-            },
-            ifLeft = {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_FAILURE)
-                errorMessageFlow.latestValue = "Error DeviceInfo"
-            }
-        )
-    }
-
-    /**
-     * On done btn click - It handles the done button click logic
-     *
-     * @param nickname
-     */
-    fun onDoneBtnClick(nickname: String) {
-        if (nickname.isNotEmpty() && nickname != deviceData.mcAfeeName) {
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
-            progressViewFlow.latestValue = true
-            viewModelScope.launch {
-                 val distinctName = ModemUtils.generateNewNickName(nickname.trim(),mcAfeedeviceNames)
-                updateDeviceName(deviceData.mcAfeeDeviceType, distinctName, deviceData.mcafeeDeviceId)
-            }
-        } else {
-            showErrorPopup.latestValue = false
-        }
-    }
-
-    private suspend fun fetchMcDevicesNames() {
-        val result = mcafeeRepository.fetchDeviceDetails()
-        result.fold(ifLeft = {
-            Timber.e("Mcafee Device List Error ")
-        }, ifRight = { devicesItemList ->
-            mcAfeedeviceList = devicesItemList
-            mcAfeedeviceNames = ArrayList(devicesItemList.map { it.name }.toMutableList())
-        })
-    }
-
-    private suspend fun updateDeviceName(
-        deviceType: String,
-        nickname: String,
-        id: String
-    ) {
-        val result = mcafeeRepository.updateDeviceName(deviceType, nickname, id)
-        result.fold(
-            ifLeft = {
-                progressViewFlow.latestValue = false
-                showErrorPopup.latestValue = true
-            },
-            ifRight = {
-                progressViewFlow.latestValue = false
-                showErrorPopup.latestValue = false
-            })
-    }
-
-    /**
-     * Log remove connection - it handles related to usage details cancellation analytics
-     *
-     * @param removeConnection
-     */
-    fun logRemoveConnection(removeConnection: Boolean) {
-        if (removeConnection) {
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVE_CONFIRMATION_USAGE_DETAILS)
-        } else {
-            analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_CANCEL_CONFIRMATION_USAGE_DETAILS)
-        }
-    }
-
     private fun updatePauseResumeStatus() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
@@ -315,6 +283,44 @@ class UsageDetailsViewModel constructor(
         }
     }
 
+    private suspend fun invokeBlockedDevice(stationMac: String) {
+        val blockInfo = assiaRepository.blockDevices(stationMac)
+        progressViewFlow.latestValue = false
+        blockInfo.fold(
+            ifRight = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_SUCCESS)
+                removeDevices.latestValue = true
+            },
+            ifLeft = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_FAILURE)
+                errorMessageFlow.latestValue = "Error DeviceInfo"
+            }
+        )
+    }
+
+    private suspend fun fetchMcDevicesNames() {
+        val result = mcafeeRepository.fetchDeviceDetails()
+        result.fold(ifLeft = {
+            Timber.e("Mcafee Device List Error ")
+        }, ifRight = { devicesItemList ->
+            mcAfeedeviceList = devicesItemList
+            mcAfeedeviceNames = ArrayList(devicesItemList.map { it.name }.toMutableList())
+        })
+    }
+
+    private suspend fun updateDeviceName(deviceType: String, nickname: String, id: String) {
+        val result = mcafeeRepository.updateDeviceName(deviceType, nickname, id)
+        result.fold(
+            ifLeft = {
+                progressViewFlow.latestValue = false
+                showErrorPopup.latestValue = true
+            },
+            ifRight = {
+                progressViewFlow.latestValue = false
+                showErrorPopup.latestValue = false
+            })
+    }
+
     private suspend fun requestStateForDevices() {
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(macAfeeDeviceId)
         mcafeeMapping.fold(ifLeft = {
@@ -332,16 +338,5 @@ class UsageDetailsViewModel constructor(
             pauseUnpauseConnection.latestValue = deviceData
             progressViewFlow.latestValue = false
         }
-    }
-
-    /**
-     * Validate input- it will do validation for the provided string
-     * @param nickname name to validated
-     * @return - it returns the formatted string
-     */
-    fun validateInput(nickname: String): Boolean {
-        val specialCharacter: Pattern = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~.]")
-        val hasSpecial: Matcher = specialCharacter.matcher(nickname)
-        return hasSpecial.find()
     }
 }

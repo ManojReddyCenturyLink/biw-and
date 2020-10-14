@@ -7,6 +7,7 @@ import com.centurylink.biwf.model.assia.AssiaToken
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.BlockResponse
+import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.mcafee.DevicePauseStatus
 import com.centurylink.biwf.model.mcafee.DevicesMapping
@@ -65,12 +66,15 @@ class DevicesViewModelTest : ViewModelBaseTest() {
 
     private lateinit var devicesMapping: DevicesMapping
 
+    private lateinit var deviceData: DevicesData
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         devicesInfo = fromJson(readJson("devicedetails.json"))
         modemInfoResponse = fromJson(readJson("lineinfo.json"))
         devicesMapping = fromJson(readJson("device-mapping.json"))
+        deviceData = fromJson(readJson("devicedata.json"))
         assiaToken = AssiaToken("", "", "")
         viewModel = DevicesViewModel(
             devicesRepository = devicesRepository,
@@ -181,6 +185,20 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                 viewModel.logListExpandCollapse()
             }
         }
+    }
+
+    @Test
+    fun testLogScreenLaunch() {
+        runBlockingTest {
+            launch {
+                viewModel.logScreenLaunch()
+            }
+        }
+    }
+
+    @Test
+    fun testUpdatePauseResumeStatus() {
+                viewModel.updatePauseResumeStatus(deviceData)
     }
 
     @Test

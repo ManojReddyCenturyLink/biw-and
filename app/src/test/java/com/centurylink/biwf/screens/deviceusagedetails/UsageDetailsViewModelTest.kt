@@ -6,7 +6,9 @@ import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesData
+import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.mcafee.DevicePauseStatus
+import com.centurylink.biwf.model.mcafee.DevicesItem
 import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
@@ -43,7 +45,10 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     private lateinit var analyticsManagerInterface: AnalyticsManager
 
     @MockK
-    private lateinit var deviceData : DevicesData
+    private lateinit var deviceData: DevicesData
+
+    @MockK
+    private lateinit var devicesInfo: DevicesInfo
 
     @get:Rule
     var coroutinesTestRule = TestCoroutineRule()
@@ -51,7 +56,8 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-        deviceData = fromJson(readJson("devicedata.json"))
+        devicesInfo = fromJson(readJson("devicedetails.json"))
+        coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         run { analyticsManagerInterface }
         viewModel = UsageDetailsViewModel(
             app = BIWFApp(),
@@ -66,23 +72,28 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     @Test
     fun requestDailyUsageDetailsApiCall() =
         runBlockingTest {
+            var devicesItem = DevicesItem(
+                os = null,osVersion = "",name = "",cspClientId = "",deviceType = "",enforcementType = emptyList(),id = "",manufacturer = ""
+            )
             launch {
+                coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Right(listOf(devicesItem))
                 viewModel.initApis()
             }
         }
 
     @Test
     fun testDailyUsageDetailsApiCall() {
-        val networkTrafficUnits : NetworkTrafficUnits
         runBlockingTest {
+            val usageDetailsRes =  UsageDetails(
+                downloadTraffic = 100.00,
+                downloadTrafficUnit = NetworkTrafficUnits.MB_DOWNLOAD,
+                uploadTraffic = 100.00,
+                uploadTrafficUnit = NetworkTrafficUnits.MB_UPLOAD
+            )
             launch {
-                coEvery { networkUsageRepository.getUsageDetails(true, "")} returns
-                    UsageDetails(
-                        downloadTraffic = 0.0,
-                        downloadTrafficUnit = NetworkTrafficUnits.MB_DOWNLOAD,
-                        uploadTraffic = 0.0,
-                        uploadTrafficUnit =  NetworkTrafficUnits.MB_UPLOAD
-                   )
+                try {
+                    coEvery { networkUsageRepository.getUsageDetails(true, "") } returns usageDetailsRes
+                }catch (e: Exception){}
                 viewModel.initApis()
             }
         }
@@ -92,10 +103,11 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testRequestStateForDevicesSuccess() {
         runBlockingTest {
             launch {
-                coEvery { mcafeeRepository.getDevicePauseResumeStatus("")} returns Either.Right(
+                coEvery { mcafeeRepository.getDevicePauseResumeStatus("") } returns Either.Right(
                     DevicePauseStatus(
                         isPaused = false,
-                        deviceId = "")
+                        deviceId = "00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF"
+                    )
                 )
                 viewModel.initApis()
             }
@@ -106,23 +118,40 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testRequestStateForDevicesFailure() {
         runBlockingTest {
             launch {
-                coEvery { assiaRepository.blockDevices("")} returns Either.Left("")
+                coEvery { assiaRepository.blockDevices("") } returns Either.Left("")
                 viewModel.initApis()
             }
         }
     }
 
+    @Test
+    fun testOnDevicesConnectedClicked() {
+        deviceData = fromJson(readJson("devicedata.json"))
+        viewModel.onDevicesConnectedClicked()
+    }
+
+    @Test
+    fun testOnDevicesConnectedPausedStatus() {
+        deviceData = fromJson(readJson("device-data.json"))
+        viewModel.onDevicesConnectedClicked()
+    }
+
+    @Test
+    fun testValidateInput() {
+        viewModel.validateInput("Vini123")
+    }
 
     @Test
     fun testInvokeBlockedDevicesSuccess() {
         runBlockingTest {
             launch {
-                coEvery { assiaRepository.blockDevices("")} returns Either.Right(
-                BlockResponse(
-                    code = Constants.ERROR_CODE_1064,
-                    message = "",
-                    data = ""
-                ))
+                coEvery { assiaRepository.blockDevices("") } returns Either.Right(
+                    BlockResponse(
+                        code = Constants.ERROR_CODE_1064,
+                        message = "",
+                        data = ""
+                    )
+                )
                 viewModel.removeDevices("stationMac")
             }
         }
@@ -140,12 +169,20 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testUpdatePauseResumeStatusSuccess() {
+        deviceData = fromJson(readJson("devicedata.json"))
         runBlockingTest {
             launch {
-                coEvery { mcafeeRepository.updateDevicePauseResumeStatus("", !deviceData.isPaused)} returns Either.Right(
+                coEvery {
+                    mcafeeRepository.updateDevicePauseResumeStatus(
+                        "",
+                        !deviceData.isPaused
+                    )
+                } returns Either.Right(
                     DevicePauseStatus(
                         isPaused = true,
-                        deviceId= ""))
+                        deviceId = ""
+                    )
+                )
                 viewModel.initApis()
             }
         }
@@ -153,9 +190,15 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testUpdatePauseResumeStatusFailure() {
+        deviceData = fromJson(readJson("devicedata.json"))
         runBlockingTest {
             launch {
-                coEvery { mcafeeRepository.updateDevicePauseResumeStatus("", !deviceData.isPaused)} returns Either.Left("")
+                coEvery {
+                    mcafeeRepository.updateDevicePauseResumeStatus(
+                        "",
+                        !deviceData.isPaused
+                    )
+                } returns Either.Left("")
                 viewModel.initApis()
             }
         }
@@ -171,7 +214,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun logAnalytics() {
-        viewModel.onDoneBtnClick("")
+        viewModel.onDoneBtnClick("vini1234")
         viewModel.onRemoveDevicesClicked()
         viewModel.logRemoveConnection(true)
         viewModel.logRemoveConnection(false)

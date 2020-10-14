@@ -321,9 +321,7 @@ class DevicesViewModel @Inject constructor(
     fun updatePauseResumeStatus(deviceData: DevicesData) {
         viewModelScope.launch {
             when (deviceData.deviceConnectionStatus) {
-                DeviceConnectionStatus.FAILURE,
-                DeviceConnectionStatus.DEVICE_CONNECTED,
-                DeviceConnectionStatus.PAUSED -> {
+                DeviceConnectionStatus.FAILURE, DeviceConnectionStatus.DEVICE_CONNECTED, DeviceConnectionStatus.PAUSED -> {
                     var deviceId = deviceData.mcafeeDeviceId
                     updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.LOADING)
                     if (!deviceId.isNullOrEmpty()) {

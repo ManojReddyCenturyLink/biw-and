@@ -1,5 +1,5 @@
 {
-  "isPaused": true,
+  "isPaused": false,
   "stationMac": "8C:85:90:AC:B7:15",
   "hostname": "AMAC02W31TBHTD8",
   "vendorName": "APPLE",
@@ -22,13 +22,5 @@
   },
   "maxSpeed": {
   },
-  "deviceConnectionStatus": "PAUSED"
+  "deviceConnectionStatus": "MODEM_OFF"
 }
-
-
-
-
-
-
-
-
