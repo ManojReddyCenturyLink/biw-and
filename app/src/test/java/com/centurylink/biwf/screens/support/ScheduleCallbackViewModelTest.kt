@@ -58,7 +58,7 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     @Test
     fun onItemClicked_navigateToAdditionalInfoActivity() = runBlockingTest {
         launch {
-            viewModel.navigateAdditionalInfoScreen(dummyList[3])
+            viewModel.navigateAdditionalInfoScreen(dummyList[3], 3)
         }
 
         Assert.assertEquals(
