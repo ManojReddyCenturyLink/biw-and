@@ -27,6 +27,7 @@ This document describes the setup and patterns used by this project implementing
 - [Style Guidelines](#style-guidelines)
 - [Linting](#linting)
 - [Notes](#notes)
+- [Api Sequence Diagram](#api-sequence-diagram)
 
 ## Building
 Building this project locally on a development environment does not need any special configuration. Import the project into Android Studio and let it sync. A plain build after that is enough.
@@ -353,3 +354,7 @@ Run `./gradlew ktlintTestSourceSetFormat` in the terminal.
 We did not include the library for Functional Programming for Kotlin called **Arrow**. Currently, we only use the sum-type `Either` and including the Arrow library would bring in too much code. Instead, we opted to implemented our own version of `Either`, closely matching the one from Arrow.
 
 This README.md document is a living document and it is only a guideline. When things change, are re-thought, please don't forget to update this document as well to make our devs' lives a little easier. Thank you!
+
+## Api Sequence Diagram
+
+![Api Sequence Diagram](AccountAPIsequencediagram.png)
