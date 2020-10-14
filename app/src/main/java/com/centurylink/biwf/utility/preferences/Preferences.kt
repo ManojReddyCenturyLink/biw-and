@@ -71,14 +71,12 @@ class Preferences(private val store: KeyValueStore) {
     }
 
     fun getLineId(): String {
-
-        // TODO - Uncomment when DTN Salesforce issue is resolved
-//        var lineId = store.get(LINE_ID)
-//        if (lineId.isNullOrEmpty()) {
-//            lineId = "0101100408"
-//        }
-
-        return "C4000XG1950000308"
+        var lineId = store.get(LINE_ID)
+        // TODO This needs to be removed before launch
+        if (lineId.isNullOrEmpty()) {
+            lineId = "1000365443"
+        }
+        return lineId
     }
 
     private fun removeLineId() {
