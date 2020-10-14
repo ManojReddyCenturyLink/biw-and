@@ -71,13 +71,12 @@ class SelectTimeViewModel @Inject constructor(
                        additionalInfo: String
     ) {
         scheduleCallbackFlow.latestValue = true
-        val customerCare = context.resources.getStringArray(R.array.customer_care_options)
         viewModelScope.launch {
             supportServiceInfo(SupportServicesReq(
                 preferences.getValueByID(Preferences.USER_ID),
                 phoneNumber,
                 ASAP,
-                customerCare[Integer.parseInt(customerCareOption)],
+                customerCareOption,
                 ASAP,
                 fullDateAndTime,
                 additionalInfo
