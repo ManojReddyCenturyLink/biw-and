@@ -167,23 +167,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
-        coEvery { mockAssiaRepository.startSpeedTest()} returns  Either.Right(
-            SpeedTestRequestResult(
-                code = 0,
-                message="",
-                speedTestId=0
-            )
-        )
-        coEvery { mockAssiaRepository.checkSpeedTestStatus(0)  } returns Either.Right(
-            SpeedTestStatus(
-                code = 0,
-                message="",
-                data = SpeedTestStatusNestedResults(currentStep="",isFinished=true)
-            )
-        )
         speedTestResponse = fromJson(readJson("speedtest-response.json"))
-        coEvery { mockAssiaRepository. getUpstreamResults()} returns  Either.Right(speedTestResponse)
-        coEvery { mockAssiaRepository. getDownstreamResults()} returns  Either.Right(speedTestResponse)
         modemInfo = fromJson(readJson("modemInfo.json"))
         coEvery { mockOAuthAssiaRepository.getModemInfo() } returns  Either.Right(modemInfo)
         viewModel = DashboardViewModel(

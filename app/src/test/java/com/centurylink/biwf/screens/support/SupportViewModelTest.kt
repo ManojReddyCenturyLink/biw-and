@@ -60,21 +60,6 @@ class SupportViewModelTest : ViewModelBaseTest() {
         speedTestResponse = fromJson(readJson("speedtest-response.json"))
         coEvery { mockFAQRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
         coEvery { mockFAQRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
-        coEvery { mockAssiaRepository.startSpeedTest()} returns  Either.Right(
-            SpeedTestRequestResult(
-                code = 0,
-                message="",
-                speedTestId=0
-            )
-        )
-        coEvery { mockAssiaRepository.checkSpeedTestStatus(0)  } returns Either.Right(
-            SpeedTestStatus(
-                code = 0,
-                message="",
-                data = SpeedTestStatusNestedResults(currentStep="",isFinished=true))
-        )
-        coEvery { mockAssiaRepository. getUpstreamResults()} returns  Either.Right(speedTestResponse)
-        coEvery { mockAssiaRepository. getDownstreamResults()} returns  Either.Right(speedTestResponse)
         run { analyticsManagerInterface }
         viewModel = SupportViewModel(
             faqRepository = mockFAQRepository,
@@ -85,18 +70,6 @@ class SupportViewModelTest : ViewModelBaseTest() {
             analyticsManagerInterface = analyticsManagerInterface,
             speedTestRepository= speedTestRepository
         )
-    }
-
-    @Test
-    fun testFailures(){
-        runBlockingTest {
-            coEvery { mockAssiaRepository.startSpeedTest()} returns  Either.Left(
-                ""
-                )
-            coEvery { mockAssiaRepository.checkSpeedTestStatus(0)  } returns Either.Left(
-                ""
-            )
-        }
     }
 
     @Test
@@ -112,7 +85,7 @@ class SupportViewModelTest : ViewModelBaseTest() {
                 Assert.assertNotNull(analyticsManagerInterface)
                 viewModel.logDoneButtonClick()
                 viewModel.logLiveChatLaunch()
-                viewModel.launchScheduleCallback()
+                viewModel.launchScheduleCallback(false)
                 viewModel.startSpeedTest()
             }
         }
