@@ -37,7 +37,6 @@ class SelectTimeViewModel @Inject constructor(
     val callbackTimeUpdateEvent: EventLiveData<String> = MutableLiveData()
     private var nextDay: Boolean = false
     var isScheduleCallbackSuccessful = EventFlow<Boolean>()
-    private lateinit var customerCare: String
 
     init {
         isScheduleCallbackSuccessful.latestValue = false
@@ -72,21 +71,13 @@ class SelectTimeViewModel @Inject constructor(
                        additionalInfo: String
     ) {
         scheduleCallbackFlow.latestValue = true
-        val custom = context.resources.getStringArray(R.array.customer_care_options)
-        customerCare = when (customerCareOption) {
-            "0" -> custom[0]
-            "1" -> custom[1]
-            "2" -> custom[2]
-            "3" -> custom[3]
-            else -> custom[4]
-
-        }
+        val customerCare = context.resources.getStringArray(R.array.customer_care_options)
         viewModelScope.launch {
             supportServiceInfo(SupportServicesReq(
                 preferences.getValueByID(Preferences.USER_ID),
                 phoneNumber,
                 ASAP,
-                customerCare,
+                customerCare[Integer.parseInt(customerCareOption)],
                 ASAP,
                 fullDateAndTime,
                 additionalInfo
