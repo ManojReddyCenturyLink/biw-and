@@ -125,11 +125,13 @@
     <string name="contact_info">Contact info</string>
     <string name="select_time_heading">When would you like us to call? </string>
     <string name="next_available_time_label">Next available time</string>
-    <string name="next_available_time_subtext">most people recieve a call within 15 minutes</string>
+    <string name="next_available_time_subtext">most people receive a call within 15 minutes</string>
     <string name="specific_callback_time_label">I want to pick a specific time</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
     <string name="call_me">Call me</string>
+    <string name="email_question_popup_heading">Why do you need my email?</string>
+    <string name="email_question_popup_text">We ask for your email to ensure we can get in contact with you in the case that your phone number does not work or was entered incorrectly. </string>
 
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>

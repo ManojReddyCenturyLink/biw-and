@@ -31,10 +31,10 @@ class ScheduleCallbackViewModel @Inject constructor(
         myState.latestValue = ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
     }
 
-    fun navigateAdditionalInfoScreen(item: TopicList) {
+    fun navigateAdditionalInfoScreen(item: TopicList, position: Int) {
         analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.LIST_ITEM_SCHEDULE_CALLBACK)
         ScheduleCallbackCoordinatorDestinations.bundle = Bundle().apply {
-            putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
+            putString(AdditionalInfoActivity.ADDITIONAL_INFO, position.toString())
             putBoolean(AdditionalInfoActivity.IS_EXISTING_USER, isExistingUserState)
         }
         myState.latestValue = ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO

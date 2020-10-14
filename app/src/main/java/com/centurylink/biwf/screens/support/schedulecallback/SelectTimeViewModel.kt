@@ -9,6 +9,7 @@ import com.centurylink.biwf.repos.SupportRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.EventLiveData
+import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -19,6 +20,7 @@ import javax.inject.Inject
 class SelectTimeViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager,
+    private val preferences: Preferences,
     private val supportRepository: SupportRepository
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
@@ -33,6 +35,7 @@ class SelectTimeViewModel @Inject constructor(
     val callbackTimeUpdateEvent: EventLiveData<String> = MutableLiveData()
     private var nextDay: Boolean = false
     var isScheduleCallbackSuccessful = EventFlow<Boolean>()
+    private lateinit var customerCare: String
 
     init {
         isScheduleCallbackSuccessful.latestValue = false
@@ -59,10 +62,17 @@ class SelectTimeViewModel @Inject constructor(
     }
 
 
-    fun supportService(userId: String, phoneNumber: String, ASAP: String, customerCareOption: String, fullDateAndTime: String, additionalInfo: String) {
+    fun supportService(phoneNumber: String, ASAP: String, customerCareOption: String, fullDateAndTime: String, additionalInfo: String) {
         scheduleCallbackFlow.latestValue = true
+        customerCare = when(customerCareOption) {
+            "0" -> "I want to know more about Fiber Internet"
+            "1" -> "I'm having trouble signing up for Fiber Internet"
+            "2" -> "I can't sign into my account"
+            "3" -> "I have questions about my account"
+            else -> "I need something not listed here"
+        }
         viewModelScope.launch {
-            supportServiceInfo(SupportServicesReq(userId, phoneNumber, ASAP, customerCareOption, ASAP, fullDateAndTime, additionalInfo))
+            supportServiceInfo(SupportServicesReq(preferences.getValueByID(Preferences.USER_ID), phoneNumber, ASAP, customerCare, ASAP, fullDateAndTime, additionalInfo))
         }
     }
 
@@ -114,7 +124,10 @@ class SelectTimeViewModel @Inject constructor(
         } else if (localTimeMinutes in 30..44) {
             localTimeMinutesFinal = 45
             localTimeHoursFinal = localTimeHours
-        } else if (localTimeMinutes in 45..59 && localTimeHours != 11) {
+        } else if(localTimeMinutes in 45..59 && localTimeHours == 12) {
+            localTimeMinutesFinal = 0
+            localTimeHoursFinal = 1
+        } else if (localTimeMinutes in 45..59 && localTimeHours != 11 && localTimeHours !=12) {
             localTimeMinutesFinal = 0
             localTimeHoursFinal = localTimeHours + 1
         } else if (localTimeMinutes in 45..59 && localTimeHours == 11 && amPm == "AM") {
@@ -150,7 +163,7 @@ class SelectTimeViewModel @Inject constructor(
         val selectedMin = time.substring(3, 5)
         val selectedAMPM = time.substring(5)
         if (selectedAMPM == "PM" && selectedHour != 12) {
-            selectedHour = selectedHour + 12
+            selectedHour += 12
         } else if(selectedAMPM == "AM" && selectedHour == 12) {
             selectedHour = 0
         }
@@ -161,9 +174,8 @@ class SelectTimeViewModel @Inject constructor(
             selectedHourString = ("0").plus(selectedHourString)
         }
 
-        val fullDateAndTime = selectedYear.plus("-").plus(selectedMonth).plus("-").plus(selectedDate)
+        return selectedYear.plus("-").plus(selectedMonth).plus("-").plus(selectedDate)
             .plus(" ").plus(selectedHourString).plus(":").plus(selectedMin).plus(":").plus("00")
-        return fullDateAndTime
     }
 
     fun getDefaultDateSlot(): String {
