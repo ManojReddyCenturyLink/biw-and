@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.cases
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Model class for records info
+ */
 data class RecordId(
     @SerializedName("totalSize")
     @Expose

@@ -7,6 +7,11 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.wifi.NetWorkBand
 import java.util.regex.Pattern
 
+/**
+ * Modem utils - It handles to set network information
+ *
+ * @constructor Create empty Modem utils
+ */
 class ModemUtils {
     companion object {
         private val PAT_FILE_NAME: Pattern = Pattern.compile(

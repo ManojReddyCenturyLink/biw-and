@@ -83,6 +83,16 @@
             android:theme="@style/AppTheme.GreyStatusBar"
             tools:ignore="LockedOrientationActivity" />
         <activity
+            android:name=".screens.support.schedulecallback.SelectTimeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.GreyStatusBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
+            android:name=".screens.support.schedulecallback.ContactInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.GreyStatusBar"
+            tools:ignore="LockedOrientationActivity" />
+        <activity
             android:name=".screens.cancelsubscription.CancelSubscriptionDetailsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
@@ -128,6 +138,20 @@
 
                 <!-- Redirect Uri WITHOUT any host or path information -->
                 <data android:scheme="myapp"/>
+            </intent-filter>
+        </activity>
+
+        <activity android:name="sdk.pendo.io.activities.PendoGateActivity" android:launchMode="singleInstance">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="@string/APP_SCHEME"
+                    tools:ignore="AppLinkUrlError" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="@string/APP_PUSH_IDENTIFIER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

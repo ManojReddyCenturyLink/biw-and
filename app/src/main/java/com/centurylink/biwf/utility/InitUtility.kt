@@ -31,6 +31,7 @@ private val authServiceConfig = AuthServiceConfigModule(
 
 private val restServiceConfig = RestServiceConfigModule(
     baseUrlFiberServices = EnvironmentPath.getSalesForceVersionURl(),
+    baseUrlSupportServices = EnvironmentPath.getSalesForceBaseURl(),
     baseUrlForAwsBucket = EnvironmentPath.AWS_BASE_URL,
     baseUrlForAssiaServices = EnvironmentPath.ASSIA_BASE_URL,
     baseUrlForMcafeeServices = EnvironmentPath.getApigeeVersionUrl(),

@@ -10,6 +10,13 @@ import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
+import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.AppointmentRepository
+import com.centurylink.biwf.repos.AssiaRepository
+import com.centurylink.biwf.repos.DevicesRepository
+import com.centurylink.biwf.repos.NotificationRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
+import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
 import com.centurylink.biwf.model.speedtest.SpeedTestResponse
 import com.centurylink.biwf.model.speedtest.SpeedTestStatus
@@ -17,6 +24,7 @@ import com.centurylink.biwf.model.speedtest.SpeedTestStatusNestedResults
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
+import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.screens.notification.NotificationActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -46,6 +54,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     lateinit var accountRepository: AccountRepository
 
     @MockK
+    lateinit var speedTestRepository: SpeedTestRepository
+
+    @MockK
     lateinit var modemRebootMonitorService: ModemRebootMonitorService
 
     @MockK
@@ -53,6 +64,11 @@ class DashboardViewModelTest : ViewModelBaseTest() {
 
     @MockK
     lateinit var wifiNetworkManagementRepository: WifiNetworkManagementRepository
+
+    @MockK
+    lateinit var wifiStatusRepository: WifiStatusRepository
+
+
 
     @MockK
     lateinit var mockPreferences: Preferences
@@ -179,8 +195,10 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             devicesRepository = devicesRepository,
             accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
+            wifiStatusRepository = wifiStatusRepository,
             modemRebootMonitorService = modemRebootMonitorService,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            speedTestRepository = speedTestRepository
         )
     }
 
@@ -246,8 +264,10 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             devicesRepository = devicesRepository,
             accountRepository = accountRepository,
             wifiNetworkManagementRepository = wifiNetworkManagementRepository,
+            wifiStatusRepository = wifiStatusRepository,
             modemRebootMonitorService = modemRebootMonitorService,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            speedTestRepository = speedTestRepository
         )
         runBlockingTest {
             val method = viewModel.javaClass.getDeclaredMethod(

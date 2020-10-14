@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.subscription
 import com.google.gson.annotations.SerializedName
 import java.util.*
 
+/**
+ * Data class for records details
+ */
 class Records(
     @SerializedName("Id")
     val id: String = "",

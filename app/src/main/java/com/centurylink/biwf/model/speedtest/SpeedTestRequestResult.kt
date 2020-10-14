@@ -9,5 +9,7 @@ data class SpeedTestRequestResult(
     @SerializedName("message")
     val message: String = "",
     @SerializedName("data")
-    val speedTestId: Int = 0
+    val speedTestId: String = "",
+    @SerializedName("success")
+    val success: Boolean = false
 ) : Serializable

@@ -6,7 +6,6 @@ import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
 import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
-
 import com.centurylink.biwf.service.network.AssiaTrafficUsageService
 import com.centurylink.biwf.service.network.IntegrationRestServices
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -15,6 +14,18 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.roundToInt
 
+/**
+ * This class interacts with AssiaTrafficUsageService API . This Repository class
+ * gets the data from the network . It handles all the Traffic usage related information from the CloudCheck API
+ * backend  and the View models can consume the Traffic  related information and display in the Activity
+ * or Fragments.
+ *
+ * @property assiaTokenManager - The Asia Token Manager instance
+ * @property assiaTrafficUsageService - AssiaTraffic Usage Service API.
+ * @property integrationRestServices - Local Integration Server instance.
+ * @property preferences preference Instance for storing the value in shared preferences.
+ * @constructor Create  Network usage repository
+ */
 @Singleton
 class NetworkUsageRepository @Inject constructor(
     private val assiaTokenManager: AssiaTokenManager,
@@ -22,6 +33,13 @@ class NetworkUsageRepository @Inject constructor(
     private val integrationRestServices: IntegrationRestServices,
     private val preferences: Preferences
 ) {
+    /**
+     * Get usage details of a Devices from the Backend.
+     *
+     * @param dailyData Boolean to get the daily data from the server.
+     * @param staMac The Station mac Address of the
+     * @return UsageDetails instance.
+     */
     suspend fun getUsageDetails(dailyData: Boolean, staMac: String): UsageDetails {
         val startDate: String
         val endDate: String
@@ -32,15 +50,14 @@ class NetworkUsageRepository @Inject constructor(
             startDate = LocalDate.now().minusDays(15).toString().plus("T00:00:00-0000")
             endDate = LocalDate.now().minusDays(1).toString().plus("T00:00:00-0000")
         }
-        val result = assiaTrafficUsageService.getUsageDetails(
-            getHeaderMap(assiaTokenManager.getAssiaToken(), staMac, startDate, endDate)
-        )
-
+        val headerMap = mutableMapOf<String, String>()
+            headerMap["From"] = "mobile"
+        val result = assiaTrafficUsageService.getUsageDetails(headerMap, preferences.getAssiaId(),startDate,staMac)
         return result.fold(
             ifRight = {
                 formatTrafficUsageResponse(it)
             },
-            ifLeft =   {
+            ifLeft = {
                 throw IllegalStateException("Cannot read value")
             }
         )
@@ -62,6 +79,12 @@ class NetworkUsageRepository @Inject constructor(
         return headerMap
     }
 
+    /**
+     * Format traffic usage response from the server to the format UI is in need of.
+     *
+     * @param trafficUsageResponse The Traffic Usage response from the Server
+     * @return Usage Details format required by the API.
+     */
     private fun formatTrafficUsageResponse(
         trafficUsageResponse: TrafficUsageResponse
     ): UsageDetails {

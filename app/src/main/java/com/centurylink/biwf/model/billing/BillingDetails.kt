@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.billing
 import com.centurylink.biwf.model.account.BillingAddress
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Model class for billing info
+ */
 class BillingDetails(
     @SerializedName("Account Id")
     val accountId: String = "",

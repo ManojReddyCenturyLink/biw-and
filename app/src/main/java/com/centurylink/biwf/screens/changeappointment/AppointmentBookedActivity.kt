@@ -14,6 +14,11 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.DateUtils
 import javax.inject.Inject
 
+/**
+ * Appointment booked activity - this class handle common methods related to appointment booked screen
+ *
+ * @constructor Create empty Appointment booked activity
+ */
 class AppointmentBookedActivity : BaseActivity() {
 
     @Inject
@@ -32,6 +37,13 @@ class AppointmentBookedActivity : BaseActivity() {
         ViewModelProvider(this, factory).get(AppointmentBookedViewModel::class.java)
     }
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAppointmentBookedBinding.inflate(layoutInflater)
@@ -44,6 +56,10 @@ class AppointmentBookedActivity : BaseActivity() {
         initViews()
     }
 
+    /**
+     * Init views - it will initialises the views
+     *
+     */
     private fun initViews() {
         val screenTitle: String = getString(R.string.booked_appointment)
         binding.incHeader.apply {
@@ -72,11 +88,20 @@ class AppointmentBookedActivity : BaseActivity() {
         )
     }
 
+    /**
+     * On back pressed - this handles back key click listeners
+     *
+     */
     override fun onBackPressed() {
         setResult(DashboardFragment.REFRESH_APPOINTMENT)
         finish()
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val APPOINTMENT_STATEMENT_SLOTS: String = "APPOINTMENT_SLOTS"
         const val APPOINTMENT_STATEMENT_DATE: String = "APPOINTMENT_STATEMENT_DATE"

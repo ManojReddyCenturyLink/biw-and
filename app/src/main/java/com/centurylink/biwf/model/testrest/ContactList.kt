@@ -3,6 +3,9 @@ package com.centurylink.biwf.model.testrest
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * Data class for contact list details
+ */
 data class ContactList(
     @SerializedName("totalSize")
     @Expose

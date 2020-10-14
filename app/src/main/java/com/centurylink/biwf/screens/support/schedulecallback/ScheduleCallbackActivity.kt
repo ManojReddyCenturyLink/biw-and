@@ -60,8 +60,8 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         finish()
     }
 
-    override fun onItemClick(item: TopicList) {
-        viewModel.navigateAdditionalInfoScreen(item)
+    override fun onItemClick(item: TopicList, position: Int) {
+        viewModel.navigateAdditionalInfoScreen(item, position)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -77,6 +77,8 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     }
 
     private fun initHeaders() {
+        val isExistingUserState = intent.getBooleanExtra(IS_EXISTING_USER, false)
+        viewModel.setIsExistingUserState(isExistingUserState)
         binding.scheduleCallbackRecyclerview.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         val screenTitle: String = getString(R.string.schedule_callback)
@@ -104,8 +106,10 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
 
     companion object {
         const val REQUEST_TO_HOME: Int = 1100
-        fun newIntent(context: Context): Intent {
+        const val IS_EXISTING_USER = "IS_EXISTING_USER"
+        fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, ScheduleCallbackActivity::class.java)
+                .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
         }
     }
 }

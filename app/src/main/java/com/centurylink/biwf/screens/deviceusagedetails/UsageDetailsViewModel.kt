@@ -29,6 +29,18 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
+/**
+ * Usage details view model
+ *
+ * @property app - application class instance to get global context
+ * @property networkUsageRepository - repository instance to handle network usage api calls
+ * @property assiaRepository - repository instance to handle assia api calls
+ * @property mcafeeRepository - repository instance t ao handle mcafee api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class UsageDetailsViewModel constructor(
     private val app: BIWFApp,
     private val networkUsageRepository: NetworkUsageRepository,
@@ -85,6 +97,10 @@ class UsageDetailsViewModel constructor(
     var mcAfeedeviceList: List<DevicesItem> = emptyList()
     var mcAfeedeviceNames: ArrayList<String> = ArrayList()
 
+    /**
+     * Init apis - It will start all the api calls initialisation
+     *
+     */
     fun initApis() {
         //TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
@@ -97,10 +113,18 @@ class UsageDetailsViewModel constructor(
         }
     }
 
+    /**
+     * On remove devices clicked - It handles the remove devices click event
+     *
+     */
     fun onRemoveDevicesClicked() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_REMOVE_DEVICES_DEVICE_DETAILS)
     }
 
+    /**
+     * On devices connected clicked - It handles the connected devices click event
+     *
+     */
     fun onDevicesConnectedClicked() {
         if (deviceData.isPaused) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS)
@@ -182,6 +206,11 @@ class UsageDetailsViewModel constructor(
         }
     }
 
+    /**
+     * Remove devices - it will handle the remove devices logic
+     *
+     * @param stationMac
+     */
     fun removeDevices(stationMac: String) {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
@@ -204,6 +233,11 @@ class UsageDetailsViewModel constructor(
         )
     }
 
+    /**
+     * On done btn click - It handles the done button click logic
+     *
+     * @param nickname
+     */
     fun onDoneBtnClick(nickname: String) {
         if (nickname.isNotEmpty() && nickname != deviceData.mcAfeeName) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
@@ -244,6 +278,11 @@ class UsageDetailsViewModel constructor(
             })
     }
 
+    /**
+     * Log remove connection - it handles related to usage details cancellation analytics
+     *
+     * @param removeConnection
+     */
     fun logRemoveConnection(removeConnection: Boolean) {
         if (removeConnection) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_REMOVE_CONFIRMATION_USAGE_DETAILS)
@@ -295,6 +334,11 @@ class UsageDetailsViewModel constructor(
         }
     }
 
+    /**
+     * Validate input- it will do validation for the provided string
+     * @param nickname name to validated
+     * @return - it returns the formatted string
+     */
     fun validateInput(nickname: String): Boolean {
         val specialCharacter: Pattern = Pattern.compile("[!@#$%&*()_+=|<>?{}\\[\\]~.]")
         val hasSpecial: Matcher = specialCharacter.matcher(nickname)

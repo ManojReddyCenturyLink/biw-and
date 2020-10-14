@@ -22,6 +22,11 @@ import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import javax.inject.Inject
 
+/**
+ * Usage details activity - this class handle common methods related to devices screen
+ *
+ * @constructor Create empty Usage details activity
+ */
 class UsageDetailsActivity : BaseActivity() {
 
     @Inject
@@ -52,6 +57,13 @@ class UsageDetailsActivity : BaseActivity() {
         )
     }
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     * @param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LayoutDevicesUsageInformationBinding.inflate(layoutInflater)
@@ -60,15 +72,27 @@ class UsageDetailsActivity : BaseActivity() {
         initViews()
     }
 
+    /**
+     * Retry clicked - this handles retry click listeners
+     *
+     */
     override fun retryClicked() {
         viewModel.initApis()
     }
 
+    /**
+     * On back pressed - this handles back key click listeners
+     *
+     */
     override fun onBackPressed() {
         setResult(REQUEST_TO_DEVICES)
         finish()
     }
 
+    /**
+     * Init views - it will initialises the views
+     *
+     */
     private fun initViews() {
         deviceData = intent.getSerializableExtra(DEVICE_INFO) as DevicesData
         var nickName = if (!deviceData.mcAfeeName.isNullOrEmpty()) {
@@ -181,6 +205,11 @@ class UsageDetailsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Validate nick name - It will validate the name
+     *
+     * @param nickname - returns the formatted name string
+     */
     private fun validateNickName(nickname: String) {
         if (viewModel.validateInput(nickname)) {
             CustomDialogBlueTheme(
@@ -198,12 +227,20 @@ class UsageDetailsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Hide keyboard - It handle the hide keyboard logic
+     *
+     */
     private fun hideKeyboard() {
         val imm : InputMethodManager =
             this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(binding.nicknameDeviceNameInput.windowToken, 0);
     }
 
+    /**
+     * Hide keyboard - It show the alert dialog
+     *
+     */
     private fun showAlertDialog(displayBlueDialog : Boolean) {
         if (displayBlueDialog){
             CustomDialogBlueTheme(
@@ -233,6 +270,11 @@ class UsageDetailsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * On dialog callback- it handle the dialog callback listeners
+     *
+     * @param buttonType - its return the which button is pressed negative or positive
+     */
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
@@ -245,6 +287,11 @@ class UsageDetailsActivity : BaseActivity() {
         }
     }
 
+    /**
+     * On error dialog callback - t handle the dialog callback listeners
+     *
+     * @param buttonType - its return the which button is pressed negative or positive
+     */
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {

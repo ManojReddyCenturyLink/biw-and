@@ -21,6 +21,7 @@ import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.DateUtils
 import com.centurylink.biwf.widgets.CalendarFragment
+import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import com.centurylink.biwf.widgets.NoNetworkErrorPopup
 import com.roomorama.caldroid.CaldroidFragment
 import com.roomorama.caldroid.CaldroidListener
@@ -28,6 +29,11 @@ import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Change appointment activity -  this class handle common methods related to change appointment screen
+ *
+ * @constructor Create empty Change appointment activity
+ */
 class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotClickListener {
 
     @Inject
@@ -57,6 +63,13 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         ViewModelProvider(this, factory).get(ChangeAppointmentViewModel::class.java)
     }
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChangeAppointmentBinding.inflate(layoutInflater)
@@ -78,6 +91,15 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         initViews()
     }
 
+    /**
+     * On activity result - Called when an activity you launched exits, giving you the requestCode
+     * you started it with, the resultCode it returned and any additional data from it.
+     *
+     * @param requestCode - It is originally supplied to startActivityForResult(), allowing
+     * to identify result code came from.
+     * @param resultCode - It is returned by the child activity through its setResult().
+     * @param data - It will return result data to the caller activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -90,16 +112,29 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
     }
 
+    /**
+     * Retry clicked - This will handle retry click listeners
+     *
+     */
     override fun retryClicked() {
         viewModel.initApis()
     }
 
+    /**
+     * On slot selected - It is used to handle selected slots
+     *
+     * @param slotInfo - returns selected slots
+     */
     override fun onSlotSelected(slotInfo: String) {
         viewModel.logAppointmentSelected()
         setErrorStates(false)
         selectedSlot = slotInfo
     }
 
+    /**
+     * Display slot error - It will display error conditions for appointment slots
+     *
+     */
     private fun displaySlotError() {
         binding.incHeader.apply {
             subheaderRightActionTitle.isEnabled = true
@@ -108,6 +143,11 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         setErrorStates(true)
     }
 
+    /**
+     * Set error states - It is used handle error states
+     *
+     * @param isError - returns value to set error state
+     */
     private fun setErrorStates(isError: Boolean) {
         appointmentSlotAdapter.isError = isError
         binding.availableAppointmentSlotError.isVisible = isError
@@ -119,14 +159,24 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         appointmentSlotAdapter.notifyDataSetChanged()
     }
 
+    /**
+     * Display appointment error - It shows error alert dialog for rescheduling a appointment
+     *
+     */
     private fun displayAppointmentError() {
         binding.incHeader.apply {
             subheaderRightActionTitle.isEnabled = true
             subheaderRightActionTitle.isClickable = true
         }
-        binding.errorInSelectedSlot.visibility = View.VISIBLE
+        GeneralErrorPopUp.showGeneralErrorDialog(
+            fragmentManager,
+            callingActivity?.className)
     }
 
+    /**
+     * Init views - It initializes the views when is activity is called.
+     *
+     */
     private fun initViews() {
         val screenTitle: String = getString(R.string.modify_appointments)
         binding.incHeader.apply {
@@ -165,6 +215,10 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         observeViews()
     }
 
+    /**
+     * Init slots views - It initializes the slot views when is activity is called.
+     *
+     */
     private fun initSlotsViews() {
         binding.availableAppointmentSlotsRv.layoutManager =
             LinearLayoutManager(this, RecyclerView.VERTICAL, false)
@@ -172,6 +226,10 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         binding.availableAppointmentSlotsRv.adapter = appointmentSlotAdapter
     }
 
+    /**
+     * Observe views - It is used to observe views when is activity is called
+     *
+     */
     private fun observeViews() {
         viewModel.appointmentSlotsInfo.observe {
             binding.availableAppointmentNote.text =
@@ -194,6 +252,10 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
     }
 
+    /**
+     * Init calendar - It initializes calendar view when is activity is called.
+     *
+     */
     private fun initCalendar() {
         calendarFragment = CalendarFragment()
         val args = Bundle()
@@ -267,6 +329,12 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
     }
 
+    /**
+     * Set custom resource for selected date - It will set custom resource on selected date
+     *
+     * @param calendarFragment - returns calendar slots
+     * @param date - returns selected date
+     */
     /*Function to apply style to selected date*/
     private fun setCustomResourceForSelectedDate(
         calendarFragment: CalendarFragment,
@@ -277,6 +345,12 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         calendarFragment.setTextColorForDate(R.color.white, date)
     }
 
+    /**
+     * Set disable dates - It is used to disable dates for which slots are not available
+     *
+     * @param calendarFragment - returns calendar slots
+     * @param date - It blocks calender dates for unavailable slot
+     */
     /*Function to disable dates for which slots are not available*/
     private fun setDisableDates(
         calendarFragment: CalendarFragment,
@@ -289,6 +363,12 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         calendarFragment.refreshView()
     }
 
+    /**
+     * Disable navigation arrow - It is used to disable month arrow for which slots are not
+     * available
+     *
+     * @param arrowButton - It returns button pressed to not Clickable
+     */
     /*Function to disable month arrow for which slots are not available*/
     private fun disableNavigationArrow(
         arrowButton: Button?
@@ -297,6 +377,13 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         arrowButton?.isClickable = false
     }
 
+    /**
+     * Iterate between dates - It will handle dates between current date and final end date
+     *
+     * @param start - returns current date
+     * @param end  - returns end date
+     * @param sortedMap - returns sorted calendar view based on start and end date
+     */
     private fun iterateBetweenDates(start: Date, end: Date, sortedMap: Map<String, List<String>>) {
         var current = DateUtils.addDays(start, -10)
         var finalEndDate = DateUtils.addDays(end, 15)
@@ -309,6 +396,12 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
     }
 
+    /**
+     * Update calendar view - It will handle update calendar view by sorting it to standard format
+     *
+     * @param sortedMap - returns sorted date utilities
+     * @param currentDate - returns current date
+     */
     private fun updateCalendarView(sortedMap: Map<String, List<String>>, currentDate: Date) {
         val disableDateList = ArrayList<Date?>()
         finalSlotMap = sortedMap
@@ -326,6 +419,11 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         val REQUEST_TO_DASHBOARD = 1100
         fun newIntent(context: Context) = Intent(context, ChangeAppointmentActivity::class.java)

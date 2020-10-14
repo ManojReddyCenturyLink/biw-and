@@ -5,6 +5,12 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Analytics manager class used for different events used across the Application for Analytics.
+ *
+ * @property firebaseAnalytics Analytic instance
+ * @constructor Create  Analytics manager
+ */
 @Singleton
 class AnalyticsManager @Inject constructor(private val firebaseAnalytics: FirebaseAnalytics) {
 

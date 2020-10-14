@@ -88,7 +88,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
             launch {
                 coEvery { faqRepository.getKnowledgeRecordTypeId() } returns Either.Left("Error in RecordId")
                 viewModel.initApis()
-                viewModel.navigateToScheduleCallback()
+                viewModel.navigateToScheduleCallback(isExistingUser = true)
                 Assert.assertEquals(
                     viewModel.errorMessageFlow.first(), "Error in RecordId"
                 )

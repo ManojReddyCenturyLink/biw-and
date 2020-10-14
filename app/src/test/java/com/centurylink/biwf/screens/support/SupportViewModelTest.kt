@@ -5,10 +5,12 @@ import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.model.faq.Faq
+import com.centurylink.biwf.model.speedtest.SpeedTestResponse
 import com.centurylink.biwf.model.speedtest.*
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
+import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
@@ -35,6 +37,9 @@ class SupportViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
+
+    @MockK
+    private lateinit var speedTestRepository: SpeedTestRepository
 
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
@@ -77,7 +82,8 @@ class SupportViewModelTest : ViewModelBaseTest() {
             assiaRepository = mockAssiaRepository,
             oAuthAssiaRepository = oAuthAssiaRepository,
             sharedPreferences = mocksharedPreferences,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            speedTestRepository= speedTestRepository
         )
     }
 

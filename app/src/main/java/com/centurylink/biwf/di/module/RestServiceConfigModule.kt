@@ -4,9 +4,37 @@ import com.centurylink.biwf.di.qualifier.BaseUrl
 import com.centurylink.biwf.di.qualifier.BaseUrlType
 import com.centurylink.biwf.di.qualifier.ClientType
 import com.centurylink.biwf.di.qualifier.HttpClient
-import com.centurylink.biwf.service.impl.network.*
+import com.centurylink.biwf.service.impl.network.AssiaErrorConverterFactory
+import com.centurylink.biwf.service.impl.network.EitherCallAdapterFactory
+import com.centurylink.biwf.service.impl.network.EitherConverterFactory
+import com.centurylink.biwf.service.impl.network.FiberErrorConverterFactory
+import com.centurylink.biwf.service.impl.network.McafeeErrorConverterFactory
+import com.centurylink.biwf.service.impl.network.PrimitiveTypeConverterFactory
+import com.centurylink.biwf.service.impl.network.asFactory
 import com.centurylink.biwf.service.integration.IntegrationServerService
-import com.centurylink.biwf.service.network.*
+import com.centurylink.biwf.service.network.SupportService
+import com.centurylink.biwf.service.network.AccountApiService
+import com.centurylink.biwf.service.network.AppointmentService
+import com.centurylink.biwf.service.network.AssiaService
+import com.centurylink.biwf.service.network.AssiaTokenService
+import com.centurylink.biwf.service.network.AssiaTrafficUsageService
+import com.centurylink.biwf.service.network.BillingApiServices
+import com.centurylink.biwf.service.network.CaseApiService
+import com.centurylink.biwf.service.network.ContactApiService
+import com.centurylink.biwf.service.network.FaqApiService
+import com.centurylink.biwf.service.network.IntegrationRestServices
+import com.centurylink.biwf.service.network.McafeeApiService
+import com.centurylink.biwf.service.network.NotificationService
+import com.centurylink.biwf.service.network.OAuthAssiaService
+import com.centurylink.biwf.service.network.ServicesFactory
+import com.centurylink.biwf.service.network.SpeedTestService
+import com.centurylink.biwf.service.network.TestRestServices
+import com.centurylink.biwf.service.network.UserService
+import com.centurylink.biwf.service.network.WifiNetworkApiService
+import com.centurylink.biwf.service.network.WifiStatusService
+import com.centurylink.biwf.service.network.ZuoraPaymentService
+import com.centurylink.biwf.service.network.ZuoraSubscriptionApiService
+import com.centurylink.biwf.service.network.create
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -27,6 +55,7 @@ import javax.inject.Singleton
 @Module
 class RestServiceConfigModule(
     private val baseUrlFiberServices: String,
+    private val baseUrlSupportServices: String,
     private val baseUrlForAwsBucket: String,
     // TODO - remove this when all Cloudcheck endpoints are accessed via Apigee
     private val baseUrlForAssiaServices: String,
@@ -48,6 +77,25 @@ class RestServiceConfigModule(
             .registerTypeAdapterFactory(primitiveTypeConverters)
             .create()
         return GsonConverterFactory.create(gson)
+    }
+
+    @Singleton
+    @Provides
+    @BaseUrl(BaseUrlType.SUPPORT_SERVICES)
+    fun provideSupportRetrofit(
+        jsonConverters: Converter.Factory,
+        @HttpClient(ClientType.OAUTH) client: Call.Factory
+    ): ServicesFactory {
+        return fakeServicesFactory ?: Retrofit.Builder()
+            .callFactory(client)
+            .baseUrl(baseUrlSupportServices)
+            .addCallAdapterFactory(EitherCallAdapterFactory())
+            .addConverterFactory(EitherConverterFactory())
+            .addConverterFactory(FiberErrorConverterFactory())
+            .addConverterFactory(jsonConverters)
+            .addConverterFactory(primitiveTypeConverters)
+            .build()
+            .asFactory
     }
 
     @Singleton
@@ -252,9 +300,10 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun providesAssiaTrafficUsageService(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): AssiaTrafficUsageService{
+    fun providesAssiaTrafficUsageService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): AssiaTrafficUsageService{
         return factory.create()
     }
+
     @Singleton
     @Provides
     fun provideNetworkManagementAPIServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): WifiNetworkApiService {
@@ -264,6 +313,25 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun providesMcafeeUsersService(@BaseUrl(BaseUrlType.MCAFEE_SERVICES) factory: ServicesFactory): McafeeApiService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideSupportService(@BaseUrl(BaseUrlType.SUPPORT_SERVICES) factory: ServicesFactory): SupportService {
+        return factory.create()
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesWifiStatusService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): WifiStatusService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun providesSpeedTestService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): SpeedTestService {
         return factory.create()
     }
 }

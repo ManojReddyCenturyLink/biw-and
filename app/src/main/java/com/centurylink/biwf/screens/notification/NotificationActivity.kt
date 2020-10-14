@@ -6,9 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
@@ -22,9 +20,10 @@ import com.centurylink.biwf.screens.notification.adapter.NotificationItemClickLi
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
-
 /**
- * Activity for displaying the Notification Lists in the view
+ * Notification activity - Activity for displaying the Notification Lists in the view
+ *
+ * @constructor Create empty Notification activity
  */
 class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
@@ -43,6 +42,13 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     private lateinit var notificationAdapter: NotificationAdapter
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.TransparentActivity)
         super.onCreate(savedInstanceState)
@@ -61,22 +67,49 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         getNotificationInformation()
     }
 
+    /**
+     * On notification item click - It handles notification item click listener
+     *
+     * @param notificationItem - returns notification item clicked
+     */
     override fun onNotificationItemClick(notificationItem: Notification) {
         viewModel.notificationItemClicked(notificationItem)
     }
 
+    /**
+     * Clear all read notification - It will display all read notification dialog from list of
+     * read-notifications
+     *
+     */
     override fun clearAllReadNotification() {
         viewModel.displayClearAllDialogs()
     }
 
+    /**
+     * Mark all notification as read - It will mark all unread notification as read
+     *
+     */
     override fun markAllNotificationAsRead() {
         viewModel.markNotificationasRead()
     }
 
+    /**
+     * On back pressed - This will handle back key click listeners
+     *
+     */
     override fun onBackPressed() {
         finish()
     }
 
+    /**
+     * On activity result - Called when an activity you launched exits, giving you the requestCode
+     * you started it with, the resultCode it returned and any additional data from it.
+     *
+     * @param requestCode - It is originally supplied to startActivityForResult(), allowing
+     * to identify result code came from.
+     * @param resultCode - It is returned by the child activity through its setResult().
+     * @param data - It will return result data to the caller activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -88,6 +121,10 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         }
     }
 
+    /**
+     * Init headers - It will initialize screen headers
+     *
+     */
     private fun initHeaders() {
         var screenTitle: String = getString(R.string.notification_details)
         binding.incHeader.apply {
@@ -100,11 +137,19 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         }
     }
 
+    /**
+     * Init view - It will initialize activity views
+     *
+     */
     private fun initView() {
         binding.notificationListRecyclerview.layoutManager =
            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 
+    /**
+     * Get notification information - It shows list of sorted notifications
+     *
+     */
     private fun getNotificationInformation() {
         viewModel.notificationListDetails.observe {
             viewModel.displaySortedNotifications(it.notificationlist)
@@ -112,6 +157,10 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         }
     }
 
+    /**
+     * Display clear all dialog - It will handle clear all click listener by showing error pop-up
+     *
+     */
     private fun displayClearAllDialog() {
         val dialogBuilder = AlertDialog.Builder(this)
         dialogBuilder.setMessage(R.string.notification_screen_warning)
@@ -130,22 +179,40 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         alert.show()
     }
 
+    /**
+     * Perform clear all - It is used to remove read notifications by performing clear all
+     *
+     */
     private fun performClearAll() {
         viewModel.clearAllReadNotifications()
     }
 
+    /**
+     * Display sorted notification - It handles sorting notification logic
+     *
+     */
     private fun displaySortedNotification() {
         viewModel.notifications.observe {
             prepareRecyclerView(it)
         }
     }
 
+    /**
+     * Prepare recycler view
+     *
+     * @param notificationList - returns list of notifications
+     */
     private fun prepareRecyclerView(notificationList: MutableList<Notification>) {
         mergedNotificationList = notificationList
         notificationAdapter = NotificationAdapter(notificationList, this)
         binding.notificationListRecyclerview.adapter = notificationAdapter
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val KEY_UNREAD_HEADER: String = "UNREAD_HEADER"
         const val KEY_READ_HEADER: String = "READ_HEADER"

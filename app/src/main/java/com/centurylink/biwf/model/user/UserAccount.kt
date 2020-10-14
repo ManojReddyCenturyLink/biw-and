@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.user
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Data class for user account details
+ */
 data class UserAccount(
     @SerializedName("BillingStreet")
     val billingStreetAddress: String? = null,

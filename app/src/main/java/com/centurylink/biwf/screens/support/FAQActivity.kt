@@ -126,7 +126,8 @@ class FAQActivity : BaseActivity() {
     private fun initView() {
         binding.faqContactUs.apply {
             contactUsHeading.visibility = View.GONE
-            scheduleCallbackRow.setOnClickListener { viewModel.navigateToScheduleCallback() }
+            val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
+            scheduleCallbackRow.setOnClickListener { viewModel.navigateToScheduleCallback(isExistingUser) }
             liveChatTextview.setOnClickListener {
                 viewModel.logLiveChatLaunch()
                 if (AppUtil.isOnline(this@FAQActivity)) {
@@ -173,12 +174,13 @@ class FAQActivity : BaseActivity() {
 
     companion object {
         const val FAQ_TITLE: String = "FaqTitle"
+        const val IS_EXISTING_USER = "IsExistingUser"
         const val REQUEST_TO_HOME: Int = 1100
 
         fun newIntent(context: Context, bundle: Bundle): Intent {
-            return Intent(context, FAQActivity::class.java).putExtra(
-                FAQ_TITLE, bundle.getString(FAQ_TITLE)
-            )
+            return Intent(context, FAQActivity::class.java)
+                .putExtra(FAQ_TITLE, bundle.getString(FAQ_TITLE))
+                .putExtra(IS_EXISTING_USER, bundle.getBoolean(IS_EXISTING_USER))
         }
     }
 }

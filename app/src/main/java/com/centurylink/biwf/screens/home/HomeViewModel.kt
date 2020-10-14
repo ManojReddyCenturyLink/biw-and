@@ -10,12 +10,14 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
+import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.screens.home.account.AccountViewModel
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -56,6 +58,7 @@ class HomeViewModel @Inject constructor(
     var upperTabHeaderList = mutableListOf<TabsBaseItem>()
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
     var progressViewFlow = EventFlow<Boolean>()
+    val accountDetailsInfo: Flow<AccountDetails> = BehaviorStateFlow()
 
     private val dialogMessage = ChoiceDialogMessage(
         title = R.string.welcome_to_dashboard,
@@ -154,10 +157,10 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
+            accountDetailsInfo.latestValue = it
             if (it.accountStatus.equals(pendingActivation, true) ||
                 it.accountStatus.equals(abandonedActivation, true)
             ) {
-
                 if (sharedPreferences.getInstallationStatus()) {
                     invokeStandardUserDashboard()
                 } else {

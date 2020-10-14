@@ -19,6 +19,15 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
+/**
+ * Change appointment view model
+ *
+ * @property appointmentRepository -  repository instance to handle appointment api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class ChangeAppointmentViewModel @Inject constructor(
     private val appointmentRepository: AppointmentRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
@@ -38,11 +47,18 @@ class ChangeAppointmentViewModel @Inject constructor(
 
     private lateinit var rescheduleInfo: RescheduleInfo
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_MODIFY_APPOINTMENT)
         initApis()
     }
 
+    /**
+     * Init apis - It will start all the api calls initialisation
+     *
+     */
     fun initApis() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
@@ -52,16 +68,30 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Init apis with dates - It initializes the Apis' with dates
+     *
+     * @param date - The date to request first slot
+     */
     private fun initApisWithDates(date: String) {
         viewModelScope.launch {
             getFirstRequestSlots(date)
         }
     }
 
+    /**
+     * Get first request slots
+     *
+     * @param date - The date to request appointment slots
+     */
     private suspend fun getFirstRequestSlots(date: String) {
         requestAppointmentSlots(date)
     }
 
+    /**
+     * Request appointment details - It will handle request appointment logic
+     *
+     */
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
@@ -73,6 +103,11 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request appointment slots - It will handle requested appointment slots logic through APIs'
+     *
+     * @param date - The date to request appointment slot
+     */
     private suspend fun requestAppointmentSlots(date: String) {
         val appointmentSlots = appointmentRepository
             .getAppointmentSlots(appointmentId, date)
@@ -85,6 +120,11 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * On appointment selected date - It will handle appointment logic for selected date
+     *
+     * @param date - The selected date for appointment
+     */
     fun onAppointmentSelectedDate(date: Date) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.DATE_TAP_CHANGE_APPOINTMENT)
         appointmentDate = DateUtils.toSimpleString(date, DateUtils.STANDARD_FORMAT)
@@ -99,6 +139,11 @@ class ChangeAppointmentViewModel @Inject constructor(
         appointmentSlotsInfo.latestValue = uiAppointmentModel
     }
 
+    /**
+     * Navigate to appointment confirmed - It will navigate to appointment booked screen on
+     * confirmation of appointment
+     *
+     */
     fun navigateToAppointmentConfirmed() {
         val bundle = Bundle()
         bundle.putString(
@@ -118,6 +163,12 @@ class ChangeAppointmentViewModel @Inject constructor(
             ChangeAppointmentCoordinatorDestinations.APPOINTMENT_CONFIRMED
     }
 
+    /**
+     * On next clicked - It will handle next click event logic
+     *
+     * @param selectedate - returns selected appointment date
+     * @param slots - returns appointment slots
+     */
     fun onNextClicked(selectedate: String, slots: String) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_NEXT_CHANGE_APPOINTMENT)
         if (slots.isNullOrEmpty()) {
@@ -129,6 +180,11 @@ class ChangeAppointmentViewModel @Inject constructor(
         splitSlots()
     }
 
+    /**
+     * Format input date - It is used to format date for appointment slots
+     *
+     * @param slots - The slots to be formatted
+     */
     private fun formatInputDate(slots: HashMap<String, List<String>>) {
         val sdf: DateFormat = SimpleDateFormat(DateUtils.STANDARD_FORMAT)
         slots.forEach { (key, value) ->
@@ -161,6 +217,13 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Get next estimated date for slots - It is used to get estimated date for next available solts
+     *
+     * @param currentLastdate - returns next current end date
+     * @return - returns date with standard format from date utilities
+     * Error - returns null or empty
+     */
     fun getNextEstimatedDateForSlots(currentLastdate: String): String {
         val format = SimpleDateFormat(DateUtils.STANDARD_FORMAT)
         var myDate = format.parse(currentLastdate)
@@ -168,6 +231,14 @@ class ChangeAppointmentViewModel @Inject constructor(
         return DateUtils.toSimpleString(myDate, DateUtils.STANDARD_FORMAT)
     }
 
+    /**
+     * Check next slot falls after - It will handle next available slots logic before last date
+     *
+     * @param nextDate - returns next available date
+     * @param lastDate - returns end date
+     * @return - returns next slot available date before last date
+     * Error - returns null or Empty value
+     */
     fun checkNextSlotFallsAfter(nextDate: String, lastDate: String): Boolean {
         val format = SimpleDateFormat(DateUtils.STANDARD_FORMAT)
         var nextCallDate = format.parse(nextDate)
@@ -175,6 +246,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         return nextCallDate.before(lastCallDate)
     }
 
+    /**
+     * Reschedule appointment info - It will reschedule appointment information through APIs'
+     *
+     */
     private suspend fun rescheduleAppointmentInfo() {
         val rescheduleslots = appointmentRepository.modifyAppointmentInfo(rescheduleInfo)
         rescheduleslots.fold(ifLeft = {
@@ -188,6 +263,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Split slots - It is used to split slots according to arrival start time and end time
+     *
+     */
     private fun splitSlots() {
         val separatedSlots = appointmentSlots.split("-".toRegex()).map { it.trim() }
         val date12Format = SimpleDateFormat("hh:mm a")
@@ -200,6 +279,10 @@ class ChangeAppointmentViewModel @Inject constructor(
         submitAppointment()
     }
 
+    /**
+     * Submit appointment
+     *
+     */
     private fun submitAppointment() {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
@@ -207,10 +290,18 @@ class ChangeAppointmentViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Log back click - It handles the back button click event
+     *
+     */
     fun logBackClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_CHANGE_APPOINTMENT)
     }
 
+    /**
+     * Log appointment selected - It handles the selected slots click event for appointment
+     *
+     */
     fun logAppointmentSelected() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.SLOT_TAP_CHANGE_APPOINTMENT)
     }

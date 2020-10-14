@@ -26,11 +26,18 @@ import com.centurylink.biwf.screens.subscription.SubscriptionStatementActivity
 import com.centurylink.biwf.screens.support.FAQActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.screens.support.schedulecallback.AdditionalInfoActivity
+import com.centurylink.biwf.screens.support.schedulecallback.ContactInfoActivity
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
+import com.centurylink.biwf.screens.support.schedulecallback.SelectTimeActivity
 import com.centurylink.biwf.utility.WebLinkUtil
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Navigator class will have centralized navigation logic for Navigation to another screen.
+ *
+ * @constructor Create  Navigator class.
+ */
 @Suppress("unused")
 @Singleton
 class Navigator @Inject constructor() : LifecycleObserver {
@@ -41,6 +48,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         ActivityObserver.observe(activity)
     }
 
+    /**
+     * Navigate to home screen
+     *
+     */
     fun navigateToHomeScreen() {
         activity?.also {
             it.startActivity(HomeActivity.newIntent(it))
@@ -48,6 +59,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to support screen.
+     *
+     */
     fun navigateToSupport() {
         val bundle = HomeCoordinatorDestinations.bundle
         activity?.also {
@@ -58,6 +73,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to change appointment Screen.
+     *
+     */
     fun navigateToChangeAppointment() {
         activity?.also {
             it.startActivityForResult(
@@ -67,12 +86,20 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to notification list Screen.
+     *
+     */
     fun navigateToNotificationList() {
         activity?.also {
             it.startActivity(NotificationActivity.newIntent(it))
         }
     }
 
+    /**
+     * Navigate to Notification details Screen.
+     *
+     */
     fun navigateToNotificationDetails() {
         activity?.also {
             it.startActivityForResult(
@@ -85,6 +112,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to faq screen.
+     *
+     */
     fun navigateToFaq() {
         activity?.also {
             it.startActivityForResult(
@@ -94,6 +125,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to subscription Activity.
+     *
+     */
     fun navigateToSubscriptionActivity() {
         activity?.also {
             it.startActivityForResult(SubscriptionActivity.newIntent(it, HomeCoordinatorDestinations.bundle),
@@ -101,6 +136,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to mange subscription Screen.
+     *
+     */
     fun navigateToMangeSubscription() {
         activity?.also {
             it.startActivityForResult(
@@ -110,19 +149,46 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
-    fun navigateToScheduleCallback() {
+    /**
+     * Navigate to schedule callback screen from FAQ Screen.
+     *
+     */
+    fun navigateToScheduleCallbackFromFAQ() {
+        val bundle = FAQCoordinatorDestinations.bundle
         activity?.also {
             it.startActivityForResult(
-                ScheduleCallbackActivity.newIntent(it),
+                ScheduleCallbackActivity.newIntent(it, bundle),
                 ScheduleCallbackActivity.REQUEST_TO_HOME
             )
         }
     }
 
+    /**
+     * Navigate to schedule callback screen from Support Screen.
+     *
+     */
+    fun navigateToScheduleCallbackFromSupport() {
+        val bundle = SupportCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(
+                ScheduleCallbackActivity.newIntent(it, bundle),
+                ScheduleCallbackActivity.REQUEST_TO_HOME
+            )
+        }
+    }
+
+    /**
+     * Navigate to phone dialler.
+     *
+     */
     fun navigateToPhoneDialler() {
         WebLinkUtil.handleClick(activity!!.getString(R.string.tel).plus(BuildConfig.MOBILE_NUMBER), activity!!)
     }
 
+    /**
+     * Navigate to cancel subscription details Screen.
+     *
+     */
     fun navigateToCancelSubscriptionDetails() {
         activity?.also {
             it.startActivityForResult(
@@ -132,6 +198,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to personal info activity
+     *
+     */
     fun navigateToPersonalInfoActivity() {
         val bundle = AccountCoordinatorDestinations.bundle
         activity?.also {
@@ -142,6 +212,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to additional info Screen.
+     *
+     */
     fun navigateToAdditionalInfo() {
         val bundle = ScheduleCallbackCoordinatorDestinations.bundle
         activity?.also {
@@ -152,6 +226,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to Edit payment details Screen.
+     *
+     */
     fun navigateToEditPaymentDetails() {
         activity?.also {
             it.startActivityForResult(
@@ -161,6 +239,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to bill statement Screen
+     *
+     */
     fun navigateToBillStatement() {
         val bundle = SubscriptionCoordinatorDestinations.bundle
         activity?.also {
@@ -171,6 +253,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to login screen
+     *
+     */
     fun navigateToLoginScreen() {
         activity?.also {
             it.startActivity(LoginActivity.newIntent(it))
@@ -178,12 +264,20 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to NetworkInformationScreen
+     *
+     */
     fun navigateToNetworkInformationScreen() {
         activity?.also {
             it.startActivityForResult(NetworkStatusActivity.newIntent(it), 0)
         }
     }
 
+    /**
+     * Navigate to QRCode Scan
+     *
+     */
     fun navigateToQRCodeScan() {
         val bundle = DashboardCoordinatorDestinations.bundle
         activity?.also {
@@ -191,6 +285,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to Usage Details Screen.
+     *
+     */
     fun navigateToUsageDetailsActivity() {
         val bundle = DevicesCoordinatorDestinations.bundle
         activity?.also {
@@ -201,6 +299,10 @@ class Navigator @Inject constructor() : LifecycleObserver {
         }
     }
 
+    /**
+     * Navigate to appointment confirmation Screen.
+     *
+     */
     fun navigateToAppointmentConfirmation() {
         val bundle = ChangeAppointmentCoordinatorDestinations.bundle
         activity?.also {
@@ -208,6 +310,30 @@ class Navigator @Inject constructor() : LifecycleObserver {
                 AppointmentBookedActivity.newIntent(it, bundle),
                 ChangeAppointmentActivity.REQUEST_TO_DASHBOARD
             )
+        }
+    }
+
+    /**
+     * Navigate to contactInfo Screen.
+     *
+     */
+    fun navigateToContactInfo() {
+        val bundle = AdditionalInfoCoordinatorDestinations.bundle
+        activity?.also {
+                it.startActivityForResult(ContactInfoActivity.newIntent(it, bundle),
+                ContactInfoActivity.REQUEST_TO_HOME)
+        }
+    }
+
+    /**
+     * Navigate to selecttime Screen.
+     *
+     */
+    fun navigateToSelectTime() {
+        val bundle = ContactInfoCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(SelectTimeActivity.newIntent(it, bundle),
+            SelectTimeActivity.REQUEST_TO_HOME)
         }
     }
 

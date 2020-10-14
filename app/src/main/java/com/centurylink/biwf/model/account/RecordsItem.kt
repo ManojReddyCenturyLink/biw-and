@@ -2,6 +2,9 @@ package com.centurylink.biwf.model.account
 
 import com.google.gson.annotations.SerializedName
 
+/**
+ * Model class for record details
+ */
 data class RecordsItem(
     @SerializedName("CreatedDate")
     val createdDate: String = "",

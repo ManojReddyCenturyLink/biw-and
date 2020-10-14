@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/contact_info_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/contact_info_content_text"
+            style="@style/SubHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_4"
+            android:text="@string/contact_info_select_phone_number_content"
+            app:layout_constraintStart_toStartOf="@id/contact_info_content"
+            app:layout_constraintEnd_toEndOf="@id/contact_info_content"
+            app:layout_constraintTop_toTopOf="@id/contact_info_content"
+            app:layout_constraintBottom_toBottomOf="@id/contact_info_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_contact_info_existing_user_with_phone_number"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/contact_info_content"
+    android:visibility="visible">
+
+    <RadioGroup
+        android:id="@+id/radio_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        app:layout_constraintTop_toTopOf="@+id/layout_contact_info_existing_user_with_phone_number"
+        app:layout_constraintStart_toStartOf="parent">
+        <RadioButton
+            android:id="@+id/contact_info_select_radio_btn_phone_number"
+            android:checked="true"
+            android:background="@drawable/radiobutton_selector"
+            android:button="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <RadioButton
+            android:id="@+id/contact_info_select_radio_btn_phone_number_input"
+            android:background="@drawable/radiobutton_selector"
+            android:button="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_large"/>
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/contact_info_phone_number"
+        style="@style/style_installation_cancelled_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_spacing_tiny"
+        android:layout_marginTop="@dimen/height_28"
+        tools:text="123-456-7890"
+        app:layout_constraintStart_toEndOf="@id/radio_group"
+        app:layout_constraintTop_toTopOf="@+id/layout_contact_info_existing_user_with_phone_number" />
+
+    <TextView
+        android:id="@+id/contact_info_mobile"
+        style="@style/style_info_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_spacing_6"
+        android:layout_marginTop="@dimen/height_28"
+        android:text="@string/mobile"
+        app:layout_constraintStart_toEndOf="@+id/contact_info_phone_number"
+        app:layout_constraintTop_toTopOf="@+id/layout_contact_info_existing_user_with_phone_number"  />
+
+    <EditText
+        android:id="@+id/contact_info_with_phone_number_input"
+        style="@style/style_form_input_fields"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/padding_40"
+        android:layout_marginTop="@dimen/height_28"
+        android:layout_marginStart="@dimen/margin_spacing_tiny"
+        android:layout_marginBottom="@dimen/medium_margin_spacing"
+        android:autofillHints=""
+        android:hint="@string/contact_info_phone_number_hint"
+        android:enabled="false"
+        android:inputType="phone"
+        android:padding="@dimen/margin_spacing_tiny"
+        android:focusedByDefault="false"
+        app:layout_constraintTop_toBottomOf="@id/contact_info_phone_number"
+        app:layout_constraintStart_toEndOf="@id/radio_group"
+        app:layout_constraintEnd_toEndOf="@id/layout_contact_info_existing_user_with_phone_number"
+        app:layout_constraintBottom_toBottomOf="@id/layout_contact_info_existing_user_with_phone_number"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/error_valid_phone_number"
+        style="@style/ErrorFields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_valid_phone_number_error"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintTop_toTopOf="@id/layout_contact_info_existing_user_with_phone_number"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/layout_contact_info_existing_user_without_phone_number"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/contact_info_content"
+    android:visibility="gone">
+
+    <EditText
+        android:id="@+id/contact_info_with_out_phone_number_input"
+        style="@style/style_form_input_fields"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/padding_40"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginBottom="@dimen/margin_spacing_large"
+        android:autofillHints=""
+        android:hint="@string/contact_info_phone_number_hint"
+        android:inputType="phone"
+        android:padding="@dimen/margin_spacing_tiny"
+        app:layout_constraintEnd_toEndOf="@id/layout_contact_info_existing_user_without_phone_number"
+        app:layout_constraintStart_toStartOf="@id/layout_contact_info_existing_user_without_phone_number"
+        app:layout_constraintTop_toTopOf="@id/layout_contact_info_existing_user_without_phone_number"
+        app:layout_constraintBottom_toBottomOf="@id/layout_contact_info_existing_user_without_phone_number"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+    
+</androidx.constraintlayout.widget.ConstraintLayout>

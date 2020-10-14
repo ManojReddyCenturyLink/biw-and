@@ -50,6 +50,11 @@ import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_butto
 import kotlinx.android.synthetic.main.widget_welcome_card.view.title
 import javax.inject.Inject
 
+/**
+ * Dashboard fragment - Fragment class for the Dashboard document details
+ *
+ * @constructor Create empty Dashboard fragment
+ */
 class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickListener {
     override val lifecycleOwner: LifecycleOwner = this
 
@@ -76,11 +81,21 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var speedTestCount: Int = 0
     //private var destinationLatLng = LatLng(0.0, 0.0)
 
+
+    /**
+     * On create - The onCreate method is called when Fragment should create its View
+     *                  object hierarchy
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
     }
 
+    /**
+     * On resume - Called when the fragment is visible to the user and actively running
+     *
+     */
     override fun onResume() {
         super.onResume()
         dashboardViewModel.apply {
@@ -92,6 +107,19 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         listenForRebootDialog()
     }
 
+    /**
+     * On create view - The onCreateView method is called when Fragment should create its View
+     *                  object hierarchy
+     *
+     * @param inflater - LayoutInflater: The LayoutInflater object that can be used to
+     *                   inflate any views in the fragment,
+     * @param container - ViewGroup: If non-null, this is the parent view that the fragment's UI
+     *                    should be attached to. The fragment should not add the view itself,
+     *                    but this can be used to generate the LayoutParams of the view.
+     *                    This value may be null.
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
+     * @return - Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -182,6 +210,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         return binding.root
     }
 
+    /**
+     * On view created - This gives subclasses a chance to initialize themselves once they know
+     *                   their view hierarchy has been completely created
+     *
+     * @param view-View: The View returned by onCreateView(android.view.LayoutInflater,
+     *                   android.view.ViewGroup, android.os.Bundle).
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
+     *                            from a previous saved state as given here. This value may be null.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
@@ -190,10 +227,16 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         listenForRebootDialog()
     }
 
+    /**
+     * Retry clicked - It will handle the retry functionality
+     */
     override fun retryClicked() {
         //dashboardViewModel.initDevicesApis()
     }
 
+    /**
+     * Init views - It will initialises the views
+     */
     private fun initViews() {
         // TODO right now this feature is not in active so commenting for now
         // observeNotificationViews()
@@ -203,6 +246,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
 
     }
 
+    /**
+     * Init button states - It will initialises the buttons states
+     */
     private fun initButtonStates() {
        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
            if (!networkStatusOnline) {
@@ -212,14 +258,17 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
        }
     }
 
+    /**
+     * Observe account status views - It will observe the account status views
+     */
     private fun observeAccountStatusViews() {
         dashboardViewModel.isAccountStatus.observe {
             if (it) {
                 incCompleted.visibility = View.GONE
-                displaySpeedtest()
+                displaySpeedTest()
             } else {
                 if (dashboardViewModel.installationStatus) {
-                    displaySpeedtest()
+                    displaySpeedTest()
                 } else {
                     incSpeedTest.visibility = View.GONE
                     binding.connectedDevicesCard.root.visibility = View.GONE
@@ -228,7 +277,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
-    private fun displaySpeedtest() {
+    /**
+     * Display speed test - It will display the speed test details
+     */
+    private fun displaySpeedTest() {
         incCompleted.visibility = View.GONE
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
@@ -242,12 +294,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * Init on clicks - It will initialises the click events
+     */
     private fun initOnClicks() {
         binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest(true) }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener {
             dashboardViewModel.logCancelAppointmentClick()
-            showCancellationConfirmationDialaog()
+            showCancellationConfirmationDialog()
         }
         binding.notificationDismissButton.setOnClickListener {
             if (unreadNotificationList.isNotEmpty()) {
@@ -284,6 +339,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         workBegunMapFragment?.getMapAsync(mOnMapReadyCallback)
     }
 
+    /**
+     * Enroute on map ready callback - It will handle the enroute state map call back listeners
+     */
     private var enrouteOnMapReadyCallback: OnMapReadyCallback =
         OnMapReadyCallback { googleMap ->
             googleMap ?: return@OnMapReadyCallback
@@ -302,6 +360,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
         }
 
+    /**
+     * Map ready callback It will handle the map call back listeners
+     */
     private var mOnMapReadyCallback: OnMapReadyCallback =
         OnMapReadyCallback { googleMap ->
             googleMap ?: return@OnMapReadyCallback
@@ -314,6 +375,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
         }
 
+    /**
+     * Get appointment status - It will get appointment status info
+     */
     private fun getAppointmentStatus() {
         dashboardViewModel.dashBoardDetailsInfo.observe {
             if (it is DashboardViewModel.AppointmentScheduleState) {
@@ -386,6 +450,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * Observe wifi details views - It will observe the wifi details from viewmodel
+     *
+     */
     private fun observeWifiDetailsViews() {
         dashboardViewModel.wifiListDetails.observe {
             prepareRecyclerView(it.wifiListDetails)
@@ -396,6 +464,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * Add notification stack - It will help to add notification into stack
+     *
+     * @param notificationList
+     */
     private fun addNotificationStack(notificationList: MutableList<Notification>) {
         unreadNotificationList = notificationList
         if (unreadNotificationList.isNotEmpty()) {
@@ -418,6 +491,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * Bit map from vector - It will help to get the bitmap
+     *
+     * @param vectorResID -vector resource id to get the bitmap
+     * @return - BitmapDescriptor- bitmap instance
+     */
     private fun bitMapFromVector(vectorResID: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(context!!, vectorResID)
         vectorDrawable!!.setBounds(
@@ -436,16 +515,27 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
+    /**
+     * Set listener- click event for view
+     *
+     * @param clickListener -listener instance
+     */
     fun setListener(clickListener: ViewClickListener) {
         this.viewClickListener = clickListener
     }
 
+    /**
+     * Init wifi scan views - initialises wifi scan views
+     */
     private fun initWifiScanViews() {
         binding.wifiScanList.layoutManager =
             LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
     }
 
-    private fun showCancellationConfirmationDialaog() {
+    /**
+     * Show cancellation confirmation dialog - It will display cancellation confirmation dialog
+     */
+    private fun showCancellationConfirmationDialog() {
         CustomDialogGreyTheme(
             getString(R.string.installation_cancellation_confirmation_title),
             getString(R.string.installation_cancellation_confirmation_msg),
@@ -455,7 +545,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         ).show(fragManager!!, DashboardFragment::class.simpleName)
     }
 
-    // Callbacks for the Dialog
+    /**
+     * On dialog callback- callback listener for the dialog
+     *
+     * @param buttonType - It will define which button is clicked
+     */
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
@@ -468,6 +562,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * Speed test dialog callback - callback listener for the speed test dialog
+     *
+     * @param buttonType - It will define which button is clicked
+     */
     private fun speedTestDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
@@ -476,6 +575,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * View click listener - interface for click events
+     *
+     * @constructor Create empty View click listener
+     */
     interface ViewClickListener {
         /**
          * Handle click event
@@ -494,6 +598,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * Prepare recycler view - it will initialises the recyclerview
+     *
+     * @param wifiList - wifilist to display
+     */
     private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
         wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
         binding.wifiScanList.adapter = wifiDevicesAdapter
@@ -501,22 +610,43 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             View.VISIBLE else binding.layoutNetworkList.visibility = View.GONE
     }
 
+    /**
+     * Update view - It will call the update devices api from viewmodel
+     */
     fun updateView() {
         dashboardViewModel.initDevicesApis()
     }
 
+    /**
+     * On wifi q r scan image clicked -  it will help to navigate to qrscan screen
+     *
+     * @param wifidetails - wifidetails instance
+     */
     override fun onWifiQRScanImageClicked(wifidetails: WifiInfo) {
         dashboardViewModel.navigateToQRScan(wifidetails)
     }
 
+    /**
+     * On wifi name clicked -it will help to navigate to wifi details screen
+     *
+     * @param networkName - slected network name
+     */
     override fun onWifiNameClicked(networkName: String) {
         dashboardViewModel.navigateToNetworkInformation()
     }
 
+    /**
+     * On wifi network status image clicked
+     *
+     * @param wifidetails - wifidetails instance
+     */
     override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {
         dashboardViewModel.wifiNetworkEnablement(wifidetails)
     }
 
+    /**
+     * Listen for reboot dialog -it will help to observe reboot devices status
+     */
     private fun listenForRebootDialog() {
         dashboardViewModel.rebootDialogFlow.observe { success ->
             dashboardViewModel.networkStatus.observe { networkStatusOnline ->
@@ -532,6 +662,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
     }
 
+    /**
+     * On error dialog callback- error dialog callback event
+     *
+     * @param buttonType - It will define which button is clicked
+     */
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> { /** no op **/ }
