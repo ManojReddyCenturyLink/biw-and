@@ -15,7 +15,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
+/**
+ * Notification view model
+ *
+ * @property notificationRepository -  repository instance to handle notification api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
@@ -40,16 +48,27 @@ class NotificationViewModel @Inject constructor(
 
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         initApi()
     }
 
+    /**
+     * Init api - It will start all the api calls initialisation
+     *
+     */
     private fun initApi() {
         viewModelScope.launch {
             requestNotificationDetails()
         }
     }
 
+    /**
+     * Request notification details - It is used to request notification details through APIs'
+     *
+     */
     private suspend fun requestNotificationDetails() {
         val notificationDetails = notificationRepository.getNotificationDetails()
         notificationDetails.fold(ifLeft = {
@@ -59,6 +78,12 @@ class NotificationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Notification item clicked - It will display notification details on click of notification
+     * item from list unread notifications
+     *
+     * @param notificationItem - The notification item clicked
+     */
     fun notificationItemClicked(notificationItem: Notification) {
         if (notificationItem.isUnRead) {
             mergedNotificationList.remove(notificationItem)
@@ -81,6 +106,12 @@ class NotificationViewModel @Inject constructor(
         navigatetoNotifcationDetails(notificationItem)
     }
 
+    /**
+     * Navigate to notification details - This navigate to notification details screen on click of
+     * notification item
+     *
+     * @param notificationItem - The notification item clicked
+     */
     private fun navigatetoNotifcationDetails(notificationItem: Notification) {
         val bundle = Bundle()
         bundle.putString(NotificationDetailsActivity.URL_TO_LAUNCH, notificationItem.detialUrl)
@@ -89,6 +120,10 @@ class NotificationViewModel @Inject constructor(
         myState.latestValue = NotificationCoordinatorDestinations.NOTIFICATION_DETAILS
     }
 
+    /**
+     * Mark notificationas read - It will handle mark all unread notifications as read logic
+     *
+     */
     fun markNotificationasRead() {
         mergedNotificationList.forEach { it.isUnRead = false }
         mergedNotificationList.remove(unreadItem)
@@ -97,6 +132,11 @@ class NotificationViewModel @Inject constructor(
         notifications.latestValue = mergedNotificationList
     }
 
+    /**
+     * Display sorted notifications - It will handle sorting and displaying notification list logic
+     *
+     * @param notificationList - The notification list to be sorted
+     */
     fun displaySortedNotifications(notificationList: List<Notification>) {
         val unreadNotificationList = notificationList.asSequence()
             .filter { it.isUnRead }
@@ -115,18 +155,30 @@ class NotificationViewModel @Inject constructor(
         notifications.latestValue = mergedNotificationList
     }
 
+    /**
+     * Clear all read notifications - It will handle removing the read notification logic
+     *
+     */
     fun clearAllReadNotifications() {
         mergedNotificationList = mergedNotificationList.filter { it.isUnRead }.toMutableList()
         mergedNotificationList.remove(readItem)
         notifications.latestValue = mergedNotificationList
     }
 
+    /**
+     * Display clear all dialogs - It will display clear all dialog pop-up
+     *
+     */
     fun displayClearAllDialogs() {
         viewModelScope.launch {
             displayClearAllEvent.postValue(Unit)
         }
     }
 
+    /**
+     * Display error dialog - It shows error dialog pop-up
+     *
+     */
     fun displayErrorDialog() {
         viewModelScope.launch {
             errorEvents.postValue("Server error!Try again later")
