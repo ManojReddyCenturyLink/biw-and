@@ -26,6 +26,7 @@ import com.centurylink.biwf.screens.home.devices.DevicesFragment
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.subscription.EditPaymentDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.utility.PendoUtil
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -51,7 +52,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
 
     private lateinit var binding: ActivityHomeBinding
 
-    private lateinit var onTabSelectedListener : TabLayout.OnTabSelectedListener
+    private lateinit var onTabSelectedListener: TabLayout.OnTabSelectedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,7 +66,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             binding.main,
             binding.retryOverlay.root
         )
-        onTabSelectedListener =  object :  TabLayout.OnTabSelectedListener {
+        onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 binding.vpDashboard.currentItem = tab.position
                 val text = tab.customView as TextView?
@@ -73,12 +74,14 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
                     text.typeface = Typeface.DEFAULT_BOLD
                 }
             }
+
             override fun onTabUnselected(tab: TabLayout.Tab) {
                 val text = tab.customView as TextView?
                 if (text != null) {
                     text.typeface = Typeface.DEFAULT
                 }
             }
+
             override fun onTabReselected(tab: TabLayout.Tab) {}
         }
         initViews()
@@ -91,6 +94,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             testRestErrorFlow.observe { Timber.e(it) }
             displayBioMetricPrompt.observe { biometricCheck(it) }
             refreshBioMetrics.observe { refreshAccountFragment() }
+            accountDetailsInfo.observe {
+                PendoUtil.initPendoSDKWithVisitor(this@HomeActivity, visitorId = it.emailAddress ?: "")
+            }
         }
     }
 
@@ -190,7 +196,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     }
 
     private fun setSupportButtonOnClick(isExistingUser: Boolean) {
-        binding.supportButton.setOnClickListener{ viewModel.onSupportClicked(isExistingUser)}
+        binding.supportButton.setOnClickListener { viewModel.onSupportClicked(isExistingUser) }
     }
 
     private fun initOnClicks() {

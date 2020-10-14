@@ -5,14 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/contact_info_content"
-        style="@style/SubHeading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/contact_info_select_phone_number_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+        <TextView
+            android:id="@+id/contact_info_content_text"
+            style="@style/SubHeading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_4"
+            android:text="@string/contact_info_select_phone_number_content"
+            app:layout_constraintStart_toStartOf="@id/contact_info_content"
+            app:layout_constraintEnd_toEndOf="@id/contact_info_content"
+            app:layout_constraintTop_toTopOf="@id/contact_info_content"
+            app:layout_constraintBottom_toBottomOf="@id/contact_info_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/layout_contact_info_existing_user_with_phone_number"
@@ -27,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
         app:layout_constraintTop_toTopOf="@+id/layout_contact_info_existing_user_with_phone_number"
         app:layout_constraintStart_toStartOf="parent">
         <RadioButton
@@ -51,7 +61,7 @@
         style="@style/style_installation_cancelled_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="@dimen/margin_spacing_tiny"
         android:layout_marginTop="@dimen/height_28"
         tools:text="123-456-7890"
         app:layout_constraintStart_toEndOf="@id/radio_group"
@@ -62,7 +72,7 @@
         style="@style/style_info_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
+        android:layout_marginStart="@dimen/margin_spacing_6"
         android:layout_marginTop="@dimen/height_28"
         android:text="@string/mobile"
         app:layout_constraintStart_toEndOf="@+id/contact_info_phone_number"
@@ -72,10 +82,10 @@
         android:id="@+id/contact_info_with_phone_number_input"
         style="@style/style_form_input_fields"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="24dp"
+        android:layout_height="@dimen/padding_40"
+        android:layout_marginTop="@dimen/height_28"
+        android:layout_marginStart="@dimen/margin_spacing_tiny"
+        android:layout_marginBottom="@dimen/medium_margin_spacing"
         android:autofillHints=""
         android:hint="@string/contact_info_phone_number_hint"
         android:enabled="false"
@@ -111,9 +121,9 @@
         android:id="@+id/contact_info_with_out_phone_number_input"
         style="@style/style_form_input_fields"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="32dp"
+        android:layout_height="@dimen/padding_40"
+        android:layout_marginTop="@dimen/height_20"
+        android:layout_marginBottom="@dimen/margin_spacing_large"
         android:autofillHints=""
         android:hint="@string/contact_info_phone_number_hint"
         android:inputType="phone"

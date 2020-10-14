@@ -15,7 +15,6 @@ import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.PhoneNumber
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 class ContactInfoViewModel @Inject constructor(
@@ -28,46 +27,33 @@ class ContactInfoViewModel @Inject constructor(
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
     var error = EventFlow<Errors>()
     private var phoneNumberValue: String = ""
-    var userId: String = ""
     var progressViewFlow = EventFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
-    var isExistingUserWithPhoneNumberState= EventFlow<Boolean>()
+    var isExistingUserWithPhoneNumberState = EventFlow<Boolean>()
+    var isExistingUserWithPhoneNumber = false
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
 
     init {
-        initAccountAndContactApiCalls()
+        isExistingUserWithPhoneNumberState.latestValue = false
+        initContactApiCall()
     }
 
-    fun launchSelectTime(customerCareOption: String, additionalInfo: String, phoneNumber: String, userId: String) {
+    fun launchSelectTime(customerCareOption: String, additionalInfo: String, phoneNumber: String) {
         val bundle = Bundle()
         bundle.putString(SelectTimeActivity.SELECT_TIME, customerCareOption)
         bundle.putString(SelectTimeActivity.ADDITIONAL_INFO, additionalInfo)
         bundle.putString(SelectTimeActivity.PHONE_NUMBER, phoneNumber)
-        bundle.putString(SelectTimeActivity.USER_ID, userId)
         ContactInfoCoordinatorDestinations.bundle = bundle
         myState.latestValue = ContactInfoCoordinatorDestinations.SELECT_TIME
     }
 
-    fun initAccountAndContactApiCalls() {
+    private fun initContactApiCall() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestContactDetails()
-            requestAccountDetails()
             progressViewFlow.latestValue = false
         }
     }
-
-    private suspend fun requestAccountDetails() {
-        val userAccountDetails = accountRepository.getAccountDetails()
-        userAccountDetails.fold(ifLeft = {
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_FAILURE)
-            errorMessageFlow.latestValue = it
-        }) {
-            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_ACCOUNT_DETAILS_SUCCESS)
-            userId = it.Id
-        }
-    }
-
 
     private suspend fun requestContactDetails() {
         val accountDetails = accountRepository.getAccountDetails()
@@ -84,7 +70,8 @@ class ContactInfoViewModel @Inject constructor(
     private fun updateUIContactDetailsFromAccounts(accountDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             cellPhone = PhoneNumber(accountDetails.phone ?: "").toString())
-        isExistingUserWithPhoneNumberState.latestValue = !uiAccountDetails.cellPhone.isNullOrEmpty()
+        this.isExistingUserWithPhoneNumber = !uiAccountDetails.cellPhone.isNullOrEmpty()
+        this.isExistingUserWithPhoneNumberState.latestValue = !uiAccountDetails.cellPhone.isNullOrEmpty()
         accountDetailsInfo.latestValue = uiAccountDetails
     }
 

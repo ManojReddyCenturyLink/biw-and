@@ -18,6 +18,7 @@ This document describes the setup and patterns used by this project implementing
     - [Railway Oriented Programming](#railway-oriented-programming)
     - [Dependency Injection](#dependency-injection)
     - [UI Bindings](#ui-bindings)
+  - [Authorization Flow](#authorization-flow)
   - [Offline Behavior and Caching](#offline-behavior-and-caching)
 - [Code Structure](#code-structure)
   - [Packages](#packages)
@@ -222,6 +223,16 @@ Currently, there is only one app-wide component and it can be found here:
 
 #### UI Bindings
 The project uses `ViewBinding` for binding views in XML layouts to Kotlin code. The use of `DataBinding` is discouraged.
+
+### Authorization Flow
+
+The BiWF mobile application currently authenticates users through a flow managed by an Apigee instance, which follows the OAuth 2.0 “Authorization Code Grant” pattern as defined here https://tools.ietf.org/html/rfc6749#section-4.1. The app also uses the AppAuth library (https://github.com/openid/AppAuth-Android) to abstract away some of the complexities of handling this type of flow in our codebase.
+
+Endpoints and credentials are managed in the app/build.gradle file and pulled into the application through BuildConfig fields. These fields can be altered for different build variants and flavors as needed by overriding them in the app/build.gradle file.
+
+The Auth flow is kicked off when the `LoginViewModel.showLoginFlow()` method is called, which triggers the `AppAuthAuthService.launchSignInFlow()` method. From here, the flow is completed through a series of callbacks and an intent-filter aligning with the needs of the AppAuth library, which manages the execution of the authentication. It is this `AppAuthAuthService` class which is the heart of our authentication mechanism. In it, we give the library the information it needs (authorizationEndpoint, tokenEndpoint, clientId, redirectUrl, scope) so that it can carry out each step of the process for us.
+
+Under the hood, the AppAuth library loads our authorizationEndpoint (an Apigee endpoint) inside of a Custom Tab in our Android application. The Apigee endpoint redirects us to a Salesforce login page with an implicit callback to the Apigee instance. So when the Salesforce login succeeds, that authentication is sent to Apigee, which returns an authorization response (containing an authorization code) to the `redirectUrl` that we’ve provided (via AppAuth library). We digest this in our application with an intent-filter, which itself lands in the same `AppAuthAuthService` class for handling. A token request is generated and executed by the AppAuth library, and Apigee responds with an authorization token and refresh token. The authorization token is what we use for each of our API calls, and it is persisted locally in the form of an AuthState object, which is an AppAuth library convention. A new authorization token is obtained as needed by the AppAuth library, which leverages existing credentials we’ve passed in (token endpoint) in combination with the AuthState variable we’ve persisted, which additionally contains our refresh token.
 
 ### Offline Behavior and Caching
 **Offline behavior** for the BiWF app has not yet been fully defined. For now, all data will come from the network. If the user's phone has no network connection, the user won't be able to use the app.

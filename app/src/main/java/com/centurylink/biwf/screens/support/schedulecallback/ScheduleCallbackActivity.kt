@@ -60,8 +60,8 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         finish()
     }
 
-    override fun onItemClick(item: TopicList) {
-        viewModel.navigateAdditionalInfoScreen(item)
+    override fun onItemClick(item: TopicList, position: Int) {
+        viewModel.navigateAdditionalInfoScreen(item, position)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
