@@ -57,6 +57,33 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         devicesInfo = fromJson(readJson("devicedetails.json"))
+        deviceData = fromJson(readJson("devicedata.json"))
+        val devicesItem = DevicesItem(
+            os = "11",osVersion = "11",name = "abc",cspClientId = "123",deviceType = "Andr",enforcementType = emptyList(),id = "",manufacturer = "onePlus"
+        )
+        val usageDetailsRes =  UsageDetails(
+            downloadTraffic = 100.00,
+            downloadTrafficUnit = NetworkTrafficUnits.MB_DOWNLOAD,
+            uploadTraffic = 100.00,
+            uploadTrafficUnit = NetworkTrafficUnits.MB_UPLOAD
+        )
+        coEvery { networkUsageRepository.getUsageDetails(true, "") } returns usageDetailsRes
+        coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Right(listOf(devicesItem))
+        coEvery { mcafeeRepository.updateDeviceName("", "", "") } returns Either.Right("")
+        coEvery { assiaRepository.blockDevices("") } returns Either.Right(
+            BlockResponse(
+                code = Constants.ERROR_CODE_1064,
+                message = "",
+                data = ""
+            )
+        )
+        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("", !deviceData.isPaused) } returns Either.Right(DevicePauseStatus(isPaused = true, deviceId = ""))
+        coEvery { mcafeeRepository.getDevicePauseResumeStatus("") } returns Either.Right(
+            DevicePauseStatus(
+                isPaused = false,
+                deviceId = "00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF"
+            )
+        )
         coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         run { analyticsManagerInterface }
         viewModel = UsageDetailsViewModel(
@@ -72,11 +99,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     @Test
     fun requestDailyUsageDetailsApiCall() =
         runBlockingTest {
-            var devicesItem = DevicesItem(
-                os = null,osVersion = "",name = "",cspClientId = "",deviceType = "",enforcementType = emptyList(),id = "",manufacturer = ""
-            )
             launch {
-                coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Right(listOf(devicesItem))
                 viewModel.initApis()
             }
         }
@@ -84,16 +107,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     @Test
     fun testDailyUsageDetailsApiCall() {
         runBlockingTest {
-            val usageDetailsRes =  UsageDetails(
-                downloadTraffic = 100.00,
-                downloadTrafficUnit = NetworkTrafficUnits.MB_DOWNLOAD,
-                uploadTraffic = 100.00,
-                uploadTrafficUnit = NetworkTrafficUnits.MB_UPLOAD
-            )
             launch {
-                try {
-                    coEvery { networkUsageRepository.getUsageDetails(true, "") } returns usageDetailsRes
-                }catch (e: Exception){}
                 viewModel.initApis()
             }
         }
@@ -103,12 +117,6 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testRequestStateForDevicesSuccess() {
         runBlockingTest {
             launch {
-                coEvery { mcafeeRepository.getDevicePauseResumeStatus("") } returns Either.Right(
-                    DevicePauseStatus(
-                        isPaused = false,
-                        deviceId = "00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF"
-                    )
-                )
                 viewModel.initApis()
             }
         }
@@ -126,14 +134,21 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testOnDevicesConnectedClicked() {
-        deviceData = fromJson(readJson("devicedata.json"))
-        viewModel.onDevicesConnectedClicked()
+        runBlockingTest {
+            launch {
+                viewModel.onDevicesConnectedClicked()
+            }
+    }
     }
 
     @Test
     fun testOnDevicesConnectedPausedStatus() {
         deviceData = fromJson(readJson("device-data.json"))
-        viewModel.onDevicesConnectedClicked()
+        runBlockingTest {
+            launch {
+                viewModel.onDevicesConnectedClicked()
+            }
+        }
     }
 
     @Test
@@ -145,13 +160,6 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testInvokeBlockedDevicesSuccess() {
         runBlockingTest {
             launch {
-                coEvery { assiaRepository.blockDevices("") } returns Either.Right(
-                    BlockResponse(
-                        code = Constants.ERROR_CODE_1064,
-                        message = "",
-                        data = ""
-                    )
-                )
                 viewModel.removeDevices("stationMac")
             }
         }
@@ -172,17 +180,6 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         deviceData = fromJson(readJson("devicedata.json"))
         runBlockingTest {
             launch {
-                coEvery {
-                    mcafeeRepository.updateDevicePauseResumeStatus(
-                        "",
-                        !deviceData.isPaused
-                    )
-                } returns Either.Right(
-                    DevicePauseStatus(
-                        isPaused = true,
-                        deviceId = ""
-                    )
-                )
                 viewModel.initApis()
             }
         }
@@ -214,9 +211,13 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun logAnalytics() {
-        viewModel.onDoneBtnClick("vini1234")
-        viewModel.onRemoveDevicesClicked()
-        viewModel.logRemoveConnection(true)
-        viewModel.logRemoveConnection(false)
+        runBlockingTest {
+            launch {
+                viewModel.onDoneBtnClick("vini1234")
+                viewModel.onRemoveDevicesClicked()
+                viewModel.logRemoveConnection(true)
+                viewModel.logRemoveConnection(false)
+            }
+        }
     }
 }
