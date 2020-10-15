@@ -197,6 +197,11 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
                     modelName = "",
                     apInfoList = apInfoList
                 ))
+                coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Right(ModemInfo(
+                    lineId = "",
+                    modelName = "",
+                    apInfoList = emptyList()
+                ))
                 viewModel.initApi()
                 Assert.assertEquals(
                             wifiInfo.name, null)}
@@ -212,6 +217,26 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
                     lineId = "",
                     modelName = "",
                     apInfoList = emptyList()
+                ))
+                val ssidMap = HashMap<String, String>()
+                ssidMap["Band2G"] = "CenturyLink"
+                ssidMap["Band5G"] = "CenturyLink"
+                ssidMap["Band2G_Guest1"] = "CenturyLink0308-24G-2"
+                ssidMap["Band2G_Guest4"] = "CenturyLink02-Guest123"
+                ssidMap["Band5G_Guest4"] = "CenturyLink02-Guest123"
+                val bssidMap = HashMap<String, String>()
+                bssidMap["02:6A:E3:8F:FA:B2"] = "Band2G_Guest4"
+                bssidMap["02:6A:E3:8F:FA:AC"] = "Band2G_Guest1"
+                val apInfoList = mutableListOf(
+                    ApInfo(
+                        "", "",
+                        "", true, true, ssidMap, bssidMap
+                    )
+                )
+                coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Right(ModemInfo(
+                    lineId = "",
+                    modelName = "",
+                    apInfoList = apInfoList
                 ))
                 viewModel.initApi()
                 Assert.assertEquals(

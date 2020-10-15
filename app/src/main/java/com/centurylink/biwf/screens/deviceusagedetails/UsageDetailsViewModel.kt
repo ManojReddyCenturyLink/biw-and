@@ -3,6 +3,7 @@ package com.centurylink.biwf.screens.deviceusagedetails
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.BIWFApp
+import com.centurylink.biwf.Either
 import com.centurylink.biwf.R
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -284,8 +285,8 @@ class UsageDetailsViewModel constructor(
     }
 
     private suspend fun invokeBlockedDevice(stationMac: String) {
-        val blockInfo = assiaRepository.blockDevices(stationMac)
         progressViewFlow.latestValue = false
+        val blockInfo = assiaRepository.blockDevices(stationMac)
         blockInfo.fold(
             ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_SUCCESS)
@@ -299,7 +300,7 @@ class UsageDetailsViewModel constructor(
     }
 
     private suspend fun fetchMcDevicesNames() {
-        val result = mcafeeRepository.fetchDeviceDetails()
+        val result:Either<String, List<DevicesItem>> = mcafeeRepository.fetchDeviceDetails()
         result.fold(ifLeft = {
             Timber.e("Mcafee Device List Error ")
         }, ifRight = { devicesItemList ->

@@ -27,7 +27,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 
 class DevicesViewModelTest : ViewModelBaseTest() {
@@ -86,7 +85,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
         )
     }
 
-    @Test @Ignore
+    @Test
     fun testDevicesSectionSuccess() {
         runBlockingTest {
             launch {
@@ -111,7 +110,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
         }
     }
 
-    @Test @Ignore
+    @Test
     fun testDevicesSectionFailure() {
         runBlockingTest {
             launch {
@@ -127,7 +126,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                     Constants.ERROR
                 )
                 viewModel.initApis()
-                viewModel.updatePauseResumeStatus(devicesInfo.devicesDataList[4])
+                viewModel.updatePauseResumeStatus(devicesInfo.devicesDataList[1])
                 Assert.assertEquals(viewModel.errorMessageFlow.first(), "Error DeviceInfo")
             }
         }
