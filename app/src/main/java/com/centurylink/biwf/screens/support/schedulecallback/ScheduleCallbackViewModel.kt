@@ -1,6 +1,8 @@
 package com.centurylink.biwf.screens.support.schedulecallback
 
+import android.content.Context
 import android.os.Bundle
+import com.centurylink.biwf.R
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
@@ -16,7 +18,6 @@ class ScheduleCallbackViewModel @Inject constructor(
 ) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
 
     val myState = EventFlow<ScheduleCallbackCoordinatorDestinations>()
-    val topicList: List<TopicList> = dummyList()
     var isExistingUserState: Boolean = false
 
     //currently we are hard coding data, once api will be there will update its value.
@@ -31,10 +32,10 @@ class ScheduleCallbackViewModel @Inject constructor(
         myState.latestValue = ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT
     }
 
-    fun navigateAdditionalInfoScreen(item: TopicList, position: Int) {
+    fun navigateAdditionalInfoScreen(item: TopicList) {
         analyticsManagerInterface.logListItemClickEvent(AnalyticsKeys.LIST_ITEM_SCHEDULE_CALLBACK)
         ScheduleCallbackCoordinatorDestinations.bundle = Bundle().apply {
-            putString(AdditionalInfoActivity.ADDITIONAL_INFO, position.toString())
+            putString(AdditionalInfoActivity.ADDITIONAL_INFO, item.topic)
             putBoolean(AdditionalInfoActivity.IS_EXISTING_USER, isExistingUserState)
         }
         myState.latestValue = ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO
@@ -44,14 +45,9 @@ class ScheduleCallbackViewModel @Inject constructor(
         isExistingUserState = isExistingUser
     }
 
-    private fun dummyList(): List<TopicList> {
-        return listOf(
-            "I want to know more about fiber internet service",
-            "I’m having trouble signing up for fiber internet service",
-            "I can’t sign into my account",
-            "I have questions about my account",
-            "I need something not listed here"
-        ).map(::TopicList)
+    fun customerCareOptionsList(context: Context): List<TopicList> {
+        val customerCareOptionsList = context.resources.getStringArray(R.array.customer_care_options)
+        return customerCareOptionsList.map(::TopicList)
     }
 
     fun logBackButtonClick() {

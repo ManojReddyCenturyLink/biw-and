@@ -50,7 +50,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         )
         viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
-            prepareRecyclerView(topicList)
+            prepareRecyclerView(viewModel.customerCareOptionsList(this@ScheduleCallbackActivity))
         }
 
         initHeaders()
@@ -60,8 +60,8 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         finish()
     }
 
-    override fun onItemClick(item: TopicList, position: Int) {
-        viewModel.navigateAdditionalInfoScreen(item, position)
+    override fun onItemClick(item: TopicList) {
+        viewModel.navigateAdditionalInfoScreen(item)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
