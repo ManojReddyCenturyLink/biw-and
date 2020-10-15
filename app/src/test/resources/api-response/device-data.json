@@ -15,7 +15,9 @@
   "rxRateKbps": 1170000,
   "userDefinedProfile": null,
   "location": "",
-  "deviceId": "00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF",
+  "deviceId": null,
+  "mcafeeDeviceId": null,
+
   "maxMode": {
     "Band2G": "ModeAC",
     "Band5G": "ModeAC"

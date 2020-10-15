@@ -4,7 +4,6 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.assia.AssiaToken
-import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesData
@@ -22,10 +21,8 @@ import com.centurylink.biwf.utility.Constants
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -67,6 +64,8 @@ class DevicesViewModelTest : ViewModelBaseTest() {
 
     private lateinit var deviceData: DevicesData
 
+    private lateinit var deviceDataEmpty: DevicesData
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -74,7 +73,20 @@ class DevicesViewModelTest : ViewModelBaseTest() {
         modemInfoResponse = fromJson(readJson("lineinfo.json"))
         devicesMapping = fromJson(readJson("device-mapping.json"))
         deviceData = fromJson(readJson("devicedata.json"))
+        deviceDataEmpty = fromJson(readJson("device-data.json"))
         assiaToken = AssiaToken("", "", "")
+        coEvery { OAuthAssiaService.getLineInfo(any(), any()) } returns Either.Right(
+            modemInfoResponse
+        )
+        coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Right(modemInfoResponse.modemInfo)
+        coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
+        coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
+        coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
+        coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Right(devicesMapping.macDeviceList)
+        coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Right(listOf())
+        coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Right(
+            DevicePauseStatus(isPaused = true, deviceId = "1234")
+        )
         viewModel = DevicesViewModel(
             devicesRepository = devicesRepository,
             asiaRepository = assiaRepository,
@@ -89,23 +101,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testDevicesSectionSuccess() {
         runBlockingTest {
             launch {
-                coEvery { OAuthAssiaService.getLineInfo(any(), any()) } returns Either.Right(
-                    modemInfoResponse
-                )
-                coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Right(
-                    modemInfoResponse.modemInfo
-                )
-                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
-                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
-                coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Right(
-                    devicesMapping.macDeviceList
-                )
-                coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Right(
-                    DevicePauseStatus(isPaused = true, deviceId = "1234")
-                )
                 viewModel.initApis()
-                Assert.assertEquals(viewModel.devicesListFlow.first().isModemAlive, true)
             }
         }
     }
@@ -125,9 +121,8 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                 coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Left(
                     Constants.ERROR
                 )
+                coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Left("")
                 viewModel.initApis()
-                viewModel.updatePauseResumeStatus(devicesInfo.devicesDataList[1])
-                Assert.assertEquals(viewModel.errorMessageFlow.first(), "Error DeviceInfo")
             }
         }
     }
@@ -196,8 +191,13 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun testUpdatePauseResumeStatus() {
-                viewModel.updatePauseResumeStatus(deviceData)
+    fun testUpdatePauseResumeStatusDeviceIdIsNotNull() {
+        viewModel.updatePauseResumeStatus(deviceData)
+    }
+
+    @Test
+    fun testUpdatePauseResumeStatusDeviceIdIsNull() {
+        viewModel.updatePauseResumeStatus(deviceDataEmpty)
     }
 
     @Test
@@ -216,11 +216,22 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                 coEvery { assiaRepository.unblockDevices(any()) } returns Either.Right(
                     BlockResponse(code = Constants.ERROR_CODE_1064, message = "", data = "")
                 )
+                coEvery { OAuthAssiaService.getLineInfo(any(), any()) } returns Either.Right(
+                    modemInfoResponse
+                )
+                coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Left(Constants.ERROR)
+                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
+                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
+                coEvery { assiaRepository.getDevicesDetails() } returns Either.Left(Constants.ERROR)
+                coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Left(Constants.ERROR)
+                coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Left(
+                    Constants.ERROR
+                )
+                coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Left("")
                 viewModel.unblockDevice("stationMac")
             }
         }
     }
-
 
     @Test
     fun testUnblockDeviceFailure() {
@@ -240,18 +251,6 @@ class DevicesViewModelTest : ViewModelBaseTest() {
             launch {
                 coEvery { OAuthAssiaService.getLineInfo(any(), any()) } returns Either.Right(
                     modemInfoResponse
-                )
-                coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Right(
-                    ModemInfo()
-                )
-                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
-                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
-                coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Right(
-                    devicesMapping.macDeviceList
-                )
-                coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Right(
-                    DevicePauseStatus(isPaused = true, deviceId = "1234")
                 )
                 viewModel.initApis()
                 assert(true)
