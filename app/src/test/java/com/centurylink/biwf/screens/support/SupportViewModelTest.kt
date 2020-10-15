@@ -5,10 +5,13 @@ import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.cases.RecordId
 import com.centurylink.biwf.model.faq.Faq
+import com.centurylink.biwf.model.speedtest.SpeedTestResponse
+import com.centurylink.biwf.model.speedtest.*
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.SpeedTestRepository
+import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -45,10 +48,18 @@ class SupportViewModelTest : ViewModelBaseTest() {
 
     private lateinit var recordID: RecordId
 
+    private lateinit var speedTestResponse: SpeedTestResponse
 
     @Before
     fun setUp() {
         MockKAnnotations.init(this, relaxed = true)
+        val jsonString = readJson("faqnosection.json")
+        val recordIdString = readJson("caseid.json")
+        faq = fromJson(jsonString)
+        recordID = fromJson(recordIdString)
+        speedTestResponse = fromJson(readJson("speedtest-response.json"))
+        coEvery { mockFAQRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
+        coEvery { mockFAQRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
         run { analyticsManagerInterface }
         viewModel = SupportViewModel(
             faqRepository = mockFAQRepository,
@@ -59,12 +70,6 @@ class SupportViewModelTest : ViewModelBaseTest() {
             analyticsManagerInterface = analyticsManagerInterface,
             speedTestRepository= speedTestRepository
         )
-        val jsonString = readJson("faqnosection.json")
-        val recordIdString = readJson("caseid.json")
-        faq = fromJson(jsonString)
-        recordID = fromJson(recordIdString)
-        coEvery { mockFAQRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
-        coEvery { mockFAQRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
     }
 
     @Test
@@ -75,11 +80,15 @@ class SupportViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testAnalyticsButtonClicked(){
-        Assert.assertNotNull(analyticsManagerInterface)
-        viewModel.logDoneButtonClick()
-        viewModel.logLiveChatLaunch()
-        viewModel.launchScheduleCallback(isExistingUser = true)
-        viewModel.startSpeedTest()
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull(analyticsManagerInterface)
+                viewModel.logDoneButtonClick()
+                viewModel.logLiveChatLaunch()
+                viewModel.launchScheduleCallback(false)
+                viewModel.startSpeedTest()
+            }
+        }
     }
 
     @Test
@@ -118,8 +127,19 @@ class SupportViewModelTest : ViewModelBaseTest() {
                 Assert.assertEquals(
                     viewModel.errorMessageFlow.first(), "Error in RecordId"
                 )
-
             }
         }
+    }
+
+    @Test
+    fun testHandleRebootStatus(){
+        //TODO revisit this case
+      runBlockingTest {
+          launch {
+              Assert.assertNotNull(
+                  viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.ONGOING)
+              )
+          }
+      }
     }
 }
