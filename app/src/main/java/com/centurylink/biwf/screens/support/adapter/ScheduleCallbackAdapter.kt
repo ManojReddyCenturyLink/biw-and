@@ -33,7 +33,7 @@ class ScheduleCallbackAdapter(
     override fun onBindViewHolder(holder: ScheduleCallbackViewHolder, position: Int) {
         val item: TopicList = listItems[position]
         holder.header.text = item.topic
-        holder.content.setOnClickListener { itemClickListener.onItemClick(item, position) }
+        holder.content.setOnClickListener { itemClickListener.onItemClick(item) }
     }
 }
 
@@ -46,5 +46,5 @@ interface ScheduleCallbackItemClickListener {
     /**
      * Handle click event on item click
      */
-    fun onItemClick(item: TopicList, position: Int)
+    fun onItemClick(item: TopicList)
 }
