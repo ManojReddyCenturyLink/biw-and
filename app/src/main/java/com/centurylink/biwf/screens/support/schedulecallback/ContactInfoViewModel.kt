@@ -47,7 +47,7 @@ class ContactInfoViewModel @Inject constructor(
         myState.latestValue = ContactInfoCoordinatorDestinations.SELECT_TIME
     }
 
-    private fun initContactApiCall() {
+    fun initContactApiCall() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestContactDetails()
