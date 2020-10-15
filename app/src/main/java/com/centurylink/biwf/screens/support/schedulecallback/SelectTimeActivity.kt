@@ -134,7 +134,7 @@ class SelectTimeActivity: BaseActivity() {
                 asap = "false"
                 fullDateAndTime = viewModel.formatDateAndTime(binding.callbackDateSelection.text, binding.callbackTimeSelection.text)
             }
-            viewModel.supportService(phoneNumber, asap, customerCareOption, fullDateAndTime, additionalInfo)
+            viewModel.supportService(this, phoneNumber, asap, customerCareOption, fullDateAndTime, additionalInfo)
         }
     }
 

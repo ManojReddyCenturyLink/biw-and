@@ -1,7 +1,9 @@
 package com.centurylink.biwf.screens.support.schedulecallback
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.centurylink.biwf.R
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.support.SupportServicesReq
@@ -35,7 +37,6 @@ class SelectTimeViewModel @Inject constructor(
     val callbackTimeUpdateEvent: EventLiveData<String> = MutableLiveData()
     private var nextDay: Boolean = false
     var isScheduleCallbackSuccessful = EventFlow<Boolean>()
-    private lateinit var customerCare: String
 
     init {
         isScheduleCallbackSuccessful.latestValue = false
@@ -62,17 +63,25 @@ class SelectTimeViewModel @Inject constructor(
     }
 
 
-    fun supportService(phoneNumber: String, ASAP: String, customerCareOption: String, fullDateAndTime: String, additionalInfo: String) {
+    fun supportService(context: Context,
+                       phoneNumber: String,
+                       ASAP: String,
+                       customerCareOption: String,
+                       fullDateAndTime: String,
+                       additionalInfo: String
+    ) {
         scheduleCallbackFlow.latestValue = true
-        customerCare = when(customerCareOption) {
-            "0" -> "I want to know more about Fiber Internet"
-            "1" -> "I'm having trouble signing up for Fiber Internet"
-            "2" -> "I can't sign into my account"
-            "3" -> "I have questions about my account"
-            else -> "I need something not listed here"
-        }
         viewModelScope.launch {
-            supportServiceInfo(SupportServicesReq(preferences.getValueByID(Preferences.USER_ID), phoneNumber, ASAP, customerCare, ASAP, fullDateAndTime, additionalInfo))
+            supportServiceInfo(SupportServicesReq(
+                preferences.getValueByID(Preferences.USER_ID),
+                phoneNumber,
+                ASAP,
+                customerCareOption,
+                ASAP,
+                fullDateAndTime,
+                additionalInfo
+            )
+            )
         }
     }
 
