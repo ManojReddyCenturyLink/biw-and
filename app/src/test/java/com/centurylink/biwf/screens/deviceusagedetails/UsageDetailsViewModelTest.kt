@@ -216,7 +216,8 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
             launch {
                 viewModel.onDoneBtnClick("vini1234")
                 viewModel.onRemoveDevicesClicked()
-               // viewModel.onDevicesConnectedClicked() viewModel.logRemoveConnection(true)
+                viewModel.onDevicesConnectedClicked()
+                viewModel.logRemoveConnection(true)
                 viewModel.logRemoveConnection(false)
             }
         }
