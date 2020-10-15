@@ -19,6 +19,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -173,7 +174,17 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun logAnalytics() {
         viewModel.onDoneBtnClick("")
         viewModel.onRemoveDevicesClicked()
+       // viewModel.onDevicesConnectedClicked()
         viewModel.logRemoveConnection(true)
         viewModel.logRemoveConnection(false)
+    }
+
+    @Test
+    fun validateInputTest(){
+        runBlockingTest {
+            launch {
+                Assert.assertEquals(false, viewModel.validateInput("nickname"))
+            }
+        }
     }
 }
