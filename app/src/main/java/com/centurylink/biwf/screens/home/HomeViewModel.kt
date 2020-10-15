@@ -114,7 +114,7 @@ class HomeViewModel @Inject constructor(
      * On support clicked - It will handle support button click logic
      *
      * @param isExistingUser - The boolean value to set existing user
-     * Its true existing user and false for non existing user
+     * Its true for existing user and false for non existing user
      */
     fun onSupportClicked(isExistingUser: Boolean) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)

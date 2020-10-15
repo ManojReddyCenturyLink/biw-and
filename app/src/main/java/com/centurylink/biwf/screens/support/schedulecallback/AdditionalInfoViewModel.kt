@@ -61,7 +61,7 @@ class AdditionalInfoViewModel @Inject constructor(
      *
      * @param isExistingUser - The boolean value to handle contact info screen for existing and
      * non existing users
-     * @param customerCareOption - The customer care option
+     * @param customerCareOption - The option selected from list of customer care options
      * @param additionalInfo - The additional information to be added
      */
     fun launchContactInfo(isExistingUser: Boolean, customerCareOption: String, additionalInfo: String) {
