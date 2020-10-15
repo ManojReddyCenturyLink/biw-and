@@ -45,6 +45,13 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
+    fun testSetIsExistingUserState() {
+        runBlockingTest {
+            viewModel.isExistingUserState
+        }
+    }
+
+    @Test
     fun onItemClicked_navigateToAdditionalInfoActivity() = runBlockingTest {
         launch {
             viewModel.navigateAdditionalInfoScreen(dummyList[3])
