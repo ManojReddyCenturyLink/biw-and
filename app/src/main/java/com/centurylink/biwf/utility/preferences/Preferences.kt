@@ -75,7 +75,7 @@ class Preferences(private val store: KeyValueStore) {
         var lineId = store.get(LINE_ID)
         // TODO This needs to be removed before launch
         if (lineId.isNullOrEmpty()) {
-            if (!BuildConfig.DEBUG && BuildConfig.FLAVOR.equals("prod", true)) {
+            if (BuildConfig.DEBUG) {
                 lineId = BuildConfig.LINE_ID
             }
         }
@@ -104,7 +104,7 @@ class Preferences(private val store: KeyValueStore) {
         var asiaID = store.get(ASSIA_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
         if (asiaID.isNullOrEmpty()) {
-            if (!BuildConfig.DEBUG && BuildConfig.FLAVOR.equals("prod", true)) {
+            if (BuildConfig.DEBUG) {
                 asiaID = BuildConfig.MODEM_ID
             }
         }
