@@ -70,7 +70,6 @@ data class DevicesData(
 
     var deviceConnectionStatus: DeviceConnectionStatus = DeviceConnectionStatus.LOADING
 
-
 ) : Serializable
 
 data class MaxMode(
