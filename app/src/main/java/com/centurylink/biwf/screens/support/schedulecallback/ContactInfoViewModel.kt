@@ -71,7 +71,7 @@ class ContactInfoViewModel @Inject constructor(
      * Init contact api call - It will initializes contact apis
      *
      */
-    private fun initContactApiCall() {
+    fun initContactApiCall() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestContactDetails()
