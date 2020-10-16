@@ -51,19 +51,46 @@ class HomeViewModelTest : ViewModelBaseTest() {
     private lateinit var accountRepository: AccountRepository
 
     @MockK
-    private lateinit var modemIdRepository: ModemIdRepository
-
-    @MockK
     private lateinit var mockPreferences: Preferences
 
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
+
     private lateinit var accountDetails: AccountDetails
+
+    @MockK
+    private lateinit var modemIdRepository: ModemIdRepository
 
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
-
+        run { analyticsManagerInterface }
+        every { mockPreferences.getHasSeenDialog() } returns true
+        every { mockPreferences.getUserType() } returns true
+        coEvery { userRepository.getUserInfo() } returns Either.Right(
+            UserInfo()
+        )
+        coEvery { mockOAuthAssiaRepository.getModemInfo() } returns Either.Right(
+            ModemInfo()
+        )
+        coEvery { userRepository.getUserDetails() } returns Either.Right(
+            UserDetails()
+        )
+        coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Right(
+            AppointmentRecordsInfo(
+                serviceAppointmentStartDate = LocalDateTime.now(),
+                serviceAppointmentEndTime = LocalDateTime.now(),
+                serviceEngineerName = "",
+                serviceEngineerProfilePic = "",
+                serviceStatus = ServiceStatus.COMPLETED,
+                serviceLatitude = "",
+                serviceLongitude = "",
+                jobType = "",
+                appointmentId = "",
+                timeZone = "", appointmentNumber = ""
+            )
+        )
+        viewModelInitialisation()
     }
 
     @Test
@@ -96,20 +123,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
         coEvery { userRepository.getUserInfo() } returns Either.Left(error = "")
         coEvery { userRepository.getUserDetails() } returns Either.Left(error = "")
         coEvery { appointmentRepository.getAppointmentInfo() } returns Either.Left(error = "")
-        viewModel =
-            HomeViewModel(
-                mockk(),
-                appointmentRepository,
-                mockPreferences,
-                mockk(),
-                userRepository,
-                assiaRepository,
-                mockOAuthAssiaRepository,
-                accountRepository,
-                modemIdRepository,
-                mockModemRebootMonitorService,
-                analyticsManagerInterface
-            )
+        viewModelInitialisation()
         launch {
             viewModel.initApis()
         }
@@ -132,20 +146,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
-        viewModel =
-            HomeViewModel(
-                mockk(),
-                appointmentRepository,
-                mockPreferences,
-                mockk(),
-                userRepository,
-                assiaRepository,
-                mockOAuthAssiaRepository,
-                accountRepository,
-                modemIdRepository,
-                mockModemRebootMonitorService,
-                analyticsManagerInterface
-            )
+        viewModelInitialisation()
     }
 
     @Test
@@ -209,24 +210,6 @@ class HomeViewModelTest : ViewModelBaseTest() {
         viewModelInitialisation()
     }
 
-    @Test
-    fun requestModemIdSuccess() {
-        every { mockPreferences.getValueByID(any()) } returns Constants.ID
-        coEvery { modemIdRepository.getModemTypeId() } returns Either.Right("C4000XG2002005365")
-        every { mockPreferences.getAssiaId() } returns "C4000XG2002005365"
-        viewModelInitialisation()
-        Assert.assertEquals(
-            mockPreferences.getAssiaId(), "C4000XG2002005365"
-        )
-    }
-
-    @Test
-    fun requestModemIdFailure() {
-        coEvery { modemIdRepository.getModemTypeId() } returns Either.Left("Error")
-        viewModelInitialisation()
-    }
-
-
     private fun viewModelInitialisation() {
         viewModel =
             HomeViewModel(
@@ -242,5 +225,22 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 mockModemRebootMonitorService,
                 analyticsManagerInterface
             )
+    }
+
+    @Test
+    fun requestModemIdSuccess() {
+        every { mockPreferences.getValueByID(any()) } returns Constants.ID
+        coEvery { modemIdRepository.getModemTypeId() } returns Either.Right("C4000XG2002005365")
+        every { mockPreferences.getAssiaId() } returns "C4000XG2002005365"
+        viewModelInitialisation()
+        Assert.assertEquals(
+            mockPreferences.getAssiaId(), "C4000XG2002005365"
+        )
+    }
+
+    @Test
+    fun requestModemIdFailure() {
+        coEvery { modemIdRepository.getModemTypeId() } returns Either.Left("Error")
+        viewModelInitialisation()
     }
 }
