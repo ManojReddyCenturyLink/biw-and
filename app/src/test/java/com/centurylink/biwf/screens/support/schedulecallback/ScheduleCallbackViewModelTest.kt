@@ -1,26 +1,22 @@
-package com.centurylink.biwf.screens.support
+package com.centurylink.biwf.screens.support.schedulecallback
 
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.coordinators.ScheduleCallbackCoordinatorDestinations
 import com.centurylink.biwf.model.support.TopicList
-import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackViewModel
 import io.mockk.MockKAnnotations
-import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
-
-@Suppress("EXPERIMENTAL_API_USAGE")
 class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
+    private lateinit var viewModel: ScheduleCallbackViewModel
 
     @MockK
-    private lateinit var analyticsManagerInterface : AnalyticsManager
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     private val dummyList = listOf(
         "I want to know more about fiber internet service",
@@ -30,31 +26,31 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
         "I need something not listed here"
     ).map(::TopicList)
 
-    private lateinit var viewModel: ScheduleCallbackViewModel
-
     @Before
-    fun setup() {
-        MockKAnnotations.init(this)
-        coEvery { mockModemRebootMonitorService }
+    fun setUp() {
+        MockKAnnotations.init(this, relaxed = true)
         run { analyticsManagerInterface }
-        viewModel = ScheduleCallbackViewModel(mockModemRebootMonitorService,analyticsManagerInterface)
-    }
-
-    @Ignore
-    @Test
-    fun onCallUSClicked_navigateToPhoneDiallerScreen() = runBlockingTest {
-        launch {
-            viewModel.launchCallDialer()
-        }
-
-        Assert.assertEquals(
-            "Dialler Screen wasn't Launched",
-            ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT,
-            viewModel.myState.first()
+        viewModel = ScheduleCallbackViewModel(
+            modemRebootMonitorService = mockModemRebootMonitorService,
+            analyticsManagerInterface = analyticsManagerInterface
         )
     }
 
-    @Ignore
+    @Test
+    fun testAnalyticsButtonClicked(){
+        Assert.assertNotNull(analyticsManagerInterface)
+        viewModel.logBackButtonClick()
+        viewModel.logCancelButtonClick()
+        viewModel.launchCallDialer()
+    }
+
+    @Test
+    fun testSetIsExistingUserState() {
+        runBlockingTest {
+            viewModel.isExistingUserState
+        }
+    }
+
     @Test
     fun onItemClicked_navigateToAdditionalInfoActivity() = runBlockingTest {
         launch {

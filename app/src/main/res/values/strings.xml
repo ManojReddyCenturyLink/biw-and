@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Login Screen -->
     <string name="app_name">BiWF</string>
     <string name="email">Email:</string>
@@ -329,4 +329,5 @@
     <string name="contact_info_select_phone_number_content">Which phone number would you like us to contact you on? </string>
     <string name="mobile">Mobile</string>
     <string name="enter_valid_phone_number_error">Please enter a valid phone number</string>
+    <string name="characters_limit">15 characters max</string>
 </resources>

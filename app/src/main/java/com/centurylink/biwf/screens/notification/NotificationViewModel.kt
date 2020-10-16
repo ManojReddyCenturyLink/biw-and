@@ -107,8 +107,8 @@ class NotificationViewModel @Inject constructor(
     }
 
     /**
-     * Navigate to notification details - This navigate to notification details screen on click of
-     * notification item
+     * Navigate to notification details - This will navigate to notification details screen on click
+     * of notification item
      *
      * @param notificationItem - The notification item clicked
      */

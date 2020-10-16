@@ -17,6 +17,15 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Contact info view model
+ *
+ * @property accountRepository
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class ContactInfoViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
     private val accountRepository: AccountRepository,
@@ -33,11 +42,22 @@ class ContactInfoViewModel @Inject constructor(
     var isExistingUserWithPhoneNumber = false
     var uiAccountDetails: UiAccountDetails = UiAccountDetails()
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         isExistingUserWithPhoneNumberState.latestValue = false
         initContactApiCall()
     }
 
+    /**
+     * Launch select time - It will launch contact info screen from select screen by passing
+     * bundle
+     *
+     * @param customerCareOption - The option selected from list of customer care options
+     * @param additionalInfo - The additional information to be added
+     * @param phoneNumber - The selected phone number
+     */
     fun launchSelectTime(customerCareOption: String, additionalInfo: String, phoneNumber: String) {
         val bundle = Bundle()
         bundle.putString(SelectTimeActivity.SELECT_TIME, customerCareOption)
@@ -47,7 +67,11 @@ class ContactInfoViewModel @Inject constructor(
         myState.latestValue = ContactInfoCoordinatorDestinations.SELECT_TIME
     }
 
-    private fun initContactApiCall() {
+    /**
+     * Init contact api call - It will initializes contact apis
+     *
+     */
+    fun initContactApiCall() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestContactDetails()
@@ -55,6 +79,10 @@ class ContactInfoViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request contact details - fetches contact details from contact service api
+     *
+     */
     private suspend fun requestContactDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
@@ -66,7 +94,11 @@ class ContactInfoViewModel @Inject constructor(
         }
     }
 
-
+    /**
+     * Update u i contact details from accounts
+     *
+     * @param accountDetails - The instance to hold account details
+     */
     private fun updateUIContactDetailsFromAccounts(accountDetails: AccountDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             cellPhone = PhoneNumber(accountDetails.phone ?: "").toString())
@@ -75,6 +107,12 @@ class ContactInfoViewModel @Inject constructor(
         accountDetailsInfo.latestValue = uiAccountDetails
     }
 
+    /**
+     * Validate input - It will validate phone input for contact info screen
+     *
+     * @return - returns error value if there is an error in phone number
+     * returns null if there is no error
+     */
     fun validateInput(): Errors {
         val errors = Errors()
         if (phoneNumberValue.isEmpty() || phoneNumberValue.length < mobileMinLength ) {
@@ -84,6 +122,12 @@ class ContactInfoViewModel @Inject constructor(
         return errors
     }
 
+    /**
+     * On phone number changed - format's the phone number on text changes
+     *
+     * @param phoneNumberValue - The phone number to be watched
+     * @return
+     */
     fun onPhoneNumberChanged(phoneNumberValue: String): String {
         val digits = StringBuilder()
         val phone = StringBuilder()
@@ -118,6 +162,11 @@ class ContactInfoViewModel @Inject constructor(
         val cellPhone: String? = null
     )
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val mobileMinLength = 12
     }
