@@ -1,7 +1,6 @@
 package com.centurylink.biwf.model.mcafee
 
 import com.google.gson.annotations.SerializedName
-import com.typesafe.config.ConfigException
 
 /**
  * Model class for block device details response info
@@ -23,7 +22,7 @@ data class DevicesItem(
     @SerializedName("name")
     val name: String = "",
     @SerializedName("csp_client_id")
-    val cspClientId: ConfigException? = null,
+    val cspClientId: String? = null,
     @SerializedName("device_type")
     val deviceType: String = "",
     @SerializedName("enforcement_type")

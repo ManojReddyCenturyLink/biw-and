@@ -266,6 +266,14 @@
                     app:layout_constraintBottom_toBottomOf="@id/nickname_device"
                     app:layout_constraintStart_toEndOf="@id/nickname_device" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/characters_limit"
+                    android:textAppearance="@style/style_med_grey_small_text"
+                    app:layout_constraintBottom_toBottomOf="@id/nickname_device"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
                 <EditText
                     android:id="@+id/nickname_device_name_input"
                     style="@style/style_form_input_fields"

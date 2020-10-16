@@ -30,6 +30,22 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Home view model
+ *
+ * @property testRestServices - service instance to handle testRest api calls
+ * @property appointmentRepository - repository instance to handle appointment api calls
+ * @property sharedPreferences - preference instance to handle  sharedPreferences
+ * @property integrationServices - service instance to handle integration api calls
+ * @property userRepository - repository instance to handle user api calls
+ * @property assiaRepository - repository instance to handle assia api calls
+ * @property oAuthAssiaRepository - repository instance to handle oAuth assia api calls
+ * @property accountRepository - repository instance to handle account api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class HomeViewModel @Inject constructor(
     private val testRestServices: TestRestServices,
     private val appointmentRepository: AppointmentRepository,
@@ -67,6 +83,9 @@ class HomeViewModel @Inject constructor(
         negativeText = R.string.dont_allow
     )
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         upperTabHeaderList = initList(true)
         lowerTabHeaderList = initList(false)
@@ -78,6 +97,10 @@ class HomeViewModel @Inject constructor(
         initApis()
     }
 
+    /**
+     * Init Apis - It will start all the api calls initialisation
+     *
+     */
     fun initApis() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
@@ -87,6 +110,12 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * On support clicked - It will handle support button click logic
+     *
+     * @param isExistingUser - The boolean value to set existing user
+     * Its true for existing user and false for non existing user
+     */
     fun onSupportClicked(isExistingUser: Boolean) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_SUPPORT_HOME_SCREEN)
         val bundle = Bundle()
@@ -95,10 +124,18 @@ class HomeViewModel @Inject constructor(
         myState.latestValue = HomeCoordinatorDestinations.SUPPORT
     }
 
+    /**
+     * On notification bell clicked - It will handle notification bell click logic
+     *
+     */
     fun onNotificationBellClicked() {
         myState.latestValue = HomeCoordinatorDestinations.NOTIFICATION_LIST
     }
 
+    /**
+     * On biometric yes response - This method is used to handle biometric positive response
+     *
+     */
     fun onBiometricYesResponse() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_ENABLE_BIOMETRICS_OK)
         sharedPreferences.apply {
@@ -108,10 +145,19 @@ class HomeViewModel @Inject constructor(
         refreshBioMetrics.latestValue = Unit
     }
 
+    /**
+     * On biometric yes response - This method is used to handle biometric negative response
+     *
+     */
     fun onBiometricNoResponse() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_ENABLE_BIOMETRICS_DONT_ALLOW)
     }
 
+    /**
+     * On subscription activity click
+     *
+     * @param paymentMethod - The selected payment method
+     */
     fun onSubscriptionActivityClick(paymentMethod: String) {
         HomeCoordinatorDestinations.bundle = Bundle().apply {
             putString(SubscriptionActivity.PAYMENT_CARD, paymentMethod)
@@ -135,7 +181,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-
+    /**
+     * Request user details - It is used to request user details through API call
+     *
+     */
     private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
         userDetails.fold(ifLeft = {
@@ -145,6 +194,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request user info - It is used to request user info through API call
+     *
+     */
     private suspend fun requestUserInfo() {
         val userInfo = userRepository.getUserInfo()
         userInfo.fold(ifLeft = {
@@ -152,6 +205,10 @@ class HomeViewModel @Inject constructor(
         }) {}
     }
 
+    /**
+     * Request account details - It is used to request account details through API call
+     *
+     */
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
@@ -173,6 +230,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request appointment details - It is used to request appointment details through API call
+     *
+     */
     private suspend fun requestAppointmentDetails() {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
@@ -190,6 +251,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request modem info - It is used to request modem info through API call
+     *
+     */
     private suspend fun requestModemInfo() {
         val modemInfo = oAuthAssiaRepository.getModemInfo()
         modemInfo.fold(ifRight = {
@@ -207,12 +272,22 @@ class HomeViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Modem status refresh - It is used to refresh modem status depending on interval
+     *
+     */
     private fun modemStatusRefresh() {
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
         }
     }
 
+    /**
+     * Init list - It is used to initialize header tabs in home screen
+     *
+     * @param isUpperTab - The boolean value to set header tabs
+     * @return - returns list of header tabs
+     */
     private fun initList(isUpperTab: Boolean): MutableList<TabsBaseItem> {
         val list = mutableListOf<TabsBaseItem>()
 
@@ -239,12 +314,20 @@ class HomeViewModel @Inject constructor(
         return list
     }
 
+    /**
+     * Invoke new user dashboard - This is used to show two tabs in home screen
+     *
+     */
     // show 2 tabs
     private fun invokeNewUserDashboard() {
         activeUserTabBarVisibility.latestValue = false
         progressViewFlow.latestValue = false
     }
 
+    /**
+     * Invoke standard user dashboard - This is used to show 3 tabs in home screen
+     *
+     */
     // show 3 tabs
     private fun invokeStandardUserDashboard() {
         activeUserTabBarVisibility.latestValue = true
@@ -252,6 +335,11 @@ class HomeViewModel @Inject constructor(
         modemStatusRefresh()
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val pendingActivation = "Pending Activation"
         const val abandonedActivation = "Abandoned Activation"

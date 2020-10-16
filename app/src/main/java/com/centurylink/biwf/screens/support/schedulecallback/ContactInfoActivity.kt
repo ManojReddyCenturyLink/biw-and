@@ -19,6 +19,11 @@ import com.centurylink.biwf.utility.afterTextChanged
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import javax.inject.Inject
 
+/**
+ * Contact info activity - This class handle common methods related to contact screen
+ *
+ * @constructor Create empty Contact info activity
+ */
 class ContactInfoActivity : BaseActivity() {
 
     @Inject
@@ -38,6 +43,13 @@ class ContactInfoActivity : BaseActivity() {
     private lateinit var additionalInfo: String
     private lateinit var phoneNumber: String
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityContactInfoBinding.inflate(layoutInflater)
@@ -49,10 +61,18 @@ class ContactInfoActivity : BaseActivity() {
         initOnClicks()
     }
 
+    /**
+     * On back pressed - This will handle back key click listeners
+     *
+     */
     override fun onBackPressed() {
         finish()
     }
 
+    /**
+     * Init views - It will initializes the views
+     *
+     */
     private fun initViews() {
         customerCareOption = intent.getStringExtra(CUSTOMER_CARE_OPTION)
         additionalInfo = intent.getStringExtra(ADDITIONAL_INFO)
@@ -90,6 +110,12 @@ class ContactInfoActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Formatted string - This will format string if it's not empty
+     *
+     * @param str - string to be formatted
+     * @return - returns formatted string
+     */
     private fun formattedString(str: String): String? {
         return if (str.isNotEmpty()) {
             val substring1 = str.substring(1, 4)
@@ -99,6 +125,10 @@ class ContactInfoActivity : BaseActivity() {
             ""
     }
 
+    /**
+     * Init headers - It will initialize screen headers
+     *
+     */
     private fun initHeaders() {
         val screenTitle: String = getString(R.string.contact_info)
         binding.incHeader.apply {
@@ -141,6 +171,11 @@ class ContactInfoActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Format phone number - This is used to format the phone number
+     *
+     * @param edit - The editview to be formatted
+     */
     private fun formatPhoneNumber(edit: EditText) {
         edit.addTextChangedListener(
             afterTextChanged { editable ->
@@ -163,6 +198,10 @@ class ContactInfoActivity : BaseActivity() {
         )
     }
 
+    /**
+     * Init on clicks - It will initializes click listeners
+     *
+     */
     private fun initOnClicks() {
         binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumber.setOnClickListener {
             binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.isEnabled = false
@@ -222,6 +261,11 @@ class ContactInfoActivity : BaseActivity() {
         }
     }
 
+    /**
+     * On error dialog callback - It will handle the error dialog callback listeners
+     *
+     * @param buttonType - It returns which button is pressed negative or positive
+     */
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
@@ -229,6 +273,10 @@ class ContactInfoActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Validate phone number - It is used to validate error states
+     *
+     */
     private fun validatePhoneNumber() {
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
@@ -236,6 +284,15 @@ class ContactInfoActivity : BaseActivity() {
         }
     }
 
+    /**
+     * On activity result - Called when an activity you launched exits, giving you the requestCode
+     * you started it with, the resultCode it returned and any additional data from it.
+     *
+     * @param requestCode - It is originally supplied to startActivityForResult(), allowing
+     * to identify result code came from.
+     * @param resultCode - It is returned by the child activity through its setResult().
+     * @param data - It will return result data to the caller activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -259,6 +316,11 @@ class ContactInfoActivity : BaseActivity() {
         }
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val IS_EXISTING_USER = "isExistingUser"
         const val CUSTOMER_CARE_OPTION = "CustomerCareOption"
