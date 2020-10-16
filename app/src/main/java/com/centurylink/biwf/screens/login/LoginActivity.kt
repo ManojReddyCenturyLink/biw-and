@@ -17,6 +17,11 @@ import com.centurylink.biwf.utility.getViewModel
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * Login activity - This class handle common methods related to login screen
+ *
+ * @constructor Create empty Login activity
+ */
 class LoginActivity : BaseActivity(), AuthServiceHost {
     override val hostContext: Context = this
 
@@ -35,6 +40,13 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
     private lateinit var binding: ActivityLoginBinding
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
@@ -52,15 +64,28 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         handleIntent()
     }
 
+    /**
+     * On resume - Called when the fragment is visible to the user and actively running
+     *
+     */
     override fun onResume() {
         super.onResume()
         viewModel.handleSignInFlow()
     }
 
+    /**
+     * On back pressed - This will handle back key click listeners
+     *
+     */
     override fun onBackPressed() {
         finishAffinity()
     }
 
+    /**
+     * Biometric check - It will check for hardware related issues to activate biometrics
+     *
+     * @param biometricPrompt - The message prompt to be displayed
+     */
     private fun biometricCheck(biometricPrompt: BiometricPromptMessage) {
         val biometricManager = BiometricManager.from(this)
 
@@ -77,6 +102,11 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         }
     }
 
+    /**
+     * Show bio dialog - It shows the biometric alert dialog based on biometric message to displayed
+     *
+     * @param biometricMessage - The message prompt to be displayed
+     */
     private fun showBioDialog(biometricMessage: BiometricPromptMessage) {
         val executor = ContextCompat.getMainExecutor(this)
         val biometricPrompt = BiometricPrompt(this, executor,
@@ -112,13 +142,23 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         biometricPrompt.authenticate(promptInfo)
     }
 
+    /**
+     * On new intent - It will be called with the starting Intent being passed as the
+     * intent argument.
+     *
+     * @param newIntent - The intent to be passed
+     */
     override fun onNewIntent(newIntent: Intent?) {
         super.onNewIntent(newIntent)
         intent = newIntent
         handleIntent()
     }
 
-    private fun handleIntent() {
+    /**
+     * Handle intent
+     *
+     */
+   private fun handleIntent() {
         when (val authResult = intent.authResponseType) {
             null -> return
 
@@ -137,6 +177,11 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         }
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         private const val AUTH_RESPONSE_TYPE = "AuthResponseType"
 
