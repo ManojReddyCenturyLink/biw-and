@@ -143,8 +143,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
     }
 
     /**
-     * On new intent - It will be called with the starting Intent being passed as the
-     * intent argument.
+     * On new intent - Used to inform the fragment manager that the state is not saved
      *
      * @param newIntent - The intent to be passed
      */
@@ -155,7 +154,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
     }
 
     /**
-     * Handle intent
+     * Handle intent - Authenticate user and Navigate to respective next steps
      *
      */
    private fun handleIntent() {

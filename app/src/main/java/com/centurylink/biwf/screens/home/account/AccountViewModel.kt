@@ -350,7 +350,7 @@ class AccountViewModel internal constructor(
     }
 
     /**
-     * Format service address line1
+     * Format service address line1 - Used for formatting customer of service address line 1
      *
      * @param street - The street
      * @param unit - The unit
@@ -360,7 +360,7 @@ class AccountViewModel internal constructor(
 
 
     /**
-     * Format service address line2
+     * Format service address line2 - Used for formatting customer of service address line 2
      *
      * @param city
      * @param stateProvince
