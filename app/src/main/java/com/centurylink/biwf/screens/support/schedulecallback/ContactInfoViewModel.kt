@@ -67,7 +67,6 @@ class ContactInfoViewModel @Inject constructor(
         myState.latestValue = ContactInfoCoordinatorDestinations.SELECT_TIME
     }
 
-    fun initContactApiCall() {
     /**
      * Init contact api call - It will initializes contact apis
      *
