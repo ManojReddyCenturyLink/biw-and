@@ -21,7 +21,12 @@ import java.time.LocalTime
 import java.util.*
 import javax.inject.Inject
 
-class SelectTimeActivity: BaseActivity() {
+/**
+ * Select time activity - This class handles common methods related to Select Time Screen
+ *
+ * @constructor Create empty Select time activity
+ */
+class SelectTimeActivity : BaseActivity() {
 
     @Inject
     lateinit var factory: DaggerViewModelFactory
@@ -38,6 +43,13 @@ class SelectTimeActivity: BaseActivity() {
     private lateinit var asap: String
     private lateinit var fullDateAndTime: String
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     * @param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySelectTimeBinding.inflate(layoutInflater)
@@ -49,15 +61,23 @@ class SelectTimeActivity: BaseActivity() {
         }
         setContentView(binding.root)
         initHeaders()
-        initTextWatchers()
+        initViews()
         initOnClicks()
         observeViews()
     }
 
+    /**
+     * On back pressed - handles back key click listener
+     *
+     */
     override fun onBackPressed() {
         finish()
     }
 
+    /**
+     * Init headers - initializes screen headers
+     *
+     */
     private fun initHeaders() {
         val screenTitle: String = getString(R.string.select_time)
         binding.incHeader.apply {
@@ -74,13 +94,17 @@ class SelectTimeActivity: BaseActivity() {
         }
     }
 
+    /**
+     * Observe views - observes the object state from View Model and makes UI changes accordingly
+     *
+     */
     private fun observeViews() {
         viewModel.scheduleCallbackFlow.observe {
-            binding.callMeButton.visibility =  if(it) View.GONE else View.VISIBLE
-            binding.callMeProgressButton.root.visibility = if(it) View.VISIBLE else View.GONE
+            binding.callMeButton.visibility = if (it) View.GONE else View.VISIBLE
+            binding.callMeProgressButton.root.visibility = if (it) View.VISIBLE else View.GONE
         }
         viewModel.errorFlow.observe {
-            if(it) {
+            if (it) {
                 CustomDialogBlueTheme(
                     getString(R.string.error_title),
                     getString(R.string.password_reset_error_msg),
@@ -96,28 +120,43 @@ class SelectTimeActivity: BaseActivity() {
             }
         }
         viewModel.isScheduleCallbackSuccessful.observe {
-            if(it) {
+            if (it) {
                 setResult(Activity.RESULT_OK)
                 finish()
             }
         }
-        }
+    }
 
-    private fun initTextWatchers() {
-        binding.callbackTimeSelection.text = viewModel.getDefaultTimeSlot()
+    /**
+     * Init text watchers - Initialises the default date and time slots
+     *
+     */
+    private fun initViews() {
+        binding.callbackTimeSelection.text =
+            viewModel.getDefaultTimeSlot(LocalTime.now().minute, LocalTime.now().hour)
         binding.callbackDateSelection.text = viewModel.getDefaultDateSlot()
     }
 
+    /**
+     * On error dialog callback - Error Dialog Callback Event
+     *
+     * @param buttonType defines which button is clicked
+     */
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
-                binding.callbackTimeSelection.text = viewModel.getDefaultTimeSlot()
+                binding.callbackTimeSelection.text =
+                    viewModel.getDefaultTimeSlot(LocalTime.now().minute, LocalTime.now().hour)
                 binding.callbackDateSelection.text = viewModel.getDefaultDateSlot()
                 setResult(Activity.RESULT_OK)
                 finish()
             }
         }
     }
+
+    /**
+     * Init on clicks - Initializes the click events
+     */
     private fun initOnClicks() {
         binding.callbackDateSelection.setOnClickListener { viewModel.onDateChange() }
         binding.callbackTimeSelection.setOnClickListener { viewModel.onTimeChange() }
@@ -127,17 +166,30 @@ class SelectTimeActivity: BaseActivity() {
             customerCareOption = intent.getStringExtra(SELECT_TIME)
             additionalInfo = intent.getStringExtra(ADDITIONAL_INFO)
             phoneNumber = intent.getStringExtra(PHONE_NUMBER)
-            if(binding.nextAvailableCallbackTimeRadiobtn.isChecked) {
+            if (binding.nextAvailableCallbackTimeRadiobtn.isChecked) {
                 asap = "true"
                 fullDateAndTime = ""
             } else {
                 asap = "false"
-                fullDateAndTime = viewModel.formatDateAndTime(binding.callbackDateSelection.text, binding.callbackTimeSelection.text)
+                fullDateAndTime = viewModel.formatDateAndTime(
+                    binding.callbackDateSelection.text,
+                    binding.callbackTimeSelection.text
+                )
             }
-            viewModel.supportService(this, phoneNumber, asap, customerCareOption, fullDateAndTime, additionalInfo)
+            viewModel.supportService(
+                phoneNumber,
+                asap,
+                customerCareOption,
+                fullDateAndTime,
+                additionalInfo
+            )
         }
     }
 
+    /**
+     * Display date picker - Displays the date picker dialog
+     *
+     */
     private fun displayDatePicker() {
         val cal = Calendar.getInstance()
         val year = cal.get(Calendar.YEAR)
@@ -159,6 +211,10 @@ class SelectTimeActivity: BaseActivity() {
         datePicker.show()
     }
 
+    /**
+     * Display time picker - displays the custom time picker dialog
+     *
+     */
     @SuppressLint("SimpleDateFormat")
     private fun displayTimePicker() {
         timePicker = TimePickerDialog.newInstance(
@@ -187,6 +243,16 @@ class SelectTimeActivity: BaseActivity() {
         timePicker.show(supportFragmentManager, "Time Picker")
     }
 
+    /**
+     * Set time picker limits - sets the minimum and maximum time slots that can be selected in the
+     *                          time picker dialog
+     *
+     * @param selectedDate - date value that user has selected in the dialog
+     * @param currentDate - current date at the time of selection
+     * @param selectedMonth - month value that user has selected in the dialog
+     * @param currentMonth - month that user has selected in the dialog
+     * @param selectedMin - minute value that user has selected in the dialog
+     */
     private fun setTimePickerLimits(
         selectedDate: Int, currentDate: Int, selectedMonth: Int,
         currentMonth: Int, selectedMin: Int
@@ -214,6 +280,11 @@ class SelectTimeActivity: BaseActivity() {
         }
     }
 
+    /**
+     * Update callback date - updates the selected date from date picker dialog in UI
+     *
+     * @param date - date value selected by user
+     */
     @SuppressLint("SimpleDateFormat")
     private fun updateCallbackDate(date: Date) {
         val dateFormat = SimpleDateFormat("MM/dd/YY")
@@ -221,6 +292,11 @@ class SelectTimeActivity: BaseActivity() {
         binding.callbackDateSelection.text = stringDate
     }
 
+    /**
+     * Update callback time - updates the selected time from time picker dialog in UI
+     *
+     * @param selectedtime - time value selected by user
+     */
     private fun updateCallbackTime(selectedtime: String) {
         binding.callbackTimeSelection.text = selectedtime
     }
