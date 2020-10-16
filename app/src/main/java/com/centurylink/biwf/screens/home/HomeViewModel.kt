@@ -191,6 +191,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request user details - It is used to request user details through API call
+     *
+     */
     private suspend fun requestUserDetails() {
         val userDetails = userRepository.getUserDetails()
         userDetails.fold(ifLeft = {
@@ -257,17 +261,21 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Request modem info - It is used to request modem info through API call
+     *
+     */
     private suspend fun requestModemInfo() {
         val modemInfo = oAuthAssiaRepository.getModemInfo()
         modemInfo.fold(ifRight = {
-            val apiInfo = it?.apInfoList
-            if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
-                networkStatus.latestValue = apiInfo[0].isAlive
-            } else {
-                networkStatus.latestValue = false
-            }
-        },
-            ifLeft = {
+                val apiInfo = it?.apInfoList
+                if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                    networkStatus.latestValue = apiInfo[0].isAlive
+                } else {
+                    networkStatus.latestValue = false
+                }
+            },
+             ifLeft = {
                 // Ignoring Error API called every 30 seconds
                 //errorMessageFlow.latestValue = modemInfo.toString()
             }

@@ -50,6 +50,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var accountRepository: AccountRepository
 
+
     @MockK
     private lateinit var modemIdRepository: ModemIdRepository
 
@@ -181,6 +182,26 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 assiaRepository,
                 mockOAuthAssiaRepository,
                 accountRepository,
+                mockModemRebootMonitorService,
+                analyticsManagerInterface
+            )
+    }
+
+    @Test
+    fun getAccountDetailsWithPendingActivation() {
+        val accountString = readJson("account.json")
+        accountDetails = fromJson(accountString)
+        coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
+        viewModel =
+            HomeViewModel(
+                mockk(),
+                appointmentRepository,
+                mockPreferences,
+                mockk(),
+                userRepository,
+                assiaRepository,
+                mockOAuthAssiaRepository,
+                accountRepository,
                 modemIdRepository,
                 mockModemRebootMonitorService,
                 analyticsManagerInterface
@@ -259,13 +280,11 @@ class HomeViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun requestModemIdFailure() {
-        coEvery { modemIdRepository.getModemTypeId() } returns Either.Left("Error")
-        viewModelInitialisation()
-    }
-
-
-    private fun viewModelInitialisation() {
+    fun getHasSeenDialog() {
+        every { mockPreferences.getHasSeenDialog() } returns false
+        val accountString = readJson("account_activation_completed.json")
+        accountDetails = fromJson(accountString)
+        coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
         viewModel =
             HomeViewModel(
                 mockk(),
@@ -276,9 +295,30 @@ class HomeViewModelTest : ViewModelBaseTest() {
                 assiaRepository,
                 mockOAuthAssiaRepository,
                 accountRepository,
-                modemIdRepository,
                 mockModemRebootMonitorService,
                 analyticsManagerInterface
             )
     }
+
+    @Test
+    fun getAccountDetailsFailure() {
+        every { mockPreferences.getHasSeenDialog() } returns false
+        val accountString = readJson("account_activation_completed.json")
+        accountDetails = fromJson(accountString)
+        coEvery { accountRepository.getAccountDetails() } returns Either.Left(Constants.ERROR)
+        viewModel =
+            HomeViewModel(
+                mockk(),
+                appointmentRepository,
+                mockPreferences,
+                mockk(),
+                userRepository,
+                assiaRepository,
+                mockOAuthAssiaRepository,
+                accountRepository,
+                mockModemRebootMonitorService,
+                analyticsManagerInterface
+            )
+    }
+
 }
