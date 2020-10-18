@@ -3,10 +3,21 @@ package com.centurylink.biwf.widgets
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
 
+/**
+ * It will handle callback events in case of any general error ecccours
+ *
+ * @constructor Create empty General error pop up
+ */
 class GeneralErrorPopUp {
 
     companion object {
 
+        /**
+         * It will show the general error dialog
+         *
+         * @param fragmentManager - fragment manager instance
+         * @param className - class name as string
+         */
         fun showGeneralErrorDialog(
             fragmentManager: FragmentManager,
             className: String?
@@ -23,6 +34,11 @@ class GeneralErrorPopUp {
             )
         }
 
+        /**
+         * On dialog callback lister dialog
+         *
+         * @param buttonType - dialog button value
+         */
         private fun onDialogCallback(buttonType: Int) {
             when (buttonType) {
                 AlertDialog.BUTTON_POSITIVE -> {
