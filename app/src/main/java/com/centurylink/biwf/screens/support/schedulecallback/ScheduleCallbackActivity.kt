@@ -57,12 +57,17 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         setApiProgressViews(
             binding.progressOverlay.root,
             binding.retryOverlay.retryViewLayout,
-            binding.scheduleCallbackLayout,
+            binding.layoutScrollView,
             binding.retryOverlay.root
         )
         viewModel.apply {
-            progressViewFlow.observe { showProgress(it) }
-            prepareRecyclerView(viewModel.customerCareOptionsList(this@ScheduleCallbackActivity))
+            progressViewFlow.observe {
+                showProgress(it)
+                if(!it) {
+                    prepareRecyclerView(viewModel.arrayList.map(::TopicList))
+                }
+            }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
         }
 
         initHeaders()
@@ -74,6 +79,15 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
      */
     override fun onBackPressed() {
         finish()
+    }
+
+    /**
+     * Retry clicked - This will handle retry click listener
+     *
+     */
+    override fun retryClicked() {
+        showProgress(true)
+        viewModel.initApiCalls()
     }
 
     /**

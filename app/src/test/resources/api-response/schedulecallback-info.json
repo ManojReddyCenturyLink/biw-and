@@ -1,0 +1,50 @@
+{
+  "controllerValues":{},
+  "defaultValue":null,
+  "eTag":"021aa02d9c1907505e308474508dd843",
+  "url":"/services/data/v42.0/ui-api/object-info/Case/picklist-values/012f0000000l0wrAAA/What_kind_of_customer_care_do_you_need__c",
+  "values":[
+    {
+      "attributes":null,
+      "label":"I want to know more about Fiber Internet",
+      "validFor":[],
+      "value":"I want to know more about Fiber Internet"
+    },
+    {
+      "attributes":null,
+      "label":"I&#39;m having trouble signing up for Fiber Internet",
+      "validFor":[],
+      "value":"I&#39;m having trouble signing up for Fiber Internet"
+    },
+    {
+      "attributes":null,
+      "label":"I want to know more about Instant WiFi",
+      "validFor":[],
+      "value":"I want to know more about Instant WiFi"
+    },
+    {
+      "attributes":null,
+      "label":"I&#39;m having trouble signing up for Instant WiFi",
+      "validFor":[],
+      "value":"I&#39;m having trouble signing up for Instant WiFi"
+    },
+    {
+      "attributes":null,
+      "label":"I can&#39;t sign into my account",
+      "validFor":[],
+      "value":"I can&#39;t sign into my account"
+    },
+    {
+      "attributes":null,
+      "label":"I have questions about my account",
+      "validFor":[],
+      "value":"I have questions about my account"
+    },
+    {
+      "attributes":null,
+      "label":"I need something not listed here",
+      "validFor":[],
+      "value":"I need something not listed here"
+    }
+  ]
+}

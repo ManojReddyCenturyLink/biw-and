@@ -57,9 +57,7 @@ class SelectTimeViewModelTest : ViewModelBaseTest() {
         supportServiceInfo = fromJson(readJson("supportservice-req.json"))
         supportServiceResult = fromJson(readJson("supportservice-response.json"))
         run { analyticsManagerInterface }
-        coEvery { supportRepository.supportServiceInfo(supportServiceInfo) } returns Either.Right(
-            supportServiceResult
-        )
+        coEvery { supportRepository.supportServiceInfo(supportServiceInfo) } returns Either.Right(supportServiceResult)
         viewModel = SelectTimeViewModel(
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface,
@@ -82,6 +80,33 @@ class SelectTimeViewModelTest : ViewModelBaseTest() {
                 "Additional details"
             )
             Assert.assertEquals(false, viewModel.scheduleCallbackFlow.first())
+        }
+    }
+
+    @Test
+    fun testSupportServiceFailure() {
+        runBlockingTest {
+            coEvery { supportRepository.supportServiceInfo(supportServiceInfo) } returns Either.Left("")
+            viewModel = SelectTimeViewModel(
+                modemRebootMonitorService = modemRebootMonitorService,
+                analyticsManagerInterface = analyticsManagerInterface,
+                preferences = preferences,
+                supportRepository = supportRepository
+            )
+        }
+    }
+
+    @Test
+    fun testSupportInfo() {
+        runBlockingTest {
+            viewModel.supportService(
+                "111-111-1111",
+                "false",
+                "I want to know more about Fiber Internet",
+                "2020-10-29 01:00:00",
+                "Additional details"
+            )
+            coEvery { supportRepository.supportServiceInfo(supportServiceInfo) }
         }
     }
 
@@ -172,6 +197,8 @@ class SelectTimeViewModelTest : ViewModelBaseTest() {
             Assert.assertEquals(resultDateTime1, "2020-06-21 03:45:00")
             val resultDateTime2 = viewModel.formatDateAndTime("06/21/20", "12:45AM")
             Assert.assertEquals(resultDateTime2, "2020-06-21 00:45:00")
+            val resultDateTime3 = viewModel.formatDateAndTime("06/21/20", "09:45PM")
+            Assert.assertEquals(resultDateTime3, "2020-06-21 21:45:00")
         }
     }
 }
