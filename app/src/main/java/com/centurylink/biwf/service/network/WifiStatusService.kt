@@ -11,18 +11,14 @@ import retrofit2.http.QueryMap
 interface WifiStatusService {
 
     @POST(EnvironmentPath.API_WIFI_OPERATIONS_ENABLE)
-    @Headers(MOBILE_HEADER)
+    @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun enableNetwork(
         @QueryMap query: Map<String, String>
     ): AssiaServiceResult<UpdateNetworkResponse>
 
     @POST(EnvironmentPath.API_WIFI_OPERATIONS_DISABLE)
-    @Headers(MOBILE_HEADER)
+    @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun disableNetwork(
         @QueryMap query: Map<String, String>
     ): AssiaServiceResult<UpdateNetworkResponse>
-
-    companion object {
-        private const val MOBILE_HEADER = "From: mobile"
-    }
 }

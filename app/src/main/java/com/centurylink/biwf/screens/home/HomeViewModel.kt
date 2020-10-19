@@ -12,12 +12,7 @@ import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.sumup.SumUpInput
-import com.centurylink.biwf.repos.AccountRepository
-import com.centurylink.biwf.repos.AppointmentRepository
-import com.centurylink.biwf.repos.AssiaRepository
-import com.centurylink.biwf.repos.OAuthAssiaRepository
-import com.centurylink.biwf.repos.UserRepository
-import com.centurylink.biwf.screens.home.account.AccountViewModel
+import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.support.SupportActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -55,8 +50,9 @@ class HomeViewModel @Inject constructor(
     private val assiaRepository: AssiaRepository,
     private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val accountRepository: AccountRepository,
+    private val modemIdRepository: ModemIdRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-     analyticsManagerInterface: AnalyticsManager
+    analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
@@ -107,6 +103,7 @@ class HomeViewModel @Inject constructor(
             requestUserInfo()
             requestUserDetails()
             requestAccountDetails()
+            requestModemId()
         }
     }
 
@@ -178,6 +175,19 @@ class HomeViewModel @Inject constructor(
                     is Either.Right -> testRestFlow.latestValue = it.value.toString()
                 }
             }
+        }
+    }
+
+    /**
+     * Request modem id -It will  get the modem id from api
+     *
+     */
+    private suspend fun requestModemId() {
+        val modemIdInfo = modemIdRepository.getModemTypeId()
+        modemIdInfo.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            sharedPreferences.saveAssiaId(it)
         }
     }
 
@@ -277,6 +287,9 @@ class HomeViewModel @Inject constructor(
      *
      */
     private fun modemStatusRefresh() {
+        viewModelScope.launch {
+            requestModemId()
+        }
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
             requestModemInfo()
         }
