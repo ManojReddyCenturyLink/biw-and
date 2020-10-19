@@ -68,9 +68,9 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
             uploadTraffic = 100.00,
             uploadTrafficUnit = NetworkTrafficUnits.MB_UPLOAD
         )
-        coEvery { networkUsageRepository.getUsageDetails(true, "") } returns usageDetailsRes
+        coEvery { networkUsageRepository.getUsageDetails(true, deviceData.stationMac!!) } returns usageDetailsRes
         coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Right(listOf(devicesItem))
-        coEvery { mcafeeRepository.updateDeviceName("", "", "") } returns Either.Right("")
+        coEvery { mcafeeRepository.updateDeviceName(deviceData.mcAfeeDeviceType, "vini1234", deviceData.mcafeeDeviceId) } returns Either.Right("")
         coEvery { assiaRepository.blockDevices("") } returns Either.Right(
             BlockResponse(
                 code = Constants.ERROR_CODE_1064,
@@ -78,15 +78,12 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
                 data = ""
             )
         )
-        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("", !deviceData.isPaused) } returns Either.Right(DevicePauseStatus(isPaused = true, deviceId = ""))
-        coEvery { mcafeeRepository.getDevicePauseResumeStatus("") } returns Either.Right(
-            DevicePauseStatus(
-                isPaused = false,
-                deviceId = "00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF"
-            )
-        )
+        coEvery { mcafeeRepository.updateDevicePauseResumeStatus(deviceData.deviceId!!, !deviceData.isPaused) } returns Either.Right(DevicePauseStatus(isPaused = deviceData.isPaused, deviceId = deviceData.deviceId!!))
+        coEvery { mcafeeRepository.getDevicePauseResumeStatus(deviceData.deviceId!!) } returns Either.Right(
+            DevicePauseStatus(isPaused = deviceData.isPaused, deviceId = deviceData.deviceId!!))
         coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         run { analyticsManagerInterface }
+
         viewModel = UsageDetailsViewModel(
             app = BIWFApp(),
             networkUsageRepository = networkUsageRepository,
@@ -95,6 +92,9 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
             analyticsManagerInterface = analyticsManagerInterface,
             mcafeeRepository = mcafeeRepository
         )
+        viewModel.deviceData = fromJson(readJson("devicedata.json"))
+        viewModel.macAfeeDeviceId = deviceData.mcafeeDeviceId
+        viewModel.staMac = deviceData.stationMac!!
     }
 
     @Test
@@ -106,9 +106,16 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         }
 
     @Test
-    fun testDailyUsageDetailsApiCall() {
+    fun testMonthlyUsageDetailsApiCall() {
         runBlockingTest {
             launch {
+                val usageDetailsRes =  UsageDetails(
+                        downloadTraffic = 1000.00,
+                        downloadTrafficUnit = NetworkTrafficUnits.GB_DOWNLOAD,
+                        uploadTraffic = 1000.00,
+                        uploadTrafficUnit = NetworkTrafficUnits.GB_UPLOAD
+                )
+                coEvery { networkUsageRepository.getUsageDetails(false, deviceData.stationMac!!) } returns usageDetailsRes
                 viewModel.initApis()
             }
         }
@@ -124,11 +131,24 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun testRequestStateForDevicesFailure() {
+    fun testInitApisFailure() {
         runBlockingTest {
             launch {
+                coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Left("")
                 coEvery { assiaRepository.blockDevices("") } returns Either.Left("")
+                coEvery { mcafeeRepository.getDevicePauseResumeStatus(deviceData.deviceId!!) } returns Either.Left("")
                 viewModel.initApis()
+            }
+        }
+    }
+
+    @Test
+    fun testUpdatePauseResumeStatusFailure() {
+        deviceData = fromJson(readJson("devicedata.json"))
+        runBlockingTest {
+            launch {
+                coEvery { mcafeeRepository.updateDevicePauseResumeStatus(deviceData.mcafeeDeviceId!!, !deviceData.isPaused) } returns Either.Left("")
+                viewModel.onDevicesConnectedClicked()
             }
         }
     }
@@ -139,12 +159,22 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
             launch {
                 viewModel.onDevicesConnectedClicked()
             }
-    }
+        }
     }
 
     @Test
     fun testOnDevicesConnectedPausedStatus() {
         deviceData = fromJson(readJson("device-data.json"))
+        runBlockingTest {
+            launch {
+                viewModel.onDevicesConnectedClicked()
+            }
+        }
+    }
+
+    @Test
+    fun testOnDevicesConnectedModemOffStatus() {
+        viewModel.deviceData =  fromJson(readJson("devicedata-modemoff.json"))
         runBlockingTest {
             launch {
                 viewModel.onDevicesConnectedClicked()
@@ -178,25 +208,8 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testUpdatePauseResumeStatusSuccess() {
-        deviceData = fromJson(readJson("devicedata.json"))
         runBlockingTest {
             launch {
-                viewModel.initApis()
-            }
-        }
-    }
-
-    @Test
-    fun testUpdatePauseResumeStatusFailure() {
-        deviceData = fromJson(readJson("devicedata.json"))
-        runBlockingTest {
-            launch {
-                coEvery {
-                    mcafeeRepository.updateDevicePauseResumeStatus(
-                        "",
-                        !deviceData.isPaused
-                    )
-                } returns Either.Left("")
                 viewModel.initApis()
             }
         }
@@ -211,10 +224,27 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         }
 
     @Test
-    fun logAnalytics() {
+    fun `on Done Clicked`() =
         runBlockingTest {
             launch {
                 viewModel.onDoneBtnClick("vini1234")
+            }
+        }
+
+    @Test
+    fun `on updateDeviceName Failure`() =
+        runBlockingTest {
+            coEvery { mcafeeRepository.updateDeviceName(deviceData.mcAfeeDeviceType, "vini1234", deviceData.mcafeeDeviceId) } returns Either.Left("")
+            launch {
+                viewModel.onDoneBtnClick("vini1234")
+            }
+        }
+
+    @Test
+    fun logAnalytics() {
+        runBlockingTest {
+            launch {
+                viewModel.onDoneBtnClick("")
                 viewModel.onRemoveDevicesClicked()
                 viewModel.onDevicesConnectedClicked()
                 viewModel.logRemoveConnection(true)

@@ -93,7 +93,7 @@ class UsageDetailsViewModel constructor(
     val removeDevices: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     var staMac: String = ""
     var macAfeeDeviceId: String = ""
-    private var deviceData: DevicesData = DevicesData()
+    var deviceData: DevicesData = DevicesData()
     var pauseUnpauseConnection = EventFlow<DevicesData>()
     var mcAfeedeviceList: List<DevicesItem> = emptyList()
     var mcAfeedeviceNames: ArrayList<String> = ArrayList()
