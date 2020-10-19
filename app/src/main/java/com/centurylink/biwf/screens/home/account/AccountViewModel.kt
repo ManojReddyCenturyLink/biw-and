@@ -34,6 +34,19 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * Account view model
+ *
+ * @property accountRepository - repository instance to handle account api calls
+ * @property contactRepository  - repository instance to handle contact api calls
+ * @property userRepository  - repository instance to handle user api calls
+ * @property sharedPreferences - preferences instance to handle shared preferences
+ * @property authService - service instance to handle auth api calls
+ * @property modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @constructor
+ *
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class AccountViewModel internal constructor(
     private val accountRepository: AccountRepository,
     private val contactRepository: ContactRepository,
@@ -78,6 +91,9 @@ class AccountViewModel internal constructor(
     var progressViewFlow = EventFlow<Boolean>()
     var userPhoneNumberUpdateFlow = EventFlow<String>()
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         initApiCalls()
     }
@@ -86,6 +102,10 @@ class AccountViewModel internal constructor(
 
     val navigateToSubscriptionActivityEvent: EventLiveData<String> = MutableLiveData()
 
+    /**
+     * Init api calls - It will start all the api calls initialisation
+     *
+     */
     fun initApiCalls() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
@@ -95,6 +115,10 @@ class AccountViewModel internal constructor(
         }
     }
 
+    /**
+     * Init account and contact api calls - It will initializes account and contact api calls
+     *
+     */
     fun initAccountAndContactApiCalls() {
         viewModelScope.launch {
             progressViewFlow.latestValue = true
@@ -104,11 +128,23 @@ class AccountViewModel internal constructor(
         }
     }
 
+    /**
+     * On biometric change - This is used to handle turning on/off toggle for biometric switch
+     * change logic
+     *
+     * @param boolean - The boolean value to set biometric change
+     */
     fun onBiometricChange(boolean: Boolean) {
         sharedPreferences.saveBioMetrics(boolean)
         analyticsManagerInterface.logToggleChangeEvent(AnalyticsKeys.TOGGLE_BIOMETRIC, boolean)
     }
 
+    /**
+     * On service calls and texts change - The user can enable/disable Service Calls AndTexts
+     * messages by turning on/off toggle in Accounts Fragment
+     *
+     * @param serviceCall - The boolean valued used to set service
+     */
     fun onServiceCallsAndTextsChange(serviceCall: Boolean) {
         viewModelScope.launch {
             uiAccountDetails = uiAccountDetails.copy(serviceCallsAndText = serviceCall)
@@ -121,6 +157,12 @@ class AccountViewModel internal constructor(
         )
     }
 
+    /**
+     * On marketing emails change - This is used to handle turning on/off toggle for on marketing
+     * email switch change logic
+     *
+     * @param boolean - The boolean value used to set on marketing emails changed click
+     */
     fun onMarketingEmailsChange(boolean: Boolean) {
         viewModelScope.launch {
             uiAccountDetails = uiAccountDetails.copy(marketingEmails = boolean)
@@ -133,6 +175,13 @@ class AccountViewModel internal constructor(
         )
     }
 
+    /**
+     * On marketing calls and texts change - The user can enable/disable Service Calls And Texts
+     * messages by turning on/off toggle in Accounts Fragment
+     *
+     * @param boolean - The boolean valued used to set service
+     * @param phoneNumber - The phone number to used for marketing calls
+     */
     fun onMarketingCallsAndTextsChange(boolean: Boolean, phoneNumber: String) {
         viewModelScope.launch {
             uiAccountDetails = uiAccountDetails.copy(marketingCallsAndText = boolean)
@@ -145,11 +194,21 @@ class AccountViewModel internal constructor(
         )
     }
 
+    /**
+     * On subscription card click - It will navigate to subscription activity on click of
+     * subscription card
+     *
+     */
     fun onSubscriptionCardClick() {
         analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.CARD_SUBSCRIPTION_INFO)
         navigateToSubscriptionActivityEvent.emit(uiAccountDetails.paymentMethod ?: "")
     }
 
+    /**
+     * On personal info card click - It will navigate to personal info activity on click of
+     * personal info card
+     *
+     */
     fun onPersonalInfoCardClick() {
         analyticsManagerInterface.logCardClickEvent(AnalyticsKeys.CARD_PERSONAL_INFO)
         val bundle = Bundle()
@@ -162,14 +221,27 @@ class AccountViewModel internal constructor(
         myState.latestValue = AccountCoordinatorDestinations.PROFILE_INFO
     }
 
+    /**
+     * Refresh biometrics
+     *
+     */
     fun refreshBiometrics() {
         bioMetricFlow.latestValue = sharedPreferences.getBioMetrics() ?: false
     }
 
+    /**
+     * Log screen launch - This is used to launch the screen on resume
+     *
+     */
     fun logScreenLaunch() {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
     }
 
+    /**
+     * On log out click - This will handle log out button click event logic
+     *
+     * @param context - The activity context
+     */
     fun onLogOutClick(context: Context) {
         if (AppUtil.isOnline(context)) {
             viewModelScope.launch {
@@ -190,6 +262,10 @@ class AccountViewModel internal constructor(
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_LOG_OUT)
     }
 
+    /**
+     * Request account details - It is used to request account details through API call
+     *
+     */
     private suspend fun requestAccountDetails() {
         val accountDetails = accountRepository.getAccountDetails()
         accountDetails.fold(ifLeft = {
@@ -201,6 +277,10 @@ class AccountViewModel internal constructor(
         }
     }
 
+    /**
+     * Request contact info - It is used to request contact details through API call
+     *
+     */
     private suspend fun requestContactInfo() {
         val contactDetails = contactRepository.getContactDetails()
         contactDetails.fold(ifLeft = {
@@ -212,6 +292,10 @@ class AccountViewModel internal constructor(
         }
     }
 
+    /**
+     * Request card info - It is used to request card details through API call
+     *
+     */
     private suspend fun requestCardInfo() {
         val cardInfoResponse = accountRepository.getLiveCardDetails()
         cardInfoResponse.fold(
@@ -232,6 +316,11 @@ class AccountViewModel internal constructor(
         }
     }
 
+    /**
+     * Update u i account details from accounts
+     *
+     * @param accountDetails - instance of account details repository
+     */
     private fun updateUIAccountDetailsFromAccounts(accountDetails: AccountDetails) {
         var nextRenewalDate = "n/a"
         if (!accountDetails.nextRenewalDate.isNullOrEmpty()) {
@@ -260,10 +349,24 @@ class AccountViewModel internal constructor(
         )
     }
 
+    /**
+     * Format service address line1 - Used for formatting customer of service address line 1
+     *
+     * @param street - The street
+     * @param unit - The unit
+     */
     private fun formatServiceAddressLine1(street: String, unit: String) =
         if (unit.isNotBlank()) "$street $unit" else street
 
 
+    /**
+     * Format service address line2 - Used for formatting customer of service address line 2
+     *
+     * @param city
+     * @param stateProvince
+     * @param postalCode
+     * @return
+     */
     private fun formatServiceAddressLine2(
         city: String,
         stateProvince: String,
@@ -274,6 +377,11 @@ class AccountViewModel internal constructor(
         return cityText + stateProvinceText + postalCode
     }
 
+    /**
+     * Update u i account details from contacts
+     *
+     * @param contactDetails - instance contact details repository
+     */
     private fun updateUIAccountDetailsFromContacts(contactDetails: ContactDetails) {
         uiAccountDetails = uiAccountDetails.copy(
             marketingEmails = contactDetails.emailOptInC,
@@ -282,6 +390,11 @@ class AccountViewModel internal constructor(
         updateAccountFlow()
     }
 
+    /**
+     * Update u i account details from live payment info
+     *
+     * @param creditCardInfo - The payment method to be updated
+     */
     private fun updateUIAccountDetailsFromLivePaymentInfo(creditCardInfo: String) {
         uiAccountDetails = uiAccountDetails.copy(
             paymentMethod = creditCardInfo
@@ -289,6 +402,10 @@ class AccountViewModel internal constructor(
         updateAccountFlow()
     }
 
+    /**
+     * Update account flow - This will update account view flow with latest details
+     *
+     */
     private fun updateAccountFlow() {
         accountDetailsInfo.latestValue = uiAccountDetails
     }

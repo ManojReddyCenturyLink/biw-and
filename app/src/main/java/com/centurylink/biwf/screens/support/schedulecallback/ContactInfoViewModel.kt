@@ -126,7 +126,7 @@ class ContactInfoViewModel @Inject constructor(
      * On phone number changed - format's the phone number on text changes
      *
      * @param phoneNumberValue - The phone number to be watched
-     * @return
+     * @return - returns the formatted phone number
      */
     fun onPhoneNumberChanged(phoneNumberValue: String): String {
         val digits = StringBuilder()
