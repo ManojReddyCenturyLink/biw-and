@@ -21,6 +21,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.isA
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -117,7 +118,8 @@ class LoginViewModelTest : ViewModelBaseTest() {
         every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns "mock-token"
         initViewModel()
         launch {
-            viewModel.onBiometricSuccess()
+            Assert.assertNotNull(
+            viewModel.onBiometricSuccess())
         }
     }
 
@@ -127,7 +129,8 @@ class LoginViewModelTest : ViewModelBaseTest() {
         every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns "mock-token"
         initViewModel()
         launch {
-            viewModel.onBiometricFailure()
+            Assert.assertNotNull(
+            viewModel.onBiometricFailure())
         }
     }
 }
