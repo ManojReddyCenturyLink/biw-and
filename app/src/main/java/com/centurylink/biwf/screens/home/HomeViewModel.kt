@@ -185,7 +185,8 @@ class HomeViewModel @Inject constructor(
     private suspend fun requestModemId() {
         val modemIdInfo = modemIdRepository.getModemTypeId()
         modemIdInfo.fold(ifLeft = {
-            errorMessageFlow.latestValue = it
+            //TODO: We are getting modem id as null for some accounts, so commenting for now.
+            //errorMessageFlow.latestValue = it
         }) {
             sharedPreferences.saveAssiaId(it)
         }
