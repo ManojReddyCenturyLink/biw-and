@@ -35,7 +35,6 @@ import javax.inject.Singleton
 class RestServiceConfigModule(
     private val baseUrlFiberServices: String,
     private val baseUrlSupportServices: String,
-    private val baseUrlScheduleCallbackServices: String,
     private val baseUrlForAwsBucket: String,
     // TODO - remove this when all Cloudcheck endpoints are accessed via Apigee
     private val baseUrlForAssiaServices: String,
@@ -69,25 +68,6 @@ class RestServiceConfigModule(
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlSupportServices)
-            .addCallAdapterFactory(EitherCallAdapterFactory())
-            .addConverterFactory(EitherConverterFactory())
-            .addConverterFactory(FiberErrorConverterFactory())
-            .addConverterFactory(jsonConverters)
-            .addConverterFactory(primitiveTypeConverters)
-            .build()
-            .asFactory
-    }
-
-    @Singleton
-    @Provides
-    @BaseUrl(BaseUrlType.SCHEDULE_CALLBACK_SERVICES)
-    fun provideScheduleCallbackRetrofit(
-        jsonConverters: Converter.Factory,
-        @HttpClient(ClientType.OAUTH) client: Call.Factory
-    ): ServicesFactory {
-        return fakeServicesFactory ?: Retrofit.Builder()
-            .callFactory(client)
-            .baseUrl(baseUrlScheduleCallbackServices)
             .addCallAdapterFactory(EitherCallAdapterFactory())
             .addConverterFactory(EitherConverterFactory())
             .addConverterFactory(FiberErrorConverterFactory())
@@ -323,7 +303,7 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideScheduleCallbackPicklistService(@BaseUrl(BaseUrlType.SCHEDULE_CALLBACK_SERVICES) factory: ServicesFactory): ScheduleCallbackService {
+    fun provideScheduleCallbackPicklistService(@BaseUrl(BaseUrlType.SUPPORT_SERVICES) factory: ServicesFactory): ScheduleCallbackService {
         return factory.create()
     }
 
