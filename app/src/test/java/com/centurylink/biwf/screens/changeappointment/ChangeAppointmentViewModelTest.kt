@@ -118,7 +118,7 @@ class ChangeAppointmentViewModelTest : ViewModelBaseTest() {
                 viewModel.onAppointmentSelectedDate(Date())
                 Assert.assertEquals(
                     viewModel.appointmentSlotsInfo.first().serviceDate,
-                    "2020-10-16"
+                    "2020-10-19"
                 )
             }
         }
