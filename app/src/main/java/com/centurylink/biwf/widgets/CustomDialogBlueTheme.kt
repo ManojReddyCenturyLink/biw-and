@@ -20,6 +20,12 @@ import kotlinx.android.synthetic.main.widget_popup.view.popup_neutral_button
 import kotlinx.android.synthetic.main.widget_popup.view.popup_positive_button
 import kotlinx.android.synthetic.main.widget_popup.view.popup_title
 
+/**
+ * Custom dialog blue theme class to create custom dialog
+ *
+ * @property callback - button type callback
+ * @constructor Create empty Custom dialog blue theme
+ */
 open class CustomDialogBlueTheme(
     private val callback: (buttonType: Int) -> Unit
 ) : DialogFragment() {
@@ -30,6 +36,12 @@ open class CustomDialogBlueTheme(
     var isErrorPopup: Boolean = false
     var linkTextToPhone: Boolean = false
 
+    /**
+     * On create - called to do initial creation of the fragment.
+     *
+     * @param savedInstanceState - Bundle: If the fragment is being re-created from a previous
+     *                             saved state, this is the state. This value may be null
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -41,6 +53,18 @@ open class CustomDialogBlueTheme(
         }
     }
 
+    /**
+     * On create view - Called to have the fragment instantiate its user interface view
+     *
+     * @param inflater - LayoutInflater: The LayoutInflater object that can be used to inflate
+     *                   any views in the fragment
+     * @param container - ViewGroup: If non-null, this is the parent view that the fragment's
+     *                    UI should be attached to. The fragment should not add the view itself,
+     *                    but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed from
+     *                             a previous saved state as given here.
+     * @return - Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

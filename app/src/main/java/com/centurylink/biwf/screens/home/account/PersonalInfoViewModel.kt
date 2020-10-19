@@ -12,6 +12,15 @@ import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Personal info view model
+ *
+ * @property userRepository - repository instance to handle user api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class PersonalInfoViewModel @Inject constructor(
     private val userRepository: UserRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
@@ -27,10 +36,17 @@ class PersonalInfoViewModel @Inject constructor(
     private var confirmPasswordValue: String = ""
     private var phoneNumberValue: String = ""
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_PERSONAL_INFO)
     }
 
+    /**
+     * Call update password api - update account's password by calling Api
+     *
+     */
     fun callUpdatePasswordApi() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_PERSONAL_INFO)
         viewModelScope.launch {
@@ -39,36 +55,75 @@ class PersonalInfoViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Toggle password visibility - It will handle toggling password visibility logic
+     *
+     * @return - negates the password visibility
+     */
     fun togglePasswordVisibility(): Boolean {
         passwordVisibility = !passwordVisibility
         return passwordVisibility
     }
 
+    /**
+     * Toggle confirm password visibility - It will handle toggling confirm password visibility
+     * logic
+     *
+     * @return - negates the confirm password visibility
+     */
     fun toggleConfirmPasswordVisibility(): Boolean {
         confirmPasswordVisibility = !confirmPasswordVisibility
         return confirmPasswordVisibility
     }
 
+    /**
+     * On password value changed
+     *
+     * @param passwordValue - The password value to be updated
+     */
     fun onPasswordValueChanged(passwordValue: String) {
         this.passwordValue = passwordValue
     }
 
+    /**
+     * Log reset password success
+     *
+     */
     fun logResetPasswordSuccess() {
         analyticsManagerInterface.logApiCall(AnalyticsKeys.RESET_PASSWORD_SUCCESS)
     }
 
+    /**
+     * Log reset password failure
+     *
+     */
     fun logResetPasswordFailure() {
         analyticsManagerInterface.logApiCall(AnalyticsKeys.RESET_PASSWORD_FAILURE)
     }
 
+    /**
+     * Log update email popup click
+     *
+     */
     fun logUpdateEmailPopupClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_UPDATE_EMAIL_INFO)
     }
 
+    /**
+     * On confirm password value changed
+     *
+     * @param confirmPasswordValue - The value that sets confirm password value
+     */
     fun onConfirmPasswordValueChanged(confirmPasswordValue: String) {
         this.confirmPasswordValue = confirmPasswordValue
     }
 
+    /**
+     * On phone number changed - format's the phone number on text changes
+     *
+     * @param phoneNumberValue - The phone number to be watched
+     * @return - returns the formatted phone number
+     */
     fun onPhoneNumberChanged(phoneNumberValue: String): String {
         val digits = StringBuilder()
         val phone = StringBuilder()
@@ -99,6 +154,11 @@ class PersonalInfoViewModel @Inject constructor(
         return this.phoneNumberValue
     }
 
+    /**
+     * Validate input - It will validate inputs for personal info screen
+     *
+     * @return - returns error by observing screen input views
+     */
     fun validateInput(): Errors {
         val errors = Errors()
         if (phoneNumberValue.isEmpty()) {

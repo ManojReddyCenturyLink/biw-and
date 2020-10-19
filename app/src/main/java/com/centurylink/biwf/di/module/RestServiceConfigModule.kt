@@ -35,6 +35,7 @@ import com.centurylink.biwf.service.network.WifiStatusService
 import com.centurylink.biwf.service.network.ZuoraPaymentService
 import com.centurylink.biwf.service.network.ZuoraSubscriptionApiService
 import com.centurylink.biwf.service.network.create
+import com.centurylink.biwf.service.network.response.ModemIdService
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -332,6 +333,12 @@ class RestServiceConfigModule(
     @Singleton
     @Provides
     fun providesSpeedTestService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): SpeedTestService {
+        return factory.create()
+    }
+
+    @Singleton
+    @Provides
+    fun provideModemIdService(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): ModemIdService {
         return factory.create()
     }
 }

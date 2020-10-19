@@ -23,6 +23,11 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * Account fragment - This class handle common methods related to account screen
+ *
+ * @constructor Create empty Account fragment
+ */
 class AccountFragment : BaseFragment(), AuthServiceHost {
     override val hostContext: Context get() = requireActivity()
 
@@ -48,11 +53,31 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
 
     lateinit var binding: FragmentAccountBinding
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
     }
 
+    /**
+     * On create view - The onCreateView method is called when Fragment should create its View
+     *                  object hierarchy
+     *
+     * @param inflater - LayoutInflater: The LayoutInflater object that can be used to
+     *                   inflate any views in the fragment,
+     * @param container - ViewGroup: If non-null, this is the parent view that the fragment's UI
+     *                    should be attached to. The fragment should not add the view itself,
+     *                    but this can be used to generate the LayoutParams of the view.
+     *                    This value may be null.
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
+     * @return - Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -72,20 +97,36 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         return binding.root
     }
 
+    /**
+     * On resume - Called when the fragment is visible to the user and actively running
+     *
+     */
     override fun onResume() {
         viewModel.logScreenLaunch()
         super.onResume()
     }
 
+    /**
+     * Retry clicked - It will handle the retry functionality
+     *
+     */
     override fun retryClicked() {
         showProgress(true)
         viewModel.initApiCalls()
     }
 
+    /**
+     * Refresh bio metrics
+     *
+     */
     fun refreshBioMetrics() {
         viewModel.refreshBiometrics()
     }
 
+    /**
+     * Init switches - It will initialize switch listeners
+     *
+     */
     private fun initSwitches() {
         binding.accountBiometricSwitch.setOnClickListener { view ->
             viewModel.onBiometricChange((view as SwitchMaterial).isChecked)
@@ -101,6 +142,10 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         }
     }
 
+    /**
+     * Observe views - It is used to observe views
+     *
+     */
     private fun observeViews() {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
         //Todo: Remove Harding of values once API returns
@@ -176,6 +221,10 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         }
     }
 
+    /**
+     * Init clicks - It will initializes click listeners
+     *
+     */
     private fun initClicks() {
         binding.accountSubscriptionCard.subscriptionCard.setOnClickListener {
             viewModel.onSubscriptionCardClick()
@@ -188,6 +237,11 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         }
     }
 
+    /**
+     * Update views - It is used to update views according to phone number
+     *
+     * @param phoneNumber - returns phone number
+     */
     fun updateViews(phoneNumber: String) {
         if (!getOnlyDigits(binding.accountPersonalInfoCard.personalInfoCellphone.text.toString()).equals(
                 getOnlyDigits(phoneNumber)
@@ -202,6 +256,11 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
         }
     }
 
+    /**
+     * On error dialog callback - It will handle the error dialog callback listeners
+     *
+     * @param buttonType - It returns the which button type pressed
+     */
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
