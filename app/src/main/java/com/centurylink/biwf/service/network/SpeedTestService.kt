@@ -12,14 +12,10 @@ import retrofit2.http.POST
 interface SpeedTestService {
 
     @POST(EnvironmentPath.API_SPEED_TEST_PATH)
-    @Headers(MOBILE_HEADER)
+    @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun getSpeedTestDetails(@Body speedTestStatusRequest: SpeedTestStatusRequest): AssiaServiceResult<SpeedTestRes>
 
     @POST(EnvironmentPath.API_SPEED_TEST_STATUS)
-    @Headers(MOBILE_HEADER)
+    @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun getSpeedTestStatusDetails(@Body speedTestStatusRequest: SpeedTestStatusRequest): AssiaServiceResult<SpeedTestStatusResponse>
-
-    companion object {
-        private const val MOBILE_HEADER = "From: mobile"
-    }
 }

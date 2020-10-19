@@ -78,6 +78,8 @@ android {
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.dev.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.dev.live_chat.BUTTON_ID\"")
             buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.dev.pendo.APP_KEY\"")
+            buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.dev.devTestVars.MODEM_ID\"")
+            buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.dev.devTestVars.LINE_ID\"")
             resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
             resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
         }
@@ -97,6 +99,8 @@ android {
 //            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.qa.live_chat.DEPLOYMENT_ID\"")
 //            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.qa.live_chat.BUTTON_ID\"")
 //            buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.qa.pendo.APP_KEY\"")
+//        buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.qa.devTestVars.MODEM_ID\"")
+//        buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.qa.devTestVars.LINE_ID\"")
 //        resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
 //        resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
 //        }
@@ -116,6 +120,8 @@ android {
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.sit.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.sit.live_chat.BUTTON_ID\"")
             buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.sit.pendo.APP_KEY\"")
+            buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.sit.devTestVars.MODEM_ID\"")
+            buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.sit.devTestVars.LINE_ID\"")
             resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
             resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
         }
@@ -134,6 +140,8 @@ android {
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.prod.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.prod.live_chat.BUTTON_ID\"")
             buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.prod.pendo.APP_KEY\"")
+            buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.prod.devTestVars.MODEM_ID\"")
+            buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.prod.devTestVars.LINE_ID\"")
             resValue "string", "APP_SCHEME", "\"$parsedJson.productFlavors.dev.pendo.APP_SCHEME\""
             resValue "string", "APP_PUSH_IDENTIFIER", "\"$parsedJson.productFlavors.dev.pendo.APP_PUSH_IDENTIFIER\""
         }
