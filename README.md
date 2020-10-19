@@ -20,6 +20,7 @@ This document describes the setup and patterns used by this project implementing
     - [UI Bindings](#ui-bindings)
   - [Authorization Flow](#authorization-flow)
   - [Offline Behavior and Caching](#offline-behavior-and-caching)
+  - [Sample API Sequence Flow In Quantum App](#sample-api-sequence-flow-in-quantum-app)
 - [Code Structure](#code-structure)
   - [Packages](#packages)
   - [Third Party Libraries](#third-party-libraries)
@@ -246,6 +247,12 @@ For now, this means that **caching** should only be used to improve performance 
   - Location: In-Memory, On-Disk, both, etc.
   - Lifecycle: When to purge or refresh cached data on what location.
 - **Repositories** must implement the Caching strategies.
+
+###  Sample API Sequence flow in Quantum App
+The below diagram is a representation of sample API flow for handling success and error cases 
+in Quantum App talking with BackEnd APIs.
+
+![Sample API Sequence Flow In Quantum App](AccountAPIsequencediagram.png)
 
 ## Code Structure
 ### Packages
