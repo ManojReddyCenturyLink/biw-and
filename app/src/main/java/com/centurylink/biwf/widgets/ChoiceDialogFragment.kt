@@ -6,6 +6,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.centurylink.biwf.R
 
+/**
+ * Choice dialog fragment -  fragment class to handle biometric login
+ *
+ * @constructor Create empty Choice dialog fragment
+ */
 class ChoiceDialogFragment : DialogFragment() {
 
     private lateinit var callback: BioMetricDialogCallback
@@ -14,11 +19,22 @@ class ChoiceDialogFragment : DialogFragment() {
     private lateinit var positiveText: String
     private lateinit var negativeText: String
 
+    /**
+     * On attach - called once the fragment is associated with its activity.
+     *
+     * @param context - instance activity
+     */
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = context as BioMetricDialogCallback
     }
 
+    /**
+     * On create - called to do initial creation of the fragment.
+     *
+     * @param savedInstanceState - Bundle: If the fragment is being re-created from a previous
+     *                             saved state, this is the state. This value may be null
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (arguments != null) {
@@ -29,6 +45,13 @@ class ChoiceDialogFragment : DialogFragment() {
         }
     }
 
+    /**
+     * On create dialog - Override to build your own custom Dialog container.
+     *
+     * @param savedInstanceState - Bundle: The last saved instance state of the Fragment, or null
+     *                             if this is a freshly created Fragment.
+     * @return - Return a new Dialog instance to be displayed by the Fragment.
+     */
     override fun onCreateDialog(savedInstanceState: Bundle?): AlertDialog {
         val builder = AlertDialog.Builder(requireActivity(), R.style.choiceDialog)
             .setTitle(title)
@@ -43,6 +66,11 @@ class ChoiceDialogFragment : DialogFragment() {
         return builder.create()
     }
 
+    /**
+     * Bio metric dialog callback interface
+     *
+     * @constructor Create empty Bio metric dialog callback
+     */
     interface BioMetricDialogCallback {
         fun onOkBiometricResponse()
         fun onCancelBiometricResponse()
