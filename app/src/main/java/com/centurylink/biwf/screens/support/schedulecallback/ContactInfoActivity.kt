@@ -70,6 +70,15 @@ class ContactInfoActivity : BaseActivity() {
     }
 
     /**
+     * Retry clicked - This will handle retry click listener
+     *
+     */
+    override fun retryClicked() {
+        showProgress(true)
+        viewModel.initContactApiCall()
+    }
+
+    /**
      * Init views - It will initializes the views
      *
      */
@@ -83,6 +92,7 @@ class ContactInfoActivity : BaseActivity() {
                 }
             }
         viewModel.progressViewFlow.observe { showProgress(it) }
+        viewModel.errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
         setApiProgressViews(
             binding.progressOverlay.root,
             binding.retryOverlay.retryViewLayout,
