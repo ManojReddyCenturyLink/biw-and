@@ -41,6 +41,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var authServiceFactory: AuthServiceFactory<*>
 
+    @MockK
     private lateinit var factory: LoginViewModel.Factory
 
     @MockK
@@ -49,7 +50,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
     private var navFromAccountScreen: Boolean = false
 
     @MockK
-    private lateinit var analyticsManagerInterface : AnalyticsManager
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     @Before
     fun setup() {
@@ -108,5 +109,25 @@ class LoginViewModelTest : ViewModelBaseTest() {
             modemRebootMonitorService = mockModemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface
         )
+    }
+
+    @Test
+    fun testOnBiometricSuccess() = runBlockingTest {
+        every { mockSharedPreferences.getBioMetrics() } returns false
+        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns "mock-token"
+        initViewModel()
+        launch {
+            viewModel.onBiometricSuccess()
+        }
+    }
+
+    @Test
+    fun testOnBiometricFailure() = runBlockingTest {
+        every { mockSharedPreferences.getBioMetrics() } returns false
+        every { (mockAuthService.tokenStorage as AppAuthTokenStorage).state?.accessToken } returns "mock-token"
+        initViewModel()
+        launch {
+            viewModel.onBiometricFailure()
+        }
     }
 }
