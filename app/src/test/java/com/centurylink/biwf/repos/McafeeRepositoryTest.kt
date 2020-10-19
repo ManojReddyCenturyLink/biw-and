@@ -1,9 +1,7 @@
 package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.Either
-import com.centurylink.biwf.model.mcafee.DevicePauseStatusResponse
-import com.centurylink.biwf.model.mcafee.DeviceUpdateResponse
-import com.centurylink.biwf.model.mcafee.DevicesMapping
+import com.centurylink.biwf.model.mcafee.*
 import com.centurylink.biwf.service.network.McafeeApiService
 import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -130,6 +128,63 @@ class McafeeRepositoryTest  : BaseRepositoryTest() {
                 )
                 val accountInfo = mcafeeRepository.updateDevicePauseResumeStatus("",true)
                 Assert.assertEquals(accountInfo.mapLeft { it }, Either.Left("No Status  Found "))
+            }
+        }
+    }
+
+    @Test
+    fun testUpdateDeviceNameSuccess() {
+        every { mockPreferences.getAssiaId() } returns Constants.ID
+        runBlocking {
+            launch {
+                coEvery { mcafeeApiService.updateDeviceInfo(any()) } returns Either.Right(
+                    DeviceInfoResponse(code = "0",message = "Success")
+                )
+                val updateInfo = mcafeeRepository.updateDeviceName("","","")
+                Assert.assertEquals(updateInfo.map { it}, Either.Right("Success"))
+            }
+        }
+    }
+
+    @Test
+    fun testUpdateDeviceNameError() {
+        runBlocking {
+            launch {
+                coEvery { mcafeeApiService.updateDeviceInfo(any()) } returns Either.Right(
+                    DeviceInfoResponse(code = "1000",message = "Success")
+                )
+                val updateInfo = mcafeeRepository.updateDeviceName("","","")
+                Assert.assertEquals(updateInfo.mapLeft { it}, Either.Left("Something went wrong!"))
+            }
+        }
+    }
+
+    @Test
+    fun testFetchDeviceDetailsSuccess() {
+        every { mockPreferences.getAssiaId() } returns Constants.ID
+        runBlocking {
+            launch {
+                coEvery { mcafeeApiService.getDeviceDetails(any(),any()) } returns Either.Right(
+                    DeviceDetailsResponse(code = "0",devices = listOf(DevicesItem(os = null,osVersion = null,name = "Samsung",cspClientId = null,deviceType = "",enforcementType = listOf(),id = "",manufacturer = "")),
+                        message = "Success")
+                )
+                val updateInfo = mcafeeRepository.fetchDeviceDetails()
+                Assert.assertEquals(updateInfo.map { it[0].name}, Either.Right("Samsung"))
+            }
+        }
+    }
+
+    @Test
+    fun testFetchDeviceDetailsError() {
+        every { mockPreferences.getAssiaId() } returns Constants.ID
+        runBlocking {
+            launch {
+                coEvery { mcafeeApiService.getDeviceDetails(any(),any()) } returns Either.Right(
+                    DeviceDetailsResponse(code = "1000",devices = listOf(DevicesItem(os = null,osVersion = null,name = "Samsung",cspClientId = null,deviceType = "",enforcementType = listOf(),id = "",manufacturer = "")),
+                        message = "Error")
+                )
+                val updateInfo = mcafeeRepository.fetchDeviceDetails()
+                Assert.assertEquals(updateInfo.mapLeft { it}, Either.Left("Something went wrong!"))
             }
         }
     }
