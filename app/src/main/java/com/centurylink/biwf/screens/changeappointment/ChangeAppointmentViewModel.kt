@@ -147,16 +147,14 @@ class ChangeAppointmentViewModel @Inject constructor(
     fun navigateToAppointmentConfirmed() {
         val bundle = Bundle()
         bundle.putString(
-            AppointmentBookedActivity.APPOINTMENT_STATEMENT_DATE,
-            appointmentDate
+            AppointmentBookedActivity.APPOINTMENT_STATEMENT_DATE, appointmentDate
         )
         bundle.putString(
             AppointmentBookedActivity.APPOINTMENT_STATEMENT_SLOTS,
             appointmentSlots.toLowerCase()
         )
         bundle.putString(
-            AppointmentBookedActivity.APPOINTMENT_STATEMENT_ID,
-            appointmentId
+            AppointmentBookedActivity.APPOINTMENT_STATEMENT_ID, appointmentId
         )
         ChangeAppointmentCoordinatorDestinations.bundle = bundle
         myState.latestValue =
