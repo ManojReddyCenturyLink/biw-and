@@ -151,5 +151,10 @@ class EnvironmentPath {
         const val AWS_BASE_URL = "https://bucketforapi.s3-eu-west-1.amazonaws.com/"
         const val BILLING_DETAILS = "invoice1.json"
         const val CALL_BACK_URL = "ctl-fiber--qa.my.salesforce.com/services/apexrest/SpeedTest/*"
+        const val MODEM_ID_QUERY =
+            "SELECT Modem_Number__c FROM WorkOrder WHERE AccountId='%s' AND Job_Type__c='Fiber Install - For Installations'"
+
+        const val APIGEE_MOBILE_HEADER = "From: mobile"
+
     }
 }

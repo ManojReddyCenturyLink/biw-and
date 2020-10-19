@@ -1,4 +1,4 @@
- package com.centurylink.biwf.widgets
+package com.centurylink.biwf.widgets
 
 import android.content.res.Configuration
 import android.graphics.drawable.Drawable
@@ -29,6 +29,11 @@ import hirondelle.date4j.DateTime
 import java.text.ParseException
 import java.util.*
 
+/**
+ * Calendar fragment -fragment class related to calender  view details
+ *
+ * @constructor Create empty Calendar fragment
+ */
 class CalendarFragment : CaldroidFragment() {
 
     private val MONTH_YEAR_FLAG = (DateUtils.FORMAT_SHOW_DATE
@@ -95,7 +100,7 @@ class CalendarFragment : CaldroidFragment() {
 
     /**
      * Retrieve current month
-     * @return
+     * @return returns month as integer value
      */
     override fun getMonth(): Int {
         return month
@@ -103,19 +108,27 @@ class CalendarFragment : CaldroidFragment() {
 
     /**
      * Retrieve current year
-     * @return
+     * @return returns year as integer value
      */
     override fun getYear(): Int {
         return year
     }
 
+    /**
+     * Get caldroid listener
+     *
+     * @return it will return the calender listener instance
+     */
     override fun getCaldroidListener(): CaldroidListener? {
         return caldroidListener
     }
 
     /**
-     * Meant to be subclassed. User who wants to provide custom view, need to
-     * provide custom adapter here
+     * Get new dates grid adapter - initialisation of new dates grid adapter
+     *
+     * @param month- selected month value
+     * @param year - selected year value
+     * @return - returns the Caldroid Grid Adapter instance
      */
     override fun getNewDatesGridAdapter(month: Int, year: Int): CaldroidGridAdapter {
         return CaldroidGridAdapter(
@@ -125,8 +138,11 @@ class CalendarFragment : CaldroidFragment() {
     }
 
     /**
-     * Meant to be subclassed. User who wants to provide custom view, need to
-     * provide custom adapter here
+     * Get new weekday adapter - initialisation of new dates new weekday adapte
+     *
+     * @param themeResource  - resource value for theme
+     *
+     * @return returns the Weekday Array Adapter instance
      */
     override fun getNewWeekdayAdapter(themeResource: Int): WeekdayArrayAdapter {
         return WeekdayArrayAdapter(
@@ -138,14 +154,16 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * For client to customize the weekDayGridView
      *
-     * @return
+     * @return GridView instance
      */
     override fun getWeekdayGridView(): GridView? {
         return weekdayGridView
     }
 
     /**
-     * For client to access array of rotating fragments
+     * Get fragments
+     *
+     * @return- returns the array of date grid fragments
      */
     override fun getFragments(): ArrayList<DateGridFragment>? {
         return fragments
@@ -154,41 +172,63 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * For client wants to access dateViewPager
      *
-     * @return
+     * @return It returns the infinite viewpager
      */
     override fun getDateViewPager(): InfiniteViewPager? {
         return dateViewPager
     }
 
-    /*
+    /**
      * For client to access background and text color maps
+     *
+     * @return It returns the background for date time map
      */
     override fun getBackgroundForDateTimeMap(): Map<DateTime?, Drawable?>? {
         return backgroundForDateTimeMap
     }
 
+    /**
+     * Get text color for date time map
+     *
+     * @return It returns the color for date time map
+     */
     override fun getTextColorForDateTimeMap(): Map<DateTime?, Int?>? {
         return textColorForDateTimeMap
     }
 
+
     /**
-     * To let user customize the navigation buttons
+     * Get left arrow button -  To let user customize the navigation buttons
+     *
+     * @return - it returns left arrow instance
      */
     override fun getLeftArrowButton(): Button? {
         return leftArrowButton
     }
 
+    /**
+     * Get right arrow button -  To let user customize the navigation buttons
+     *
+     * @return - it returns right arrow instance
+     */
     override fun getRightArrowButton(): Button? {
         return rightArrowButton
     }
 
     /**
-     * To let client customize month title textview
+     * Get month title text view - To let client customize month title textview
+     *
+     * @return it returns the month title textview
      */
     override fun getMonthTitleTextView(): TextView? {
         return monthTitleTextView
     }
 
+    /**
+     * Set month title text view
+     *
+     * @param monthTitleTextView
+     */
     override fun setMonthTitleTextView(monthTitleTextView: TextView?) {
         this.monthTitleTextView = monthTitleTextView
     }
@@ -197,7 +237,7 @@ class CalendarFragment : CaldroidFragment() {
      * Get 4 adapters of the date grid views. Useful to set custom data and
      * refresh date grid view
      *
-     * @return
+     * @return it returns the Date PagerAdapters instance
      */
     override fun getDatePagerAdapters(): ArrayList<CaldroidGridAdapter?>? {
         return datePagerAdapters
@@ -206,7 +246,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * caldroidData return data belong to Caldroid
      *
-     * @return
+     * @return it returns the calender data in map object
      */
     override fun getCaldroidData(): Map<String?, Any?>? {
         caldroidData.clear()
@@ -226,12 +266,22 @@ class CalendarFragment : CaldroidFragment() {
         return caldroidData
     }
 
+    /**
+     * Set background drawable for date times
+     *
+     * @param backgroundForDateTimeMap - map object contains date time instance and drawable color
+     */
     override fun setBackgroundDrawableForDateTimes(
         backgroundForDateTimeMap: Map<DateTime?, Drawable?>?
     ) {
         this.backgroundForDateTimeMap.putAll(backgroundForDateTimeMap!!)
     }
 
+    /**
+     * Clear background drawable for date times
+     *
+     * @param dateTimes -selected date times list  to clear the background
+     */
     override fun clearBackgroundDrawableForDateTimes(dateTimes: List<DateTime?>?) {
         if (dateTimes == null || dateTimes.size == 0) return
         for (dateTime in dateTimes) {
@@ -239,6 +289,12 @@ class CalendarFragment : CaldroidFragment() {
         }
     }
 
+    /**
+     * Set background drawable for date
+     *
+     * @param drawable -  drawable to set the background
+     * @param date - date to set the background
+     */
     override fun setBackgroundDrawableForDate(
         drawable: Drawable?,
         date: Date?
@@ -247,11 +303,22 @@ class CalendarFragment : CaldroidFragment() {
         backgroundForDateTimeMap.put(dateTime, drawable)
     }
 
+    /**
+     * Clear background drawable for date
+     *
+     * @param date - selected date to clear the background
+     */
     override fun clearBackgroundDrawableForDate(date: Date?) {
         val dateTime = CalendarHelper.convertDateToDateTime(date)
         backgroundForDateTimeMap.remove(dateTime)
     }
 
+    /**
+     * Set background drawable for date time
+     *
+     * @param drawable - drawable to set the background
+     * @param dateTime - dateTime to set the background
+     */
     override fun setBackgroundDrawableForDateTime(
         drawable: Drawable?,
         dateTime: DateTime?
@@ -259,14 +326,19 @@ class CalendarFragment : CaldroidFragment() {
         backgroundForDateTimeMap.put(dateTime, drawable)
     }
 
+    /**
+     * Clear background drawable for date time
+     *
+     * @param dateTime - dateTime instance to clear the background
+     */
     override fun clearBackgroundDrawableForDateTime(dateTime: DateTime?) {
         backgroundForDateTimeMap.remove(dateTime)
     }
 
     /**
-     * Set textColorForDateMap
+     * Set text color for dates
      *
-     * @return
+     * @param textColorForDateMap - text color map date instance to set the color
      */
     override fun setTextColorForDates(textColorForDateMap: Map<Date?, Int?>?) {
         if (textColorForDateMap == null || textColorForDateMap.size == 0) {
@@ -280,6 +352,11 @@ class CalendarFragment : CaldroidFragment() {
         }
     }
 
+    /**
+     * Clear text color for dates
+     *
+     * @param dates - dates instance to clear the text color
+     */
     override fun clearTextColorForDates(dates: List<Date?>?) {
         if (dates == null || dates.size == 0) return
         for (date in dates) {
@@ -287,6 +364,11 @@ class CalendarFragment : CaldroidFragment() {
         }
     }
 
+    /**
+     * Set text color for date times
+     *
+     * @param textColorForDateTimeMap- instance of dates to set text color
+     */
     override fun setTextColorForDateTimes(
         textColorForDateTimeMap: Map<DateTime?, Int?>?
     ) {
@@ -295,16 +377,33 @@ class CalendarFragment : CaldroidFragment() {
         }
     }
 
+    /**
+     * Set text color for date
+     *
+     * @param textColorRes
+     * @param date
+     */
     override fun setTextColorForDate(textColorRes: Int, date: Date?) {
         val dateTime = CalendarHelper.convertDateToDateTime(date)
         textColorForDateTimeMap.put(dateTime, textColorRes)
     }
 
+    /**
+     * Clear text color for date
+     *
+     * @param date
+     */
     override fun clearTextColorForDate(date: Date?) {
         val dateTime = CalendarHelper.convertDateToDateTime(date)
         textColorForDateTimeMap.remove(dateTime)
     }
 
+    /**
+     * Set text color for date time
+     *
+     * @param textColorRes
+     * @param dateTime
+     */
     override fun setTextColorForDateTime(
         textColorRes: Int,
         dateTime: DateTime?
@@ -357,8 +456,8 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Save current state to bundle outState
      *
-     * @param outState
-     * @param key
+     * @param outState -bundle it contains the key to save
+     * @param key - key to save
      */
     override fun saveStatesToKey(outState: Bundle, key: String?) {
         outState.putBundle(key, savedStates)
@@ -367,8 +466,8 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Restore current states from savedInstanceState
      *
-     * @param savedInstanceState
-     * @param key
+     * @param savedInstanceState - bundle it contains the key to save
+     * @param key - key to save
      */
     override fun restoreStatesFromKey(savedInstanceState: Bundle?, key: String?) {
         if (savedInstanceState != null && savedInstanceState.containsKey(key)) {
@@ -380,9 +479,9 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Restore state for dialog
      *
-     * @param savedInstanceState
-     * @param key
-     * @param dialogTag
+     * @param savedInstanceState - bundle it contains the key to save
+     * @param key - key to save
+     * @param dialogTag - dialog identification
      */
     override fun restoreDialogStatesFromKey(
         manager: FragmentManager,
@@ -398,7 +497,9 @@ class CalendarFragment : CaldroidFragment() {
     }
 
     /**
-     * Get current virtual position of the month being viewed
+     * Get current virtual position
+     *
+     * @return - returns the current page position
      */
     override fun getCurrentVirtualPosition(): Int {
         val currentPage = dateViewPager!!.currentItem
@@ -408,7 +509,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Move calendar to the specified date
      *
-     * @param date
+     * @param date - selected to date instance
      */
     override fun moveToDate(date: Date?) {
         moveToDateTime(CalendarHelper.convertDateToDateTime(date))
@@ -417,7 +518,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Move calendar to specified dateTime, with animation
      *
-     * @param dateTime
+     * @param dateTime - selected to date time instance
      */
     override fun moveToDateTime(dateTime: DateTime) {
         val firstOfMonth =
@@ -466,12 +567,17 @@ class CalendarFragment : CaldroidFragment() {
      * implementation of manipulating month and year. All dates within same
      * month/year give same result
      *
-     * @param date
+     * @param date  selected to date instance
      */
     override fun setCalendarDate(date: Date?) {
         setCalendarDateTime(CalendarHelper.convertDateToDateTime(date))
     }
 
+    /**
+     * Set calendar date time
+     *
+     * @param dateTime - selected to date time instance
+     */
     override fun setCalendarDateTime(dateTime: DateTime) {
         super.month = dateTime.month
         super.year = dateTime.year
@@ -508,7 +614,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Set disableDates from ArrayList of Date
      *
-     * @param disableDateList
+     * @param disableDateList -  selected date list to disable
      */
     override fun setDisableDates(disableDateList: ArrayList<Date?>?) {
         if (disableDateList == null || disableDateList.size == 0) {
@@ -525,7 +631,7 @@ class CalendarFragment : CaldroidFragment() {
      * Set disableDates from ArrayList of String. By default, the date formatter
      * is yyyy-MM-dd. For e.g 2013-12-24
      *
-     * @param disableDateStrings
+     * @param disableDateStrings - date string instance to disable
      */
     override fun setDisableDatesFromString(disableDateStrings: ArrayList<String?>?) {
         setDisableDatesFromString(disableDateStrings, null)
@@ -537,8 +643,8 @@ class CalendarFragment : CaldroidFragment() {
      * This method will refresh the calendar, it's not necessary to call
      * refreshView()
      *
-     * @param disableDateStrings
-     * @param dateFormat
+     * @param disableDateStrings - selected date list to disable
+     * @param dateFormat - specified date format
      */
     override fun setDisableDatesFromString(
         disableDateStrings: ArrayList<String?>?,
@@ -571,8 +677,8 @@ class CalendarFragment : CaldroidFragment() {
      * change the text color CaldroidFragment.selectedTextColor before call this
      * method. This method does not refresh view, need to call refreshView()
      *
-     * @param fromDate
-     * @param toDate
+     * @param fromDate - selected from date
+     * @param toDate - selected to date
      */
     override fun setSelectedDates(fromDate: Date?, toDate: Date?) {
         // Ensure fromDate is before toDate
@@ -594,10 +700,10 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Convenient method to select dates from String
      *
-     * @param fromDateString
-     * @param toDateString
-     * @param dateFormat
-     * @throws ParseException
+     * @param fromDateString - selected from date
+     * @param toDateString - selected to date
+     * @param dateFormat - specified date format
+     * @throws ParseException - exception type
      */
     @Throws(ParseException::class)
     override fun setSelectedDateStrings(
@@ -614,8 +720,9 @@ class CalendarFragment : CaldroidFragment() {
     }
 
     /**
-     * Select single date
-     * @author Alov Maxim <alovmax></alovmax>@yandex.ru>
+     * Set selected date
+     *
+     * @param date - date instance to select
      */
     override fun setSelectedDate(date: Date?) {
         if (date == null) {
@@ -627,7 +734,8 @@ class CalendarFragment : CaldroidFragment() {
 
     /**
      * Clear selection of the specified date
-     * @author Alov Maxim <alovmax></alovmax>@yandex.ru>
+     *
+     * @param date -  date instance to clear selection
      */
     override fun clearSelectedDate(date: Date?) {
         if (date == null) {
@@ -639,7 +747,10 @@ class CalendarFragment : CaldroidFragment() {
 
     /**
      * Checks whether the specified date is selected
-     * @author Alov Maxim <alovmax></alovmax>@yandex.ru>
+     *
+     * @param date - date instance to check selection
+     *
+     * @return - it will return true if specified date is selected else it will return false
      */
     override fun isSelectedDate(date: Date?): Boolean {
         if (date == null) {
@@ -652,7 +763,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Check if the navigation arrow is shown
      *
-     * @return
+     * @return it will return true if navigation arrows are visible else it will return false
      */
     override fun isShowNavigationArrows(): Boolean {
         return showNavigationArrows
@@ -661,7 +772,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Show or hide the navigation arrows
      *
-     * @param showNavigationArrows
+     * @param showNavigationArrows - boolean value to visible/invisible navigation arrows
      */
     override fun setShowNavigationArrows(showNavigationArrows: Boolean) {
         this.showNavigationArrows = showNavigationArrows
@@ -677,12 +788,17 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Enable / Disable swipe to navigate different months
      *
-     * @return
+     * @return - returns true if swipe is enabled else it will return false
      */
     override fun isEnableSwipe(): Boolean {
         return enableSwipe
     }
 
+    /**
+     * Set enable swipe
+     *
+     * @param enableSwipe - if value is true it will enable swipe
+     */
     override fun setEnableSwipe(enableSwipe: Boolean) {
         this.enableSwipe = enableSwipe
         dateViewPager!!.isEnabled = enableSwipe
@@ -691,7 +807,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Set min date. This method does not refresh view
      *
-     * @param minDate
+     * @param minDate - date instance to set as min date
      */
     override fun setMinDate(minDate: Date?) {
         if (minDate == null) {
@@ -701,10 +817,20 @@ class CalendarFragment : CaldroidFragment() {
         }
     }
 
+    /**
+     * Is six weeks in calendar
+     *
+     * @return - it will return true if there are 6 weeks in calender else false
+     */
     override fun isSixWeeksInCalendar(): Boolean {
         return sixWeeksInCalendar
     }
 
+    /**
+     * Set six weeks in calendar
+     *
+     * @param sixWeeksInCalendar - if value is true then it will set 6 weeks in calender
+     */
     override fun setSixWeeksInCalendar(sixWeeksInCalendar: Boolean) {
         this.sixWeeksInCalendar = sixWeeksInCalendar
         dateViewPager!!.isSixWeeksInCalendar = sixWeeksInCalendar
@@ -714,8 +840,8 @@ class CalendarFragment : CaldroidFragment() {
      * Convenient method to set min date from String. If dateFormat is null,
      * default format is yyyy-MM-dd
      *
-     * @param minDateString
-     * @param dateFormat
+     * @param minDateString - date instance to set as min date
+     * @param dateFormat - date format instance
      */
     override fun setMinDateFromString(
         minDateString: String?,
@@ -734,7 +860,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Set max date. This method does not refresh view
      *
-     * @param maxDate
+     * @param maxDate - max date instance
      */
     override fun setMaxDate(maxDate: Date?) {
         if (maxDate == null) {
@@ -748,8 +874,8 @@ class CalendarFragment : CaldroidFragment() {
      * Convenient method to set max date from String. If dateFormat is null,
      * default format is yyyy-MM-dd
      *
-     * @param maxDateString
-     * @param dateFormat
+     * @param maxDateString - date instance to set as max date
+     * @param dateFormat - date format instance
      */
     override fun setMaxDateFromString(
         maxDateString: String?,
@@ -768,7 +894,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Set caldroid listener when user click on a date
      *
-     * @param caldroidListener
+     * @param caldroidListener - calender listner instance
      */
     override fun setCaldroidListener(caldroidListener: CaldroidListener?) {
         this.caldroidListener = caldroidListener
@@ -778,7 +904,7 @@ class CalendarFragment : CaldroidFragment() {
      * Callback to listener when date is valid (not disable, not outside of
      * min/max date)
      *
-     * @return
+     * @return - it will return calender item click listeners
      */
     override fun getDateItemClickListener(): OnItemClickListener? {
         if (dateItemClickListener == null) {
@@ -810,7 +936,7 @@ class CalendarFragment : CaldroidFragment() {
      * Callback to listener when date is valid (not disable, not outside of
      * min/max date)
      *
-     * @return
+     * @return - it will return calender long item click listeners
      */
     override fun getDateItemLongClickListener(): OnItemLongClickListener? {
         if (dateItemLongClickListener == null) {
@@ -840,7 +966,8 @@ class CalendarFragment : CaldroidFragment() {
     }
 
     /**
-     * Refresh month title text view when user swipe
+     * Refresh month title text view
+     *
      */
     override fun refreshMonthTitleTextView() {
         // Refresh title view
@@ -1018,7 +1145,16 @@ class CalendarFragment : CaldroidFragment() {
     }
 
     /**
-     * Setup view
+     * On create view - Called to have the fragment instantiate its user interface view
+     *
+     * @param inflater - LayoutInflater: The LayoutInflater object that can be used to inflate
+     *                   any views in the fragment
+     * @param container - ViewGroup: If non-null, this is the parent view that the fragment's
+     *                    UI should be attached to. The fragment should not add the view itself,
+     *                    but this can be used to generate the LayoutParams of the view.
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed from
+     *                             a previous saved state as given here.
+     * @return - Return the View for the fragment's UI, or null.
      */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -1075,7 +1211,7 @@ class CalendarFragment : CaldroidFragment() {
      * Setup 4 pages contain date grid views. These pages are recycled to use
      * memory efficient
      *
-     * @param view
+     * @param view - view instance to setup grid pages
      */
     private fun setupDateGridPages(view: View) {
         // Get current date time
@@ -1181,7 +1317,9 @@ class CalendarFragment : CaldroidFragment() {
     }
 
     /**
-     * To display the week day title
+     * Get days of week
+     *
+     * @return - it will return the days in week
      */
     override fun getDaysOfWeek(): ArrayList<String>? {
         val list2 = ArrayList<String>()

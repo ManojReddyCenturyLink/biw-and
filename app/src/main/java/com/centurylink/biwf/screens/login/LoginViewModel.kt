@@ -21,6 +21,16 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * Login view model
+ *
+ * @property sharedPreferences - preferences instance to handle shared preferences
+ * @property authService - service instance to handle auth api calls
+ * @constructor
+ *
+ * @param modemRebootMonitorService - service instance to handle  modem reboot functionality
+ * @param analyticsManagerInterface - analytics instance to handle analytics events
+ */
 class LoginViewModel internal constructor(
     val sharedPreferences: Preferences,
     private val authService: AuthService<*>,
@@ -58,10 +68,17 @@ class LoginViewModel internal constructor(
         negativeText = R.string.cancel
     )
 
+    /**
+     * This block is executed first, when the class is instantiated.
+     */
     init {
         handleSignInFlow()
     }
 
+    /**
+     * Show login screen - It will handle authentication of login screen
+     *
+     */
     private fun showLoginScreen() {
         viewModelScope.launch {
             try {
@@ -72,6 +89,10 @@ class LoginViewModel internal constructor(
         }
     }
 
+    /**
+     * Handle sign in flow
+     *
+     */
     fun handleSignInFlow() {
         val showBiometrics = sharedPreferences.getBioMetrics() ?: false
         val hasToken = !(authService.tokenStorage as AppAuthTokenStorage).state?.accessToken.isNullOrEmpty()
@@ -85,14 +106,26 @@ class LoginViewModel internal constructor(
         }
     }
 
+    /**
+     * On login success - It will navigate to home screen
+     *
+     */
     fun onLoginSuccess() {
         myState.latestValue = LoginCoordinatorDestinations.HOME
     }
 
+    /**
+     * On biometric success - It will navigate to home screen
+     *
+     */
     fun onBiometricSuccess() {
         myState.latestValue = LoginCoordinatorDestinations.HOME
     }
 
+    /**
+     * On biometric failure - reloads the same(login) screen
+     *
+     */
     fun onBiometricFailure() {
         showLoginScreen()
     }
