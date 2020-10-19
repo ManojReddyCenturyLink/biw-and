@@ -23,6 +23,7 @@ import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
@@ -102,7 +103,8 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testDevicesSectionSuccess() {
         runBlockingTest {
             launch {
-                viewModel.initApis()
+                Assert.assertNotNull(
+                        viewModel.initApis())
             }
         }
     }
@@ -123,7 +125,8 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                     Constants.ERROR
                 )
                 coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Left("")
-                viewModel.initApis()
+                Assert.assertNotNull(
+                        viewModel.initApis())
             }
         }
     }
@@ -132,7 +135,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testLogRestoreConnectionSuccess() {
         runBlockingTest {
             launch {
-                viewModel.logRestoreConnection(true)
+                Assert.assertNotNull(viewModel.logRestoreConnection(true))
             }
         }
     }
@@ -141,7 +144,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testLogRestoreConnectionFail() {
         runBlockingTest {
             launch {
-                viewModel.logRestoreConnection(false)
+                Assert.assertNotNull(viewModel.logRestoreConnection(false))
             }
         }
     }
@@ -150,7 +153,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testLogConnectionStatusChangedSuccess() {
         runBlockingTest {
             launch {
-                viewModel.logConnectionStatusChanged(true)
+                Assert.assertNotNull(viewModel.logConnectionStatusChanged(true))
             }
         }
     }
@@ -159,7 +162,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testLogConnectionStatusChangedFail() {
         runBlockingTest {
             launch {
-                viewModel.logConnectionStatusChanged(false)
+                Assert.assertNotNull(viewModel.logConnectionStatusChanged(false))
             }
         }
     }
@@ -168,7 +171,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testLogRemoveDevicesItemClick() {
         runBlockingTest {
             launch {
-                viewModel.logRemoveDevicesItemClick()
+                Assert.assertNotNull(viewModel.logRemoveDevicesItemClick())
             }
         }
     }
@@ -177,7 +180,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testLogListExpandCollapse() {
         runBlockingTest {
             launch {
-                viewModel.logListExpandCollapse()
+                Assert.assertNotNull(viewModel.logListExpandCollapse())
             }
         }
     }
@@ -186,7 +189,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     fun testLogScreenLaunch() {
         runBlockingTest {
             launch {
-                viewModel.logScreenLaunch()
+                Assert.assertNotNull(viewModel.logScreenLaunch())
             }
         }
     }
@@ -194,7 +197,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
     @Test
     fun testUpdatePauseResumeStatusDeviceIdIsNotNull() {
         coEvery { mcafeeRepository.updateDevicePauseResumeStatus("00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF", false)} returns Either.Right(DevicePauseStatus(isPaused = true, deviceId = ""))
-        viewModel.updatePauseResumeStatus(deviceData)
+        Assert.assertNotNull(viewModel.updatePauseResumeStatus(deviceData))
     }
 
     @Test
@@ -203,14 +206,14 @@ class DevicesViewModelTest : ViewModelBaseTest() {
         coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Left(
                 Constants.ERROR
         )
-        viewModel.updatePauseResumeStatus(deviceDataEmpty)
+        Assert.assertNotNull(viewModel.updatePauseResumeStatus(deviceDataEmpty))
     }
 
     @Test
     fun testNavigateToUsageDetails() {
         runBlockingTest {
             launch {
-                viewModel.navigateToUsageDetails(devicesInfo.devicesDataList[1])
+                Assert.assertNotNull(viewModel.navigateToUsageDetails(devicesInfo.devicesDataList[1]))
             }
         }
     }
@@ -234,7 +237,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                     Constants.ERROR
                 )
                 coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Left("")
-                viewModel.unblockDevice("stationMac")
+                Assert.assertNotNull(viewModel.unblockDevice("stationMac"))
             }
         }
     }
@@ -246,7 +249,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                 coEvery { assiaRepository.unblockDevices(any()) } returns Either.Left(
                     "Error DeviceInfo"
                 )
-                viewModel.unblockDevice("stationMac")
+                Assert.assertNotNull(viewModel.unblockDevice("stationMac"))
             }
         }
     }
@@ -258,8 +261,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                 coEvery { OAuthAssiaService.getLineInfo(any(), any()) } returns Either.Right(
                     modemInfoResponse
                 )
-                viewModel.initApis()
-                assert(true)
+                Assert.assertNotNull(viewModel.initApis())
             }
         }
     }

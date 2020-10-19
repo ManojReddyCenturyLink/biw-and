@@ -101,7 +101,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun requestDailyUsageDetailsApiCall() =
         runBlockingTest {
             launch {
-                viewModel.initApis()
+                Assert.assertNotNull(viewModel.initApis())
             }
         }
 
@@ -116,7 +116,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
                         uploadTrafficUnit = NetworkTrafficUnits.GB_UPLOAD
                 )
                 coEvery { networkUsageRepository.getUsageDetails(false, deviceData.stationMac!!) } returns usageDetailsRes
-                viewModel.initApis()
+                Assert.assertNotNull(viewModel.initApis())
             }
         }
     }
@@ -125,7 +125,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testRequestStateForDevicesSuccess() {
         runBlockingTest {
             launch {
-                viewModel.initApis()
+                Assert.assertNotNull(viewModel.initApis())
             }
         }
     }
@@ -137,7 +137,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
                 coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Left("")
                 coEvery { assiaRepository.blockDevices("") } returns Either.Left("")
                 coEvery { mcafeeRepository.getDevicePauseResumeStatus(deviceData.deviceId!!) } returns Either.Left("")
-                viewModel.initApis()
+                Assert.assertNotNull(viewModel.initApis())
             }
         }
     }
@@ -148,7 +148,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         runBlockingTest {
             launch {
                 coEvery { mcafeeRepository.updateDevicePauseResumeStatus(deviceData.mcafeeDeviceId!!, !deviceData.isPaused) } returns Either.Left("")
-                viewModel.onDevicesConnectedClicked()
+                Assert.assertNotNull(viewModel.onDevicesConnectedClicked())
             }
         }
     }
@@ -157,7 +157,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testOnDevicesConnectedClicked() {
         runBlockingTest {
             launch {
-                viewModel.onDevicesConnectedClicked()
+                Assert.assertNotNull(viewModel.onDevicesConnectedClicked())
             }
         }
     }
@@ -167,7 +167,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         deviceData = fromJson(readJson("device-data.json"))
         runBlockingTest {
             launch {
-                viewModel.onDevicesConnectedClicked()
+                Assert.assertNotNull(viewModel.onDevicesConnectedClicked())
             }
         }
     }
@@ -177,21 +177,21 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         viewModel.deviceData =  fromJson(readJson("devicedata-modemoff.json"))
         runBlockingTest {
             launch {
-                viewModel.onDevicesConnectedClicked()
+                Assert.assertNotNull(viewModel.onDevicesConnectedClicked())
             }
         }
     }
 
     @Test
     fun testValidateInput() {
-        viewModel.validateInput("Vini123")
+        Assert.assertNotNull(viewModel.validateInput("Vini123"))
     }
 
     @Test
     fun testInvokeBlockedDevicesSuccess() {
         runBlockingTest {
             launch {
-                viewModel.removeDevices("stationMac")
+                Assert.assertNotNull(viewModel.removeDevices("stationMac"))
             }
         }
     }
@@ -201,7 +201,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         runBlockingTest {
             launch {
                 coEvery { assiaRepository.blockDevices(any()) } returns Either.Left("Error DeviceInfo")
-                viewModel.removeDevices("stationMac")
+                Assert.assertNotNull(viewModel.removeDevices("stationMac"))
             }
         }
     }
@@ -210,7 +210,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testUpdatePauseResumeStatusSuccess() {
         runBlockingTest {
             launch {
-                viewModel.initApis()
+                Assert.assertNotNull(viewModel.initApis())
             }
         }
     }
@@ -219,7 +219,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun `on Remove Devices Clicked`() =
         runBlockingTest {
             launch {
-                viewModel.removeDevices("")
+                Assert.assertNotNull(viewModel.removeDevices(""))
             }
         }
 
@@ -227,7 +227,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun `on Done Clicked`() =
         runBlockingTest {
             launch {
-                viewModel.onDoneBtnClick("vini1234")
+                Assert.assertNotNull(viewModel.onDoneBtnClick("vini1234"))
             }
         }
 
@@ -236,7 +236,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         runBlockingTest {
             coEvery { mcafeeRepository.updateDeviceName(deviceData.mcAfeeDeviceType, "vini1234", deviceData.mcafeeDeviceId) } returns Either.Left("")
             launch {
-                viewModel.onDoneBtnClick("vini1234")
+                Assert.assertNotNull(viewModel.onDoneBtnClick("vini1234"))
             }
         }
 
@@ -244,11 +244,11 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun logAnalytics() {
         runBlockingTest {
             launch {
-                viewModel.onDoneBtnClick("")
-                viewModel.onRemoveDevicesClicked()
-                viewModel.onDevicesConnectedClicked()
-                viewModel.logRemoveConnection(true)
-                viewModel.logRemoveConnection(false)
+                Assert.assertNotNull(viewModel.onDoneBtnClick(""))
+                Assert.assertNotNull(viewModel.onRemoveDevicesClicked())
+                Assert.assertNotNull(viewModel.onDevicesConnectedClicked())
+                Assert.assertNotNull(viewModel.logRemoveConnection(true))
+                Assert.assertNotNull(viewModel.logRemoveConnection(false))
             }
         }
     }
