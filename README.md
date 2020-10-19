@@ -20,6 +20,7 @@ This document describes the setup and patterns used by this project implementing
     - [UI Bindings](#ui-bindings)
   - [Authorization Flow](#authorization-flow)
   - [Offline Behavior and Caching](#offline-behavior-and-caching)
+  - [Sample API Sequence Flow In Quantum App](#sample-api-sequence-flow-in-quantum-app)
 - [Code Structure](#code-structure)
   - [Packages](#packages)
   - [Third Party Libraries](#third-party-libraries)
@@ -27,7 +28,6 @@ This document describes the setup and patterns used by this project implementing
 - [Style Guidelines](#style-guidelines)
 - [Linting](#linting)
 - [Notes](#notes)
-- [Sample API Sequence Flow In Quantum App](#sample-api-sequence-flow-in-quantum-app)
 
 ## Building
 Building this project locally on a development environment does not need any special configuration. Import the project into Android Studio and let it sync. A plain build after that is enough.
@@ -248,6 +248,12 @@ For now, this means that **caching** should only be used to improve performance 
   - Lifecycle: When to purge or refresh cached data on what location.
 - **Repositories** must implement the Caching strategies.
 
+###  Sample API Sequence flow in Quantum App
+The below diagram is a representation of sample API flow for handling success and error cases 
+in Quantum App talking with BackEnd APIs.
+
+![Sample API Sequence Flow In Quantum App](AccountAPIsequencediagram.png)
+
 ## Code Structure
 ### Packages
 ###### base
@@ -354,7 +360,3 @@ Run `./gradlew ktlintTestSourceSetFormat` in the terminal.
 We did not include the library for Functional Programming for Kotlin called **Arrow**. Currently, we only use the sum-type `Either` and including the Arrow library would bring in too much code. Instead, we opted to implemented our own version of `Either`, closely matching the one from Arrow.
 
 This README.md document is a living document and it is only a guideline. When things change, are re-thought, please don't forget to update this document as well to make our devs' lives a little easier. Thank you!
-
-##  Sample API Sequence flow in Quantum App
-
-![Sample API Sequence Flow In Quantum App](AccountAPIsequencediagram.png)
