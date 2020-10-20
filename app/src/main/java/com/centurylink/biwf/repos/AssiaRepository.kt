@@ -4,7 +4,6 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.devices.BlockResponse
-import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.repos.assia.AssiaTokenManager
 import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -58,18 +57,6 @@ class AssiaRepository @Inject constructor(
                     return Either.Left(it.message)
                 }
                 return Either.Right(it.modemInfo)
-            }
-        }
-    }
-
-    suspend fun getDevicesDetails():  Either<String,List<DevicesData>> {
-        val result =  assiaService.getDevicesList(getHeaderMap(token = assiaTokenManager.getAssiaToken()))
-        return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            it.let {
-                if (it.code != "1000") {
-                   return Either.Left(it.message!!)
-                }
-                return Either.Right(it.devicesDataList)
             }
         }
     }

@@ -5,7 +5,6 @@ import com.centurylink.biwf.model.assia.AssiaToken
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.assia.ModemInfoResponse
 import com.centurylink.biwf.model.devices.BlockResponse
-import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.model.speedtest.SpeedTestRequestResult
 import com.centurylink.biwf.model.speedtest.SpeedTestResponse
@@ -134,39 +133,6 @@ class AssiaRepositoryTest : BaseRepositoryTest() {
 
                 val modemInfo = assiaRepository.getModemInfoForcePing()
                 Assert.assertEquals(modemInfo.mapLeft { it }, Either.Left(""))
-            }
-        }
-    }
-
-    @Test
-    fun testGetDevicesDetailsSuccess() {
-        runBlockingTest {
-            launch {
-                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
-                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                val deviceInformation = assiaRepository.getDevicesDetails()
-                Assert.assertEquals(
-                    deviceInformation.map { it[0].vendorName },
-                    Either.Right("APPLE")
-                )
-                Assert.assertEquals(
-                    deviceInformation.map { it[0].type },
-                    Either.Right("Apple")
-                )
-            }
-        }
-    }
-
-    @Test
-    fun testGetDevicesDetailsFailure() {
-        runBlocking {
-            launch {
-                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                val devicesData=DevicesData()
-                devicesInfo= DevicesInfo(code = Constants.ERROR_CODE_1064,error = "",message = "",devicesDataList = arrayListOf(devicesData) )
-                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
-                val deviceInfo = assiaRepository.getDevicesDetails()
-                Assert.assertEquals(deviceInfo.mapLeft { it }, Either.Left(""))
             }
         }
     }

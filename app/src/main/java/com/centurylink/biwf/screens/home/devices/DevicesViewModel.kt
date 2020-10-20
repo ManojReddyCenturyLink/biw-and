@@ -82,7 +82,7 @@ class DevicesViewModel @Inject constructor(
 
     private suspend fun requestDevices() {
         progressViewFlow.latestValue = true
-        val deviceDetails = asiaRepository.getDevicesDetails()
+        val deviceDetails = oAuthAssiaRepository.getDevicesDetails()
         deviceDetails.fold(ifRight =
         {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
