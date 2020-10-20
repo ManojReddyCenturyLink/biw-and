@@ -1,8 +1,5 @@
 package com.centurylink.biwf.repos.assia
 
-import com.centurylink.biwf.Either
-import com.centurylink.biwf.flatMap
-import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.usagedetails.TrafficUsageResponse
 import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.screens.deviceusagedetails.NetworkTrafficUnits
@@ -51,8 +48,13 @@ class NetworkUsageRepository @Inject constructor(
             endDate = LocalDate.now().minusDays(1).toString().plus("T00:00:00-0000")
         }
         val headerMap = mutableMapOf<String, String>()
-            headerMap["From"] = "mobile"
-        val result = assiaTrafficUsageService.getUsageDetails(headerMap, preferences.getAssiaId(),startDate,staMac)
+        headerMap["From"] = "mobile"
+        val result = assiaTrafficUsageService.getUsageDetails(
+            headerMap,
+            preferences.getAssiaId(),
+            startDate,
+            staMac
+        )
         return result.fold(
             ifRight = {
                 formatTrafficUsageResponse(it)
@@ -61,22 +63,6 @@ class NetworkUsageRepository @Inject constructor(
                 throw IllegalStateException("Cannot read value")
             }
         )
-    }
-
-    private fun getHeaderMap(
-        token: String,
-        staMac: String,
-        startDate: String,
-        endDate: String
-    ): Map<String, String> {
-        val headerMap = mutableMapOf<String, String>()
-        // TODO remove "Authorization" from map when Cloudcheck URLs updated
-        headerMap["Authorization"] = "bearer $token"
-        headerMap["assiaId"] = preferences.getAssiaId()
-        headerMap["staMac"] = staMac
-        headerMap["startDate"] = startDate
-        headerMap["endDate"] = endDate
-        return headerMap
     }
 
     /**
@@ -126,7 +112,7 @@ class NetworkUsageRepository @Inject constructor(
         )
     }
 
-    /*Mock Request if api is not working, for dev/testing purpose*/
+    /*  *//*Mock Request if api is not working, for dev/testing purpose*//*
     suspend fun getMockUsageDetails(dailyData: Boolean): Either<String, UsageDetails> {
         val result: FiberServiceResult<TrafficUsageResponse> =
             integrationRestServices.getUsageDetails()
@@ -134,5 +120,5 @@ class NetworkUsageRepository @Inject constructor(
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             Either.Right(formatTrafficUsageResponse(it))
         }
-    }
+    }*/
 }
