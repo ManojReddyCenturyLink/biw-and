@@ -80,7 +80,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
             modemInfoResponse
         )
         coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Right(modemInfoResponse.modemInfo)
-        coEvery { OAuthAssiaService.getDevicesList(any(),any(),any()) } returns Either.Right(devicesInfo)
+        coEvery { OAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
         coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
         coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Right(devicesMapping.macDeviceList)
@@ -117,7 +117,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                     modemInfoResponse
                 )
                 coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Left(Constants.ERROR)
-                coEvery { OAuthAssiaService.getDevicesList(any(),any(),any()) } returns Either.Right(devicesInfo)
+                coEvery { OAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Left(Constants.ERROR)
                 coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Left(Constants.ERROR)
@@ -229,7 +229,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                     modemInfoResponse
                 )
                 coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Left(Constants.ERROR)
-                coEvery { OAuthAssiaService.getDevicesList(any(),any(),any()) } returns Either.Right(devicesInfo)
+                coEvery { OAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Left(Constants.ERROR)
                 coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Left(Constants.ERROR)

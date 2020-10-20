@@ -18,8 +18,5 @@ interface OAuthAssiaService {
 
     @GET(EnvironmentPath.STATION_INFO)
     @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
-    suspend fun getDevicesList(
-            @Query(EnvironmentPath.ASSIA_ID) assiaId: String,
-            @Query(EnvironmentPath.LINE_ID) lineId: String,
-            @Query(EnvironmentPath.STA_MAC) staMac: String): AssiaServiceResult<DevicesInfo>
+    suspend fun getDevicesList(@Query(EnvironmentPath.LINE_ID) lineId: String): AssiaServiceResult<DevicesInfo>
 }

@@ -171,7 +171,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         )
         assiaToken = AssiaToken("", "", "")
         coEvery { assiaService.getModemInfo(any()) } returns Either.Right(modemInfoResponse)
-        coEvery { oAuthAssiaService.getDevicesList(any(),any(), any()) } returns Either.Right(devicesInfo)
+        coEvery { oAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
         coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         coEvery {
             assiaService.blockDevice(

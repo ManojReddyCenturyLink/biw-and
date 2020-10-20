@@ -74,9 +74,7 @@ class OAuthAssiaRepository @Inject constructor(
     }
 
     suspend fun getDevicesDetails(): Either<String, List<DevicesData>> {
-        val result = oAuthAssiaService.getDevicesList(
-                preferences.getAssiaId(), preferences.getLineId(), "88:6A:E3:8F:F5:21"
-        )
+        val result = oAuthAssiaService.getDevicesList(preferences.getLineId())
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             it.let {
                 if (it.code != "1000") {

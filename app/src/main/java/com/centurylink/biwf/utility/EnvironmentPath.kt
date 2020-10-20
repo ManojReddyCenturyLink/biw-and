@@ -110,7 +110,6 @@ class EnvironmentPath {
         const val AASIA_ID_TRAFFIC = "assiaIdTraffic"
         const val START_DATE = "startDateTraffic"
         const val STAT_MAC = "staMacTraffic"
-        const val STA_MAC = "staMac"
         const val STATION_INFO = "station-info"
         const val RECORD_TYPE_ID = "recordTypeId"
         const val SALES_FORCE_QUERY_SLASH = "query" + "/"

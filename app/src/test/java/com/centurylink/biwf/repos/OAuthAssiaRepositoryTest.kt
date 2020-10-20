@@ -130,7 +130,7 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 val devicesData= DevicesData()
                 devicesInfo= DevicesInfo(code = Constants.ERROR_CODE_1064,error = "",message = "",devicesDataList = arrayListOf(devicesData) )
-                coEvery { assiaService.getDevicesList(any(),any(), any()) } returns Either.Right(devicesInfo)
+                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 val deviceInfo = assiaRepository.getDevicesDetails()
                 Assert.assertEquals(deviceInfo.mapLeft { it }, Either.Left(""))
             }
@@ -141,7 +141,7 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
     fun testGetDevicesDetailsSuccess() {
         runBlockingTest {
             launch {
-                coEvery { assiaService.getDevicesList(any(),any(), any()) } returns Either.Right(devicesInfo)
+                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 val deviceInformation = assiaRepository.getDevicesDetails()
                 Assert.assertEquals(
