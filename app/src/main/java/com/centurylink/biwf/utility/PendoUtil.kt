@@ -28,7 +28,7 @@ class PendoUtil {
         fun initPendoSDKWithVisitor(context: Activity, visitorId: String) {
             val pendoParams = PendoInitParams()
             pendoParams.visitorId = visitorId
-            Pendo.initSDK(context, BuildConfig.APP_KEY, pendoParams)
+            Pendo.switchVisitor(visitorId, null, null, null)
         }
     }
 
