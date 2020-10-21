@@ -117,6 +117,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 binding.incTroubleshooting.runSpeedTestButton.isEnabled = false
                 binding.incTroubleshooting.rebootModemButton.isActivated = false
                 binding.incTroubleshooting.rebootModemButton.isEnabled = false
+            } else {
+                binding.incTroubleshooting.runSpeedTestButton.isActivated = true
+                binding.incTroubleshooting.runSpeedTestButton.isEnabled = true
+                binding.incTroubleshooting.rebootModemButton.isActivated = true
+                binding.incTroubleshooting.rebootModemButton.isEnabled = true
             }
         }
     }
@@ -159,6 +164,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 binding.incTroubleshooting.uploadProgressIcon.visibility =
                     if (it) View.VISIBLE else View.INVISIBLE
                 binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
+                binding.incTroubleshooting.runSpeedTestButton.isEnabled = !it
             }
             speedTestError.observe{
                 if (it) {
@@ -167,7 +173,10 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             }
             modemResetButtonState.observe {
                 viewModel.networkStatus.observe { networkStatus ->
-                    if(networkStatus)  binding.incTroubleshooting.rebootModemButton.isActivated = it
+                    if(networkStatus)  {
+                        binding.incTroubleshooting.rebootModemButton.isActivated = it
+                        binding.incTroubleshooting.rebootModemButton.isEnabled = it
+                    }
                 }
             }
             progressViewFlow.observe { showProgress(it) }
@@ -293,6 +302,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     private fun setRunSpeedTestButtonVisibility(restarting: Boolean) {
         binding.incTroubleshooting.runSpeedTestButton.isActivated =
+            !restarting
+        binding.incTroubleshooting.runSpeedTestButton.isEnabled =
             !restarting
     }
 

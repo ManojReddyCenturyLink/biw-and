@@ -1,4 +1,5 @@
 {
+  "isPaused": true,
   "stationMac": "8C:85:90:AC:B7:15",
   "hostname": "AMAC02W31TBHTD8",
   "vendorName": "APPLE",
@@ -14,13 +15,15 @@
   "rxRateKbps": 1170000,
   "userDefinedProfile": null,
   "location": "",
-  "deviceId": null,
+  "deviceId": "00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF",
+  "mcafeeDeviceId": "00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF",
   "maxMode": {
     "Band2G": "ModeAC",
     "Band5G": "ModeAC"
   },
   "maxSpeed": {
-  }
+  },
+  "deviceConnectionStatus": "PAUSED"
 }
 
 

@@ -7,5 +7,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class ContactInfoActivityInjectorModule {
     @ContributesAndroidInjector
-    abstract fun contributeAdditionalInfoActivityInjector(): ContactInfoActivity
+    abstract fun contributeContactInfoActivityInjector(): ContactInfoActivity
 }

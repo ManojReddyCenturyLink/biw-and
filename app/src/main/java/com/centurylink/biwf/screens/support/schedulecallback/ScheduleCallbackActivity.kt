@@ -19,6 +19,11 @@ import com.centurylink.biwf.screens.support.adapter.ScheduleCallbackItemClickLis
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
+/**
+ * Schedule callback activity - this class handle common methods related to schedule screen
+ *
+ * @constructor Create empty Schedule callback activity
+ */
 class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListener {
 
     @Inject
@@ -36,6 +41,13 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
     private lateinit var adapter: ScheduleCallbackAdapter
     private lateinit var binding: ActivityScheduleCallbackBinding
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScheduleCallbackBinding.inflate(layoutInflater)
@@ -45,25 +57,57 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         setApiProgressViews(
             binding.progressOverlay.root,
             binding.retryOverlay.retryViewLayout,
-            binding.scheduleCallbackLayout,
+            binding.layoutScrollView,
             binding.retryOverlay.root
         )
         viewModel.apply {
-            progressViewFlow.observe { showProgress(it) }
-            prepareRecyclerView(topicList)
+            progressViewFlow.observe {
+                showProgress(it)
+                if(!it) {
+                    prepareRecyclerView(viewModel.arrayList.map(::TopicList))
+                }
+            }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
         }
 
         initHeaders()
     }
 
+    /**
+     * On back pressed - This will handle back key click listeners
+     *
+     */
     override fun onBackPressed() {
         finish()
     }
 
-    override fun onItemClick(item: TopicList, position: Int) {
-        viewModel.navigateAdditionalInfoScreen(item, position)
+    /**
+     * Retry clicked - This will handle retry click listener
+     *
+     */
+    override fun retryClicked() {
+        showProgress(true)
+        viewModel.initApiCalls()
     }
 
+    /**
+     * On item click - It will navigate to additional info screen on click of item
+     *
+     * @param item - returns item clicked
+     */
+    override fun onItemClick(item: TopicList) {
+        viewModel.navigateAdditionalInfoScreen(item)
+    }
+
+    /**
+     * On activity result - Called when an activity you launched exits, giving you the requestCode
+     * you started it with, the resultCode it returned and any additional data from it.
+     *
+     * @param requestCode - It is originally supplied to startActivityForResult(), allowing
+     * to identify result code came from.
+     * @param resultCode - It is returned by the child activity through its setResult().
+     * @param data - It will return result data to the caller activity.
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -76,6 +120,10 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         }
     }
 
+    /**
+     * Init headers - It will initialize screen headers
+     *
+     */
     private fun initHeaders() {
         val isExistingUserState = intent.getBooleanExtra(IS_EXISTING_USER, false)
         viewModel.setIsExistingUserState(isExistingUserState)
@@ -99,11 +147,21 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         binding.callUsNowLayout.setOnClickListener { viewModel.launchCallDialer() }
     }
 
+    /**
+     * Prepare recycler view - it will initialises the recyclerview
+     *
+     * @param list - This list is used prepare recycler view
+     */
     private fun prepareRecyclerView(list: List<TopicList>) {
         adapter = ScheduleCallbackAdapter(this, this, list)
         binding.scheduleCallbackRecyclerview.adapter = adapter
     }
 
+    /**
+     * Companion - It is initialized when the class is loaded.
+     *
+     * @constructor Create empty Companion
+     */
     companion object {
         const val REQUEST_TO_HOME: Int = 1100
         const val IS_EXISTING_USER = "IS_EXISTING_USER"

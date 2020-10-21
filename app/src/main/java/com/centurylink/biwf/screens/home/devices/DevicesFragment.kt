@@ -26,6 +26,11 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.collections.HashMap
 
+/**
+ * Devices fragment - This class handle common methods related to devices screen
+ *
+ * @constructor Create empty Devices fragment
+ */
 class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
 
     override val lifecycleOwner: LifecycleOwner = this
@@ -50,6 +55,13 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
     }
 
+    /**
+     * On create - Called when the activity is first created
+     *
+     *@param savedInstanceState - Bundle: If the activity is being re-initialized after previously
+     * being shut down then this Bundle contains the data it most recently supplied in
+     * onSaveInstanceState(Bundle). Note: Otherwise it is null. This value may be null.
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = false
@@ -60,6 +72,19 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
+    /**
+     * On create view - The onCreateView method is called when Fragment should create its View
+     *                  object hierarchy
+     *
+     * @param inflater - LayoutInflater: The LayoutInflater object that can be used to
+     *                   inflate any views in the fragment,
+     * @param container - ViewGroup: If non-null, this is the parent view that the fragment's UI
+     *                    should be attached to. The fragment should not add the view itself,
+     *                    but this can be used to generate the LayoutParams of the view.
+     *                    This value may be null.
+     * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
+     * @return - Return the View for the fragment's UI, or null.
+     */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -78,15 +103,29 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         return binding.root
     }
 
+    /**
+     * Retry clicked - It will handle the retry functionality
+     *
+     */
     override fun retryClicked() {
         showProgress(true)
         devicesViewModel.initApis()
     }
 
+    /**
+     * On connected devices clicked - It will handle on connected device click listener
+     *
+     * @param devicesInfo - The clicked device info
+     */
     override fun onConnectedDevicesClicked(devicesInfo: DevicesData) {
         devicesViewModel.navigateToUsageDetails(devicesInfo)
     }
 
+    /**
+     * On removed devices clicked - It will handle on remove device click listener
+     *
+     * @param deviceInfo - The clicked device info
+     */
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
         binding.devicesList.transcriptMode = TRANSCRIPT_MODE_ALWAYS_SCROLL
         disableSwipeToRefresh()
@@ -102,11 +141,20 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         )
     }
 
+    /**
+     * On connection status changed
+     *
+     * @param devicesData
+     */
     override fun onConnectionStatusChanged(devicesData: DevicesData) {
         devicesViewModel.logConnectionStatusChanged(devicesData.isPaused)
         devicesViewModel.updatePauseResumeStatus(devicesData)
     }
 
+    /**
+     * Init views - It initializes the device fragment views
+     *
+     */
     private fun initViews() {
         deviceAdapter = DeviceListAdapter(
             deviceList = HashMap(),
@@ -151,6 +199,10 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
+    /**
+     * Observe views - It is used to observe views
+     *
+     */
     private fun observeViews() {
         devicesViewModel.apply {
             progressViewFlow.observe {
@@ -183,6 +235,11 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
+    /**
+     * Show confirmation dialog
+     *
+     * @param vendorName
+     */
     private fun showConfirmationDialog(vendorName: String?) {
         CustomDialogGreyTheme(
             getString(R.string.restore_access_confirmation_title, vendorName),
@@ -195,7 +252,11 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         ).show(activity?.supportFragmentManager!!, DevicesFragment::class.simpleName)
     }
 
-    // Callbacks for the Dialog
+    /**
+     * On dialog callback - It will handle the dialog callback listeners
+     *
+     * @param buttonType - It returns the which button type is pressed negative or positive
+     */
     private fun onDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
@@ -212,19 +273,35 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         }
     }
 
+    /**
+     * Stop swipe to refresh
+     *
+     */
     private fun stopSwipeToRefresh() {
         binding.pullToRefresh.isRefreshing = false
         isRefresh = false
     }
 
+    /**
+     * Disable swipe to refresh
+     *
+     */
     private fun disableSwipeToRefresh() {
         binding.pullToRefresh.isEnabled = false
     }
 
+    /**
+     * Enable swipe to refresh
+     *
+     */
     private fun enableSwipeToRefresh() {
         binding.pullToRefresh.isEnabled = true
     }
 
+    /**
+     * On resume - Called when the fragment is visible to the user and actively running
+     *
+     */
     override fun onResume() {
         devicesViewModel.logScreenLaunch()
         binding.devicesList.transcriptMode = TRANSCRIPT_MODE_NORMAL

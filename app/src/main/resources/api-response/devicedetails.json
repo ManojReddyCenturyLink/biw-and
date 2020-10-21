@@ -19,7 +19,8 @@
       "rxRateKbps": 0,
       "userDefinedProfile": null,
       "location": "",
-      "deviceId": null,
+      "deviceId": "1234",
+      "mcafeeDeviceId": "1234",
       "maxMode": {}
     },
     {
@@ -39,7 +40,8 @@
       "rxRateKbps": 0,
       "userDefinedProfile": null,
       "location": "",
-      "deviceId": null,
+      "deviceId": "1236664",
+      "mcafeeDeviceId": "1236664",
       "maxMode": {}
     }
   ]

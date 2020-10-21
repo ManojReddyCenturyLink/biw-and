@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Login Screen -->
     <string name="app_name">BiWF</string>
     <string name="email">Email:</string>
@@ -132,6 +132,15 @@
     <string name="call_me">Call me</string>
     <string name="email_question_popup_heading">Why do you need my email?</string>
     <string name="email_question_popup_text">We ask for your email to ensure we can get in contact with you in the case that your phone number does not work or was entered incorrectly. </string>
+    <string-array name="customer_care_options">
+        <item>I want to know more about Fiber Internet</item>
+        <item>I\'m having trouble signing up for Fiber Internet</item>
+        <item>I want to know more about Instant Wifi</item>
+        <item>I\'m having trouble signing up for Instant Wifi</item>
+        <item>I can\'t sign into my account</item>
+        <item>I have questions about my account</item>
+        <item>I need something not listed here</item>
+    </string-array>
 
     <!--Cancel Subscription Detail Screen -->
     <string name="cancel_subscription_details_title">Cancel subscription</string>
@@ -320,4 +329,5 @@
     <string name="contact_info_select_phone_number_content">Which phone number would you like us to contact you on? </string>
     <string name="mobile">Mobile</string>
     <string name="enter_valid_phone_number_error">Please enter a valid phone number</string>
+    <string name="characters_limit">15 characters max</string>
 </resources>

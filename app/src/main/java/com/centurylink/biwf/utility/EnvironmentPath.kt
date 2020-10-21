@@ -109,6 +109,7 @@ class EnvironmentPath {
         const val AASIA_ID_TRAFFIC = "assiaIdTraffic"
         const val START_DATE = "startDateTraffic"
         const val STAT_MAC = "staMacTraffic"
+        const val RECORD_TYPE_ID = "recordTypeId"
         const val SALES_FORCE_QUERY_SLASH = "query" + "/"
         const val API_PAYMENT_DETAILS_PATH = "sobjects/Zuora__Payment__c/{invoice-id}"
         const val API_SUBSCRIPTION_DETAILS_PATH = "sobjects/Zuora__Subscription__c/{account-id}"
@@ -124,6 +125,8 @@ class EnvironmentPath {
         const val API_CASE_FOR_SUBSCRIPTION_PATH = "sobjects/Case"
         const val API_SUPPORT_SERVICES_PATH =
             "phish/services/apexrest/ServiceAndSupportAPI"
+        const val API_SCHEDULE_CALLBACK_PATH =
+            "phish/services/data/v42.0/ui-api/object-info/Case/picklist-values/{recordTypeId}/What_kind_of_customer_care_do_you_need__c"
 
         //McAfee
         const val API_GET_NETWORK_ACCESS_PATH = "mcafee/get-network-access"
@@ -148,5 +151,10 @@ class EnvironmentPath {
         const val AWS_BASE_URL = "https://bucketforapi.s3-eu-west-1.amazonaws.com/"
         const val BILLING_DETAILS = "invoice1.json"
         const val CALL_BACK_URL = "ctl-fiber--qa.my.salesforce.com/services/apexrest/SpeedTest/*"
+        const val MODEM_ID_QUERY =
+            "SELECT Modem_Number__c FROM WorkOrder WHERE AccountId='%s' AND Job_Type__c='Fiber Install - For Installations'"
+
+        const val APIGEE_MOBILE_HEADER = "From: mobile"
+
     }
 }

@@ -23,36 +23,11 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
      */
     override fun navigateTo(destination: DashboardCoordinatorDestinations) {
         when (destination) {
-            DashboardCoordinatorDestinations.APPOINTMENT_SCHEDULED -> loadAppointmentFragment()
-            DashboardCoordinatorDestinations.ENROUTE -> loadEnrouteFragment()
-            DashboardCoordinatorDestinations.IN_PROGRESS -> loadInProgressFragment()
-            DashboardCoordinatorDestinations.COMPLETED -> loadCompletedFragment()
-            DashboardCoordinatorDestinations.NORMAL -> loadNormalFragment()
             DashboardCoordinatorDestinations.CHANGE_APPOINTMENT -> navigateToChangeAppointment()
             DashboardCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNotificationDetails()
             DashboardCoordinatorDestinations.NETWORK_INFORMATION -> navigateToNetworkInformation()
             DashboardCoordinatorDestinations.QR_CODE_SCANNING -> navigateToQRCodeScanning()
         }
-    }
-
-    private fun loadAppointmentFragment() {
-        //For future reference
-    }
-
-    private fun loadEnrouteFragment() {
-        //For future reference
-    }
-
-    private fun loadInProgressFragment() {
-        //For future reference
-    }
-
-    private fun loadCompletedFragment() {
-        //For future reference
-    }
-
-    private fun loadNormalFragment() {
-        //For future reference
     }
 
     /**

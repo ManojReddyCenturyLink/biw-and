@@ -1,6 +1,7 @@
 package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
+import com.centurylink.biwf.BuildConfig
 
 class Preferences(private val store: KeyValueStore) {
 
@@ -71,38 +72,50 @@ class Preferences(private val store: KeyValueStore) {
     }
 
     fun getLineId(): String {
-
-        // TODO - Uncomment when DTN Salesforce issue is resolved
-//        var lineId = store.get(LINE_ID)
-//        if (lineId.isNullOrEmpty()) {
-//            lineId = "0101100408"
-//        }
-
-        return "C4000XG1950000308"
+        var lineId = store.get(LINE_ID)
+        // TODO This needs to be removed before launch
+        if (lineId.isNullOrEmpty()) {
+            if (BuildConfig.DEBUG) {
+                lineId = BuildConfig.LINE_ID
+            }
+        }
+        return lineId ?: ""
     }
 
     private fun removeLineId() {
         store.remove(LINE_ID)
     }
 
+    /**
+     * Save assia id - It will save assia id shared preferences
+     *
+     * @param assiaId
+     */
     fun saveAssiaId(assiaId: String) {
         store.put(ASSIA_ID, assiaId)
     }
 
+    /**
+     * Get assia id -It will get assia id shared preferences
+     *
+     * @return -It will return assia id as string
+     */
     fun getAssiaId(): String {
         var asiaID = store.get(ASSIA_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
-         if (asiaID.isNullOrEmpty()) {
-             asiaID = "C4000XG1950000308"
-         }
-        return asiaID
+        if (asiaID.isNullOrEmpty()) {
+            if (BuildConfig.DEBUG) {
+                asiaID = BuildConfig.MODEM_ID
+            }
+        }
+        return asiaID ?: ""
     }
 
-     fun setInstallationStatus(status: Boolean){
+    fun setInstallationStatus(status: Boolean) {
         store.putBoolean(INSTALLATION_STATUS, status)
     }
 
-     fun getInstallationStatus():Boolean{
+    fun getInstallationStatus(): Boolean {
         return store.getBoolean(INSTALLATION_STATUS) ?: false
     }
 
