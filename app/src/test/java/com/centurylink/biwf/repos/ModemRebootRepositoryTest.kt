@@ -4,8 +4,8 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.assia.AssiaToken
 import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.repos.assia.AssiaTokenManager
-import com.centurylink.biwf.service.network.AssiaService
 import com.centurylink.biwf.service.network.AssiaTokenService
+import com.centurylink.biwf.service.network.OAuthAssiaService
 import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
@@ -23,7 +23,7 @@ class ModemRebootRepositoryTest : BaseRepositoryTest() {
     private lateinit var modemRebootRepository: ModemRebootRepository
 
     @MockK(relaxed = true)
-    private lateinit var assiaService: AssiaService
+    private lateinit var assiaService: OAuthAssiaService
 
     @MockK(relaxed = true)
     private lateinit var assiaTokenService: AssiaTokenService
@@ -55,7 +55,7 @@ class ModemRebootRepositoryTest : BaseRepositoryTest() {
     fun testGetModemInfoSuccess() {
         runBlockingTest {
             launch {
-                coEvery { assiaService.rebootModem(any(), any()) } returns Either.Right(
+                coEvery { assiaService.rebootModem(any()) } returns Either.Right(
                     modemRebootResponse
                 )
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)

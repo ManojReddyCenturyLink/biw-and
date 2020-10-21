@@ -12,6 +12,7 @@ import com.centurylink.biwf.model.mcafee.DevicesItem
 import com.centurylink.biwf.model.usagedetails.UsageDetails
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.Constants
@@ -35,6 +36,9 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var assiaRepository: AssiaRepository
+
+    @MockK
+    private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
 
     @MockK
     private lateinit var mcafeeRepository: McafeeRepository
@@ -88,6 +92,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
             app = BIWFApp(),
             networkUsageRepository = networkUsageRepository,
             assiaRepository = assiaRepository,
+                oAuthAssiaRepository = oAuthAssiaRepository,
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface,
             mcafeeRepository = mcafeeRepository

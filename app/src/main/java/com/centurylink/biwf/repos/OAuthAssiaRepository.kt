@@ -3,6 +3,8 @@ package com.centurylink.biwf.repos
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.assia.ModemInfo
+import com.centurylink.biwf.model.devices.BlockDeviceRequest
+import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.service.network.OAuthAssiaService
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
@@ -68,6 +70,27 @@ class OAuthAssiaRepository @Inject constructor(
                     preferences.saveAssiaId(deviceId)
                 }
                 return Either.Right(it.modemInfo)
+            }
+        }
+    }
+
+    /**
+     * This can be used to block device/remove device from network.
+     *
+     * @return  BlockResponse instance if the API is success and error message in case of failure.
+     */
+    suspend fun blockDevices(stationmac: String): Either<String, BlockResponse> {
+        val result = oAuthAssiaService.blockDevice(
+                BlockDeviceRequest(
+                assiaId = preferences.getAssiaId(),
+                stationMacAddress = stationmac)
+        )
+        return result.mapLeft { it.message?.message.toString()}.flatMap { it ->
+            it.let {
+                if (it.code != "1000") {
+                    return Either.Left(it.message)
+                }
+                return Either.Right(it)
             }
         }
     }
