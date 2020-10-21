@@ -144,6 +144,9 @@ class EnvironmentPath {
         //Get and post/change SSID //same url
         const val API_GET_POST_SSID_PATH = "api/v2/wifi/operations/ssid/{wifiDeviceId}/{interface}"
 
+        const val API_CHANGE_SSID = "change-ssid"
+        const val API_CHANGE_PASSWORD = "change-wifi-pwd?"
+
         //Get and post/change network password //same url
         const val API_GET_CHANGE_NETWORK_PASSWORD_PATH =
             "api/v2/wifi/operations/wifipwd/{wifiDeviceId}/{interface}"
