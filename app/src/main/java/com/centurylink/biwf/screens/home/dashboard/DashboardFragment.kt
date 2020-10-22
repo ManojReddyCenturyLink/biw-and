@@ -102,8 +102,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             logScreenLaunch()
             checkForOngoingSpeedTest()
         }
-        dashboardViewModel.checkForOngoingSpeedTest()
         initButtonStates()
+        updateView()
         listenForRebootDialog()
     }
 
@@ -231,7 +231,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * Retry clicked - It will handle the retry functionality
      */
     override fun retryClicked() {
-        //dashboardViewModel.initDevicesApis()
+        showProgress(true)
+        dashboardViewModel.initDevicesApis()
     }
 
     /**
