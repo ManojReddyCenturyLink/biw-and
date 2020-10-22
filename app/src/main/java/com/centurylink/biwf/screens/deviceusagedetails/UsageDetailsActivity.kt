@@ -176,6 +176,8 @@ class UsageDetailsActivity : BaseActivity() {
                             binding.deviceConnectedBtn.background =
                                 getDrawable(R.drawable.light_blue_rounded_background)
                             binding.connectionStatusBtnText.text = ""
+                            binding.connectionStatusBtnText.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_icon_reload, 0, 0, 0);
+                            binding.connectionStatusIcon.visibility = View.GONE
                             binding.tapToRetryText.text =
                                 getString(R.string.error_loading_device_status)
                         }

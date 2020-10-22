@@ -41,7 +41,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     var progressViewFlow = EventFlow<Boolean>()
     val sloterrorEvents: EventLiveData<String> = MutableLiveData()
     val appointmenterrorEvents: EventLiveData<String> = MutableLiveData()
-    lateinit var appointmentId: String
+    var appointmentId: String = ""
     lateinit var appointmentSlots: String
     lateinit var appointmentDate: String
 
