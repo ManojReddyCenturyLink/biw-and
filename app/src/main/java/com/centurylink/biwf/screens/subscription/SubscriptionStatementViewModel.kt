@@ -92,19 +92,35 @@ class SubscriptionStatementViewModel @Inject constructor(
             // QA Environment comes with $ value
             val planCost: Double = it.planCostWithoutTax?.replace("$", "")?.toDouble() ?: 0.0
             val salesTaxCost: Double = it.salesTaxAmount?.replace("$", "")?.toDouble() ?: 0.0
-            val totalCost: Double = planCost + salesTaxCost
+//            val promoCode: String? = it.promoCode
+//            val promoDescription: String? = it.promoDescription
+            //val promoDiscountAmount = it.promoDiscountAmount?.replace("$", "")?.toDouble() ?: 0.0
+            val promoCode: String? = "#SAVE50"
+            val promoDescription: String? = "Promo Code to save 50%"
+            val promoDiscountAmount = ("$30").replace("$", "").toDouble() ?: 0.0
+            val totalCost: Double = planCost + salesTaxCost - promoDiscountAmount
+
+            println("Testing promo Details->" + it.promoCode.toString() + " " + it.promoDescription.toString() + " " + it.promoDiscountAmount.toString())
+
             uiStatementDetails = uiStatementDetails.copy(
-                paymentMethod = it.zuoraPaymentMethod?:"",
-                planName = it.productPlanNameC,
-                successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
-                planCost = String.format("%.2f", planCost),
-                salesTaxCost = String.format("%.2f", salesTaxCost),
-                totalCost = String.format("%.2f", totalCost)
+                    paymentMethod = it.zuoraPaymentMethod?:"",
+                    planName = it.productPlanNameC,
+                    successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
+                    planCost = String.format("%.2f", planCost),
+                    salesTaxCost = String.format("%.2f", salesTaxCost),
+                    totalCost = String.format("%.2f", totalCost),
+                    promoCode = promoCode,
+                    promoDescription = promoDescription,
+                    promoDiscountAmount = String.format("%.2f", promoDiscountAmount )
+                    // promoCode = it.promoCode,
+//                    promoDescription = it.promoDescription,
+
             )
             statementDetailsInfo.latestValue = uiStatementDetails
             progressViewFlow.latestValue = false
         }
     }
+
 
     private fun formatBillingAddress(accountDetails: AccountDetails): String? {
         val formattedServiceAddressLine1 = accountDetails.billingAddress?.run {
@@ -126,6 +142,8 @@ class SubscriptionStatementViewModel @Inject constructor(
         val planCost: String? = null,
         val salesTaxCost: String? = null,
         val promoCode: String? = null,
+        val promoDescription: String? = null,
+        val promoDiscountAmount: String? = null,
         val totalCost: String? = null,
         val billingAddress: String? = null
     )

@@ -199,7 +199,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:gravity="start"
-                android:text="Promo code - XXXXXX "
+                android:text="@string/promo_code_label"
                 android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_statement_sales_tax_label" />

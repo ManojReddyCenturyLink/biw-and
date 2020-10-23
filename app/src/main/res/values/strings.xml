@@ -185,9 +185,10 @@
     <string name="statement_billing_address">Billing address:</string>
     <string name="statement_payment_breakdown">Payment Breakdown</string>
     <string name="statement_payment_total">Sales tax</string>
-    <string name="statement_payment_promo_info">$X off your monthly bill</string>
+    <string name="statement_payment_promo_info">$%s off your monthly bill</string>
     <string name="cost_template">$%s</string>
     <string name="statement_total">Total</string>
+    <string name="promo_code_label">Promo code - %s</string>
     <string name="previous_statements">Previous statements</string>
     <string name="edit_billing_information">Edit billing information</string>
     <string name="billing_information_message_label">Note: changes may take up to a minute to appear on the Account screen after submission</string>
