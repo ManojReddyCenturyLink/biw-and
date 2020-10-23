@@ -11,5 +11,9 @@ data class ModemRebootResponse(
     @SerializedName("data")
     val data: Boolean = false,
     @SerializedName("message")
-    val message: String = ""
+    val message: String = "",
+    @SerializedName("uniqueErrorCode")
+    val uniqueErrorCode: Int = 0,
+    @SerializedName("createErrorRecord")
+    val createErrorRecord: Boolean = false
 )

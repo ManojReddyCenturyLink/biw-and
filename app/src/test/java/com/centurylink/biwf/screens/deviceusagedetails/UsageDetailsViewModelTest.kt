@@ -92,6 +92,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
             app = BIWFApp(),
             networkUsageRepository = networkUsageRepository,
             assiaRepository = assiaRepository,
+                oAuthAssiaRepository = oAuthAssiaRepository,
             modemRebootMonitorService = modemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface,
             mcafeeRepository = mcafeeRepository

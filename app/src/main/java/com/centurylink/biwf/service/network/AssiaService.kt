@@ -14,11 +14,8 @@ interface AssiaService {
     @GET(EnvironmentPath.API_MODEM_INFO_PATH)
     suspend fun getModemInfo(@HeaderMap header: Map<String, String>): AssiaServiceResult<ModemInfoResponse>
 
-    @POST(EnvironmentPath.API_REBOOT_MODEM_PATH)
-    suspend fun rebootModem(
-        @Path(EnvironmentPath.ASSIA_ID) id: String,
-        @HeaderMap header: Map<String, String>
-    ): AssiaServiceResult<ModemRebootResponse>
+    @GET(EnvironmentPath.API_DEVICE_LIST_PATH)
+    suspend fun getDevicesList(@HeaderMap header: Map<String, String>): AssiaServiceResult<DevicesInfo>
 
     @POST(EnvironmentPath.API_BLOCK_UNBLOCK_DEVICE_PATH)
     suspend fun blockDevice(

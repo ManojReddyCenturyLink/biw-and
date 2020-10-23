@@ -121,9 +121,10 @@ class EnvironmentPath {
         const val API_USAGE_INFO_PATH = "station-traffic"
         const val API_SPEED_TEST_PATH = "speed-test-request"
         const val API_SPEED_TEST_STATUS = "speed-test-status"
-        const val API_REBOOT_MODEM_PATH = "api/v2/wifi/operations/ap/{assiaId}/reboot"
+        const val API_REBOOT_MODEM_PATH = "reboot"
         const val API_BLOCK_UNBLOCK_DEVICE_PATH =
             "api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block"
+        const val API_BLOCK_DEVICE_PATH = "block"
         const val API_CASE_FOR_SUBSCRIPTION_PATH = "sobjects/Case"
         const val API_SUPPORT_SERVICES_PATH =
             "phish/services/apexrest/ServiceAndSupportAPI"

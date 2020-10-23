@@ -14,6 +14,7 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.mcafee.DevicesItem
 import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.McafeeRepository
+import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.NetworkUsageRepository
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -46,6 +47,7 @@ class UsageDetailsViewModel constructor(
     private val app: BIWFApp,
     private val networkUsageRepository: NetworkUsageRepository,
     private val assiaRepository: AssiaRepository,
+    private val oAuthAssiaRepository: OAuthAssiaRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager,
     private val mcafeeRepository: McafeeRepository
@@ -55,6 +57,7 @@ class UsageDetailsViewModel constructor(
         private val app: BIWFApp,
         private val networkUsageRepository: NetworkUsageRepository,
         private val asiaRepository: AssiaRepository,
+        private val oAuthAssiaRepository: OAuthAssiaRepository,
         private val modemRebootMonitorService: ModemRebootMonitorService,
         private val analyticsManagerInterface: AnalyticsManager,
         private val mcafeeRepository: McafeeRepository
@@ -66,6 +69,7 @@ class UsageDetailsViewModel constructor(
                     app,
                     networkUsageRepository,
                     asiaRepository,
+                    oAuthAssiaRepository,
                     modemRebootMonitorService,
                     analyticsManagerInterface,
                     mcafeeRepository
@@ -286,7 +290,7 @@ class UsageDetailsViewModel constructor(
 
     private suspend fun invokeBlockedDevice(stationMac: String) {
         progressViewFlow.latestValue = false
-        val blockInfo = assiaRepository.blockDevices(stationMac)
+        val blockInfo = oAuthAssiaRepository.blockDevices(stationMac)
         blockInfo.fold(
             ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.BLOCK_DEVICE_SUCCESS)

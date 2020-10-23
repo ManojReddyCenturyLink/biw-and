@@ -11,5 +11,9 @@ data class BlockResponse(
     @SerializedName("message")
     val message: String = "",
     @SerializedName("data")
-    val data: String
+    val data: String,
+    @SerializedName("uniqueErrorCode")
+    val uniqueErrorCode: Int = 0,
+    @SerializedName("createErrorRecord")
+    val createErrorRecord: Boolean = false
 )
