@@ -38,9 +38,6 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     private lateinit var assiaRepository: AssiaRepository
 
     @MockK
-    private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
-
-    @MockK
     private lateinit var mcafeeRepository: McafeeRepository
 
     @MockK(relaxed = true)
