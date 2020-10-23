@@ -15,7 +15,11 @@ data class DevicesInfo(
     @SerializedName("message")
     val message: String? = null,
     @SerializedName("data")
-    var devicesDataList: ArrayList<DevicesData> = ArrayList()
+    var devicesDataList: ArrayList<DevicesData> = ArrayList(),
+    @SerializedName("uniqueErrorCode")
+    val uniqueErrorCode: Int? = 0,
+    @SerializedName("createErrorRecord")
+    val createErrorRecord: Boolean? = false
 )
 
 data class DevicesData(

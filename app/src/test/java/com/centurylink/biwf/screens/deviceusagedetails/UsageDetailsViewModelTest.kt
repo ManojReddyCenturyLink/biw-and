@@ -43,6 +43,9 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var mcafeeRepository: McafeeRepository
 
+    @MockK(relaxed = true)
+    private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
+
     @MockK
     private lateinit var modemRebootMonitorService: ModemRebootMonitorService
 
@@ -85,7 +88,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         coEvery { mcafeeRepository.updateDevicePauseResumeStatus(deviceData.deviceId!!, !deviceData.isPaused) } returns Either.Right(DevicePauseStatus(isPaused = deviceData.isPaused, deviceId = deviceData.deviceId!!))
         coEvery { mcafeeRepository.getDevicePauseResumeStatus(deviceData.deviceId!!) } returns Either.Right(
             DevicePauseStatus(isPaused = deviceData.isPaused, deviceId = deviceData.deviceId!!))
-        coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
+        coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         run { analyticsManagerInterface }
 
         viewModel = UsageDetailsViewModel(

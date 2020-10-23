@@ -83,6 +83,9 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     private lateinit var assiaService: AssiaService
 
     @MockK(relaxed = true)
+    private lateinit var oAuthAssiaService: OAuthAssiaService
+
+    @MockK(relaxed = true)
     private lateinit var assiaTokenService: AssiaTokenService
 
     @MockK
@@ -168,8 +171,8 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         )
         assiaToken = AssiaToken("", "", "")
         coEvery { assiaService.getModemInfo(any()) } returns Either.Right(modemInfoResponse)
-        coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
-        coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
+        coEvery { oAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
+        coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         coEvery {
             assiaService.blockDevice(
                 any(),

@@ -97,7 +97,7 @@
     <!--Cancel Subscription Screen -->
     <string name="cancel_subscription_title">Cancel subscription</string>
     <string name="cancel_subscription_sub_header">Are you sure you want to cancel?</string>
-    <string name="manage_subscription_content" formatted="false">When canceling service on any day
+    <string name="manage_subscription_content">When canceling service on any day
         other than the last day of your current subscription, all monthly rates, fees, and taxes
         will apply in full and payments received for unused service will not be prorated, refunded,
         or credited. Your current subscription ends on  %1$s.</string>

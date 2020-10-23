@@ -80,9 +80,9 @@ class DevicesViewModelTest : ViewModelBaseTest() {
             modemInfoResponse
         )
         coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Right(modemInfoResponse.modemInfo)
-        coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
+        coEvery { OAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
         coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-        coEvery { assiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
+        coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Right(devicesInfo.devicesDataList)
         coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Right(devicesMapping.macDeviceList)
         coEvery { mcafeeRepository.fetchDeviceDetails() } returns Either.Right(listOf())
         coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Right(
@@ -117,9 +117,9 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                     modemInfoResponse
                 )
                 coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Left(Constants.ERROR)
-                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
+                coEvery { OAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                coEvery { assiaRepository.getDevicesDetails() } returns Either.Left(Constants.ERROR)
+                coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Left(Constants.ERROR)
                 coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Left(Constants.ERROR)
                 coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Left(
                     Constants.ERROR
@@ -229,9 +229,9 @@ class DevicesViewModelTest : ViewModelBaseTest() {
                     modemInfoResponse
                 )
                 coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Left(Constants.ERROR)
-                coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
+                coEvery { OAuthAssiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                coEvery { assiaRepository.getDevicesDetails() } returns Either.Left(Constants.ERROR)
+                coEvery { oAuthAssiaRepository.getDevicesDetails() } returns Either.Left(Constants.ERROR)
                 coEvery { mcafeeRepository.getMcafeeDeviceIds(any()) } returns Either.Left(Constants.ERROR)
                 coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Left(
                     Constants.ERROR
