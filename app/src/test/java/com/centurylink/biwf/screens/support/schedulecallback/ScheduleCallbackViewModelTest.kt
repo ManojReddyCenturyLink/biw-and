@@ -8,6 +8,7 @@ import com.centurylink.biwf.model.support.ScheduleCallbackResponse
 import com.centurylink.biwf.model.support.TopicList
 import com.centurylink.biwf.repos.CaseRepository
 import com.centurylink.biwf.repos.ScheduleCallbackRepository
+import com.centurylink.biwf.utility.EventFlow
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -17,6 +18,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import kotlin.test.assertEquals
 
 class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     private lateinit var viewModel: ScheduleCallbackViewModel
@@ -30,6 +32,13 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var scheduleCallbackRepository: ScheduleCallbackRepository
     private lateinit var schedulecallbackinfo: ScheduleCallbackResponse
+    var errorMessageFlow = EventFlow<String>()
+    var isExistingUserState: Boolean = false
+    var arrayList: MutableList<String> = mutableListOf()
+    var progressViewFlow = EventFlow<Boolean>()
+    private var scheduleCallbackPicklist: ScheduleCallbackViewModel.ScheduleCallbackPicklist =
+        ScheduleCallbackViewModel.ScheduleCallbackPicklist()
+
 
     private val dummyList = listOf(
         "I want to know more about fiber internet service",
@@ -53,6 +62,10 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
             caseRepository = caseRepository
         )
         viewModel.initApiCalls()
+        errorMessageFlow = viewModel.errorMessageFlow
+        isExistingUserState = viewModel.isExistingUserState
+        arrayList = viewModel.arrayList
+        progressViewFlow = viewModel.progressViewFlow
     }
 
     @Test
@@ -72,13 +85,28 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
+    fun testScheduleCallbackPicklist() {
+        val pickList = ScheduleCallbackViewModel.ScheduleCallbackPicklist()
+        val pickListCopy = pickList.copy(values = emptyList())
+        assertEquals(emptyList(), pickListCopy.values)
+    }
+
+    @Test
     fun testGetRecordTypeIdSuccess() {
         runBlockingTest {
-           coEvery { caseRepository.getRecordTypeId() } returns Either.Right("012f0000000l0wrAAA")
+            coEvery { caseRepository.getRecordTypeId() } returns Either.Right("012f0000000l0wrAAA")
             val recordIdDetails = caseRepository.getRecordTypeId()
             Assert.assertEquals(recordIdDetails.map { it }, Either.Right("012f0000000l0wrAAA"))
+            viewModel = ScheduleCallbackViewModel(
+                modemRebootMonitorService = mockModemRebootMonitorService,
+                analyticsManagerInterface = analyticsManagerInterface,
+                scheduleCallbackRepository = scheduleCallbackRepository,
+                caseRepository = caseRepository
+            )
+            viewModel.initApiCalls()
         }
     }
+
 
     @Test
     fun testApiCallFailure() {
