@@ -31,7 +31,6 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
         listenForRebootDialog()
     }
 
-
     /**
      * Set activity height incase it needs to be displayed as a dialog / of different height
      *
@@ -53,7 +52,7 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
     }
 
     /**
-     * Function to display the Progress Bar view when the APi is loading.
+     * Function to set the Progress/Retry/Root view when the APi is loading.
      *
      * @param progressView - The Progress bar view
      * @param retryView - The Retry layout view
@@ -98,7 +97,7 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
     }
 
     /**
-     * Dialog shwon when the dialog gets rebooted in the UI.
+     * Dialog shown when the dialog gets rebooted in the UI.
      *
      */
     private fun listenForRebootDialog() {
