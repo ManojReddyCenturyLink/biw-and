@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".screens.support.schedulecallback.ScheduleCallbackActivity">
 
     <include
@@ -34,9 +35,9 @@
         app:layout_constraintTop_toBottomOf="@+id/incHeader" />
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/layout_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -103,12 +103,15 @@ class EnvironmentPath {
         const val SERVICE_APPOINTMENT_ID = "ServiceAppointmentId"
         const val EARLIEST_PERMITTED_DATE = "EarliestPermittedDate"
         const val ASSIA_ID = "assiaId"
+        const val LINE_ID = "lineId"
         const val STATION_MAC_ADDRESS = "stationMacAddress"
         const val SALES_FORCE_QUERY = "query"
         const val SALES_FORCE_QUERY_VALUE = "q"
         const val AASIA_ID_TRAFFIC = "assiaIdTraffic"
         const val START_DATE = "startDateTraffic"
         const val STAT_MAC = "staMacTraffic"
+        const val STATION_INFO = "station-info"
+        const val RECORD_TYPE_ID = "recordTypeId"
         const val SALES_FORCE_QUERY_SLASH = "query" + "/"
         const val API_PAYMENT_DETAILS_PATH = "sobjects/Zuora__Payment__c/{invoice-id}"
         const val API_SUBSCRIPTION_DETAILS_PATH = "sobjects/Zuora__Subscription__c/{account-id}"
@@ -118,12 +121,15 @@ class EnvironmentPath {
         const val API_USAGE_INFO_PATH = "station-traffic"
         const val API_SPEED_TEST_PATH = "speed-test-request"
         const val API_SPEED_TEST_STATUS = "speed-test-status"
-        const val API_REBOOT_MODEM_PATH = "api/v2/wifi/operations/ap/{assiaId}/reboot"
+        const val API_REBOOT_MODEM_PATH = "reboot"
         const val API_BLOCK_UNBLOCK_DEVICE_PATH =
             "api/v2/wifi/operations/station/{assiaId}/{stationMacAddress}/block"
+        const val API_BLOCK_DEVICE_PATH = "block"
         const val API_CASE_FOR_SUBSCRIPTION_PATH = "sobjects/Case"
         const val API_SUPPORT_SERVICES_PATH =
             "phish/services/apexrest/ServiceAndSupportAPI"
+        const val API_SCHEDULE_CALLBACK_PATH =
+            "phish/services/data/v42.0/ui-api/object-info/Case/picklist-values/{recordTypeId}/What_kind_of_customer_care_do_you_need__c"
 
         //McAfee
         const val API_GET_NETWORK_ACCESS_PATH = "mcafee/get-network-access"

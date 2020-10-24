@@ -1,0 +1,35 @@
+{
+
+  "statusResponse" :  {
+    "code" : 0,
+    "message" : "SUCCESS",
+    "data" : {
+      "currentStep" : "",
+      "isFinished" : true
+    }
+  },
+  "callBackUrl" : "",
+  "createErrorRecord" : false,
+  "requestId" : "",
+  "success" : true,
+  "uploadSpeedSummary" : {
+    "code" : 0,
+    "speedTestNestedResults" : {
+      "name" : "",
+      "list" : null
+    },
+    "message" : ""
+  },
+  "downloadSpeedSummary" : {
+    "code" : 0,
+    "speedTestNestedResults" : {
+      "name" : "",
+      "list" : null
+    },
+    "message" : ""
+  },
+  "assiaId" : "",
+  "message" : "" ,
+  "uniqueErrorCode" : 0,
+  "status" : ""
+}

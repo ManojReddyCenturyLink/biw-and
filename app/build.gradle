@@ -153,12 +153,15 @@ android {
         debug {
             //TODO will disable proguard before merging in master- this is just testing purpose
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
             def releaseMapsApiKey = getLocalProperty("release_maps_api_key")
             manifestPlaceholders = [mapsApiKey: "$releaseMapsApiKey"]
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
@@ -188,6 +191,10 @@ android {
         exclude 'license/*'
         exclude 'META-INF/LICENSE.txt'
         exclude 'META-INF/license.txt'
+    }
+
+    lintOptions {
+        abortOnError true
     }
 }
 

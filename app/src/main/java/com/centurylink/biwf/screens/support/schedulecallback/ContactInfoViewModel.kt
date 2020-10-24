@@ -75,7 +75,6 @@ class ContactInfoViewModel @Inject constructor(
         viewModelScope.launch {
             progressViewFlow.latestValue = true
             requestContactDetails()
-            progressViewFlow.latestValue = false
         }
     }
 
@@ -95,7 +94,7 @@ class ContactInfoViewModel @Inject constructor(
     }
 
     /**
-     * Update u i contact details from accounts
+     * Update ui contact details from accounts
      *
      * @param accountDetails - The instance to hold account details
      */
@@ -105,6 +104,7 @@ class ContactInfoViewModel @Inject constructor(
         this.isExistingUserWithPhoneNumber = !uiAccountDetails.cellPhone.isNullOrEmpty()
         this.isExistingUserWithPhoneNumberState.latestValue = !uiAccountDetails.cellPhone.isNullOrEmpty()
         accountDetailsInfo.latestValue = uiAccountDetails
+        progressViewFlow.latestValue = false
     }
 
     /**

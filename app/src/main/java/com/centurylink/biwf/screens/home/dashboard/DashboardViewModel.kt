@@ -544,7 +544,7 @@ class DashboardViewModel @Inject constructor(
      * Request devices
      */
     private suspend fun requestDevices() {
-        val deviceDetails = assiaRepository.getDevicesDetails()
+        val deviceDetails = oAuthAssiaRepository.getDevicesDetails()
         deviceDetails.fold(ifRight = { deviceList ->
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             val connectedList = deviceList.filter { !it.blocked }.distinct()

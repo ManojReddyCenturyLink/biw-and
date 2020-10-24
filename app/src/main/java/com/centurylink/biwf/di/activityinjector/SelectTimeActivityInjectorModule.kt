@@ -8,5 +8,5 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class SelectTimeActivityInjectorModule {
     @ContributesAndroidInjector
-    abstract fun contributeAdditionalInfoActivityInjector(): SelectTimeActivity
+    abstract fun contributeSelectTimeActivityInjector(): SelectTimeActivity
 }

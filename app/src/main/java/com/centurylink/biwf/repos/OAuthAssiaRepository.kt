@@ -3,6 +3,9 @@ package com.centurylink.biwf.repos
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.assia.ModemInfo
+import com.centurylink.biwf.model.devices.BlockDeviceRequest
+import com.centurylink.biwf.model.devices.BlockResponse
+import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.service.network.OAuthAssiaService
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
@@ -20,8 +23,8 @@ import javax.inject.Singleton
  */
 @Singleton
 class OAuthAssiaRepository @Inject constructor(
-    private val preferences: Preferences,
-    private val oAuthAssiaService: OAuthAssiaService
+        private val preferences: Preferences,
+        private val oAuthAssiaService: OAuthAssiaService
 ) {
     /**
      * Get Modem Info API is used for getting the details about the Modem and the Network.
@@ -30,7 +33,7 @@ class OAuthAssiaRepository @Inject constructor(
      */
     suspend fun getModemInfo(): Either<String, ModemInfo> {
         val result = oAuthAssiaService.getLineInfo(preferences.getLineId())
-        return result.mapLeft { it.message?.message.toString() }.flatMap { it->
+        return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             it.let {
                 if (it.code != "1000") {
                     return Either.Left(it.message)
@@ -68,6 +71,39 @@ class OAuthAssiaRepository @Inject constructor(
                     preferences.saveAssiaId(deviceId)
                 }
                 return Either.Right(it.modemInfo)
+            }
+        }
+    }
+
+    /**
+     * This can be used to block device/remove device from network.
+     *
+     * @return  BlockResponse instance if the API is success and error message in case of failure.
+     */
+    suspend fun blockDevices(stationmac: String): Either<String, BlockResponse> {
+        val result = oAuthAssiaService.blockDevice(
+                BlockDeviceRequest(
+                assiaId = preferences.getAssiaId(),
+                stationMacAddress = stationmac)
+        )
+        return result.mapLeft { it.message?.message.toString()}.flatMap { it ->
+            it.let {
+                if (it.code != "1000") {
+                    return Either.Left(it.message)
+                }
+                return Either.Right(it)
+            }
+        }
+    }
+
+    suspend fun getDevicesDetails(): Either<String, List<DevicesData>> {
+        val result = oAuthAssiaService.getDevicesList(preferences.getLineId())
+        return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
+            it.let {
+                if (it.code != "1000") {
+                    return Either.Left(it.message!!)
+                }
+                return Either.Right(it.devicesDataList)
             }
         }
     }

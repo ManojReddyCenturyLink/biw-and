@@ -2,8 +2,9 @@ package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.model.AssiaServiceResult
 import com.centurylink.biwf.model.assia.ModemRebootResponse
+import com.centurylink.biwf.model.assia.RebootModemRequest
 import com.centurylink.biwf.repos.assia.AssiaTokenManager
-import com.centurylink.biwf.service.network.AssiaService
+import com.centurylink.biwf.service.network.OAuthAssiaService
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,7 +22,7 @@ import javax.inject.Singleton
 @Singleton
 class ModemRebootRepository @Inject constructor(
     private val preferences: Preferences,
-    private val assiaService: AssiaService,
+    private val assiaService: OAuthAssiaService,
     private val assiaTokenManager: AssiaTokenManager
 ) {
 
@@ -31,10 +32,7 @@ class ModemRebootRepository @Inject constructor(
      * @return ModemRebootResponse incase the API is success else error message will be displayed.
      */
     suspend fun rebootModem(): AssiaServiceResult<ModemRebootResponse> {
-        return assiaService.rebootModem(
-            preferences.getAssiaId(),
-            getHeaderMap(token = assiaTokenManager.getAssiaToken())
-        )
+        return assiaService.rebootModem(RebootModemRequest(preferences.getAssiaId()))
     }
 
     /**

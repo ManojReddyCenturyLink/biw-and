@@ -8,12 +8,15 @@ import com.centurylink.biwf.coordinators.ContactInfoCoordinatorDestinations
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
+import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Errors
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.TestCoroutineRule
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
@@ -40,6 +43,11 @@ class ContactInfoViewModelTest: ViewModelBaseTest() {
     private lateinit var accountDetails: AccountDetails
     private lateinit var uiAccountDetails: ContactInfoViewModel.UiAccountDetails
     var error: MutableLiveData<Errors> = MutableLiveData()
+    var accountDetailsInfo: Flow<ContactInfoViewModel.UiAccountDetails> = BehaviorStateFlow()
+    var progressViewFlow = EventFlow<Boolean>()
+    var errorMessageFlow = EventFlow<String>()
+    var isExistingUserWithPhoneNumberState = EventFlow<Boolean>()
+    var isExistingUserWithPhoneNumber = false
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -56,6 +64,11 @@ class ContactInfoViewModelTest: ViewModelBaseTest() {
             analyticsManagerInterface = analyticsManagerInterface,
             accountRepository = accountRepository)
         uiAccountDetails = ContactInfoViewModel.UiAccountDetails(cellPhone = "")
+        assertEquals(viewModel.isExistingUserWithPhoneNumber, true)
+        progressViewFlow = viewModel.progressViewFlow
+        isExistingUserWithPhoneNumberState = viewModel.isExistingUserWithPhoneNumberState
+        isExistingUserWithPhoneNumber = viewModel.isExistingUserWithPhoneNumber
+        accountDetailsInfo = viewModel.accountDetailsInfo
     }
 
     @Test
@@ -64,6 +77,18 @@ class ContactInfoViewModelTest: ViewModelBaseTest() {
             launch {
                 viewModel.initContactApiCall()
             }
+        }
+    }
+
+    @Test
+    fun testApiCallFailure() {
+        runBlockingTest {
+            coEvery { accountRepository.getAccountDetails() } returns Either.Left("")
+            viewModel = ContactInfoViewModel(
+                modemRebootMonitorService = modemRebootMonitorService,
+                analyticsManagerInterface = analyticsManagerInterface,
+                accountRepository = accountRepository)
+            viewModel.initContactApiCall()
         }
     }
 
@@ -82,6 +107,21 @@ class ContactInfoViewModelTest: ViewModelBaseTest() {
     }
 
     @Test
+    fun testOnPhoneNumberGreaterThanTenDigits() {
+        viewModel.onPhoneNumberChanged("123456789012345")
+        error.value = viewModel.validateInput()
+        MatcherAssert.assertThat("Phone Number Too Long", error.value!!.isNullOrEmpty())
+    }
+
+    @Test
+    fun testOnPhoneNumberEqualToTenDigits() {
+        viewModel.onPhoneNumberChanged("1234567890")
+        error.value = viewModel.validateInput()
+        MatcherAssert.assertThat("Phone Number Correct", error.value!!.isNullOrEmpty())
+    }
+
+
+    @Test
     fun testNavigateToSelectTimeActivity() {
         runBlockingTest {
             launch {
@@ -98,6 +138,7 @@ class ContactInfoViewModelTest: ViewModelBaseTest() {
     @Test
     fun testAnalyticsButtonClicked() {
         assertNotNull(analyticsManagerInterface)
+        analyticsManagerInterface.logButtonClickEvent("")
         viewModel.logModemRebootErrorDialog()
         viewModel.logModemRebootSuccessDialog()
     }
