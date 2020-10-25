@@ -14,8 +14,6 @@ apply plugin: 'com.google.gms.google-services'
 
 apply plugin: 'com.google.firebase.crashlytics'
 
-apply from: 'jacoco.gradle'
-
 ext.localProperties = new Properties()
 def propFile = rootProject.file('local.properties')
 def jsonFile = file('build_config.json')
