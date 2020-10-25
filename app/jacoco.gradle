@@ -83,6 +83,7 @@ def fileFilter = [
         '**/*SharedPreferencesStore.*',
         '**/*Preferences.Companion.*',
         '**/*BIWFApp.*',
+        '**/*DevicesRepository.*',
         '**/*ItemType*.*',
         '**/*LiveDataObserver.*.*',
         '**/*WebLinkUtil.Companions.*',
