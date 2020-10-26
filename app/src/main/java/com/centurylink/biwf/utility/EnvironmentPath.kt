@@ -149,6 +149,7 @@ class EnvironmentPath {
 
         const val API_CHANGE_SSID = "change-ssid"
         const val API_CHANGE_PASSWORD = "change-wifi-pwd?"
+        const val API_GET_PASSWORD = "get-wifi-pwd?"
 
         //Get and post/change network password //same url
         const val API_GET_CHANGE_NETWORK_PASSWORD_PATH =

@@ -110,7 +110,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
 
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery {
-                    wifiNetworkApiService.getNetworkPassword(any(), any(), any())
+                    wifiStatusService.getNetworkPassword(any(), any())
                 } returns Either.Right(
                     NetworkDetails(
                         code = "0",
