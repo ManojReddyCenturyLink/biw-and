@@ -73,5 +73,5 @@ class PaymentDetails(
     val promoDescription: String? = null,
 
     @SerializedName("Promo_Discount_Amount__c")
-    val promoDiscountAmount: String? = null
+    val promoDiscountAmount: Double? = null
 )

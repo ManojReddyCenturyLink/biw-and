@@ -30,6 +30,8 @@ class SubscriptionStatementViewModel @Inject constructor(
     var uiStatementDetails = UiStatementDetails()
     var invoicedId: String? = null
     var processedDate: String? = null
+    private var promoDiscountText: String? = null
+    private var totalCost: Double = 0.0
 
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SUBSCRIPTION_STATEMENT)
@@ -92,29 +94,26 @@ class SubscriptionStatementViewModel @Inject constructor(
             // QA Environment comes with $ value
             val planCost: Double = it.planCostWithoutTax?.replace("$", "")?.toDouble() ?: 0.0
             val salesTaxCost: Double = it.salesTaxAmount?.replace("$", "")?.toDouble() ?: 0.0
-//            val promoCode: String? = it.promoCode
-//            val promoDescription: String? = it.promoDescription
-            //val promoDiscountAmount = it.promoDiscountAmount?.replace("$", "")?.toDouble() ?: 0.0
-            val promoCode: String? = "#SAVE50"
-            val promoDescription: String? = "Promo Code to save 50%"
-            val promoDiscountAmount = ("$30").replace("$", "").toDouble() ?: 0.0
-            val totalCost: Double = planCost + salesTaxCost - promoDiscountAmount
-
+            val promoCode: String? = it.promoCode
+            val promoDescription: String? = it.promoDescription
+            val promoDiscountAmount: Double? = it.promoDiscountAmount
             println("Testing promo Details->" + it.promoCode.toString() + " " + it.promoDescription.toString() + " " + it.promoDiscountAmount.toString())
-
+            if(promoDiscountAmount!=null) {
+                promoDiscountText = String.format("%.2f", promoDiscountAmount)
+                totalCost = planCost + salesTaxCost - promoDiscountAmount
+            } else {
+                totalCost = planCost + salesTaxCost
+            }
             uiStatementDetails = uiStatementDetails.copy(
-                    paymentMethod = it.zuoraPaymentMethod?:"",
-                    planName = it.productPlanNameC,
-                    successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
-                    planCost = String.format("%.2f", planCost),
-                    salesTaxCost = String.format("%.2f", salesTaxCost),
-                    totalCost = String.format("%.2f", totalCost),
-                    promoCode = promoCode,
-                    promoDescription = promoDescription,
-                    promoDiscountAmount = String.format("%.2f", promoDiscountAmount )
-                    // promoCode = it.promoCode,
-//                    promoDescription = it.promoDescription,
-
+                paymentMethod = it.zuoraPaymentMethod?:"",
+                planName = it.productPlanNameC,
+                successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
+                planCost = String.format("%.2f", planCost),
+                salesTaxCost = String.format("%.2f", salesTaxCost),
+                totalCost = String.format("%.2f", totalCost),
+                promoCode = promoCode,
+                promoDescription = promoDescription,
+                promoDiscountAmount = promoDiscountText
             )
             statementDetailsInfo.latestValue = uiStatementDetails
             progressViewFlow.latestValue = false

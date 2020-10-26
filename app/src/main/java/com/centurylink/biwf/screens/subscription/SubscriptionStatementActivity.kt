@@ -110,7 +110,7 @@ class SubscriptionStatementActivity : BaseActivity() {
                     binding.subscriptionStatementPromoCost.text =
                             getString(R.string.cost_template, uiAccountInfo.promoDiscountAmount)
                     binding.subscriptionStatementPromoSubheader.text =
-                            getString(R.string.statement_payment_promo_info, uiAccountInfo.promoDiscountAmount)
+                            uiAccountInfo.promoDescription
                 }
 
             }
