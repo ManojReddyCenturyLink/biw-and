@@ -482,7 +482,6 @@ class DashboardViewModel @Inject constructor(
             errorMessageFlow.latestValue = "Error WifiInfo"
         })
     }
-
     /**
      * Request to get network password
      *
