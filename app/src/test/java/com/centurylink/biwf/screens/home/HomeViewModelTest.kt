@@ -117,7 +117,6 @@ class HomeViewModelTest : ViewModelBaseTest() {
         )
     }
 
-
     @Test
     fun `init Api failure case`() = runBlockingTest {
         coEvery { userRepository.getUserInfo() } returns Either.Left(error = "")

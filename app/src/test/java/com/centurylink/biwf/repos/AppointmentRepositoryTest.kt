@@ -146,7 +146,7 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
-                val modifiedAppointments = Appointments(totalSize = 1,done = true,records = listOf(tempRecords))
+                val modifiedAppointments = Appointments(totalSize = 1, done = true, records = listOf(tempRecords))
                 every { mockPreferences.getValueByID(any()) } returns "123"
                 coEvery {
                     appointmentService.getAppointmentDetails(any())
@@ -361,5 +361,4 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
-
 }

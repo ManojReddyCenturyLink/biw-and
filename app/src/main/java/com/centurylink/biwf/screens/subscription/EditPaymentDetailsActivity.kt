@@ -114,8 +114,8 @@ class EditPaymentDetailsActivity : BaseActivity() {
     }
 
     companion object {
-        const val REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS= 1039
-        const val REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION= 12339
+        const val REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS = 1039
+        const val REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION = 12339
         const val REQUEST_TO_EDIT_PAYMENT_DETAILS = 1103
         fun newIntent(context: Context) = Intent(context, EditPaymentDetailsActivity::class.java)
     }

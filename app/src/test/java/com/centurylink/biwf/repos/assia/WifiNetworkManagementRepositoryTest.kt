@@ -64,7 +64,6 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                 val networkDetails =
                     wifiNetworkManagementRepository.getNetworkName(NetWorkBand.Band2G)
                 assertEquals(networkDetails.map { it.message }, Either.Right("Success"))
-
             }
         }
     }
@@ -92,7 +91,6 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                     UpdateNetworkName(newSsid = "")
                 )
                 assertEquals(networkDetails.map { it.message }, Either.Right("Success"))
-
             }
         }
     }
@@ -116,7 +114,6 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                 val networkDetails =
                     wifiNetworkManagementRepository.getNetworkPassword(NetWorkBand.Band2G)
                 assertEquals(networkDetails.map { it.message }, Either.Right("Success"))
-
             }
         }
     }
@@ -144,9 +141,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                     UpdateNWPassword(newPassword = "")
                 )
                 assertEquals(networkDetails.map { it.message }, Either.Right("Success"))
-
             }
         }
     }
-
 }

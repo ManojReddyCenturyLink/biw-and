@@ -228,7 +228,6 @@ class DashboardViewModelTest : ViewModelBaseTest() {
             mockModemRebootMonitorService,
             analyticsManagerInterface
         )
-
     }
 
     @Test
@@ -557,7 +556,6 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         }
     }
 
-
     @Test
     fun testRequestAccountDetailsStatusCompleted() {
         runBlockingTest {
@@ -673,7 +671,6 @@ class DashboardViewModelTest : ViewModelBaseTest() {
                     cancelResponse
                 )
                 viewModel.requestAppointmentCancellation()
-
             }
         }
     }

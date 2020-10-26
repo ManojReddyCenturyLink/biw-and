@@ -29,8 +29,8 @@ import javax.inject.Inject
 class ContactInfoViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
     private val accountRepository: AccountRepository,
-    analyticsManagerInterface : AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+    analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val myState = EventFlow<ContactInfoCoordinatorDestinations>()
     val accountDetailsInfo: Flow<UiAccountDetails> = BehaviorStateFlow()
@@ -115,7 +115,7 @@ class ContactInfoViewModel @Inject constructor(
      */
     fun validateInput(): Errors {
         val errors = Errors()
-        if (phoneNumberValue.isEmpty() || phoneNumberValue.length < mobileMinLength ) {
+        if (phoneNumberValue.isEmpty() || phoneNumberValue.length < mobileMinLength) {
             errors["mobileNumberError"] = "mobileNumberError"
         }
         this.error.latestValue = errors

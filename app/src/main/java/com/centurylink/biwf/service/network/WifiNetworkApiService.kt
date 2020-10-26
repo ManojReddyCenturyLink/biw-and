@@ -11,38 +11,44 @@ interface WifiNetworkApiService {
     @GET(EnvironmentPath.API_GET_POST_SSID_PATH)
     suspend fun getNetworkName(
         @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
-        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand,
+        @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<NetworkDetails>
 
     @POST(EnvironmentPath.API_GET_POST_SSID_PATH)
     suspend fun updateNetworkName(
         @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
-        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand,
+        @HeaderMap header: Map<String, String>,
         @Body updateNetworkName: UpdateNetworkName
     ): AssiaServiceResult<UpdateNetworkResponse>
 
     @POST(EnvironmentPath.API_ENABLE_REGULAR_GUEST_WIFI_PATH)
     suspend fun enableNetwork(
         @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
-        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand,
+        @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<UpdateNetworkResponse>
 
     @POST(EnvironmentPath.API_GET_CHANGE_NETWORK_PASSWORD_PATH)
     suspend fun updateNetworkPassword(
         @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
-        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>,
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand,
+        @HeaderMap header: Map<String, String>,
         @Body updateNwPwd: UpdateNWPassword
     ): AssiaServiceResult<UpdateNetworkResponse>
 
     @POST(EnvironmentPath.API_DISABLE_REGULAR_GUEST_WIFI_PATH)
     suspend fun disableNetwork(
         @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
-        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand,
+        @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<UpdateNetworkResponse>
 
     @GET(EnvironmentPath.API_GET_CHANGE_NETWORK_PASSWORD_PATH)
     suspend fun getNetworkPassword(
         @Path(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
-        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand, @HeaderMap header: Map<String, String>
+        @Path(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand,
+        @HeaderMap header: Map<String, String>
     ): AssiaServiceResult<NetworkDetails>
 }

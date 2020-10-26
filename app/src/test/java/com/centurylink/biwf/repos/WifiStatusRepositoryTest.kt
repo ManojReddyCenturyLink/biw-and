@@ -72,9 +72,9 @@ class WifiStatusRepositoryTest : BaseRepositoryTest() {
             launch {
                 val asiaError: AssiaHttpError = AssiaHttpError(
                     Constants.STATUS_CODE,
-                    AssiaErrorMessage( error="1001", message = Constants.ERROR)
+                    AssiaErrorMessage(error = "1001", message = Constants.ERROR)
                 )
-                coEvery {  wifiStatusService.disableNetwork(any()) } returns Either.Left(
+                coEvery { wifiStatusService.disableNetwork(any()) } returns Either.Left(
                     asiaError
                 )
                 val statusInfo = wifiStatusRepository.disableNetwork(NetWorkBand.Band2G)
@@ -89,9 +89,9 @@ class WifiStatusRepositoryTest : BaseRepositoryTest() {
             launch {
                 val asiaError: AssiaHttpError = AssiaHttpError(
                     Constants.STATUS_CODE,
-                    AssiaErrorMessage( error="1001", message = Constants.ERROR)
+                    AssiaErrorMessage(error = "1001", message = Constants.ERROR)
                 )
-                coEvery {  wifiStatusService.enableNetwork(any()) } returns Either.Left(
+                coEvery { wifiStatusService.enableNetwork(any()) } returns Either.Left(
                     asiaError
                 )
                 val statusInfo = wifiStatusRepository.enableNetwork(NetWorkBand.Band2G)

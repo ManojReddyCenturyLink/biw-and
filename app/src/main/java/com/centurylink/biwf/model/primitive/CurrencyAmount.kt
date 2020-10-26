@@ -35,7 +35,8 @@ data class CurrencyAmount(val amount: BigDecimal, val currency: Currency) {
          * a [BigDecimal.scale] of 2 (2 digits after decimal point).
          */
         operator fun invoke(
-            amount: String, currency:
+            amount: String,
+            currency:
             String = DEFAULT_CURRENCY
         ): CurrencyAmount =
             CurrencyAmount(BigDecimal(amount).adjust, Currency.getInstance(currency))

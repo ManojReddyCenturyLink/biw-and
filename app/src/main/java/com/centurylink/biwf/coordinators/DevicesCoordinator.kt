@@ -30,7 +30,7 @@ class DevicesCoordinator @Inject constructor(
      * function guides us to navigate to usage Details Screen.
      *
      */
-    private fun navigateToUsageDetails(){
+    private fun navigateToUsageDetails() {
         navigator.navigateToUsageDetailsActivity()
     }
 }

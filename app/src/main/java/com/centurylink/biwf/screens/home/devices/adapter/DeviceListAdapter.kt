@@ -45,7 +45,10 @@ class DeviceListAdapter(
     }
 
     override fun getGroupView(
-        groupPosition: Int, isExpanded: Boolean, convertView: View?, parent: ViewGroup?
+        groupPosition: Int,
+        isExpanded: Boolean,
+        convertView: View?,
+        parent: ViewGroup?
     ): View {
         val layoutInflater =
             parent?.context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -85,7 +88,6 @@ class DeviceListAdapter(
             1 -> deviceList[DeviceStatus.BLOCKED]!!.size
             else -> 0
         }
-
     }
 
     override fun getChild(groupPosition: Int, childPosition: Int): DevicesData {
@@ -134,7 +136,7 @@ class DeviceListAdapter(
                 connectedData.hostName ?: ""
             }
             deviceName.text = nickName
-            //TODO Remove this when devices comes online
+            // TODO Remove this when devices comes online
             when (connectedData.deviceConnectionStatus) {
                 DeviceConnectionStatus.LOADING -> {
                     stateLoadingProgress.visibility = View.VISIBLE
@@ -143,7 +145,7 @@ class DeviceListAdapter(
                 DeviceConnectionStatus.FAILURE,
                 DeviceConnectionStatus.DEVICE_CONNECTED,
                 DeviceConnectionStatus.PAUSED,
-                DeviceConnectionStatus.MODEM_OFF ->{
+                DeviceConnectionStatus.MODEM_OFF -> {
                     stateLoadingProgress.visibility = View.GONE
                     deviceSignalStrength.visibility = View.VISIBLE
                 }
@@ -192,7 +194,6 @@ class DeviceListAdapter(
     override fun getGroupCount(): Int {
         return deviceList.size
     }
-
 
     interface DeviceItemClickListener {
         /**

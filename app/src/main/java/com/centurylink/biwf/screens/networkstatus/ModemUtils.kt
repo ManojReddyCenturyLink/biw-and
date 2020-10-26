@@ -15,8 +15,8 @@ import java.util.regex.Pattern
 class ModemUtils {
     companion object {
         private val PAT_FILE_NAME: Pattern = Pattern.compile(
-            "(.*?)"
-                    + "(?:\\-(\\d+)\\-)?(\\.[^.]*)?")
+            "(.*?)" +
+                    "(?:\\-(\\d+)\\-)?(\\.[^.]*)?")
         private val MAX_NICKNAMELENGTH = 17
 
         fun getGuestNetworkName(apiInfo: ApInfo): String {
@@ -51,7 +51,7 @@ class ModemUtils {
             return wifiNetworkName
         }
 
-        //Icons for buttons are different from list view, added method to get button status icons.
+        // Icons for buttons are different from list view, added method to get button status icons.
         fun getConnectionStatusIcon(devicesData: DevicesData): Int {
             val signalStrength = devicesData.rssi
             val connectionMode = devicesData.connectedInterface

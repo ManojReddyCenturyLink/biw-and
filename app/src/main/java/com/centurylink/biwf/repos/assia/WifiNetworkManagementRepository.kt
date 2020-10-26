@@ -4,8 +4,6 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.wifi.*
 import com.centurylink.biwf.service.network.WifiNetworkApiService
-import com.centurylink.biwf.service.network.WifiStatusService
-import com.centurylink.biwf.utility.EnvironmentPath
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -72,8 +70,8 @@ class WifiNetworkManagementRepository @Inject constructor(
      * @param interfaceType the Band types of the server.
      * @return NetworkDetails from the server.
      */
-    suspend fun getNetworkPassword(interfaceType: NetWorkBand): Either<String,NetworkDetails> {
-        val result =  wifiNetworkApiService.getNetworkPassword(
+    suspend fun getNetworkPassword(interfaceType: NetWorkBand): Either<String, NetworkDetails> {
+        val result = wifiNetworkApiService.getNetworkPassword(
             preferences.getAssiaId(),
             interfaceType,
             getHeaderMapWithContent(token = assiaTokenManager.getAssiaToken())
@@ -91,13 +89,13 @@ class WifiNetworkManagementRepository @Inject constructor(
      *
      * @param interfaceType the Band types of the server.
      * @param updateNWPassword The Password that needs to be sent to the server.
-     * @return  UpdateNetworkResponse The Network response on Success and error message in case of failure.
+     * @return UpdateNetworkResponse The Network response on Success and error message in case of failure.
      */
     suspend fun updateNetworkPassword(
         interfaceType: NetWorkBand,
         updateNWPassword: UpdateNWPassword
     ): Either<String, UpdateNetworkResponse> {
-        val result =  wifiNetworkApiService.updateNetworkPassword(
+        val result = wifiNetworkApiService.updateNetworkPassword(
             preferences.getAssiaId(),
             interfaceType,
             getHeaderMapWithContent(token = assiaTokenManager.getAssiaToken()), updateNWPassword

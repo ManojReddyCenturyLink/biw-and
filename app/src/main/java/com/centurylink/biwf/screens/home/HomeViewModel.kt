@@ -185,8 +185,8 @@ class HomeViewModel @Inject constructor(
     private suspend fun requestModemId() {
         val modemIdInfo = modemIdRepository.getModemTypeId()
         modemIdInfo.fold(ifLeft = {
-            //TODO: We are getting modem id as null for some accounts, so commenting for now.
-            //errorMessageFlow.latestValue = it
+            // TODO: We are getting modem id as null for some accounts, so commenting for now.
+            // errorMessageFlow.latestValue = it
         }) {
             sharedPreferences.saveAssiaId(it)
         }
@@ -201,7 +201,6 @@ class HomeViewModel @Inject constructor(
         userDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-
         }
     }
 
@@ -268,7 +267,8 @@ class HomeViewModel @Inject constructor(
      */
     private suspend fun requestModemInfo() {
         val modemInfo = oAuthAssiaRepository.getModemInfo()
-        modemInfo.fold(ifRight = {
+        modemInfo.fold(
+            ifRight = {
                 val apiInfo = it?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     networkStatus.latestValue = apiInfo[0].isAlive
@@ -276,9 +276,9 @@ class HomeViewModel @Inject constructor(
                     networkStatus.latestValue = false
                 }
             },
-             ifLeft = {
+            ifLeft = {
                 // Ignoring Error API called every 30 seconds
-                //errorMessageFlow.latestValue = modemInfo.toString()
+                // errorMessageFlow.latestValue = modemInfo.toString()
             }
         )
     }
@@ -360,7 +360,6 @@ class HomeViewModel @Inject constructor(
         const val intsall = "Install"
     }
 }
-
 
 data class ChoiceDialogMessage(
     val title: Int,

@@ -7,7 +7,9 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 @Suppress("UNCHECKED_CAST")
-class DaggerViewModelFactory @Inject constructor(private val viewModelsMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>) :
+class DaggerViewModelFactory @Inject constructor(
+    private val viewModelsMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
+) :
     ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val creator = viewModelsMap[modelClass] ?: viewModelsMap.asIterable().firstOrNull {
@@ -27,14 +29,18 @@ class DaggerViewModelFactory @Inject constructor(private val viewModelsMap: Map<
  * When necessary, a brand new ViewModel of type [T] needs to be created. If this happens, the [newViewModel]
  * lambda will be called. This lambda should return a brand new ViewModel of type [T].
  */
-inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(crossinline newViewModel: () -> T): T {
+inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(
+    crossinline newViewModel: () -> T
+): T {
     return getViewModel(viewModelFactory(newViewModel))
 }
 
 /**
  * Returns a [ViewModel] of type [T] which will be provided by the [factory].
  */
-inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(factory: ViewModelProvider.Factory): T {
+inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(
+    factory: ViewModelProvider.Factory
+): T {
     val provider = ViewModelProvider(this, factory)
     return provider[T::class.java]
 }

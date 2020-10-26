@@ -30,7 +30,7 @@ class EditPaymentDetailsViewModelTest : ViewModelBaseTest() {
 
     private lateinit var viewModel: EditPaymentDetailsViewModel
 
-    private lateinit var context : Context
+    private lateinit var context: Context
 
     @Before
     fun setup() {

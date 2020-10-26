@@ -78,7 +78,7 @@ open class CustomDialogGreyTheme(
             dismiss()
             callback(AlertDialog.BUTTON_NEGATIVE)
         }
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return rootView
     }
 

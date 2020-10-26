@@ -8,8 +8,9 @@ import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
 
-class HomeViewPagerAdapter(private val viewClickListener: DashboardFragment.ViewClickListener,
-                           fragmentActivity: FragmentActivity
+class HomeViewPagerAdapter(
+    private val viewClickListener: DashboardFragment.ViewClickListener,
+    fragmentActivity: FragmentActivity
 ) : FragmentStateAdapter(fragmentActivity) {
 
     var tabHeaderList = mutableListOf<TabsBaseItem>()
@@ -53,5 +54,4 @@ class HomeViewPagerAdapter(private val viewClickListener: DashboardFragment.View
         devicesFragment = DevicesFragment()
         return devicesFragment
     }
-
 }

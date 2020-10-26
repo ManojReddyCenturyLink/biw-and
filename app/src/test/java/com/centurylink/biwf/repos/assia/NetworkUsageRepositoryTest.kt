@@ -21,7 +21,6 @@ import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Test
 
-
 class NetworkUsageRepositoryTest : BaseRepositoryTest() {
 
     private lateinit var networkUsageRepository: NetworkUsageRepository
@@ -45,7 +44,6 @@ class NetworkUsageRepositoryTest : BaseRepositoryTest() {
 
     private lateinit var assiaToken: AssiaToken
 
-
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -64,8 +62,8 @@ class NetworkUsageRepositoryTest : BaseRepositoryTest() {
     fun testGetUsageDetailsSuccess() {
         runBlocking {
             launch {
-                val networkListItem= NetworkListItem(downLinkTraffic=999.9,upLinkTraffic = 999000.0,upLinkPackets = 1,trafficPattern = TrafficPattern(),downLinkPackets =
-                1,intf = "",stationMac = "",downLinkPacketsFailed = 1)
+                val networkListItem = NetworkListItem(downLinkTraffic = 999.9, upLinkTraffic = 999000.0, upLinkPackets = 1, trafficPattern = TrafficPattern(), downLinkPackets =
+                1, intf = "", stationMac = "", downLinkPacketsFailed = 1)
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery {
                     assiaTrafficUsageService.getUsageDetails(
@@ -94,8 +92,8 @@ class NetworkUsageRepositoryTest : BaseRepositoryTest() {
     fun testGetUsageDetailsSuccessHighUploadTraffic() {
         runBlocking {
             launch {
-                val networkListItem= NetworkListItem(downLinkTraffic=999000.9,upLinkTraffic = 999000.88,upLinkPackets = 1,trafficPattern = TrafficPattern(),downLinkPackets =
-                1,intf = "",stationMac = "",downLinkPacketsFailed = 1)
+                val networkListItem = NetworkListItem(downLinkTraffic = 999000.9, upLinkTraffic = 999000.88, upLinkPackets = 1, trafficPattern = TrafficPattern(), downLinkPackets =
+                1, intf = "", stationMac = "", downLinkPacketsFailed = 1)
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery {
                     assiaTrafficUsageService.getUsageDetails(
@@ -119,7 +117,6 @@ class NetworkUsageRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
-
 
     @Test
     fun testGetUsageDetailsSuccessWithDailyData() {
@@ -148,5 +145,4 @@ class NetworkUsageRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
-
 }

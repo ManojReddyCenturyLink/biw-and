@@ -9,4 +9,3 @@ data class UpdateNetworkName(
     @SerializedName("newSsid")
     val newSsid: String
 ) : Serializable
-

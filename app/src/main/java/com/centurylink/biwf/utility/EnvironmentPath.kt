@@ -2,7 +2,6 @@ package com.centurylink.biwf.utility
 
 import com.centurylink.biwf.BuildConfig
 
-
 class EnvironmentPath {
     companion object {
 
@@ -75,7 +74,7 @@ class EnvironmentPath {
         const val LIVE_CARD_DETAILS_QUERY =
             "SELECT Credit_Card_Summary__c,Id,Name,Next_Renewal_Date__c,Zuora__BillCycleDay__c FROM Zuora__CustomerAccount__c WHERE Zuora__Account__c = '%s'"
 
-        //Appointment
+        // Appointment
         const val APPOINTMENT_INFO_QUERY =
             "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude, ServiceTerritory.OperatingHours.TimeZone,Appointment_Number_Text__c,(SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s'"
         const val API_APPOINTMENT_SLOT_PATH =
@@ -84,7 +83,7 @@ class EnvironmentPath {
         const val API_CANCEL_APPOINTMENT_PATH =
             "/" + BuildConfig.COMMUNITY_NAME + "/services/apexrest/CancelServiceAppointmentMobile"
 
-        //Assia
+        // Assia
         const val API_ASIA_ACCESSTOKEN_PATH =
             "oauth/token?username=biwftest&password=BiwfTest1&client_id=spapi&client_secret=oBj2xZc&grant_type=password"
         const val ASSIA_BASE_URL = "https://ctlink-biwf-staging.cloudcheck.net:443/cloudcheck-sp/"
@@ -131,23 +130,23 @@ class EnvironmentPath {
         const val API_SCHEDULE_CALLBACK_PATH =
             "phish/services/data/v42.0/ui-api/object-info/Case/picklist-values/{recordTypeId}/What_kind_of_customer_care_do_you_need__c"
 
-        //McAfee
+        // McAfee
         const val API_GET_NETWORK_ACCESS_PATH = "mcafee/get-network-access"
         const val API_UPDATE_NETWORK_ACCESS_PATH = "mcafee/network-access"
         const val API_DEVICES_MAPPING_PATH = "mcafee/macaddress/mapping"
         const val API_UPDATE_DEVICE_INFO_PATH = "mcafee/update-device"
         const val API_GET_DEVICE_INFO_PATH = "mcafee/get-device"
 
-        //Regular and Guest Wifi network
+        // Regular and Guest Wifi network
         const val API_ENABLE_REGULAR_GUEST_WIFI_PATH =
             "api/v2/wifi/operations/enableintf/{wifiDeviceId}/{interface}"
         const val API_DISABLE_REGULAR_GUEST_WIFI_PATH =
             "api/v2/wifi/operations/disableintf/{wifiDeviceId}/{interface}"
 
-        //Get and post/change SSID //same url
+        // Get and post/change SSID //same url
         const val API_GET_POST_SSID_PATH = "api/v2/wifi/operations/ssid/{wifiDeviceId}/{interface}"
 
-        //Get and post/change network password //same url
+        // Get and post/change network password //same url
         const val API_GET_CHANGE_NETWORK_PASSWORD_PATH =
             "api/v2/wifi/operations/wifipwd/{wifiDeviceId}/{interface}"
         const val SCOPE = "web api refresh_token"
@@ -158,6 +157,5 @@ class EnvironmentPath {
             "SELECT Modem_Number__c FROM WorkOrder WHERE AccountId='%s' AND Job_Type__c='Fiber Install - For Installations'"
 
         const val APIGEE_MOBILE_HEADER = "From: mobile"
-
     }
 }

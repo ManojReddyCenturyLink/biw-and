@@ -34,7 +34,6 @@ class ModemRebootRepositoryTest : BaseRepositoryTest() {
     @MockK
     private lateinit var assiaTokenManager: AssiaTokenManager
 
-
     private lateinit var modemRebootResponse: ModemRebootResponse
 
     private lateinit var assiaToken: AssiaToken

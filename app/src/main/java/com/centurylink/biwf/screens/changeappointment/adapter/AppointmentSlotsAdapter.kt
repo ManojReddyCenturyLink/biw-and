@@ -47,7 +47,7 @@ class AppointmentSlotsAdapter(
          * @param position - The position to check last selected radio button
          */
         fun bind(slotInfo: String, position: Int) {
-            if(isError) {
+            if (isError) {
                 binding.appointmentSelectRadioBtn.setBackgroundResource(R.drawable.ic_radio_error)
             } else {
                 binding.appointmentSelectRadioBtn.setBackgroundResource(R.drawable.radiobutton_selector)
@@ -75,6 +75,5 @@ class AppointmentSlotsAdapter(
          * @param slotInfo - Slot information
          */
         fun onSlotSelected(slotInfo: String)
-
     }
 }

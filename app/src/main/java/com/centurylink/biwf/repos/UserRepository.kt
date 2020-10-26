@@ -38,7 +38,7 @@ class UserRepository @Inject constructor(
     /**
      * This method is used to Store the User Id in shared Preferences.
      *
-     * @return  the UserId
+     * @return the UserId
      */
     private fun getUserId(): String? {
         return preferences.getValueByID(Preferences.USER_ID)

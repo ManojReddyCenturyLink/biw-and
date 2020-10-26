@@ -13,5 +13,4 @@ class BillingServiceTest : BaseServiceTest() {
         createServer()
         billingApiServices = retrofit.create(BillingApiServices::class.java)
     }
-
 }

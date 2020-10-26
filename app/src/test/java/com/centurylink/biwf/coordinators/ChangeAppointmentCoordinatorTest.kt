@@ -25,7 +25,7 @@ class ChangeAppointmentCoordinatorTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToAppointmentConfirmationSuccess(){
+    fun navigateToAppointmentConfirmationSuccess() {
         every { navigator.navigateToAppointmentConfirmation() } returns Unit
         val det = changeAppointmentCoordinator.navigateTo(ChangeAppointmentCoordinatorDestinations.APPOINTMENT_CONFIRMED)
         assertEquals(det, Unit)

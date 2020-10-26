@@ -63,14 +63,14 @@ data class DevicesData(
     @SerializedName("maxSpeed")
     val maxSpeed: MaxSpeed? = null,
 
-    //TODO: Adding temporary variable to test analytics story, will remove once api gets integrated.
+    // TODO: Adding temporary variable to test analytics story, will remove once api gets integrated.
     var isPaused: Boolean = false,
 
     var mcafeeDeviceId: String = "",
 
-    var mcAfeeName:String ="",
+    var mcAfeeName: String = "",
 
-    var mcAfeeDeviceType:String ="",
+    var mcAfeeDeviceType: String = "",
 
     var deviceConnectionStatus: DeviceConnectionStatus = DeviceConnectionStatus.LOADING
 
@@ -96,10 +96,9 @@ enum class DeviceConnectionStatus {
 
     MODEM_OFF, // OFF IMAGE
 
-    PAUSED,// OFF IMAGE
+    PAUSED, // OFF IMAGE
 
     DEVICE_CONNECTED, // SIGNAL STATE rssi value
 
     FAILURE, // Background color
 }
-

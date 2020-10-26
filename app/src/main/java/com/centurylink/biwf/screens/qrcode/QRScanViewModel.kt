@@ -30,18 +30,18 @@ class QRScanViewModel constructor(
     private var wifiInfo: WifiInfo,
     modemRebootMonitorService: ModemRebootMonitorService,
     private var resources: Resources,
-    analyticsManagerInterface : AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+    analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     class Factory @Inject constructor(
         private val modemRebootMonitorService: ModemRebootMonitorService,
         private var resources: Resources,
-        private val analyticsManagerInterface : AnalyticsManager
+        private val analyticsManagerInterface: AnalyticsManager
     ) : ViewModelFactoryWithInput<WifiInfo> {
 
         override fun withInput(input: WifiInfo): ViewModelProvider.Factory {
             return viewModelFactory {
-                QRScanViewModel(input, modemRebootMonitorService,resources,analyticsManagerInterface)
+                QRScanViewModel(input, modemRebootMonitorService, resources, analyticsManagerInterface)
             }
         }
     }
@@ -72,7 +72,7 @@ class QRScanViewModel constructor(
      * Log done button click - It will handle done button click events
      *
      */
-    fun logDoneButtonClick(){
+    fun logDoneButtonClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_QR_CODE)
     }
 

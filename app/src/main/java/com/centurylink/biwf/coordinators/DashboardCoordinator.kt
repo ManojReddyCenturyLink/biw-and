@@ -50,7 +50,7 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
      * Method helps us to navigate to to Network information Details Screen.
      *
      */
-    private fun navigateToNetworkInformation(){
+    private fun navigateToNetworkInformation() {
         navigator.navigateToNetworkInformationScreen()
     }
 
@@ -58,7 +58,7 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
      * Method helps us to navigate to to QRCode Information Screen.
      *
      */
-    private fun navigateToQRCodeScanning(){
+    private fun navigateToQRCodeScanning() {
         navigator.navigateToQRCodeScan()
     }
 }
@@ -69,7 +69,7 @@ class DashboardCoordinator @Inject constructor() : Coordinator<DashboardCoordina
  * @constructor Create empty Dashboard coordinator destinations
  */
 enum class DashboardCoordinatorDestinations {
-    APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS, NETWORK_INFORMATION,QR_CODE_SCANNING;
+    APPOINTMENT_SCHEDULED, ENROUTE, IN_PROGRESS, COMPLETED, NORMAL, CHANGE_APPOINTMENT, NOTIFICATION_DETAILS, NETWORK_INFORMATION, QR_CODE_SCANNING;
 
     companion object {
         lateinit var bundle: Bundle

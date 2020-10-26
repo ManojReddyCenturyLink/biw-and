@@ -15,7 +15,7 @@ class EditPaymentDetailsViewModel @Inject constructor(
     preferences: Preferences,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val progressViewFlow = EventFlow<Boolean>()
     val errorMessageFlow = EventFlow<String>()
@@ -29,17 +29,17 @@ class EditPaymentDetailsViewModel @Inject constructor(
         subscriptionUrlFlow.latestValue = subscriptionUrl
     }
 
-    fun logBackPress(){
+    fun logBackPress() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_EDIT_PAYMENT_DETAILS)
     }
 
-    fun logDonePress(){
+    fun logDonePress() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_EDIT_PAYMENT_DETAILS)
     }
 
     // TODO address race condition going on between this method and onWebViewError()
     fun onWebViewProgress(progress: Int, context: Context) {
-        if(AppUtil.isOnline(context)){
+        if (AppUtil.isOnline(context)) {
             if (progress == WEB_PAGE_PROGRESS_COMPLETE) {
                 progressViewFlow.latestValue = false
             }

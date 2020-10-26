@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class ScheduleCallbackCoordinatorTest:BaseRepositoryTest() {
+class ScheduleCallbackCoordinatorTest : BaseRepositoryTest() {
     private lateinit var scheduleCallbackCoordinator: ScheduleCallbackCoordinator
 
     @MockK(relaxed = true)
@@ -22,15 +22,15 @@ class ScheduleCallbackCoordinatorTest:BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToAdditionalInfoSuccess(){
-        every {navigator.navigateToAdditionalInfo()}returns any()
+    fun navigateToAdditionalInfoSuccess() {
+        every { navigator.navigateToAdditionalInfo() } returns any()
         val det = scheduleCallbackCoordinator.navigateTo(ScheduleCallbackCoordinatorDestinations.ADDITIONAL_INFO)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun  navigateToPhoneDiallerSuccess(){
-        every {navigator.navigateToPhoneDialler()}returns any()
+    fun navigateToPhoneDiallerSuccess() {
+        every { navigator.navigateToPhoneDialler() } returns any()
         val det = scheduleCallbackCoordinator.navigateTo(ScheduleCallbackCoordinatorDestinations.CALL_SUPPORT)
         assertEquals(det, Unit)
     }

@@ -71,7 +71,9 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(NotificationDetailsViewModel::class)
-    abstract fun bindNotificationDetailsViewModel(notificationDetailsViewModel: NotificationDetailsViewModel): ViewModel
+    abstract fun bindNotificationDetailsViewModel(
+        notificationDetailsViewModel: NotificationDetailsViewModel
+    ): ViewModel
 
     /**
      * Binding FAQViewModel using this key "FAQViewModel::class"
@@ -84,12 +86,16 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(CancelSubscriptionViewModel::class)
-    abstract fun bindCancelSubscriptionViewModel(cancelSubscriptionViewModel: CancelSubscriptionViewModel): ViewModel
+    abstract fun bindCancelSubscriptionViewModel(
+        cancelSubscriptionViewModel: CancelSubscriptionViewModel
+    ): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(CancelSubscriptionDetailsViewModel::class)
-    abstract fun bindCancelSubscriptionDetailsViewModel(cancelSubscriptionDetailsViewModel: CancelSubscriptionDetailsViewModel): ViewModel
+    abstract fun bindCancelSubscriptionDetailsViewModel(
+        cancelSubscriptionDetailsViewModel: CancelSubscriptionDetailsViewModel
+    ): ViewModel
 
     @Binds
     @IntoMap
@@ -124,12 +130,16 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(EditPaymentDetailsViewModel::class)
-    abstract fun bindEditPaymentDetailsViewModel(editPaymentDetailsViewModel: EditPaymentDetailsViewModel): ViewModel
+    abstract fun bindEditPaymentDetailsViewModel(
+        editPaymentDetailsViewModel: EditPaymentDetailsViewModel
+    ): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(SubscriptionStatementViewModel::class)
-    abstract fun bindSubscriptionStatementViewModel(subscriptionStatementViewModel: SubscriptionStatementViewModel): ViewModel
+    abstract fun bindSubscriptionStatementViewModel(
+        subscriptionStatementViewModel: SubscriptionStatementViewModel
+    ): ViewModel
 
     @Binds
     @IntoMap
@@ -144,10 +154,14 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(ChangeAppointmentViewModel::class)
-    abstract fun bindChangeAppointmentViewModel(changeAppointmentViewModel: ChangeAppointmentViewModel): ViewModel
+    abstract fun bindChangeAppointmentViewModel(
+        changeAppointmentViewModel: ChangeAppointmentViewModel
+    ): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(AppointmentBookedViewModel::class)
-    abstract fun bindAppointmentBookedViewModel(appointmentBookedViewModel: AppointmentBookedViewModel): ViewModel
+    abstract fun bindAppointmentBookedViewModel(
+        appointmentBookedViewModel: AppointmentBookedViewModel
+    ): ViewModel
 }

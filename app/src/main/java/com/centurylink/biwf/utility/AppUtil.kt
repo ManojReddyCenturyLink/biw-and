@@ -20,6 +20,5 @@ class AppUtil {
             }
             return isOnline
         }
-
     }
 }

@@ -9,7 +9,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class SubscriptionCoordinatorTest:BaseRepositoryTest() {
+class SubscriptionCoordinatorTest : BaseRepositoryTest() {
 
     private lateinit var subscriptionCoordinator: SubscriptionCoordinator
 
@@ -23,22 +23,22 @@ class SubscriptionCoordinatorTest:BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToEditPaymentDetailsSuccess(){
-        every { navigator.navigateToEditPaymentDetails()} returns any()
+    fun navigateToEditPaymentDetailsSuccess() {
+        every { navigator.navigateToEditPaymentDetails() } returns any()
         val det = subscriptionCoordinator.navigateTo(SubscriptionCoordinatorDestinations.EDIT_PAYMENT)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateToInvoiceDetailsSuccess(){
-        every {navigator.navigateToBillStatement()} returns any()
+    fun navigateToInvoiceDetailsSuccess() {
+        every { navigator.navigateToBillStatement() } returns any()
         val det = subscriptionCoordinator.navigateTo(SubscriptionCoordinatorDestinations.STATEMENT)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateToManageSubscriptionSuccess(){
-        every { navigator.navigateToMangeSubscription()} returns any()
+    fun navigateToManageSubscriptionSuccess() {
+        every { navigator.navigateToMangeSubscription() } returns any()
         val det = subscriptionCoordinator.navigateTo(SubscriptionCoordinatorDestinations.MANAGE_MY_SUBSCRIPTION)
         assertEquals(det, Unit)
     }

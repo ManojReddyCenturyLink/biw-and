@@ -105,7 +105,7 @@ class ContactRepositoryTest : BaseRepositoryTest() {
                         any()
                     )
                 } returns Either.Right(Unit)
-                val contactIfo = contactRepository.setMarketingCallsAndText(false,"1234567890")
+                val contactIfo = contactRepository.setMarketingCallsAndText(false, "1234567890")
                 Assert.assertEquals(contactIfo.map { it }, contactIfo.map { it })
             }
         }
@@ -121,7 +121,7 @@ class ContactRepositoryTest : BaseRepositoryTest() {
                         any()
                     )
                 } returns Either.Left(fiberHttpError)
-                val contactIfo = contactRepository.setMarketingCallsAndText(false,"1234567890")
+                val contactIfo = contactRepository.setMarketingCallsAndText(false, "1234567890")
                 Assert.assertEquals(contactIfo.map { it }, contactIfo.map { it })
             }
         }

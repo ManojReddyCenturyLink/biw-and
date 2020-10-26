@@ -153,13 +153,13 @@ class DashboardViewModel @Inject constructor(
      */
     private fun fetchPasswordApi() {
         viewModelScope.launch {
-            //Fetching Password for Regular Network
+            // Fetching Password for Regular Network
             if (ssidMap.containsKey(NetWorkBand.Band2G.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band2G)
             } else if (ssidMap.containsKey(NetWorkBand.Band5G.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band5G)
             }
-            //Fetching Password for Guest Network
+            // Fetching Password for Guest Network
             if (ssidMap.containsKey(NetWorkBand.Band5G_Guest4.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band5G_Guest4)
             } else if (ssidMap.containsKey(NetWorkBand.Band2G_Guest4.name)) {
@@ -183,7 +183,7 @@ class DashboardViewModel @Inject constructor(
         },
             ifLeft = {
                 // Ignoring Error API called every 30 seconds
-                //errorMessageFlow.latestValue = modemInfo.toString()
+                // errorMessageFlow.latestValue = modemInfo.toString()
             }
         )
     }
@@ -311,14 +311,14 @@ class DashboardViewModel @Inject constructor(
         var downloadSpeedError = false
         val result = speedTestRepository.getSpeedTestResults(sharedPreferences.getSpeedTestId()!!)
         result.fold(ifLeft = { displayEmptyResponse()
-            uploadSpeedError=true
-            downloadSpeedError=true
+            uploadSpeedError = true
+            downloadSpeedError = true
         }, ifRight = {
             val uploadStreamData = it.uploadSpeedSummary.speedTestNestedResults
             val downloadStreamData = it.downloadSpeedSummary.speedTestNestedResults
 
             if (uploadStreamData.list!!.isNotEmpty() && !uploadStreamData.list.equals(EMPTY_RESPONSE)) {
-                val uploadMb = uploadStreamData.list[0].average/1000
+                val uploadMb = uploadStreamData.list[0].average / 1000
                 uploadSpeed.latestValue = uploadMb.toString()
                 sharedPreferences.saveSpeedTestUpload(uploadSpeed = uploadSpeed.latestValue)
             } else {
@@ -327,7 +327,7 @@ class DashboardViewModel @Inject constructor(
             }
 
             if (downloadStreamData.list!!.isNotEmpty() && !downloadStreamData.equals(EMPTY_RESPONSE)) {
-                val downloadMb = downloadStreamData.list[0].average/1000
+                val downloadMb = downloadStreamData.list[0].average / 1000
                 downloadSpeed.latestValue = downloadMb.toString()
                 latestSpeedTest.latestValue =
                     formatUtcString(downloadStreamData.list[0].timestamp)
@@ -381,7 +381,6 @@ class DashboardViewModel @Inject constructor(
                 isAccountStatus.latestValue = true
                 initDevicesApis()
             }
-
         }) {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
@@ -533,7 +532,7 @@ class DashboardViewModel @Inject constructor(
             }
         },
             ifLeft = {
-                //TODO Currently API is returning Error -Temp Hack for displaying password
+                // TODO Currently API is returning Error -Temp Hack for displaying password
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
                 regularNetworkWifiPwd = "test123wifi"
                 guestNetworkWifiPwd = "test123Guest"
@@ -598,7 +597,8 @@ class DashboardViewModel @Inject constructor(
      * @param wifiInfo -wifiInfo instance to read wifi details
      */
     private suspend fun requestToEnableNetwork(
-        netWorkBand: NetWorkBand, wifiInfo: WifiInfo
+        netWorkBand: NetWorkBand,
+        wifiInfo: WifiInfo
     ) {
         val netWorkInfo = wifiStatusRepository.enableNetwork(netWorkBand)
         netWorkInfo.fold(ifRight =
@@ -631,7 +631,7 @@ class DashboardViewModel @Inject constructor(
             },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
-                //TODO HANDLING ERROR MOCKED FOR NOW
+                // TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
             })
         progressViewFlow.latestValue = false
@@ -966,7 +966,8 @@ class DashboardViewModel @Inject constructor(
      * model calss for appointment engineer status
      */
     data class AppointmentEngineerStatus(
-        val jobType: String, val status: ServiceStatus,
+        val jobType: String,
+        val status: ServiceStatus,
         val serviceLatitude: String,
         val serviceLongitude: String,
         val serviceAppointmentStartTime: String,

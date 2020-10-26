@@ -1,6 +1,5 @@
 package com.centurylink.biwf.service.network
 
-
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.support.SupportServicesReq
 import com.centurylink.biwf.model.support.SupportServicesResponse
@@ -18,5 +17,4 @@ interface SupportService {
     suspend fun supportServiceInfo(
         @Body supportServicesReq: SupportServicesReq
     ): FiberServiceResult<SupportServicesResponse>
-
 }

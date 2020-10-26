@@ -1,6 +1,5 @@
 package com.centurylink.biwf.model.support
 
-import com.centurylink.biwf.model.user.RecentItems
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
@@ -14,8 +13,8 @@ data class ScheduleCallbackResponse(
     @SerializedName("url")
     var url: String = "",
     @SerializedName("values")
-    var values:List<Values> = emptyList()
-    ) : Serializable
+    var values: List<Values> = emptyList()
+) : Serializable
 
 data class Values(
     @SerializedName("attributes")

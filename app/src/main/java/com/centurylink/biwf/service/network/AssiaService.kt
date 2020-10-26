@@ -1,9 +1,7 @@
 package com.centurylink.biwf.service.network
 
-
 import com.centurylink.biwf.model.AssiaServiceResult
 import com.centurylink.biwf.model.assia.ModemInfoResponse
-import com.centurylink.biwf.model.assia.ModemRebootResponse
 import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.utility.EnvironmentPath
@@ -22,7 +20,7 @@ interface AssiaService {
         @Path(EnvironmentPath.ASSIA_ID) id: String,
         @Path(EnvironmentPath.STATION_MAC_ADDRESS) macAddress: String,
         @HeaderMap header: Map<String, String>
-    ) : AssiaServiceResult<BlockResponse>
+    ): AssiaServiceResult<BlockResponse>
 
     @DELETE(EnvironmentPath.API_BLOCK_UNBLOCK_DEVICE_PATH)
     suspend fun unBlockDevice(

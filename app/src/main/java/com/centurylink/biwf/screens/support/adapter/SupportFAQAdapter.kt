@@ -52,5 +52,4 @@ interface SupportItemClickListener {
      *
      */
     fun onFaqItemClick(item: String)
-
 }

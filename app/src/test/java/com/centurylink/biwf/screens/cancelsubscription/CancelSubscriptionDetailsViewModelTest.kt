@@ -173,7 +173,7 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
                 CancelSubscriptionDetailsViewModel::class.java.getDeclaredField("cancellationDate")
             cancellationDate.isAccessible = true
             val emptyDate: Date? = null
-            cancellationDate.set(viewModel, emptyDate);
+            cancellationDate.set(viewModel, emptyDate)
             viewModel.onSubmitCancellation()
         }
     }
@@ -204,5 +204,4 @@ class CancelSubscriptionDetailsViewModelTest : ViewModelBaseTest() {
         viewModel.onSubmitCancellation()
         Assert.assertNotNull(viewModel.performSubmitEvent)
     }
-
 }

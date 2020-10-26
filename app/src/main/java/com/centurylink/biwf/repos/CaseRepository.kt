@@ -28,7 +28,8 @@ import javax.inject.Singleton
 @Singleton
 class CaseRepository @Inject constructor(
     private val preferences: Preferences,
-    private val caseApiService: CaseApiService) {
+    private val caseApiService: CaseApiService
+) {
 
     /**
      * This method is used to get the Account Id that is stored in the  Shared Preferences
@@ -46,7 +47,6 @@ class CaseRepository @Inject constructor(
         return preferences.getValueByID(Preferences.CONTACT_ID)
     }
 
-
     /**
      * The Suspend function used for the purpose of DeActivating the requests
      *
@@ -62,7 +62,8 @@ class CaseRepository @Inject constructor(
         cancellationDate: Date,
         cancellationReason: String?,
         cancellationReasonExpln: String?,
-        rating: Float?, comments: String?,
+        rating: Float?,
+        comments: String?,
         recordTypeId: String
     ): Either<String, CaseResponse> {
         val caseCreate = CaseCreate(

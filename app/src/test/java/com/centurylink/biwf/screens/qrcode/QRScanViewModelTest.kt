@@ -1,19 +1,6 @@
 package com.centurylink.biwf.screens.qrcode
 
-import android.content.res.Resources
-import com.centurylink.biwf.ViewModelBaseTest
-import com.centurylink.biwf.analytics.AnalyticsManager
-import com.centurylink.biwf.model.wifi.WifiInfo
-import io.mockk.MockKAnnotations
-import io.mockk.impl.annotations.MockK
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.test.runBlockingTest
-import org.junit.Assert
-import org.junit.Before
-import org.junit.Test
-
-
-//class QRScanViewModelTest  : ViewModelBaseTest() {
+// class QRScanViewModelTest  : ViewModelBaseTest() {
 //
 //    private lateinit var viewModel: QRScanViewModel
 //
@@ -38,4 +25,4 @@ import org.junit.Test
 //        )
 //    }
 //
-//}
+// }

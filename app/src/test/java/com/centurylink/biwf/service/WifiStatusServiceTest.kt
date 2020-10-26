@@ -9,7 +9,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class WifiStatusServiceTest: BaseServiceTest() {
+class WifiStatusServiceTest : BaseServiceTest() {
     private lateinit var wifiStatusService: WifiStatusService
 
     @Before
@@ -23,7 +23,7 @@ class WifiStatusServiceTest: BaseServiceTest() {
         enqueueResponse("apigee_enable_response.json")
         val posts: AssiaServiceResult<UpdateNetworkResponse> = wifiStatusService.enableNetwork(
             emptyMap())
-        Assert.assertEquals(posts.map { it.code}, Either.Right("1000"))
+        Assert.assertEquals(posts.map { it.code }, Either.Right("1000"))
         Assert.assertEquals(posts.map { it.message }, Either.Right("Success"))
     }
 
@@ -32,8 +32,7 @@ class WifiStatusServiceTest: BaseServiceTest() {
         enqueueResponse("apigee_disable_response.json")
         val posts: AssiaServiceResult<UpdateNetworkResponse> = wifiStatusService.disableNetwork(
             emptyMap())
-        Assert.assertEquals(posts.map { it.code}, Either.Right("1000"))
+        Assert.assertEquals(posts.map { it.code }, Either.Right("1000"))
         Assert.assertEquals(posts.map { it.message }, Either.Right("Success"))
     }
-
 }

@@ -15,5 +15,4 @@ interface ModemIdService {
 
     @GET(EnvironmentPath.SALES_FORCE_QUERY)
     suspend fun getModemId(@Query(EnvironmentPath.SALES_FORCE_QUERY_VALUE) id: String): FiberServiceResult<ModemIdResponse>
-
 }

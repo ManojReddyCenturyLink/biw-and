@@ -28,7 +28,7 @@ open class BIWFApp : Application(), HasAndroidInjector, Configuration.Provider {
         super.onCreate()
         AndroidThreeTen.init(this)
         Timber.plant(Timber.DebugTree())
-        //init Dagger dependency injection
+        // init Dagger dependency injection
         InitUtility.initDependencyInjection(this)
         navigator = Navigator()
         PendoUtil.initPendoSDKWithoutVisitor(this)

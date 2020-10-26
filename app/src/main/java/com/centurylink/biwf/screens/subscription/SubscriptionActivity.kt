@@ -75,7 +75,6 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
         viewModel.launchStatement(item)
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -83,7 +82,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                 if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_MOVE_TO_ACCOUNTS) {
                     setResult(resultCode)
                     finish()
-                } else if(resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION){
+                } else if (resultCode == EditPaymentDetailsActivity.REQUEST_TO_REFRESH_PAYMENT_TO_SUBSCRIPTION) {
                     viewModel.initApis()
                 }
             }

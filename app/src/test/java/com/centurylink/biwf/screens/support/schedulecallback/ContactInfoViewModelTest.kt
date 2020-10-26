@@ -27,7 +27,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class ContactInfoViewModelTest: ViewModelBaseTest() {
+class ContactInfoViewModelTest : ViewModelBaseTest() {
 
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
@@ -120,7 +120,6 @@ class ContactInfoViewModelTest: ViewModelBaseTest() {
         MatcherAssert.assertThat("Phone Number Correct", error.value!!.isNullOrEmpty())
     }
 
-
     @Test
     fun testNavigateToSelectTimeActivity() {
         runBlockingTest {
@@ -142,6 +141,4 @@ class ContactInfoViewModelTest: ViewModelBaseTest() {
         viewModel.logModemRebootErrorDialog()
         viewModel.logModemRebootSuccessDialog()
     }
-
-
 }

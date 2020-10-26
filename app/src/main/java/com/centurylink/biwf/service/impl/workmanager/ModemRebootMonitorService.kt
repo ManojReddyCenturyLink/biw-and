@@ -64,7 +64,7 @@ class ModemRebootMonitorService @Inject constructor(
         result.fold(ifLeft = {
             manualEventFlow.postValue(RebootState.ERROR)
             Timber.e("Error requesting modem reboot %s", it.message)
-        },ifRight = {
+        }, ifRight = {
             if (it.code == ModemRebootRepository.REBOOT_STARTED_SUCCESSFULLY) {
                 manualEventFlow.postValue(RebootState.ONGOING)
                 enqueueModemRebootWork()

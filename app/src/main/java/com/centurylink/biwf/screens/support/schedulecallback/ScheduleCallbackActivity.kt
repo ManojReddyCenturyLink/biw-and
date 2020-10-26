@@ -63,7 +63,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
         viewModel.apply {
             progressViewFlow.observe {
                 showProgress(it)
-                if(!it) {
+                if (!it) {
                     prepareRecyclerView(viewModel.arrayList.map(::TopicList))
                 }
             }
@@ -143,7 +143,7 @@ class ScheduleCallbackActivity : BaseActivity(), ScheduleCallbackItemClickListen
                 finish()
             }
         }
-        binding.callUsNowTextview.text= resources.getString(R.string.call_us_now_at).plus(" ").plus(BuildConfig.MOBILE_NUMBER)
+        binding.callUsNowTextview.text = resources.getString(R.string.call_us_now_at).plus(" ").plus(BuildConfig.MOBILE_NUMBER)
         binding.callUsNowLayout.setOnClickListener { viewModel.launchCallDialer() }
     }
 

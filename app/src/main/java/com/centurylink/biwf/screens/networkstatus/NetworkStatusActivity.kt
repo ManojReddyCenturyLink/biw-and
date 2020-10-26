@@ -66,8 +66,8 @@ class NetworkStatusActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                if(viewModel.networkInfoComplete) {
-                  validateNameAndPassword()
+                if (viewModel.networkInfoComplete) {
+                    validateNameAndPassword()
                 }
             }
         }
@@ -462,10 +462,11 @@ class NetworkStatusActivity : BaseActivity() {
      * Display general error - It shows general error dialog popup
      *
      */
-    private fun displayGeneralError(){
+    private fun displayGeneralError() {
         GeneralErrorPopUp.showGeneralErrorDialog(
             fragmentManager,
-            callingActivity?.className)
+            callingActivity?.className
+        )
     }
 
     /**
