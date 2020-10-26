@@ -506,10 +506,8 @@ class DashboardViewModel @Inject constructor(
             }
         },
                 ifLeft = {
-                    //TODO Currently API is returning Error -Temp Hack for displaying password
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                    regularNetworkWifiPwd = "test123wifi"
-                    guestNetworkWifiPwd = "test123Guest"
+                    errorMessageFlow.latestValue = it
                 })
         val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfoReceived?.apInfoList[0])
         val regularNetworkName = ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0])
