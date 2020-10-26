@@ -10,6 +10,7 @@ import com.centurylink.biwf.coordinators.NotificationCoordinatorDestinations
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.CancelAppointmentInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
+import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.notification.NotificationSource
 import com.centurylink.biwf.model.wifi.NetWorkBand
@@ -90,6 +91,7 @@ class DashboardViewModel @Inject constructor(
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val regularNetworkInstance = WifiInfo()
     val guestNetworkInstance = WifiInfo()
+    var modemInfoReceived: ModemInfo = ModemInfo()
     private lateinit var regularNetworkInfo: WifiInfo
     private lateinit var guestNetworkInfo: WifiInfo
     private var regularNetworkWifiPwd: String = ""
@@ -466,41 +468,13 @@ class DashboardViewModel @Inject constructor(
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         modemResponse.fold(ifRight =
         {
+            modemInfoReceived = it
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
             val apiInfo = it?.apInfoList
             if (!apiInfo.isNullOrEmpty()) {
                 val modemInfo = apiInfo[0]
-                var regularNetworkName = ""
-                var guestNetworkName = ""
                 ssidMap = modemInfo.ssidMap
                 bssidMap = modemInfo.bssidMap
-                regularNetworkName = ModemUtils.getRegularNetworkName(modemInfo)
-                guestNetworkName = ModemUtils.getGuestNetworkName(modemInfo)
-                val guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfo)
-                val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfo)
-                regularNetworkInfo = regularNetworkInstance.copy(
-                    type = NetWorkBand.Band5G.name,
-                    name = regularNetworkName,
-                    password = regularNetworkWifiPwd,
-                    enabled = wifiNetworkEnabled
-                )
-                guestNetworkInfo = guestNetworkInstance.copy(
-                    category = NetWorkCategory.GUEST,
-                    type = NetWorkBand.Band2G_Guest4.name,
-                    name = guestNetworkName,
-                    password = guestNetworkWifiPwd,
-                    enabled = guestNetworkEnabled
-                )
-                wifiListDetails.latestValue = wifiScanStatus(
-                    ArrayList(
-                        (WifiDetails(
-                            listOf(
-                                regularNetworkInfo,
-                                guestNetworkInfo
-                            )
-                        )).wifiList
-                    )
-                )
             }
             progressViewFlow.latestValue = false
         }, ifLeft = {
@@ -516,7 +490,7 @@ class DashboardViewModel @Inject constructor(
      */
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo =
-            wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
+                wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         netWorkInfo.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
             val password = it.networkName[netWorkBand.name]
@@ -531,12 +505,38 @@ class DashboardViewModel @Inject constructor(
                 }
             }
         },
-            ifLeft = {
-                // TODO Currently API is returning Error -Temp Hack for displaying password
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                regularNetworkWifiPwd = "test123wifi"
-                guestNetworkWifiPwd = "test123Guest"
-            })
+                ifLeft = {
+                    analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
+                    errorMessageFlow.latestValue = it
+                })
+        val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfoReceived?.apInfoList[0])
+        val regularNetworkName = ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0])
+        regularNetworkInfo = regularNetworkInstance.copy(
+                category = NetWorkCategory.REGULAR,
+                type = NetWorkBand.Band5G.name,
+                name = regularNetworkName,
+                password = regularNetworkWifiPwd,
+                enabled = wifiNetworkEnabled
+        )
+        val guestNetworkName = ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0])
+        val guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfoReceived?.apInfoList[0])
+        guestNetworkInfo = guestNetworkInstance.copy(
+                category = NetWorkCategory.GUEST,
+                type = NetWorkBand.Band2G_Guest4.name,
+                name = guestNetworkName,
+                password = guestNetworkWifiPwd,
+                enabled = guestNetworkEnabled
+        )
+        wifiListDetails.latestValue = wifiScanStatus(
+                ArrayList(
+                        (WifiDetails(
+                                listOf(
+                                        regularNetworkInfo,
+                                        guestNetworkInfo
+                                )
+                        )).wifiList
+                )
+        )
     }
 
     /**

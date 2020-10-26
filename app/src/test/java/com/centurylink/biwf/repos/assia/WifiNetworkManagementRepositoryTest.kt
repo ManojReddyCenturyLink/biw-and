@@ -6,6 +6,7 @@ import com.centurylink.biwf.model.wifi.*
 import com.centurylink.biwf.repos.BaseRepositoryTest
 import com.centurylink.biwf.service.network.AssiaTokenService
 import com.centurylink.biwf.service.network.WifiNetworkApiService
+import com.centurylink.biwf.service.network.WifiStatusService
 import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
@@ -22,6 +23,9 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
 
     @MockK(relaxed = true)
     private lateinit var wifiNetworkApiService: WifiNetworkApiService
+
+    @MockK(relaxed = true)
+    private lateinit var wifiStatusService: WifiStatusService
 
     @MockK
     private lateinit var mockPreferences: Preferences
@@ -41,7 +45,9 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
         assiaTokenManager = AssiaTokenManager(assiaTokenService)
         wifiNetworkManagementRepository = WifiNetworkManagementRepository(
             preferences = mockPreferences,
-            wifiNetworkApiService = wifiNetworkApiService, assiaTokenManager = assiaTokenManager
+            wifiNetworkApiService = wifiNetworkApiService,
+            assiaTokenManager = assiaTokenManager,
+            wifiStatusService = wifiStatusService
         )
     }
 
@@ -75,7 +81,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
 
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery {
-                    wifiNetworkApiService.updateNetworkName(any(), any(), any(), any())
+                    wifiStatusService.updateNetworkName(any())
                 } returns Either.Right(
                     UpdateNetworkResponse(
                         code = "0",
@@ -87,8 +93,8 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                 )
 
                 val networkDetails = wifiNetworkManagementRepository.updateNetworkName(
-                    NetWorkBand.Band2G,
-                    UpdateNetworkName(newSsid = "")
+                   " NetWorkBand.Band2G",
+                    ""
                 )
                 assertEquals(networkDetails.map { it.message }, Either.Right("Success"))
             }
@@ -102,7 +108,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
 
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery {
-                    wifiNetworkApiService.getNetworkPassword(any(), any(), any())
+                    wifiStatusService.getNetworkPassword(any(), any())
                 } returns Either.Right(
                     NetworkDetails(
                         code = "0",
@@ -125,7 +131,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
 
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 coEvery {
-                    wifiNetworkApiService.updateNetworkPassword(any(), any(), any(), any())
+                    wifiStatusService.updateNetworkPassword(any(), any(), any())
                 } returns Either.Right(
                     UpdateNetworkResponse(
                         code = "0",
