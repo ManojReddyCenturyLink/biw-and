@@ -73,16 +73,15 @@ class WifiNetworkManagementRepository @Inject constructor(
      * @return NetworkDetails from the server.
      */
     suspend fun getNetworkPassword(interfaceType: NetWorkBand): Either<String,NetworkDetails> {
-        val result =  wifiNetworkApiService.getNetworkPassword(
-            preferences.getAssiaId(),
-            interfaceType,
-            getHeaderMapWithContent(token = assiaTokenManager.getAssiaToken())
+        val result =  wifiStatusService.getNetworkPassword(
+                preferences.getAssiaId(),
+                interfaceType
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
-                if (it.code != "1000") {
-                    Either.Left(it.message)
-                }
-                Either.Right(it)
+            if (it.code != "1000") {
+                Either.Left(it.message)
+            }
+            Either.Right(it)
         }
     }
 

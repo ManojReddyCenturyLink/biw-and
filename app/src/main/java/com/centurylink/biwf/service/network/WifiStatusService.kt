@@ -1,10 +1,7 @@
 package com.centurylink.biwf.service.network
 
 import com.centurylink.biwf.model.AssiaServiceResult
-import com.centurylink.biwf.model.wifi.NetWorkBand
-import com.centurylink.biwf.model.wifi.UpdateNWPassword
-import com.centurylink.biwf.model.wifi.UpdateNetworkName
-import com.centurylink.biwf.model.wifi.UpdateNetworkResponse
+import com.centurylink.biwf.model.wifi.*
 import com.centurylink.biwf.utility.EnvironmentPath
 import retrofit2.http.*
 
@@ -35,4 +32,11 @@ interface WifiStatusService {
         @Query(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand,
         @Body updateNwPwd: UpdateNWPassword
     ): AssiaServiceResult<UpdateNetworkResponse>
+
+    @GET(EnvironmentPath.API_GET_PASSWORD)
+    @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
+    suspend fun getNetworkPassword(
+            @Query(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+            @Query(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand
+    ): AssiaServiceResult<NetworkDetails>
 }
