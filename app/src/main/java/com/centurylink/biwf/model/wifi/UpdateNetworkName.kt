@@ -7,6 +7,10 @@ import java.io.Serializable
  */
 data class UpdateNetworkName(
     @SerializedName("newSsid")
-    val newSsid: String
+    val newSsid: String,
+    @SerializedName("wifiDeviceId")
+    val wifiDeviceId: String,
+    @SerializedName("interface")
+    val interfaceId: String
 ) : Serializable
 

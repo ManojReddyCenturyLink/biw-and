@@ -9,7 +9,6 @@ import com.centurylink.biwf.coordinators.NetworkStatusCoordinatorDestinations
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.wifi.NetWorkBand
 import com.centurylink.biwf.model.wifi.UpdateNWPassword
-import com.centurylink.biwf.model.wifi.UpdateNetworkName
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.repos.assia.WifiStatusRepository
@@ -572,12 +571,12 @@ class NetworkStatusViewModel @Inject constructor(
      * @param networkName - Network name to be updated through network band
      */
     private suspend fun requestToUpdateWifiNetworkInfo(
-        netWorkBand: NetWorkBand,
+        netWorkBand: String,
         networkName: String
     ) {
         val netWorkInfo = wifiNetworkManagementRepository.updateNetworkName(
             netWorkBand,
-            UpdateNetworkName(networkName)
+            networkName
         )
         netWorkInfo.fold(
             ifRight =  {
@@ -601,10 +600,10 @@ class NetworkStatusViewModel @Inject constructor(
             if (existingWifiNwName != newWifiName) {
                 if (!newWifiName.isNullOrEmpty() && regularNetworkInstance.isNetworkEnabled) {
                     if (ssidMap.containsKey(NetWorkBand.Band5G.name)) {
-                        requestToUpdateWifiNetworkInfo(NetWorkBand.Band5G, newWifiName)
+                        requestToUpdateWifiNetworkInfo(NetWorkBand.Band5G.toString(), newWifiName)
                     }
                     if (ssidMap.containsKey(NetWorkBand.Band2G.name)) {
-                        requestToUpdateWifiNetworkInfo(NetWorkBand.Band2G, newWifiName)
+                        requestToUpdateWifiNetworkInfo(NetWorkBand.Band2G.toString(), newWifiName)
                     }
                 }
             }
@@ -622,10 +621,16 @@ class NetworkStatusViewModel @Inject constructor(
 
             if (existingGuestName != newGuestName && guestNetworkInstance.isNetworkEnabled) {
                 if (ssidMap.containsKey(NetWorkBand.Band2G_Guest4.name)) {
-                    requestToUpdateWifiNetworkInfo(NetWorkBand.Band2G_Guest4, newGuestName)
+                    requestToUpdateWifiNetworkInfo(
+                        NetWorkBand.Band2G_Guest4.toString(),
+                        newGuestName
+                    )
                 }
                 if (ssidMap.containsKey(NetWorkBand.Band5G_Guest4.name)) {
-                    requestToUpdateWifiNetworkInfo(NetWorkBand.Band5G_Guest4, newGuestName)
+                    requestToUpdateWifiNetworkInfo(
+                        NetWorkBand.Band5G_Guest4.toString(),
+                        newGuestName
+                    )
                 }
             }
 

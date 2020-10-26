@@ -5,7 +5,6 @@ import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.wifi.*
 import com.centurylink.biwf.service.network.WifiNetworkApiService
 import com.centurylink.biwf.service.network.WifiStatusService
-import com.centurylink.biwf.utility.EnvironmentPath
 import com.centurylink.biwf.utility.preferences.Preferences
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -26,6 +25,7 @@ import javax.inject.Singleton
 class WifiNetworkManagementRepository @Inject constructor(
     private val preferences: Preferences,
     private val wifiNetworkApiService: WifiNetworkApiService,
+    private val wifiStatusService: WifiStatusService,
     private val assiaTokenManager: AssiaTokenManager
 ) {
     suspend fun getNetworkName(interfaceType: NetWorkBand): Either<String, NetworkDetails> {
@@ -49,14 +49,14 @@ class WifiNetworkManagementRepository @Inject constructor(
      * @return UpdateNetworkResponse on success and Error Message in case of Failure..
      */
     suspend fun updateNetworkName(
-        interfaceType: NetWorkBand,
-        updateNetworkName: UpdateNetworkName
+        interfaceType: String,
+        updateNetworkName: String
     ): Either<String, UpdateNetworkResponse> {
-        val result = wifiNetworkApiService.updateNetworkName(
-            preferences.getAssiaId(),
-            interfaceType,
-            getHeaderMap(token = assiaTokenManager.getAssiaToken()),
-            updateNetworkName
+        val result = wifiStatusService.updateNetworkName(
+            UpdateNetworkName(
+                wifiDeviceId = preferences.getAssiaId(),
+                interfaceId = interfaceType,
+                newSsid = updateNetworkName)
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "1000") {
@@ -97,10 +97,10 @@ class WifiNetworkManagementRepository @Inject constructor(
         interfaceType: NetWorkBand,
         updateNWPassword: UpdateNWPassword
     ): Either<String, UpdateNetworkResponse> {
-        val result =  wifiNetworkApiService.updateNetworkPassword(
+        val result =  wifiStatusService.updateNetworkPassword(
             preferences.getAssiaId(),
             interfaceType,
-            getHeaderMapWithContent(token = assiaTokenManager.getAssiaToken()), updateNWPassword
+            updateNWPassword
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
                 if (it.code != "1000") {
