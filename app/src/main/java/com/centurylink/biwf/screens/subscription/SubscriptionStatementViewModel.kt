@@ -97,7 +97,6 @@ class SubscriptionStatementViewModel @Inject constructor(
             val promoCode: String? = it.promoCode
             val promoDescription: String? = it.promoDescription
             val promoDiscountAmount: Double? = it.promoDiscountAmount
-            println("Testing promo Details->" + it.promoCode.toString() + " " + it.promoDescription.toString() + " " + it.promoDiscountAmount.toString())
             if(promoDiscountAmount!=null) {
                 promoDiscountText = String.format("%.2f", promoDiscountAmount)
                 totalCost = planCost + salesTaxCost - promoDiscountAmount
