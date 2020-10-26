@@ -93,7 +93,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                 )
 
                 val networkDetails = wifiNetworkManagementRepository.updateNetworkName(
-                   " NetWorkBand.Band2G",
+                    " NetWorkBand.Band2G",
                     ""
                 )
                 assertEquals(networkDetails.map { it.message }, Either.Right("Success"))
