@@ -31,7 +31,7 @@ class SupportViewModel @Inject constructor(
     private val speedTestRepository: SpeedTestRepository,
     private val sharedPreferences: Preferences,
     analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val faqSectionInfo: Flow<UiFAQQuestionsSections> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
@@ -125,7 +125,7 @@ class SupportViewModel @Inject constructor(
         },
             ifLeft = {
                 // Ignoring Error API called every 30 seconds
-                //errorMessageFlow.latestValue = modemInfo.toString()
+                // errorMessageFlow.latestValue = modemInfo.toString()
             }
         )
     }
@@ -160,16 +160,16 @@ class SupportViewModel @Inject constructor(
             while (keepChecking) {
                 val status = speedTestRepository.checkSpeedTestStatus(speedTestId = requestId)
                 status.fold(ifRight =
-                     {
-                            if (it.data.isFinished) {
-                                analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_SUCCESS)
-                                isSuccessful = true
-                                keepChecking = false
-                            } else {
-                                delay(SPEED_TEST_REFRESH_INTERVAL)
-                            }
-                    },
-                     ifLeft = {
+                {
+                    if (it.data.isFinished) {
+                        analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_SUCCESS)
+                        isSuccessful = true
+                        keepChecking = false
+                    } else {
+                        delay(SPEED_TEST_REFRESH_INTERVAL)
+                    }
+                },
+                    ifLeft = {
                         analyticsManagerInterface.logApiCall(AnalyticsKeys.CHECK_SPEED_TEST_FAILURE)
                         displayEmptyResponse()
                         keepChecking = false
@@ -239,7 +239,7 @@ class SupportViewModel @Inject constructor(
     }
 
     private fun displayEmptyResponse() {
-        speedTestError.latestValue=true
+        speedTestError.latestValue = true
         downloadSpeed.latestValue = EMPTY_RESPONSE
         uploadSpeed.latestValue = EMPTY_RESPONSE
         latestSpeedTest.latestValue = EMPTY_RESPONSE

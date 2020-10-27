@@ -39,7 +39,6 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     private var scheduleCallbackPicklist: ScheduleCallbackViewModel.ScheduleCallbackPicklist =
         ScheduleCallbackViewModel.ScheduleCallbackPicklist()
 
-
     private val dummyList = listOf(
         "I want to know more about fiber internet service",
         "I’m having trouble signing up for fiber internet service",
@@ -69,7 +68,7 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun testAnalyticsButtonClicked(){
+    fun testAnalyticsButtonClicked() {
         Assert.assertNotNull(analyticsManagerInterface)
         viewModel.logBackButtonClick()
         viewModel.logCancelButtonClick()
@@ -107,12 +106,11 @@ class ScheduleCallbackViewModelTest : ViewModelBaseTest() {
         }
     }
 
-
     @Test
     fun testApiCallFailure() {
         runBlockingTest {
             coEvery { caseRepository.getRecordTypeId() } returns Either.Left("")
-            coEvery { scheduleCallbackRepository.scheduleCallbackInfo(any())} returns Either.Left("")
+            coEvery { scheduleCallbackRepository.scheduleCallbackInfo(any()) } returns Either.Left("")
             viewModel = ScheduleCallbackViewModel(
                 modemRebootMonitorService = mockModemRebootMonitorService,
                 analyticsManagerInterface = analyticsManagerInterface,

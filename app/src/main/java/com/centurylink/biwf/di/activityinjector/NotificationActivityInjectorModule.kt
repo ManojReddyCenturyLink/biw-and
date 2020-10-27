@@ -1,6 +1,5 @@
 package com.centurylink.biwf.di.activityinjector
 
-
 import com.centurylink.biwf.screens.notification.NotificationActivity
 
 import dagger.Module

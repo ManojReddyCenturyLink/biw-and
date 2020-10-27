@@ -15,7 +15,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class ScheduleCallbackRepositoryTest: BaseRepositoryTest() {
+class ScheduleCallbackRepositoryTest : BaseRepositoryTest() {
     private lateinit var scheduleCallbackRepository: ScheduleCallbackRepository
 
     @MockK(relaxed = true)
@@ -40,9 +40,8 @@ class ScheduleCallbackRepositoryTest: BaseRepositoryTest() {
             coEvery {
                 scheduleCallbackService.scheduleCallbackPicklistInfo(any())
             } returns Either.Right(schedulecallbackinfo)
-            val supportServicesResponse=scheduleCallbackRepository.scheduleCallbackInfo(any())
+            val supportServicesResponse = scheduleCallbackRepository.scheduleCallbackInfo(any())
             Assert.assertEquals(supportServicesResponse.map { it.eTag }, Either.Right("021aa02d9c1907505e308474508dd843"))
-
         }
     }
 }

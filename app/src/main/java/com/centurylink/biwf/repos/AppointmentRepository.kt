@@ -61,7 +61,7 @@ class AppointmentRepository @Inject constructor(
                 val serviceRecords = it.serviceResources?.records?.elementAtOrElse(0) { null }
                 var timeZoneInfo = it.serviceTerritory?.operatingHours?.timeZone
                 if (timeZoneInfo.isNullOrEmpty()) {
-                    //TODO: currently for few account getting timezone as null, need to check
+                    // TODO: currently for few account getting timezone as null, need to check
                     timeZoneInfo = "America/Denver"
                 }
                 if (it.id.isNullOrEmpty()) {
@@ -115,7 +115,7 @@ class AppointmentRepository @Inject constructor(
      * Error in String format in case of API failure.
      */
     suspend fun modifyAppointmentInfo(rescheduleInfo: RescheduleInfo): Either<String, AppointmentResponse> {
-        //val result: FiberServiceResult<AppointmentResponse> =
+        // val result: FiberServiceResult<AppointmentResponse> =
         //  integrationRestServices.submitAppointments(rescheduleInfo)
         val result: FiberServiceResult<AppointmentResponse> =
             appointmentService.reScheduleAppointment(rescheduleInfo)
@@ -130,7 +130,7 @@ class AppointmentRepository @Inject constructor(
      * Error in String format in case of API failure.
      */
     suspend fun cancelAppointment(cancelAppointmentInfo: CancelAppointmentInfo): Either<String?, CancelResponse> {
-        //val result: FiberServiceResult<AppointmentResponse> =
+        // val result: FiberServiceResult<AppointmentResponse> =
         //  integrationRestServices.submitAppointments(rescheduleInfo)
         val result: FiberServiceResult<CancelResponse> =
             appointmentService.cancelAppointment(cancelAppointmentInfo)

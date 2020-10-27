@@ -25,29 +25,29 @@ class DashboardCoordinatorTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToChangeAppointmentSuccess(){
+    fun navigateToChangeAppointmentSuccess() {
         every { navigator.navigateToChangeAppointment() } returns Unit
         val det = dashboardCoordinator.navigateTo(DashboardCoordinatorDestinations.CHANGE_APPOINTMENT)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateToNotificationDetailsSuccess(){
-        every { navigator.navigateToNotificationDetails() }returns Unit
+    fun navigateToNotificationDetailsSuccess() {
+        every { navigator.navigateToNotificationDetails() } returns Unit
         val det = dashboardCoordinator.navigateTo(DashboardCoordinatorDestinations.NOTIFICATION_DETAILS)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateToNetworkInformationSuccess(){
-        every { navigator.navigateToNetworkInformationScreen() }returns Unit
+    fun navigateToNetworkInformationSuccess() {
+        every { navigator.navigateToNetworkInformationScreen() } returns Unit
         val det = dashboardCoordinator.navigateTo(DashboardCoordinatorDestinations.NETWORK_INFORMATION)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateToQRCodeScanningSuccess(){
-        every { navigator.navigateToQRCodeScan() }returns Unit
+    fun navigateToQRCodeScanningSuccess() {
+        every { navigator.navigateToQRCodeScan() } returns Unit
         val det = dashboardCoordinator.navigateTo(DashboardCoordinatorDestinations.QR_CODE_SCANNING)
         assertEquals(det, Unit)
     }

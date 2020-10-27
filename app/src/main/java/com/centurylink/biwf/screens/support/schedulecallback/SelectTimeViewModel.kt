@@ -1,9 +1,7 @@
 package com.centurylink.biwf.screens.support.schedulecallback
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.centurylink.biwf.R
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.model.support.SupportServicesReq
@@ -14,7 +12,6 @@ import com.centurylink.biwf.utility.EventLiveData
 import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.launch
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
@@ -35,7 +32,6 @@ class SelectTimeViewModel @Inject constructor(
     private val preferences: Preferences,
     private val supportRepository: SupportRepository
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
-
 
     private var callbackDate: Date? = null
     private var callbackTime: String? = null
@@ -99,11 +95,12 @@ class SelectTimeViewModel @Inject constructor(
      * @param fullDateAndTime - date and time slot
      * @param additionalInfo - additional info related to callback
      */
-    fun supportService(phoneNumber: String,
-                       ASAP: String,
-                       customerCareOption: String,
-                       fullDateAndTime: String,
-                       additionalInfo: String
+    fun supportService(
+        phoneNumber: String,
+        ASAP: String,
+        customerCareOption: String,
+        fullDateAndTime: String,
+        additionalInfo: String
     ) {
         scheduleCallbackFlow.latestValue = true
         viewModelScope.launch {
@@ -130,7 +127,7 @@ class SelectTimeViewModel @Inject constructor(
         deviceDetails.fold(ifRight =
         {
             scheduleCallbackFlow.latestValue = false
-            if(it.status == "SUCCESS") {
+            if (it.status == "SUCCESS") {
                 scheduleCallbackFlow.latestValue = false
                 isScheduleCallbackSuccessful.latestValue = true
                 errorFlow.latestValue = false
@@ -180,10 +177,10 @@ class SelectTimeViewModel @Inject constructor(
         } else if (localTimeMinutes in 30..44) {
             localTimeMinutesFinal = 45
             localTimeHoursFinal = localTimeHours
-        } else if(localTimeMinutes in 45..59 && localTimeHours == 12) {
+        } else if (localTimeMinutes in 45..59 && localTimeHours == 12) {
             localTimeMinutesFinal = 0
             localTimeHoursFinal = 1
-        } else if (localTimeMinutes in 45..59 && localTimeHours != 11 && localTimeHours !=12) {
+        } else if (localTimeMinutes in 45..59 && localTimeHours != 11 && localTimeHours != 12) {
             localTimeMinutesFinal = 0
             localTimeHoursFinal = localTimeHours + 1
         } else if (localTimeMinutes in 45..59 && localTimeHours == 11 && amPm == "AM") {
@@ -227,13 +224,13 @@ class SelectTimeViewModel @Inject constructor(
         val selectedAMPM = time.substring(5)
         if (selectedAMPM == "PM" && selectedHour != 12) {
             selectedHour += 12
-        } else if(selectedAMPM == "AM" && selectedHour == 12) {
+        } else if (selectedAMPM == "AM" && selectedHour == 12) {
             selectedHour = 0
         }
 
         var selectedHourString = selectedHour.toString()
         selectedYear = ("20").plus(selectedYear)
-        if(selectedHourString.length == 1) {
+        if (selectedHourString.length == 1) {
             selectedHourString = ("0").plus(selectedHourString)
         }
 

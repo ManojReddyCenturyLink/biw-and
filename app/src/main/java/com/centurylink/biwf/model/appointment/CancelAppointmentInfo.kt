@@ -2,7 +2,6 @@ package com.centurylink.biwf.model.appointment
 
 import com.google.gson.annotations.SerializedName
 
-
 /**
  *  data class for cancel appointment request
  */

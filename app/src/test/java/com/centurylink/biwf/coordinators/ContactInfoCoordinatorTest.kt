@@ -25,7 +25,7 @@ class ContactInfoCoordinatorTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToSelectTimeSuccess(){
+    fun navigateToSelectTimeSuccess() {
         every { navigator.navigateToSelectTime() } returns Unit
         val det = changeAppointmentCoordinator.navigateTo(ContactInfoCoordinatorDestinations.SELECT_TIME)
         assertEquals(det, Unit)

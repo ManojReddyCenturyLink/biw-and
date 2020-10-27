@@ -31,5 +31,8 @@ interface McafeeApiService {
     suspend fun updateDeviceInfo(@Body deviceInfoRequest: DeviceInfoRequest): McafeeServiceResult<DeviceInfoResponse>
 
     @GET(EnvironmentPath.API_GET_DEVICE_INFO_PATH)
-    suspend fun getDeviceDetails(@Query("serialNumber") serialNumber: String,@HeaderMap header: Map<String, String>): McafeeServiceResult<DeviceDetailsResponse>
+    suspend fun getDeviceDetails(
+        @Query("serialNumber") serialNumber: String,
+        @HeaderMap header: Map<String, String>
+    ): McafeeServiceResult<DeviceDetailsResponse>
 }

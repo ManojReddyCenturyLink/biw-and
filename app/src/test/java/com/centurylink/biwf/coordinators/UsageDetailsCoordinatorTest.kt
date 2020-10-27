@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class UsageDetailsCoordinatorTest:BaseRepositoryTest() {
+class UsageDetailsCoordinatorTest : BaseRepositoryTest() {
 
     private lateinit var usageDetailsCoordinator: UsageDetailsCoordinator
 
@@ -20,9 +20,8 @@ class UsageDetailsCoordinatorTest:BaseRepositoryTest() {
         usageDetailsCoordinator = UsageDetailsCoordinator(navigator)
     }
 
-
     @Test
-    fun navigateToDeviceConnectedSuccess(){
+    fun navigateToDeviceConnectedSuccess() {
         val det = usageDetailsCoordinator.navigateTo(UsageDetailsCoordinatorDestinations.DEVICES_CONNECTED)
         assertEquals(det, Unit)
     }

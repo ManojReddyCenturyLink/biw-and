@@ -118,7 +118,7 @@ class RestServiceConfigModule(
     fun provideRetrofitForAssia(
         jsonConverters: Converter.Factory,
         @HttpClient(ClientType.NONE) client: Call.Factory
-    ):ServicesFactory{
+    ): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForAssiaServices)
@@ -137,7 +137,7 @@ class RestServiceConfigModule(
     fun provideRetrofitForOAuthAssia(
         jsonConverters: Converter.Factory,
         @HttpClient(ClientType.OAUTH) client: Call.Factory
-    ):ServicesFactory{
+    ): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForOauthAssiaServices)
@@ -175,7 +175,7 @@ class RestServiceConfigModule(
     fun provideRetrofitForMcafee(
         jsonConverters: Converter.Factory,
         @HttpClient(ClientType.OAUTH) client: Call.Factory
-    ):ServicesFactory{
+    ): ServicesFactory {
         return fakeServicesFactory ?: Retrofit.Builder()
             .callFactory(client)
             .baseUrl(baseUrlForMcafeeServices)
@@ -225,13 +225,17 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideBillingApiServices(@BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory): BillingApiServices {
+    fun provideBillingApiServices(
+        @BaseUrl(BaseUrlType.AWS_BUCKET_SERVICES) factory: ServicesFactory
+    ): BillingApiServices {
         return factory.create()
     }
 
     @Singleton
     @Provides
-    fun provideZuoraSubscriptionService(@BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory): ZuoraSubscriptionApiService {
+    fun provideZuoraSubscriptionService(
+        @BaseUrl(BaseUrlType.FIBER_SERVICES) factory: ServicesFactory
+    ): ZuoraSubscriptionApiService {
         return factory.create()
     }
 
@@ -243,13 +247,17 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideIntegrationRestServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): IntegrationRestServices {
+    fun provideIntegrationRestServices(
+        @BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory
+    ): IntegrationRestServices {
         return factory.create()
     }
 
     @Singleton
     @Provides
-    fun provideNotificationApiServices(@BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory): NotificationService {
+    fun provideNotificationApiServices(
+        @BaseUrl(BaseUrlType.LOCAL_INTEGRATION) factory: ServicesFactory
+    ): NotificationService {
         return factory.create()
     }
 
@@ -261,7 +269,7 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideAssiaTokenServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): AssiaTokenService{
+    fun provideAssiaTokenServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): AssiaTokenService {
         return factory.create()
     }
 
@@ -273,19 +281,25 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun providesOauthAsiaService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): OAuthAssiaService {
+    fun providesOauthAsiaService(
+        @BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory
+    ): OAuthAssiaService {
         return factory.create()
     }
 
     @Singleton
     @Provides
-    fun providesAssiaTrafficUsageService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): AssiaTrafficUsageService{
+    fun providesAssiaTrafficUsageService(
+        @BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory
+    ): AssiaTrafficUsageService {
         return factory.create()
     }
 
     @Singleton
     @Provides
-    fun provideNetworkManagementAPIServices(@BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory): WifiNetworkApiService {
+    fun provideNetworkManagementAPIServices(
+        @BaseUrl(BaseUrlType.ASSIA_SERVICES) factory: ServicesFactory
+    ): WifiNetworkApiService {
         return factory.create()
     }
 
@@ -303,19 +317,25 @@ class RestServiceConfigModule(
 
     @Singleton
     @Provides
-    fun provideScheduleCallbackPicklistService(@BaseUrl(BaseUrlType.SUPPORT_SERVICES) factory: ServicesFactory): ScheduleCallbackService {
+    fun provideScheduleCallbackPicklistService(
+        @BaseUrl(BaseUrlType.SUPPORT_SERVICES) factory: ServicesFactory
+    ): ScheduleCallbackService {
         return factory.create()
     }
 
     @Singleton
     @Provides
-    fun providesWifiStatusService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): WifiStatusService {
+    fun providesWifiStatusService(
+        @BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory
+    ): WifiStatusService {
         return factory.create()
     }
 
     @Singleton
     @Provides
-    fun providesSpeedTestService(@BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory): SpeedTestService {
+    fun providesSpeedTestService(
+        @BaseUrl(BaseUrlType.ASSIA_OAUTH_SERVICES) factory: ServicesFactory
+    ): SpeedTestService {
         return factory.create()
     }
 

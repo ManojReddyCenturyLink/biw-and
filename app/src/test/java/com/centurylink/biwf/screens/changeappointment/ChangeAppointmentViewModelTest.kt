@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Test
 import org.threeten.bp.LocalDateTime
 import java.text.SimpleDateFormat
@@ -68,7 +67,7 @@ class ChangeAppointmentViewModelTest : ViewModelBaseTest() {
                 val date12Format = SimpleDateFormat("hh:mm a")
                 val currentDate: String = date12Format.format(Date())
                 val currentDate2: String = "2020-10-16"
-                val dates = listOf(currentDate, currentDate2,currentDate,currentDate2)
+                val dates = listOf(currentDate, currentDate2, currentDate, currentDate2)
 
                 val map = HashMap<String, List<String>>()
                 map.put("1", dates)

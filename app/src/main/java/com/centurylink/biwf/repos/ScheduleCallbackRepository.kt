@@ -15,7 +15,7 @@ import javax.inject.Singleton
  * or Fragments.
  *
  * @property preferences preference Instance for storing the value in shared preferences.
- * @property scheduleCallbackService  schedule callback service Instance for interacting with the Sales force Schedule Callback Picklist API.
+ * @property scheduleCallbackService schedule callback service Instance for interacting with the Sales force Schedule Callback Picklist API.
  * @constructor Creates  Schedule Callback repository Instance.
  */
 

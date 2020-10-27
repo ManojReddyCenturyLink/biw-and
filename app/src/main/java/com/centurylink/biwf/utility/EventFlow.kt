@@ -13,9 +13,9 @@ import kotlinx.coroutines.launch
  * if any.
  */
 @Suppress("EXPERIMENTAL_API_USAGE", "EXPERIMENTAL_OVERRIDE")
-class EventFlow<T> private constructor(private val channel: Channel<T>): Flow<T> by channel.receiveAsFlow() {
+class EventFlow<T> private constructor(private val channel: Channel<T>) : Flow<T> by channel.receiveAsFlow() {
 
-    constructor(): this(Channel())
+    constructor() : this(Channel())
 
     /**
      * Emits the value assigned this property as an event and returns immediately.

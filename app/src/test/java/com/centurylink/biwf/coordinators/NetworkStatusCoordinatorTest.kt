@@ -2,14 +2,12 @@ package com.centurylink.biwf.coordinators
 
 import com.centurylink.biwf.repos.BaseRepositoryTest
 import io.mockk.MockKAnnotations
-import io.mockk.every
 import io.mockk.impl.annotations.MockK
-import org.amshove.kluent.any
 import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class NetworkStatusCoordinatorTest :BaseRepositoryTest() {
+class NetworkStatusCoordinatorTest : BaseRepositoryTest() {
 
     private lateinit var networkStatusCoordinator: NetworkStatusCoordinator
 
@@ -23,8 +21,8 @@ class NetworkStatusCoordinatorTest :BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToNetworkStatus(){
+    fun navigateToNetworkStatus() {
         val det = networkStatusCoordinator.navigateTo(NetworkStatusCoordinatorDestinations.DONE)
-        assertEquals(det,Unit)
+        assertEquals(det, Unit)
     }
 }

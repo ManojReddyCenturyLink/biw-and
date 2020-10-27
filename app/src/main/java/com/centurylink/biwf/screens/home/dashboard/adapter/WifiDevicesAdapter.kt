@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.home.dashboard.adapter
 
-
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Typeface
@@ -50,10 +49,10 @@ class WifiDevicesAdapter(
             wifiDeviceClickListener: WifiDeviceClickListener,
             pos: Int
         ) {
-            itemView.devicename.text =  getSpannableContent(
+            itemView.devicename.text = getSpannableContent(
                 getPrefixString(wifiDetails, itemView.context),
                 wifiDetails.name!!)
-            itemView.qrScan.setImageBitmap(getQRBitmap(wifiDetails,itemView.context))
+            itemView.qrScan.setImageBitmap(getQRBitmap(wifiDetails, itemView.context))
             itemView.viewdivider.visibility =
                 if (pos == wifiListItems.size - 1) View.INVISIBLE else View.VISIBLE
 
@@ -66,11 +65,11 @@ class WifiDevicesAdapter(
                 wifiDeviceClickListener.onWifiQRScanImageClicked(wifiDetails)
             }
             itemView.devicename.setOnClickListener {
-                wifiDeviceClickListener.onWifiNameClicked(wifiDetails.name?:"")
+                wifiDeviceClickListener.onWifiNameClicked(wifiDetails.name ?: "")
             }
 
             itemView.view_full_screen.setOnClickListener {
-                wifiDeviceClickListener.onWifiNameClicked(wifiDetails.name?:"")
+                wifiDeviceClickListener.onWifiNameClicked(wifiDetails.name ?: "")
             }
 
             itemView.iv_network_type.setOnClickListener {
@@ -85,8 +84,8 @@ class WifiDevicesAdapter(
             }
         }
 
-        private fun getQRBitmap(wifiInfo: WifiInfo,context: Context): Bitmap {
-            val wifi = context.resources.getString(R.string.wifi_code,wifiInfo.name,wifiInfo.password)
+        private fun getQRBitmap(wifiInfo: WifiInfo, context: Context): Bitmap {
+            val wifi = context.resources.getString(R.string.wifi_code, wifiInfo.name, wifiInfo.password)
             return QRCode.from(wifi)
                 .withColor(QrScanActivity.ON_COLOR_QR, QrScanActivity.OFF_COLOR_QR).withHint(EncodeHintType.MARGIN, 0).bitmap()
         }

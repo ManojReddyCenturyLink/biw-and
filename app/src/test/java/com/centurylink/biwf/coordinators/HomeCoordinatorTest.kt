@@ -20,41 +20,41 @@ class HomeCoordinatorTest : BaseRepositoryTest() {
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
         homeCoOrdinator = HomeCoordinator()
-        homeCoOrdinator.navigator =Navigator()
+        homeCoOrdinator.navigator = Navigator()
         HomeCoordinatorDestinations.bundle = Bundle()
     }
 
     @Test
-    fun navigateToNetworkStatusActivitySuccess(){
-        every {navigator.navigateToNetworkInformationScreen()} returns any()
+    fun navigateToNetworkStatusActivitySuccess() {
+        every { navigator.navigateToNetworkInformationScreen() } returns any()
         val det = homeCoOrdinator.navigateTo(HomeCoordinatorDestinations.NETWORK_STATUS)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateToNotificationListSuccess(){
-        every {navigator.navigateToNotificationList()} returns any()
+    fun navigateToNotificationListSuccess() {
+        every { navigator.navigateToNotificationList() } returns any()
         val det = homeCoOrdinator.navigateTo(HomeCoordinatorDestinations.NOTIFICATION_LIST)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateTonavigateToSupportSuccess(){
-        every {navigator.navigateToSupport()} returns any()
-        val det = homeCoOrdinator.navigateTo( HomeCoordinatorDestinations.SUPPORT)
+    fun navigateTonavigateToSupportSuccess() {
+        every { navigator.navigateToSupport() } returns any()
+        val det = homeCoOrdinator.navigateTo(HomeCoordinatorDestinations.SUPPORT)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateTonavigateToNavigationDetailsSuccess(){
-        every {navigator.navigateToNotificationDetails()} returns any()
-        val det = homeCoOrdinator.navigateTo( HomeCoordinatorDestinations.NOTIFICATION_DETAILS)
+    fun navigateTonavigateToNavigationDetailsSuccess() {
+        every { navigator.navigateToNotificationDetails() } returns any()
+        val det = homeCoOrdinator.navigateTo(HomeCoordinatorDestinations.NOTIFICATION_DETAILS)
         assertEquals(det, Unit)
     }
 
     @Test
-    fun navigateToSubscriptionActivitySuccess(){
-        every {navigator.navigateToSubscriptionActivity()} returns any()
+    fun navigateToSubscriptionActivitySuccess() {
+        every { navigator.navigateToSubscriptionActivity() } returns any()
         val det = homeCoOrdinator.navigateTo(HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY)
         assertEquals(det, Unit)
     }

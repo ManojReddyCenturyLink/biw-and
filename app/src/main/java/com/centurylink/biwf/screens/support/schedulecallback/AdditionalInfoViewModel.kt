@@ -19,8 +19,8 @@ import javax.inject.Inject
  */
 class AdditionalInfoViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
-    analyticsManagerInterface : AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+    analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val myState = EventFlow<AdditionalInfoCoordinatorDestinations>()
 
@@ -64,7 +64,11 @@ class AdditionalInfoViewModel @Inject constructor(
      * @param customerCareOption - The option selected from list of customer care options
      * @param additionalInfo - The additional information to be added
      */
-    fun launchContactInfo(isExistingUser: Boolean, customerCareOption: String, additionalInfo: String) {
+    fun launchContactInfo(
+        isExistingUser: Boolean,
+        customerCareOption: String,
+        additionalInfo: String
+    ) {
         val bundle = Bundle()
         bundle.putBoolean(ContactInfoActivity.IS_EXISTING_USER, isExistingUser)
         bundle.putString(ContactInfoActivity.CUSTOMER_CARE_OPTION, customerCareOption)

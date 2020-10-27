@@ -281,7 +281,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
      * @param isExistingUser - returns true value for existing user
      * returns false value for non existing user
      */
-    //isJobTypeInstallation will be used while implementing Service type installation status
+    // isJobTypeInstallation will be used while implementing Service type installation status
     private fun setupTabsViewPager(isExistingUser: Boolean) {
         binding.iBtnNotificationBottom.visibility =
             if (isExistingUser) View.GONE else View.INVISIBLE

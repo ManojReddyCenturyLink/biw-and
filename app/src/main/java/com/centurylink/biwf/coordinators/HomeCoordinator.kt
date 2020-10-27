@@ -11,7 +11,7 @@ import javax.inject.Singleton
  * @constructor Create empty Home coordinator
  */
 @Singleton
-class HomeCoordinator @Inject constructor(): Coordinator<HomeCoordinatorDestinations> {
+class HomeCoordinator @Inject constructor() : Coordinator<HomeCoordinatorDestinations> {
 
     @Inject
     lateinit var navigator: Navigator

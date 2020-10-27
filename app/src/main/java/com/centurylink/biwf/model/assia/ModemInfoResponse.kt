@@ -21,7 +21,7 @@ data class ModemInfo(
     @SerializedName("modelName")
     val modelName: String = "",
    // @SerializedName("alive")
-    //val alive: Boolean = false,
+    // val alive: Boolean = false,
     @SerializedName("apInfos")
     val apInfoList: List<ApInfo> = emptyList()
 
@@ -43,5 +43,3 @@ data class ApInfo(
     @SerializedName("bssidMap")
     val bssidMap: HashMap<String, String> = HashMap()
 ) : Serializable
-
-

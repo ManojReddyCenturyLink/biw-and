@@ -20,7 +20,7 @@ class FAQViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val faqDetailsInfo: Flow<UiFAQQuestionsDetails> = BehaviorStateFlow()
     val myState = EventFlow<FAQCoordinatorDestinations>()

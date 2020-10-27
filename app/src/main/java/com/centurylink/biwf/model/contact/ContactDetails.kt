@@ -26,4 +26,3 @@ data class ContactDetails(
     @SerializedName("Marketing_Opt_In__c")
     val marketingOptInC: Boolean
 ) : Serializable
-

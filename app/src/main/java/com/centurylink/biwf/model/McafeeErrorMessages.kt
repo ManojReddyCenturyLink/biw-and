@@ -3,7 +3,6 @@ package com.centurylink.biwf.model
 import com.centurylink.biwf.Either
 import com.google.gson.annotations.SerializedName
 
-
 typealias McafeeServiceResult<T> = Either<McafeeHttpError, T>
 
 /**
@@ -14,7 +13,7 @@ typealias McafeeServiceResult<T> = Either<McafeeHttpError, T>
  */
 data class McafeeHttpError(
     val status: Int = 0,
-    val errors: McafeeErrorMessage?=null
+    val errors: McafeeErrorMessage? = null
 ) {
     /**
      * First error-message, if any.

@@ -1,6 +1,5 @@
 package com.centurylink.biwf.service.impl.network
 
-
 import com.centurylink.biwf.model.McafeeErrorMessage
 import com.centurylink.biwf.model.McafeeHttpError
 import okhttp3.ResponseBody

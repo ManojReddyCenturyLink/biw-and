@@ -107,7 +107,7 @@ class UsageDetailsViewModel constructor(
      *
      */
     fun initApis() {
-        //TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
+        // TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
         viewModelScope.launch {
             progressViewFlow.latestValue = true
@@ -173,8 +173,13 @@ class UsageDetailsViewModel constructor(
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_DEVICE_DETAILS)
             progressViewFlow.latestValue = true
             viewModelScope.launch {
-                 val distinctName = ModemUtils.generateNewNickName(nickname.trim(),mcAfeedeviceNames)
-                updateDeviceName(deviceData.mcAfeeDeviceType, distinctName, deviceData.mcafeeDeviceId)
+                val distinctName =
+                    ModemUtils.generateNewNickName(nickname.trim(), mcAfeedeviceNames)
+                updateDeviceName(
+                    deviceData.mcAfeeDeviceType,
+                    distinctName,
+                    deviceData.mcafeeDeviceId
+                )
             }
         } else {
             showErrorPopup.latestValue = false
@@ -304,7 +309,7 @@ class UsageDetailsViewModel constructor(
     }
 
     private suspend fun fetchMcDevicesNames() {
-        val result:Either<String, List<DevicesItem>> = mcafeeRepository.fetchDeviceDetails()
+        val result: Either<String, List<DevicesItem>> = mcafeeRepository.fetchDeviceDetails()
         result.fold(ifLeft = {
             Timber.e("Mcafee Device List Error ")
         }, ifRight = { devicesItemList ->

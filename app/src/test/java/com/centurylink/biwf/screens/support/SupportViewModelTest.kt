@@ -85,8 +85,12 @@ class SupportViewModelTest : ViewModelBaseTest() {
         coEvery { mockFAQRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
         coEvery { mockFAQRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
         coEvery { speedTestRepository.startSpeedTest() } returns Either.Right(speedTestRequestResult)
-        coEvery { speedTestRepository.checkSpeedTestStatus(speedTestRequestResult.speedTestId) } returns Either.Right(speedTestStatus)
-        coEvery { speedTestRepository.getSpeedTestResults(mocksharedPreferences.getSpeedTestId()!!) } returns Either.Right(speedTestStatusResponse)
+        coEvery { speedTestRepository.checkSpeedTestStatus(speedTestRequestResult.speedTestId) } returns Either.Right(
+            speedTestStatus
+        )
+        coEvery { speedTestRepository.getSpeedTestResults(mocksharedPreferences.getSpeedTestId()!!) } returns Either.Right(
+            speedTestStatusResponse
+        )
         coEvery { speedTestRepository.checkSpeedTestStatus(any()) } returns Either.Right(
             speedTestStatus
         )
@@ -103,7 +107,7 @@ class SupportViewModelTest : ViewModelBaseTest() {
             oAuthAssiaRepository = oAuthAssiaRepository,
             sharedPreferences = mocksharedPreferences,
             analyticsManagerInterface = analyticsManagerInterface,
-            speedTestRepository= speedTestRepository
+            speedTestRepository = speedTestRepository
         )
         viewModel.initApis()
     }
@@ -115,7 +119,7 @@ class SupportViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun testAnalyticsButtonClicked(){
+    fun testAnalyticsButtonClicked() {
         runBlockingTest {
             launch {
                 Assert.assertNotNull(analyticsManagerInterface)
@@ -149,7 +153,6 @@ class SupportViewModelTest : ViewModelBaseTest() {
         }
     }
 
-
     @Test
     fun testFaQSectionSuccessCase() {
         runBlockingTest {
@@ -171,7 +174,6 @@ class SupportViewModelTest : ViewModelBaseTest() {
                 Assert.assertEquals(
                     viewModel.errorMessageFlow.first(), "Error in FAQ"
                 )
-
             }
         }
     }
@@ -191,14 +193,14 @@ class SupportViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun testHandleRebootStatus(){
-        //TODO revisit this case
-      runBlockingTest {
-          launch {
-              Assert.assertNotNull(
-                  viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.ONGOING)
-              )
-          }
-      }
+    fun testHandleRebootStatus() {
+        // TODO revisit this case
+        runBlockingTest {
+            launch {
+                Assert.assertNotNull(
+                    viewModel.handleRebootStatus(ModemRebootMonitorService.RebootState.ONGOING)
+                )
+            }
+        }
     }
 }

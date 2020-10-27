@@ -14,7 +14,7 @@ data class DevicePauseStatusResponse(
     val blocked: Boolean = false
 )
 
-class DevicePauseStatus(val isPaused: Boolean,val deviceId: String)
+class DevicePauseStatus(val isPaused: Boolean, val deviceId: String)
 
 data class DevicePauseStatusRequest(
     @SerializedName("deviceId")
@@ -31,4 +31,3 @@ data class DeviceUpdateResponse(
     @SerializedName("message")
     val message: String = ""
 )
-

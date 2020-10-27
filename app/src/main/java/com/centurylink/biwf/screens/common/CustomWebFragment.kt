@@ -176,7 +176,7 @@ class CustomWebFragment : BaseFragment() {
                 request: WebResourceRequest?,
                 error: WebResourceError
             ) {
-                Toast.makeText(view!!.context, R.string.webpage_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(view!!.context, R.string.webpage_error, Toast.LENGTH_SHORT).show()
             }
         }
         webView.loadUrl(url)
@@ -187,7 +187,7 @@ class CustomWebFragment : BaseFragment() {
      *
      * @constructor Create empty Default web chrome client
      */
-    internal open class DefaultWebChromeClient : WebChromeClient() {}
+    internal open class DefaultWebChromeClient : WebChromeClient()
 
     /**
      * Default web view client - This class Allow the user to navigate backward and forward through

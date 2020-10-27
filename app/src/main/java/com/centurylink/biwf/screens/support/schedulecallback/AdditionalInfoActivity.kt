@@ -91,11 +91,11 @@ class AdditionalInfoActivity : BaseActivity() {
      */
     private fun initOnClicks() {
         binding.additionalInfoNextBtn.setOnClickListener {
-           viewModel.logNextButtonClick()
+            viewModel.logNextButtonClick()
             additionalInfo = binding.additionalInfoInput.text.toString()
             isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
             viewModel.launchContactInfo(isExistingUser, customerCareOption, additionalInfo)
-       }
+        }
     }
 
     /**
@@ -111,12 +111,12 @@ class AdditionalInfoActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
             REQUEST_TO_HOME -> {
-               if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == Activity.RESULT_OK) {
                     setResult(RESULT_OK)
                     finish()
-               } else if(resultCode == Activity.RESULT_CANCELED) {
-                   binding.additionalInfoInput.text.clear()
-               }
+                } else if (resultCode == Activity.RESULT_CANCELED) {
+                    binding.additionalInfoInput.text.clear()
+                }
             }
         }
     }

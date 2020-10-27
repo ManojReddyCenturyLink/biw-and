@@ -114,7 +114,7 @@ class AccountRepositoryTest : BaseRepositoryTest() {
             launch {
                 coEvery { accountApiService.getLiveCardInfo(any()) } returns Either.Right(paymentInfoResponse)
                 val accountInfo = accountRepository.getLiveCardDetails()
-                Assert.assertEquals(accountInfo.map { it.isDone },  Either.Right(true))
+                Assert.assertEquals(accountInfo.map { it.isDone }, Either.Right(true))
             }
         }
     }

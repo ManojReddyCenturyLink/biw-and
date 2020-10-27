@@ -1,6 +1,5 @@
 package com.centurylink.biwf.service.impl.network
 
-
 import com.centurylink.biwf.Either
 import okhttp3.MediaType
 import okhttp3.ResponseBody
@@ -116,8 +115,9 @@ private class EitherCall(
             override fun onFailure(call: Call<Either<*, *>>, t: Throwable) {
                 when (t) {
                     is Error -> {
-                      Timber.e("Failure Error from API")
-                        callback.onFailure(call, t)}
+                        Timber.e("Failure Error from API")
+                        callback.onFailure(call, t)
+                    }
                     else -> callback.onResponse(this@EitherCall, t.asEither)
                 }
             }
@@ -138,11 +138,11 @@ private class EitherCall(
 
             val errorBody = errorBody()?.let { ResponseBodyWithResponse(this, it) }
 
-
             val eitherResult = when {
                 eitherBody != null -> eitherBody
                 errorBody != null -> {
-                    Either.Left(leftConverter.convert(errorBody))}
+                    Either.Left(leftConverter.convert(errorBody))
+                }
                 else -> Either.Right(Unit)
             }
 

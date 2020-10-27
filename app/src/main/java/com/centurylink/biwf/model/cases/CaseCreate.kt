@@ -16,15 +16,11 @@ data class CaseCreate(
     @SerializedName("CancelReason_Comments__c")
     val cancelReason_Comments__c: String = "",
     @SerializedName("Notes__c")
-    val notes__c: String="",
+    val notes__c: String = "",
     @SerializedName("Experience__c")
-    var experience__c: String="0",
+    var experience__c: String = "0",
     @SerializedName("Cancellation_Date_Holder__c")
-    val cancellation_Date_Holder__c: String="",
+    val cancellation_Date_Holder__c: String = "",
     @SerializedName("RecordTypeId")
-    val recordTypeId: String=""
+    val recordTypeId: String = ""
 )
-
-
-
-

@@ -44,6 +44,6 @@ enum class FAQCoordinatorDestinations {
     SCHEDULE_CALLBACK;
 
     companion object {
-        var bundle: Bundle= Bundle()
+        var bundle: Bundle = Bundle()
     }
 }

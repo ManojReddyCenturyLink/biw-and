@@ -13,11 +13,11 @@ data class SpeedTestStatus(
     val message: String = "",
     @SerializedName("data")
     val data: SpeedTestStatusNestedResults
-):Serializable
+) : Serializable
 
 data class SpeedTestStatusNestedResults(
     @SerializedName("currentStep")
-    val currentStep:String,
+    val currentStep: String,
     @SerializedName("finished")
-    val isFinished:Boolean
-):Serializable
+    val isFinished: Boolean
+) : Serializable

@@ -15,5 +15,5 @@ import javax.inject.Inject
  */
 class NotificationDetailsViewModel @Inject constructor(
     modemRebootMonitorService: ModemRebootMonitorService,
-    analyticsManagerInterface : AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface)
+    analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface)

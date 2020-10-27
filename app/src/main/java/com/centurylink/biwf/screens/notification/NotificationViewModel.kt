@@ -27,14 +27,14 @@ import javax.inject.Inject
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    analyticsManagerInterface : AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+    analyticsManagerInterface: AnalyticsManager
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
     var errorMessageFlow = EventFlow<String>()
     val errorEvents: EventFlow<String> = EventFlow()
     val displayClearAllEvent: EventFlow<Unit> = EventFlow()
     val myState = EventFlow<NotificationCoordinatorDestinations>()
     val notifications: Flow<MutableList<Notification>> = BehaviorStateFlow()
-    val notificationListDetails :Flow<NotificationSource> = BehaviorStateFlow<NotificationSource>()
+    val notificationListDetails: Flow<NotificationSource> = BehaviorStateFlow<NotificationSource>()
     private val unreadItem: Notification =
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",

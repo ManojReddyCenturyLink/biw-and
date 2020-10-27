@@ -56,7 +56,8 @@ class WifiNetworkManagementRepository @Inject constructor(
             UpdateNetworkName(
                 wifiDeviceId = preferences.getAssiaId(),
                 interfaceId = interfaceType,
-                newSsid = updateNetworkName)
+                newSsid = updateNetworkName
+            )
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "1000") {
@@ -72,10 +73,10 @@ class WifiNetworkManagementRepository @Inject constructor(
      * @param interfaceType the Band types of the server.
      * @return NetworkDetails from the server.
      */
-    suspend fun getNetworkPassword(interfaceType: NetWorkBand): Either<String,NetworkDetails> {
-        val result =  wifiStatusService.getNetworkPassword(
-                preferences.getAssiaId(),
-                interfaceType
+    suspend fun getNetworkPassword(interfaceType: NetWorkBand): Either<String, NetworkDetails> {
+        val result = wifiStatusService.getNetworkPassword(
+            preferences.getAssiaId(),
+            interfaceType
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "1000") {
@@ -90,22 +91,22 @@ class WifiNetworkManagementRepository @Inject constructor(
      *
      * @param interfaceType the Band types of the server.
      * @param updateNWPassword The Password that needs to be sent to the server.
-     * @return  UpdateNetworkResponse The Network response on Success and error message in case of failure.
+     * @return UpdateNetworkResponse The Network response on Success and error message in case of failure.
      */
     suspend fun updateNetworkPassword(
         interfaceType: NetWorkBand,
         updateNWPassword: UpdateNWPassword
     ): Either<String, UpdateNetworkResponse> {
-        val result =  wifiStatusService.updateNetworkPassword(
+        val result = wifiStatusService.updateNetworkPassword(
             preferences.getAssiaId(),
             interfaceType,
             updateNWPassword
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
-                if (it.code != "1000") {
-                    Either.Left(it.message)
-                }
-                Either.Right(it)
+            if (it.code != "1000") {
+                Either.Left(it.message)
+            }
+            Either.Right(it)
         }
     }
 

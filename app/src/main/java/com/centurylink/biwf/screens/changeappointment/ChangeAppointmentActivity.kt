@@ -196,8 +196,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
                             selectedDate,
                             selectedSlot
                         )
-                    }
-                else {
+                    } else {
                         NoNetworkErrorPopup.showNoInternetDialog(
                             fragmentManager,
                             callingActivity?.className
@@ -381,7 +380,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
      * Iterate between dates - It will handle dates between current date and final end date
      *
      * @param start - returns current date
-     * @param end  - returns end date
+     * @param end - returns end date
      * @param sortedMap - returns sorted calendar view based on start and end date
      */
     private fun iterateBetweenDates(start: Date, end: Date, sortedMap: Map<String, List<String>>) {

@@ -63,7 +63,6 @@ class ZuoraPaymentRepositoryTest : BaseRepositoryTest() {
         }
     }
 
-
     @Test
     fun getPaymentInformationFromRepository() {
         runBlockingTest {
@@ -97,7 +96,6 @@ class ZuoraPaymentRepositoryTest : BaseRepositoryTest() {
                 )
                 val zuoraPaymentDetails = zuoraPaymentRepository.getInvoicesList()
                 Assert.assertEquals(zuoraPaymentDetails.mapLeft { it }, Either.Left(Constants.ERROR))
-
             }
         }
     }

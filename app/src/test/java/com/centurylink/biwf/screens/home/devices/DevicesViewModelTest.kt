@@ -88,7 +88,7 @@ class DevicesViewModelTest : ViewModelBaseTest() {
         coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Right(
             DevicePauseStatus(isPaused = true, deviceId = "1234")
         )
-        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("1234", true)} returns Either.Right(DevicePauseStatus(isPaused = true, deviceId = "1234"))
+        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("1234", true) } returns Either.Right(DevicePauseStatus(isPaused = true, deviceId = "1234"))
         viewModel = DevicesViewModel(
             devicesRepository = devicesRepository,
             asiaRepository = assiaRepository,
@@ -196,13 +196,13 @@ class DevicesViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testUpdatePauseResumeStatusDeviceIdIsNotNull() {
-        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF", false)} returns Either.Right(DevicePauseStatus(isPaused = true, deviceId = ""))
+        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF", false) } returns Either.Right(DevicePauseStatus(isPaused = true, deviceId = ""))
         Assert.assertNotNull(viewModel.updatePauseResumeStatus(deviceData))
     }
 
     @Test
     fun testUpdatePauseResumeStatusDeviceIdIsNull() {
-        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF", true)} returns Either.Left("Error")
+        coEvery { mcafeeRepository.updateDevicePauseResumeStatus("00-24-9B-1C149E1B5C613E615643D83783622040F97F4089B0507B451CDD097322BA48EF", true) } returns Either.Left("Error")
         coEvery { mcafeeRepository.getDevicePauseResumeStatus(any()) } returns Either.Left(
                 Constants.ERROR
         )

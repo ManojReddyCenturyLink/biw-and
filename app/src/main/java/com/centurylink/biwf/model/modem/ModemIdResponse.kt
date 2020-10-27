@@ -11,7 +11,6 @@ data class ModemIdResponse(
     @SerializedName("records") val records: List<Records>
 )
 
-
 data class Records(
     @SerializedName("attributes") val attributes: com.centurylink.biwf.model.modem.Attributes,
     @SerializedName("Modem_Number__c") val modem_Number__c: String

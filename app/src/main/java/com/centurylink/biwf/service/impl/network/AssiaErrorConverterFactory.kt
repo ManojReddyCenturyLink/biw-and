@@ -45,9 +45,8 @@ private class AssiaErrorConverter(
         )
         return errorMessagesConverter.convert(value)?.let {
             AssiaHttpError(
-                status = value.response.code(),errors = it
+                status = value.response.code(), errors = it
             )
         } ?: AssiaHttpError(status = value.response.code())
     }
-
 }

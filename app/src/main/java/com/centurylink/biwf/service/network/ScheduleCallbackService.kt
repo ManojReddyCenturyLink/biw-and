@@ -1,6 +1,5 @@
 package com.centurylink.biwf.service.network
 
-
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.support.ScheduleCallbackResponse
 import com.centurylink.biwf.utility.EnvironmentPath

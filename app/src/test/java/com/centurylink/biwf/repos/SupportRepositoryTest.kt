@@ -15,7 +15,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class SupportRepositoryTest: BaseRepositoryTest() {
+class SupportRepositoryTest : BaseRepositoryTest() {
     private lateinit var supportRepository: SupportRepository
 
     @MockK(relaxed = true)
@@ -40,10 +40,9 @@ class SupportRepositoryTest: BaseRepositoryTest() {
             coEvery {
                 supportService.supportServiceInfo(any())
             } returns Either.Right(supportServiceResult)
-            val supportServicesResponse=supportRepository.supportServiceInfo(any())
+            val supportServicesResponse = supportRepository.supportServiceInfo(any())
 
             Assert.assertEquals(supportServicesResponse.map { it.message }, Either.Right("Call back request has been succuessfully created! "))
-
         }
     }
 }

@@ -23,9 +23,9 @@ class LoginCoordinatorTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToHomeScreenSuccess(){
-        every {navigator.navigateToHomeScreen()} returns any()
+    fun navigateToHomeScreenSuccess() {
+        every { navigator.navigateToHomeScreen() } returns any()
         val det = loginCorordinator.navigateTo(LoginCoordinatorDestinations.HOME)
-        assertEquals(det,Unit)
+        assertEquals(det, Unit)
     }
 }

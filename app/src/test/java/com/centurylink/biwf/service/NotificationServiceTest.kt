@@ -29,7 +29,6 @@ class NotificationServiceTest : BaseServiceTest() {
             posts.map { it.notificationlist[0].name },
             Either.Right("CenturyLink Extends Employee Benefits")
         )
-
     }
 
     @Test

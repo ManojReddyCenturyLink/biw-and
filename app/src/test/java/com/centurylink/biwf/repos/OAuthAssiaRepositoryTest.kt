@@ -179,9 +179,8 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
                     )
                 )
 
-                val devicesInfo=assiaRepository.blockDevices("")
+                val devicesInfo = assiaRepository.blockDevices("")
                 Assert.assertEquals(devicesInfo.map { it.message }, Either.Right(Constants.SUCCESS))
-
             }
         }
     }
@@ -201,7 +200,7 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
                     )
                 )
 
-               val devicesInfo= assiaRepository.blockDevices("")
+                val devicesInfo = assiaRepository.blockDevices("")
                 Assert.assertEquals(devicesInfo.mapLeft { it }, Either.Left(""))
             }
         }

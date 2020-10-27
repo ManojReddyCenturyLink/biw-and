@@ -13,4 +13,3 @@ data class UpdateNetworkName(
     @SerializedName("interface")
     val interfaceId: String
 ) : Serializable
-

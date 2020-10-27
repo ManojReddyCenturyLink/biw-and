@@ -111,7 +111,7 @@ class AnalyticsKeys {
         const val ALERT_ENABLE_BIOMETRICS_OK = "Enable Biometrics Ok Popup"
         const val ALERT_ENABLE_BIOMETRICS_DONT_ALLOW = "Enable Biometrics Don't Allow Popup"
         const val ALERT_KEEP_CANCEL_APPOINTMENT_CONFIRMATION = "Keep It Cancel Appointment Confirmation"
-        const val ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION= "Cancel It Cancel Appointment Confirmation"
+        const val ALERT_CANCEL_CANCEL_APPOINTMENT_CONFIRMATION = "Cancel It Cancel Appointment Confirmation"
         const val DATE_TAP_CHANGE_APPOINTMENT = "Date Selected Modify Appointment"
         const val SLOT_TAP_CHANGE_APPOINTMENT = "Slot Selected Modify Appointment"
 
@@ -139,8 +139,8 @@ class AnalyticsKeys {
         const val CARD_PERSONAL_INFO = "Personal Info"
         const val CARD_NETWORK_INFO = "Network Info Card"
         const val QR_IMAGE = "QR Image Dashboard"
-        //const val CARD_NOTIFICATION_DETAILS = "Notification Details Card"
-        //const val CARD_NOTIFICATION_CLOSE = "Notification Close"
+        // const val CARD_NOTIFICATION_DETAILS = "Notification Details Card"
+        // const val CARD_NOTIFICATION_CLOSE = "Notification Close"
 
         /***Toggle***/
         const val TOGGLE_BIOMETRIC = "Biometric"

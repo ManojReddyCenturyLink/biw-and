@@ -25,8 +25,8 @@ class FAQCoordinatorTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToScheduleCallbackSuccess(){
-        every {navigator.navigateToScheduleCallbackFromFAQ()} returns any()
+    fun navigateToScheduleCallbackSuccess() {
+        every { navigator.navigateToScheduleCallbackFromFAQ() } returns any()
         val det = faqCoordinator.navigateTo(FAQCoordinatorDestinations.SCHEDULE_CALLBACK)
         assertEquals(det, Unit)
     }

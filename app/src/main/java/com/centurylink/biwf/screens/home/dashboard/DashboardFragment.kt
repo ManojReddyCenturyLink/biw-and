@@ -79,8 +79,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var workBegunMapFragment: SupportMapFragment? = null
     private var originLatLng = LatLng(0.0, 0.0)
     private var speedTestCount: Int = 0
-    //private var destinationLatLng = LatLng(0.0, 0.0)
-
+    // private var destinationLatLng = LatLng(0.0, 0.0)
 
     /**
      * On create - The onCreate method is called when Fragment should create its View
@@ -169,7 +168,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             binding.incSpeedTest.uploadProgressIcon.visibility =
                 if (it) View.VISIBLE else View.INVISIBLE
         }
-        dashboardViewModel.speedTestError.observe{
+        dashboardViewModel.speedTestError.observe {
             if (it) {
                 CustomDialogBlueTheme(
                     title = getString(R.string.speed_test_error_title),
@@ -192,15 +191,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
         }
         dashboardViewModel.detailedRebootStatusFlow.observe { rebootState ->
-            if(rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
+            if (rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
                 dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-                   if (networkStatusOnline) {
+                    if (networkStatusOnline) {
                         binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
                         binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                   } else {
-                       binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
-                       binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                   }
+                    } else {
+                        binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                        binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                    }
                 }
             }
         }
@@ -244,19 +243,18 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         observeAccountStatusViews()
         observeWifiDetailsViews()
         getAppointmentStatus()
-
     }
 
     /**
      * Init button states - It will initialises the buttons states
      */
     private fun initButtonStates() {
-       dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-           if (!networkStatusOnline) {
-               binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-               binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
-           }
-       }
+        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+            if (!networkStatusOnline) {
+                binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+            }
+        }
     }
 
     /**
@@ -329,7 +327,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             intent.data = Uri.parse(getString(R.string.tel_url))
             startActivity(intent)
         }
-        binding.tapToEditNetwork.setOnClickListener{dashboardViewModel.navigateToNetworkInformation()}
+        binding.tapToEditNetwork.setOnClickListener { dashboardViewModel.navigateToNetworkInformation() }
     }
 
     private fun setupMap() {
@@ -654,8 +652,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 if (networkStatusOnline && success) {
                     binding.incSpeedTest.runSpeedTestDashboard.isActivated = true
                     binding.incSpeedTest.runSpeedTestDashboard.isEnabled = true
-                }
-                else {
+                } else {
                     binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
                     binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
                 }

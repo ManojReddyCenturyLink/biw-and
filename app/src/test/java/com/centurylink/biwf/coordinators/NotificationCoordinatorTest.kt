@@ -7,7 +7,7 @@ import io.mockk.impl.annotations.MockK
 import org.junit.Before
 import org.junit.Test
 
-class NotificationCoordinatorTest :BaseRepositoryTest() {
+class NotificationCoordinatorTest : BaseRepositoryTest() {
 
     private lateinit var notificationCoordinator: NotificationCoordinator
 
@@ -22,8 +22,8 @@ class NotificationCoordinatorTest :BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToNotificationDetailsSucess(){
-        every {navigator.navigateToNotificationDetails()} returns Unit
+    fun navigateToNotificationDetailsSucess() {
+        every { navigator.navigateToNotificationDetails() } returns Unit
         notificationCoordinator.navigateTo(NotificationCoordinatorDestinations.NOTIFICATION_DETAILS)
     }
 }

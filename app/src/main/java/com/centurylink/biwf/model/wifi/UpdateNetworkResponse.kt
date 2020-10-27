@@ -14,8 +14,7 @@ data class UpdateNetworkResponse(
     @SerializedName("data")
     val data: Boolean,
     @SerializedName("createErrorRecord")
-    val createErrorRecord: Boolean =false,
+    val createErrorRecord: Boolean = false,
     @SerializedName("uniqueErrorCode")
     val errorCode: String = ""
 ) : Serializable
-
