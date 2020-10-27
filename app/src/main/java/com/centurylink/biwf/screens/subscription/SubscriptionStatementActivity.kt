@@ -101,16 +101,14 @@ class SubscriptionStatementActivity : BaseActivity() {
                     uiAccountInfo.billingAddress
                 if(uiAccountInfo.promoDiscountAmount!=null) {
                     binding.subscriptionStatementPromoLabel.visibility = View.VISIBLE
-                    binding.subscriptionStatementPromoCost.visibility =
-                            View.VISIBLE
-                    binding.subscriptionStatementPromoSubheader.visibility =
-                            View.VISIBLE
+                    binding.subscriptionStatementPromoCost.visibility = View.VISIBLE
+                    binding.subscriptionStatementPromoSubheader.visibility = View.VISIBLE
                     binding.subscriptionStatementPromoLabel.text =
-                            getString(R.string.promo_code_label, uiAccountInfo.promoCode)
+                    getString(R.string.promo_code_label, uiAccountInfo.promoCode)
                     binding.subscriptionStatementPromoCost.text =
-                            getString(R.string.cost_template, uiAccountInfo.promoDiscountAmount)
+                    getString(R.string.cost_template, uiAccountInfo.promoDiscountAmount)
                     binding.subscriptionStatementPromoSubheader.text =
-                            uiAccountInfo.promoDescription
+                    uiAccountInfo.promoDescription
                 }
 
             }
