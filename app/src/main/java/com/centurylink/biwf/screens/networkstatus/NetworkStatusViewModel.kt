@@ -49,6 +49,7 @@ class NetworkStatusViewModel @Inject constructor(
     private var existingGuestPwd: String = ""
     private var newGuestPwd: String = ""
     private var submitFlow: Boolean = false
+    private var updatingComplete: Boolean = false
 
     private var bssidMap: HashMap<String, String> = HashMap()
     private var ssidMap: HashMap<String, String> = HashMap()
@@ -168,9 +169,10 @@ class NetworkStatusViewModel @Inject constructor(
      *
      */
     private suspend fun requestModemInfo() {
-        val modemResponse = oAuthAssiaRepository.getModemInfo()
-        progressViewFlow.latestValue = false
-        modemResponse.fold(ifRight = {
+        if(updatingComplete == false) {
+            val modemResponse = oAuthAssiaRepository.getModemInfo()
+            progressViewFlow.latestValue = false
+            modemResponse.fold(ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
                 val apiInfo = it?.apInfoList
                 modemInfoFlow.latestValue = it
@@ -204,12 +206,14 @@ class NetworkStatusViewModel @Inject constructor(
                     setOfflineNetworkInformation()
                 }
             },
-            ifLeft = {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
-                // Ignoring Error to avoid Frequent
-                //errorMessageFlow.latestValue = "Modem Info Not Available"
-                setOfflineNetworkInformation()
-            })
+                ifLeft = {
+                    analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
+                    // Ignoring Error to avoid Frequent
+                    //errorMessageFlow.latestValue = "Modem Info Not Available"
+                    setOfflineNetworkInformation()
+                })
+        }
+        updatingComplete = false
     }
 
     /**
@@ -492,12 +496,13 @@ class NetworkStatusViewModel @Inject constructor(
         netWorkInfo.fold(ifRight =
              {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_SUCCESS)
-
-            },
+                 progressViewFlow.latestValue = false
+             },
            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_FAILURE)
                 submitFlow = true
-            }
+               progressViewFlow.latestValue = false
+           }
         )
     }
 
@@ -581,11 +586,13 @@ class NetworkStatusViewModel @Inject constructor(
         netWorkInfo.fold(
             ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_SUCCESS)
+                progressViewFlow.latestValue = false
 
             },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_FAILURE)
                 submitFlow = true
+                progressViewFlow.latestValue = false
             }
                 )
     }
@@ -644,8 +651,8 @@ class NetworkStatusViewModel @Inject constructor(
                     }
                 }
             }
-            progressViewFlow.latestValue = false
             errorSubmitValue.latestValue = submitFlow
+            updatingComplete = true
         }
     }
 
