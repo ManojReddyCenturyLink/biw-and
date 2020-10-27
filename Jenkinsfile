@@ -8,20 +8,27 @@ pipeline {
         timeout(time: 1, unit: 'HOURS')
     }
     stages {
-        stage ('Pre') {
+        stage ('StaticCodeAnalyzer-KTLint') {
             steps {
-                gradlew(args: ['clean', 'lintVitalDevRelease', 'ktlintCheck'])
+                gradlew(args: ['clean', 'ktlintCheck'])
+            }
+            post {
+                failure {
+                    archiveArtifacts artifacts: 'app/build/reports/ktlint/*.*', fingerprint: true
+                }
+            }
+
+        }
+
+        stage ('StaticCodeAnalyzer-Lint/Sonar') {
+            steps {
+                gradlew(args: ['lintVitalDevRelease'])
                 androidLint(canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'app/build/reports/lint-results*.xml', unHealthy: '')
             }
             post {
                 always {
                     danger()
                     sonar(projectVersion: env.BUILD_NUMBER)
-                }
-                success {
-                }
-                failure {
-                    archiveArtifacts artifacts: 'build/reports/ktlint/*.*', fingerprint: true
                 }
             }
 
@@ -31,10 +38,6 @@ pipeline {
             steps {
                 gradlew(args: ['test'])
                 junit(allowEmptyResults: true, testResults: 'app/build/test-results/**/*.xml')
-            }
-            post {
-                always {
-                }
             }
         }
 
