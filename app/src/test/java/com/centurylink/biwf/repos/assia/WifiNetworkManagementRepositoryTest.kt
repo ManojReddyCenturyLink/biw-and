@@ -85,7 +85,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                     wifiStatusService.updateNetworkName(any())
                 } returns Either.Right(
                     UpdateNetworkResponse(
-                        code = "0",
+                        code = "1000",
                         message = "Success",
                         data = true,
                         createErrorRecord = true,
@@ -137,7 +137,7 @@ class WifiNetworkManagementRepositoryTest : BaseRepositoryTest() {
                     wifiStatusService.updateNetworkPassword(any(), any(), any())
                 } returns Either.Right(
                     UpdateNetworkResponse(
-                        code = "0",
+                        code = "1000",
                         message = "Success",
                         data = true,
                         createErrorRecord = true,
