@@ -56,7 +56,8 @@ class NotificationAdapter(
 sealed class CustomViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     abstract fun bind(
         notificationItem: Notification,
-        notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
+        notificationItemClickListener: NotificationItemClickListener,
+        unreadItemCount: Int
     )
 }
 
@@ -70,9 +71,10 @@ class UnReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
     private var markAllReadView: TextView = view.findViewById(R.id.notification_list_unread_mark_as_read)
     override fun bind(
         notificationItem: Notification,
-        notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
+        notificationItemClickListener: NotificationItemClickListener,
+        unreadItemCount: Int
     ) {
-        if(unreadItemCount>0) {
+        if (unreadItemCount> 0) {
             val unreadValue: String =
                 context.getString(R.string.unread_notification_count, unreadItemCount - 1)
             unReadNotificationCount.text = unreadValue
@@ -88,9 +90,10 @@ class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
 
     override fun bind(
         notificationItem: Notification,
-        notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
+        notificationItemClickListener: NotificationItemClickListener,
+        unreadItemCount: Int
     ) {
-    }}
+    } }
 
 /**
  * Item View holder class responsible for displaying the Items in the RecyclerView
@@ -101,11 +104,12 @@ class UnReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_unread_detail)
 
-    private var notificationItemBackground : CardView = view.findViewById(R.id.notification_list_unread_card_background)
+    private var notificationItemBackground: CardView = view.findViewById(R.id.notification_list_unread_card_background)
 
     override fun bind(
         notificationItem: Notification,
-        notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
+        notificationItemClickListener: NotificationItemClickListener,
+        unreadItemCount: Int
     ) {
         notificationTitle.text = notificationItem.name
         notificationDetail.text = notificationItem.description
@@ -125,11 +129,12 @@ class ReadItemViewHolder(view: View) : CustomViewHolder(view) {
 
     private var notificationDetail: TextView = view.findViewById(R.id.notification_list_titledetail)
 
-    private var notificationItemBackground :ConstraintLayout = view.findViewById(R.id.notification_list_read_background)
+    private var notificationItemBackground: ConstraintLayout = view.findViewById(R.id.notification_list_read_background)
 
     override fun bind(
         notificationItem: Notification,
-        notificationItemClickListener: NotificationItemClickListener, unreadItemCount: Int
+        notificationItemClickListener: NotificationItemClickListener,
+        unreadItemCount: Int
     ) {
         notificationTitle.text = notificationItem.name
         notificationDetail.text = notificationItem.description
@@ -139,7 +144,6 @@ class ReadItemViewHolder(view: View) : CustomViewHolder(view) {
         }
     }
 }
-
 
 /**
  * Enum class for identifying the type to be Header or Item

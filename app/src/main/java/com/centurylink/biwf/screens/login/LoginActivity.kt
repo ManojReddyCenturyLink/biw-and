@@ -157,7 +157,7 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
      * Handle intent - Authenticate user and Navigate to respective next steps
      *
      */
-   private fun handleIntent() {
+    private fun handleIntent() {
         when (val authResult = intent.authResponseType) {
             null -> return
 

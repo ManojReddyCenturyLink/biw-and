@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class StatementCoordinatorTest :BaseRepositoryTest() {
+class StatementCoordinatorTest : BaseRepositoryTest() {
 
     private lateinit var statementCoordinator: StatementCoordinator
 
@@ -21,7 +21,7 @@ class StatementCoordinatorTest :BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToFAQSuccess(){
+    fun navigateToFAQSuccess() {
         val det = statementCoordinator.navigateTo(StatementCoordinatorDestinations.FAQ)
         assertEquals(det, Unit)
     }

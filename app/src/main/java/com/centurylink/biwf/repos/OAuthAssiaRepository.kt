@@ -23,13 +23,13 @@ import javax.inject.Singleton
  */
 @Singleton
 class OAuthAssiaRepository @Inject constructor(
-        private val preferences: Preferences,
-        private val oAuthAssiaService: OAuthAssiaService
+    private val preferences: Preferences,
+    private val oAuthAssiaService: OAuthAssiaService
 ) {
     /**
      * Get Modem Info API is used for getting the details about the Modem and the Network.
      *
-     * @return  ModemInfo instance if the API is success and error message in case of failure
+     * @return ModemInfo instance if the API is success and error message in case of failure
      */
     suspend fun getModemInfo(): Either<String, ModemInfo> {
         val result = oAuthAssiaService.getLineInfo(preferences.getLineId())
@@ -57,7 +57,7 @@ class OAuthAssiaRepository @Inject constructor(
      * ModemRealTime Information can be obtained from this function.
      * if "forceping=true" returns non cached API response.
      *
-     * @return  ModemInfo instance if the API is success and error message in case of failure.
+     * @return ModemInfo instance if the API is success and error message in case of failure.
      */
     suspend fun getModemInfoForcePing(): Either<String, ModemInfo> {
         val result = oAuthAssiaService.getLineInfo(preferences.getLineId(), forcePing = true)
@@ -78,7 +78,7 @@ class OAuthAssiaRepository @Inject constructor(
     /**
      * This can be used to block device/remove device from network.
      *
-     * @return  BlockResponse instance if the API is success and error message in case of failure.
+     * @return BlockResponse instance if the API is success and error message in case of failure.
      */
     suspend fun blockDevices(stationmac: String): Either<String, BlockResponse> {
         val result = oAuthAssiaService.blockDevice(
@@ -86,7 +86,7 @@ class OAuthAssiaRepository @Inject constructor(
                 assiaId = preferences.getAssiaId(),
                 stationMacAddress = stationmac)
         )
-        return result.mapLeft { it.message?.message.toString()}.flatMap { it ->
+        return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             it.let {
                 if (it.code != "1000") {
                     return Either.Left(it.message)

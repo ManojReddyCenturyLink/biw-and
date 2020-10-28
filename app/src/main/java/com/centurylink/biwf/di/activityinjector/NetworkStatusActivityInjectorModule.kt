@@ -1,6 +1,5 @@
 package com.centurylink.biwf.di.activityinjector
 
-import com.centurylink.biwf.screens.login.LoginActivity
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector

@@ -12,7 +12,11 @@ import androidx.core.os.bundleOf
  * @property bundle - saved instance
  * @constructor Create empty Tabs base item
  */
-open class TabsBaseItem (val indextype: Int, @StringRes val titleRes: Int, val bundle: Bundle= bundleOf()){
+open class TabsBaseItem(
+    val indextype: Int,
+    @StringRes val titleRes: Int,
+    val bundle: Bundle = bundleOf()
+) {
 
     companion object {
         const val DEVICES = 0

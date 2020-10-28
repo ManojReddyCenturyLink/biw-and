@@ -38,8 +38,8 @@ import javax.inject.Inject
  * Account view model
  *
  * @property accountRepository - repository instance to handle account api calls
- * @property contactRepository  - repository instance to handle contact api calls
- * @property userRepository  - repository instance to handle user api calls
+ * @property contactRepository - repository instance to handle contact api calls
+ * @property userRepository - repository instance to handle user api calls
  * @property sharedPreferences - preferences instance to handle shared preferences
  * @property authService - service instance to handle auth api calls
  * @property modemRebootMonitorService - service instance to handle  modem reboot functionality
@@ -357,7 +357,6 @@ class AccountViewModel internal constructor(
      */
     private fun formatServiceAddressLine1(street: String, unit: String) =
         if (unit.isNotBlank()) "$street $unit" else street
-
 
     /**
      * Format service address line2 - Used for formatting customer of service address line 2

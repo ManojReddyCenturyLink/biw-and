@@ -31,7 +31,7 @@ class FAQViewModelTest : ViewModelBaseTest() {
     private lateinit var mockPreferences: Preferences
 
     @MockK
-    private lateinit var analyticsManagerInterface : AnalyticsManager
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     private lateinit var viewModel: FAQViewModel
 
@@ -62,7 +62,6 @@ class FAQViewModelTest : ViewModelBaseTest() {
                 coEvery { faqRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
                 viewModel.initApis()
                 var faqQuestionDetails = viewModel.faqDetailsInfo.latestValue.questionMap
-
             }
         }
     }
@@ -77,7 +76,6 @@ class FAQViewModelTest : ViewModelBaseTest() {
                 Assert.assertEquals(
                     viewModel.errorMessageFlow.first(), "Error in FAQ"
                 )
-
             }
         }
     }
@@ -92,7 +90,6 @@ class FAQViewModelTest : ViewModelBaseTest() {
                 Assert.assertEquals(
                     viewModel.errorMessageFlow.first(), "Error in RecordId"
                 )
-
             }
         }
     }

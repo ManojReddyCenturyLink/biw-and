@@ -36,7 +36,7 @@ interface WifiStatusService {
     @GET(EnvironmentPath.API_GET_PASSWORD)
     @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun getNetworkPassword(
-            @Query(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
-            @Query(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand
+        @Query(EnvironmentPath.WIFI_DEVICE_ID) wifiDeviceId: String,
+        @Query(EnvironmentPath.INTERFACE_VALUE) interfaceType: NetWorkBand
     ): AssiaServiceResult<NetworkDetails>
 }

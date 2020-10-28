@@ -13,8 +13,8 @@ data class ScheduleCallbackResponse(
     @SerializedName("url")
     var url: String = "",
     @SerializedName("values")
-    var values:List<Values> = emptyList()
-    ) : Serializable
+    var values: List<Values> = emptyList()
+) : Serializable
 
 data class Values(
     @SerializedName("attributes")

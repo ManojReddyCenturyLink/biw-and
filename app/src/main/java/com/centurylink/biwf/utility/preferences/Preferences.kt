@@ -181,7 +181,6 @@ class Preferences(private val store: KeyValueStore) {
         removeAssiaId()
     }
 
-
     companion object {
         const val USER_ID = "USER_ID"
         const val ACCOUNT_ID = "ACCOUNT_ID"
@@ -199,6 +198,5 @@ class Preferences(private val store: KeyValueStore) {
         const val SUPPORT_SPEED_TEST_STARTED = "SUPPORT_SPEED_TEST_STARTED"
         const val SPEED_TEST_ID = "SPEED_TEST_ID"
         const val INSTALLATION_STATUS = "INSTALLATION_STATUS"
-
     }
 }

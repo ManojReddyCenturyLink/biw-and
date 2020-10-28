@@ -112,7 +112,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     private fun initButtonStates() {
         viewModel.networkStatus.observe {
-            if(!it) {
+            if (!it) {
                 binding.incTroubleshooting.runSpeedTestButton.isActivated = false
                 binding.incTroubleshooting.runSpeedTestButton.isEnabled = false
                 binding.incTroubleshooting.rebootModemButton.isActivated = false
@@ -166,14 +166,14 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                 binding.incTroubleshooting.runSpeedTestButton.isActivated = !it
                 binding.incTroubleshooting.runSpeedTestButton.isEnabled = !it
             }
-            speedTestError.observe{
+            speedTestError.observe {
                 if (it) {
                     speedTestErrorDialog()
                 }
             }
             modemResetButtonState.observe {
                 viewModel.networkStatus.observe { networkStatus ->
-                    if(networkStatus)  {
+                    if (networkStatus) {
                         binding.incTroubleshooting.rebootModemButton.isActivated = it
                         binding.incTroubleshooting.rebootModemButton.isEnabled = it
                     }

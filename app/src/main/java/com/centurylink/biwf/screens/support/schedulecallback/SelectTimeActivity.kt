@@ -254,8 +254,11 @@ class SelectTimeActivity : BaseActivity() {
      * @param selectedMin - minute value that user has selected in the dialog
      */
     private fun setTimePickerLimits(
-        selectedDate: Int, currentDate: Int, selectedMonth: Int,
-        currentMonth: Int, selectedMin: Int
+        selectedDate: Int,
+        currentDate: Int,
+        selectedMonth: Int,
+        currentMonth: Int,
+        selectedMin: Int
     ) {
         if (selectedDate > currentDate && selectedMonth == currentMonth) {
             timePicker.setMinTime(0, 0, 0)

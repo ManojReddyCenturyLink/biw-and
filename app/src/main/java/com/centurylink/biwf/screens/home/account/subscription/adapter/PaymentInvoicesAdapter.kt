@@ -54,5 +54,4 @@ interface InvoiceClickListener {
      * Handle click event on Faq questions click
      */
     fun onPaymentListItemClick(item: RecordsItem)
-
 }

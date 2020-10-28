@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 /**
  * Model class for reschedule info
  */
-data class  RescheduleInfo (
+data class RescheduleInfo(
     @SerializedName("ServiceAppointmentId")
     val serviceAppointmentId: String? = null,
     @SerializedName("ArrivalWindowStartTime")

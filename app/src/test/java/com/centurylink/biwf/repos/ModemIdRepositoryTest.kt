@@ -17,7 +17,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 
-class ModemIdRepositoryTest  : BaseRepositoryTest() {
+class ModemIdRepositoryTest : BaseRepositoryTest() {
 
     private lateinit var modemIdRepository: ModemIdRepository
 
@@ -33,9 +33,8 @@ class ModemIdRepositoryTest  : BaseRepositoryTest() {
         MockKAnnotations.init(this, relaxed = true)
         val jsonString = readJson("modem-id_response.json")
         modemIdResponse = fromJson(jsonString)
-        modemIdRepository = ModemIdRepository(modemIdService,mockPreferences)
+        modemIdRepository = ModemIdRepository(modemIdService, mockPreferences)
     }
-
 
     @Test
     fun testGetModemIdSuccess() {
@@ -71,9 +70,9 @@ class ModemIdRepositoryTest  : BaseRepositoryTest() {
         runBlocking {
             launch {
 
-                val attributes=Attributes(type = "",url = "")
-                val records= Records(attributes,modem_Number__c = "")
-                modemIdResponse=ModemIdResponse(totalSize = 1,done=true,records = listOf())
+                val attributes = Attributes(type = "", url = "")
+                val records = Records(attributes, modem_Number__c = "")
+                modemIdResponse = ModemIdResponse(totalSize = 1, done = true, records = listOf())
                 coEvery { modemIdService.getModemId(any()) } returns Either.Right(modemIdResponse)
 
                 val modemIdDetails = modemIdRepository.getModemTypeId()
@@ -84,5 +83,4 @@ class ModemIdRepositoryTest  : BaseRepositoryTest() {
             }
         }
     }
-
 }

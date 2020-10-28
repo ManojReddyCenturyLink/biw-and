@@ -72,7 +72,7 @@ open class CustomDialogBlueTheme(
     ): View? {
         val rootView: View = inflater.inflate(R.layout.widget_popup, container, false)
         rootView.popup_title.text = title
-        if (linkTextToPhone){
+        if (linkTextToPhone) {
             val string = SpannableString(message)
             string.setSpan(ForegroundColorSpan(resources.getColor(R.color.purple)), 190, 203, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             rootView.popup_message.text = string
@@ -81,7 +81,7 @@ open class CustomDialogBlueTheme(
                 intent.data = Uri.parse("tel:1234567890")
                 startActivity(intent)
             }
-        }else{
+        } else {
             rootView.popup_message.text = message
         }
         rootView.popup_cancel_btn.setOnClickListener {
@@ -102,7 +102,7 @@ open class CustomDialogBlueTheme(
                 dismiss()
             }
         }
-        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         return rootView
     }
 
@@ -119,7 +119,7 @@ open class CustomDialogBlueTheme(
             buttonText: String,
             isErrorPopup: Boolean,
             callback: (buttonType: Int) -> Unit,
-            textLink : Boolean = false
+            textLink: Boolean = false
         ): CustomDialogBlueTheme {
             return CustomDialogBlueTheme(callback).apply {
                 arguments = Bundle().apply {

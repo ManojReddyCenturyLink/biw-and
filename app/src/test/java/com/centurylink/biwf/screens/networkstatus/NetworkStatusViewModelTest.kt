@@ -35,7 +35,7 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
     private lateinit var oAuthAssiaRepository: OAuthAssiaRepository
 
     @MockK
-    private lateinit var  wifiNetworkManagementRepository : WifiNetworkManagementRepository
+    private lateinit var wifiNetworkManagementRepository: WifiNetworkManagementRepository
 
     @MockK
     private lateinit var wifiStatusRepository: WifiStatusRepository
@@ -43,7 +43,7 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
 
-    private lateinit var wifiInfo : WifiInfo
+    private lateinit var wifiInfo: WifiInfo
 
     @ExperimentalCoroutinesApi
     @get:Rule
@@ -58,7 +58,7 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
         map["Band2G_Guest1"] = "CenturyLink0308-24G-2"
         val apInfoList = mutableListOf(
             ApInfo(
-               "", "",
+                "", "",
                 "", true, true, map, map
             )
         )
@@ -148,7 +148,6 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
             }
         }
 
-
     @Test
     fun testRequestModemInfo() {
         runBlockingTest {
@@ -168,9 +167,9 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
                 ))
                 viewModel.initApi()
                 Assert.assertEquals(
-                            wifiInfo.name, null)}
+                            wifiInfo.name, null) }
                 Assert.assertEquals(
-                wifiInfo.password, null)}
+                wifiInfo.password, null) }
         }
 
     @Test
@@ -204,9 +203,9 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
                 ))
                 viewModel.initApi()
                 Assert.assertEquals(
-                            wifiInfo.name, null)}
+                            wifiInfo.name, null) }
                 Assert.assertEquals(
-                wifiInfo.password, null)}
+                wifiInfo.password, null) }
         }
 
     @Test
@@ -240,9 +239,9 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
                 ))
                 viewModel.initApi()
                 Assert.assertEquals(
-                            wifiInfo.name, null)}
+                            wifiInfo.name, null) }
                 Assert.assertEquals(
-                wifiInfo.password, null)}
+                wifiInfo.password, null) }
         }
 
     @Test
@@ -263,8 +262,8 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
                     apInfoList = apInfoList
                 ))
                 viewModel.initApi()
-                Assert.assertEquals(wifiInfo.name, null)}
-                Assert.assertEquals(wifiInfo.password, null)}
+                Assert.assertEquals(wifiInfo.name, null) }
+                Assert.assertEquals(wifiInfo.password, null) }
         }
 
 //    @Test
@@ -276,7 +275,6 @@ class NetworkStatusViewModelTest : ViewModelBaseTest() {
 //            }
 //        }
 //    }
-
 
     @Test
     fun analyticsManagerInterface_handle() {

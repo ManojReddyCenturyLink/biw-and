@@ -135,7 +135,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
             viewModel.onMarketingEmailsChange((view as SwitchMaterial).isChecked)
         }
         binding.accountMarketingCallsSwitch.setOnClickListener { view ->
-            viewModel.onMarketingCallsAndTextsChange((view as SwitchMaterial).isChecked,binding.accountPersonalInfoCard.personalInfoCellphone.text.toString())
+            viewModel.onMarketingCallsAndTextsChange((view as SwitchMaterial).isChecked, binding.accountPersonalInfoCard.personalInfoCellphone.text.toString())
         }
         binding.accountServiceCallsSwitch.setOnClickListener { view ->
             viewModel.onServiceCallsAndTextsChange((view as SwitchMaterial).isChecked)
@@ -148,7 +148,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
      */
     private fun observeViews() {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
-        //Todo: Remove Harding of values once API returns
+        // Todo: Remove Harding of values once API returns
         viewModel.apply {
             progressViewFlow.observe {
                 showProgress(it)
@@ -157,16 +157,15 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                 showRetry(it.isNotEmpty())
             }
             noInternetMessage.observe {
-               if(it)
-               {
-                   CustomDialogBlueTheme(
-                       getString(R.string.err_no_network_connectivity_title),
-                       getString(R.string.err_no_network_connectivity_message),
-                       getString(R.string.ok),
-                       true,
-                       ::onErrorDialogCallback
-                   ).show(fragManager!!, DashboardFragment::class.simpleName)
-               }
+                if (it) {
+                    CustomDialogBlueTheme(
+                        getString(R.string.err_no_network_connectivity_title),
+                        getString(R.string.err_no_network_connectivity_message),
+                        getString(R.string.ok),
+                        true,
+                        ::onErrorDialogCallback
+                    ).show(fragManager!!, DashboardFragment::class.simpleName)
+                }
             }
             bioMetricFlow.observe { boolean ->
                 binding.accountBiometricSwitch.isChecked = boolean
@@ -185,7 +184,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                 binding.accountServiceAddressLine2.visibility =
                     if (uiAccountDetails.formattedServiceAddressLine2.isEmpty()) View.GONE else View.VISIBLE
 
-                //planInfo
+                // planInfo
                 binding.accountSubscriptionCard.accountCardPlanName.text =
                     uiAccountDetails.planName ?: " "
                 binding.accountSubscriptionCard.accountCardPlanDetails.text =
@@ -264,7 +263,6 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
-
             }
         }
     }

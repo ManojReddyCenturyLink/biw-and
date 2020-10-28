@@ -1,6 +1,5 @@
 package com.centurylink.biwf.repos.assia
 
-import android.util.Log
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.wifi.*
@@ -53,14 +52,14 @@ class WifiStatusRepository @Inject constructor(
      * @param interfaceType - the Network interface type
      * @return UpnateNetworkResponse instance on Success and error message in case of failure
      */
-    suspend fun disableNetwork(interfaceType: NetWorkBand): Either<String,UpdateNetworkResponse> {
+    suspend fun disableNetwork(interfaceType: NetWorkBand): Either<String, UpdateNetworkResponse> {
         val queryMap = mutableMapOf<String, String>()
         queryMap[EnvironmentPath.WIFI_DEVICE_ID] = preferences.getAssiaId()
         queryMap[EnvironmentPath.INTERFACE_VALUE] = interfaceType.name
         val result = wifiStatusService.disableNetwork(queryMap)
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.code != "1000") {
-               return Either.Left(it.message)
+                return Either.Left(it.message)
             }
             return Either.Right(it)
         }

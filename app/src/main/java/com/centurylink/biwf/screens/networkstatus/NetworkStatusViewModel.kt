@@ -98,7 +98,7 @@ class NetworkStatusViewModel @Inject constructor(
      */
     private fun fetchPasswordApi() {
         viewModelScope.launch {
-            //fetch WifiRegular Network Password
+            // fetch WifiRegular Network Password
             if (ssidMap.containsKey(NetWorkBand.Band2G.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band2G)
             } else if (ssidMap.containsKey(NetWorkBand.Band5G.name)) {
@@ -134,11 +134,11 @@ class NetworkStatusViewModel @Inject constructor(
             if (internetStatusFlow.latestValue.isActive) {
                 progressViewFlow.latestValue = true
                 if (regularNetworkInstance.isNetworkEnabled) {
-                        requestToDisableNetwork(NetWorkBand.Band2G)
-                        requestToDisableNetwork(NetWorkBand.Band5G)
+                    requestToDisableNetwork(NetWorkBand.Band2G)
+                    requestToDisableNetwork(NetWorkBand.Band5G)
                 } else {
-                        requestToEnableNetwork(NetWorkBand.Band2G)
-                        requestToEnableNetwork(NetWorkBand.Band5G)
+                    requestToEnableNetwork(NetWorkBand.Band2G)
+                    requestToEnableNetwork(NetWorkBand.Band5G)
                 }
             }
         }
@@ -169,47 +169,47 @@ class NetworkStatusViewModel @Inject constructor(
      *
      */
     private suspend fun requestModemInfo() {
-            val modemResponse = oAuthAssiaRepository.getModemInfo()
-            modemResponse.fold(ifRight = {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
-                val apiInfo = it?.apInfoList
-                modemInfoFlow.latestValue = it
-                if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
-                    val modemInfo = apiInfo[0]
-                    bssidMap = modemInfo.bssidMap
-                    ssidMap = modemInfo.ssidMap
-                    regularNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfo)
-                    guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfo)
-                    existingWifiNwName = ModemUtils.getRegularNetworkName(modemInfo)
-                    existingGuestName = ModemUtils.getGuestNetworkName(modemInfo)
-                    if (modemInfo.isAlive) {
-                        val onlineStatus = OnlineStatus(modemInfo.isAlive)
-                        regularNetworkInstance = setRegularWifiInfo(
-                            name = existingWifiNwName,
-                            pwd = existingWifiPwd,
-                            wifiNetworkEnabled = regularNetworkEnabled
-                        )
-                        guestNetworkInstance = setGuestWifiInfo(
-                            name = existingGuestName,
-                            pwd = existingWifiPwd,
-                            guestNetworkEnabled = guestNetworkEnabled
-                        )
-                        internetStatusFlow.latestValue = onlineStatus
-                        regularNetworkStatusFlow.latestValue = regularNetworkInstance
-                        guestNetworkStatusFlow.latestValue = guestNetworkInstance
-                    } else {
-                        setOfflineNetworkInformation()
-                    }
+        val modemResponse = oAuthAssiaRepository.getModemInfo()
+        modemResponse.fold(ifRight = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
+            val apiInfo = it?.apInfoList
+            modemInfoFlow.latestValue = it
+            if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                val modemInfo = apiInfo[0]
+                bssidMap = modemInfo.bssidMap
+                ssidMap = modemInfo.ssidMap
+                regularNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfo)
+                guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfo)
+                existingWifiNwName = ModemUtils.getRegularNetworkName(modemInfo)
+                existingGuestName = ModemUtils.getGuestNetworkName(modemInfo)
+                if (modemInfo.isAlive) {
+                    val onlineStatus = OnlineStatus(modemInfo.isAlive)
+                    regularNetworkInstance = setRegularWifiInfo(
+                        name = existingWifiNwName,
+                        pwd = existingWifiPwd,
+                        wifiNetworkEnabled = regularNetworkEnabled
+                    )
+                    guestNetworkInstance = setGuestWifiInfo(
+                        name = existingGuestName,
+                        pwd = existingWifiPwd,
+                        guestNetworkEnabled = guestNetworkEnabled
+                    )
+                    internetStatusFlow.latestValue = onlineStatus
+                    regularNetworkStatusFlow.latestValue = regularNetworkInstance
+                    guestNetworkStatusFlow.latestValue = guestNetworkInstance
                 } else {
                     setOfflineNetworkInformation()
                 }
-            },
-                ifLeft = {
-                    analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
-                    // Ignoring Error to avoid Frequent
-                    //errorMessageFlow.latestValue = "Modem Info Not Available"
-                    setOfflineNetworkInformation()
-                })
+            } else {
+                setOfflineNetworkInformation()
+            }
+        },
+            ifLeft = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
+                // Ignoring Error to avoid Frequent
+                // errorMessageFlow.latestValue = "Modem Info Not Available"
+                setOfflineNetworkInformation()
+            })
     }
 
     /**
@@ -221,8 +221,10 @@ class NetworkStatusViewModel @Inject constructor(
         internetStatusFlow.latestValue = onlineStatus
         regularNetworkEnabled = false
         guestNetworkEnabled = false
-        regularNetworkInstance = setRegularWifiInfo(existingWifiNwName, existingWifiPwd, regularNetworkEnabled)
-        guestNetworkInstance = setGuestWifiInfo(existingGuestName, existingGuestPwd, guestNetworkEnabled)
+        regularNetworkInstance =
+            setRegularWifiInfo(existingWifiNwName, existingWifiPwd, regularNetworkEnabled)
+        guestNetworkInstance =
+            setGuestWifiInfo(existingGuestName, existingGuestPwd, guestNetworkEnabled)
         regularNetworkStatusFlow.latestValue = regularNetworkInstance
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
     }
@@ -236,7 +238,8 @@ class NetworkStatusViewModel @Inject constructor(
      * @return - This will return updated guest network wifi view
      */
     private fun setGuestWifiInfo(
-        name: String, pwd: String,
+        name: String,
+        pwd: String,
         guestNetworkEnabled: Boolean
     ): UINetworkModel {
         return guestNetworkInstance.copy(
@@ -287,7 +290,8 @@ class NetworkStatusViewModel @Inject constructor(
      * @return -  This will return updated regular wifi network view
      */
     private fun setRegularWifiInfo(
-        name: String, pwd: String,
+        name: String,
+        pwd: String,
         wifiNetworkEnabled: Boolean
     ): UINetworkModel {
         return regularNetworkInstance.copy(
@@ -439,25 +443,25 @@ class NetworkStatusViewModel @Inject constructor(
      */
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo = wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
-        netWorkInfo.fold( ifRight =
-             {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
-                val password = it.networkName[netWorkBand.name]
-                password?.let {
-                    when (netWorkBand) {
-                        NetWorkBand.Band2G, NetWorkBand.Band5G -> {
-                            existingWifiPwd = password
-                        }
-                        NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
-                            existingGuestPwd = password
-                        }
+        netWorkInfo.fold(ifRight =
+        {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
+            val password = it.networkName[netWorkBand.name]
+            password?.let {
+                when (netWorkBand) {
+                    NetWorkBand.Band2G, NetWorkBand.Band5G -> {
+                        existingWifiPwd = password
+                    }
+                    NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
+                        existingGuestPwd = password
                     }
                 }
-                updatePasswords()
-            },
+            }
+            updatePasswords()
+        },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                //TODO Currently API is returning Error -Temp Hack for displaying password
+                // TODO Currently API is returning Error -Temp Hack for displaying password
                 existingWifiPwd = "test123wifi"
                 existingGuestPwd = "test123Guest"
             })
@@ -489,13 +493,13 @@ class NetworkStatusViewModel @Inject constructor(
             UpdateNWPassword(password)
         )
         netWorkInfo.fold(ifRight =
-         {
-                analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_SUCCESS)
-             },
-           ifLeft = {
+        {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_SUCCESS)
+        },
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_FAILURE)
                 submitFlow = true
-           }
+            }
         )
     }
 
@@ -527,15 +531,14 @@ class NetworkStatusViewModel @Inject constructor(
         val netWorkInfo = wifiStatusRepository.disableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
         netWorkInfo.fold(
-            ifRight =  {
+            ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(netWorkBand, false)
             },
-            ifLeft =  {
+            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
-                //TODO HANDLING ERROR MOCKED FOR NOW
+                // TODO HANDLING ERROR MOCKED FOR NOW
                 errorMessageFlow.latestValue = "Network disablement Failed"
-
             }
         )
     }
@@ -545,7 +548,7 @@ class NetworkStatusViewModel @Inject constructor(
      *
      * @param netWorkBand -  Network Band types of the server to update network enablement and
      * disablement
-     * @param isEnable  - The boolean value to update network enablement and disablement
+     * @param isEnable - The boolean value to update network enablement and disablement
      */
     private fun updateEnableDisableNetwork(netWorkBand: NetWorkBand, isEnable: Boolean) {
         if (netWorkBand == NetWorkBand.Band5G || netWorkBand == NetWorkBand.Band2G) {
@@ -577,15 +580,14 @@ class NetworkStatusViewModel @Inject constructor(
             networkName
         )
         netWorkInfo.fold(
-            ifRight =  {
+            ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_SUCCESS)
-
             },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_FAILURE)
                 submitFlow = true
             }
-                )
+        )
     }
 
     /**

@@ -128,7 +128,7 @@ class ScheduleCallbackViewModel @Inject constructor(
     fun updateScheduleCallbackPicklist(response: ScheduleCallbackResponse) {
         scheduleCallbackPicklist = scheduleCallbackPicklist.copy(values = response.values)
         for (str in scheduleCallbackPicklist.values) {
-            str.label = str.label.replace("&#39;","'")
+            str.label = str.label.replace("&#39;", "'")
             arrayList.add(str.label)
         }
         progressViewFlow.latestValue = false
@@ -159,5 +159,4 @@ class ScheduleCallbackViewModel @Inject constructor(
     data class ScheduleCallbackPicklist(
         var values: List<Values> = emptyList()
     )
-
 }

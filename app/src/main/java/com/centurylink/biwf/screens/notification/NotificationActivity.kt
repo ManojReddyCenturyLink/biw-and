@@ -29,8 +29,10 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
 
     @Inject
     lateinit var notificationCoordinator: NotificationCoordinator
+
     @Inject
     lateinit var factory: DaggerViewModelFactory
+
     @Inject
     lateinit var navigator: Navigator
 
@@ -143,7 +145,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
      */
     private fun initView() {
         binding.notificationListRecyclerview.layoutManager =
-           LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
     }
 
     /**
@@ -220,5 +222,3 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
         fun newIntent(context: Context) = Intent(context, NotificationActivity::class.java)
     }
 }
-
-

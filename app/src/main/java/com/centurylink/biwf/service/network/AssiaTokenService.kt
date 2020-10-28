@@ -9,7 +9,7 @@ import retrofit2.http.POST
 //  with the Apigee-passthrough versions
 interface AssiaTokenService {
 
-    //TODO - Remove after CloudCheck URLs updated since the Apigee token can be used instead
+    // TODO - Remove after CloudCheck URLs updated since the Apigee token can be used instead
     @POST(EnvironmentPath.API_ASIA_ACCESSTOKEN_PATH)
     suspend fun getAssiaToken(): AssiaServiceResult<AssiaToken>
 }

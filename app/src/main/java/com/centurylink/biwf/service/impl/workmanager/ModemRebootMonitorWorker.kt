@@ -39,7 +39,7 @@ class ModemRebootMonitorWorker constructor(
         val result = oAuthAssiaRepository.getModemInfoForcePing()
         result.fold(ifRight = {
             return it.apInfoList[0].isAlive
-        },ifLeft = {
+        }, ifLeft = {
             return false
         })
     }

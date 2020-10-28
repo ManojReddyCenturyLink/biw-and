@@ -23,14 +23,14 @@ interface OAuthAssiaService {
     @POST(EnvironmentPath.API_REBOOT_MODEM_PATH)
     @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun rebootModem(
-            @Body rebootModemRequest: RebootModemRequest
+        @Body rebootModemRequest: RebootModemRequest
     ): AssiaServiceResult<ModemRebootResponse>
 
     @POST(EnvironmentPath.API_BLOCK_DEVICE_PATH)
     @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun blockDevice(
-            @Body blockDeviceRequest: BlockDeviceRequest
-    ) : AssiaServiceResult<BlockResponse>
+        @Body blockDeviceRequest: BlockDeviceRequest
+    ): AssiaServiceResult<BlockResponse>
 
     @GET(EnvironmentPath.STATION_INFO)
     @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)

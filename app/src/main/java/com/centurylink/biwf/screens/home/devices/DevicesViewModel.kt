@@ -221,7 +221,7 @@ class DevicesViewModel @Inject constructor(
         if (!connectedList.isNullOrEmpty()) {
             deviceMap[DeviceStatus.CONNECTED] = connectedList as MutableList<DevicesData>
         }
-//TODO: Commenting code for future reference, currently remove devices api is not working.
+// TODO: Commenting code for future reference, currently remove devices api is not working.
 //        if (!removedList.isNullOrEmpty()) {
 //            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
 //        }

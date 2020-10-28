@@ -27,7 +27,7 @@ class FAQRepository @Inject constructor(
      * This method is used to getting the FAQ Question Details
      *
      * @param recordTypeId The record type Id
-     * @return  Faq instance on Success and error in case of failure.
+     * @return Faq instance on Success and error in case of failure.
      */
     suspend fun getFAQQuestionDetails(recordTypeId: String): Either<String, Faq> {
         if (recordTypeId.isNullOrEmpty()) {

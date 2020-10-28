@@ -11,7 +11,7 @@ import javax.inject.Singleton
  * @constructor Create Notification coordinator
  */
 @Singleton
-class NotificationCoordinator @Inject constructor():Coordinator<NotificationCoordinatorDestinations> {
+class NotificationCoordinator @Inject constructor() : Coordinator<NotificationCoordinatorDestinations> {
 
     @Inject
     lateinit var navigator: Navigator
@@ -24,7 +24,7 @@ class NotificationCoordinator @Inject constructor():Coordinator<NotificationCoor
     override fun navigateTo(destination: NotificationCoordinatorDestinations) {
         when (destination) {
             NotificationCoordinatorDestinations.NOTIFICATION_DETAILS -> {
-                navigator.navigateToNotificationDetails()}
+                navigator.navigateToNotificationDetails() }
         }
     }
 }

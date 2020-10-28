@@ -39,7 +39,6 @@ class ZouraSubscriptionRepositoryTest : BaseRepositoryTest() {
             ZouraSubscriptionRepository(mockPreferences, zuoraSubscriptionService)
     }
 
-
     @Test
     fun testgetSubscriptionDateSuccess() {
         runBlockingTest {

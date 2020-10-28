@@ -170,7 +170,6 @@ class PersonalInfoActivity : BaseActivity() {
                     )
                 }
             }
-
         }
         binding.ivQuestion.setOnClickListener {
             viewModel.logUpdateEmailPopupClick()

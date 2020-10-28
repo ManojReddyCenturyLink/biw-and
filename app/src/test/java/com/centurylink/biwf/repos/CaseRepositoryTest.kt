@@ -119,7 +119,6 @@ class CaseRepositoryTest : BaseRepositoryTest() {
         }
     }
 
-
     @Test
     fun testCreateDeactivationRequest() {
         runBlocking {
@@ -228,7 +227,7 @@ class CaseRepositoryTest : BaseRepositoryTest() {
             launch {
                 val fiberHttpError: FiberHttpError = FiberHttpError(
                     Constants.STATUS_CODE,
-                    listOf(FiberErrorMessage(errorCode =Constants.ERROR_CODE_1000, message = "Error"))
+                    listOf(FiberErrorMessage(errorCode = Constants.ERROR_CODE_1000, message = "Error"))
                 )
                 coEvery { caseApiService.getCaseNumber() } returns Either.Left(fiberHttpError)
                 val casedetailsInfo = caseRepository.getCaseId()

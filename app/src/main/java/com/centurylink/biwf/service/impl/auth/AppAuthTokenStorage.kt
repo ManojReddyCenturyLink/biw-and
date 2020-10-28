@@ -35,7 +35,6 @@ class AppAuthTokenStorage @Inject constructor(
                     .putString(authTokenKey, value.jsonSerializeString())
                     .apply()
                 true
-
             } else {
                 preferences.edit()
                     .remove(authTokenKey)

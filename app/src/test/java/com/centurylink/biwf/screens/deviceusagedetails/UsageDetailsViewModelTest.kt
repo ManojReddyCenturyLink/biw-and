@@ -64,9 +64,9 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
         devicesInfo = fromJson(readJson("devicedetails.json"))
         deviceData = fromJson(readJson("devicedata.json"))
         val devicesItem = DevicesItem(
-            os = "11",osVersion = "11",name = "abc",cspClientId = "123",deviceType = "Andr",enforcementType = emptyList(),id = "",manufacturer = "onePlus"
+            os = "11", osVersion = "11", name = "abc", cspClientId = "123", deviceType = "Andr", enforcementType = emptyList(), id = "", manufacturer = "onePlus"
         )
-        val usageDetailsRes =  UsageDetails(
+        val usageDetailsRes = UsageDetails(
             downloadTraffic = 100.00,
             downloadTrafficUnit = NetworkTrafficUnits.MB_DOWNLOAD,
             uploadTraffic = 100.00,
@@ -114,7 +114,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     fun testMonthlyUsageDetailsApiCall() {
         runBlockingTest {
             launch {
-                val usageDetailsRes =  UsageDetails(
+                val usageDetailsRes = UsageDetails(
                         downloadTraffic = 1000.00,
                         downloadTrafficUnit = NetworkTrafficUnits.GB_DOWNLOAD,
                         uploadTraffic = 1000.00,
@@ -179,7 +179,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testOnDevicesConnectedModemOffStatus() {
-        viewModel.deviceData =  fromJson(readJson("devicedata-modemoff.json"))
+        viewModel.deviceData = fromJson(readJson("devicedata-modemoff.json"))
         runBlockingTest {
             launch {
                 Assert.assertNotNull(viewModel.onDevicesConnectedClicked())
@@ -259,7 +259,7 @@ class UsageDetailsViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
-    fun validateInputTest(){
+    fun validateInputTest() {
         runBlockingTest {
             launch {
                 Assert.assertEquals(false, viewModel.validateInput("nickname"))

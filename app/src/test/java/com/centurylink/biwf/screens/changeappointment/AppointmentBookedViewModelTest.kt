@@ -27,11 +27,11 @@ class AppointmentBookedViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun testLogDoneButtonClick() {
-        assertNotNull( viewModel.logDoneButtonClick())
+        assertNotNull(viewModel.logDoneButtonClick())
     }
 
     @Test
     fun testLogViewDashboardButtonClick() {
-        assertNotNull( viewModel.logViewDashboardButtonClick())
+        assertNotNull(viewModel.logViewDashboardButtonClick())
     }
 }

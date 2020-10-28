@@ -12,7 +12,7 @@ object SharedPreferencesModule {
     @Provides
     @Singleton
     @JvmStatic
-    fun providesSharedPrefs(app:BIWFApp) : Preferences {
+    fun providesSharedPrefs(app: BIWFApp): Preferences {
         return Preferences(app)
     }
 }

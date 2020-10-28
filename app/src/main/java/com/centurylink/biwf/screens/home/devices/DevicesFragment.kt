@@ -160,7 +160,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             deviceList = HashMap(),
             deviceItemClickListener = this
         )
-        //** Set the colors for the Pull To Refresh View
+        // ** Set the colors for the Pull To Refresh View
         binding.pullToRefresh.setProgressBackgroundColorSchemeColor(
             ContextCompat.getColor(
                 activity!!,
@@ -185,7 +185,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
                 MotionEvent.ACTION_CANCEL -> {
                     enableSwipeToRefresh()
                 }
-
             }
             false
         })

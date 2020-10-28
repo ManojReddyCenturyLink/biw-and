@@ -31,7 +31,7 @@ class NotificationViewModelTest : ViewModelBaseTest() {
     lateinit var notificationRepository: NotificationRepository
 
     @MockK
-    private lateinit var analyticsManagerInterface : AnalyticsManager
+    private lateinit var analyticsManagerInterface: AnalyticsManager
 
     @get:Rule
     val rule = InstantTaskExecutorRule()
@@ -45,5 +45,3 @@ class NotificationViewModelTest : ViewModelBaseTest() {
         viewModel = NotificationViewModel(notificationRepository, mockModemRebootMonitorService, analyticsManagerInterface)
     }
 }
-
-

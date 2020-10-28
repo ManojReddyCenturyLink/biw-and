@@ -144,7 +144,6 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancellationReasonDropdown.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-
                 }
 
                 override fun onItemSelected(

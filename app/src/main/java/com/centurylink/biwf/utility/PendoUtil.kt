@@ -31,5 +31,4 @@ class PendoUtil {
             Pendo.switchVisitor(visitorId, null, null, null)
         }
     }
-
 }

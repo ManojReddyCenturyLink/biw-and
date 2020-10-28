@@ -57,7 +57,6 @@ class UserRepositoryTest : BaseRepositoryTest() {
                     userInformation.map { it.recentItems.get(0).name },
                     Either.Right("Pravin Kumar")
                 )
-
             }
         }
     }
@@ -144,5 +143,4 @@ class UserRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
-
 }

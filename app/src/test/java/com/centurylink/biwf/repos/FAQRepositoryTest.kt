@@ -85,7 +85,7 @@ class FAQRepositoryTest : BaseRepositoryTest() {
                 coEvery { faqService.getRecordTypeId(any()) } returns Either.Right(recordID)
                 val recordIdDetails = faqRepository.getKnowledgeRecordTypeId()
                 println(recordIdDetails)
-                Assert.assertEquals(recordIdDetails.map { it}, Either.Right("a1Qf0000000aRQjEAM"))
+                Assert.assertEquals(recordIdDetails.map { it }, Either.Right("a1Qf0000000aRQjEAM"))
             }
         }
     }
@@ -95,7 +95,7 @@ class FAQRepositoryTest : BaseRepositoryTest() {
             launch {
                 coEvery { faqService.getRecordTypeId(any()) } returns Either.Right(RecordId())
                 val recordIdDetails = faqRepository.getKnowledgeRecordTypeId()
-                Assert.assertEquals(recordIdDetails.mapLeft { it}, Either.Left("Record Id  Records is Empty"))
+                Assert.assertEquals(recordIdDetails.mapLeft { it }, Either.Left("Record Id  Records is Empty"))
             }
         }
     }
@@ -106,12 +106,12 @@ class FAQRepositoryTest : BaseRepositoryTest() {
             launch {
                 listOf(RecordIdData())
                 coEvery { faqService.getRecordTypeId(any()) } returns Either.Right(
-                    RecordId(totalSize = 0 , records = listOf(
+                    RecordId(totalSize = 0, records = listOf(
                         RecordIdData()
                     ))
                 )
                 val recordIdDetails = faqRepository.getKnowledgeRecordTypeId()
-                Assert.assertEquals(recordIdDetails.mapLeft { it}, Either.Left("Record Id  Records is Empty"))
+                Assert.assertEquals(recordIdDetails.mapLeft { it }, Either.Left("Record Id  Records is Empty"))
             }
         }
     }
@@ -126,7 +126,7 @@ class FAQRepositoryTest : BaseRepositoryTest() {
                 )
                 coEvery { faqService.getRecordTypeId(any()) } returns Either.Left(fiberHttpError)
                 val recordIdDetails = faqRepository.getKnowledgeRecordTypeId()
-                Assert.assertEquals(recordIdDetails.mapLeft { it}, Either.Left("Record Id  Records is Empty"))
+                Assert.assertEquals(recordIdDetails.mapLeft { it }, Either.Left("Record Id  Records is Empty"))
             }
         }
     }

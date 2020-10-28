@@ -9,4 +9,3 @@ data class MappingRequest(
     @SerializedName("serialNumber") val serialNumber: String,
     @SerializedName("mac_address") val deviceMacAddresses: List<String>
 )
-

@@ -67,7 +67,7 @@ class SharedPreferencesStore(private val context: Context) :
             masterKey, // masterKey created above
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
-        );
+        )
     }
 
     companion object {

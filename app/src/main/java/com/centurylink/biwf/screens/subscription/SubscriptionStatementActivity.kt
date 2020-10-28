@@ -99,7 +99,7 @@ class SubscriptionStatementActivity : BaseActivity() {
                 binding.subscriptionStatementEmailContent.text = uiAccountInfo.email
                 binding.subscriptionStatementBillingAddressContent.text =
                     uiAccountInfo.billingAddress
-                if(uiAccountInfo.promoDiscountAmount!=null) {
+                if (uiAccountInfo.promoDiscountAmount != null) {
                     binding.subscriptionStatementPromoLabel.visibility = View.VISIBLE
                     binding.subscriptionStatementPromoCost.visibility = View.VISIBLE
                     binding.subscriptionStatementPromoSubheader.visibility = View.VISIBLE
@@ -110,7 +110,6 @@ class SubscriptionStatementActivity : BaseActivity() {
                     binding.subscriptionStatementPromoSubheader.text =
                     uiAccountInfo.promoDescription
                 }
-
             }
             showProgress(false)
         }

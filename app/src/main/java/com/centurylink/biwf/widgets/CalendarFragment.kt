@@ -140,7 +140,7 @@ class CalendarFragment : CaldroidFragment() {
     /**
      * Get new weekday adapter - initialisation of new dates new weekday adapte
      *
-     * @param themeResource  - resource value for theme
+     * @param themeResource - resource value for theme
      *
      * @return returns the Weekday Array Adapter instance
      */
@@ -195,7 +195,6 @@ class CalendarFragment : CaldroidFragment() {
     override fun getTextColorForDateTimeMap(): Map<DateTime?, Int?>? {
         return textColorForDateTimeMap
     }
-
 
     /**
      * Get left arrow button -  To let user customize the navigation buttons
@@ -485,7 +484,9 @@ class CalendarFragment : CaldroidFragment() {
      */
     override fun restoreDialogStatesFromKey(
         manager: FragmentManager,
-        savedInstanceState: Bundle?, key: String?, dialogTag: String?
+        savedInstanceState: Bundle?,
+        key: String?,
+        dialogTag: String?
     ) {
         restoreStatesFromKey(savedInstanceState, key)
         val existingDialog = manager
@@ -567,7 +568,7 @@ class CalendarFragment : CaldroidFragment() {
      * implementation of manipulating month and year. All dates within same
      * month/year give same result
      *
-     * @param date  selected to date instance
+     * @param date selected to date instance
      */
     override fun setCalendarDate(date: Date?) {
         setCalendarDateTime(CalendarHelper.convertDateToDateTime(date))
@@ -708,7 +709,8 @@ class CalendarFragment : CaldroidFragment() {
     @Throws(ParseException::class)
     override fun setSelectedDateStrings(
         fromDateString: String?,
-        toDateString: String?, dateFormat: String?
+        toDateString: String?,
+        dateFormat: String?
     ) {
         val fromDate = CalendarHelper.getDateFromString(
             fromDateString,
@@ -914,10 +916,10 @@ class CalendarFragment : CaldroidFragment() {
                     if (caldroidListener != null) {
                         if (!enableClickOnDisabledDates) {
                             if (minDateTime != null && dateTime
-                                    .lt(minDateTime)
-                                || maxDateTime != null && dateTime
-                                    .gt(maxDateTime)
-                                || disableDates != null && disableDates
+                                    .lt(minDateTime) ||
+                                maxDateTime != null && dateTime
+                                    .gt(maxDateTime) ||
+                                disableDates != null && disableDates
                                     .indexOf(dateTime) != -1
                             ) {
                                 return@OnItemClickListener
@@ -946,10 +948,10 @@ class CalendarFragment : CaldroidFragment() {
                     if (caldroidListener != null) {
                         if (!enableClickOnDisabledDates) {
                             if (minDateTime != null && dateTime
-                                    .lt(minDateTime)
-                                || maxDateTime != null && dateTime
-                                    .gt(maxDateTime)
-                                || disableDates != null && disableDates
+                                    .lt(minDateTime) ||
+                                maxDateTime != null && dateTime
+                                    .gt(maxDateTime) ||
+                                disableDates != null && disableDates
                                     .indexOf(dateTime) != -1
                             ) {
                                 return@OnItemLongClickListener false
@@ -1157,7 +1159,8 @@ class CalendarFragment : CaldroidFragment() {
      * @return - Return the View for the fragment's UI, or null.
      */
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         retrieveInitialArgs()

@@ -72,7 +72,6 @@ class AppointmentBookedActivity : BaseActivity() {
                 setResult(DashboardFragment.REFRESH_APPOINTMENT)
                 finish()
             }
-
         }
         binding.viewDashboardBtn.setOnClickListener {
             viewModel.logViewDashboardButtonClick()

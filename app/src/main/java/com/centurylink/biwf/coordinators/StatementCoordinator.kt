@@ -9,7 +9,7 @@ import javax.inject.Inject
  *
  * @constructor Create  Statement coordinator
  */
-class StatementCoordinator @Inject constructor(): Coordinator<StatementCoordinatorDestinations> {
+class StatementCoordinator @Inject constructor() : Coordinator<StatementCoordinatorDestinations> {
     override fun navigateTo(destination: StatementCoordinatorDestinations) { }
 }
 

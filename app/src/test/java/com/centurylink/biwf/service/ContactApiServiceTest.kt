@@ -38,7 +38,7 @@ class ContactApiServiceTest : BaseServiceTest() {
 
     @Test
     fun testSubmitMarketingCallsError() = runBlocking {
-        val updatedCallsandTextMarketing = UpdatedCallsandTextMarketing(true,"1234567890")
+        val updatedCallsandTextMarketing = UpdatedCallsandTextMarketing(true, "1234567890")
         val posts: FiberServiceResult<Unit> =
             contactApiService.submitMarketingCalls("12233", updatedCallsandTextMarketing)
         Assert.assertEquals(posts.mapLeft { it.status }, Either.Left(0))

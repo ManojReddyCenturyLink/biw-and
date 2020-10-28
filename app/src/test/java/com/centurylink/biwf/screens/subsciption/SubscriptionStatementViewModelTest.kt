@@ -128,7 +128,6 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
         }
     }
 
-
     @Test
     fun testRequestBillingAddressNull() {
         runBlockingTest {
@@ -170,7 +169,6 @@ class SubscriptionStatementViewModelTest : ViewModelBaseTest() {
     fun testLogDonePress() {
         Assert.assertNotNull(viewModel.logDonePress())
     }
-
 
     @Test
     fun testRequestPaymentInformationSuccess() {

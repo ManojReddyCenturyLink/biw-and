@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class SupportCoordinatorTest:BaseRepositoryTest() {
+class SupportCoordinatorTest : BaseRepositoryTest() {
 
     private lateinit var supportCoordinator: SupportCoordinator
 
@@ -25,23 +25,22 @@ class SupportCoordinatorTest:BaseRepositoryTest() {
         SupportCoordinatorDestinations.bundle = Bundle()
     }
 
-
-     @Test
-     fun navigateToFaqSuccess() {
-         every {navigator.navigateToFaq()} returns any()
-         val det = supportCoordinator.navigateTo(SupportCoordinatorDestinations.FAQ)
-         assertEquals(det, Unit)
+    @Test
+    fun navigateToFaqSuccess() {
+        every { navigator.navigateToFaq() } returns any()
+        val det = supportCoordinator.navigateTo(SupportCoordinatorDestinations.FAQ)
+        assertEquals(det, Unit)
     }
 
     @Test
-     fun navigateToScheduleCallback() {
-        every {navigator.navigateToScheduleCallbackFromFAQ()} returns any()
+    fun navigateToScheduleCallback() {
+        every { navigator.navigateToScheduleCallbackFromFAQ() } returns any()
         val det = supportCoordinator.navigateTo(SupportCoordinatorDestinations.SCHEDULE_CALLBACK)
         assertEquals(det, Unit)
     }
 
     @Test
-     fun navigateToLiveChatSuccess() {
+    fun navigateToLiveChatSuccess() {
         val det = supportCoordinator.navigateTo(SupportCoordinatorDestinations.LIVE_CHAT)
         assertEquals(det, Unit)
     }

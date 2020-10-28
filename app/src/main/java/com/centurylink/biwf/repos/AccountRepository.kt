@@ -19,7 +19,7 @@ import javax.inject.Singleton
  * or Fragments.
  *
  * @property preferences preference Instance for storing the value in shared preferences.
- * @property accountApiService  accountApiService Instance for interacting with the Sales force Accounts API.
+ * @property accountApiService accountApiService Instance for interacting with the Sales force Accounts API.
  * @constructor Creates  Account repository Instance.
  */
 @Singleton

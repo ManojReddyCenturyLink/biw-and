@@ -7,7 +7,7 @@ import org.junit.Before
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class PersonalInfoCoordinatorTest:BaseRepositoryTest() {
+class PersonalInfoCoordinatorTest : BaseRepositoryTest() {
 
     private lateinit var personalInfoCoordinator: PersonalInfoCoordinator
 
@@ -21,7 +21,7 @@ class PersonalInfoCoordinatorTest:BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToPersonalInfoSuccess(){
+    fun navigateToPersonalInfoSuccess() {
         val det = personalInfoCoordinator.navigateTo(PersonalInfoCoordinatorDestinations.DONE)
         assertEquals(det, Unit)
     }

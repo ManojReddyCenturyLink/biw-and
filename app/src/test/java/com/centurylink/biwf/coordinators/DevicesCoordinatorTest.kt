@@ -22,7 +22,7 @@ class DevicesCoordinatorTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun navigateToUsageDetailsSuccess(){
+    fun navigateToUsageDetailsSuccess() {
         every { navigator.navigateToNotificationDetails() } returns Unit
         val det = devicesCoordinator.navigateTo(DevicesCoordinatorDestinations.DEVICE_DETAILS)
         assertEquals(det, Unit)

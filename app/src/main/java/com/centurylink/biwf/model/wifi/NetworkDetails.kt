@@ -12,6 +12,5 @@ data class NetworkDetails(
     @SerializedName("message")
     val message: String = "",
     @SerializedName("data")
-    val networkName: HashMap<String,String>
+    val networkName: HashMap<String, String>
 ) : Serializable
-

@@ -231,26 +231,26 @@ class ContactInfoActivity : BaseActivity() {
             val isExistingUser = intent.getBooleanExtra(IS_EXISTING_USER, false)
             if (isExistingUser) {
                 if (viewModel.isExistingUserWithPhoneNumber) {
-                    //existing user with phone number
+                    // existing user with phone number
                     if (binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumberInput.isChecked) {
-                        //existing user with user input phone number
+                        // existing user with user input phone number
                         phoneNumber =
                             binding.contactInfoExistingUser.contactInfoWithPhoneNumberInput.text.toString()
                         validatePhoneNumber()
                     } else if (binding.contactInfoExistingUser.contactInfoSelectRadioBtnPhoneNumber.isChecked) {
-                        //existing user with default phone number
+                        // existing user with default phone number
                         phoneNumber =
                             binding.contactInfoExistingUser.contactInfoPhoneNumber.text.toString()
                         viewModel.launchSelectTime(customerCareOption, additionalInfo, phoneNumber)
                     }
                 } else if (!viewModel.isExistingUserWithPhoneNumber) {
-                    //existing user without phone number
+                    // existing user without phone number
                     phoneNumber =
                         binding.contactInfoExistingUser.contactInfoWithOutPhoneNumberInput.text.toString()
                     validatePhoneNumber()
                 }
             } else {
-                //non existing user
+                // non existing user
                 phoneNumber = binding.contactNewUser.contactInfoPhoneNumberInput.text.toString()
                 validatePhoneNumber()
             }

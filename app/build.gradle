@@ -309,6 +309,7 @@ ktlint {
     android = true
     outputToConsole = true
     outputColorName = "YELLOW"
+    ignoreFailures = false
     disabledRules = ["no-wildcard-imports", "import-ordering", "max-line-length"]
     filter {
         exclude("**/generated/**")

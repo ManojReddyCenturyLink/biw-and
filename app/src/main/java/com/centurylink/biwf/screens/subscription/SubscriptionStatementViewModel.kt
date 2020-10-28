@@ -22,7 +22,7 @@ class SubscriptionStatementViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
-) : BaseViewModel(modemRebootMonitorService,analyticsManagerInterface) {
+) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
@@ -52,11 +52,11 @@ class SubscriptionStatementViewModel @Inject constructor(
         }
     }
 
-    fun logBackPress(){
+    fun logBackPress() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_BACK_PREVIOUS_STATEMENT)
     }
 
-    fun logDonePress(){
+    fun logDonePress() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_PREVIOUS_STATEMENT)
     }
 
@@ -97,14 +97,14 @@ class SubscriptionStatementViewModel @Inject constructor(
             val promoCode: String? = it.promoCode
             val promoDescription: String? = it.promoDescription
             val promoDiscountAmount: Double? = it.promoDiscountAmount
-            if(promoDiscountAmount!=null) {
+            if (promoDiscountAmount != null) {
                 promoDiscountText = String.format("%.2f", promoDiscountAmount)
                 totalCost = planCost + salesTaxCost - promoDiscountAmount
             } else {
                 totalCost = planCost + salesTaxCost
             }
             uiStatementDetails = uiStatementDetails.copy(
-                paymentMethod = it.zuoraPaymentMethod?:"",
+                paymentMethod = it.zuoraPaymentMethod ?: "",
                 planName = it.productPlanNameC,
                 successfullyProcessed = DateUtils.formatInvoiceDate(processedDate!!),
                 planCost = String.format("%.2f", planCost),
@@ -118,7 +118,6 @@ class SubscriptionStatementViewModel @Inject constructor(
             progressViewFlow.latestValue = false
         }
     }
-
 
     private fun formatBillingAddress(accountDetails: AccountDetails): String? {
         val formattedServiceAddressLine1 = accountDetails.billingAddress?.run {
