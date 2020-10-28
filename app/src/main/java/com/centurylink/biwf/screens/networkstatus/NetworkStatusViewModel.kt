@@ -120,7 +120,7 @@ class NetworkStatusViewModel @Inject constructor(
      */
     private fun modemStatusRefresh() {
         viewModelScope.interval(0, MODEM_STATUS_REFRESH_INTERVAL) {
-            requestModemInfo()
+            refreshModemInfo()
         }
     }
 
@@ -210,6 +210,36 @@ class NetworkStatusViewModel @Inject constructor(
                     //errorMessageFlow.latestValue = "Modem Info Not Available"
                     setOfflineNetworkInformation()
                 })
+    }
+
+    private suspend fun refreshModemInfo() {
+        val modemResponse = oAuthAssiaRepository.getModemInfo()
+        modemResponse.fold(ifRight = {
+            analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
+            val apiInfo = it?.apInfoList
+            modemInfoFlow.latestValue = it
+            if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
+                val modemInfo = apiInfo[0]
+                bssidMap = modemInfo.bssidMap
+                ssidMap = modemInfo.ssidMap
+                regularNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfo)
+                guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfo)
+                if (modemInfo.isAlive) {
+                    val onlineStatus = OnlineStatus(modemInfo.isAlive)
+                    internetStatusFlow.latestValue = onlineStatus
+                } else {
+                    setOfflineNetworkInformation()
+                }
+            } else {
+                setOfflineNetworkInformation()
+            }
+        },
+            ifLeft = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
+                // Ignoring Error to avoid Frequent
+                //errorMessageFlow.latestValue = "Modem Info Not Available"
+                setOfflineNetworkInformation()
+            })
     }
 
     /**
@@ -643,8 +673,9 @@ class NetworkStatusViewModel @Inject constructor(
                     }
                 }
             }
-            progressViewFlow.latestValue = false
             errorSubmitValue.latestValue = submitFlow
+            progressViewFlow.latestValue = false
+
         }
     }
 
