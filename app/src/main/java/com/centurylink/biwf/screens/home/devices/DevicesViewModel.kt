@@ -215,15 +215,16 @@ class DevicesViewModel @Inject constructor(
     }
 
     private fun sortAndDisplayDeviceInfo() {
-        val removedList = devicesDataList.filter { it.blocked }.distinct()
+//        val removedList = devicesDataList.filter { it.blocked }.distinct()
         val connectedList = devicesDataList.filter { !it.blocked }.distinct()
         val deviceMap: HashMap<DeviceStatus, MutableList<DevicesData>> = HashMap()
         if (!connectedList.isNullOrEmpty()) {
             deviceMap[DeviceStatus.CONNECTED] = connectedList as MutableList<DevicesData>
         }
-        if (!removedList.isNullOrEmpty()) {
-            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
-        }
+// TODO: Commenting code for future reference, currently remove devices api is not working.
+//        if (!removedList.isNullOrEmpty()) {
+//            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
+//        }
         uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
         devicesListFlow.latestValue = uiDevicesTypeDetails
     }

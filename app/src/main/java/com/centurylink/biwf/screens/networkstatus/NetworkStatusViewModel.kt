@@ -87,6 +87,7 @@ class NetworkStatusViewModel @Inject constructor(
         viewModelScope.launch {
             requestModemInfo()
             fetchPasswordApi()
+            progressViewFlow.latestValue = false
         }
         modemStatusRefresh()
     }
@@ -169,7 +170,6 @@ class NetworkStatusViewModel @Inject constructor(
      */
     private suspend fun requestModemInfo() {
         val modemResponse = oAuthAssiaRepository.getModemInfo()
-        progressViewFlow.latestValue = false
         modemResponse.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
             val apiInfo = it?.apInfoList
@@ -464,7 +464,6 @@ class NetworkStatusViewModel @Inject constructor(
                 // TODO Currently API is returning Error -Temp Hack for displaying password
                 existingWifiPwd = "test123wifi"
                 existingGuestPwd = "test123Guest"
-                updatePasswords()
             })
     }
 
@@ -597,6 +596,7 @@ class NetworkStatusViewModel @Inject constructor(
      */
     private fun submitData() {
         viewModelScope.launch {
+            progressViewFlow.latestValue = true
             // Update Regular Network NAme
             if (existingWifiNwName != newWifiName) {
                 if (!newWifiName.isNullOrEmpty() && regularNetworkInstance.isNetworkEnabled) {
