@@ -21,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         style="@style/hintTitleTextView"
+        android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center_vertical"

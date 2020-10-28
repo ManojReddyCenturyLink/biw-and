@@ -121,24 +121,25 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         devicesViewModel.navigateToUsageDetails(devicesInfo)
     }
 
+    //TODO: Commenting temporarily remove devices api is not working.
     /**
      * On removed devices clicked - It will handle on remove device click listener
      *
      * @param deviceInfo - The clicked device info
      */
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
-        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_ALWAYS_SCROLL
-        disableSwipeToRefresh()
-        devicesViewModel.logRemoveDevicesItemClick()
-        blockDeviceMac = deviceInfo.stationMac!!
-        val nickName = if (!deviceInfo.mcAfeeName.isNullOrEmpty()) {
-            deviceInfo.mcAfeeName
-        } else {
-            deviceInfo.hostName ?: ""
-        }
-        showConfirmationDialog(
-            nickName?.toUpperCase(Locale.getDefault())?.capitalize()
-        )
+//        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_ALWAYS_SCROLL
+//        disableSwipeToRefresh()
+//        devicesViewModel.logRemoveDevicesItemClick()
+//        blockDeviceMac = deviceInfo.stationMac!!
+//        val nickName = if (!deviceInfo.mcAfeeName.isNullOrEmpty()) {
+//            deviceInfo.mcAfeeName
+//        } else {
+//            deviceInfo.hostName ?: ""
+//        }
+//        showConfirmationDialog(
+//            nickName?.toUpperCase(Locale.getDefault())?.capitalize()
+//        )
     }
 
     /**
