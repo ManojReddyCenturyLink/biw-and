@@ -99,6 +99,18 @@ class SubscriptionStatementActivity : BaseActivity() {
                 binding.subscriptionStatementEmailContent.text = uiAccountInfo.email
                 binding.subscriptionStatementBillingAddressContent.text =
                     uiAccountInfo.billingAddress
+                if(uiAccountInfo.promoDiscountAmount!=null) {
+                    binding.subscriptionStatementPromoLabel.visibility = View.VISIBLE
+                    binding.subscriptionStatementPromoCost.visibility = View.VISIBLE
+                    binding.subscriptionStatementPromoSubheader.visibility = View.VISIBLE
+                    binding.subscriptionStatementPromoLabel.text =
+                    getString(R.string.promo_code_label, uiAccountInfo.promoCode)
+                    binding.subscriptionStatementPromoCost.text =
+                    getString(R.string.cost_template, uiAccountInfo.promoDiscountAmount)
+                    binding.subscriptionStatementPromoSubheader.text =
+                    uiAccountInfo.promoDescription
+                }
+
             }
             showProgress(false)
         }

@@ -1,6 +1,5 @@
 package com.centurylink.biwf.model.support
 
-import com.centurylink.biwf.model.user.RecentItems
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 

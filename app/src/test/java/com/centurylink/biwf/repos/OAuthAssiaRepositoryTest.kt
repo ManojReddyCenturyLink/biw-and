@@ -4,6 +4,7 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.assia.AssiaToken
 import com.centurylink.biwf.model.assia.ModemInfo
 import com.centurylink.biwf.model.assia.ModemInfoResponse
+import com.centurylink.biwf.model.devices.BlockResponse
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.model.devices.DevicesInfo
 import com.centurylink.biwf.repos.assia.AssiaTokenManager
@@ -79,7 +80,8 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
     fun testGetModemInfoFailure() {
         runBlocking {
             launch {
-                modemInfoResponse = ModemInfoResponse(code = Constants.ERROR_CODE_1064, modemInfo = ModemInfo())
+                modemInfoResponse =
+                    ModemInfoResponse(code = Constants.ERROR_CODE_1064, modemInfo = ModemInfo())
                 coEvery { assiaService.getLineInfo(any(), any()) } returns Either.Right(
                     modemInfoResponse
                 )
@@ -113,7 +115,8 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
     fun testGetModemInfoForcePingFailure() {
         runBlocking {
             launch {
-                modemInfoResponse = ModemInfoResponse(code = Constants.ERROR_CODE_1064, modemInfo = ModemInfo())
+                modemInfoResponse =
+                    ModemInfoResponse(code = Constants.ERROR_CODE_1064, modemInfo = ModemInfo())
                 coEvery { assiaService.getLineInfo(any(), any()) } returns Either.Right(
                     modemInfoResponse
                 )
@@ -128,8 +131,13 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
-                val devicesData= DevicesData()
-                devicesInfo= DevicesInfo(code = Constants.ERROR_CODE_1064,error = "",message = "",devicesDataList = arrayListOf(devicesData) )
+                val devicesData = DevicesData()
+                devicesInfo = DevicesInfo(
+                    code = Constants.ERROR_CODE_1064,
+                    error = "",
+                    message = "",
+                    devicesDataList = arrayListOf(devicesData)
+                )
                 coEvery { assiaService.getDevicesList(any()) } returns Either.Right(devicesInfo)
                 val deviceInfo = assiaRepository.getDevicesDetails()
                 Assert.assertEquals(deviceInfo.mapLeft { it }, Either.Left(""))
@@ -145,15 +153,57 @@ class OAuthAssiaRepositoryTest : BaseRepositoryTest() {
                 coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
                 val deviceInformation = assiaRepository.getDevicesDetails()
                 Assert.assertEquals(
-                        deviceInformation.map { it[0].vendorName },
-                        Either.Right("APPLE")
+                    deviceInformation.map { it[0].vendorName },
+                    Either.Right("APPLE")
                 )
                 Assert.assertEquals(
-                        deviceInformation.map { it[0].type },
-                        Either.Right("Apple")
+                    deviceInformation.map { it[0].type },
+                    Either.Right("Apple")
                 )
             }
         }
     }
 
+    @Test
+    fun testGetBlockDevicesSuccess() {
+        runBlockingTest {
+            launch {
+                every { mockPreferences.getAssiaId() } returns Constants.ID
+                coEvery {
+                    assiaService.blockDevice(any())
+                } returns Either.Right(
+                    BlockResponse(
+                        code = Constants.ERROR_CODE_1000,
+                        message = Constants.SUCCESS,
+                        data = "", uniqueErrorCode = 0, createErrorRecord = false
+                    )
+                )
+
+                val devicesInfo=assiaRepository.blockDevices("")
+                Assert.assertEquals(devicesInfo.map { it.message }, Either.Right(Constants.SUCCESS))
+
+            }
+        }
+    }
+
+    @Test
+    fun testGetBlockDevicesFailure() {
+        runBlockingTest {
+            launch {
+                every { mockPreferences.getAssiaId() } returns Constants.ID
+                coEvery {
+                    assiaService.blockDevice(any())
+                } returns Either.Right(
+                    BlockResponse(
+                        code = Constants.ERROR_CODE_1064,
+                        message = "",
+                        data = "", uniqueErrorCode = 0, createErrorRecord = false
+                    )
+                )
+
+               val devicesInfo= assiaRepository.blockDevices("")
+                Assert.assertEquals(devicesInfo.mapLeft { it }, Either.Left(""))
+            }
+        }
+    }
 }

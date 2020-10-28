@@ -64,5 +64,14 @@ class PaymentDetails(
     val zuoraRefundAmount: String? = null,
 
     @SerializedName("Zuora__AppliedInvoiceAmount__c")
-    val zuoraAppliedInvoiceAmount: String? = null
+    val zuoraAppliedInvoiceAmount: String? = null,
+
+    @SerializedName("Promo_Code__c")
+    val promoCode: String? = null,
+
+    @SerializedName("Promo_Description__c")
+    val promoDescription: String? = null,
+
+    @SerializedName("Promo_Discount_Amount__c")
+    val promoDiscountAmount: Double? = null
 )
