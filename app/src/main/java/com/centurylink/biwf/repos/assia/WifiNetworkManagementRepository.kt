@@ -59,10 +59,10 @@ class WifiNetworkManagementRepository @Inject constructor(
                 newSsid = updateNetworkName)
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
-            if (it.code != "1000") {
-                Either.Left(it.message)
+            if (it.code == "1000" || it.code == "10356") {
+                return Either.Right(it)
             }
-            Either.Right(it)
+            return Either.Left(it.message)
         }
     }
 
@@ -102,10 +102,10 @@ class WifiNetworkManagementRepository @Inject constructor(
             updateNWPassword
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
-                if (it.code != "1000") {
-                    Either.Left(it.message)
-                }
-                Either.Right(it)
+            if (it.code == "1000" || it.code == "10356") {
+                return Either.Right(it)
+            }
+            return Either.Left(it.message)
         }
     }
 

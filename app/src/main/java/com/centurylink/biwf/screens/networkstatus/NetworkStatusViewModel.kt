@@ -49,7 +49,6 @@ class NetworkStatusViewModel @Inject constructor(
     private var existingGuestPwd: String = ""
     private var newGuestPwd: String = ""
     private var submitFlow: Boolean = false
-    private var updatingComplete: Boolean = false
 
     private var bssidMap: HashMap<String, String> = HashMap()
     private var ssidMap: HashMap<String, String> = HashMap()
@@ -88,6 +87,7 @@ class NetworkStatusViewModel @Inject constructor(
         viewModelScope.launch {
             requestModemInfo()
             fetchPasswordApi()
+            progressViewFlow.latestValue = false
         }
         modemStatusRefresh()
     }
@@ -169,9 +169,7 @@ class NetworkStatusViewModel @Inject constructor(
      *
      */
     private suspend fun requestModemInfo() {
-        if(updatingComplete == false) {
             val modemResponse = oAuthAssiaRepository.getModemInfo()
-            progressViewFlow.latestValue = false
             modemResponse.fold(ifRight = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
                 val apiInfo = it?.apInfoList
@@ -212,8 +210,6 @@ class NetworkStatusViewModel @Inject constructor(
                     //errorMessageFlow.latestValue = "Modem Info Not Available"
                     setOfflineNetworkInformation()
                 })
-        }
-        updatingComplete = false
     }
 
     /**
@@ -464,7 +460,6 @@ class NetworkStatusViewModel @Inject constructor(
                 //TODO Currently API is returning Error -Temp Hack for displaying password
                 existingWifiPwd = "test123wifi"
                 existingGuestPwd = "test123Guest"
-                updatePasswords()
             })
     }
 
@@ -494,14 +489,12 @@ class NetworkStatusViewModel @Inject constructor(
             UpdateNWPassword(password)
         )
         netWorkInfo.fold(ifRight =
-             {
+         {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_SUCCESS)
-                 progressViewFlow.latestValue = false
              },
            ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_PASSWORD_FAILURE)
                 submitFlow = true
-               progressViewFlow.latestValue = false
            }
         )
     }
@@ -586,13 +579,11 @@ class NetworkStatusViewModel @Inject constructor(
         netWorkInfo.fold(
             ifRight =  {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_SUCCESS)
-                progressViewFlow.latestValue = false
 
             },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UPDATE_NETWORK_NAME_FAILURE)
                 submitFlow = true
-                progressViewFlow.latestValue = false
             }
                 )
     }
@@ -603,6 +594,7 @@ class NetworkStatusViewModel @Inject constructor(
      */
     private fun submitData() {
         viewModelScope.launch {
+            progressViewFlow.latestValue = true
             // Update Regular Network NAme
             if (existingWifiNwName != newWifiName) {
                 if (!newWifiName.isNullOrEmpty() && regularNetworkInstance.isNetworkEnabled) {
@@ -651,8 +643,8 @@ class NetworkStatusViewModel @Inject constructor(
                     }
                 }
             }
+            progressViewFlow.latestValue = false
             errorSubmitValue.latestValue = submitFlow
-            updatingComplete = true
         }
     }
 
