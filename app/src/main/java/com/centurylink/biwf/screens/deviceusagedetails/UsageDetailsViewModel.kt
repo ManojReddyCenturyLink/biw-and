@@ -278,7 +278,7 @@ class UsageDetailsViewModel constructor(
                 !deviceData.isPaused
             )
             macResponse.fold(ifLeft = {
-                if(retryStatus) {
+                if (retryStatus) {
                     errorMessageFlow.latestValue = it
                 } else {
                     progressViewFlow.latestValue = false
