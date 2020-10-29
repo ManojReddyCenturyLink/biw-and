@@ -125,11 +125,13 @@ class DashboardViewModel @Inject constructor(
      * Init devices apis
      */
     fun initDevicesApis() {
+        progressViewFlow.latestValue = true
         viewModelScope.launch {
             requestWifiDetails()
             fetchPasswordApi()
             requestDevices()
         }
+        progressViewFlow.latestValue = false
     }
 
     /**
