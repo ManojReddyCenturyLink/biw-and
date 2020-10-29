@@ -22,7 +22,6 @@ class EncryptionServices(context: Context) {
 
     private val keyStoreWrapper = KeyStoreWrapper(context, DEFAULT_KEY_STORE_NAME)
 
-
     /**
      * Create and save cryptography key, to protect Secrets with.
      */
