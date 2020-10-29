@@ -31,5 +31,4 @@ class SystemServices(private val context: Context) {
                 context.getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
         }
     }
-
 }

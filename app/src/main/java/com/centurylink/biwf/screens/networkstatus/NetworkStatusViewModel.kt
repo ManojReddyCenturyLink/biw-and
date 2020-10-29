@@ -237,7 +237,7 @@ class NetworkStatusViewModel @Inject constructor(
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
                 // Ignoring Error to avoid Frequent
-                //errorMessageFlow.latestValue = "Modem Info Not Available"
+                // errorMessageFlow.latestValue = "Modem Info Not Available"
                 setOfflineNetworkInformation()
             })
     }
@@ -677,7 +677,6 @@ class NetworkStatusViewModel @Inject constructor(
             }
             errorSubmitValue.latestValue = submitFlow
             progressViewFlow.latestValue = false
-
         }
     }
 

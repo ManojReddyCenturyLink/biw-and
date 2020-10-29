@@ -12,7 +12,6 @@ import java.security.*
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 
-
 /**
  * This class wraps [KeyStore] class apis with some additional possibilities.
  */
@@ -39,7 +38,6 @@ class KeyStoreWrapper(private val context: Context, defaultKeyStoreName: String)
             null
         }
     }
-
 
     fun createDefaultKeyStoreSymmetricKey(alias: String, password: String) {
         val key = generateDefaultSymmetricKey()
@@ -87,7 +85,7 @@ class KeyStoreWrapper(private val context: Context, defaultKeyStoreName: String)
             .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
             .setUserAuthenticationValidityDurationSeconds(userAuthenticationValidityDurationSeconds)
         // Not working on api 23, try higher ?
-        //.setRandomizedEncryptionRequired(false)
+        // .setRandomizedEncryptionRequired(false)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             builder.setInvalidatedByBiometricEnrollment(invalidatedByBiometricEnrollment)
             builder.setUserAuthenticationValidWhileOnBody(userAuthenticationValidWhileOnBody)
@@ -95,7 +93,6 @@ class KeyStoreWrapper(private val context: Context, defaultKeyStoreName: String)
         keyGenerator.init(builder.build())
         return keyGenerator.generateKey()
     }
-
 
     private fun createAndroidKeyStore(): KeyStore {
         val keyStore = KeyStore.getInstance("AndroidKeyStore")
@@ -113,6 +110,4 @@ class KeyStoreWrapper(private val context: Context, defaultKeyStoreName: String)
         }
         return keyStore
     }
-
 }
-
