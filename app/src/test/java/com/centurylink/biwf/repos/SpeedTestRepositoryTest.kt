@@ -2,8 +2,7 @@ package com.centurylink.biwf.repos
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.model.assia.AssiaToken
-import com.centurylink.biwf.model.speedtest.SpeedTestRes
-import com.centurylink.biwf.model.speedtest.SpeedTestStatusResponse
+import com.centurylink.biwf.model.speedtest.*
 import com.centurylink.biwf.repos.assia.SpeedTestRepository
 import com.centurylink.biwf.service.network.AssiaTokenService
 import com.centurylink.biwf.service.network.SpeedTestService
@@ -109,6 +108,203 @@ class SpeedTestRepositoryTest : BaseRepositoryTest() {
                 Assert.assertEquals(
                     speedTestInformation.map { it.success },
                     Either.Right(true)
+                )
+            }
+        }
+    }
+
+    @Test
+    fun testCheckSpeedTestResultsFail() {
+        runBlockingTest {
+            launch {
+                coEvery { speedTestService.getSpeedTestStatusDetails(any()) } returns Either.Right(
+                    SpeedTestStatusResponse(
+                        statusResponse = SpeedTestStatus(
+                            code = 0,
+                            message = "",
+                            data = SpeedTestStatusNestedResults(
+                                currentStep = "",
+                                isFinished = false
+                            )
+                        ),
+                        callBackUrl = "",
+                        status = "ERROR",
+                        createErrorRecord = false,
+                        requestId = "",
+                        success = false,
+                        uploadSpeedSummary = UploadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        downloadSpeedSummary = DownloadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        assiaId = "",
+                        message = "",
+                        uniqueErrorCode = 0
+                    )
+                )
+                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
+                val speedTestInformation = speedTestRepository.getSpeedTestResults("")
+                Assert.assertEquals(
+                    speedTestInformation.map { it.status },
+                    Either.Left("Request not found")
+                )
+                Assert.assertEquals(
+                    speedTestInformation.map { it.statusResponse.code },
+                    Either.Left("Request not found")
+                )
+            }
+        }
+    }
+
+    @Test
+    fun testCheckSpeedTestResultsFail1() {
+        runBlockingTest {
+            launch {
+                coEvery { speedTestService.getSpeedTestStatusDetails(any()) } returns Either.Right(
+                    SpeedTestStatusResponse(
+                        statusResponse = SpeedTestStatus(
+                            code = 0,
+                            message = "",
+                            data = SpeedTestStatusNestedResults(
+                                currentStep = "",
+                                isFinished = false
+                            )
+                        ),
+                        callBackUrl = "",
+                        status = "",
+                        createErrorRecord = false,
+                        requestId = "",
+                        success = false,
+                        uploadSpeedSummary = UploadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        downloadSpeedSummary = DownloadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        assiaId = "",
+                        message = "",
+                        uniqueErrorCode = 0
+                    )
+                )
+                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
+                val speedTestInformation = speedTestRepository.getSpeedTestResults("")
+                Assert.assertEquals(
+                    speedTestInformation.map { it.statusResponse.code },
+                    Either.Left("Request not found")
+                )
+            }
+        }
+    }
+
+
+    @Test
+    fun testCheckSpeedTestStatusFail() {
+        runBlockingTest {
+            launch {
+                coEvery { speedTestService.getSpeedTestStatusDetails(any()) } returns Either.Right(
+                    SpeedTestStatusResponse(
+                        statusResponse = SpeedTestStatus(
+                            code = 0,
+                            message = "",
+                            data = SpeedTestStatusNestedResults(
+                                currentStep = "",
+                                isFinished = false
+                            )
+                        ),
+                        callBackUrl = "",
+                        status = "ERROR",
+                        createErrorRecord = false,
+                        requestId = "",
+                        success = false,
+                        uploadSpeedSummary = UploadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        downloadSpeedSummary = DownloadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        assiaId = "",
+                        message = "",
+                        uniqueErrorCode = 0
+                    )
+                )
+                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
+                val speedTestInformation = speedTestRepository.checkSpeedTestStatus("")
+                Assert.assertEquals(
+                    speedTestInformation.map { it },
+                    Either.Left("Request not found")
+                )
+            }
+        }
+    }
+
+    @Test
+    fun testCheckSpeedTestStatusFail1() {
+        runBlockingTest {
+            launch {
+                coEvery { speedTestService.getSpeedTestStatusDetails(any()) } returns Either.Right(
+                    SpeedTestStatusResponse(
+                        statusResponse = SpeedTestStatus(
+                            code = 0,
+                            message = "",
+                            data = SpeedTestStatusNestedResults(
+                                currentStep = "",
+                                isFinished = false
+                            )
+                        ),
+                        callBackUrl = "",
+                        status = "",
+                        createErrorRecord = false,
+                        requestId = "",
+                        success = false,
+                        uploadSpeedSummary = UploadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        downloadSpeedSummary = DownloadSpeedSummary(
+                            code = 0,
+                            speedTestNestedResults = SpeedTestNestedResults(
+                                name = "",
+                                list = listOf()
+                            )
+                        ),
+                        assiaId = "",
+                        message = "",
+                        uniqueErrorCode = 0
+                    )
+                )
+                coEvery { assiaTokenService.getAssiaToken() } returns Either.Right(assiaToken)
+                val speedTestInformation = speedTestRepository.checkSpeedTestStatus("")
+                Assert.assertEquals(
+                    speedTestInformation.map { it },
+                    Either.Left("Request not found")
                 )
             }
         }

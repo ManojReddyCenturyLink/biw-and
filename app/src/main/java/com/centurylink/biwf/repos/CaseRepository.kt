@@ -32,14 +32,6 @@ class CaseRepository @Inject constructor(
 ) {
 
     /**
-     * This method is used to get the Account Id that is stored in the  Shared Preferences
-     * @return The Account Id.
-     */
-    private fun getAccountId(): String? {
-        return preferences.getValueByID(Preferences.ACCOUNT_ID)
-    }
-
-    /**
      * This method is used to get the Contact Id that is stored in the  Shared Preferences
      * @return The Contact Id.
      */

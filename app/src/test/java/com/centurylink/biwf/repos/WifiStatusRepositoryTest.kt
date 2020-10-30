@@ -53,7 +53,7 @@ class WifiStatusRepositoryTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun testWifiDisnableNetwork() {
+    fun testWifiDisableNetwork() {
         runBlocking {
             launch {
                 coEvery { wifiStatusService.disableNetwork(any()) } returns Either.Right(
@@ -67,7 +67,7 @@ class WifiStatusRepositoryTest : BaseRepositoryTest() {
     }
 
     @Test
-    fun testdisableNetworkError() {
+    fun testDisableNetworkError() {
         runBlocking {
             launch {
                 val asiaError: AssiaHttpError = AssiaHttpError(
@@ -99,4 +99,32 @@ class WifiStatusRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
+
+
+    @Test
+    fun testWifiDisableNetworkError() {
+        runBlocking {
+            launch {
+                coEvery { wifiStatusService.disableNetwork(any()) } returns Either.Right(
+                    UpdateNetworkResponse(code = "1001", message = "", data = false)
+                )
+                val wifiStatusInfo = wifiStatusRepository.disableNetwork(NetWorkBand.Band2G)
+                Assert.assertEquals(wifiStatusInfo.map { it.code }, Either.Left(""))
+            }
+        }
+    }
+
+    @Test
+    fun testWifiEnableNetworkError() {
+        runBlocking {
+            launch {
+                coEvery { wifiStatusService.enableNetwork(any()) } returns Either.Right(
+                    UpdateNetworkResponse(code = "1001", message = "", data = false)
+                )
+                val wifiStatusInfo = wifiStatusRepository.enableNetwork(NetWorkBand.Band2G)
+                Assert.assertEquals(wifiStatusInfo.map { it.code }, Either.Left(""))
+            }
+        }
+    }
+
 }
