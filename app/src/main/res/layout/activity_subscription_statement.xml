@@ -221,7 +221,7 @@
                 style="@style/single_line_text_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_spacing_large"
+                android:layout_marginTop="@dimen/padding_9"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/subscription_statement_promo_label" />
