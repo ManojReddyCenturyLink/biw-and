@@ -213,7 +213,6 @@ class SpeedTestRepositoryTest : BaseRepositoryTest() {
         }
     }
 
-
     @Test
     fun testCheckSpeedTestStatusFail() {
         runBlockingTest {

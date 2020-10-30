@@ -100,7 +100,6 @@ class WifiStatusRepositoryTest : BaseRepositoryTest() {
         }
     }
 
-
     @Test
     fun testWifiDisableNetworkError() {
         runBlocking {
@@ -126,5 +125,4 @@ class WifiStatusRepositoryTest : BaseRepositoryTest() {
             }
         }
     }
-
 }
