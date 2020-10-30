@@ -178,7 +178,7 @@
                 style="@style/style_payment_breakup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:layout_marginTop="@dimen/margin_spacing_small"
                 android:gravity="start"
                 android:text="@string/statement_payment_total"
                 app:layout_constraintStart_toStartOf="parent"
