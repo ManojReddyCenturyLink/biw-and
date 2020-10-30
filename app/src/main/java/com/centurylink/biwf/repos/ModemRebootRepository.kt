@@ -35,19 +35,6 @@ class ModemRebootRepository @Inject constructor(
         return assiaService.rebootModem(RebootModemRequest(preferences.getAssiaId()))
     }
 
-    /**
-     * This function is used to get the Header function for the Asia cloudcheck requests
-     *
-     * @param token AssiacloudCheckToken Manager.
-     * @return Map of Key value pair that is set for the header.
-     */
-    private fun getHeaderMap(token: String): Map<String, String> {
-        val headerMap = mutableMapOf<String, String>()
-        // TODO remove "Authorization" from map when Cloudcheck URLs updated
-        headerMap["Authorization"] = "bearer $token"
-        return headerMap
-    }
-
     companion object {
         const val REBOOT_STARTED_SUCCESSFULLY = 1000
     }

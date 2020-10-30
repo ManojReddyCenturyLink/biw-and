@@ -101,6 +101,7 @@ class UsageDetailsViewModel constructor(
     var pauseUnpauseConnection = EventFlow<DevicesData>()
     var mcAfeedeviceList: List<DevicesItem> = emptyList()
     var mcAfeedeviceNames: ArrayList<String> = ArrayList()
+    var retryStatus = true
 
     /**
      * Init apis - It will start all the api calls initialisation
@@ -277,7 +278,11 @@ class UsageDetailsViewModel constructor(
                 !deviceData.isPaused
             )
             macResponse.fold(ifLeft = {
-                errorMessageFlow.latestValue = it
+                if (retryStatus) {
+                    errorMessageFlow.latestValue = it
+                } else {
+                    progressViewFlow.latestValue = false
+                }
                 deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
                 pauseUnpauseConnection.latestValue = deviceData
             }, ifRight = {
