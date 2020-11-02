@@ -20,6 +20,7 @@ import com.centurylink.biwf.coordinators.DashboardCoordinator
 import com.centurylink.biwf.databinding.FragmentDashboardBinding
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
+import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -42,9 +43,12 @@ import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.appointm
 import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.appointment_date_time_card
 import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.appointment_time
 import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.incWelcomeCard
-import kotlinx.android.synthetic.main.widget_status_enroute.view.incEnrouteCard
+import kotlinx.android.synthetic.main.widget_installation_completed.view.*
+import kotlinx.android.synthetic.main.widget_status_enroute.view.*
+import kotlinx.android.synthetic.main.widget_status_enroute.view.appointment_status_progress_state
+import kotlinx.android.synthetic.main.widget_status_enroute.view.appointment_status_title
 import kotlinx.android.synthetic.main.widget_status_enroute.view.technician_name
-import kotlinx.android.synthetic.main.widget_status_work_begun.view.incWipCard
+import kotlinx.android.synthetic.main.widget_status_work_begun.view.*
 import kotlinx.android.synthetic.main.widget_welcome_card.view.msg
 import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_button
 import kotlinx.android.synthetic.main.widget_welcome_card.view.title
@@ -271,6 +275,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 } else {
                     incSpeedTest.visibility = View.GONE
                     binding.connectedDevicesCard.root.visibility = View.GONE
+                    binding.layoutNetworkList.visibility = View.GONE
                 }
             }
         }
@@ -283,6 +288,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         incCompleted.visibility = View.GONE
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
+        binding.layoutNetworkList.visibility = View.VISIBLE
         dashboardViewModel.networkStatus.observe { networkStatusOnline ->
             if (networkStatusOnline && speedTestCount < 1) {
                 dashboardViewModel.startSpeedTest(false)
@@ -312,11 +318,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             if (unreadNotificationList.isNotEmpty()) {
                 dashboardViewModel.navigateToNotificationDetails(unreadNotificationList[0])
             }
-        }
-        binding.incCompleted.getStartedBtn.setOnClickListener {
-            incCompleted.visibility = View.GONE
-            dashboardViewModel.getStartedClicked()
-            viewClickListener.onGetStartedClick(false)
         }
         binding.connectedDevicesCard.root.setOnClickListener {
             dashboardViewModel.logViewDevicesClick()
@@ -378,8 +379,30 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * Get appointment status - It will get appointment status info
      */
     private fun getAppointmentStatus() {
+
         dashboardViewModel.dashBoardDetailsInfo.observe {
             if (it is DashboardViewModel.AppointmentScheduleState) {
+                if (it.jobType.contains(HomeViewModel.intsall)) {
+                    incScheduled.appointment_status_title.text =
+                        resources.getString(R.string.fiber_installation_status)
+                    incScheduled.appointment_status_progress_state.text =
+                        resources.getString(R.string.installation_scheduled)
+                    binding.connectedDevicesCard.root.visibility = View.GONE
+                    if (dashboardViewModel.readNotificationStatus()) {
+                        incScheduled.incWelcomeCard.visibility = View.GONE
+                    } else {
+                        incScheduled.incWelcomeCard.visibility = View.VISIBLE
+                    }
+                    binding.layoutNetworkList.visibility = View.GONE
+                } else {
+                    incScheduled.appointment_status_title.text =
+                        resources.getString(R.string.service_appointment_status)
+                    incScheduled.appointment_status_progress_state.text =
+                        resources.getString(R.string.service_appointment_scheduled)
+                    incScheduled.incWelcomeCard.visibility = View.GONE
+                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                    binding.layoutNetworkList.visibility = View.VISIBLE
+                }
                 incScheduled.visibility = View.VISIBLE
                 incScheduled.appointment_date_time_card.appointment_date.text =
                     it.serviceAppointmentDate
@@ -395,14 +418,33 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(1)
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
+                if (it.jobType.contains(HomeViewModel.intsall)) {
+                    incEnroute.appointment_status_title.text =
+                        resources.getString(R.string.fiber_installation_status)
+                    incEnroute.incEnrouteCard.msg.text =
+                        resources.getString(R.string.enroute_notification_message)
+                    binding.connectedDevicesCard.root.visibility = View.GONE
+                    binding.layoutNetworkList.visibility = View.GONE
+                } else {
+                    incEnroute.appointment_status_title.text =
+                        resources.getString(R.string.service_appointment_status)
+                    incEnroute.incEnrouteCard.msg.text =
+                        resources.getString(R.string.service_appointment_enroute_notification_message)
+                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                    binding.layoutNetworkList.visibility = View.VISIBLE
+                }
                 incEnroute.visibility = View.VISIBLE
                 incScheduled.visibility = View.GONE
                 incEnroute.technician_name.text = it.serviceEngineerName
                 incEnroute.appointment_time.text = it.serviceAppointmentTime
                 incEnroute.incEnrouteCard.title.text =
                     resources.getString(R.string.technician_on_the_way)
-                incEnroute.incEnrouteCard.msg.text =
-                    resources.getString(R.string.enroute_notification_message)
+
+                if (dashboardViewModel.readNotificationStatus()) {
+                    incEnroute.incEnrouteCard.visibility = View.GONE
+                } else {
+                    incEnroute.incEnrouteCard.visibility = View.VISIBLE
+                }
                 incEnroute.incEnrouteCard.msg_dismiss_button.setOnClickListener {
                     dashboardViewModel.logDismissNotification()
                     incEnroute.incEnrouteCard.visibility = View.GONE
@@ -411,11 +453,39 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(2)
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
+                if (it.jobType.contains(HomeViewModel.intsall)) {
+                    incWorkBegun.work_begun_appointment_status_title.text =
+                        resources.getString(R.string.fiber_installation_status)
+                    incWorkBegun.work_begun_appointment_status_progress_state.text =
+                        resources.getString(R.string.installation_underway)
+                    incWorkBegun.incWipCard.msg.text =
+                        resources.getString(R.string.work_begun_message)
+                    incWorkBegun.work_begun_appointment_text.text =
+                        resources.getString(R.string.is_setting_up_your_network_now)
+                    binding.connectedDevicesCard.root.visibility = View.GONE
+                    binding.layoutNetworkList.visibility = View.GONE
+                } else {
+                    incWorkBegun.work_begun_appointment_status_title.text =
+                        resources.getString(R.string.service_appointment_status)
+                    incWorkBegun.work_begun_appointment_status_progress_state.text =
+                        resources.getString(R.string.service_underway)
+                    incWorkBegun.incWipCard.msg.text =
+                        resources.getString(R.string.service_appointment_work_begun_message)
+                    incWorkBegun.work_begun_appointment_text.text =
+                        resources.getString(R.string.is_working_now)
+                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                    binding.layoutNetworkList.visibility = View.VISIBLE
+                }
                 incWorkBegun.visibility = View.VISIBLE
                 incEnroute.visibility = View.GONE
-                incWorkBegun.technician_name.text = it.serviceEngineerName
-                incWorkBegun.incWipCard.title.text = resources.getString(R.string.work_in_progress)
-                incWorkBegun.incWipCard.msg.text = resources.getString(R.string.work_begun_message)
+                incWorkBegun.work_begun_technician_name.text = it.serviceEngineerName
+                incWorkBegun.incWipCard.title.text =
+                    resources.getString(R.string.work_in_progress)
+                if (dashboardViewModel.readNotificationStatus()) {
+                    incWorkBegun.incWipCard.visibility = View.GONE
+                } else {
+                    incWorkBegun.incWipCard.visibility = View.VISIBLE
+                }
                 incWorkBegun.incWipCard.msg_dismiss_button.setOnClickListener {
                     dashboardViewModel.logDismissNotification()
                     incWorkBegun.incWipCard.visibility = View.GONE
@@ -424,6 +494,36 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(3)
             }
             if (it is DashboardViewModel.AppointmentComplete) {
+                val appointmentNumber = it.appointmentNumber
+                if (it.jobType.contains(HomeViewModel.intsall)) {
+                    incCompleted.installation_complete_title.text =
+                        resources.getString(R.string.installation_complete)
+                    incCompleted.you_are_all_set_msg.text =
+                        resources.getString(R.string.the_network_is_ready_for_you_to_connect_and_start_enjoying_your_blazing_fast_internet)
+                    incCompleted.get_started_btn.text =
+                        resources.getString(R.string.get_started)
+                    binding.incCompleted.getStartedBtn.setOnClickListener {
+                        incCompleted.visibility = View.GONE
+                        dashboardViewModel.getStartedClicked(appointmentNumber)
+                        viewClickListener.onGetStartedClick(false)
+                    }
+                    binding.connectedDevicesCard.root.visibility = View.GONE
+                    binding.layoutNetworkList.visibility = View.GONE
+                } else {
+                    incCompleted.installation_complete_title.text =
+                        resources.getString(R.string.service_appointment_status_complete)
+                    incCompleted.you_are_all_set_msg.text =
+                        resources.getString(R.string.service_appointment_all_set_status)
+                    incCompleted.get_started_btn.text =
+                        resources.getString(R.string.dismiss)
+                    binding.incCompleted.getStartedBtn.setOnClickListener {
+                        incCompleted.visibility = View.GONE
+                        dashboardViewModel.getStartedClicked(appointmentNumber)
+                        viewClickListener.onGetStartedClick(false)
+                    }
+                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                    binding.layoutNetworkList.visibility = View.VISIBLE
+                }
                 incWorkBegun.visibility = View.GONE
                 incEnroute.visibility = View.GONE
                 incWorkBegun.visibility = View.GONE
@@ -605,8 +705,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
         wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
         binding.wifiScanList.adapter = wifiDevicesAdapter
-        if (wifiList.isNotEmpty()) binding.layoutNetworkList.visibility =
-            View.VISIBLE else binding.layoutNetworkList.visibility = View.GONE
     }
 
     /**

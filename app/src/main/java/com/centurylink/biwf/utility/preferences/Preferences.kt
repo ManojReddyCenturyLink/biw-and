@@ -111,16 +111,24 @@ class Preferences(private val store: KeyValueStore) {
         return asiaID ?: ""
     }
 
-    fun setInstallationStatus(status: Boolean) {
-        store.putBoolean(INSTALLATION_STATUS, status)
+    fun setInstallationStatus(status: Boolean, appointmentNumber: String) {
+        store.putBoolean(appointmentNumber, status)
     }
 
-    fun getInstallationStatus(): Boolean {
-        return store.getBoolean(INSTALLATION_STATUS) ?: false
+    fun getInstallationStatus(appointmentNumber: String): Boolean {
+        return store.getBoolean(appointmentNumber) ?: false
     }
 
     private fun removeAssiaId() {
         store.remove(ASSIA_ID)
+    }
+
+    fun saveAppointmentNotificationStatus(status: Boolean, appointmentNumber: String) {
+        store.putBoolean(appointmentNumber, status)
+    }
+
+    fun getAppointmentNotificationStatus(appointmentNumber: String): Boolean {
+        return store.getBoolean(appointmentNumber) ?: false
     }
 
     fun saveSpeedTestFlag(boolean: Boolean) {
@@ -129,6 +137,14 @@ class Preferences(private val store: KeyValueStore) {
 
     fun getSpeedTestFlag(): Boolean {
         return store.getBoolean(SPEED_TEST_IS_RUNNING) ?: false
+    }
+
+    fun saveAppointmentNumber(appointmentNumber: String) {
+        store.put(APPOINTMENT_NUMBER, appointmentNumber)
+    }
+
+    fun getAppointmentNumber(): String? {
+        return store.get(APPOINTMENT_NUMBER)
     }
 
     fun saveSpeedTestUpload(uploadSpeed: String) {
@@ -197,6 +213,6 @@ class Preferences(private val store: KeyValueStore) {
         const val SPEED_TEST_LAST_TIME = "LAST_SPEED_TEST"
         const val SUPPORT_SPEED_TEST_STARTED = "SUPPORT_SPEED_TEST_STARTED"
         const val SPEED_TEST_ID = "SPEED_TEST_ID"
-        const val INSTALLATION_STATUS = "INSTALLATION_STATUS"
+        const val APPOINTMENT_NUMBER = "APPOINTMENT_NUMBER"
     }
 }

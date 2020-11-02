@@ -30,7 +30,7 @@ class FAQRepository @Inject constructor(
      * @return Faq instance on Success and error in case of failure.
      */
     suspend fun getFAQQuestionDetails(recordTypeId: String): Either<String, Faq> {
-        if (recordTypeId.isNullOrEmpty()) {
+        if (recordTypeId.isEmpty()) {
             Either.Left("RecordType Id is Empty")
         }
         val finalQuery = String.format(EnvironmentPath.FAQ_QUESTION_DETAILS_QUERY, recordTypeId)

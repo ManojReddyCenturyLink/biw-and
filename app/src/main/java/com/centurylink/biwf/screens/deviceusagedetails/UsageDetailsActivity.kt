@@ -16,6 +16,7 @@ import com.centurylink.biwf.databinding.LayoutDevicesUsageInformationBinding
 import com.centurylink.biwf.model.devices.DeviceConnectionStatus
 import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
@@ -198,7 +199,8 @@ class UsageDetailsActivity : BaseActivity() {
         }
         binding.nicknameDeviceNameInput.hint = screenTitle
         binding.deviceConnectedBtn.setOnClickListener {
-            viewModel.onDevicesConnectedClicked()
+        viewModel.retryStatus = !AppUtil.isOnline(this@UsageDetailsActivity)
+        viewModel.onDevicesConnectedClicked()
         }
         binding.removeDevicesBtn.setOnClickListener {
             viewModel.onRemoveDevicesClicked()

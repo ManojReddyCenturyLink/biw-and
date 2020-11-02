@@ -112,10 +112,13 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     var speedTestError = EventFlow<Boolean>()
     private var rebootOngoing = false
-    var installationStatus: Boolean
+    var installationStatus: Boolean = sharedPreferences.getAppointmentNumber()?.let {
+        sharedPreferences.getInstallationStatus(
+            it
+        )
+    }!!
 
     init {
-        installationStatus = sharedPreferences.getInstallationStatus()
         progressViewFlow.latestValue = true
         initAccountDetails()
         initModemStatusRefresh()
@@ -400,6 +403,7 @@ class DashboardViewModel @Inject constructor(
             } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
+                    initDevicesApis()
                 } else {
                     isAccountStatus.latestValue = true
                     initDevicesApis()
@@ -733,7 +737,7 @@ class DashboardViewModel @Inject constructor(
             ServiceStatus.COMPLETED -> {
                 val appointmentComplete = AppointmentComplete(
                     jobType = it.jobType,
-                    status = it.serviceStatus
+                    status = it.serviceStatus, appointmentNumber = it.appointmentNumber
                 )
                 dashBoardDetailsInfo.latestValue = appointmentComplete
             }
@@ -847,11 +851,9 @@ class DashboardViewModel @Inject constructor(
     /**
      * Get started clicked-track the analytics for get started button click
      */
-    fun getStartedClicked() {
+    fun getStartedClicked(appointmentNumber: String) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_GET_STARTED_DASHBOARD)
-        sharedPreferences.setInstallationStatus(true)
-        isAccountActive = true
-        isAccountStatus.latestValue = isAccountActive
+        sharedPreferences.setInstallationStatus(true, appointmentNumber)
     }
 
     /**
@@ -945,7 +947,15 @@ class DashboardViewModel @Inject constructor(
      * Log dismiss notification- track the analytics when dismiss notification
      */
     fun logDismissNotification() {
+        sharedPreferences.saveAppointmentNotificationStatus(true, "")
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DISMISS_NOTIFICATION)
+    }
+
+    /**
+     * It will read notification read status from preferences
+     */
+    fun readNotificationStatus(): Boolean {
+        return sharedPreferences.getAppointmentNotificationStatus("")
     }
 
     abstract class UiDashboardAppointmentInformation
@@ -995,7 +1005,8 @@ class DashboardViewModel @Inject constructor(
      */
     data class AppointmentComplete(
         val jobType: String,
-        val status: ServiceStatus
+        val status: ServiceStatus,
+        val appointmentNumber: String
     ) : UiDashboardAppointmentInformation()
 
     /**

@@ -71,7 +71,7 @@ class HomeViewModel @Inject constructor(
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
     var progressViewFlow = EventFlow<Boolean>()
     val accountDetailsInfo: Flow<AccountDetails> = BehaviorStateFlow()
-
+    var appointmentNumber: String = ""
     private val dialogMessage = ChoiceDialogMessage(
         title = R.string.welcome_to_dashboard,
         message = R.string.biometric_dialog_message,
@@ -224,19 +224,22 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            accountDetailsInfo.latestValue = it
-            if (it.accountStatus.equals(pendingActivation, true) ||
-                it.accountStatus.equals(abandonedActivation, true)
-            ) {
-                if (sharedPreferences.getInstallationStatus()) {
-                    invokeStandardUserDashboard()
-                } else {
-                    requestAppointmentDetails()
-                }
-            } else {
+            requestAppointmentNumber(it)
+        }
+    }
+
+    private suspend fun displayAccountInfo(accountDetails: AccountDetails) {
+        if (accountDetails.accountStatus.equals(pendingActivation, true) ||
+            accountDetails.accountStatus.equals(abandonedActivation, true)
+        ) {
+            if (sharedPreferences.getInstallationStatus(appointmentNumber)) {
                 invokeStandardUserDashboard()
-                progressViewFlow.latestValue = false
+            } else {
+                requestAppointmentDetails()
             }
+        } else {
+            invokeStandardUserDashboard()
+            progressViewFlow.latestValue = false
         }
     }
 
@@ -258,6 +261,20 @@ class HomeViewModel @Inject constructor(
             } else {
                 invokeNewUserDashboard()
             }
+        }
+    }
+
+    /**
+     * Request appointment number - It is used to request appointment details through API call
+     *
+     */
+    private suspend fun requestAppointmentNumber(accountDetails: AccountDetails) {
+        val appointmentDetails = appointmentRepository.getAppointmentInfo()
+        appointmentDetails.fold(ifLeft = {
+        }) {
+            appointmentNumber = it.appointmentNumber
+            sharedPreferences.saveAppointmentNumber(appointmentNumber)
+            displayAccountInfo(accountDetails)
         }
     }
 

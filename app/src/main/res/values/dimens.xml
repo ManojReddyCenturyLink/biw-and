@@ -10,6 +10,7 @@
     <dimen name="margin_spacing_tiny">8dp</dimen>
     <dimen name="margin_spacing_10">10dp</dimen>
     <dimen name="margin_spacing_really_small">12dp</dimen>
+    <dimen name="appointment_card_radius">16dp</dimen>
     <dimen name="spacing_14">14dp</dimen>
     <dimen name="margin_spacing_small">16dp</dimen>
     <dimen name="height_20">20dp</dimen>
@@ -23,6 +24,7 @@
     <dimen name="padding_40">40dp</dimen>
     <dimen name="height_54">54dp</dimen>
     <dimen name="margin_120">120dp</dimen>
+    <dimen name="padding_9">9dp</dimen>
 
     <!--  Design Patterns -->
     <dimen name="section_heading_margin_top">48dp</dimen>
