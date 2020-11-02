@@ -11,6 +11,8 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.account.AccountDetails
+import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
+import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
@@ -274,7 +276,21 @@ class HomeViewModel @Inject constructor(
         }) {
             appointmentNumber = it.appointmentNumber
             sharedPreferences.saveAppointmentNumber(appointmentNumber)
+            resetAppointment(it)
             displayAccountInfo(accountDetails)
+        }
+    }
+
+    /**
+     * Recurring appointment call
+     */
+    private fun resetAppointment(appointmentDetails: AppointmentRecordsInfo) {
+        val appointmentNumber = appointmentDetails.appointmentNumber
+
+        if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
+            appointmentDetails.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
+        ) {
+            sharedPreferences.setInstallationStatus(false, appointmentNumber)
         }
     }
 

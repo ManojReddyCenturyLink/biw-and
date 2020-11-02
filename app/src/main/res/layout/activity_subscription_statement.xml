@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -156,12 +157,22 @@
             <TextView
                 android:id="@+id/subscription_statement_plan_cost"
                 style="@style/single_line_text_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:gravity="end"
-                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible"
+                tools:text="$65.00"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_statement_payment_breakdown_header" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="subscription_statement_plan_cost, subscription_statement_sales_tax_cost, subscription_statement_promo_cost,
+subscription_statement_total_cost"/>
 
             <View
                 android:id="@+id/statement_seprator_planname"
@@ -186,13 +197,13 @@
             <TextView
                 android:id="@+id/subscription_statement_sales_tax_cost"
                 style="@style/single_line_text_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:paddingEnd="@dimen/padding_9"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                app:layout_constraintStart_toStartOf="@id/subscription_statement_plan_cost"
-                app:layout_constraintBaseline_toBaselineOf="@id/subscription_statement_sales_tax_label" />
+                android:layout_marginTop="@dimen/margin_spacing_small"
+                tools:visibility="visible"
+                tools:text="$65.00"
+                app:layout_constraintEnd_toEndOf="@id/barrier"
+                app:layout_constraintTop_toTopOf="@+id/statement_seprator_planname" />
 
             <TextView
                 android:id="@+id/subscription_statement_promo_label"
@@ -203,7 +214,9 @@
                 android:gravity="start"
                 android:text="@string/promo_code_label"
                 android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible"
+                tools:text="Promo code -  11111"
+                app:layout_constraintStart_toEndOf="@id/barrier"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_statement_sales_tax_label" />
 
             <TextView
@@ -213,6 +226,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:visibility="gone"
+                tools:visibility="visible"
+                tools:text="Promo code -  11111"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label" />
 
@@ -221,10 +236,12 @@
                 style="@style/single_line_text_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/padding_9"
+                android:layout_marginTop="@dimen/margin_spacing_large"
                 android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/subscription_statement_promo_label" />
+                tools:visibility="visible"
+                tools:text="$65.00"
+                app:layout_constraintEnd_toEndOf="@id/barrier"
+                app:layout_constraintTop_toBottomOf="@id/subscription_statement_sales_tax_cost"/>
             <View
                 android:id="@+id/statement_seprator_salesTax"
                 style="@style/common_border_divider_style"
@@ -248,11 +265,12 @@
             <TextView
                 android:id="@+id/subscription_statement_total_cost"
                 style="@style/single_line_text_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:gravity="end"
-                app:layout_constraintStart_toStartOf="parent"
+                tools:visibility="visible"
+                tools:text="$65.00"
+                app:layout_constraintEnd_toEndOf="@id/barrier"
                 app:layout_constraintTop_toBottomOf="@+id/statement_seprator_salesTax" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
