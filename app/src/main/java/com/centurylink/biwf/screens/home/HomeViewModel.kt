@@ -287,7 +287,7 @@ class HomeViewModel @Inject constructor(
     private fun resetAppointment(appointmentDetails: AppointmentRecordsInfo) {
         val appointmentNumber = appointmentDetails.appointmentNumber
 
-        if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
+        if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) &&
             !appointmentDetails.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
         ) {
             sharedPreferences.setInstallationStatus(false, appointmentNumber)

@@ -372,7 +372,9 @@ class DashboardViewModel @Inject constructor(
      */
     private fun refreshAppointmentDetails() {
         viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
-            recurringAppointmentCall()
+            if (::appointmentDetails.isInitialized) {
+                recurringAppointmentCall()
+            }
         }
     }
 
@@ -413,10 +415,10 @@ class DashboardViewModel @Inject constructor(
                 }
             }
         }
-        if (refresh) {
-            resetAppointment()
-            refreshAppointmentDetails()
-        }
+//        if (refresh) {
+        resetAppointment()
+        refreshAppointmentDetails()
+        //  }
     }
 
     /**
@@ -425,7 +427,7 @@ class DashboardViewModel @Inject constructor(
     private fun resetAppointment() {
         if (::appointmentDetails.isInitialized) {
             val appointmentNumber = appointmentDetails.appointmentNumber
-            if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
+            if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) &&
                 !appointmentDetails.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
             ) {
                 if (appointmentNumber != null) {
@@ -969,17 +971,31 @@ class DashboardViewModel @Inject constructor(
     /**
      * Log dismiss notification- track the analytics when dismiss notification
      */
-    fun logDismissNotification() {
-        sharedPreferences.saveAppointmentNotificationStatus(true, "")
+    fun logDismissNotification(state: String) {
+        sharedPreferences.saveAppointmentNotificationStatus(
+            true,
+            sharedPreferences.getAppointmentNumber().plus("_").plus(state)
+        )
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DISMISS_NOTIFICATION)
     }
 
     /**
      * It will read notification read status from preferences
      */
-    fun readNotificationStatus(): Boolean {
-        val appointmentNumber = sharedPreferences.getAppointmentNumber()
-        return sharedPreferences.getAppointmentNotificationStatus(appointmentNumber ?: "")
+    fun readNotificationStatus(state: String): Boolean {
+        if (state.equals(ServiceStatus.WORK_BEGUN.name)) {
+            sharedPreferences.removeScheduleNotificationReadStatus()
+            sharedPreferences.removeEnrouteNotificationReadStatus()
+        } else if (state.equals(ServiceStatus.EN_ROUTE.name)) {
+            sharedPreferences.removeScheduleNotificationReadStatus()
+            sharedPreferences.removeWorkBegunNotificationReadStatus()
+        } else if (state.equals(ServiceStatus.SCHEDULED.name)) {
+            sharedPreferences.removeEnrouteNotificationReadStatus()
+            sharedPreferences.removeWorkBegunNotificationReadStatus()
+        }
+        return sharedPreferences.getAppointmentNotificationStatus(
+            sharedPreferences.getAppointmentNumber().plus("_").plus(state)
+        )
     }
 
     abstract class UiDashboardAppointmentInformation

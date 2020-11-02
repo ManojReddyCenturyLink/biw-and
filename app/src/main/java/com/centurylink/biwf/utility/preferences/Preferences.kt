@@ -2,6 +2,7 @@ package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
 import com.centurylink.biwf.BuildConfig
+import com.centurylink.biwf.model.appointment.ServiceStatus
 
 class Preferences(private val store: KeyValueStore) {
 
@@ -74,7 +75,7 @@ class Preferences(private val store: KeyValueStore) {
     fun getLineId(): String {
         var lineId = store.get(LINE_ID)
         // TODO This needs to be removed before launch
-        if (lineId.isNullOrEmpty()) {
+        if (!lineId.equals("0101100408") || !lineId.equals("1000365443") || lineId.isNullOrEmpty()) {
             if (BuildConfig.DEBUG) {
                 lineId = BuildConfig.LINE_ID
             }
@@ -103,7 +104,7 @@ class Preferences(private val store: KeyValueStore) {
     fun getAssiaId(): String {
         var asiaID = store.get(ASSIA_ID)
         // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
-        if (asiaID.isNullOrEmpty()) {
+        if (!asiaID.equals("C4000XG1948000023") || !asiaID.equals("C4000XG1950000308") || asiaID.isNullOrEmpty()) {
             if (BuildConfig.DEBUG) {
                 asiaID = BuildConfig.MODEM_ID
             }
@@ -187,6 +188,29 @@ class Preferences(private val store: KeyValueStore) {
         return store.get(SPEED_TEST_ID)
     }
 
+    private fun removeAppointmentId() {
+        store.remove(APPOINTMENT_NUMBER)
+    }
+
+    private fun removeInstallationStatus() {
+        getAppointmentNumber()?.let { store.remove(it) }
+    }
+
+    fun removeEnrouteNotificationReadStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus(ServiceStatus.EN_ROUTE.name)
+        store.remove(appointmentNumber)
+    }
+
+    fun removeScheduleNotificationReadStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus(ServiceStatus.SCHEDULED.name)
+        store.remove(appointmentNumber)
+    }
+
+    fun removeWorkBegunNotificationReadStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus(ServiceStatus.WORK_BEGUN.name)
+        store.remove(appointmentNumber)
+    }
+
     // Should only be used for logout, currently
     fun clearUserSettings() {
         saveBioMetrics(false)
@@ -195,6 +219,11 @@ class Preferences(private val store: KeyValueStore) {
         removeContactId()
         removeLineId()
         removeAssiaId()
+        removeInstallationStatus()
+        removeScheduleNotificationReadStatus()
+        removeEnrouteNotificationReadStatus()
+        removeWorkBegunNotificationReadStatus()
+        removeAppointmentId()
     }
 
     companion object {
