@@ -10,7 +10,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
-    android:paddingBottom="80dp"
+    android:paddingBottom="@dimen/layout_margin_bottom"
     android:layout_height="wrap_content">
 
     <include

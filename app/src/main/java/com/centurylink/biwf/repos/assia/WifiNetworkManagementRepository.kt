@@ -121,17 +121,4 @@ class WifiNetworkManagementRepository @Inject constructor(
         headerMap["Authorization"] = "bearer $token"
         return headerMap
     }
-
-    /**
-     * The header map function used for configuring the header map with contents .
-     *
-     * @param token The token instance
-     * @return Map with all header information for the request.
-     */
-    private fun getHeaderMapWithContent(token: String): Map<String, String> {
-        val headerMap = mutableMapOf<String, String>()
-        headerMap["Authorization"] = "bearer $token"
-        headerMap["Content-Type"] = "application/json"
-        return headerMap
-    }
 }

@@ -85,6 +85,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
                 if (text != null) {
                     text.typeface = Typeface.DEFAULT_BOLD
                 }
+                if (tab.position == 1) {
+                    refreshDashboardFragment()
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {

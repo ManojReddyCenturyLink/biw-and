@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -177,7 +178,7 @@
                 style="@style/style_payment_breakup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
+                android:layout_marginTop="@dimen/margin_spacing_small"
                 android:gravity="start"
                 android:text="@string/statement_payment_total"
                 app:layout_constraintStart_toStartOf="parent"
@@ -187,10 +188,11 @@
                 style="@style/single_line_text_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:gravity="end"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/statement_seprator_planname" />
+                android:paddingEnd="@dimen/padding_9"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
+                app:layout_constraintStart_toStartOf="@id/subscription_statement_plan_cost"
+                app:layout_constraintBaseline_toBaselineOf="@id/subscription_statement_sales_tax_label" />
 
             <TextView
                 android:id="@+id/subscription_statement_promo_label"
@@ -217,15 +219,12 @@
             <TextView
                 android:id="@+id/subscription_statement_promo_cost"
                 style="@style/single_line_text_content"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
-                android:paddingBottom="10dp"
+                android:layout_marginTop="@dimen/padding_9"
                 android:visibility="gone"
-                app:layout_constraintBaseline_toBaselineOf="@+id/subscription_statement_promo_subheader"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/subscription_statement_promo_label" />
-
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/subscription_statement_promo_label" />
             <View
                 android:id="@+id/statement_seprator_salesTax"
                 style="@style/common_border_divider_style"

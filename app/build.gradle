@@ -287,6 +287,8 @@ dependencies {
     implementation "androidx.security:security-crypto:1.0.0-alpha02"
 
     implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
+    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
+
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
