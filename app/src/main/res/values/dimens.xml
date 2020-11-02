@@ -23,6 +23,7 @@
     <dimen name="padding_40">40dp</dimen>
     <dimen name="height_54">54dp</dimen>
     <dimen name="margin_120">120dp</dimen>
+    <dimen name="padding_9">9dp</dimen>
 
     <!--  Design Patterns -->
     <dimen name="section_heading_margin_top">48dp</dimen>
