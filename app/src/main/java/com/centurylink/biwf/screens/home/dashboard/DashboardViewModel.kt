@@ -424,8 +424,8 @@ class DashboardViewModel @Inject constructor(
      */
     private fun resetAppointment() {
         val appointmentNumber = sharedPreferences.getAppointmentNumber()
-        if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
-            appointmentDetails.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
+        if (!appointmentDetails?.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
+            appointmentDetails?.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
         ) {
             if (appointmentNumber != null) {
                 sharedPreferences.setInstallationStatus(false, appointmentNumber)
