@@ -317,7 +317,8 @@ class DashboardViewModel @Inject constructor(
         var uploadSpeedError = false
         var downloadSpeedError = false
         val result = speedTestRepository.getSpeedTestResults(sharedPreferences.getSpeedTestId()!!)
-        result.fold(ifLeft = { displayEmptyResponse()
+        result.fold(ifLeft = {
+            displayEmptyResponse()
             uploadSpeedError = true
             downloadSpeedError = true
         }, ifRight = {
@@ -389,9 +390,11 @@ class DashboardViewModel @Inject constructor(
                 initDevicesApis()
             }
         }) {
+            sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
+            resetAppointment()
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
             if (!it.jobType.contains(HomeViewModel.intsall) && it.serviceStatus?.name.equals(
@@ -411,7 +414,25 @@ class DashboardViewModel @Inject constructor(
             }
         }
         if (refresh) {
+            resetAppointment()
             refreshAppointmentDetails()
+        }
+    }
+
+    /**
+     * reset the appointment number
+     */
+    private fun resetAppointment() {
+        if (::appointmentDetails.isInitialized) {
+            val appointmentNumber = appointmentDetails.appointmentNumber
+            if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
+                !appointmentDetails.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
+            ) {
+                if (appointmentNumber != null) {
+                    sharedPreferences.setInstallationStatus(false, appointmentNumber)
+                    installationStatus = sharedPreferences.getInstallationStatus(appointmentNumber)
+                }
+            }
         }
     }
 
@@ -424,6 +445,7 @@ class DashboardViewModel @Inject constructor(
             Timber.i("Error in Appointments")
         }) {
             progressViewFlow.latestValue = false
+            sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
@@ -488,6 +510,7 @@ class DashboardViewModel @Inject constructor(
             errorMessageFlow.latestValue = "Error WifiInfo"
         })
     }
+
     /**
      * Request to get network password
      *
@@ -495,7 +518,7 @@ class DashboardViewModel @Inject constructor(
      */
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo =
-                wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
+            wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         netWorkInfo.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
             val password = it.networkName[netWorkBand.name]
@@ -510,37 +533,37 @@ class DashboardViewModel @Inject constructor(
                 }
             }
         },
-                ifLeft = {
-                    analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                    errorMessageFlow.latestValue = it
-                })
+            ifLeft = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
+                errorMessageFlow.latestValue = it
+            })
         val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfoReceived?.apInfoList[0])
         val regularNetworkName = ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0])
         regularNetworkInfo = regularNetworkInstance.copy(
-                category = NetWorkCategory.REGULAR,
-                type = NetWorkBand.Band5G.name,
-                name = regularNetworkName,
-                password = regularNetworkWifiPwd,
-                enabled = wifiNetworkEnabled
+            category = NetWorkCategory.REGULAR,
+            type = NetWorkBand.Band5G.name,
+            name = regularNetworkName,
+            password = regularNetworkWifiPwd,
+            enabled = wifiNetworkEnabled
         )
         val guestNetworkName = ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0])
         val guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfoReceived?.apInfoList[0])
         guestNetworkInfo = guestNetworkInstance.copy(
-                category = NetWorkCategory.GUEST,
-                type = NetWorkBand.Band2G_Guest4.name,
-                name = guestNetworkName,
-                password = guestNetworkWifiPwd,
-                enabled = guestNetworkEnabled
+            category = NetWorkCategory.GUEST,
+            type = NetWorkBand.Band2G_Guest4.name,
+            name = guestNetworkName,
+            password = guestNetworkWifiPwd,
+            enabled = guestNetworkEnabled
         )
         wifiListDetails.latestValue = wifiScanStatus(
-                ArrayList(
-                        (WifiDetails(
-                                listOf(
-                                        regularNetworkInfo,
-                                        guestNetworkInfo
-                                )
-                        )).wifiList
-                )
+            ArrayList(
+                (WifiDetails(
+                    listOf(
+                        regularNetworkInfo,
+                        guestNetworkInfo
+                    )
+                )).wifiList
+            )
         )
     }
 
@@ -955,7 +978,8 @@ class DashboardViewModel @Inject constructor(
      * It will read notification read status from preferences
      */
     fun readNotificationStatus(): Boolean {
-        return sharedPreferences.getAppointmentNotificationStatus("")
+        val appointmentNumber = sharedPreferences.getAppointmentNumber()
+        return sharedPreferences.getAppointmentNotificationStatus(appointmentNumber ?: "")
     }
 
     abstract class UiDashboardAppointmentInformation
