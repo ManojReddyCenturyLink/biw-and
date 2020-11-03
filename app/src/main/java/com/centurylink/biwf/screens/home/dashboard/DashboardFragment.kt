@@ -389,6 +389,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incScheduled.appointment_status_progress_state.text =
                         resources.getString(R.string.installation_scheduled)
                     binding.connectedDevicesCard.root.visibility = View.GONE
+                    dashboardViewModel.clearNotificationStatus(ServiceStatus.SCHEDULED.name)
                     if (dashboardViewModel.readNotificationStatus(ServiceStatus.SCHEDULED.name)) {
                         incScheduled.incWelcomeCard.visibility = View.GONE
                     } else {
@@ -440,7 +441,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.appointment_time.text = it.serviceAppointmentTime
                 incEnroute.incEnrouteCard.title.text =
                     resources.getString(R.string.technician_on_the_way)
-
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.EN_ROUTE.name)
                 if (dashboardViewModel.readNotificationStatus(ServiceStatus.EN_ROUTE.name)) {
                     incEnroute.incEnrouteCard.visibility = View.GONE
                 } else {
@@ -482,6 +483,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incWorkBegun.work_begun_technician_name.text = it.serviceEngineerName
                 incWorkBegun.incWipCard.title.text =
                     resources.getString(R.string.work_in_progress)
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.WORK_BEGUN.name)
                 if (dashboardViewModel.readNotificationStatus(ServiceStatus.WORK_BEGUN.name)) {
                     incWorkBegun.incWipCard.visibility = View.GONE
                 } else {
@@ -529,7 +531,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.visibility = View.GONE
                 incWorkBegun.visibility = View.GONE
                 incCompleted.visibility = View.VISIBLE
-
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.COMPLETED.name)
                 dashboardViewModel.logAppointmentStatusState(4)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
