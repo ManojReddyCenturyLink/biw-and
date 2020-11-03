@@ -537,7 +537,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
                 viewModel.navigateToQRScan(WifiInfo())
                 viewModel.getStartedClicked("")
                 viewModel.logViewDevicesClick()
-                viewModel.logDismissNotification()
+                viewModel.logDismissNotification(ServiceStatus.EN_ROUTE.name)
                 viewModel.logCancelAppointmentAlertClick(true)
             }
         }

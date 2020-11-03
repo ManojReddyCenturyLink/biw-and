@@ -18,6 +18,7 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DashboardCoordinator
 import com.centurylink.biwf.databinding.FragmentDashboardBinding
+import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.home.HomeViewModel
@@ -388,7 +389,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incScheduled.appointment_status_progress_state.text =
                         resources.getString(R.string.installation_scheduled)
                     binding.connectedDevicesCard.root.visibility = View.GONE
-                    if (dashboardViewModel.readNotificationStatus()) {
+                    if (dashboardViewModel.readNotificationStatus(ServiceStatus.SCHEDULED.name)) {
                         incScheduled.incWelcomeCard.visibility = View.GONE
                     } else {
                         incScheduled.incWelcomeCard.visibility = View.VISIBLE
@@ -412,7 +413,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     it.serviceAppointmentEndTime
                 )
                 incScheduled.incWelcomeCard.msg_dismiss_button.setOnClickListener {
-                    dashboardViewModel.logDismissNotification()
+                    dashboardViewModel.logDismissNotification(ServiceStatus.SCHEDULED.name)
                     incScheduled.incWelcomeCard.visibility = View.GONE
                 }
                 dashboardViewModel.logAppointmentStatusState(1)
@@ -440,13 +441,13 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.incEnrouteCard.title.text =
                     resources.getString(R.string.technician_on_the_way)
 
-                if (dashboardViewModel.readNotificationStatus()) {
+                if (dashboardViewModel.readNotificationStatus(ServiceStatus.EN_ROUTE.name)) {
                     incEnroute.incEnrouteCard.visibility = View.GONE
                 } else {
                     incEnroute.incEnrouteCard.visibility = View.VISIBLE
                 }
                 incEnroute.incEnrouteCard.msg_dismiss_button.setOnClickListener {
-                    dashboardViewModel.logDismissNotification()
+                    dashboardViewModel.logDismissNotification(ServiceStatus.EN_ROUTE.name)
                     incEnroute.incEnrouteCard.visibility = View.GONE
                 }
                 originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
@@ -481,13 +482,13 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incWorkBegun.work_begun_technician_name.text = it.serviceEngineerName
                 incWorkBegun.incWipCard.title.text =
                     resources.getString(R.string.work_in_progress)
-                if (dashboardViewModel.readNotificationStatus()) {
+                if (dashboardViewModel.readNotificationStatus(ServiceStatus.WORK_BEGUN.name)) {
                     incWorkBegun.incWipCard.visibility = View.GONE
                 } else {
                     incWorkBegun.incWipCard.visibility = View.VISIBLE
                 }
                 incWorkBegun.incWipCard.msg_dismiss_button.setOnClickListener {
-                    dashboardViewModel.logDismissNotification()
+                    dashboardViewModel.logDismissNotification(ServiceStatus.WORK_BEGUN.name)
                     incWorkBegun.incWipCard.visibility = View.GONE
                 }
                 originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
