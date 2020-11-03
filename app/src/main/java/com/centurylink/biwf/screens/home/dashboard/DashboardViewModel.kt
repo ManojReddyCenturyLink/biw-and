@@ -983,21 +983,30 @@ class DashboardViewModel @Inject constructor(
      * It will read notification read status from preferences
      */
     fun readNotificationStatus(state: String): Boolean {
+        return sharedPreferences.getAppointmentNotificationStatus(
+            sharedPreferences.getAppointmentNumber().plus("_").plus(state)
+        )
+    }
+
+    /**
+     * It will read notification read status from preferences
+     */
+    fun clearNotificationStatus(state: String) {
         if (state.equals(ServiceStatus.WORK_BEGUN.name)) {
             sharedPreferences.removeScheduleNotificationReadStatus()
             sharedPreferences.removeEnrouteNotificationReadStatus()
         } else if (state.equals(ServiceStatus.EN_ROUTE.name)) {
             sharedPreferences.removeScheduleNotificationReadStatus()
             sharedPreferences.removeWorkBegunNotificationReadStatus()
-        } else if (state.equals(ServiceStatus.SCHEDULED.name)) {
+        } else if (state.equals(ServiceStatus.SCHEDULED.name) || state.equals(ServiceStatus.DISPATCHED.name)) {
             sharedPreferences.removeEnrouteNotificationReadStatus()
             sharedPreferences.removeWorkBegunNotificationReadStatus()
+        } else if (state.equals(ServiceStatus.COMPLETED.name)) {
+            sharedPreferences.removeEnrouteNotificationReadStatus()
+            sharedPreferences.removeWorkBegunNotificationReadStatus()
+            sharedPreferences.removeScheduleNotificationReadStatus()
         }
-        return sharedPreferences.getAppointmentNotificationStatus(
-            sharedPreferences.getAppointmentNumber().plus("_").plus(state)
-        )
     }
-
     abstract class UiDashboardAppointmentInformation
 
     /**
