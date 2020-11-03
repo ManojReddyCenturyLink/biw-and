@@ -225,7 +225,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     fun getNextEstimatedDateForSlots(currentLastdate: String): String {
         val format = SimpleDateFormat(DateUtils.STANDARD_FORMAT)
         var myDate = format.parse(currentLastdate)
-        myDate = DateUtils.addDays(myDate, 1)
+        myDate = DateUtils.addDays(myDate, 2)
         return DateUtils.toSimpleString(myDate, DateUtils.STANDARD_FORMAT)
     }
 
