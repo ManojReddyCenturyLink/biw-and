@@ -300,7 +300,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             tab.customView = tabTextView
             tabTextView.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
             tabTextView.text = tab.text
-            tabTextView.textSize = resources.getDimension(R.dimen.text_size_6)
+            tabTextView.textSize = resources.getDimension(R.dimen.tab_text_size)
             tabTextView.setTextColor(getColor(R.color.white))
             tabTextView.typeface = ResourcesCompat.getFont(applicationContext, R.font.arial_mt)
             binding.vpDashboard.setCurrentItem(tab.position, true)
