@@ -273,6 +273,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun requestAppointmentNumber(accountDetails: AccountDetails) {
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
+            displayAccountInfo(accountDetails)
         }) {
             appointmentNumber = it.appointmentNumber
             sharedPreferences.saveAppointmentNumber(appointmentNumber)
