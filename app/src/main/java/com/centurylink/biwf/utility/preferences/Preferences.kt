@@ -188,14 +188,6 @@ class Preferences(private val store: KeyValueStore) {
         return store.get(SPEED_TEST_ID)
     }
 
-    private fun removeAppointmentId() {
-        store.remove(APPOINTMENT_NUMBER)
-    }
-
-    private fun removeInstallationStatus() {
-        getAppointmentNumber()?.let { store.remove(it) }
-    }
-
     fun removeEnrouteNotificationReadStatus() {
         val appointmentNumber = getAppointmentNumber().plus("_").plus(ServiceStatus.EN_ROUTE.name)
         store.remove(appointmentNumber)
@@ -219,11 +211,6 @@ class Preferences(private val store: KeyValueStore) {
         removeContactId()
         removeLineId()
         removeAssiaId()
-        removeInstallationStatus()
-        removeScheduleNotificationReadStatus()
-        removeEnrouteNotificationReadStatus()
-        removeWorkBegunNotificationReadStatus()
-        removeAppointmentId()
     }
 
     companion object {
