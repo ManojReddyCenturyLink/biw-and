@@ -56,7 +56,7 @@ class AppointmentRepository @Inject constructor(
         // val result: FiberServiceResult<Appointments> =
         // integrationRestServices.getAppointmentDetails("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            val appointmentRecords = it.records.elementAtOrElse(0) { null }
+            val appointmentRecords = it.records?.elementAtOrElse(it.records?.lastIndex) { null }
             appointmentRecords?.let { it ->
                 val serviceRecords = it.serviceResources?.records?.elementAtOrElse(0) { null }
                 var timeZoneInfo = it.serviceTerritory?.operatingHours?.timeZone

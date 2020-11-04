@@ -30,7 +30,7 @@
     <dimen name="section_heading_margin_top">48dp</dimen>
 
     <!--Font Sizing -->
-    <dimen name="text_size_6">6sp</dimen>
+    <dimen name="tab_text_size">6sp</dimen>
     <dimen name="text_size_10">10sp</dimen>
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="text_size_14">14sp</dimen>
