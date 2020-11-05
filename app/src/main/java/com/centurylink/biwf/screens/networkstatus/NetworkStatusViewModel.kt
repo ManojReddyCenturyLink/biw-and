@@ -69,7 +69,7 @@ class NetworkStatusViewModel @Inject constructor(
     val guestNetworkStatusFlow: Flow<UINetworkModel> = BehaviorStateFlow()
     private var regularNetworkInstance = UINetworkModel()
     private var guestNetworkInstance = UINetworkModel()
-    var modemDeviceID =  EventFlow<Boolean>()
+    var modemDeviceID = EventFlow<Boolean>()
 
     /**
      * This block is executed first, when the class is instantiated.
