@@ -298,11 +298,19 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * Init on clicks - It will initialises the click events
      */
     private fun initOnClicks() {
-        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest(true) }
+        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener {
+            dashboardViewModel.startSpeedTest(
+                true
+            )
+        }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener {
             dashboardViewModel.logCancelAppointmentClick()
-            showCancellationConfirmationDialog()
+            if (dashboardViewModel.readAppointmentType().equals(HomeViewModel.intsall)) {
+                showCancellationConfirmationDialog(getString(R.string.installation_cancellation_confirmation_msg))
+            } else {
+                showCancellationConfirmationDialog("")
+            }
         }
         binding.notificationDismissButton.setOnClickListener {
             if (unreadNotificationList.isNotEmpty()) {
@@ -402,11 +410,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incScheduled.visibility = View.VISIBLE
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_date.text =
                     it.serviceAppointmentDate
-                incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text = getString(
-                    R.string.text_time_details,
-                    it.serviceAppointmentStartTime,
-                    it.serviceAppointmentEndTime
-                )
+                incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text =
+                    getString(
+                        R.string.text_time_details,
+                        it.serviceAppointmentStartTime,
+                        it.serviceAppointmentEndTime
+                    )
                 incScheduled.incWelcomeCard.msg_dismiss_button.setOnClickListener {
                     dashboardViewModel.logDismissNotification(ServiceStatus.SCHEDULED.name)
                     incScheduled.incWelcomeCard.visibility = View.GONE
@@ -641,10 +650,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     /**
      * Show cancellation confirmation dialog - It will display cancellation confirmation dialog
      */
-    private fun showCancellationConfirmationDialog() {
+    private fun showCancellationConfirmationDialog(msg: String) {
         CustomDialogGreyTheme(
             getString(R.string.installation_cancellation_confirmation_title),
-            getString(R.string.installation_cancellation_confirmation_msg),
+            msg,
             getString(R.string.cancel_it),
             getString(R.string.keep_it),
             ::onDialogCallback
@@ -772,7 +781,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> { /** no op **/ }
+            AlertDialog.BUTTON_POSITIVE -> {
+                /** no op **/
+            }
         }
     }
 }

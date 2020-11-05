@@ -10,6 +10,7 @@ import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.utility.Constants
 import com.centurylink.biwf.utility.DateUtils
+import com.centurylink.biwf.utility.preferences.Preferences
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.impl.annotations.MockK
@@ -34,11 +35,15 @@ class ChangeAppointmentViewModelTest : ViewModelBaseTest() {
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
 
+    @MockK
+    private lateinit var mockPreferences: Preferences
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
 
         viewModel = ChangeAppointmentViewModel(
+            sharedPreferences = mockPreferences,
             appointmentRepository = appointmentRepository,
             modemRebootMonitorService = mockModemRebootMonitorService,
             analyticsManagerInterface = analyticsManagerInterface

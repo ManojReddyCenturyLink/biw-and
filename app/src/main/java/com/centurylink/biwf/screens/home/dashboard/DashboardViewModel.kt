@@ -701,6 +701,7 @@ class DashboardViewModel @Inject constructor(
     private fun updateAppointmentStatus(
         it: AppointmentRecordsInfo
     ) {
+        sharedPreferences.saveAppointmentType(it.jobType)
         val timezone = it.timeZone
         appointmentDetails = it
         when (it.serviceStatus) {
@@ -989,6 +990,13 @@ class DashboardViewModel @Inject constructor(
     }
 
     /**
+     * It will read appointment type from preferences
+     */
+    fun readAppointmentType(): String? {
+        return sharedPreferences.getAppointmentType()
+    }
+
+    /**
      * It will read notification read status from preferences
      */
     fun clearNotificationStatus(state: String) {
@@ -1007,6 +1015,7 @@ class DashboardViewModel @Inject constructor(
             sharedPreferences.removeScheduleNotificationReadStatus()
         }
     }
+
     abstract class UiDashboardAppointmentInformation
 
     /**

@@ -4,6 +4,7 @@ import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
+import com.centurylink.biwf.utility.preferences.Preferences
 
 import javax.inject.Inject
 
@@ -16,6 +17,7 @@ import javax.inject.Inject
  * @param analyticsManagerInterface - analytics instance to handle analytics events
  */
 class AppointmentBookedViewModel @Inject constructor(
+    private val sharedPreferences: Preferences,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
@@ -42,5 +44,12 @@ class AppointmentBookedViewModel @Inject constructor(
      */
     fun logViewDashboardButtonClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_VIEW_DASHBOARD_APPOINTMENT_BOOKED)
+    }
+
+    /**
+     * It will read appointment type from preferences
+     */
+    fun readAppointmentType(): String? {
+        return sharedPreferences.getAppointmentType()
     }
 }

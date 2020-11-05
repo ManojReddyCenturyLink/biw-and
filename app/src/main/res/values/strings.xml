@@ -298,6 +298,8 @@
     <string name="error_in_selected_slot">An error has occurred while booking your appointment. Please try again.</string>
     <string name="appointment_confirmed_header">Your technician will arrive on  %1$s between %2$s - %3$s.</string>
     <string name="appointment_confirmed_message">Someone over the age of 18 must be present for the installation.\n\nIf you need to modify or cancel your installation date, view your dashboard. </string>
+    <string name="service_appointment_confirmed_message">If you need to modify or cancel your appointment, view your dashboard. </string>
+
     <string name="installation_appointment_note">Please note that installation appointments can take up to 3 hours once your technician arrives. Additionally, an adult 18 or older is required to be present for the installation to occur.</string>
     <string name="available_appointments_on_date">Available appointments on %s:</string>
     <string name="available_appointments_slots_error">Please select an appointment to continue</string>
