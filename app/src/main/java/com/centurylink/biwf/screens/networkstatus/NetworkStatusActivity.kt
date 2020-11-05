@@ -98,10 +98,10 @@ class NetworkStatusActivity : BaseActivity() {
                 }
             }
             modemDeviceID.observe {
-                if(it) {
+                if (it) {
                     val serialNumber = intent.getStringExtra(DEVICE_ID)
                     bindings.networkStatusModemSerialNumber.text =
-                        getString(R.string.serial_number,serialNumber)
+                        getString(R.string.serial_number, serialNumber)
                     bindings.networkStatusWifiNameInput.isEnabled = it
                     bindings.networkStatusWifiPasswordInput.isEnabled = it
                     bindings.networkStatusGuestNameInput.isEnabled = it
@@ -136,13 +136,13 @@ class NetworkStatusActivity : BaseActivity() {
                     getString(it.networkStatusSubText)
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
-                if(it.netWorkName.isNullOrEmpty()) {
+                if (it.netWorkName.isNullOrEmpty()) {
                     bindings.networkStatusWifiNameInput.setText(intent.getStringExtra(REGULAR_WIFI_NAME))
-                } else{
+                } else {
                     bindings.networkStatusWifiNameInput.setText(it.netWorkName)
                 }
                 bindings.networkStatusWifiPasswordInput.isEnabled = it.isNetworkEnabled
-                if(it.networkPassword.isNullOrEmpty()){
+                if (it.networkPassword.isNullOrEmpty()) {
                     bindings.networkStatusWifiPasswordInput.setText(intent.getStringExtra(
                         REGULAR_WIFI_PASSWORD))
                 } else {
@@ -158,14 +158,14 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusGuestButtonActionText.text =
                     getString(it.networkStatusSubText)
                 bindings.networkStatusGuestWifiImage.isActivated = it.isNetworkEnabled
-                if(it.netWorkName.isNullOrEmpty()){
+                if (it.netWorkName.isNullOrEmpty()) {
                     bindings.networkStatusGuestNameInput.setText(intent.getStringExtra(
                         GUEST_WIFI_NAME))
                 } else {
                     bindings.networkStatusGuestNameInput.setText(it.netWorkName)
                 }
                 bindings.networkStatusGuestNameInput.isEnabled = it.isNetworkEnabled
-                if(it.networkPassword.isNullOrEmpty()){
+                if (it.networkPassword.isNullOrEmpty()) {
                     bindings.networkStatusGuestPasswordInput.setText(intent.getStringExtra(
                         GUEST_WIFI_PASSWORD))
                 } else {
@@ -509,7 +509,7 @@ class NetworkStatusActivity : BaseActivity() {
      */
     companion object {
         const val REQUEST_TO_HOME: Int = 101
-        const val DEVICE_ID : String = "DEVICE_ID"
+        const val DEVICE_ID: String = "DEVICE_ID"
         const val REGULAR_WIFI_NAME: String = "REGULAR_WIFI_NAME"
         const val REGULAR_WIFI_PASSWORD: String = "REGULAR_WIFI_PASSWORD"
         const val GUEST_WIFI_NAME: String = "GUEST_WIFI_NAME"
@@ -517,7 +517,7 @@ class NetworkStatusActivity : BaseActivity() {
         fun newIntent(context: Context) = Intent(context, NetworkStatusActivity::class.java)
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, NetworkStatusActivity::class.java)
-                .putExtra(DEVICE_ID,bundle.getString(DEVICE_ID))
+                .putExtra(DEVICE_ID, bundle.getString(DEVICE_ID))
                 .putExtra(REGULAR_WIFI_NAME, bundle.getString(REGULAR_WIFI_NAME))
                 .putExtra(REGULAR_WIFI_PASSWORD, bundle.getString(REGULAR_WIFI_PASSWORD))
                 .putExtra(GUEST_WIFI_NAME, bundle.getString(GUEST_WIFI_NAME))

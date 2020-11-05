@@ -864,7 +864,7 @@ class DashboardViewModel @Inject constructor(
         bundle.putString(NetworkStatusActivity.DEVICE_ID, ModemUtils.getDeviceID(modemInfoReceived?.apInfoList[0]))
         bundle.putString(NetworkStatusActivity.REGULAR_WIFI_NAME, ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0]))
         bundle.putString(NetworkStatusActivity.REGULAR_WIFI_PASSWORD, regularNetworkWifiPwd)
-        bundle.putString( NetworkStatusActivity.GUEST_WIFI_NAME, ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0]))
+        bundle.putString(NetworkStatusActivity.GUEST_WIFI_NAME, ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0]))
         bundle.putString(NetworkStatusActivity.GUEST_WIFI_PASSWORD, guestNetworkWifiPwd)
         DashboardCoordinatorDestinations.bundle = bundle
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION

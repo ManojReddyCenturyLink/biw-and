@@ -168,8 +168,7 @@ class ModemUtils {
         }
 
         fun getDeviceID(modemInfo: ApInfo): String {
-            return  modemInfo.deviceId.toString()
+            return modemInfo.deviceId.toString()
         }
-
     }
 }
