@@ -166,5 +166,10 @@ class ModemUtils {
         private fun fileExists(filename: String, fileList: ArrayList<String>): Boolean {
             return fileList.contains(filename)
         }
+
+        fun getDeviceID(modemInfo: ApInfo): String {
+            return  modemInfo.deviceId.toString()
+        }
+
     }
 }
