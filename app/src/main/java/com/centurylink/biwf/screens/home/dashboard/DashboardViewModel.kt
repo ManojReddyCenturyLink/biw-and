@@ -28,6 +28,7 @@ import com.centurylink.biwf.repos.assia.WifiNetworkManagementRepository
 import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
+import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -858,6 +859,13 @@ class DashboardViewModel @Inject constructor(
      */
     fun navigateToNetworkInformation() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.CARD_NETWORK_INFO)
+        val bundle = Bundle()
+        bundle.putString(NetworkStatusActivity.DEVICE_ID, ModemUtils.getDeviceID(modemInfoReceived?.apInfoList[0]))
+        bundle.putString(NetworkStatusActivity.REGULAR_WIFI_NAME, ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0]))
+        bundle.putString(NetworkStatusActivity.REGULAR_WIFI_PASSWORD, regularNetworkWifiPwd)
+        bundle.putString( NetworkStatusActivity.GUEST_WIFI_NAME, ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0]))
+        bundle.putString(NetworkStatusActivity.GUEST_WIFI_PASSWORD, guestNetworkWifiPwd)
+        DashboardCoordinatorDestinations.bundle = bundle
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
     }
 
