@@ -11,14 +11,16 @@ import javax.inject.Inject
 class AppAuthTokenStorage @Inject constructor(
     private val appContext: Context
 ) : TokenStorage<AuthState> {
-    private var encryptedAuthStorage: String = ""
+    private var encryptedAuthStorage: String? = ""
 
     private val authTokenKey = "_preferences_data_"
 
     override var state: AuthState?
         get() = synchronized(this) {
-            EncryptionServices(appContext).decrypt(encryptedAuthStorage, authTokenKey)
-                ?.let { AuthState.jsonDeserialize(it) }
+            encryptedAuthStorage?.let {
+                EncryptionServices(appContext).decrypt(it, authTokenKey)
+                    ?.let { AuthState.jsonDeserialize(it) }
+            }
         }
         set(value) = synchronized(this) {
             val encryptionService = EncryptionServices(appContext)
@@ -31,6 +33,7 @@ class AppAuthTokenStorage @Inject constructor(
                     )
                 true
             } else {
+                encryptedAuthStorage = null
                 false
             }
 

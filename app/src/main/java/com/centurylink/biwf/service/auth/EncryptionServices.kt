@@ -34,7 +34,7 @@ class EncryptionServices(context: Context) {
     }
 
     /**
-     * Encrypt user password and Secrets with created master key.
+     * Encrypt data and Secrets with created master key.
      */
     fun encrypt(data: String, keyPassword: String? = null): String {
         return if (SystemServices.hasMarshmallow()) {
@@ -45,7 +45,7 @@ class EncryptionServices(context: Context) {
     }
 
     /**
-     * Decrypt user password and Secrets with created master key.
+     * Decrypt data and Secrets with created master key.
      */
     fun decrypt(data: String, keyPassword: String? = null): String? {
         return if (SystemServices.hasMarshmallow()) {
