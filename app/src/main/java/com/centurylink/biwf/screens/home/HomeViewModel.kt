@@ -258,6 +258,7 @@ class HomeViewModel @Inject constructor(
                 errorMessageFlow.latestValue = it
             }
         }) {
+            sharedPreferences.saveAppointmentType(it.jobType)
             if (!it.jobType.contains(intsall)) {
                 invokeStandardUserDashboard()
             } else {

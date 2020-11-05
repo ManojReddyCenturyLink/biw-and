@@ -203,6 +203,13 @@ class Preferences(private val store: KeyValueStore) {
         store.remove(appointmentNumber)
     }
 
+    fun saveAppointmentType(appointmentType: String) {
+        store.put(APPOINTMENT_TYPE, appointmentType)
+    }
+    fun getAppointmentType(): String? {
+        return store.get(APPOINTMENT_TYPE)
+    }
+
     // Should only be used for logout, currently
     fun clearUserSettings() {
         saveBioMetrics(false)
@@ -230,5 +237,6 @@ class Preferences(private val store: KeyValueStore) {
         const val SUPPORT_SPEED_TEST_STARTED = "SUPPORT_SPEED_TEST_STARTED"
         const val SPEED_TEST_ID = "SPEED_TEST_ID"
         const val APPOINTMENT_NUMBER = "APPOINTMENT_NUMBER"
+        const val APPOINTMENT_TYPE = "APPOINTMENT_TYPE"
     }
 }

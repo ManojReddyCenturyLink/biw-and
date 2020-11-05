@@ -9,9 +9,11 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityAppointmentBookedBinding
+import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.DateUtils
+import kotlinx.android.synthetic.main.activity_appointment_booked.*
 import javax.inject.Inject
 
 /**
@@ -62,6 +64,11 @@ class AppointmentBookedActivity : BaseActivity() {
      */
     private fun initViews() {
         val screenTitle: String = getString(R.string.booked_appointment)
+        if (viewModel.readAppointmentType().equals(HomeViewModel.intsall)) {
+            appointment_confirmed_message.text = getString(R.string.appointment_confirmed_message)
+        } else {
+            appointment_confirmed_message.text = getString(R.string.service_appointment_confirmed_message)
+        }
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.visibility = View.GONE
