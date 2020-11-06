@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -304,9 +305,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             )
         }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
-        binding.incScheduled.appointmentCancelBtn.setOnClickListener {
+        binding.incScheduled.appointmentCancelBtn.clickWithDebounce {
             dashboardViewModel.logCancelAppointmentClick()
-            if (dashboardViewModel.readAppointmentType().equals(HomeViewModel.intsall)) {
+            if (dashboardViewModel.readAppointmentType().contains(HomeViewModel.intsall)) {
                 showCancellationConfirmationDialog(getString(R.string.installation_cancellation_confirmation_msg))
             } else {
                 showCancellationConfirmationDialog("")
@@ -403,11 +404,27 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                         resources.getString(R.string.service_appointment_status)
                     incScheduled.schedule_appointment_status_progress_state.text =
                         resources.getString(R.string.service_appointment_scheduled)
-                    incScheduled.incWelcomeCard.visibility = View.GONE
-                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
-                    binding.layoutNetworkList.visibility = View.VISIBLE
                 }
-                incScheduled.visibility = View.VISIBLE
+                if (dashboardViewModel.readCancellationAppointmentStatus()) {
+                    if (it.jobType.contains(HomeViewModel.intsall)) {
+                        incCanceled.visibility = View.VISIBLE
+                        incScheduled.visibility = View.GONE
+                    } else {
+                        incCanceled.visibility = View.GONE
+                        incScheduled.visibility = View.GONE
+                        incScheduled.incWelcomeCard.visibility = View.GONE
+                    }
+                } else {
+                    dashboardViewModel.clearAppointmentCancellationStatus()
+                    incScheduled.visibility = View.VISIBLE
+                    incCanceled.visibility = View.GONE
+                    if (!it.jobType.contains(HomeViewModel.intsall)) {
+                        incScheduled.incWelcomeCard.visibility = View.GONE
+                        binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                        binding.layoutNetworkList.visibility = View.VISIBLE
+                    }
+                }
+
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_date.text =
                     it.serviceAppointmentDate
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text =
@@ -421,7 +438,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incScheduled.incWelcomeCard.visibility = View.GONE
                 }
                 dashboardViewModel.logAppointmentStatusState(1)
-                incScheduled.visibility = View.VISIBLE
                 incEnroute.visibility = View.GONE
                 incWorkBegun.visibility = View.GONE
                 incCompleted.visibility = View.GONE
@@ -463,6 +479,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.visibility = View.VISIBLE
                 incWorkBegun.visibility = View.GONE
                 incCompleted.visibility = View.GONE
+                incCanceled.visibility = View.GONE
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
                 if (it.jobType.contains(HomeViewModel.intsall)) {
@@ -508,6 +525,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.visibility = View.GONE
                 incWorkBegun.visibility = View.VISIBLE
                 incCompleted.visibility = View.GONE
+                incCanceled.visibility = View.GONE
             }
             if (it is DashboardViewModel.AppointmentComplete) {
                 val appointmentNumber = it.appointmentNumber
@@ -548,8 +566,18 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(4)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
+                if (it.jobType.contains(HomeViewModel.intsall)) {
+                    incCanceled.visibility = View.VISIBLE
+                } else {
+                    incCanceled.visibility = View.GONE
+                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                    binding.layoutNetworkList.visibility = View.VISIBLE
+                }
                 incScheduled.visibility = View.GONE
-                incCanceled.visibility = View.VISIBLE
+                incEnroute.visibility = View.GONE
+                incWorkBegun.visibility = View.GONE
+                incCompleted.visibility = View.GONE
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.COMPLETED.name)
                 dashboardViewModel.logAppointmentStatusState(5)
             }
         }
@@ -658,6 +686,19 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             getString(R.string.keep_it),
             ::onDialogCallback
         ).show(fragManager!!, DashboardFragment::class.simpleName)
+    }
+
+    fun View.clickWithDebounce(debounceTime: Long = 600L, action: () -> Unit) {
+        this.setOnClickListener(object : View.OnClickListener {
+            private var lastClickTime: Long = 0
+
+            override fun onClick(v: View) {
+                if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) return
+                else action()
+
+                lastClickTime = SystemClock.elapsedRealtime()
+            }
+        })
     }
 
     /**
