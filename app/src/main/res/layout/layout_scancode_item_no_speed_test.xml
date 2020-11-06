@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_spacing_really_small"
+    android:background="@drawable/round_background_no_border">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/noSpeedTestQRView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/margin_spacing_really_small"
+        android:paddingBottom="@dimen/margin_spacing_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvNetworkInfo"
+            style="@style/style_devices_usage_subheadings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_spacing_small"
+            android:text="@string/network_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/ivNetworkType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_really_small"
+            android:layout_marginEnd="@dimen/margin_spacing_small"
+            android:padding="@dimen/above_cardview_elevation"
+            android:src="@drawable/ic_three_bars"
+            app:layout_constraintBottom_toTopOf="@+id/view_divider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view_divider"
+            style="@style/common_border_divider_style"
+            android:layout_width="match_parent"
+            android:layout_margin="@dimen/margin_spacing_small"
+            app:layout_constraintTop_toBottomOf="@+id/tvNetworkInfo" />
+
+        <TextView
+            android:id="@+id/deviceName"
+            style="@style/single_line_text_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:gravity="start|center_vertical"
+            android:lineSpacingExtra="2sp"
+            android:textColor="@color/dark_grey"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_divider"
+            tools:ignore="LabelFor"
+            tools:text="Scan to join network: My Home WiFi" />
+
+        <ImageView
+            android:id="@+id/qrScanImg"
+            android:layout_width="@dimen/height_70"
+            android:layout_height="@dimen/height_70"
+            android:layout_marginTop="@dimen/spacing_14"
+            android:background="@color/lavender"
+            android:backgroundTint="@color/lavender"
+            android:contentDescription="@string/content_description_holder"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/deviceName" />
+
+        <TextView
+            android:id="@+id/viewFullScreenQr"
+            style="@style/style_med_grey_small_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
+            android:text="@string/tap_code"
+            android:textColor="@color/med_grey"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/qrScanImg"
+            tools:ignore="LabelFor"
+            tools:text="Tap code to view full screen" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

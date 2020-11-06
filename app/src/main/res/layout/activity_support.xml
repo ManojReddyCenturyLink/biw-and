@@ -89,6 +89,28 @@
             app:layout_constraintTop_toBottomOf="@+id/support_faq_topics_recyclerview" />
 
         <include
+            android:id="@+id/incTroubleshootingNoSpeedTest"
+            layout="@layout/widget_troubleshooting_no_speed_test"
+            android:layout_marginStart="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/medium_margin_spacing"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/support_faq_topics_recyclerview" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/padding_0"
+            android:orientation="vertical"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="incTroubleshooting, incTroubleshootingNoSpeedTest" />
+
+        <include
             android:id="@+id/incContactUs"
             layout="@layout/widget_contact_us_section"
             android:layout_width="match_parent"
@@ -97,7 +119,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/incTroubleshooting" />
+            app:layout_constraintTop_toBottomOf="@+id/barrier" />
     </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
