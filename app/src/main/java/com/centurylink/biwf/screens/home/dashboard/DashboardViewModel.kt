@@ -1044,7 +1044,7 @@ class DashboardViewModel @Inject constructor(
         } else if (state.equals(ServiceStatus.SCHEDULED.name) || state.equals(ServiceStatus.DISPATCHED.name)) {
             sharedPreferences.removeEnrouteNotificationReadStatus()
             sharedPreferences.removeWorkBegunNotificationReadStatus()
-        } else if (state.equals(ServiceStatus.COMPLETED.name)) {
+        } else if (state.equals(ServiceStatus.COMPLETED.name) || state.equals(ServiceStatus.CANCELED.name)) {
             sharedPreferences.removeEnrouteNotificationReadStatus()
             sharedPreferences.removeWorkBegunNotificationReadStatus()
             sharedPreferences.removeScheduleNotificationReadStatus()

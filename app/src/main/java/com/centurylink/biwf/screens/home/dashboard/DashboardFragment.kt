@@ -566,6 +566,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(4)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.CANCELED.name)
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incCanceled.visibility = View.VISIBLE
                 } else {
