@@ -70,7 +70,7 @@ class NetworkStatusViewModel @Inject constructor(
     private var regularNetworkInstance = UINetworkModel()
     private var guestNetworkInstance = UINetworkModel()
     var modemDeviceID = EventFlow<Boolean>()
-
+    var offlineNetworkinfo = false
     /**
      * This block is executed first, when the class is instantiated.
      */
@@ -260,6 +260,7 @@ class NetworkStatusViewModel @Inject constructor(
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
         modemDeviceID.latestValue = true
         progressViewFlow.latestValue = false
+        offlineNetworkinfo = true
     }
 
     /**
