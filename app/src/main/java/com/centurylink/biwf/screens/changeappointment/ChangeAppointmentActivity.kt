@@ -82,7 +82,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             binding.appointmentModifyView,
             binding.retryOverlay.root
         )
-        if (viewModel.readAppointmentType().equals(HomeViewModel.intsall)) {
+        if (viewModel.readAppointmentType().contains(HomeViewModel.intsall)) {
             installation_appointment_note.visibility = View.VISIBLE
         } else {
             installation_appointment_note.visibility = View.GONE

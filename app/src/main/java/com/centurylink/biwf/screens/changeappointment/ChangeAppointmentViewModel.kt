@@ -282,7 +282,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     /**
      * It will read appointment type from preferences
      */
-    fun readAppointmentType(): String? {
+    fun readAppointmentType(): String {
         return sharedPreferences.getAppointmentType()
     }
 

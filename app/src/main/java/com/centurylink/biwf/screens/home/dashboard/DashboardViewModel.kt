@@ -770,7 +770,8 @@ class DashboardViewModel @Inject constructor(
             ServiceStatus.CANCELED -> {
                 val appointmentCanceled = AppointmentCanceled(
                     serviceAppointmentTime = "",
-                    status = ServiceStatus.CANCELED
+                    status = ServiceStatus.CANCELED,
+                    jobType = it.jobType
                 )
                 dashBoardDetailsInfo.latestValue = appointmentCanceled
             }
@@ -910,6 +911,7 @@ class DashboardViewModel @Inject constructor(
                 cancelAppointmentError.latestValue = it
             }
         }) {
+            saveAppointmentTCancellation()
             analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_SUCCESS)
             progressViewFlow.latestValue = false
             if (it.status != null) {
@@ -990,14 +992,47 @@ class DashboardViewModel @Inject constructor(
     }
 
     /**
+     * It will read cancel appointment read status from preferences
+     */
+    fun readCancellationAppointmentStatus(): Boolean {
+
+        if (sharedPreferences.getAppointmentCancellationStatus(
+                sharedPreferences.getAppointmentNumber().plus("_").plus("Cancelled")
+            ) && !readAppointmentType()?.contains(HomeViewModel.intsall)
+        ) {
+            isAccountStatus.latestValue = true
+        }
+        return sharedPreferences.getAppointmentCancellationStatus(
+            sharedPreferences.getAppointmentNumber().plus("_").plus("Cancelled")
+        )
+    }
+
+    /**
      * It will read appointment type from preferences
      */
-    fun readAppointmentType(): String? {
+    fun readAppointmentType(): String {
         return sharedPreferences.getAppointmentType()
     }
 
     /**
-     * It will read notification read status from preferences
+     * It will read appointment type from preferences
+     */
+    fun saveAppointmentTCancellation() {
+        sharedPreferences.saveAppointmentCancellationStatus(
+            true,
+            sharedPreferences.getAppointmentNumber().plus("_").plus("Cancelled")
+        )
+    }
+
+    /**
+     * It will read appointment read status from preferences
+     */
+    fun clearAppointmentCancellationStatus() {
+        sharedPreferences.removeAppointmentCancellationStatus()
+    }
+
+    /**
+     * It will clear notification read status from preferences
      */
     fun clearNotificationStatus(state: String) {
         if (state.equals(ServiceStatus.WORK_BEGUN.name)) {
@@ -1009,7 +1044,7 @@ class DashboardViewModel @Inject constructor(
         } else if (state.equals(ServiceStatus.SCHEDULED.name) || state.equals(ServiceStatus.DISPATCHED.name)) {
             sharedPreferences.removeEnrouteNotificationReadStatus()
             sharedPreferences.removeWorkBegunNotificationReadStatus()
-        } else if (state.equals(ServiceStatus.COMPLETED.name)) {
+        } else if (state.equals(ServiceStatus.COMPLETED.name) || state.equals(ServiceStatus.CANCELED.name)) {
             sharedPreferences.removeEnrouteNotificationReadStatus()
             sharedPreferences.removeWorkBegunNotificationReadStatus()
             sharedPreferences.removeScheduleNotificationReadStatus()
@@ -1071,6 +1106,7 @@ class DashboardViewModel @Inject constructor(
      * model calss for appointment canceled
      */
     data class AppointmentCanceled(
+        val jobType: String,
         val serviceAppointmentTime: String,
         val status: ServiceStatus
     ) : UiDashboardAppointmentInformation()
