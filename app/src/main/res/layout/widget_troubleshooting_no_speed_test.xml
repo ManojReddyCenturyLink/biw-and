@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/medium_margin_spacing">
+
+    <TextView
+        android:id="@+id/troubleshooting_heading"
+        style="@style/SubHeading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/troubleshooting"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/restarting_modem_help"
+        style="@style/style_med_grey_small_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_4"
+        android:text="@string/restarting_modem_help"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/troubleshooting_heading" />
+
+    <Button
+        android:id="@+id/reboot_modem_button"
+        style="@style/style_reboot_modem_button_support"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:paddingStart="@dimen/medium_margin_spacing"
+        android:paddingEnd="@dimen/medium_margin_spacing"
+        android:text="@string/restart_modem"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/restarting_modem_help" />
+
+    <include
+        android:id="@+id/rebooting_modem_button"
+        layout="@layout/widget_progress_overlay_purple"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/padding_0"
+        android:layout_marginStart="@dimen/margin_spacing_tiny"
+        android:layout_marginTop="@dimen/margin_spacing_small"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/restarting_modem_help" />
+</androidx.constraintlayout.widget.ConstraintLayout>

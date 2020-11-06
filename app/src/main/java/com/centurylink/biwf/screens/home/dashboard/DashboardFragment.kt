@@ -22,6 +22,7 @@ import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.home.HomeViewModel
+import com.centurylink.biwf.screens.home.SpeedTestUtils
 import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -40,6 +41,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard.incEnroute
 import kotlinx.android.synthetic.main.fragment_dashboard.incScheduled
 import kotlinx.android.synthetic.main.fragment_dashboard.incSpeedTest
 import kotlinx.android.synthetic.main.fragment_dashboard.incWorkBegun
+import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.*
 import kotlinx.android.synthetic.main.widget_installation_completed.view.*
 import kotlinx.android.synthetic.main.widget_status_enroute.view.*
@@ -98,7 +100,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         super.onResume()
         dashboardViewModel.apply {
             logScreenLaunch()
-            checkForOngoingSpeedTest()
+            if (SpeedTestUtils.isSpeedTestAvailable()) {
+                checkForOngoingSpeedTest()
+            }
         }
         initButtonStates()
         updateView()
@@ -263,10 +267,18 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         dashboardViewModel.isAccountStatus.observe {
             if (it) {
                 incCompleted.visibility = View.GONE
-                displaySpeedTest()
+                if (SpeedTestUtils.isSpeedTestAvailable()) {
+                    displaySpeedTest()
+                } else {
+                    displayNoSpeedTest()
+                }
             } else {
                 if (dashboardViewModel.installationStatus) {
-                    displaySpeedTest()
+                    if (SpeedTestUtils.isSpeedTestAvailable()) {
+                        displaySpeedTest()
+                    } else {
+                        displayNoSpeedTest()
+                    }
                 } else {
                     incSpeedTest.visibility = View.GONE
                     binding.connectedDevicesCard.root.visibility = View.GONE
@@ -284,6 +296,28 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
         binding.layoutNetworkList.visibility = View.VISIBLE
+        binding.layoutNetworkList.setBackgroundResource(R.drawable.round_background_no_border)
+        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+            if (networkStatusOnline && speedTestCount < 1) {
+                dashboardViewModel.startSpeedTest(false)
+                speedTestCount++
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+            }
+        }
+    }
+
+    /**
+     * Display no speed test - It will hide the speed test details
+     */
+    private fun displayNoSpeedTest() {
+        incCompleted.visibility = View.GONE
+        incSpeedTest.visibility = View.GONE
+        binding.connectedDevicesCard.root.visibility = View.VISIBLE
+        binding.layoutNetworkList.visibility = View.VISIBLE
+        binding.layoutNetworkList.rootView.network_status.visibility = View.GONE
+        binding.layoutNetworkList.rootView.tap_to_edit_network.visibility = View.GONE
+        binding.layoutNetworkList.rootView.view_divider.visibility = View.GONE
         dashboardViewModel.networkStatus.observe { networkStatusOnline ->
             if (networkStatusOnline && speedTestCount < 1) {
                 dashboardViewModel.startSpeedTest(false)
@@ -298,7 +332,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * Init on clicks - It will initialises the click events
      */
     private fun initOnClicks() {
-        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener { dashboardViewModel.startSpeedTest(true) }
+        binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener {
+            dashboardViewModel.startSpeedTest(
+                true
+            )
+        }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
         binding.incScheduled.appointmentCancelBtn.setOnClickListener {
             dashboardViewModel.logCancelAppointmentClick()
@@ -749,6 +787,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     }
 
     /**
+     * On wifi name clicked -it will help to navigate to wifi details screen
+     *
+     * @param networkName - slected network name
+     */
+    override fun onNavigateToNetworkInfo() {
+        dashboardViewModel.navigateToNetworkInformation()
+    }
+
+    /**
      * Listen for reboot dialog -it will help to observe reboot devices status
      */
     private fun listenForRebootDialog() {
@@ -772,7 +819,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> { /** no op **/ }
+            AlertDialog.BUTTON_POSITIVE -> {
+                /** no op **/
+            }
         }
     }
 }

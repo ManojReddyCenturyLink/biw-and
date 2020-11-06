@@ -23,6 +23,7 @@
     <dimen name="text_entry_height">41dp</dimen>
     <dimen name="padding_40">40dp</dimen>
     <dimen name="height_54">54dp</dimen>
+    <dimen name="height_70">70dp</dimen>
     <dimen name="margin_120">120dp</dimen>
     <dimen name="padding_9">9dp</dimen>
 

@@ -317,7 +317,7 @@
     <string name="join_code">Join code </string>
     <string name="header_done">DONE</string>
     <string name="scan_network">Scan to join network: </string>
-    <string name="brightness_alert">For best results, use full brightness on your phone</string>
+    <string name="brightness_alert">for best results, use full brightness on your phone</string>
     <string name="wifi_code">WIFI:T:WPA;S:%1$s;P:%2$s;;</string>
     <string name="nickname_device">Nickname device</string>
     <string name="tel_url">tel:1234567890</string>
@@ -339,4 +339,5 @@
     <string name="mobile">Mobile</string>
     <string name="enter_valid_phone_number_error">Please enter a valid phone number</string>
     <string name="characters_limit">15 characters max</string>
+    <string name="restarting_modem_help">Having some issues? Restarting your modem may help.</string>
 </resources>
