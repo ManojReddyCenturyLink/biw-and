@@ -307,6 +307,7 @@ class HomeViewModel @Inject constructor(
                 val apiInfo = it?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     networkStatus.latestValue = apiInfo[0].isAlive
+                    SpeedTestUtils.setSpeedTestStatus(it)
                 } else {
                     networkStatus.latestValue = false
                 }

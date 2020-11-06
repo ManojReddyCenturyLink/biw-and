@@ -6,10 +6,12 @@
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/speedTestQRView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/margin_spacing_small"
         android:paddingTop="@dimen/margin_spacing_small"
+        android:layout_marginBottom="-12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -26,16 +28,16 @@
             android:id="@+id/qrScan"
             android:layout_width="45dp"
             android:layout_height="45dp"
-            android:backgroundTint="@color/lavender"
             android:background="@color/lavender"
+            android:backgroundTint="@color/lavender"
             android:contentDescription="@string/content_description_holder"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/devicename"
-            android:layout_width="0dp"
             style="@style/single_line_text_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
             android:gravity="start|center_vertical"
@@ -50,10 +52,10 @@
 
         <TextView
             android:id="@+id/view_full_screen"
+            style="@style/style_med_grey_small_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
-            style="@style/style_med_grey_small_text"
             android:text="@string/tap_code"
             android:textColor="@color/med_grey"
             android:textSize="12sp"
@@ -78,8 +80,8 @@
 
         <View
             android:id="@+id/viewdivider"
-            android:layout_width="match_parent"
             style="@style/common_border_divider_style"
+            android:layout_width="match_parent"
             android:layout_marginTop="@dimen/margin_spacing_small"
             android:layout_marginEnd="@dimen/margin_spacing_small"
             app:layout_constraintTop_toBottomOf="@+id/qrScan" />
