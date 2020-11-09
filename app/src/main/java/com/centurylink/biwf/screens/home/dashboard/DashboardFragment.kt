@@ -309,16 +309,23 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     }
 
     /**
-     * Display no speed test - It will hide the speed test details
+     * Display Dashboard UI
      */
-    private fun displayNoSpeedTest() {
-        incCompleted.visibility = View.GONE
-        incSpeedTest.visibility = View.GONE
+    private fun displayDashboardUI() {
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
         binding.layoutNetworkList.visibility = View.VISIBLE
         binding.layoutNetworkList.rootView.network_status.visibility = View.GONE
         binding.layoutNetworkList.rootView.tap_to_edit_network.visibility = View.GONE
         binding.layoutNetworkList.rootView.view_divider.visibility = View.GONE
+    }
+
+    /**
+     * Display no speed test - It will hide the speed test details
+     */
+    private fun displayNoSpeedTest() {
+        incCompleted.visibility = View.GONE
+        incSpeedTest.visibility = View.GONE
+        displayDashboardUI()
         dashboardViewModel.networkStatus.observe { networkStatusOnline ->
             if (networkStatusOnline && speedTestCount < 1) {
                 dashboardViewModel.startSpeedTest(false)
@@ -438,6 +445,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                         resources.getString(R.string.service_appointment_status)
                     incScheduled.schedule_appointment_status_progress_state.text =
                         resources.getString(R.string.service_appointment_scheduled)
+                    incScheduled.incWelcomeCard.visibility = View.GONE
                 }
                 if (dashboardViewModel.readCancellationAppointmentStatus()) {
                     if (it.jobType.contains(HomeViewModel.intsall)) {
@@ -446,7 +454,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     } else {
                         incCanceled.visibility = View.GONE
                         incScheduled.visibility = View.GONE
-                        incScheduled.incWelcomeCard.visibility = View.GONE
                     }
                 } else {
                     dashboardViewModel.clearAppointmentCancellationStatus()
@@ -454,8 +461,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incCanceled.visibility = View.GONE
                     if (!it.jobType.contains(HomeViewModel.intsall)) {
                         incScheduled.incWelcomeCard.visibility = View.GONE
-                        binding.connectedDevicesCard.root.visibility = View.VISIBLE
-                        binding.layoutNetworkList.visibility = View.VISIBLE
+                        displayDashboardUI()
                     }
                 }
 
@@ -489,8 +495,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                         resources.getString(R.string.service_appointment_status)
                     incEnroute.incEnrouteCard.msg.text =
                         resources.getString(R.string.service_appointment_enroute_notification_message)
-                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
-                    binding.layoutNetworkList.visibility = View.VISIBLE
+                    displayDashboardUI()
                 }
                 incEnroute.enroute_technician_name.text = it.serviceEngineerName
                 incEnroute.enroute_appointment_time.text = it.serviceAppointmentTime
@@ -536,8 +541,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                         resources.getString(R.string.service_appointment_work_begun_message)
                     incWorkBegun.work_begun_appointment_text.text =
                         resources.getString(R.string.is_working_now)
-                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
-                    binding.layoutNetworkList.visibility = View.VISIBLE
+                    displayDashboardUI()
                 }
                 incWorkBegun.work_begun_technician_name.text = it.serviceEngineerName
                 incWorkBegun.incWipCard.title.text =
@@ -589,8 +593,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                         dashboardViewModel.getStartedClicked(appointmentNumber)
                         viewClickListener.onGetStartedClick(false)
                     }
-                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
-                    binding.layoutNetworkList.visibility = View.VISIBLE
+                    displayDashboardUI()
                 }
                 incWorkBegun.visibility = View.GONE
                 incScheduled.visibility = View.GONE
@@ -605,8 +608,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incCanceled.visibility = View.VISIBLE
                 } else {
                     incCanceled.visibility = View.GONE
-                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
-                    binding.layoutNetworkList.visibility = View.VISIBLE
+                    displayDashboardUI()
                 }
                 incScheduled.visibility = View.GONE
                 incEnroute.visibility = View.GONE
