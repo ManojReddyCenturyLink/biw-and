@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,7 @@ import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.home.HomeViewModel
+import com.centurylink.biwf.screens.home.SpeedTestUtils
 import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -40,6 +42,7 @@ import kotlinx.android.synthetic.main.fragment_dashboard.incEnroute
 import kotlinx.android.synthetic.main.fragment_dashboard.incScheduled
 import kotlinx.android.synthetic.main.fragment_dashboard.incSpeedTest
 import kotlinx.android.synthetic.main.fragment_dashboard.incWorkBegun
+import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.*
 import kotlinx.android.synthetic.main.widget_installation_completed.view.*
 import kotlinx.android.synthetic.main.widget_status_enroute.view.*
@@ -98,7 +101,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         super.onResume()
         dashboardViewModel.apply {
             logScreenLaunch()
-            checkForOngoingSpeedTest()
+            if (SpeedTestUtils.isSpeedTestAvailable()) {
+                checkForOngoingSpeedTest()
+            }
         }
         initButtonStates()
         updateView()
@@ -263,10 +268,18 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         dashboardViewModel.isAccountStatus.observe {
             if (it) {
                 incCompleted.visibility = View.GONE
-                displaySpeedTest()
+                if (SpeedTestUtils.isSpeedTestAvailable()) {
+                    displaySpeedTest()
+                } else {
+                    displayNoSpeedTest()
+                }
             } else {
                 if (dashboardViewModel.installationStatus) {
-                    displaySpeedTest()
+                    if (SpeedTestUtils.isSpeedTestAvailable()) {
+                        displaySpeedTest()
+                    } else {
+                        displayNoSpeedTest()
+                    }
                 } else {
                     incSpeedTest.visibility = View.GONE
                     binding.connectedDevicesCard.root.visibility = View.GONE
@@ -284,6 +297,28 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         incSpeedTest.visibility = View.VISIBLE
         binding.connectedDevicesCard.root.visibility = View.VISIBLE
         binding.layoutNetworkList.visibility = View.VISIBLE
+        binding.layoutNetworkList.setBackgroundResource(R.drawable.round_background_no_border)
+        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+            if (networkStatusOnline && speedTestCount < 1) {
+                dashboardViewModel.startSpeedTest(false)
+                speedTestCount++
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+            }
+        }
+    }
+
+    /**
+     * Display no speed test - It will hide the speed test details
+     */
+    private fun displayNoSpeedTest() {
+        incCompleted.visibility = View.GONE
+        incSpeedTest.visibility = View.GONE
+        binding.connectedDevicesCard.root.visibility = View.VISIBLE
+        binding.layoutNetworkList.visibility = View.VISIBLE
+        binding.layoutNetworkList.rootView.network_status.visibility = View.GONE
+        binding.layoutNetworkList.rootView.tap_to_edit_network.visibility = View.GONE
+        binding.layoutNetworkList.rootView.view_divider.visibility = View.GONE
         dashboardViewModel.networkStatus.observe { networkStatusOnline ->
             if (networkStatusOnline && speedTestCount < 1) {
                 dashboardViewModel.startSpeedTest(false)
@@ -304,9 +339,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             )
         }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
-        binding.incScheduled.appointmentCancelBtn.setOnClickListener {
+        binding.incScheduled.appointmentCancelBtn.clickWithDebounce {
             dashboardViewModel.logCancelAppointmentClick()
-            if (dashboardViewModel.readAppointmentType().equals(HomeViewModel.intsall)) {
+            if (dashboardViewModel.readAppointmentType().contains(HomeViewModel.intsall)) {
                 showCancellationConfirmationDialog(getString(R.string.installation_cancellation_confirmation_msg))
             } else {
                 showCancellationConfirmationDialog("")
@@ -403,11 +438,27 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                         resources.getString(R.string.service_appointment_status)
                     incScheduled.schedule_appointment_status_progress_state.text =
                         resources.getString(R.string.service_appointment_scheduled)
-                    incScheduled.incWelcomeCard.visibility = View.GONE
-                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
-                    binding.layoutNetworkList.visibility = View.VISIBLE
                 }
-                incScheduled.visibility = View.VISIBLE
+                if (dashboardViewModel.readCancellationAppointmentStatus()) {
+                    if (it.jobType.contains(HomeViewModel.intsall)) {
+                        incCanceled.visibility = View.VISIBLE
+                        incScheduled.visibility = View.GONE
+                    } else {
+                        incCanceled.visibility = View.GONE
+                        incScheduled.visibility = View.GONE
+                        incScheduled.incWelcomeCard.visibility = View.GONE
+                    }
+                } else {
+                    dashboardViewModel.clearAppointmentCancellationStatus()
+                    incScheduled.visibility = View.VISIBLE
+                    incCanceled.visibility = View.GONE
+                    if (!it.jobType.contains(HomeViewModel.intsall)) {
+                        incScheduled.incWelcomeCard.visibility = View.GONE
+                        binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                        binding.layoutNetworkList.visibility = View.VISIBLE
+                    }
+                }
+
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_date.text =
                     it.serviceAppointmentDate
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text =
@@ -421,7 +472,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incScheduled.incWelcomeCard.visibility = View.GONE
                 }
                 dashboardViewModel.logAppointmentStatusState(1)
-                incScheduled.visibility = View.VISIBLE
                 incEnroute.visibility = View.GONE
                 incWorkBegun.visibility = View.GONE
                 incCompleted.visibility = View.GONE
@@ -463,6 +513,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.visibility = View.VISIBLE
                 incWorkBegun.visibility = View.GONE
                 incCompleted.visibility = View.GONE
+                incCanceled.visibility = View.GONE
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
                 if (it.jobType.contains(HomeViewModel.intsall)) {
@@ -508,6 +559,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incEnroute.visibility = View.GONE
                 incWorkBegun.visibility = View.VISIBLE
                 incCompleted.visibility = View.GONE
+                incCanceled.visibility = View.GONE
             }
             if (it is DashboardViewModel.AppointmentComplete) {
                 val appointmentNumber = it.appointmentNumber
@@ -548,8 +600,19 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(4)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.CANCELED.name)
+                if (it.jobType.contains(HomeViewModel.intsall)) {
+                    incCanceled.visibility = View.VISIBLE
+                } else {
+                    incCanceled.visibility = View.GONE
+                    binding.connectedDevicesCard.root.visibility = View.VISIBLE
+                    binding.layoutNetworkList.visibility = View.VISIBLE
+                }
                 incScheduled.visibility = View.GONE
-                incCanceled.visibility = View.VISIBLE
+                incEnroute.visibility = View.GONE
+                incWorkBegun.visibility = View.GONE
+                incCompleted.visibility = View.GONE
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.COMPLETED.name)
                 dashboardViewModel.logAppointmentStatusState(5)
             }
         }
@@ -660,6 +723,19 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         ).show(fragManager!!, DashboardFragment::class.simpleName)
     }
 
+    fun View.clickWithDebounce(debounceTime: Long = 600L, action: () -> Unit) {
+        this.setOnClickListener(object : View.OnClickListener {
+            private var lastClickTime: Long = 0
+
+            override fun onClick(v: View) {
+                if (SystemClock.elapsedRealtime() - lastClickTime < debounceTime) return
+                else action()
+
+                lastClickTime = SystemClock.elapsedRealtime()
+            }
+        })
+    }
+
     /**
      * On dialog callback- callback listener for the dialog
      *
@@ -755,6 +831,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {
         dashboardViewModel.wifiNetworkEnablement(wifidetails)
+    }
+
+    /**
+     * On wifi name clicked -it will help to navigate to wifi details screen
+     *
+     * @param networkName - slected network name
+     */
+    override fun onNavigateToNetworkInfo() {
+        dashboardViewModel.navigateToNetworkInformation()
     }
 
     /**

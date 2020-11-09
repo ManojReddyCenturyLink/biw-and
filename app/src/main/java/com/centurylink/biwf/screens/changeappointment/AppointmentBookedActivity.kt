@@ -64,7 +64,7 @@ class AppointmentBookedActivity : BaseActivity() {
      */
     private fun initViews() {
         val screenTitle: String = getString(R.string.booked_appointment)
-        if (viewModel.readAppointmentType().equals(HomeViewModel.intsall)) {
+        if (viewModel.readAppointmentType().contains(HomeViewModel.intsall)) {
             appointment_confirmed_message.text = getString(R.string.appointment_confirmed_message)
         } else {
             appointment_confirmed_message.text = getString(R.string.service_appointment_confirmed_message)

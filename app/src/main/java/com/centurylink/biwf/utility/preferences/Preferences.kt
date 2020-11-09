@@ -74,8 +74,8 @@ class Preferences(private val store: KeyValueStore) {
 
     fun getLineId(): String {
         var lineId = store.get(LINE_ID)
-        // TODO this is only for development will remove before launch
-        if (!lineId.equals("0101100408") || !lineId.equals("1000365443") || lineId.isNullOrEmpty()) {
+        // TODO ***IMP*** this is only for development will remove before launch
+        if (!(lineId.equals("1000366121") || lineId.equals("1000365443")) || lineId.isNullOrEmpty()) {
             if (BuildConfig.DEBUG) {
                 lineId = BuildConfig.LINE_ID
             }
@@ -206,8 +206,22 @@ class Preferences(private val store: KeyValueStore) {
     fun saveAppointmentType(appointmentType: String) {
         store.put(APPOINTMENT_TYPE, appointmentType)
     }
-    fun getAppointmentType(): String? {
-        return store.get(APPOINTMENT_TYPE)
+
+    fun getAppointmentType(): String {
+        return store.get(APPOINTMENT_TYPE) ?: ""
+    }
+
+    fun saveAppointmentCancellationStatus(status: Boolean, appointmentNumber: String) {
+        store.putBoolean(appointmentNumber, status)
+    }
+
+    fun getAppointmentCancellationStatus(appointmentNumber: String): Boolean {
+        return store.getBoolean(appointmentNumber) ?: false
+    }
+
+    fun removeAppointmentCancellationStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus("Cancelled")
+        store.remove(appointmentNumber)
     }
 
     // Should only be used for logout, currently
