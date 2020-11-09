@@ -74,8 +74,8 @@ class Preferences(private val store: KeyValueStore) {
 
     fun getLineId(): String {
         var lineId = store.get(LINE_ID)
-        // TODO this is only for development will remove before launch
-        if (!lineId.equals("0101100408") || !lineId.equals("1000365443") || lineId.isNullOrEmpty()) {
+        // TODO ***IMP*** this is only for development will remove before launch
+        if (!(lineId.equals("1000366121") || lineId.equals("1000365443")) || lineId.isNullOrEmpty()) {
             if (BuildConfig.DEBUG) {
                 lineId = BuildConfig.LINE_ID
             }
