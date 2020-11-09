@@ -12,6 +12,7 @@ import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.SpeedTestRepository
+import com.centurylink.biwf.screens.home.SpeedTestUtils
 import com.centurylink.biwf.screens.home.dashboard.DashboardViewModel
 import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -85,7 +86,11 @@ class SupportViewModel @Inject constructor(
         viewModelScope.launch {
             requestRecordId()
             requestFaqDetailsInfo()
-            checkForRunningSpeedTest()
+            if (SpeedTestUtils.isSpeedTestAvailable()) {
+                checkForRunningSpeedTest()
+            } else {
+                // todo
+            }
         }
     }
 

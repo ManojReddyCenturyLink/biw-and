@@ -16,6 +16,7 @@ import com.centurylink.biwf.coordinators.ChangeAppointmentCoordinator
 import com.centurylink.biwf.coordinators.Navigator
 import com.centurylink.biwf.databinding.ActivityChangeAppointmentBinding
 import com.centurylink.biwf.screens.changeappointment.adapter.AppointmentSlotsAdapter
+import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.DaggerViewModelFactory
@@ -25,6 +26,7 @@ import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import com.centurylink.biwf.widgets.NoNetworkErrorPopup
 import com.roomorama.caldroid.CaldroidFragment
 import com.roomorama.caldroid.CaldroidListener
+import kotlinx.android.synthetic.main.activity_change_appointment.*
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
@@ -80,6 +82,11 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             binding.appointmentModifyView,
             binding.retryOverlay.root
         )
+        if (viewModel.readAppointmentType().contains(HomeViewModel.intsall)) {
+            installation_appointment_note.visibility = View.VISIBLE
+        } else {
+            installation_appointment_note.visibility = View.GONE
+        }
         navigator.observe(this)
         viewModel.apply {
             progressViewFlow.observe { showProgress(it) }
@@ -170,7 +177,8 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
         GeneralErrorPopUp.showGeneralErrorDialog(
             fragmentManager,
-            callingActivity?.className)
+            callingActivity?.className
+        )
     }
 
     /**

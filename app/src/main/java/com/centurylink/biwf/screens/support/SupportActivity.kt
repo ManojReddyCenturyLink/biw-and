@@ -18,6 +18,7 @@ import com.centurylink.biwf.coordinators.SupportCoordinator
 import com.centurylink.biwf.databinding.ActivitySupportBinding
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionActivity
 import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetailsActivity
+import com.centurylink.biwf.screens.home.SpeedTestUtils
 import com.centurylink.biwf.screens.support.adapter.SupportFAQAdapter
 import com.centurylink.biwf.screens.support.adapter.SupportItemClickListener
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -112,17 +113,40 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     private fun initButtonStates() {
         viewModel.networkStatus.observe {
-            if (!it) {
-                binding.incTroubleshooting.runSpeedTestButton.isActivated = false
-                binding.incTroubleshooting.runSpeedTestButton.isEnabled = false
-                binding.incTroubleshooting.rebootModemButton.isActivated = false
-                binding.incTroubleshooting.rebootModemButton.isEnabled = false
+            if (SpeedTestUtils.isSpeedTestAvailable()) {
+                speedTestButtonStates(it)
             } else {
-                binding.incTroubleshooting.runSpeedTestButton.isActivated = true
-                binding.incTroubleshooting.runSpeedTestButton.isEnabled = true
-                binding.incTroubleshooting.rebootModemButton.isActivated = true
-                binding.incTroubleshooting.rebootModemButton.isEnabled = true
+                rebootModemButtonStates(it)
             }
+        }
+    }
+
+    private fun speedTestButtonStates(it: Boolean) {
+        binding.incTroubleshootingNoSpeedTest.root.visibility = View.GONE
+        binding.incTroubleshooting.root.visibility = View.VISIBLE
+        if (!it) {
+            binding.incTroubleshooting.runSpeedTestButton.isActivated = false
+            binding.incTroubleshooting.runSpeedTestButton.isEnabled = false
+            binding.incTroubleshooting.rebootModemButton.isActivated = false
+            binding.incTroubleshooting.rebootModemButton.isEnabled = false
+        } else {
+            binding.incTroubleshooting.runSpeedTestButton.isActivated = true
+            binding.incTroubleshooting.runSpeedTestButton.isEnabled = true
+            binding.incTroubleshooting.rebootModemButton.isActivated = true
+            binding.incTroubleshooting.rebootModemButton.isEnabled = true
+        }
+    }
+
+    private fun rebootModemButtonStates(it: Boolean) {
+        binding.incTroubleshootingNoSpeedTest.root.visibility = View.VISIBLE
+        binding.incTroubleshooting.root.visibility = View.GONE
+
+        if (!it) {
+            binding.incTroubleshootingNoSpeedTest.rebootModemButton.isActivated = false
+            binding.incTroubleshootingNoSpeedTest.rebootModemButton.isEnabled = false
+        } else {
+            binding.incTroubleshootingNoSpeedTest.rebootModemButton.isActivated = true
+            binding.incTroubleshootingNoSpeedTest.rebootModemButton.isEnabled = true
         }
     }
 
@@ -151,6 +175,139 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             binding.retryOverlay.root
         )
         viewModel.apply {
+
+            if (SpeedTestUtils.isSpeedTestAvailable()) {
+                speedTestObserver()
+                modemRebootObserverWithSpeedTest()
+            } else {
+                modemRebootObserverWithoutSpeedTest()
+            }
+            progressViewFlow.observe { showProgress(it) }
+            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
+            detailedRebootStatusFlow.observe { rebootStatus ->
+                if (SpeedTestUtils.isSpeedTestAvailable()) {
+                    speedTestButtonObserver(rebootStatus)
+                } else {
+                    rebootModemButtonObserver(rebootStatus)
+                }
+            }
+        }
+        binding.supportFaqTopicsRecyclerview.layoutManager =
+            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
+        binding.incTroubleshooting.apply {
+            runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
+            if (SpeedTestUtils.isSpeedTestAvailable()) {
+                performRebootWithSpeedTest()
+            } else {
+                performRebootWithoutSpeedTest()
+            }
+        }
+
+        binding.incContactUs.liveChatTextview.setOnClickListener {
+            viewModel.logLiveChatLaunch()
+            if (AppUtil.isOnline(this)) {
+                chatUIClient?.startChatSession(this)
+            } else {
+                showNoInternetDialog(fragmentManager, callingActivity?.className)
+            }
+        }
+        binding.incContactUs.scheduleCallbackRow.setOnClickListener {
+            viewModel.launchScheduleCallback(
+                isExistingUser
+            )
+        }
+        initButtonStates()
+    }
+
+    private fun performRebootWithSpeedTest() {
+        binding.incTroubleshooting.apply {
+            rebootModemButton.setOnClickListener {
+                if (!binding.incTroubleshooting.downloadProgressIcon.isVisible) {
+                    handleModemDialogSelection()
+                }
+            }
+        }
+    }
+
+    private fun performRebootWithoutSpeedTest() {
+        binding.incTroubleshootingNoSpeedTest.apply {
+            rebootModemButton.setOnClickListener {
+                handleModemDialogSelection()
+            }
+        }
+    }
+
+    private fun speedTestButtonObserver(rebootStatus: ModemRebootMonitorService.RebootState) {
+        when (rebootStatus) {
+            ModemRebootMonitorService.RebootState.READY -> {
+                setRebootButtonVisibility(false)
+                setRunSpeedTestButtonVisibility(false)
+            }
+            ModemRebootMonitorService.RebootState.ONGOING -> {
+                setRebootButtonVisibility(true)
+                setRunSpeedTestButtonVisibility(true)
+            }
+            ModemRebootMonitorService.RebootState.SUCCESS -> {
+                setRebootButtonVisibility(false)
+                setRunSpeedTestButtonVisibility(false)
+                showModemRebootSuccessDialog()
+            }
+            ModemRebootMonitorService.RebootState.ERROR -> {
+                setRebootButtonVisibility(false)
+                setRunSpeedTestButtonVisibility(false)
+                showModemRebootErrorDialog()
+            }
+        }
+    }
+
+    private fun rebootModemButtonObserver(rebootStatus: ModemRebootMonitorService.RebootState) {
+        when (rebootStatus) {
+            ModemRebootMonitorService.RebootState.READY -> {
+                setRebootButtonVisibilityWithoutSpeedTest(false)
+            }
+            ModemRebootMonitorService.RebootState.ONGOING -> {
+                setRebootButtonVisibilityWithoutSpeedTest(true)
+            }
+            ModemRebootMonitorService.RebootState.SUCCESS -> {
+                setRebootButtonVisibilityWithoutSpeedTest(false)
+                showModemRebootSuccessDialog()
+            }
+            ModemRebootMonitorService.RebootState.ERROR -> {
+                setRebootButtonVisibilityWithoutSpeedTest(false)
+                showModemRebootErrorDialog()
+            }
+        }
+    }
+
+    private fun modemRebootObserverWithSpeedTest() {
+        viewModel.apply {
+            modemResetButtonState.observe {
+                viewModel.networkStatus.observe { networkStatus ->
+                    if (networkStatus) {
+                        binding.incTroubleshooting.rebootModemButton.isActivated = it
+                        binding.incTroubleshooting.rebootModemButton.isEnabled = it
+                    }
+                }
+            }
+        }
+    }
+
+    private fun modemRebootObserverWithoutSpeedTest() {
+        viewModel.apply {
+            modemResetButtonState.observe {
+                viewModel.networkStatus.observe { networkStatus ->
+                    if (networkStatus) {
+                        binding.incTroubleshootingNoSpeedTest.rebootModemButton.isActivated = it
+                        binding.incTroubleshootingNoSpeedTest.rebootModemButton.isEnabled = it
+                    }
+                }
+            }
+        }
+    }
+
+    private fun speedTestObserver() {
+        viewModel.apply {
             uploadSpeed.observe { binding.incTroubleshooting.uploadSpeed.text = it }
             downloadSpeed.observe { binding.incTroubleshooting.downloadSpeed.text = it }
             latestSpeedTest.observe { binding.incTroubleshooting.lastSpeedTestTime.text = it }
@@ -171,60 +328,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                     speedTestErrorDialog()
                 }
             }
-            modemResetButtonState.observe {
-                viewModel.networkStatus.observe { networkStatus ->
-                    if (networkStatus) {
-                        binding.incTroubleshooting.rebootModemButton.isActivated = it
-                        binding.incTroubleshooting.rebootModemButton.isEnabled = it
-                    }
-                }
-            }
-            progressViewFlow.observe { showProgress(it) }
-            errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
-            detailedRebootStatusFlow.observe { rebootStatus ->
-                when (rebootStatus) {
-                    ModemRebootMonitorService.RebootState.READY -> {
-                        setRebootButtonVisibility(false)
-                        setRunSpeedTestButtonVisibility(false)
-                    }
-                    ModemRebootMonitorService.RebootState.ONGOING -> {
-                        setRebootButtonVisibility(true)
-                        setRunSpeedTestButtonVisibility(true)
-                    }
-                    ModemRebootMonitorService.RebootState.SUCCESS -> {
-                        setRebootButtonVisibility(false)
-                        setRunSpeedTestButtonVisibility(false)
-                        showModemRebootSuccessDialog()
-                    }
-                    ModemRebootMonitorService.RebootState.ERROR -> {
-                        setRebootButtonVisibility(false)
-                        setRunSpeedTestButtonVisibility(false)
-                        showModemRebootErrorDialog()
-                    }
-                }
-            }
         }
-        binding.supportFaqTopicsRecyclerview.layoutManager =
-            LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        binding.incTroubleshooting.apply {
-            rebootModemButton.setOnClickListener {
-                if (!binding.incTroubleshooting.downloadProgressIcon.isVisible) {
-                    handleModemDialogSelection()
-                }
-            }
-            runSpeedTestButton.setOnClickListener { viewModel.startSpeedTest() }
-        }
-
-        binding.incContactUs.liveChatTextview.setOnClickListener {
-            viewModel.logLiveChatLaunch()
-            if (AppUtil.isOnline(this)) {
-                chatUIClient?.startChatSession(this)
-            } else {
-                showNoInternetDialog(fragmentManager, callingActivity?.className)
-            }
-        }
-        binding.incContactUs.scheduleCallbackRow.setOnClickListener { viewModel.launchScheduleCallback(isExistingUser) }
-        initButtonStates()
     }
 
     private fun handleModemDialogSelection() {
@@ -297,6 +401,13 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding.incTroubleshooting.rebootModemButton.visibility =
             if (restarting) View.GONE else View.VISIBLE
         binding.incTroubleshooting.rebootingModemButton.root.visibility =
+            if (restarting) View.VISIBLE else View.GONE
+    }
+
+    private fun setRebootButtonVisibilityWithoutSpeedTest(restarting: Boolean) {
+        binding.incTroubleshootingNoSpeedTest.rebootModemButton.visibility =
+            if (restarting) View.GONE else View.VISIBLE
+        binding.incTroubleshootingNoSpeedTest.rebootingModemButton.root.visibility =
             if (restarting) View.VISIBLE else View.GONE
     }
 

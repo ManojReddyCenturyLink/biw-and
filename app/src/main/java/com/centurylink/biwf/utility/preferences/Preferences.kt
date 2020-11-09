@@ -2,6 +2,7 @@ package com.centurylink.biwf.utility.preferences
 
 import android.content.Context
 import com.centurylink.biwf.BuildConfig
+import com.centurylink.biwf.model.appointment.ServiceStatus
 
 class Preferences(private val store: KeyValueStore) {
 
@@ -73,8 +74,8 @@ class Preferences(private val store: KeyValueStore) {
 
     fun getLineId(): String {
         var lineId = store.get(LINE_ID)
-        // TODO This needs to be removed before launch
-        if (lineId.isNullOrEmpty()) {
+        // TODO this is only for development will remove before launch
+        if (!lineId.equals("0101100408") || !lineId.equals("1000365443") || lineId.isNullOrEmpty()) {
             if (BuildConfig.DEBUG) {
                 lineId = BuildConfig.LINE_ID
             }
@@ -102,8 +103,8 @@ class Preferences(private val store: KeyValueStore) {
      */
     fun getAssiaId(): String {
         var asiaID = store.get(ASSIA_ID)
-        // TODO: Pre-launch, remove this or add an if (Build.DEBUG) condition
-        if (asiaID.isNullOrEmpty()) {
+        // TODO this is only for development will remove before launch
+        if (!asiaID.equals("C4000XG1948000023") || !asiaID.equals("C4000XG1950000308") || asiaID.isNullOrEmpty()) {
             if (BuildConfig.DEBUG) {
                 asiaID = BuildConfig.MODEM_ID
             }
@@ -111,16 +112,24 @@ class Preferences(private val store: KeyValueStore) {
         return asiaID ?: ""
     }
 
-    fun setInstallationStatus(status: Boolean) {
-        store.putBoolean(INSTALLATION_STATUS, status)
+    fun setInstallationStatus(status: Boolean, appointmentNumber: String) {
+        store.putBoolean(appointmentNumber, status)
     }
 
-    fun getInstallationStatus(): Boolean {
-        return store.getBoolean(INSTALLATION_STATUS) ?: false
+    fun getInstallationStatus(appointmentNumber: String): Boolean {
+        return store.getBoolean(appointmentNumber) ?: false
     }
 
     private fun removeAssiaId() {
         store.remove(ASSIA_ID)
+    }
+
+    fun saveAppointmentNotificationStatus(status: Boolean, appointmentNumber: String) {
+        store.putBoolean(appointmentNumber, status)
+    }
+
+    fun getAppointmentNotificationStatus(appointmentNumber: String): Boolean {
+        return store.getBoolean(appointmentNumber) ?: false
     }
 
     fun saveSpeedTestFlag(boolean: Boolean) {
@@ -129,6 +138,14 @@ class Preferences(private val store: KeyValueStore) {
 
     fun getSpeedTestFlag(): Boolean {
         return store.getBoolean(SPEED_TEST_IS_RUNNING) ?: false
+    }
+
+    fun saveAppointmentNumber(appointmentNumber: String) {
+        store.put(APPOINTMENT_NUMBER, appointmentNumber)
+    }
+
+    fun getAppointmentNumber(): String? {
+        return store.get(APPOINTMENT_NUMBER)
     }
 
     fun saveSpeedTestUpload(uploadSpeed: String) {
@@ -171,6 +188,42 @@ class Preferences(private val store: KeyValueStore) {
         return store.get(SPEED_TEST_ID)
     }
 
+    fun removeEnrouteNotificationReadStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus(ServiceStatus.EN_ROUTE.name)
+        store.remove(appointmentNumber)
+    }
+
+    fun removeScheduleNotificationReadStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus(ServiceStatus.SCHEDULED.name)
+        store.remove(appointmentNumber)
+    }
+
+    fun removeWorkBegunNotificationReadStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus(ServiceStatus.WORK_BEGUN.name)
+        store.remove(appointmentNumber)
+    }
+
+    fun saveAppointmentType(appointmentType: String) {
+        store.put(APPOINTMENT_TYPE, appointmentType)
+    }
+
+    fun getAppointmentType(): String {
+        return store.get(APPOINTMENT_TYPE) ?: ""
+    }
+
+    fun saveAppointmentCancellationStatus(status: Boolean, appointmentNumber: String) {
+        store.putBoolean(appointmentNumber, status)
+    }
+
+    fun getAppointmentCancellationStatus(appointmentNumber: String): Boolean {
+        return store.getBoolean(appointmentNumber) ?: false
+    }
+
+    fun removeAppointmentCancellationStatus() {
+        val appointmentNumber = getAppointmentNumber().plus("_").plus("Cancelled")
+        store.remove(appointmentNumber)
+    }
+
     // Should only be used for logout, currently
     fun clearUserSettings() {
         saveBioMetrics(false)
@@ -197,6 +250,7 @@ class Preferences(private val store: KeyValueStore) {
         const val SPEED_TEST_LAST_TIME = "LAST_SPEED_TEST"
         const val SUPPORT_SPEED_TEST_STARTED = "SUPPORT_SPEED_TEST_STARTED"
         const val SPEED_TEST_ID = "SPEED_TEST_ID"
-        const val INSTALLATION_STATUS = "INSTALLATION_STATUS"
+        const val APPOINTMENT_NUMBER = "APPOINTMENT_NUMBER"
+        const val APPOINTMENT_TYPE = "APPOINTMENT_TYPE"
     }
 }

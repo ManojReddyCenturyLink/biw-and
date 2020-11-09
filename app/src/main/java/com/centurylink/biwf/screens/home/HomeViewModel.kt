@@ -11,6 +11,8 @@ import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.HomeCoordinatorDestinations
 import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.account.AccountDetails
+import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
+import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
@@ -71,7 +73,7 @@ class HomeViewModel @Inject constructor(
     var lowerTabHeaderList = mutableListOf<TabsBaseItem>()
     var progressViewFlow = EventFlow<Boolean>()
     val accountDetailsInfo: Flow<AccountDetails> = BehaviorStateFlow()
-
+    var appointmentNumber: String = ""
     private val dialogMessage = ChoiceDialogMessage(
         title = R.string.welcome_to_dashboard,
         message = R.string.biometric_dialog_message,
@@ -224,19 +226,22 @@ class HomeViewModel @Inject constructor(
         accountDetails.fold(ifLeft = {
             errorMessageFlow.latestValue = it
         }) {
-            accountDetailsInfo.latestValue = it
-            if (it.accountStatus.equals(pendingActivation, true) ||
-                it.accountStatus.equals(abandonedActivation, true)
-            ) {
-                if (sharedPreferences.getInstallationStatus()) {
-                    invokeStandardUserDashboard()
-                } else {
-                    requestAppointmentDetails()
-                }
-            } else {
+            requestAppointmentNumber(it)
+        }
+    }
+
+    private suspend fun displayAccountInfo(accountDetails: AccountDetails) {
+        if (accountDetails.accountStatus.equals(pendingActivation, true) ||
+            accountDetails.accountStatus.equals(abandonedActivation, true)
+        ) {
+            if (sharedPreferences.getInstallationStatus(appointmentNumber)) {
                 invokeStandardUserDashboard()
-                progressViewFlow.latestValue = false
+            } else {
+                requestAppointmentDetails()
             }
+        } else {
+            invokeStandardUserDashboard()
+            progressViewFlow.latestValue = false
         }
     }
 
@@ -253,11 +258,41 @@ class HomeViewModel @Inject constructor(
                 errorMessageFlow.latestValue = it
             }
         }) {
+            sharedPreferences.saveAppointmentType(it.jobType)
             if (!it.jobType.contains(intsall)) {
                 invokeStandardUserDashboard()
             } else {
                 invokeNewUserDashboard()
             }
+        }
+    }
+
+    /**
+     * Request appointment number - It is used to request appointment details through API call
+     *
+     */
+    private suspend fun requestAppointmentNumber(accountDetails: AccountDetails) {
+        val appointmentDetails = appointmentRepository.getAppointmentInfo()
+        appointmentDetails.fold(ifLeft = {
+            displayAccountInfo(accountDetails)
+        }) {
+            appointmentNumber = it.appointmentNumber
+            sharedPreferences.saveAppointmentNumber(appointmentNumber)
+            resetAppointment(it)
+            displayAccountInfo(accountDetails)
+        }
+    }
+
+    /**
+     * Recurring appointment call
+     */
+    private fun resetAppointment(appointmentDetails: AppointmentRecordsInfo) {
+        val appointmentNumber = appointmentDetails.appointmentNumber
+
+        if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) &&
+            !appointmentDetails.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
+        ) {
+            sharedPreferences.setInstallationStatus(false, appointmentNumber)
         }
     }
 
@@ -272,6 +307,7 @@ class HomeViewModel @Inject constructor(
                 val apiInfo = it?.apInfoList
                 if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                     networkStatus.latestValue = apiInfo[0].isAlive
+                    SpeedTestUtils.setSpeedTestStatus(it)
                 } else {
                     networkStatus.latestValue = false
                 }

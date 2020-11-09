@@ -8,6 +8,7 @@
         android:id="@+id/wip_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true"
         app:cardCornerRadius="@dimen/margin_spacing_tiny"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,7 +22,7 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <TextView
-                android:id="@+id/appointment_status_title"
+                android:id="@+id/work_begun_appointment_status_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_small"
@@ -32,7 +33,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/appointment_status_progress_state"
+                android:id="@+id/work_begun_appointment_status_progress_state"
                 android:layout_width="@dimen/padding_0"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_small"
@@ -42,7 +43,7 @@
                 style="@style/style_med_grey_small_text"
                 app:layout_constraintEnd_toStartOf="@+id/incProgress"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/appointment_status_title" />
+                app:layout_constraintTop_toBottomOf="@id/work_begun_appointment_status_title" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/incProgress"
@@ -51,9 +52,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_spacing_small"
                 android:layout_marginEnd="@dimen/margin_spacing_small"
-                app:layout_constraintBottom_toBottomOf="@+id/appointment_status_title"
+                app:layout_constraintBottom_toBottomOf="@+id/work_begun_appointment_status_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/appointment_status_title">
+                app:layout_constraintTop_toTopOf="@+id/work_begun_appointment_status_title">
 
                 <View
                     android:id="@+id/progress_state_one"
@@ -102,7 +103,7 @@
                 android:focusable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/appointment_status_progress_state" />
+                app:layout_constraintTop_toBottomOf="@+id/work_begun_appointment_status_progress_state" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -114,7 +115,7 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <TextView
-                    android:id="@+id/technician_name"
+                    android:id="@+id/work_begun_technician_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_spacing_small"
@@ -125,7 +126,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/appointment_text"
+                    android:id="@+id/work_begun_appointment_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_spacing_small"
@@ -134,7 +135,7 @@
                     android:text="@string/is_setting_up_your_network_now"
                     style="@style/style_med_grey_small_text"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/technician_name" />
+                    app:layout_constraintTop_toBottomOf="@id/work_begun_technician_name" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

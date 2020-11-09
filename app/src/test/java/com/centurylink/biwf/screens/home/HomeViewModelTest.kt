@@ -158,7 +158,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun getInstallationStatusTrue() {
-        every { mockPreferences.getInstallationStatus() } returns true
+        every { mockPreferences.getInstallationStatus("") } returns true
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
@@ -167,7 +167,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun getRequestAppointmentDetailsFailure() {
-        every { mockPreferences.getInstallationStatus() } returns false
+        every { mockPreferences.getInstallationStatus("") } returns false
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
@@ -180,7 +180,7 @@ class HomeViewModelTest : ViewModelBaseTest() {
 
     @Test
     fun getRequestAppointmentDetailsFailure1() {
-        every { mockPreferences.getInstallationStatus() } returns false
+        every { mockPreferences.getInstallationStatus("") } returns false
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)

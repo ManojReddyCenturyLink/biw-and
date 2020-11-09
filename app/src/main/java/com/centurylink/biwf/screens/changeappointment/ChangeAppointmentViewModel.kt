@@ -11,6 +11,7 @@ import com.centurylink.biwf.model.appointment.RescheduleInfo
 import com.centurylink.biwf.repos.AppointmentRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.*
+import com.centurylink.biwf.utility.preferences.Preferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -29,6 +30,7 @@ import kotlin.collections.HashMap
  * @param analyticsManagerInterface - analytics instance to handle analytics events
  */
 class ChangeAppointmentViewModel @Inject constructor(
+    private val sharedPreferences: Preferences,
     private val appointmentRepository: AppointmentRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
@@ -225,7 +227,7 @@ class ChangeAppointmentViewModel @Inject constructor(
     fun getNextEstimatedDateForSlots(currentLastdate: String): String {
         val format = SimpleDateFormat(DateUtils.STANDARD_FORMAT)
         var myDate = format.parse(currentLastdate)
-        myDate = DateUtils.addDays(myDate, 1)
+        myDate = DateUtils.addDays(myDate, 2)
         return DateUtils.toSimpleString(myDate, DateUtils.STANDARD_FORMAT)
     }
 
@@ -275,6 +277,13 @@ class ChangeAppointmentViewModel @Inject constructor(
             appointmentDate + " " + date24Format.format(date12Format.parse(separatedSlots[1]))
         rescheduleInfo = RescheduleInfo(appointmentId, arrivalStartTime, arrivalEndTime)
         submitAppointment()
+    }
+
+    /**
+     * It will read appointment type from preferences
+     */
+    fun readAppointmentType(): String {
+        return sharedPreferences.getAppointmentType()
     }
 
     /**

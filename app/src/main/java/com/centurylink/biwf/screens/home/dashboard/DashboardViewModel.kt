@@ -112,10 +112,13 @@ class DashboardViewModel @Inject constructor(
     private var mergedNotificationList: MutableList<Notification> = mutableListOf()
     var speedTestError = EventFlow<Boolean>()
     private var rebootOngoing = false
-    var installationStatus: Boolean
+    var installationStatus: Boolean = sharedPreferences.getAppointmentNumber()?.let {
+        sharedPreferences.getInstallationStatus(
+            it
+        )
+    }!!
 
     init {
-        installationStatus = sharedPreferences.getInstallationStatus()
         progressViewFlow.latestValue = true
         initAccountDetails()
         initModemStatusRefresh()
@@ -314,7 +317,8 @@ class DashboardViewModel @Inject constructor(
         var uploadSpeedError = false
         var downloadSpeedError = false
         val result = speedTestRepository.getSpeedTestResults(sharedPreferences.getSpeedTestId()!!)
-        result.fold(ifLeft = { displayEmptyResponse()
+        result.fold(ifLeft = {
+            displayEmptyResponse()
             uploadSpeedError = true
             downloadSpeedError = true
         }, ifRight = {
@@ -368,7 +372,9 @@ class DashboardViewModel @Inject constructor(
      */
     private fun refreshAppointmentDetails() {
         viewModelScope.interval(0, APPOINTMENT_DETAILS_REFRESH_INTERVAL) {
-            recurringAppointmentCall()
+            if (::appointmentDetails.isInitialized) {
+                recurringAppointmentCall()
+            }
         }
     }
 
@@ -386,9 +392,11 @@ class DashboardViewModel @Inject constructor(
                 initDevicesApis()
             }
         }) {
+            sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
             progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
+            resetAppointment()
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
             if (!it.jobType.contains(HomeViewModel.intsall) && it.serviceStatus?.name.equals(
@@ -400,14 +408,33 @@ class DashboardViewModel @Inject constructor(
             } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
+                    initDevicesApis()
                 } else {
                     isAccountStatus.latestValue = true
                     initDevicesApis()
                 }
             }
         }
-        if (refresh) {
-            refreshAppointmentDetails()
+//        if (refresh) {
+        resetAppointment()
+        refreshAppointmentDetails()
+        //  }
+    }
+
+    /**
+     * reset the appointment number
+     */
+    private fun resetAppointment() {
+        if (::appointmentDetails.isInitialized) {
+            val appointmentNumber = appointmentDetails.appointmentNumber
+            if (!appointmentDetails.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) &&
+                !appointmentDetails.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name)
+            ) {
+                if (appointmentNumber != null) {
+                    sharedPreferences.setInstallationStatus(false, appointmentNumber)
+                    installationStatus = sharedPreferences.getInstallationStatus(appointmentNumber)
+                }
+            }
         }
     }
 
@@ -420,6 +447,7 @@ class DashboardViewModel @Inject constructor(
             Timber.i("Error in Appointments")
         }) {
             progressViewFlow.latestValue = false
+            sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
                     it.serviceStatus?.name.equals(ServiceStatus.COMPLETED.name))
@@ -484,6 +512,7 @@ class DashboardViewModel @Inject constructor(
             errorMessageFlow.latestValue = "Error WifiInfo"
         })
     }
+
     /**
      * Request to get network password
      *
@@ -491,7 +520,7 @@ class DashboardViewModel @Inject constructor(
      */
     private suspend fun requestToGetNetworkPassword(netWorkBand: NetWorkBand) {
         val netWorkInfo =
-                wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
+            wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         netWorkInfo.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
             val password = it.networkName[netWorkBand.name]
@@ -506,37 +535,37 @@ class DashboardViewModel @Inject constructor(
                 }
             }
         },
-                ifLeft = {
-                    analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                    errorMessageFlow.latestValue = it
-                })
+            ifLeft = {
+                analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
+                errorMessageFlow.latestValue = it
+            })
         val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfoReceived?.apInfoList[0])
         val regularNetworkName = ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0])
         regularNetworkInfo = regularNetworkInstance.copy(
-                category = NetWorkCategory.REGULAR,
-                type = NetWorkBand.Band5G.name,
-                name = regularNetworkName,
-                password = regularNetworkWifiPwd,
-                enabled = wifiNetworkEnabled
+            category = NetWorkCategory.REGULAR,
+            type = NetWorkBand.Band5G.name,
+            name = regularNetworkName,
+            password = regularNetworkWifiPwd,
+            enabled = wifiNetworkEnabled
         )
         val guestNetworkName = ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0])
         val guestNetworkEnabled = ModemUtils.getGuestNetworkState(modemInfoReceived?.apInfoList[0])
         guestNetworkInfo = guestNetworkInstance.copy(
-                category = NetWorkCategory.GUEST,
-                type = NetWorkBand.Band2G_Guest4.name,
-                name = guestNetworkName,
-                password = guestNetworkWifiPwd,
-                enabled = guestNetworkEnabled
+            category = NetWorkCategory.GUEST,
+            type = NetWorkBand.Band2G_Guest4.name,
+            name = guestNetworkName,
+            password = guestNetworkWifiPwd,
+            enabled = guestNetworkEnabled
         )
         wifiListDetails.latestValue = wifiScanStatus(
-                ArrayList(
-                        (WifiDetails(
-                                listOf(
-                                        regularNetworkInfo,
-                                        guestNetworkInfo
-                                )
-                        )).wifiList
-                )
+            ArrayList(
+                (WifiDetails(
+                    listOf(
+                        regularNetworkInfo,
+                        guestNetworkInfo
+                    )
+                )).wifiList
+            )
         )
     }
 
@@ -672,6 +701,7 @@ class DashboardViewModel @Inject constructor(
     private fun updateAppointmentStatus(
         it: AppointmentRecordsInfo
     ) {
+        sharedPreferences.saveAppointmentType(it.jobType)
         val timezone = it.timeZone
         appointmentDetails = it
         when (it.serviceStatus) {
@@ -733,14 +763,15 @@ class DashboardViewModel @Inject constructor(
             ServiceStatus.COMPLETED -> {
                 val appointmentComplete = AppointmentComplete(
                     jobType = it.jobType,
-                    status = it.serviceStatus
+                    status = it.serviceStatus, appointmentNumber = it.appointmentNumber
                 )
                 dashBoardDetailsInfo.latestValue = appointmentComplete
             }
             ServiceStatus.CANCELED -> {
                 val appointmentCanceled = AppointmentCanceled(
                     serviceAppointmentTime = "",
-                    status = ServiceStatus.CANCELED
+                    status = ServiceStatus.CANCELED,
+                    jobType = it.jobType
                 )
                 dashBoardDetailsInfo.latestValue = appointmentCanceled
             }
@@ -847,11 +878,9 @@ class DashboardViewModel @Inject constructor(
     /**
      * Get started clicked-track the analytics for get started button click
      */
-    fun getStartedClicked() {
+    fun getStartedClicked(appointmentNumber: String) {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_GET_STARTED_DASHBOARD)
-        sharedPreferences.setInstallationStatus(true)
-        isAccountActive = true
-        isAccountStatus.latestValue = isAccountActive
+        sharedPreferences.setInstallationStatus(true, appointmentNumber)
     }
 
     /**
@@ -882,6 +911,7 @@ class DashboardViewModel @Inject constructor(
                 cancelAppointmentError.latestValue = it
             }
         }) {
+            saveAppointmentTCancellation()
             analyticsManagerInterface.logApiCall(AnalyticsKeys.CANCEL_APPOINTMENT_SUCCESS)
             progressViewFlow.latestValue = false
             if (it.status != null) {
@@ -944,8 +974,81 @@ class DashboardViewModel @Inject constructor(
     /**
      * Log dismiss notification- track the analytics when dismiss notification
      */
-    fun logDismissNotification() {
+    fun logDismissNotification(state: String) {
+        sharedPreferences.saveAppointmentNotificationStatus(
+            true,
+            sharedPreferences.getAppointmentNumber().plus("_").plus(state)
+        )
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DISMISS_NOTIFICATION)
+    }
+
+    /**
+     * It will read notification read status from preferences
+     */
+    fun readNotificationStatus(state: String): Boolean {
+        return sharedPreferences.getAppointmentNotificationStatus(
+            sharedPreferences.getAppointmentNumber().plus("_").plus(state)
+        )
+    }
+
+    /**
+     * It will read cancel appointment read status from preferences
+     */
+    fun readCancellationAppointmentStatus(): Boolean {
+
+        if (sharedPreferences.getAppointmentCancellationStatus(
+                sharedPreferences.getAppointmentNumber().plus("_").plus("Cancelled")
+            ) && !readAppointmentType()?.contains(HomeViewModel.intsall)
+        ) {
+            isAccountStatus.latestValue = true
+        }
+        return sharedPreferences.getAppointmentCancellationStatus(
+            sharedPreferences.getAppointmentNumber().plus("_").plus("Cancelled")
+        )
+    }
+
+    /**
+     * It will read appointment type from preferences
+     */
+    fun readAppointmentType(): String {
+        return sharedPreferences.getAppointmentType()
+    }
+
+    /**
+     * It will read appointment type from preferences
+     */
+    fun saveAppointmentTCancellation() {
+        sharedPreferences.saveAppointmentCancellationStatus(
+            true,
+            sharedPreferences.getAppointmentNumber().plus("_").plus("Cancelled")
+        )
+    }
+
+    /**
+     * It will read appointment read status from preferences
+     */
+    fun clearAppointmentCancellationStatus() {
+        sharedPreferences.removeAppointmentCancellationStatus()
+    }
+
+    /**
+     * It will clear notification read status from preferences
+     */
+    fun clearNotificationStatus(state: String) {
+        if (state.equals(ServiceStatus.WORK_BEGUN.name)) {
+            sharedPreferences.removeScheduleNotificationReadStatus()
+            sharedPreferences.removeEnrouteNotificationReadStatus()
+        } else if (state.equals(ServiceStatus.EN_ROUTE.name)) {
+            sharedPreferences.removeScheduleNotificationReadStatus()
+            sharedPreferences.removeWorkBegunNotificationReadStatus()
+        } else if (state.equals(ServiceStatus.SCHEDULED.name) || state.equals(ServiceStatus.DISPATCHED.name)) {
+            sharedPreferences.removeEnrouteNotificationReadStatus()
+            sharedPreferences.removeWorkBegunNotificationReadStatus()
+        } else if (state.equals(ServiceStatus.COMPLETED.name) || state.equals(ServiceStatus.CANCELED.name)) {
+            sharedPreferences.removeEnrouteNotificationReadStatus()
+            sharedPreferences.removeWorkBegunNotificationReadStatus()
+            sharedPreferences.removeScheduleNotificationReadStatus()
+        }
     }
 
     abstract class UiDashboardAppointmentInformation
@@ -995,13 +1098,15 @@ class DashboardViewModel @Inject constructor(
      */
     data class AppointmentComplete(
         val jobType: String,
-        val status: ServiceStatus
+        val status: ServiceStatus,
+        val appointmentNumber: String
     ) : UiDashboardAppointmentInformation()
 
     /**
      * model calss for appointment canceled
      */
     data class AppointmentCanceled(
+        val jobType: String,
         val serviceAppointmentTime: String,
         val status: ServiceStatus
     ) : UiDashboardAppointmentInformation()
