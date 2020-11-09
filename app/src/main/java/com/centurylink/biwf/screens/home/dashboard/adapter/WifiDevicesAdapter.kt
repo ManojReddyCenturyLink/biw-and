@@ -31,11 +31,19 @@ class WifiDevicesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         if (SpeedTestUtils.isSpeedTestAvailable()) {
             val itemBinding =
-                LayoutScancodeItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                LayoutScancodeItemBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             return ViewHolder(itemBinding)
         } else {
             val itemBinding =
-                LayoutScancodeItemNoSpeedTestBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                LayoutScancodeItemNoSpeedTestBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
             return ViewHolder(itemBinding)
         }
     }
@@ -106,7 +114,7 @@ class WifiDevicesAdapter(
             wifiDeviceClickListener: WifiDeviceClickListener
         ) {
             itemView.deviceName.text = getSpannableContent(
-                getPrefixString(wifiDetails, itemView.context),
+                itemView.context.getString(R.string.scan_to_join),
                 wifiDetails.name!!
             )
             itemView.qrScanImg.setImageBitmap(getQRBitmap(wifiDetails, itemView.context))
@@ -117,9 +125,9 @@ class WifiDevicesAdapter(
                 itemView.ivNetworkType.setImageDrawable(itemView.context.getDrawable(R.drawable.wifi_image_selector))
             }
             if (pos == wifiListItems.size - 1) {
-                itemView.tvNetworkInfo.text = "Guest network information"
+                itemView.tvNetworkInfo.text = itemView.context.getString(R.string.guest_network_information)
             } else {
-                itemView.tvNetworkInfo.text = "Network information"
+                itemView.tvNetworkInfo.text = itemView.context.getString(R.string.network_information)
             }
             itemView.qrScanImg.setOnClickListener {
                 wifiDeviceClickListener.onWifiQRScanImageClicked(wifiDetails)
@@ -141,7 +149,7 @@ class WifiDevicesAdapter(
         private fun getPrefixString(wifiDetails: WifiInfo, context: Context): String {
             return when (wifiDetails.type) {
                 "guest" -> context.getString(R.string.scan_to_join_guest)
-                else -> context.getString(R.string.scan_to_join)
+                else -> context.getString(R.string.scan_network)
             }
         }
 
