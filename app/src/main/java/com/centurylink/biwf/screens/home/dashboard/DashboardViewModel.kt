@@ -134,7 +134,6 @@ class DashboardViewModel @Inject constructor(
             fetchPasswordApi()
             requestDevices()
         }
-
     }
 
     /**
