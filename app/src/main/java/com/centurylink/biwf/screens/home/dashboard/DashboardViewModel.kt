@@ -134,7 +134,7 @@ class DashboardViewModel @Inject constructor(
             fetchPasswordApi()
             requestDevices()
         }
-        progressViewFlow.latestValue = false
+
     }
 
     /**
@@ -537,7 +537,7 @@ class DashboardViewModel @Inject constructor(
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                errorMessageFlow.latestValue = it
+                if (it.isNotEmpty()) errorMessageFlow.latestValue = it else errorMessageFlow.latestValue = "Error networkPassword"
             })
         val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfoReceived?.apInfoList[0])
         val regularNetworkName = ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0])
@@ -578,6 +578,7 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             val connectedList = deviceList.filter { !it.blocked }.distinct()
             connectedDevicesNumber.latestValue = connectedList.size.toString()
+            progressViewFlow.latestValue = false
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
