@@ -1,17 +1,18 @@
 package com.centurylink.biwf.screens.support.adapter
 
 import android.content.Context
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import androidx.core.text.HtmlCompat
 import com.centurylink.biwf.R
+import com.centurylink.biwf.utility.WebLinkUtil
+
 
 class ExpandableContentAdapter(private val answerList: HashMap<String, String>) :
     BaseExpandableListAdapter() {
@@ -45,9 +46,9 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
                 parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.faq_item_answers, null)
         }
-        val expandedListTextView = convertView!!.findViewById<TextView>(R.id.faq_answers)
-        expandedListTextView.text = HtmlCompat.fromHtml(expandedListText, HtmlCompat.FROM_HTML_MODE_LEGACY)
-        expandedListTextView.movementMethod = LinkMovementMethod.getInstance()
+        val expandedListWebView = convertView!!.findViewById<WebView>(R.id.faq_answers)
+        WebLinkUtil.setupWebView(false, expandedListWebView, true)
+        expandedListWebView.loadDataWithBaseURL(null, expandedListText, "text/html", "UTF-8", null)
         return convertView
     }
 
