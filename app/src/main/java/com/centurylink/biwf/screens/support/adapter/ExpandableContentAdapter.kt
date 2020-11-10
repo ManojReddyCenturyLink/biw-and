@@ -13,7 +13,6 @@ import androidx.core.graphics.drawable.DrawableCompat
 import com.centurylink.biwf.R
 import com.centurylink.biwf.utility.WebLinkUtil
 
-
 class ExpandableContentAdapter(private val answerList: HashMap<String, String>) :
     BaseExpandableListAdapter() {
 

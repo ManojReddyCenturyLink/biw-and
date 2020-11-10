@@ -40,7 +40,7 @@ class WebLinkUtil {
          * @param webView
          * @param isZoomEnabled
          */
-        fun setupWebView(isFromOnBoarding:Boolean, webView: WebView, isZoomEnabled:Boolean){
+        fun setupWebView(isFromOnBoarding: Boolean, webView: WebView, isZoomEnabled: Boolean) {
             webView.settings.javaScriptEnabled = isFromOnBoarding
 
             webView.settings.allowFileAccess = false
@@ -55,7 +55,7 @@ class WebLinkUtil {
 
             webView.settings.allowFileAccessFromFileURLs = false
 
-            if (isZoomEnabled){
+            if (isZoomEnabled) {
                 webView.settings.builtInZoomControls = true
                 webView.settings.displayZoomControls = false
             }
