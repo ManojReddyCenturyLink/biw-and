@@ -69,7 +69,8 @@ class NetworkStatusViewModel @Inject constructor(
     val guestNetworkStatusFlow: Flow<UINetworkModel> = BehaviorStateFlow()
     private var regularNetworkInstance = UINetworkModel()
     private var guestNetworkInstance = UINetworkModel()
-
+    var modemDeviceID = EventFlow<Boolean>()
+    var offlineNetworkinfo = false
     /**
      * This block is executed first, when the class is instantiated.
      */
@@ -257,6 +258,9 @@ class NetworkStatusViewModel @Inject constructor(
             setGuestWifiInfo(existingGuestName, existingGuestPwd, guestNetworkEnabled)
         regularNetworkStatusFlow.latestValue = regularNetworkInstance
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
+        modemDeviceID.latestValue = true
+        progressViewFlow.latestValue = false
+        offlineNetworkinfo = true
     }
 
     /**
