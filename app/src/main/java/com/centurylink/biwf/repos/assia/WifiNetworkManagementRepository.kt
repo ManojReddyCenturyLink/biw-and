@@ -2,7 +2,6 @@ package com.centurylink.biwf.repos.assia
 
 import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
-import com.centurylink.biwf.model.AssiaErrorMessage
 import com.centurylink.biwf.model.wifi.*
 import com.centurylink.biwf.service.network.WifiNetworkApiService
 import com.centurylink.biwf.service.network.WifiStatusService
