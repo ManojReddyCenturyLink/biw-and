@@ -44,7 +44,6 @@
         layout="@layout/widget_progress_overlay_purple"
         android:layout_width="match_parent"
         android:layout_height="@dimen/padding_0"
-        android:layout_marginStart="@dimen/margin_spacing_tiny"
         android:layout_marginTop="@dimen/margin_spacing_small"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"

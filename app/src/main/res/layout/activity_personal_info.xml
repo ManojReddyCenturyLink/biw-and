@@ -74,6 +74,15 @@
         tools:ignore="LabelFor" />
 
     <ImageView
+        android:layout_width="50dp"
+        android:layout_height="@dimen/text_size_16"
+        android:layout_margin="@dimen/margin_spacing_tiny"
+        android:background="@drawable/background_email_transparent_white_gradient"
+        app:layout_constraintBottom_toBottomOf="@+id/personal_info_email_input"
+        app:layout_constraintEnd_toEndOf="@+id/personal_info_email_input"
+        app:layout_constraintTop_toTopOf="@+id/personal_info_email_input" />
+
+    <ImageView
         android:id="@+id/iv_question"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
