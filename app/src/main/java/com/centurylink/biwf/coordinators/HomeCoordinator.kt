@@ -27,6 +27,7 @@ class HomeCoordinator @Inject constructor() : Coordinator<HomeCoordinatorDestina
             HomeCoordinatorDestinations.NOTIFICATION_LIST -> navigateToNotificationList()
             HomeCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNavigationDetails()
             HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY -> navigateToSubscriptionActivity()
+        // HomeCoordinatorDestinations.NETWORK_STATUS -> navigateToNetworkStatusActivity()
         }
     }
 
