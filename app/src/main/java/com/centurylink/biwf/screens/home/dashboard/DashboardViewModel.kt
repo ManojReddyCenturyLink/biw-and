@@ -536,7 +536,7 @@ class DashboardViewModel @Inject constructor(
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                if (it.isNotEmpty()) errorMessageFlow.latestValue = it else errorMessageFlow.latestValue = "Error networkPassword"
+                errorMessageFlow.latestValue = it
             })
         val wifiNetworkEnabled = ModemUtils.getRegularNetworkState(modemInfoReceived?.apInfoList[0])
         val regularNetworkName = ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0])
