@@ -76,7 +76,8 @@ class EnvironmentPath {
 
         // Appointment
         const val APPOINTMENT_INFO_QUERY =
-            "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude, ServiceTerritory.OperatingHours.TimeZone,Appointment_Number_Text__c,(SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s'"
+            "SELECT Id, ArrivalWindowEndTime, ArrivalWindowStartTime, Status, Job_Type__c, WorkTypeId, Latitude, Longitude,CreatedDate, ServiceTerritory.OperatingHours.TimeZone,Appointment_Number_Text__c,(SELECT ServiceResource.Id, ServiceResource.Name FROM ServiceAppointment.ServiceResources) FROM ServiceAppointment WHERE AccountId = '%s' ORDER BY CreatedDate DESC"
+
         const val API_APPOINTMENT_SLOT_PATH =
             "/services/apexrest/AppointmentSlotsMobile/"
         const val API_RESCHEDULE_APPOINTMENT_PATH = "/services/apexrest/AppointmentSlotsMobile/"

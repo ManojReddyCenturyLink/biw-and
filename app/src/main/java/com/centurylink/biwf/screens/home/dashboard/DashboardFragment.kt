@@ -427,44 +427,45 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
 
         dashboardViewModel.dashBoardDetailsInfo.observe {
             if (it is DashboardViewModel.AppointmentScheduleState) {
-                if (it.jobType.contains(HomeViewModel.intsall)) {
-                    incScheduled.schedule_appointment_status_title.text =
-                        resources.getString(R.string.fiber_installation_status)
-                    incScheduled.schedule_appointment_status_progress_state.text =
-                        resources.getString(R.string.installation_scheduled)
-                    binding.connectedDevicesCard.root.visibility = View.GONE
-                    dashboardViewModel.clearNotificationStatus(ServiceStatus.SCHEDULED.name)
-                    if (dashboardViewModel.readNotificationStatus(ServiceStatus.SCHEDULED.name)) {
-                        incScheduled.incWelcomeCard.visibility = View.GONE
-                    } else {
-                        incScheduled.incWelcomeCard.visibility = View.VISIBLE
-                    }
-                    binding.layoutNetworkList.visibility = View.GONE
-                } else {
-                    incScheduled.schedule_appointment_status_title.text =
-                        resources.getString(R.string.service_appointment_status)
-                    incScheduled.schedule_appointment_status_progress_state.text =
-                        resources.getString(R.string.service_appointment_scheduled)
-                    incScheduled.incWelcomeCard.visibility = View.GONE
-                }
+                incEnroute.visibility = View.GONE
+                incWorkBegun.visibility = View.GONE
+                incCompleted.visibility = View.GONE
                 if (dashboardViewModel.readCancellationAppointmentStatus()) {
                     if (it.jobType.contains(HomeViewModel.intsall)) {
                         incCanceled.visibility = View.VISIBLE
                         incScheduled.visibility = View.GONE
+                        binding.layoutNetworkList.visibility = View.GONE
+                        binding.connectedDevicesCard.root.visibility = View.GONE
                     } else {
                         incCanceled.visibility = View.GONE
                         incScheduled.visibility = View.GONE
+                        displayDashboardUI()
                     }
                 } else {
                     dashboardViewModel.clearAppointmentCancellationStatus()
                     incScheduled.visibility = View.VISIBLE
-                    incCanceled.visibility = View.GONE
-                    if (!it.jobType.contains(HomeViewModel.intsall)) {
+                    if (it.jobType.contains(HomeViewModel.intsall)) {
+                        incScheduled.schedule_appointment_status_title.text =
+                            resources.getString(R.string.fiber_installation_status)
+                        incScheduled.schedule_appointment_status_progress_state.text =
+                            resources.getString(R.string.installation_scheduled)
+                        binding.connectedDevicesCard.root.visibility = View.GONE
+                        dashboardViewModel.clearNotificationStatus(ServiceStatus.SCHEDULED.name)
+                        if (dashboardViewModel.readNotificationStatus(ServiceStatus.SCHEDULED.name)) {
+                            incScheduled.incWelcomeCard.visibility = View.GONE
+                        } else {
+                            incScheduled.incWelcomeCard.visibility = View.VISIBLE
+                        }
+                        binding.layoutNetworkList.visibility = View.GONE
+                    } else {
+                        incScheduled.schedule_appointment_status_title.text =
+                            resources.getString(R.string.service_appointment_status)
+                        incScheduled.schedule_appointment_status_progress_state.text =
+                            resources.getString(R.string.service_appointment_scheduled)
                         incScheduled.incWelcomeCard.visibility = View.GONE
                         displayDashboardUI()
                     }
                 }
-
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_date.text =
                     it.serviceAppointmentDate
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text =
@@ -478,9 +479,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incScheduled.incWelcomeCard.visibility = View.GONE
                 }
                 dashboardViewModel.logAppointmentStatusState(1)
-                incEnroute.visibility = View.GONE
-                incWorkBegun.visibility = View.GONE
-                incCompleted.visibility = View.GONE
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
                 if (it.jobType.contains(HomeViewModel.intsall)) {
