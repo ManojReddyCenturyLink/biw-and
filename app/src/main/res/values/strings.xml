@@ -304,6 +304,7 @@
     <string name="available_appointments_on_date">Available appointments on %s:</string>
     <string name="available_appointments_slots_error">Please select an appointment to continue</string>
     <string name="modify_appointments">Modify appointment</string>
+    <string name="select_appointment">Select appointment</string>
     <string name="booked_appointment">Appointment booked</string>
     <string name="installation_has_been_cancelled">Installation has been cancelled</string>
     <string name="installation_cancellation_confirmation_title">Are you sure you want to cancel your appointment?</string>
