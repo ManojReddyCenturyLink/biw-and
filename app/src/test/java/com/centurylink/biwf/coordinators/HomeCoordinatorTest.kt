@@ -24,12 +24,12 @@ class HomeCoordinatorTest : BaseRepositoryTest() {
         HomeCoordinatorDestinations.bundle = Bundle()
     }
 
-    @Test
+    /*@Test
     fun navigateToNetworkStatusActivitySuccess() {
         every { navigator.navigateToNetworkInformationScreen() } returns any()
         val det = homeCoOrdinator.navigateTo(HomeCoordinatorDestinations.NETWORK_STATUS)
         assertEquals(det, Unit)
-    }
+    }*/
 
     @Test
     fun navigateToNotificationListSuccess() {
