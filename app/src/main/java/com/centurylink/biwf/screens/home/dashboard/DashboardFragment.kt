@@ -235,7 +235,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     override fun retryClicked() {
         showProgress(true)
-        dashboardViewModel.initDevicesApis()
+        dashboardViewModel.initDevicesApis(true)
     }
 
     /**
@@ -803,7 +803,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * Update view - It will call the update devices api from viewmodel
      */
     fun updateView() {
-        dashboardViewModel.initDevicesApis()
+        dashboardViewModel.initDevicesApis(false)
     }
 
     /**
