@@ -16,7 +16,8 @@ class ModemUtils {
     companion object {
         private val PAT_FILE_NAME: Pattern = Pattern.compile(
             "(.*?)" +
-                    "(?:\\-(\\d+)\\-)?(\\.[^.]*)?")
+                    "(?:\\-(\\d+)\\-)?(\\.[^.]*)?"
+        )
         private val MAX_NICKNAMELENGTH = 17
 
         fun getGuestNetworkName(apiInfo: ApInfo): String {
@@ -31,13 +32,13 @@ class ModemUtils {
         }
 
         fun getGuestNetworkState(apiInfo: ApInfo): Boolean {
-            return apiInfo.bssidMap.containsValue(NetWorkBand.Band5G_Guest4.name) || apiInfo.bssidMap.containsValue(
+            return apiInfo.bssidMap.containsValue(NetWorkBand.Band5G_Guest4.name) && apiInfo.bssidMap.containsValue(
                 NetWorkBand.Band2G_Guest4.name
             )
         }
 
         fun getRegularNetworkState(apiInfo: ApInfo) =
-            apiInfo.bssidMap.containsValue(NetWorkBand.Band5G.name) || apiInfo.bssidMap.containsValue(
+            apiInfo.bssidMap.containsValue(NetWorkBand.Band5G.name) && apiInfo.bssidMap.containsValue(
                 NetWorkBand.Band2G.name
             )
 

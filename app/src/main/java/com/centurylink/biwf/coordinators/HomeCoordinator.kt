@@ -27,7 +27,7 @@ class HomeCoordinator @Inject constructor() : Coordinator<HomeCoordinatorDestina
             HomeCoordinatorDestinations.NOTIFICATION_LIST -> navigateToNotificationList()
             HomeCoordinatorDestinations.NOTIFICATION_DETAILS -> navigateToNavigationDetails()
             HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY -> navigateToSubscriptionActivity()
-        // HomeCoordinatorDestinations.NETWORK_STATUS -> navigateToNetworkStatusActivity()
+            HomeCoordinatorDestinations.NETWORK_STATUS -> navigateToNetworkStatusActivity()
         }
     }
 
@@ -35,9 +35,9 @@ class HomeCoordinator @Inject constructor() : Coordinator<HomeCoordinatorDestina
      * Function guides us to navigate to Network Status Activity.
      *
      */
-    /*private fun navigateToNetworkStatusActivity() {
+    private fun navigateToNetworkStatusActivity() {
         navigator.navigateToNetworkInformationScreen()
-    }*/
+    }
 
     /**
      * Function guides us to navigate to Notification List Activity.
@@ -78,7 +78,7 @@ class HomeCoordinator @Inject constructor() : Coordinator<HomeCoordinatorDestina
  * @constructor Create  Home coordinator destinations
  */
 enum class HomeCoordinatorDestinations {
-    SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, SUBSCRIPTION_ACTIVITY;
+    SUPPORT, NOTIFICATION_LIST, NOTIFICATION_DETAILS, SUBSCRIPTION_ACTIVITY, NETWORK_STATUS;
 
     companion object {
         lateinit var bundle: Bundle

@@ -292,6 +292,11 @@
     <string name="network_password_mandatory">Network password*</string>
     <string name="guest_network_name_mandatory">Guest network name*</string>
     <string name="guest_network_password_mandatory">Guest network password*</string>
+    <string name="try_again_later">Please try again later.</string>
+    <string name="error_disabling_wifi_network">Error disabling WiFi network.</string>
+    <string name="error_enabling_wifi_network">Error enabling WiFi network.</string>
+    <string name="error_disabling_guest_network">Error disabling Guest network.</string>
+    <string name="error_enabling_guest_network">Error enabling Guest network.</string>
 
     <!--Modify/Cancel Appointment Strings-->
     <string name="select_appointment_slot">Select the day and time that works best for you.</string>
@@ -304,7 +309,6 @@
     <string name="available_appointments_on_date">Available appointments on %s:</string>
     <string name="available_appointments_slots_error">Please select an appointment to continue</string>
     <string name="modify_appointments">Modify appointment</string>
-    <string name="select_appointment">Select appointment</string>
     <string name="booked_appointment">Appointment booked</string>
     <string name="installation_has_been_cancelled">Installation has been cancelled</string>
     <string name="installation_cancellation_confirmation_title">Are you sure you want to cancel your appointment?</string>
@@ -345,4 +349,10 @@
     <string name="restarting_modem_help">Having some issues? Restarting your modem may help.</string>
     <string name="guest_network_information">Guest network information</string>
     <string name="network_information">Network information</string>
+    <string name="disabling_wifi_network">Disabling WiFi network</string>
+    <string name="enabling_wifi_network">Enabling WiFi network</string>
+    <string name="disabling_guest_network">Disabling Guest network</string>
+    <string name="enabling_guest_network">Enabling Guest network</string>
+    <string name="the_network_will_be_fully_disabled">The network will be fully disabled in 1-2 minutes. You can leave the app while you wait.</string>
+    <string name="the_network_will_be_fully_enabled">The network will be fully enabled in 1-2 minutes. You can leave the app while you wait.</string>
 </resources>
