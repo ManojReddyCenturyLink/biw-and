@@ -681,7 +681,7 @@ class NetworkStatusViewModel @Inject constructor(
                 }
             }
             errorSubmitValue.latestValue = submitFlow
-            if(submitValue) {
+            if (submitValue) {
                 progressViewFlow.latestValue = false
             }
         }
