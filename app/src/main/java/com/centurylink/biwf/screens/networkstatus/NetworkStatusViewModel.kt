@@ -1,6 +1,5 @@
 package com.centurylink.biwf.screens.networkstatus
 
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.R
 import com.centurylink.biwf.analytics.AnalyticsKeys
@@ -76,7 +75,7 @@ class NetworkStatusViewModel @Inject constructor(
     var dialogEnableError = EventFlow<Boolean>()
     var dialogDisableError = EventFlow<Boolean>()
     private var isEnableDisableError: Boolean = false
-    var networkCurrentRunningProcess:NetworkEnableDisableEventType= NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
+    var networkCurrentRunningProcess: NetworkEnableDisableEventType = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
     var modemDeviceID = EventFlow<Boolean>()
     var offlineNetworkinfo = false
 
@@ -586,9 +585,9 @@ class NetworkStatusViewModel @Inject constructor(
      * @param netWorkBand - Network Band types of the server to request network enablement
      */
     private suspend fun requestToEnableNetwork(netWorkBand: NetWorkBand) {
-        networkCurrentRunningProcess = when(netWorkBand){
+        networkCurrentRunningProcess = when (netWorkBand) {
             NetWorkBand.Band2G,
-            NetWorkBand.Band5G->
+            NetWorkBand.Band5G ->
                 NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS
             NetWorkBand.Band2G_Guest4,
             NetWorkBand.Band5G_Guest4 -> NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS
@@ -614,9 +613,9 @@ class NetworkStatusViewModel @Inject constructor(
      * @param netWorkBand -  Network Band types of the server to request  network disablement
      */
     private suspend fun requestToDisableNetwork(netWorkBand: NetWorkBand) {
-        networkCurrentRunningProcess = when(netWorkBand){
+        networkCurrentRunningProcess = when (netWorkBand) {
             NetWorkBand.Band2G,
-            NetWorkBand.Band5G->
+            NetWorkBand.Band5G ->
                 NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
             NetWorkBand.Band2G_Guest4,
             NetWorkBand.Band5G_Guest4 -> NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS
@@ -746,7 +745,6 @@ class NetworkStatusViewModel @Inject constructor(
         }
     }
 
-
     /**
      * Log discard changes and close click - It will handle discard button click event logic for
      * error dialog
@@ -802,9 +800,8 @@ class NetworkStatusViewModel @Inject constructor(
     companion object {
 
         enum class NetworkEnableDisableEventType {
-            REGULAR_WIFI_ENABLE_IN_PROGRESS, REGULAR_WIFI_DISABLE_IN_PROGRESS,GUEST_WIFI_ENABLE_IN_PROGRESS,GUEST_WIFI_DISABLE_IN_PROGRESS
+            REGULAR_WIFI_ENABLE_IN_PROGRESS, REGULAR_WIFI_DISABLE_IN_PROGRESS, GUEST_WIFI_ENABLE_IN_PROGRESS, GUEST_WIFI_DISABLE_IN_PROGRESS
         }
-
         const val nameMaxLength = 32
         const val passwordMinLength = 8
         const val passwordMaxLength = 63

@@ -488,15 +488,12 @@ class NetworkStatusActivity : BaseActivity() {
         var message = when (viewModel.networkCurrentRunningProcess) {
             NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
                 getString(R.string.error_enabling_wifi_network)
-
             }
             NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS -> {
                 getString(R.string.error_disabling_wifi_network)
-
             }
             NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS -> {
                 getString(R.string.error_enabling_guest_network)
-
             }
             NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS -> {
                 getString(R.string.error_disabling_guest_network)

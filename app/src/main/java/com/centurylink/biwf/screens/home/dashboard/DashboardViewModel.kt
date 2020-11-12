@@ -29,7 +29,6 @@ import com.centurylink.biwf.repos.assia.WifiStatusRepository
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.networkstatus.ModemUtils
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
-import com.centurylink.biwf.screens.networkstatus.NetworkStatusViewModel
 import com.centurylink.biwf.screens.notification.NotificationDetailsActivity
 import com.centurylink.biwf.screens.qrcode.QrScanActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
@@ -1176,7 +1175,7 @@ class DashboardViewModel @Inject constructor(
 
     companion object {
         enum class NetworkEnableDisableEventType {
-            REGULAR_WIFI_ENABLE_IN_PROGRESS, REGULAR_WIFI_DISABLE_IN_PROGRESS,GUEST_WIFI_ENABLE_IN_PROGRESS,GUEST_WIFI_DISABLE_IN_PROGRESS
+            REGULAR_WIFI_ENABLE_IN_PROGRESS, REGULAR_WIFI_DISABLE_IN_PROGRESS, GUEST_WIFI_ENABLE_IN_PROGRESS, GUEST_WIFI_DISABLE_IN_PROGRESS
         }
         const val EMPTY_RESPONSE = "- -"
         const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L

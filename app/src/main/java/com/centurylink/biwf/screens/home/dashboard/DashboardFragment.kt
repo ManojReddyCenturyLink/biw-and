@@ -934,15 +934,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         var message = when (dashboardViewModel.networkCurrentRunningProcess) {
             DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
                 getString(R.string.error_enabling_wifi_network)
-
             }
             DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS -> {
                 getString(R.string.error_disabling_wifi_network)
-
             }
             DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS -> {
                 getString(R.string.error_enabling_guest_network)
-
             }
             DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS -> {
                 getString(R.string.error_disabling_guest_network)
