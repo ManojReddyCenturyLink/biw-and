@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.webkit.WebView
 import timber.log.Timber
 
 class WebLinkUtil {
@@ -30,6 +31,33 @@ class WebLinkUtil {
                         Timber.e("Not supported by device!")
                     }
                 }
+            }
+        }
+
+        /**
+         * This method is used to set up webView
+         * @param isFromOnBoarding
+         * @param webView
+         * @param isZoomEnabled
+         */
+        fun setupWebView(isFromOnBoarding: Boolean, webView: WebView, isZoomEnabled: Boolean) {
+            webView.settings.javaScriptEnabled = isFromOnBoarding
+
+            webView.settings.allowFileAccess = false
+
+            webView.settings.allowContentAccess = false
+
+            webView.settings.allowUniversalAccessFromFileURLs = false
+
+            webView.settings.safeBrowsingEnabled = true
+
+            webView.settings.setGeolocationEnabled(false)
+
+            webView.settings.allowFileAccessFromFileURLs = false
+
+            if (isZoomEnabled) {
+                webView.settings.builtInZoomControls = true
+                webView.settings.displayZoomControls = false
             }
         }
     }
