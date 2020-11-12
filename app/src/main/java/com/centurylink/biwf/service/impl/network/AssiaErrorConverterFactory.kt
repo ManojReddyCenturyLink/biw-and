@@ -39,7 +39,6 @@ private class AssiaErrorConverter(
 
     override fun convert(value: ResponseBody?): AssiaHttpError? {
         value as ResponseBodyWithResponse?
-
         if (value == null) return AssiaHttpError(
             status = 0
         )

@@ -135,9 +135,6 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
     override fun onSlotSelected(slotInfo: String) {
         viewModel.logAppointmentSelected()
         setErrorStates(false)
-        binding.incHeader.apply {
-            subheaderCenterTitle.text = getString(R.string.modify_appointments)
-        }
         selectedSlot = slotInfo
     }
 
@@ -149,7 +146,6 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         binding.incHeader.apply {
             subheaderRightActionTitle.isEnabled = true
             subheaderRightActionTitle.isClickable = true
-            subheaderCenterTitle.text = getString(R.string.select_appointment)
         }
         setErrorStates(true)
     }
