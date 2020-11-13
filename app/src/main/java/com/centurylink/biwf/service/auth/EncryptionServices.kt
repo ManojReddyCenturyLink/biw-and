@@ -1,6 +1,10 @@
 package com.centurylink.biwf.service.auth
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.util.Log
+import androidx.security.crypto.EncryptedSharedPreferences
+import net.openid.appauth.AuthState
 
 /**
  * This class contains the encryption and decryption details
@@ -16,8 +20,18 @@ class EncryptionServices(context: Context) {
      */
     companion object {
         val DEFAULT_KEY_STORE_NAME = "default_keystore"
-
+        val authTokenKey = "authorkey"
         val MASTER_KEY = "MASTER_KEY"
+    }
+
+    private val preferences: SharedPreferences by lazy {
+        EncryptedSharedPreferences.create(
+            "AccountPrefData",
+            "${context.packageName}._preferences_data_",
+            context,
+            EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+            EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+        )
     }
 
     private val keyStoreWrapper = KeyStoreWrapper(context, DEFAULT_KEY_STORE_NAME)
@@ -36,22 +50,29 @@ class EncryptionServices(context: Context) {
     /**
      * Encrypt data and Secrets with created master key.
      */
-    fun encrypt(data: String, keyPassword: String? = null): String {
-        return if (SystemServices.hasMarshmallow()) {
+    fun encrypt(data: String, keyPassword: String? = null) {
+        var encryptedValue = if (SystemServices.hasMarshmallow()) {
             encryptWithAndroidSymmetricKey(data)
         } else {
             encryptWithDefaultSymmetricKey(data, keyPassword ?: "")
         }
+        preferences.edit()
+            .putString(authTokenKey, encryptedValue)
+            .apply()
     }
 
     /**
      * Decrypt data and Secrets with created master key.
      */
-    fun decrypt(data: String, keyPassword: String? = null): String? {
+    fun decrypt(keyPassword: String? = null): String? {
+        var encryptedData = preferences.getString(authTokenKey, null)
+        if (encryptedData.isNullOrEmpty()) {
+            return null
+        }
         return if (SystemServices.hasMarshmallow()) {
-            decryptWithAndroidSymmetricKey(data)
+            decryptWithAndroidSymmetricKey(encryptedData)
         } else {
-            decryptWithDefaultSymmetricKey(data, keyPassword ?: "")
+            decryptWithDefaultSymmetricKey(encryptedData, keyPassword ?: "")
         }
     }
 
@@ -83,6 +104,10 @@ class EncryptionServices(context: Context) {
     private fun encryptWithDefaultSymmetricKey(data: String, keyPassword: String): String {
         val masterKey = keyStoreWrapper.getDefaultKeyStoreSymmetricKey(MASTER_KEY, keyPassword)
         return CipherWrapper(CipherWrapper.TRANSFORMATION_SYMMETRIC).encrypt(data, masterKey, true)
+    }
+
+    fun cleanUp(){
+        preferences. edit(). remove(authTokenKey). commit()
     }
 
     private fun decryptWithDefaultSymmetricKey(data: String, keyPassword: String): String {

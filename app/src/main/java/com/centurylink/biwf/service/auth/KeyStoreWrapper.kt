@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
+import android.util.Log
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -42,7 +43,6 @@ class KeyStoreWrapper(private val context: Context, defaultKeyStoreName: String)
     fun createDefaultKeyStoreSymmetricKey(alias: String, password: String) {
         val key = generateDefaultSymmetricKey()
         val keyEntry = KeyStore.SecretKeyEntry(key)
-
         defaultKeyStore.setEntry(
             alias,
             keyEntry,
