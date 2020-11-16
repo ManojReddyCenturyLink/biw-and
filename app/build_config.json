@@ -7,10 +7,14 @@
       "APIGEE_VERSION": "v1",
       "CTL_APP_NAME": "BIWF",
       "CTL_APP_BUNDLE": "com.quantum.BIWF",
+
       "APIGEE_URL": "centurylink-test1.apigee.net",
+      "REDIRECT_URI": "com.force.lightning.ctl-fiber--qa",
+
       "SALESFORCE_URL": "qa-qa101.cs16.force.com",
       "COMMUNITY_NAME": "phish",
       "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+
       "live_chat": {
         "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
         "ORG_ID": "00Df0000002HOQc",
@@ -32,10 +36,14 @@
       "APIGEE_VERSION": "v1",
       "CTL_APP_NAME": "BIWF",
       "CTL_APP_BUNDLE": "com.quantum.BIWF",
+
       "APIGEE_URL": "centurylink-test1.apigee.net",
+      "REDIRECT_URI": "com.force.lightning.ctl-fiber--qa",
+
       "SALESFORCE_URL": "qa-qa101.cs16.force.com",
       "COMMUNITY_NAME": "phish",
       "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+
       "live_chat": {
         "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
         "ORG_ID": "00Df0000002HOQc",
@@ -57,10 +65,14 @@
       "APIGEE_VERSION": "v1",
       "CTL_APP_NAME": "BIWF",
       "CTL_APP_BUNDLE": "com.quantum.BIWF",
-      "APIGEE_URL": "centurylink-test1.apigee.net",
-      "SALESFORCE_URL": "qa-qa101.cs16.force.com",
-      "COMMUNITY_NAME": "phish",
-      "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+
+      "APIGEE_URL": "centurylink-test2.apigee.net",
+      "REDIRECT_URI": "com.force.lightning.ctl-fiber--sit",
+
+      "SALESFORCE_URL": "situat-ctl-fiber.cs60.force.com",
+      "COMMUNITY_NAME": "fiber",
+      "CLIENT_ID": "776bKjBrhkN4c8uyfAm2bNvY60etGFc3",
+
       "live_chat": {
         "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
         "ORG_ID": "00Df0000002HOQc",
@@ -82,10 +94,14 @@
       "APIGEE_VERSION": "v1",
       "CTL_APP_NAME": "BIWF",
       "CTL_APP_BUNDLE": "com.quantum.BIWF.Prod",
+
       "APIGEE_URL": "centurylink-test1.apigee.net",
+      "REDIRECT_URI": "com.force.lightning.ctl-fiber",
+
       "SALESFORCE_URL": "qa-qa101.cs16.force.com",
       "COMMUNITY_NAME": "phish",
       "CLIENT_ID": "8UreMUb4rlHbF3ovtM3M3KS6B2oBbG2Q",
+
       "live_chat": {
         "AGENT_POD": "d.la1-c1cs-ord.salesforceliveagent.com",
         "ORG_ID": "00Df0000002HOQc",

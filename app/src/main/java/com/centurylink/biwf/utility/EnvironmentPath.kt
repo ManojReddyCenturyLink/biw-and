@@ -56,7 +56,10 @@ class EnvironmentPath {
         /**
          * OAuth 2 redirection URI for the client.
          */
-        const val REDIRECT_URI = "myapp://com.force.lightning.ctl-fiber--qa"
+        fun getRedirectUri(): String {
+            return "myapp://" + BuildConfig.REDIRECT_URI
+        }
+
         const val API_UPDATE_PASSWORD_PATH = "sobjects/User/{user-id}/password"
         const val API_USER_DETAILS_PATH = "sobjects/User"
         const val API_USER_ID_PATH = "sobjects/User/{user-id}"
