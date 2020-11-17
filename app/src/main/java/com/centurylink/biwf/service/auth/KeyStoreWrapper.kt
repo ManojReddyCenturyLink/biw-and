@@ -5,7 +5,6 @@ import android.content.Context
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import android.util.Log
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream

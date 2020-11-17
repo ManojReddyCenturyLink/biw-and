@@ -2,7 +2,6 @@ package com.centurylink.biwf.service.auth
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.security.crypto.EncryptedSharedPreferences
 import net.openid.appauth.AuthState
 
