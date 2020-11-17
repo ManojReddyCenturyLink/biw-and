@@ -503,8 +503,8 @@ class NetworkStatusActivity : BaseActivity() {
         CustomDialogGreyTheme(
             message,
             getString(R.string.try_again_later),
-            getString(R.string.cancel),
             getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.cancel),
             ::onEnableDisableCallback
         )
             .show(supportFragmentManager, NetworkStatusActivity::class.simpleName)
@@ -595,9 +595,9 @@ class NetworkStatusActivity : BaseActivity() {
     private fun onEnableDisableCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_NEGATIVE -> {
-                onRetryEvent()
             }
             AlertDialog.BUTTON_POSITIVE -> {
+                onRetryEvent()
             }
         }
     }

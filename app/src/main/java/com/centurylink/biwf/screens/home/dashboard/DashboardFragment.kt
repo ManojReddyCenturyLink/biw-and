@@ -948,8 +948,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         CustomDialogGreyTheme(
             message,
             getString(R.string.try_again_later),
-            getString(R.string.cancel),
             getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.cancel),
             ::onEnableDisableCallback
         )
             .show(fragManager!!, NetworkStatusActivity::class.simpleName)
@@ -993,9 +993,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun onEnableDisableCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.wifiNetworkEnablement(networkEventType)
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                dashboardViewModel.wifiNetworkEnablement(networkEventType)
             }
         }
     }
