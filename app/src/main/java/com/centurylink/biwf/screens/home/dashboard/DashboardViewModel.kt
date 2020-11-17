@@ -601,13 +601,13 @@ class DashboardViewModel @Inject constructor(
      * @param wifiInfo
      */
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
-        dialogEnableDisableProgress.latestValue = true
         isEnableDisableError = false
         viewModelScope.launch {
             when (wifiInfo.category) {
                 NetWorkCategory.GUEST ->
                     if (wifiInfo.enabled!!) {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
                             requestToDisableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
@@ -618,6 +618,7 @@ class DashboardViewModel @Inject constructor(
                         }
                     } else {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (!bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
                             requestToEnableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
@@ -630,6 +631,7 @@ class DashboardViewModel @Inject constructor(
                 NetWorkCategory.REGULAR ->
                     if (wifiInfo.enabled!!) {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
                             requestToDisableNetwork(NetWorkBand.Band2G, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
@@ -640,6 +642,7 @@ class DashboardViewModel @Inject constructor(
                         }
                     } else {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (!bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
                             requestToEnableNetwork(NetWorkBand.Band2G, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
