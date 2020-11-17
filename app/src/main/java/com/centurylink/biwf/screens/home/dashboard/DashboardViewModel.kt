@@ -527,7 +527,7 @@ class DashboardViewModel @Inject constructor(
             wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         netWorkInfo.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
-            val password = it.networkName[netWorkBand.name]
+            val password = it?.networkName[netWorkBand.name]
             password.let {
                 when (netWorkBand) {
                     NetWorkBand.Band2G, NetWorkBand.Band5G -> {
