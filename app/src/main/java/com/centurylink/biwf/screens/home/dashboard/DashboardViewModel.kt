@@ -118,7 +118,10 @@ class DashboardViewModel @Inject constructor(
             it
         )
     }!!
-
+    var dialogEnableDisableProgress = EventFlow<Boolean>()
+    var dialogEnableDisableError = EventFlow<Boolean>()
+    private var isEnableDisableError: Boolean = false
+    var networkCurrentRunningProcess: NetworkEnableDisableEventType = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
     init {
         progressViewFlow.latestValue = true
         initAccountDetails()
@@ -138,6 +141,7 @@ class DashboardViewModel @Inject constructor(
             fetchPasswordApi()
             requestDevices()
         }
+        progressViewFlow.latestValue = false
     }
 
     /**
@@ -581,7 +585,6 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             val connectedList = deviceList.filter { !it.blocked }.distinct()
             connectedDevicesNumber.latestValue = connectedList.size.toString()
-            progressViewFlow.latestValue = false
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
@@ -601,26 +604,59 @@ class DashboardViewModel @Inject constructor(
      * @param wifiInfo
      */
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
-        progressViewFlow.latestValue = true
+        isEnableDisableError = false
         viewModelScope.launch {
             when (wifiInfo.category) {
                 NetWorkCategory.GUEST ->
                     if (wifiInfo.enabled!!) {
-                        requestToDisableNetwork(NetWorkBand.Band5G_Guest4, wifiInfo)
-                        requestToDisableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
+                        networkCurrentRunningProcess = NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
+                        if (bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
+                            requestToDisableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
+                        if (bssidMap.containsValue(NetWorkBand.Band5G_Guest4.name) && !isEnableDisableError) {
+                            requestToDisableNetwork(NetWorkBand.Band5G_Guest4, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
                     } else {
-                        requestToEnableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
-                        requestToEnableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
+                        networkCurrentRunningProcess = NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
+                        if (!bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
+                            requestToEnableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
+                        if (!bssidMap.containsValue(NetWorkBand.Band5G_Guest4.name) && !isEnableDisableError) {
+                            requestToEnableNetwork(NetWorkBand.Band5G_Guest4, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
                     }
                 NetWorkCategory.REGULAR ->
                     if (wifiInfo.enabled!!) {
-                        requestToDisableNetwork(NetWorkBand.Band5G, wifiInfo)
-                        requestToDisableNetwork(NetWorkBand.Band2G, wifiInfo)
+                        networkCurrentRunningProcess = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
+                        if (bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
+                            requestToDisableNetwork(NetWorkBand.Band2G, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
+                        if (bssidMap.containsValue(NetWorkBand.Band5G.name) && !isEnableDisableError) {
+                            requestToDisableNetwork(NetWorkBand.Band5G, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
                     } else {
-                        requestToEnableNetwork(NetWorkBand.Band2G, wifiInfo)
-                        requestToEnableNetwork(NetWorkBand.Band5G, wifiInfo)
+                        networkCurrentRunningProcess = NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
+                        if (!bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
+                            requestToEnableNetwork(NetWorkBand.Band2G, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
+                        if (!bssidMap.containsValue(NetWorkBand.Band5G.name) && !isEnableDisableError) {
+                            requestToEnableNetwork(NetWorkBand.Band5G, wifiInfo)
+                            delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                        }
                     }
             }
+            dialogEnableDisableProgress.latestValue = false
         }
     }
 
@@ -638,13 +674,16 @@ class DashboardViewModel @Inject constructor(
         netWorkInfo.fold(ifRight =
         {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
+            Timber.d("EnableDisableFlow : Success requestToEnableNetwork ${netWorkBand.name}")
             updateEnableDisableNetwork(wifiInfo)
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_FAILURE)
-                errorMessageFlow.latestValue = "Network Enablement Failed"
+                delay(MODEM_STATUS_REFRESH_LINEINFO_INTERVAL)
+                Timber.d("EnableDisableFlow : Failure requestToEnableNetwork ${netWorkBand.name}")
+                isEnableDisableError = true
+                dialogEnableDisableError.latestValue = true
             })
-        progressViewFlow.latestValue = false
     }
 
     /**
@@ -660,15 +699,17 @@ class DashboardViewModel @Inject constructor(
         val netWorkInfo = wifiStatusRepository.disableNetwork(netWorkBand)
         netWorkInfo.fold(
             ifRight = {
+                Timber.d("EnableDisableFlow : Success requestToDisableNetwork ${netWorkBand.name}")
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
                 updateEnableDisableNetwork(wifiInfo)
             },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
-                // TODO HANDLING ERROR MOCKED FOR NOW
-                errorMessageFlow.latestValue = "Network disablement Failed"
+                Timber.d("EnableDisableFlow : Failure requestToDisableNetwork ${netWorkBand.name}")
+                delay(MODEM_STATUS_REFRESH_LINEINFO_INTERVAL)
+                isEnableDisableError = true
+                dialogEnableDisableError.latestValue = true
             })
-        progressViewFlow.latestValue = false
     }
 
     /**
@@ -864,10 +905,19 @@ class DashboardViewModel @Inject constructor(
     fun navigateToNetworkInformation() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.CARD_NETWORK_INFO)
         val bundle = Bundle()
-        bundle.putString(NetworkStatusActivity.DEVICE_ID, ModemUtils.getDeviceID(modemInfoReceived?.apInfoList[0]))
-        bundle.putString(NetworkStatusActivity.REGULAR_WIFI_NAME, ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0]))
+        bundle.putString(
+            NetworkStatusActivity.DEVICE_ID,
+            ModemUtils.getDeviceID(modemInfoReceived?.apInfoList[0])
+        )
+        bundle.putString(
+            NetworkStatusActivity.REGULAR_WIFI_NAME,
+            ModemUtils.getRegularNetworkName(modemInfoReceived?.apInfoList[0])
+        )
         bundle.putString(NetworkStatusActivity.REGULAR_WIFI_PASSWORD, regularNetworkWifiPwd)
-        bundle.putString(NetworkStatusActivity.GUEST_WIFI_NAME, ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0]))
+        bundle.putString(
+            NetworkStatusActivity.GUEST_WIFI_NAME,
+            ModemUtils.getGuestNetworkName(modemInfoReceived?.apInfoList[0])
+        )
         bundle.putString(NetworkStatusActivity.GUEST_WIFI_PASSWORD, guestNetworkWifiPwd)
         DashboardCoordinatorDestinations.bundle = bundle
         myState.latestValue = DashboardCoordinatorDestinations.NETWORK_INFORMATION
@@ -1130,6 +1180,9 @@ class DashboardViewModel @Inject constructor(
     )
 
     companion object {
+        enum class NetworkEnableDisableEventType {
+            REGULAR_WIFI_ENABLE_IN_PROGRESS, REGULAR_WIFI_DISABLE_IN_PROGRESS, GUEST_WIFI_ENABLE_IN_PROGRESS, GUEST_WIFI_DISABLE_IN_PROGRESS
+        }
         const val EMPTY_RESPONSE = "- -"
         const val APPOINTMENT_DETAILS_REFRESH_INTERVAL = 30000L
     }

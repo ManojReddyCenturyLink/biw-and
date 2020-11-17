@@ -3,6 +3,8 @@ package com.centurylink.biwf.screens.home.dashboard
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.SystemClock
@@ -19,12 +21,14 @@ import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DashboardCoordinator
 import com.centurylink.biwf.databinding.FragmentDashboardBinding
+import com.centurylink.biwf.databinding.NetworkEnablingDisablingPopupBinding
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.SpeedTestUtils
 import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
+import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
@@ -71,11 +75,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private val dashboardViewModel by lazy {
         ViewModelProvider(this, factory).get(DashboardViewModel::class.java)
     }
+    private val fragManager by lazy { activity?.supportFragmentManager }
 
     private lateinit var binding: FragmentDashboardBinding
     private lateinit var viewClickListener: ViewClickListener
-    private val fragManager by lazy { activity?.supportFragmentManager }
-
+    private lateinit var enableDisableProgressDialog: AlertDialog
+    private lateinit var networkEventType: WifiInfo
     private var unreadNotificationList: MutableList<Notification> = mutableListOf()
     private var enrouteMapFragment: SupportMapFragment? = null
     private var workBegunMapFragment: SupportMapFragment? = null
@@ -209,8 +214,34 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         }
         initButtonStates()
         initOnClicks()
+        observeEnableDisableDialogs()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
+    }
+
+    private fun observeEnableDisableDialogs() {
+        dashboardViewModel.apply {
+            dialogEnableDisableError.observe {
+                if (it) {
+                    if (enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.dismiss()
+                    }
+                    showEnablingDisablingErrorPopUp()
+                }
+            }
+            dialogEnableDisableProgress.observe {
+                if (it) {
+                    showEnablingDisablingPopUp()
+                    if (!enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.show()
+                    }
+                } else {
+                    if (enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.dismiss()
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -830,6 +861,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * @param wifidetails - wifidetails instance
      */
     override fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo) {
+        networkEventType = wifidetails
         dashboardViewModel.wifiNetworkEnablement(wifidetails)
     }
 
@@ -860,6 +892,86 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     }
 
     /**
+     * Show blue theme pop up - It shows the Enabling Disabling dialog
+     *
+     */
+    private fun showEnablingDisablingPopUp() {
+        val dialogViewbinding = NetworkEnablingDisablingPopupBinding.inflate(layoutInflater)
+        when (dashboardViewModel.networkCurrentRunningProcess) {
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.enabling_wifi_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_enabled)
+            }
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.disabling_wifi_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_disabled)
+            }
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.enabling_guest_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_enabled)
+            }
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.disabling_guest_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_disabled)
+            }
+        }
+        enableDisableProgressDialog = AlertDialog.Builder(context!!)
+            .setView(dialogViewbinding.root)
+            .setCancelable(false)
+            .create()
+        enableDisableProgressDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    /**
+     * Show grey theme pop up - It shows the alert dialog to show Enabling Disabling Error
+     *
+     */
+    private fun showEnablingDisablingErrorPopUp() {
+        var message = when (dashboardViewModel.networkCurrentRunningProcess) {
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
+                getString(R.string.error_enabling_wifi_network)
+            }
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS -> {
+                getString(R.string.error_disabling_wifi_network)
+            }
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS -> {
+                getString(R.string.error_enabling_guest_network)
+            }
+            DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS -> {
+                getString(R.string.error_disabling_guest_network)
+            }
+        }
+        CustomDialogGreyTheme(
+            message,
+            getString(R.string.try_again_later),
+            getString(R.string.cancel),
+            getString(R.string.modem_reboot_error_button_positive),
+            ::onEnableDisableCallback
+        )
+            .show(fragManager!!, NetworkStatusActivity::class.simpleName)
+    }
+
+    /**
+     * On screen exit confirmation dialog callback- It will handle the on screen exit confirmation
+     * dialog callback listeners
+     *
+     * @param buttonType - its return the which button is pressed negative or positive
+     */
+    private fun onScreenExitConfirmationDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            // TODO - This has to be replaced with API calls
+            AlertDialog.BUTTON_POSITIVE -> {
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+            }
+        }
+    }
+
+    /**
      * On error dialog callback- error dialog callback event
      *
      * @param buttonType - It will define which button is clicked
@@ -868,6 +980,22 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 /** no op **/
+            }
+        }
+    }
+
+    /**
+     * On EnableDisableCallback It will handle the error response of enable/disable network request
+     * dialog callback listeners
+     *
+     * @param buttonType - its return the which button is pressed negative or positive
+     */
+    private fun onEnableDisableCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+            }
+            AlertDialog.BUTTON_NEGATIVE -> {
+                dashboardViewModel.wifiNetworkEnablement(networkEventType)
             }
         }
     }
