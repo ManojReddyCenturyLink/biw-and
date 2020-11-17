@@ -50,7 +50,7 @@ class WifiStatusRepository @Inject constructor(
      *
      *
      * @param interfaceType - the Network interface type
-     * @return UpnateNetworkResponse instance on Success and error message in case of failure
+     * @return UpdateNetworkResponse instance on Success and error message in case of failure
      */
     suspend fun disableNetwork(interfaceType: NetWorkBand): Either<String, UpdateNetworkResponse> {
         val queryMap = mutableMapOf<String, String>()

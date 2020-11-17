@@ -16,8 +16,10 @@ import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Errors
 import com.centurylink.biwf.utility.EventFlow
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -69,9 +71,15 @@ class NetworkStatusViewModel @Inject constructor(
     val guestNetworkStatusFlow: Flow<UINetworkModel> = BehaviorStateFlow()
     private var regularNetworkInstance = UINetworkModel()
     private var guestNetworkInstance = UINetworkModel()
+    var dialogEnableDisableProgress = EventFlow<Boolean>()
+    var dialogEnableError = EventFlow<Boolean>()
+    var dialogDisableError = EventFlow<Boolean>()
+    private var isEnableDisableError: Boolean = false
+    var networkCurrentRunningProcess: NetworkEnableDisableEventType = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
     var modemDeviceID = EventFlow<Boolean>()
     var offlineNetworkinfo = false
     var submitValue = false
+
     /**
      * This block is executed first, when the class is instantiated.
      */
@@ -132,16 +140,33 @@ class NetworkStatusViewModel @Inject constructor(
      */
     fun wifiNetworkEnablement() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.WIFI_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
+        isEnableDisableError = false
         viewModelScope.launch {
             if (internetStatusFlow.latestValue.isActive) {
-                progressViewFlow.latestValue = true
                 if (regularNetworkInstance.isNetworkEnabled) {
-                    requestToDisableNetwork(NetWorkBand.Band2G)
-                    requestToDisableNetwork(NetWorkBand.Band5G)
+                    dialogEnableDisableProgress.latestValue = true
+                    Timber.d("EnableDisableFlow : wifiNetworkEnablement $bssidMap")
+                    if (bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
+                        requestToDisableNetwork(NetWorkBand.Band2G)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
+                    if (bssidMap.containsValue(NetWorkBand.Band5G.name) && !isEnableDisableError) {
+                        requestToDisableNetwork(NetWorkBand.Band5G)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
                 } else {
-                    requestToEnableNetwork(NetWorkBand.Band2G)
-                    requestToEnableNetwork(NetWorkBand.Band5G)
+                    dialogEnableDisableProgress.latestValue = true
+                    if (!bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
+                        requestToEnableNetwork(NetWorkBand.Band2G)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
+                    if (!bssidMap.containsValue(NetWorkBand.Band5G.name) && !isEnableDisableError) {
+                        requestToEnableNetwork(NetWorkBand.Band5G)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
                 }
+                requestModemInfo()
+                dialogEnableDisableProgress.latestValue = false
             }
         }
     }
@@ -152,16 +177,33 @@ class NetworkStatusViewModel @Inject constructor(
      */
     fun guestNetworkEnablement() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.GUEST_NETWORK_STATE_CHANGE_NETWORK_INFORMATION)
+        isEnableDisableError = false
         viewModelScope.launch {
             if (internetStatusFlow.latestValue.isActive) {
-                progressViewFlow.latestValue = true
                 if (guestNetworkInstance.isNetworkEnabled) {
-                    requestToDisableNetwork(NetWorkBand.Band2G_Guest4)
-                    requestToDisableNetwork(NetWorkBand.Band5G_Guest4)
+                    dialogEnableDisableProgress.latestValue = true
+                    if (bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
+                        requestToDisableNetwork(NetWorkBand.Band2G_Guest4)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
+                    if (bssidMap.containsValue(NetWorkBand.Band5G_Guest4.name) && !isEnableDisableError) {
+                        requestToDisableNetwork(NetWorkBand.Band5G_Guest4)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
                 } else {
-                    requestToEnableNetwork(NetWorkBand.Band2G_Guest4)
-                    requestToEnableNetwork(NetWorkBand.Band5G_Guest4)
+
+                    dialogEnableDisableProgress.latestValue = true
+                    if (!bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
+                        requestToEnableNetwork(NetWorkBand.Band2G_Guest4)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
+                    if (!bssidMap.containsValue(NetWorkBand.Band5G_Guest4.name) && !isEnableDisableError) {
+                        requestToEnableNetwork(NetWorkBand.Band5G_Guest4)
+                        delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
+                    }
                 }
+                requestModemInfo()
+                dialogEnableDisableProgress.latestValue = false
             }
         }
     }
@@ -174,7 +216,7 @@ class NetworkStatusViewModel @Inject constructor(
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         modemResponse.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
-            val apiInfo = it?.apInfoList
+            val apiInfo = it.apInfoList
             modemInfoFlow.latestValue = it
             if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                 val modemInfo = apiInfo[0]
@@ -218,7 +260,7 @@ class NetworkStatusViewModel @Inject constructor(
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         modemResponse.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_SUCCESS)
-            val apiInfo = it?.apInfoList
+            val apiInfo = it.apInfoList
             modemInfoFlow.latestValue = it
             if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                 val modemInfo = apiInfo[0]
@@ -544,16 +586,25 @@ class NetworkStatusViewModel @Inject constructor(
      * @param netWorkBand - Network Band types of the server to request network enablement
      */
     private suspend fun requestToEnableNetwork(netWorkBand: NetWorkBand) {
+        networkCurrentRunningProcess = when (netWorkBand) {
+            NetWorkBand.Band2G,
+            NetWorkBand.Band5G ->
+                NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS
+            NetWorkBand.Band2G_Guest4,
+            NetWorkBand.Band5G_Guest4 -> NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS
+        }
         val netWorkInfo = wifiStatusRepository.enableNetwork(netWorkBand)
-        progressViewFlow.latestValue = false
         netWorkInfo.fold(ifRight =
         {
+            Timber.d("EnableDisableFlow : Success - requestToEnableNetwork ${netWorkBand.name}")
             analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_SUCCESS)
-            updateEnableDisableNetwork(netWorkBand, true)
         },
             ifLeft = {
+                delay(MODEM_STATUS_REFRESH_LINEINFO_INTERVAL)
+                Timber.d("EnableDisableFlow : failure - requestToEnableNetwork ${netWorkBand.name}")
+                isEnableDisableError = true
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.ENABLE_NETWORK_FAILURE)
-                errorMessageFlow.latestValue = "Network Enablement Failed"
+                dialogEnableError.latestValue = true
             })
     }
 
@@ -563,17 +614,27 @@ class NetworkStatusViewModel @Inject constructor(
      * @param netWorkBand -  Network Band types of the server to request  network disablement
      */
     private suspend fun requestToDisableNetwork(netWorkBand: NetWorkBand) {
+        networkCurrentRunningProcess = when (netWorkBand) {
+            NetWorkBand.Band2G,
+            NetWorkBand.Band5G ->
+                NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
+            NetWorkBand.Band2G_Guest4,
+            NetWorkBand.Band5G_Guest4 -> NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS
+        }
         val netWorkInfo = wifiStatusRepository.disableNetwork(netWorkBand)
         progressViewFlow.latestValue = false
         netWorkInfo.fold(
             ifRight = {
+                Timber.d("EnableDisableFlow : Success - requestToDisableNetwork ${netWorkBand.name}")
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_SUCCESS)
-                updateEnableDisableNetwork(netWorkBand, false)
             },
             ifLeft = {
+                Timber.d("EnableDisableFlow : Failure - requestToDisableNetwork ${netWorkBand.name}")
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.DISABLE_NETWORK_FAILURE)
-                // TODO HANDLING ERROR MOCKED FOR NOW
-                errorMessageFlow.latestValue = "Network disablement Failed"
+                delay(MODEM_STATUS_REFRESH_LINEINFO_INTERVAL)
+
+                isEnableDisableError = true
+                dialogDisableError.latestValue = true
             }
         )
     }
@@ -740,6 +801,10 @@ class NetworkStatusViewModel @Inject constructor(
      * @constructor Create empty Companion
      */
     companion object {
+
+        enum class NetworkEnableDisableEventType {
+            REGULAR_WIFI_ENABLE_IN_PROGRESS, REGULAR_WIFI_DISABLE_IN_PROGRESS, GUEST_WIFI_ENABLE_IN_PROGRESS, GUEST_WIFI_DISABLE_IN_PROGRESS
+        }
         const val nameMaxLength = 32
         const val passwordMinLength = 8
         const val passwordMaxLength = 63
