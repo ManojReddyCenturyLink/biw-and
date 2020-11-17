@@ -3,7 +3,6 @@ package com.centurylink.biwf.service.auth
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
-import net.openid.appauth.AuthState
 
 /**
  * This class contains the encryption and decryption details
@@ -105,8 +104,8 @@ class EncryptionServices(context: Context) {
         return CipherWrapper(CipherWrapper.TRANSFORMATION_SYMMETRIC).encrypt(data, masterKey, true)
     }
 
-    fun cleanUp(){
-        preferences. edit(). remove(authTokenKey). commit()
+    fun cleanUp() {
+        preferences.edit().remove(authTokenKey).commit()
     }
 
     private fun decryptWithDefaultSymmetricKey(data: String, keyPassword: String): String {

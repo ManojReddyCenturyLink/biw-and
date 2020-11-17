@@ -1,8 +1,6 @@
 package com.centurylink.biwf.service.impl.auth
 
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.security.crypto.EncryptedSharedPreferences
 import com.centurylink.biwf.service.auth.EncryptionServices
 import com.centurylink.biwf.service.auth.TokenStorage
 import com.centurylink.biwf.utility.BehaviorStateFlow
