@@ -256,6 +256,7 @@ class NetworkStatusActivity : BaseActivity() {
             }
             errorSubmitValue.observe {
                 if (it) {
+                    viewModel.submitValue = true
                     showBlueThemePopUp()
                 } else {
                     setResult(REQUEST_TO_HOME)

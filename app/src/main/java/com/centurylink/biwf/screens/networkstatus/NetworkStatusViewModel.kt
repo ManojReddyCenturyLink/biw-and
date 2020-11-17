@@ -78,6 +78,7 @@ class NetworkStatusViewModel @Inject constructor(
     var networkCurrentRunningProcess: NetworkEnableDisableEventType = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
     var modemDeviceID = EventFlow<Boolean>()
     var offlineNetworkinfo = false
+    var submitValue = false
 
     /**
      * This block is executed first, when the class is instantiated.
@@ -741,7 +742,9 @@ class NetworkStatusViewModel @Inject constructor(
                 }
             }
             errorSubmitValue.latestValue = submitFlow
-            progressViewFlow.latestValue = false
+            if (submitValue) {
+                progressViewFlow.latestValue = false
+            }
         }
     }
 
