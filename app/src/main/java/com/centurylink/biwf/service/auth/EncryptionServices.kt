@@ -20,7 +20,7 @@ class EncryptionServices(context: Context) {
      */
     companion object {
         val DEFAULT_KEY_STORE_NAME = "default_keystore"
-        val authTokenKey = "authorkey"
+        val authTokenKey = "authorizationKey"
         val MASTER_KEY = "MASTER_KEY"
     }
 
