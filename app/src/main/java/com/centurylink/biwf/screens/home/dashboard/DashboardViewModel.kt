@@ -131,9 +131,12 @@ class DashboardViewModel @Inject constructor(
     /**
      * Init devices apis
      */
-    fun initDevicesApis() {
+    fun initDevicesApis(callAccountDetails: Boolean) {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
+            if (callAccountDetails) {
+                initAccountDetails()
+            }
             requestWifiDetails()
             fetchPasswordApi()
             requestDevices()
@@ -234,7 +237,7 @@ class DashboardViewModel @Inject constructor(
                 requestAppointmentDetails()
                 progressViewFlow.latestValue = false
                 if (installationStatus) {
-                    initDevicesApis()
+                    initDevicesApis(false)
                 }
             } else {
                 isAccountActive = true
@@ -393,7 +396,7 @@ class DashboardViewModel @Inject constructor(
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
                 isAccountStatus.latestValue = true
-                initDevicesApis()
+                initDevicesApis(false)
             }
         }) {
             sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
@@ -408,14 +411,14 @@ class DashboardViewModel @Inject constructor(
                 )
             ) {
                 isAccountStatus.latestValue = true
-                initDevicesApis()
+                initDevicesApis(false)
             } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
-                    initDevicesApis()
+                    initDevicesApis(false)
                 } else {
                     isAccountStatus.latestValue = true
-                    initDevicesApis()
+                    initDevicesApis(false)
                 }
             }
         }
@@ -460,13 +463,13 @@ class DashboardViewModel @Inject constructor(
                 )
             ) {
                 isAccountStatus.latestValue = true
-                initDevicesApis()
+                initDevicesApis(false)
             } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
                 } else {
                     isAccountStatus.latestValue = true
-                    initDevicesApis()
+                    initDevicesApis(false)
                 }
             }
         }
