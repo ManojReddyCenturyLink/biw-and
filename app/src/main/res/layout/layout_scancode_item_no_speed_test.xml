@@ -11,7 +11,6 @@
         android:id="@+id/noSpeedTestQRView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_spacing_really_small"
         android:paddingBottom="@dimen/margin_spacing_small"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,10 +21,11 @@
             style="@style/style_devices_usage_subheadings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/margin_spacing_small"
+            android:layout_marginLeft="@dimen/margin_spacing_small"
             android:text="@string/network_status"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/ivNetworkType"
+            app:layout_constraintBottom_toBottomOf="@+id/ivNetworkType"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/ivNetworkType"

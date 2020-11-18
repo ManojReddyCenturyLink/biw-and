@@ -138,7 +138,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun rebootModemButtonStates(it: Boolean) {
-        binding.incTroubleshootingNoSpeedTest.root.visibility = View.VISIBLE
+        val isExistingUser: Boolean = intent.getBooleanExtra(IS_EXISTING_USER, false)
+        if (isExistingUser)
+            binding.incTroubleshootingNoSpeedTest.root.visibility = View.VISIBLE
+        else
+            binding.incTroubleshootingNoSpeedTest.root.visibility = View.GONE
         binding.incTroubleshooting.root.visibility = View.GONE
 
         if (!it) {

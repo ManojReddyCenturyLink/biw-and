@@ -292,6 +292,11 @@
     <string name="network_password_mandatory">Network password*</string>
     <string name="guest_network_name_mandatory">Guest network name*</string>
     <string name="guest_network_password_mandatory">Guest network password*</string>
+    <string name="try_again_later">Please try again later.</string>
+    <string name="error_disabling_wifi_network">Error disabling WiFi network.</string>
+    <string name="error_enabling_wifi_network">Error enabling WiFi network.</string>
+    <string name="error_disabling_guest_network">Error disabling Guest network.</string>
+    <string name="error_enabling_guest_network">Error enabling Guest network.</string>
 
     <!--Modify/Cancel Appointment Strings-->
     <string name="select_appointment_slot">Select the day and time that works best for you.</string>
@@ -313,7 +318,7 @@
     <string name="cancellation_query_contact_details">If you’ve made a mistake in cancelling and want to make another appointment to install fiber internet, please call us at 123-456-7890.</string>
 
     <!--QRSCan Activity-->
-    <string name="scan_to_join">Scan to join network:</string>
+    <string name="scan_to_join">Scan to join:</string>
     <string name="scan_to_join_guest">Scan to join guest network:</string>
     <string name="tap_code">tap code to view full screen</string>
     <string name="join_code">Join code </string>
@@ -342,4 +347,12 @@
     <string name="enter_valid_phone_number_error">Please enter a valid phone number</string>
     <string name="characters_limit">15 characters max</string>
     <string name="restarting_modem_help">Having some issues? Restarting your modem may help.</string>
+    <string name="guest_network_information">Guest network information</string>
+    <string name="network_information">Network information</string>
+    <string name="disabling_wifi_network">Disabling WiFi network</string>
+    <string name="enabling_wifi_network">Enabling WiFi network</string>
+    <string name="disabling_guest_network">Disabling Guest network</string>
+    <string name="enabling_guest_network">Enabling Guest network</string>
+    <string name="the_network_will_be_fully_disabled">The network will be fully disabled in 1-2 minutes. You can leave the app while you wait.</string>
+    <string name="the_network_will_be_fully_enabled">The network will be fully enabled in 1-2 minutes. You can leave the app while you wait.</string>
 </resources>

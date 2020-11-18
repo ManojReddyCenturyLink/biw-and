@@ -78,7 +78,7 @@ class WifiNetworkManagementRepository @Inject constructor(
             preferences.getAssiaId(),
             interfaceType
         )
-        return result.mapLeft { it.message?.message.toString() }.flatMap {
+        return result.mapLeft { if (it.message?.message.toString().isNotEmpty()) it.message?.message.toString() else "Error in getting network Password" }.flatMap {
             if (it.code != "1000") {
                 Either.Left(it.message)
             }

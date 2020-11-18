@@ -2,7 +2,9 @@ package com.centurylink.biwf.screens.networkstatus
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
@@ -13,10 +15,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.databinding.ActivityNetworkStatusBinding
+import com.centurylink.biwf.databinding.NetworkEnablingDisablingPopupBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.centurylink.biwf.widgets.CustomNetworkInfoDialogGreyTheme
 import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
 
@@ -36,6 +40,11 @@ class NetworkStatusActivity : BaseActivity() {
     override val viewModel by lazy {
         ViewModelProvider(this, factory).get(NetworkStatusViewModel::class.java)
     }
+
+    private lateinit var enableDisableProgressDialog: AlertDialog
+    private lateinit var mDialogDisableView: View
+    private lateinit var mDialogEnableView: View
+    private lateinit var networkEventType: NetworkEventType
 
     /**
      * On create - Called when the activity is first created
@@ -68,6 +77,8 @@ class NetworkStatusActivity : BaseActivity() {
             subheaderRightActionTitle.setOnClickListener {
                 if (viewModel.networkInfoComplete) {
                     validateNameAndPassword()
+                } else if (viewModel.offlineNetworkinfo) {
+                    validateNameAndPassword()
                 }
             }
         }
@@ -92,6 +103,20 @@ class NetworkStatusActivity : BaseActivity() {
                         subheaderRightActionTitle.isClickable = false
                     }
                 } else {
+                    bindings.incHeader.apply {
+                        subheaderRightActionTitle.isClickable = true
+                    }
+                }
+            }
+            modemDeviceID.observe {
+                if (it) {
+                    val serialNumber = intent.getStringExtra(DEVICE_ID)
+                    bindings.networkStatusModemSerialNumber.text =
+                        getString(R.string.serial_number, serialNumber)
+                    bindings.networkStatusWifiNameInput.isEnabled = it
+                    bindings.networkStatusWifiPasswordInput.isEnabled = it
+                    bindings.networkStatusGuestNameInput.isEnabled = it
+                    bindings.networkStatusGuestPasswordInput.isEnabled = it
                     bindings.incHeader.apply {
                         subheaderRightActionTitle.isClickable = true
                     }
@@ -232,15 +257,53 @@ class NetworkStatusActivity : BaseActivity() {
             }
             errorSubmitValue.observe {
                 if (it) {
+                    viewModel.submitValue = true
                     showBlueThemePopUp()
                 } else {
                     setResult(REQUEST_TO_HOME)
                     finish()
                 }
             }
-
             errorMessageFlow.observe {
                 displayGeneralError()
+            }
+            observeEnableDisableDialogs()
+        }
+    }
+
+    /**
+     * Observe enable disable dialogs
+     *
+     */
+    private fun observeEnableDisableDialogs() {
+        viewModel.apply {
+            dialogEnableError.observe {
+                if (it) {
+                    if (enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.dismiss()
+                    }
+                    showEnablingDisablingErrorPopUp()
+                }
+            }
+            dialogDisableError.observe {
+                if (it) {
+                    if (enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.dismiss()
+                    }
+                    showEnablingDisablingErrorPopUp()
+                }
+            }
+            dialogEnableDisableProgress.observe {
+                if (it) {
+                    showEnablingDisablingPopUp()
+                    if (!enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.show()
+                    }
+                } else {
+                    if (enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.dismiss()
+                    }
+                }
             }
         }
     }
@@ -356,9 +419,11 @@ class NetworkStatusActivity : BaseActivity() {
      */
     private fun initEnableDisableEventClicks() {
         bindings.networkStatusWifiButton.setOnClickListener {
+            networkEventType = NetworkEventType.REGULAR_NETWORK
             viewModel.wifiNetworkEnablement()
         }
         bindings.networkStatusGuestButton.setOnClickListener {
+            networkEventType = NetworkEventType.GUEST_NETWORK
             viewModel.guestNetworkEnablement()
         }
     }
@@ -380,6 +445,70 @@ class NetworkStatusActivity : BaseActivity() {
             supportFragmentManager,
             callingActivity?.className
         )
+    }
+
+    /**
+     * Show blue theme pop up - It shows the Enabling Disabling dialog
+     *
+     */
+    private fun showEnablingDisablingPopUp() {
+        val dialogViewbinding = NetworkEnablingDisablingPopupBinding.inflate(layoutInflater)
+        when (viewModel.networkCurrentRunningProcess) {
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.enabling_wifi_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_enabled)
+            }
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.disabling_wifi_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_disabled)
+            }
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.enabling_guest_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_enabled)
+            }
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS -> {
+                dialogViewbinding.popupTitle.text = getString(R.string.disabling_guest_network)
+                dialogViewbinding.popupMessage.text =
+                    getString(R.string.the_network_will_be_fully_disabled)
+            }
+        }
+        enableDisableProgressDialog = AlertDialog.Builder(this)
+            .setView(dialogViewbinding.root)
+            .setCancelable(false)
+            .create()
+        enableDisableProgressDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+    }
+
+    /**
+     * Show grey theme pop up - It shows the alert dialog to show Enabling Disabling Error
+     *
+     */
+    private fun showEnablingDisablingErrorPopUp() {
+        var message = when (viewModel.networkCurrentRunningProcess) {
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
+                getString(R.string.error_enabling_wifi_network)
+            }
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS -> {
+                getString(R.string.error_disabling_wifi_network)
+            }
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS -> {
+                getString(R.string.error_enabling_guest_network)
+            }
+            NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS -> {
+                getString(R.string.error_disabling_guest_network)
+            }
+        }
+        CustomNetworkInfoDialogGreyTheme(
+            message,
+            getString(R.string.try_again_later),
+            getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.cancel),
+            ::onEnableDisableCallback
+        )
+            .show(supportFragmentManager, NetworkStatusActivity::class.simpleName)
     }
 
     /**
@@ -459,6 +588,33 @@ class NetworkStatusActivity : BaseActivity() {
     }
 
     /**
+     * On EnableDisableCallback It will handle the error response of enable/disable network request
+     * dialog callback listeners
+     *
+     * @param buttonType - its return the which button is pressed negative or positive
+     */
+    private fun onEnableDisableCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_NEGATIVE -> {
+            }
+            AlertDialog.BUTTON_POSITIVE -> {
+                onRetryEvent()
+            }
+        }
+    }
+
+    private fun onRetryEvent() {
+        when (networkEventType) {
+            NetworkEventType.GUEST_NETWORK -> {
+                viewModel.guestNetworkEnablement()
+            }
+            NetworkEventType.REGULAR_NETWORK -> {
+                viewModel.wifiNetworkEnablement()
+            }
+        }
+    }
+
+    /**
      * Display general error - It shows general error dialog popup
      *
      */
@@ -476,9 +632,23 @@ class NetworkStatusActivity : BaseActivity() {
      */
     companion object {
         const val REQUEST_TO_HOME: Int = 101
+        const val DEVICE_ID: String = "DEVICE_ID"
+        const val REGULAR_WIFI_NAME: String = "REGULAR_WIFI_NAME"
+        const val REGULAR_WIFI_PASSWORD: String = "REGULAR_WIFI_PASSWORD"
+        const val GUEST_WIFI_NAME: String = "GUEST_WIFI_NAME"
+        const val GUEST_WIFI_PASSWORD: String = "GUEST_WIFI_PASSWORD"
         fun newIntent(context: Context) = Intent(context, NetworkStatusActivity::class.java)
         fun newIntent(context: Context, bundle: Bundle): Intent {
             return Intent(context, NetworkStatusActivity::class.java)
+                .putExtra(DEVICE_ID, bundle.getString(DEVICE_ID))
+                .putExtra(REGULAR_WIFI_NAME, bundle.getString(REGULAR_WIFI_NAME))
+                .putExtra(REGULAR_WIFI_PASSWORD, bundle.getString(REGULAR_WIFI_PASSWORD))
+                .putExtra(GUEST_WIFI_NAME, bundle.getString(GUEST_WIFI_NAME))
+                .putExtra(GUEST_WIFI_PASSWORD, bundle.getString(GUEST_WIFI_PASSWORD))
+        }
+
+        enum class NetworkEventType {
+            REGULAR_NETWORK, GUEST_NETWORK
         }
     }
 }
