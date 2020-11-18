@@ -1,33 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/background_thin_border">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/margin_spacing_tiny">
 
-    <TextView
-        android:id="@+id/blocked_device_name"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        style="@style/style_info_label"
-        android:gravity="start|center_vertical"
-        android:paddingLeft="@dimen/margin_spacing_really_small"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor"
-        tools:text="Jane's laptop" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/grey_background_thin_border">
 
-    <ImageView
-        android:id="@+id/iv_network_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_spacing_tiny"
-        android:padding="@dimen/cardview_elevation"
-        android:src="@drawable/ic_off"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/blocked_device_name"
-        app:layout_constraintEnd_toEndOf="@+id/blocked_device_name"
-        app:layout_constraintTop_toTopOf="@+id/blocked_device_name" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="iv_network_type" />
+
+        <TextView
+            android:id="@+id/device_name"
+            style="@style/style_info_label"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:gravity="start|center_vertical"
+            android:paddingLeft="@dimen/margin_spacing_really_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor"
+            tools:text="Jane's laptop" />
+
+        <ImageView
+            android:id="@+id/iv_network_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_spacing_tiny"
+            android:padding="@dimen/cardview_elevation"
+            app:layout_constraintBottom_toBottomOf="@+id/device_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@+id/device_name" />
+
+        <ProgressBar
+            android:id="@+id/progress_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/ic_loading"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/device_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@+id/device_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

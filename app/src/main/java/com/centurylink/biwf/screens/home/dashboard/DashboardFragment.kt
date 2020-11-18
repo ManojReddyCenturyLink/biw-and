@@ -33,6 +33,7 @@ import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.centurylink.biwf.widgets.CustomNetworkInfoDialogGreyTheme
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -945,11 +946,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 getString(R.string.error_disabling_guest_network)
             }
         }
-        CustomDialogGreyTheme(
+        CustomNetworkInfoDialogGreyTheme(
             message,
             getString(R.string.try_again_later),
-            getString(R.string.cancel),
             getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.cancel),
             ::onEnableDisableCallback
         )
             .show(fragManager!!, NetworkStatusActivity::class.simpleName)
@@ -993,9 +994,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun onEnableDisableCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                dashboardViewModel.wifiNetworkEnablement(networkEventType)
             }
             AlertDialog.BUTTON_NEGATIVE -> {
-                dashboardViewModel.wifiNetworkEnablement(networkEventType)
             }
         }
     }
