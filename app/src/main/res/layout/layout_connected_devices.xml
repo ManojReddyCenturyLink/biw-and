@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/devices_list_layout"
-    android:background="@drawable/grey_background_thin_border">
+    android:layout_marginBottom="@dimen/margin_spacing_tiny"
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/barrier"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:barrierDirection="start"
-        app:constraint_referenced_ids="iv_network_type" />
+        android:background="@drawable/grey_background_thin_border">
 
-    <TextView
-        android:id="@+id/device_name"
-        android:layout_width="0dp"
-        android:layout_height="54dp"
-        style="@style/single_line_text_content"
-        android:gravity="left|center_vertical"
-        android:paddingLeft="@dimen/margin_spacing_really_small"
-        app:layout_constraintEnd_toStartOf="@id/barrier"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="LabelFor"
-        tools:text="Jane's laptop" />
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="iv_network_type" />
 
-    <ImageView
-        android:id="@+id/iv_network_type"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_spacing_tiny"
-        android:padding="@dimen/cardview_elevation"
-        app:layout_constraintBottom_toBottomOf="@+id/device_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/barrier"
-        app:layout_constraintTop_toTopOf="@+id/device_name" />
+        <TextView
+            android:id="@+id/device_name"
+            style="@style/single_line_text_content"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="@dimen/margin_spacing_really_small"
+            app:layout_constraintEnd_toStartOf="@id/barrier"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="LabelFor"
+            tools:text="Jane's laptop" />
 
-    <ProgressBar
-        android:id="@+id/progress_icon"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:indeterminate="true"
-        android:indeterminateDrawable="@drawable/ic_loading"
-        app:layout_constraintBottom_toBottomOf="@+id/device_name"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone"
-        app:layout_constraintStart_toEndOf="@id/barrier"
-        app:layout_constraintTop_toTopOf="@+id/device_name" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/iv_network_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_spacing_tiny"
+            android:padding="@dimen/cardview_elevation"
+            app:layout_constraintBottom_toBottomOf="@+id/device_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@+id/device_name" />
+
+        <ProgressBar
+            android:id="@+id/progress_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/ic_loading"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/device_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@+id/device_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

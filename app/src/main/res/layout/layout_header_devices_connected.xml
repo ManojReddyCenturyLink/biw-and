@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="12dp"
-    android:paddingTop="10dp">
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/devices_header_arrow"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginEnd="16dp"
-        android:scaleType="fitXY"
-        style="@style/StyleNextButton"
-        app:layout_constraintBottom_toBottomOf="@id/devices_group_count"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/devices_group_count"
-        android:contentDescription="@string/content_description_holder"
-        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingTop="10dp"
+        android:paddingBottom="12dp"
+        tools:ignore="UselessParent">
 
-    <TextView
-        android:id="@+id/devices_group_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/title_account_sub_header"
-        android:paddingStart="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/devices_group_connectedDevices"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/devices_header_arrow"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="RtlSymmetry"
-        tools:text="3444"
-        />
-    <TextView
-        android:id="@+id/devices_group_connectedDevices"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        style="@style/title_devices_sub_header"
-        android:paddingStart="6dp"
-        android:text="@string/connected_devices_plural"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/devices_group_count"
-        tools:ignore="RtlSymmetry"
-        tools:text="Connected Devices"
-        />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/devices_header_arrow"
+            style="@style/StyleNextButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/content_description_holder"
+            android:scaleType="fitXY"
+            app:layout_constraintBottom_toBottomOf="@id/devices_group_count"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/devices_group_count" />
+
+        <TextView
+            android:id="@+id/devices_group_count"
+            style="@style/title_account_sub_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/header_name"
+            app:layout_constraintStart_toEndOf="@+id/devices_header_arrow"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry"
+            tools:text="3444" />
+
+        <TextView
+            android:id="@+id/header_name"
+            style="@style/title_devices_sub_header"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingStart="6dp"
+            android:text="@string/connected_devices_plural"
+            app:layout_constraintStart_toEndOf="@+id/devices_group_count"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="RtlSymmetry"
+            tools:text="Connected Devices" />
+
+        <TextView
+            android:id="@+id/devices_tap_to_remove_item"
+            style="@style/hintTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/devices_tap_restore_access"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

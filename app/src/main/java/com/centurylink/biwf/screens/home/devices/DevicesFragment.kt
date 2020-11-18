@@ -2,17 +2,17 @@ package com.centurylink.biwf.screens.home.devices
 
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.ViewGroup
-import android.widget.AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL
-import android.widget.AbsListView.TRANSCRIPT_MODE_NORMAL
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DevicesCoordinator
@@ -22,17 +22,23 @@ import com.centurylink.biwf.model.devices.DevicesData
 import com.centurylink.biwf.screens.home.devices.adapter.DeviceListAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager
+import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
+import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager
+import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
 import java.util.*
 import javax.inject.Inject
-import kotlin.collections.HashMap
 
 /**
  * Devices fragment - This class handle common methods related to devices screen
  *
  * @constructor Create empty Devices fragment
  */
-class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener {
-
+class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListener,
+    RecyclerViewExpandableItemManager.OnGroupCollapseListener,
+    RecyclerViewExpandableItemManager.OnGroupExpandListener {
+    private var eimSavedState: Parcelable? = null
+    private lateinit var deviceListAdapter: DeviceListAdapter
     override val lifecycleOwner: LifecycleOwner = this
 
     @Inject
@@ -43,14 +49,16 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
 
     @Inject
     lateinit var devicesCoordinator: DevicesCoordinator
-
     private lateinit var binding: FragmentDevicesBinding
-
-    private lateinit var deviceAdapter: DeviceListAdapter
-    private var isRefresh = false
-
+    private var mWrappedAdapter: RecyclerView.Adapter<*>? = null
+    private var mRecyclerViewExpandableItemManager: RecyclerViewExpandableItemManager? = null
+    private var mRecyclerViewDragDropManager: RecyclerViewDragDropManager? = null
+    private var mRecyclerViewSwipeManager: RecyclerViewSwipeManager? = null
+    private var mRecyclerViewTouchActionGuardManager: RecyclerViewTouchActionGuardManager? = null
+    private val SAVED_STATE_EXPANDABLE_ITEM_MANAGER =
+        "RecyclerViewExpandableItemManager"
+    var isRefresh = false
     private var blockDeviceMac: String = ""
-
     private val devicesViewModel by lazy {
         ViewModelProvider(this, factory).get(DevicesViewModel::class.java)
     }
@@ -68,6 +76,9 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         devicesViewModel.apply {
             devicesListFlow.observe {
                 populateDeviceList(it)
+            }
+            updateDevicesListFlow.observe {
+                deviceListAdapter.notifyDataSetChanged()
             }
         }
     }
@@ -98,6 +109,8 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
             binding.retryOverlay.retryViewLayout,
             binding.retryOverlay.root
         )
+        eimSavedState =
+            savedInstanceState?.getParcelable<Parcelable>(SAVED_STATE_EXPANDABLE_ITEM_MANAGER)
         initViews()
         observeViews()
         return binding.root
@@ -127,8 +140,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
      * @param deviceInfo - The clicked device info
      */
     override fun onRemovedDevicesClicked(deviceInfo: DevicesData) {
-        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_ALWAYS_SCROLL
-        disableSwipeToRefresh()
         devicesViewModel.logRemoveDevicesItemClick()
         blockDeviceMac = deviceInfo.stationMac!!
         val nickName = if (!deviceInfo.mcAfeeName.isNullOrEmpty()) {
@@ -136,6 +147,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         } else {
             deviceInfo.hostName ?: ""
         }
+        blockDeviceMac = deviceInfo.stationMac ?: ""
         showConfirmationDialog(
             nickName?.toUpperCase(Locale.getDefault())?.capitalize()
         )
@@ -156,45 +168,23 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
      *
      */
     private fun initViews() {
-        deviceAdapter = DeviceListAdapter(
-            deviceList = HashMap(),
-            deviceItemClickListener = this
-        )
         // ** Set the colors for the Pull To Refresh View
-        binding.pullToRefresh.setProgressBackgroundColorSchemeColor(
+        activity?.let {
             ContextCompat.getColor(
-                activity!!,
+                it,
                 R.color.white
             )
-        )
+        }?.let {
+            binding.pullToRefresh.setProgressBackgroundColorSchemeColor(
+                it
+            )
+        }
         binding.pullToRefresh.setColorSchemeColors(Color.GRAY)
         binding.pullToRefresh.setOnRefreshListener {
             if (!isRefresh) {
                 devicesViewModel.initApis()
                 isRefresh = true
             }
-        }
-        binding.devicesList.isEnabled = true
-        binding.devicesList.setAdapter(deviceAdapter)
-
-        binding.devicesList.setOnTouchListener(OnTouchListener { v, event ->
-            when (event.action) {
-                MotionEvent.ACTION_DOWN -> {
-                    enableSwipeToRefresh()
-                }
-                MotionEvent.ACTION_CANCEL -> {
-                    enableSwipeToRefresh()
-                }
-            }
-            false
-        })
-
-        binding.devicesList.setOnGroupCollapseListener {
-            disableSwipeToRefresh()
-        }
-
-        binding.devicesList.setOnGroupExpandListener {
-            disableSwipeToRefresh()
         }
     }
 
@@ -216,22 +206,46 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     private fun populateDeviceList(deviceStatus: DevicesViewModel.UIDevicesTypeDetails) {
-        deviceAdapter.deviceList.clear()
-        deviceAdapter.notifyDataSetChanged()
-        deviceAdapter.deviceList = deviceStatus.deviceSortMap
-        deviceAdapter.isModemAlive = deviceStatus.isModemAlive
-        deviceAdapter.notifyDataSetChanged()
-        if (deviceAdapter.deviceList.size > 1) {
-            binding.devicesList.expandGroup(1)
+
+        val mLayoutManager: LinearLayoutManager = object : LinearLayoutManager(context) {
+            override fun canScrollVertically(): Boolean {
+                return false
+            }
+
+            override fun canScrollHorizontally(): Boolean {
+                return false
+            }
         }
-        if (!deviceStatus.deviceSortMap[DeviceStatus.CONNECTED].isNullOrEmpty()) {
-            binding.devicesList.expandGroup(0)
+        mRecyclerViewExpandableItemManager = RecyclerViewExpandableItemManager(eimSavedState)
+        mRecyclerViewExpandableItemManager?.setOnGroupExpandListener(this)
+        mRecyclerViewExpandableItemManager?.setOnGroupCollapseListener(this)
+        mRecyclerViewTouchActionGuardManager = RecyclerViewTouchActionGuardManager()
+
+        val animator: RecyclerView.ItemAnimator? = binding.devicesList.itemAnimator
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
         }
-        binding.devicesList.setOnGroupClickListener { _, _, groupPosition, _ ->
-            disableSwipeToRefresh()
-            devicesViewModel.logListExpandCollapse()
-            return@setOnGroupClickListener false
-        }
+        mRecyclerViewTouchActionGuardManager?.isEnabled = true
+        mRecyclerViewDragDropManager = RecyclerViewDragDropManager()
+        mRecyclerViewSwipeManager = RecyclerViewSwipeManager()
+        deviceListAdapter = DeviceListAdapter(
+            deviceList = deviceStatus.deviceSortMap,
+            deviceListItemClickListener = this
+        )
+        mWrappedAdapter =
+            deviceListAdapter.let { mRecyclerViewExpandableItemManager?.createWrappedAdapter(it) } // wrap for expanding
+
+        mWrappedAdapter =
+            mWrappedAdapter?.let { mRecyclerViewDragDropManager?.createWrappedAdapter(it) } // wrap for dragging
+
+        mWrappedAdapter =
+            mWrappedAdapter?.let { mRecyclerViewSwipeManager?.createWrappedAdapter(it) } // wrap for swiping
+        binding.devicesList.layoutManager = mLayoutManager
+        binding.devicesList.adapter = mWrappedAdapter // requires *wrapped* adapter
+        mRecyclerViewTouchActionGuardManager?.attachRecyclerView(binding.devicesList)
+        mRecyclerViewSwipeManager?.attachRecyclerView(binding.devicesList)
+        mRecyclerViewDragDropManager?.attachRecyclerView(binding.devicesList)
+        mRecyclerViewExpandableItemManager?.attachRecyclerView(binding.devicesList)
     }
 
     /**
@@ -240,15 +254,17 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
      * @param vendorName
      */
     private fun showConfirmationDialog(vendorName: String?) {
-        CustomDialogGreyTheme(
-            getString(R.string.restore_access_confirmation_title, vendorName),
-            getString(R.string.restore_access_confirmation_msg),
-            getString(R.string.restore),
-            getString(
-                R.string.text_header_cancel
-            ),
-            ::onDialogCallback
-        ).show(activity?.supportFragmentManager!!, DevicesFragment::class.simpleName)
+        activity?.supportFragmentManager?.let {
+            CustomDialogGreyTheme(
+                getString(R.string.restore_access_confirmation_title, vendorName),
+                getString(R.string.restore_access_confirmation_msg),
+                getString(R.string.restore),
+                getString(
+                    R.string.text_header_cancel
+                ),
+                ::onDialogCallback
+            ).show(it, DevicesFragment::class.simpleName)
+        }
     }
 
     /**
@@ -303,8 +319,26 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
      */
     override fun onResume() {
         devicesViewModel.logScreenLaunch()
-        binding.devicesList.transcriptMode = TRANSCRIPT_MODE_NORMAL
-        disableSwipeToRefresh()
         super.onResume()
+    }
+
+    override fun onGroupExpand(
+        groupPosition: Int,
+        fromUser: Boolean,
+        payload: Any?
+    ) {
+        adjustScrollPositionOnGroupExpanded(groupPosition)
+    }
+
+    private fun adjustScrollPositionOnGroupExpanded(groupPosition: Int) {
+        mRecyclerViewExpandableItemManager?.scrollToGroup(
+            groupPosition,
+            0,
+            0,
+            0
+        )
+    }
+
+    override fun onGroupCollapse(groupPosition: Int, fromUser: Boolean, payload: Any?) {
     }
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,281 +8,287 @@
     android:background="@color/light_lavender"
     android:fillViewport="true">
 
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:paddingBottom="@dimen/layout_margin_bottom"
+    android:layout_height="wrap_content">
+
+    <include
+        android:id="@+id/progress_overlay"
+        layout="@layout/widget_loading_overlay_grey_bg"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="gone" />
+
+    <include
+        android:id="@+id/retry_overlay"
+        layout="@layout/widget_retry_overlay_grey_bg"
+        android:layout_width="@dimen/padding_0"
+        android:layout_height="@dimen/padding_0"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dashboard_views"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="80dp">
+        android:layout_height="match_parent"
+        android:background="@color/light_lavender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <include
-            android:id="@+id/progress_overlay"
-            layout="@layout/widget_loading_overlay_grey_bg"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/padding_0"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/incScheduled"
+            layout="@layout/widget_appointment_scheduled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <include
-            android:id="@+id/retry_overlay"
-            layout="@layout/widget_retry_overlay_grey_bg"
-            android:layout_width="@dimen/padding_0"
-            android:layout_height="@dimen/padding_0"
+            android:id="@+id/incEnroute"
+            layout="@layout/widget_status_enroute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
             android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visiblity="visible" />
+
+        <include
+            android:id="@+id/incWorkBegun"
+            layout="@layout/widget_status_work_begun"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/dashboard_views"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/light_lavender"
+        <include
+            android:id="@+id/incCompleted"
+            layout="@layout/widget_installation_completed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <include
-                android:id="@+id/incScheduled"
-                layout="@layout/widget_appointment_scheduled"
+        <include
+            android:id="@+id/incCanceled"
+            layout="@layout/widget_installation_cancelled"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:layout_marginBottom="@dimen/margin_spacing_small"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/horizontalBarrier"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="incEnroute,incScheduled,incCompleted,incWorkBegun,incCanceled" />
+
+        <include
+            android:id="@+id/incSpeedTest"
+            layout="@layout/widget_speedtest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/bottom_card"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bottom_card_bg"
+            android:elevation="23dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/middle_card"
+            app:layout_constraintStart_toStartOf="@+id/middle_card"
+            app:layout_constraintTop_toTopOf="@+id/middle_card" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/middle_card"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/middle_card_bg"
+            android:elevation="24dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/top_card"
+            app:layout_constraintStart_toStartOf="@+id/top_card"
+            app:layout_constraintTop_toTopOf="@+id/top_card" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/top_card"
+            android:layout_width="0dp"
+            android:layout_height="80dp"
+            android:layout_margin="@dimen/margin_spacing_really_small"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/top_card_bg"
+            android:elevation="25dp"
+            android:padding="@dimen/margin_spacing_tiny"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/incSpeedTest">
+
+            <View
+                android:id="@+id/notification_side_bar"
+                android:layout_width="@dimen/margin_spacing_tiny"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/cardview_elevation"
+                android:background="@drawable/notification_card_vertical_bar"
+                app:layout_constraintBottom_toBottomOf="@+id/notification_msg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/notification_title"
+                style="@style/SubHeading"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_really_small"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:layout_marginEnd="@dimen/margin_spacing_really_small"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginStart="@dimen/margin_spacing_tiny"
+                android:layout_marginEnd="@dimen/margin_spacing_tiny"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/purple"
+                app:layout_constraintEnd_toStartOf="@+id/notification_dismiss_button"
+                app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                tools:text="Planned outage soon" />
 
-            <include
-                android:id="@+id/incEnroute"
-                layout="@layout/widget_status_enroute"
+            <TextView
+                android:id="@+id/notification_msg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_really_small"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:layout_marginEnd="@dimen/margin_spacing_really_small"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:visiblity="visible" />
+                android:layout_marginStart="@dimen/margin_spacing_tiny"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="@dimen/margin_spacing_tiny"
+                android:ellipsize="marquee"
+                android:maxLines="2"
+                android:paddingBottom="@dimen/margin_spacing_tiny"
+                style="@style/TextViewLabel"
+                app:layout_constraintEnd_toStartOf="@+id/notification_dismiss_button"
+                app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
+                app:layout_constraintTop_toBottomOf="@+id/notification_title"
+                tools:text="Our network in your area will be down for in your area will be down for maintanence on March 26th at 8:00AM" />
 
-            <include
-                android:id="@+id/incWorkBegun"
-                layout="@layout/widget_status_work_begun"
-                android:layout_width="0dp"
+            <ImageView
+                android:id="@+id/notification_dismiss_button"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/above_cardview_elevation"
+                android:layout_marginEnd="@dimen/above_cardview_elevation"
+                android:background="@drawable/lavendar_background_rounded_corner"
+                android:contentDescription="@string/notification"
+                android:padding="@dimen/margin_spacing_really_small"
+                android:src="@drawable/ic_icon_close_blue"
+                app:layout_constraintBottom_toBottomOf="@+id/notification_side_bar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/notification_side_bar" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/connected_devices_card"
+            layout="@layout/widget_devices_connected"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="@dimen/margin_spacing_large"
+            android:visibility="gone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/top_card" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_network_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:layout_marginRight="@dimen/margin_spacing_small"
+            android:layout_marginLeft="@dimen/margin_spacing_small"
+            android:background="@drawable/round_background_no_border"
+            app:layout_constraintTop_toBottomOf="@+id/connected_devices_card">
+
+            <TextView
+                android:id="@+id/network_status"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_really_small"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:layout_marginEnd="@dimen/margin_spacing_really_small"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/network_status"
+                android:layout_margin="@dimen/margin_spacing_small"
+                style="@style/style_devices_usage_subheadings"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
-            <include
-                android:id="@+id/incCompleted"
-                layout="@layout/widget_installation_completed"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/tap_to_edit_network"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_really_small"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:layout_marginEnd="@dimen/margin_spacing_really_small"
-                android:visibility="gone"
+                android:layout_margin="@dimen/margin_spacing_small"
+                style="@style/style_optional_text"
+                android:text="@string/tap_to_edit_network"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
-            <include
-                android:id="@+id/incCanceled"
-                layout="@layout/widget_installation_cancelled"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_spacing_really_small"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:layout_marginEnd="@dimen/margin_spacing_really_small"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <View
+                android:id="@+id/view_divider"
+                android:layout_width="match_parent"
+                style="@style/common_border_divider_style"
+                android:layout_margin="@dimen/margin_spacing_small"
+                app:layout_constraintTop_toBottomOf="@+id/network_status" />
 
-            <androidx.constraintlayout.widget.Barrier
-                android:id="@+id/horizontalBarrier"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/wifi_scan_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:barrierDirection="bottom"
-                app:constraint_referenced_ids="incEnroute,incScheduled,incCompleted,incWorkBegun,incCanceled" />
-
-            <include
-                android:id="@+id/incSpeedTest"
-                layout="@layout/widget_speedtest"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/horizontalBarrier" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/bottom_card"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bottom_card_bg"
-                android:elevation="23dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/middle_card"
-                app:layout_constraintStart_toStartOf="@+id/middle_card"
-                app:layout_constraintTop_toTopOf="@+id/middle_card" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/middle_card"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/middle_card_bg"
-                android:elevation="24dp"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="@+id/top_card"
-                app:layout_constraintStart_toStartOf="@+id/top_card"
-                app:layout_constraintTop_toTopOf="@+id/top_card" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/top_card"
-                android:layout_width="0dp"
-                android:layout_height="80dp"
-                android:layout_margin="@dimen/margin_spacing_really_small"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/top_card_bg"
-                android:elevation="25dp"
-                android:padding="@dimen/margin_spacing_tiny"
-                android:visibility="gone"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/incSpeedTest">
-
-                <View
-                    android:id="@+id/notification_side_bar"
-                    android:layout_width="@dimen/margin_spacing_tiny"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="@dimen/cardview_elevation"
-                    android:background="@drawable/notification_card_vertical_bar"
-                    app:layout_constraintBottom_toBottomOf="@+id/notification_msg"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/notification_title"
-                    style="@style/SubHeading"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_spacing_tiny"
-                    android:layout_marginEnd="@dimen/margin_spacing_tiny"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textColor="@color/purple"
-                    app:layout_constraintEnd_toStartOf="@+id/notification_dismiss_button"
-                    app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Planned outage soon" />
-
-                <TextView
-                    android:id="@+id/notification_msg"
-                    style="@style/TextViewLabel"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_spacing_tiny"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginEnd="@dimen/margin_spacing_tiny"
-                    android:ellipsize="marquee"
-                    android:maxLines="2"
-                    android:paddingBottom="@dimen/margin_spacing_tiny"
-                    app:layout_constraintEnd_toStartOf="@+id/notification_dismiss_button"
-                    app:layout_constraintStart_toEndOf="@+id/notification_side_bar"
-                    app:layout_constraintTop_toBottomOf="@+id/notification_title"
-                    tools:text="Our network in your area will be down for in your area will be down for maintanence on March 26th at 8:00AM" />
-
-                <ImageView
-                    android:id="@+id/notification_dismiss_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:layout_marginStart="@dimen/above_cardview_elevation"
-                    android:layout_marginEnd="@dimen/above_cardview_elevation"
-                    android:background="@drawable/lavendar_background_rounded_corner"
-                    android:contentDescription="@string/notification"
-                    android:padding="@dimen/margin_spacing_really_small"
-                    android:src="@drawable/ic_icon_close_blue"
-                    app:layout_constraintBottom_toBottomOf="@+id/notification_side_bar"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/notification_side_bar" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <include
-                android:id="@+id/connected_devices_card"
-                layout="@layout/widget_devices_connected"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/top_card" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layout_network_list"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_spacing_small"
-                android:layout_marginTop="@dimen/medium_margin_spacing"
-                android:layout_marginRight="@dimen/margin_spacing_small"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@+id/connected_devices_card">
-
-                <TextView
-                    android:id="@+id/network_status"
-                    style="@style/style_devices_usage_subheadings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_spacing_small"
-                    android:text="@string/network_status"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tap_to_edit_network"
-                    style="@style/style_optional_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="@dimen/margin_spacing_small"
-                    android:text="@string/tap_to_edit_network"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <View
-                    android:id="@+id/view_divider"
-                    style="@style/common_border_divider_style"
-                    android:layout_width="match_parent"
-                    android:layout_margin="@dimen/margin_spacing_small"
-                    app:layout_constraintTop_toBottomOf="@+id/network_status" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/wifi_scan_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_divider" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintTop_toBottomOf="@+id/view_divider" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

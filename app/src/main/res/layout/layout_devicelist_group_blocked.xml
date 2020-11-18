@@ -1,29 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="48dp"
-    android:paddingBottom="@dimen/margin_spacing_tiny"
-    android:background="@color/white">
-    <TextView
-        android:id="@+id/devices_remove_devices"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        style="@style/HeaderTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginLeft="12dp"
-        android:gravity="center_vertical"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/removed_devices" />
-    <TextView
-        android:id="@+id/devices_tap_to_remove_item"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        style="@style/hintTitleTextView"
-        android:visibility="gone"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center_vertical"
-        android:text="@string/devices_tap_restore_access" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    android:paddingTop="48dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:paddingBottom="12dp">
+
+        <ImageView
+            android:id="@+id/devices_header_arrow"
+            style="@style/StyleNextButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="@string/content_description_holder"
+            android:scaleType="fitXY"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@id/devices_group_count"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/devices_group_count" />
+
+        <TextView
+            android:id="@+id/devices_group_count"
+            style="@style/title_account_sub_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/header_name"
+            app:layout_constraintStart_toEndOf="@+id/devices_header_arrow"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/header_name"
+            style="@style/HeaderTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:paddingStart="6dp"
+            android:text="@string/removed_devices"
+            app:layout_constraintStart_toEndOf="@+id/devices_group_count"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/devices_tap_to_remove_item"
+            style="@style/hintTitleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:visibility="gone"
+            android:text="@string/devices_tap_restore_access"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

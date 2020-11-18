@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/light_lavender"
-        android:paddingBottom="100dp">
+        android:paddingBottom="@dimen/layout_margin_bottom">
 
         <include
             android:id="@+id/progress_overlay"
@@ -65,49 +65,49 @@
 
         <TextView
             android:id="@+id/account_full_name"
+            style="@style/style_boldheaders_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32sp"
             android:fontFamily="@font/arial_bold_mt"
             android:text="@string/placeholder_text"
-            style="@style/style_boldheaders_title"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/account_service_label"
+            style="@style/style_info_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/arial_mt"
             android:text="@string/service_address"
-            style="@style/style_info_label"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_full_name" />
 
         <TextView
             android:id="@+id/account_service_address_line_1"
+            style="@style/single_line_text_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/placeholder_text"
-            android:maxLines="1"
             android:ellipsize="end"
-            style="@style/single_line_text_content"
-            app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+            android:maxLines="1"
+            android:text="@string/placeholder_text"
             app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
+            app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_service_label" />
 
         <TextView
             android:id="@+id/account_service_address_line_2"
+            style="@style/single_line_text_content"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:maxLines="1"
             android:ellipsize="end"
-            style="@style/single_line_text_content"
-            app:layout_constraintStart_toStartOf="@id/account_left_guideline"
+            android:maxLines="1"
             app:layout_constraintEnd_toEndOf="@id/account_right_guideline"
+            app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_service_address_line_1" />
 
         <View
@@ -145,9 +145,9 @@
 
         <TextView
             android:id="@+id/account_settings_title"
+            style="@style/style_form_subHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/style_form_subHeading"
             android:layout_marginTop="32dp"
             android:text="@string/settings_preferences"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
@@ -167,21 +167,21 @@
 
         <TextView
             android:id="@+id/account_login_settings_label"
+            style="@style/SubHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/login_settings"
-            style="@style/SubHeading"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_settings_title_line_break" />
 
         <TextView
             android:id="@+id/account_biometric_label"
+            style="@style/single_line_text_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/biometric_label"
-            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_login_settings_label" />
 
@@ -209,20 +209,20 @@
 
         <TextView
             android:id="@+id/account_communication_preferences_label"
+            style="@style/SubHeading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:text="@string/communication_preferences"
-            style="@style/SubHeading"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_preferences_line_break" />
 
         <TextView
             android:id="@+id/account_service_calls_label"
+            style="@style/single_line_text_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            style="@style/single_line_text_content"
             android:text="@string/service_calls_and_texts"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_communication_preferences_label" />
@@ -237,11 +237,11 @@
 
         <TextView
             android:id="@+id/account_service_calls_description"
+            style="@style/style_med_grey_small_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            style="@style/style_med_grey_small_text"
             android:text="@string/service_calls_description"
             app:layout_constraintEnd_toStartOf="@id/account_service_calls_switch"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
@@ -249,11 +249,11 @@
 
         <TextView
             android:id="@+id/account_marketing_emails_label"
+            style="@style/single_line_text_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/marketing_emails"
-            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_service_calls_description" />
 
@@ -267,11 +267,11 @@
 
         <TextView
             android:id="@+id/account_marketing_emails_description"
+            style="@style/style_med_grey_small_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            style="@style/style_med_grey_small_text"
             android:text="@string/marketing_emails_description"
             app:layout_constraintEnd_toStartOf="@id/account_marketing_emails_switch"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
@@ -279,11 +279,11 @@
 
         <TextView
             android:id="@+id/account_marketing_calls_label"
+            style="@style/single_line_text_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
             android:text="@string/marketing_calls_and_texts"
-            style="@style/single_line_text_content"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
             app:layout_constraintTop_toBottomOf="@id/account_marketing_emails_description" />
 
@@ -297,11 +297,11 @@
 
         <TextView
             android:id="@+id/account_marketing_calls_description"
+            style="@style/style_med_grey_small_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
-            style="@style/style_med_grey_small_text"
             android:text="@string/marketing_calls_description"
             app:layout_constraintEnd_toStartOf="@id/account_marketing_calls_switch"
             app:layout_constraintStart_toStartOf="@id/account_left_guideline"
@@ -311,12 +311,12 @@
             android:id="@+id/horizontal_view"
             android:layout_width="0dp"
             android:layout_height="2dp"
+            android:layout_margin="@dimen/medium_margin_spacing"
             android:contentDescription="@string/content_description_holder"
             android:elevation="@dimen/above_cardview_elevation"
             android:src="@drawable/ic_real_dividing_line"
-            android:layout_margin="@dimen/medium_margin_spacing"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/account_marketing_calls_description" />
 
         <Button
@@ -324,8 +324,8 @@
             style="@style/BorderLessButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/log_out"
             android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:text="@string/log_out"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/horizontal_view" />

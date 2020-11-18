@@ -38,6 +38,7 @@ class DevicesViewModel @Inject constructor(
     private var uiDevicesTypeDetails: UIDevicesTypeDetails = UIDevicesTypeDetails()
     private var devicesDataList: MutableList<DevicesData> = mutableListOf()
     private var isModemAlive: Boolean = false
+    var updateDevicesListFlow: EventFlow<UIDevicesTypeDetails> = EventFlow()
 
     init {
         initApis()
@@ -132,7 +133,7 @@ class DevicesViewModel @Inject constructor(
                 } else {
                     // Typically the MACAFEE Device Id is needed for Making Api Calls to Apigee For some reasons the device Id is not got
                     updateEmptyDeviceIdListWithLoadingErrorStatus(item.stationMac!!)
-                    displayDevicesListInUI()
+                    upDateDevicesListInUI()
                 }
             }
         }
@@ -157,7 +158,7 @@ class DevicesViewModel @Inject constructor(
         val mcafeeMapping = mcafeeRepository.getDevicePauseResumeStatus(deviceId)
         mcafeeMapping.fold(ifLeft = {
             updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
-            displayDevicesListInUI()
+            upDateDevicesListInUI()
         }) {
             requestToUpdateNetworkStatus(deviceId, !it.isPaused)
         }
@@ -168,15 +169,20 @@ class DevicesViewModel @Inject constructor(
         mcafeeMapping.fold(ifLeft = {
             // Hack to ignore the display of Error message
             updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
-            displayDevicesListInUI()
+            upDateDevicesListInUI()
         }) {
             updateDeviceListWithPauseResumeStatus(it)
-            displayDevicesListInUI()
+            upDateDevicesListInUI()
         }
     }
 
     private fun displayDevicesListInUI() {
         sortAndDisplayDeviceInfo()
+        progressViewFlow.latestValue = false
+    }
+
+    private fun upDateDevicesListInUI() {
+        sortAndUpdateDeviceInfo()
         progressViewFlow.latestValue = false
     }
 
@@ -196,6 +202,20 @@ class DevicesViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private fun sortAndUpdateDeviceInfo() {
+        val removedList = devicesDataList.filter { it.blocked }.distinct()
+        val connectedList = devicesDataList.filter { !it.blocked }.distinct()
+        val deviceMap: HashMap<DeviceStatus, MutableList<DevicesData>> = HashMap()
+        if (!connectedList.isNullOrEmpty()) {
+            deviceMap[DeviceStatus.CONNECTED] = connectedList as MutableList<DevicesData>
+        }
+        if (!removedList.isNullOrEmpty()) {
+            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
+        }
+        uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
+        updateDevicesListFlow.latestValue = uiDevicesTypeDetails
     }
 
     private fun updateDeviceListWithLoadingErrorStatus(
@@ -221,6 +241,10 @@ class DevicesViewModel @Inject constructor(
         if (!connectedList.isNullOrEmpty()) {
             deviceMap[DeviceStatus.CONNECTED] = connectedList as MutableList<DevicesData>
         }
+// TODO: Commenting code for future reference, currently remove devices api is not working.
+//        if (!removedList.isNullOrEmpty()) {
+//            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
+//        }
 // TODO: Commenting code for future reference, currently remove devices api is not working.
 //        if (!removedList.isNullOrEmpty()) {
 //            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
@@ -284,9 +308,11 @@ class DevicesViewModel @Inject constructor(
         macresponse.fold(ifLeft = {
             updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
             displayDevicesListInUI()
+            upDateDevicesListInUI()
         }, ifRight = {
             updateDeviceListWithPauseResumeStatus(it)
             displayDevicesListInUI()
+            upDateDevicesListInUI()
         })
     }
 
