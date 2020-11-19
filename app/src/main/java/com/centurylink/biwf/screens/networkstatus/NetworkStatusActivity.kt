@@ -76,9 +76,9 @@ class NetworkStatusActivity : BaseActivity() {
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 if (viewModel.networkInfoComplete) {
-                    validateNameAndPassword()
+                    validateNameAndPassword(true)
                 } else if (viewModel.offlineNetworkinfo) {
-                    validateNameAndPassword()
+                    validateNameAndPassword(false)
                 }
             }
         }
@@ -326,10 +326,10 @@ class NetworkStatusActivity : BaseActivity() {
      * Validate name and password - It is used to validate the network name and network password
      *
      */
-    private fun validateNameAndPassword() {
+    private fun validateNameAndPassword(internetState: Boolean) {
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
-            showAlertDialog()
+            showAlertDialog(internetState)
         }
     }
 
@@ -556,17 +556,21 @@ class NetworkStatusActivity : BaseActivity() {
      * Show alert dialog - It shows alert dialog
      *
      */
-    private fun showAlertDialog() {
-        CustomDialogGreyTheme(
-            getString(R.string.save_changes_msg),
-            "",
-            getString(R.string.save),
-            getString(R.string.discard),
-            ::onScreenExitConfirmationDialogCallback
-        ).show(
-            supportFragmentManager,
-            callingActivity?.className
-        )
+    private fun showAlertDialog(internetState: Boolean) {
+        if (internetState) {
+            CustomDialogGreyTheme(
+                getString(R.string.save_changes_msg),
+                "",
+                getString(R.string.save),
+                getString(R.string.discard),
+                ::onScreenExitConfirmationDialogCallback
+            ).show(
+                supportFragmentManager,
+                callingActivity?.className
+            )
+        } else {
+            showBlueThemePopUp()
+        }
     }
 
     /**
