@@ -290,6 +290,9 @@ dependencies {
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
 
 
+    implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
+    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
+
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
     testImplementation "io.mockk:mockk:$mockKVersion"
