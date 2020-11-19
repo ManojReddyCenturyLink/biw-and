@@ -150,8 +150,8 @@ android {
     buildTypes {
         debug {
             //TODO will disable proguard before merging in master- this is just testing purpose
-            minifyEnabled false
-            shrinkResources false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
