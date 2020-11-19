@@ -150,8 +150,8 @@ android {
     buildTypes {
         debug {
             //TODO will disable proguard before merging in master- this is just testing purpose
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
@@ -287,6 +287,9 @@ dependencies {
     implementation "androidx.security:security-crypto:1.0.0-alpha02"
 
     implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
+
+    implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
+    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
