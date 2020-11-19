@@ -507,7 +507,7 @@
     <!--Custom Styles for divider-->
     <style name="common_border_divider_style">
         <item name="android:layout_height">1dp</item>
-        <item name="android:background">@color/light_grey</item>
+        <item name="android:background">@color/light_grey_50_percent_opacity</item>
     </style>
 
     <!--Custom Styles for progress view-->
