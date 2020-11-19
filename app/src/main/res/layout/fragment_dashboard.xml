@@ -291,7 +291,7 @@
 
         <TextView
             android:id="@+id/feedbackButton"
-            style="@style/style_feedback_button"
+            style="@style/style_info_label"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_spacing_really_small"
@@ -299,10 +299,10 @@
             android:layout_marginEnd="@dimen/margin_spacing_really_small"
             android:background="@drawable/background_round_med_grey_border"
             android:gravity="center"
-            android:paddingStart="@dimen/padding_30"
-            android:paddingTop="@dimen/padding_16"
-            android:paddingEnd="@dimen/padding_30"
-            android:paddingBottom="@dimen/padding_16"
+            android:paddingStart="@dimen/height_30"
+            android:paddingTop="@dimen/margin_spacing_small"
+            android:paddingEnd="@dimen/height_30"
+            android:paddingBottom="@dimen/margin_spacing_small"
             android:text="@string/feedback_button_text"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"

@@ -17,7 +17,7 @@
     <dimen name="margin_22">22dp</dimen>
     <dimen name="medium_margin_spacing">24dp</dimen>
     <dimen name="height_28">28dp</dimen>
-    <dimen name="notification_header_height">30dp</dimen>
+    <dimen name="height_30">30dp</dimen>
     <dimen name="margin_spacing_large">32dp</dimen>
     <dimen name="close_icon_size">36dp</dimen>
     <dimen name="text_entry_height">41dp</dimen>
@@ -27,8 +27,6 @@
     <dimen name="margin_120">120dp</dimen>
     <dimen name="padding_9">9dp</dimen>
     <dimen name="layout_margin_bottom">104dp</dimen>
-    <dimen name="padding_16">16dp</dimen>
-    <dimen name="padding_30">30dp</dimen>
 
     <!--  Design Patterns -->
     <dimen name="section_heading_margin_top">48dp</dimen>
