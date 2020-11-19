@@ -24,7 +24,7 @@ private val authServiceConfig = AuthServiceConfigModule(
     authorizationEndpoint = EnvironmentPath.getAuthorizationEndpoint(),
     tokenEndpoint = EnvironmentPath.getTokenEndpoint(),
     clientId = EnvironmentPath.getClientId(),
-    redirectUrl = EnvironmentPath.REDIRECT_URI,
+    redirectUrl = EnvironmentPath.getRedirectUri(),
     scope = EnvironmentPath.SCOPE,
     revokeTokenEndpoint = EnvironmentPath.getRevokeTokenEndpoint()
 )
