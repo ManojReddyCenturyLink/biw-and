@@ -131,9 +131,12 @@ class DashboardViewModel @Inject constructor(
     /**
      * Init devices apis
      */
-    fun initDevicesApis() {
+    fun initDevicesApis(callAccountDetails: Boolean) {
         progressViewFlow.latestValue = true
         viewModelScope.launch {
+            if (callAccountDetails) {
+                initAccountDetails()
+            }
             requestWifiDetails()
             fetchPasswordApi()
             requestDevices()
@@ -234,7 +237,7 @@ class DashboardViewModel @Inject constructor(
                 requestAppointmentDetails()
                 progressViewFlow.latestValue = false
                 if (installationStatus) {
-                    initDevicesApis()
+                    initDevicesApis(false)
                 }
             } else {
                 isAccountActive = true
@@ -393,7 +396,7 @@ class DashboardViewModel @Inject constructor(
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
                 isAccountStatus.latestValue = true
-                initDevicesApis()
+                initDevicesApis(false)
             }
         }) {
             sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
@@ -408,14 +411,14 @@ class DashboardViewModel @Inject constructor(
                 )
             ) {
                 isAccountStatus.latestValue = true
-                initDevicesApis()
+                initDevicesApis(false)
             } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
-                    initDevicesApis()
+                    initDevicesApis(false)
                 } else {
                     isAccountStatus.latestValue = true
-                    initDevicesApis()
+                    initDevicesApis(false)
                 }
             }
         }
@@ -460,13 +463,13 @@ class DashboardViewModel @Inject constructor(
                 )
             ) {
                 isAccountStatus.latestValue = true
-                initDevicesApis()
+                initDevicesApis(false)
             } else {
                 if (!installationStatus) {
                     updateAppointmentStatus(it)
                 } else {
                     isAccountStatus.latestValue = true
-                    initDevicesApis()
+                    initDevicesApis(false)
                 }
             }
         }
@@ -527,7 +530,7 @@ class DashboardViewModel @Inject constructor(
             wifiNetworkManagementRepository.getNetworkPassword(netWorkBand)
         netWorkInfo.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
-            val password = it.networkName[netWorkBand.name]
+            val password = it?.networkName[netWorkBand.name]
             password.let {
                 when (netWorkBand) {
                     NetWorkBand.Band2G, NetWorkBand.Band5G -> {
@@ -601,13 +604,13 @@ class DashboardViewModel @Inject constructor(
      * @param wifiInfo
      */
     fun wifiNetworkEnablement(wifiInfo: WifiInfo) {
-        dialogEnableDisableProgress.latestValue = true
         isEnableDisableError = false
         viewModelScope.launch {
             when (wifiInfo.category) {
                 NetWorkCategory.GUEST ->
                     if (wifiInfo.enabled!!) {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
                             requestToDisableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
@@ -618,6 +621,7 @@ class DashboardViewModel @Inject constructor(
                         }
                     } else {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (!bssidMap.containsValue(NetWorkBand.Band2G_Guest4.name) && !isEnableDisableError) {
                             requestToEnableNetwork(NetWorkBand.Band2G_Guest4, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
@@ -630,6 +634,7 @@ class DashboardViewModel @Inject constructor(
                 NetWorkCategory.REGULAR ->
                     if (wifiInfo.enabled!!) {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
                             requestToDisableNetwork(NetWorkBand.Band2G, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)
@@ -640,6 +645,7 @@ class DashboardViewModel @Inject constructor(
                         }
                     } else {
                         networkCurrentRunningProcess = NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS
+                        dialogEnableDisableProgress.latestValue = true
                         if (!bssidMap.containsValue(NetWorkBand.Band2G.name) && !isEnableDisableError) {
                             requestToEnableNetwork(NetWorkBand.Band2G, wifiInfo)
                             delay(ENABLE_DISABLE_STATUS_REFRESH_INTERVAL)

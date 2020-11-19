@@ -20,6 +20,7 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
+import com.centurylink.biwf.widgets.CustomNetworkInfoDialogGreyTheme
 import com.centurylink.biwf.widgets.GeneralErrorPopUp
 import javax.inject.Inject
 
@@ -256,6 +257,7 @@ class NetworkStatusActivity : BaseActivity() {
             }
             errorSubmitValue.observe {
                 if (it) {
+                    viewModel.submitValue = true
                     showBlueThemePopUp()
                 } else {
                     setResult(REQUEST_TO_HOME)
@@ -499,11 +501,11 @@ class NetworkStatusActivity : BaseActivity() {
                 getString(R.string.error_disabling_guest_network)
             }
         }
-        CustomDialogGreyTheme(
+        CustomNetworkInfoDialogGreyTheme(
             message,
             getString(R.string.try_again_later),
-            getString(R.string.cancel),
             getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.cancel),
             ::onEnableDisableCallback
         )
             .show(supportFragmentManager, NetworkStatusActivity::class.simpleName)
@@ -594,9 +596,9 @@ class NetworkStatusActivity : BaseActivity() {
     private fun onEnableDisableCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_NEGATIVE -> {
-                onRetryEvent()
             }
             AlertDialog.BUTTON_POSITIVE -> {
+                onRetryEvent()
             }
         }
     }

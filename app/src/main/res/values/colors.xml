@@ -18,6 +18,7 @@
     <color name="kale">#1ea096</color>
     <color name="strawberry">#da3155</color>
     <color name="light_grey">#d7e1e6</color>
+    <color name="light_grey_50_percent_opacity">#80d7e1e6</color>
     <color name="med_grey">#788791</color>
     <color name="dark_grey">#3c414b</color>
     <color name="grey_status_bar">#0c000000</color>

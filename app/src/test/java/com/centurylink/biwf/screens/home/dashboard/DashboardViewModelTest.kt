@@ -234,7 +234,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
     fun testRequestWifiDetailsSuccess() {
         runBlockingTest {
             launch {
-                viewModel.initDevicesApis()
+                viewModel.initDevicesApis(false)
             }
         }
     }
@@ -271,7 +271,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         )
         runBlockingTest {
             launch {
-                viewModel.initDevicesApis()
+                viewModel.initDevicesApis(false)
             }
         }
     }
@@ -308,7 +308,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         )
         runBlockingTest {
             launch {
-                viewModel.initDevicesApis()
+                viewModel.initDevicesApis(false)
             }
         }
     }
@@ -345,7 +345,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         )
         runBlockingTest {
             launch {
-                viewModel.initDevicesApis()
+                viewModel.initDevicesApis(false)
             }
         }
     }
@@ -355,7 +355,7 @@ class DashboardViewModelTest : ViewModelBaseTest() {
         runBlockingTest {
             launch {
                 coEvery { oAuthAssiaRepository.getModemInfo() } returns Either.Left("Modem Info Error")
-                viewModel.initDevicesApis()
+                viewModel.initDevicesApis(false)
             }
         }
     }

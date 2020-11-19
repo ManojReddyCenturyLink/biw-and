@@ -42,7 +42,6 @@ class KeyStoreWrapper(private val context: Context, defaultKeyStoreName: String)
     fun createDefaultKeyStoreSymmetricKey(alias: String, password: String) {
         val key = generateDefaultSymmetricKey()
         val keyEntry = KeyStore.SecretKeyEntry(key)
-
         defaultKeyStore.setEntry(
             alias,
             keyEntry,
