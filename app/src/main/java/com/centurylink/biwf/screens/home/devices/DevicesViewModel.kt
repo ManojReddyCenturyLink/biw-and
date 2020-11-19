@@ -352,7 +352,7 @@ class DevicesViewModel @Inject constructor(
                     updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.LOADING)
                     if (deviceId.isNotEmpty()) {
                         requestStateForDevices(deviceId = deviceId)
-                    }else{
+                    } else {
                         updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
                     }
                 }
