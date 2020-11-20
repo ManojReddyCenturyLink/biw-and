@@ -46,6 +46,8 @@ class NetworkStatusActivity : BaseActivity() {
     private lateinit var mDialogEnableView: View
     private lateinit var networkEventType: NetworkEventType
 
+    var onlineStatus = false
+
     /**
      * On create - Called when the activity is first created
      *
@@ -75,10 +77,14 @@ class NetworkStatusActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                if (viewModel.networkInfoComplete) {
-                    validateNameAndPassword()
-                } else if (viewModel.offlineNetworkinfo) {
-                    validateNameAndPassword()
+                if (onlineStatus) {
+                    if (viewModel.networkInfoComplete) {
+                        validateNameAndPassword()
+                    } else if (viewModel.offlineNetworkinfo) {
+                        validateNameAndPassword()
+                    }
+                } else {
+                    finish()
                 }
             }
         }
@@ -137,6 +143,7 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusInternetStatusText.text = getString(it.subText)
                 bindings.networkStatusModemImageview.setImageDrawable(getDrawable(it.drawableId))
                 bindings.networkStatusModemStatus.text = getString(it.onlineStatus)
+                onlineStatus = it.isActive
             }
             regularNetworkStatusFlow.observe {
                 bindings.networkStatusWifiButton.isActivated = it.isNetworkEnabled
@@ -146,6 +153,7 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusWifiButtonActionText.text =
                     getString(it.networkStatusSubText)
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.setText(it.netWorkName)
                 bindings.networkStatusWifiPasswordInput.isEnabled = it.isNetworkEnabled
