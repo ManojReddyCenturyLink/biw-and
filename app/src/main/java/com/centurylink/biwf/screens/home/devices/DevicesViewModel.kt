@@ -350,8 +350,10 @@ class DevicesViewModel @Inject constructor(
                 DeviceConnectionStatus.FAILURE, DeviceConnectionStatus.DEVICE_CONNECTED, DeviceConnectionStatus.PAUSED -> {
                     var deviceId = deviceData.mcafeeDeviceId
                     updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.LOADING)
-                    if (!deviceId.isNullOrEmpty()) {
+                    if (deviceId.isNotEmpty()) {
                         requestStateForDevices(deviceId = deviceId)
+                    } else {
+                        updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
                     }
                 }
             }

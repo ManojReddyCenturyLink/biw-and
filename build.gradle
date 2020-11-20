@@ -9,7 +9,6 @@ buildscript {
         maven {
             url "https://plugins.gradle.org/m2/"
         }
-
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
@@ -40,8 +39,6 @@ allprojects {
         maven {
             url "https://software.mobile.pendo.io/artifactory/android-release"
         }
-        maven { url  'https://dl.bintray.com/sysdata/maven' }
-        maven { url 'http://repo.pageturner-reader.org' }
         mavenCentral()
     }
 }

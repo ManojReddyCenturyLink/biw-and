@@ -17,6 +17,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseFragment
 import com.centurylink.biwf.coordinators.DashboardCoordinator
@@ -212,6 +213,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     }
                 }
             }
+        }
+        dashboardViewModel.isExistingUser.observe {
+            binding.feedbackButton.visibility = if (it) View.VISIBLE else View.GONE
         }
         initButtonStates()
         initOnClicks()
@@ -633,6 +637,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(4)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
+                binding.incCanceled.youAreAllSetMsg.text = getString(R.string.cancellation_query_contact_details, BuildConfig.MOBILE_NUMBER)
                 dashboardViewModel.clearNotificationStatus(ServiceStatus.CANCELED.name)
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incCanceled.visibility = View.VISIBLE
