@@ -276,6 +276,17 @@ class Navigator @Inject constructor() : LifecycleObserver {
     }
 
     /**
+     * Navigate to NetworkInformationScreen
+     *
+     */
+    fun navigateToNetworkInformationScreenFromHomeScreen() {
+        val bundle = HomeCoordinatorDestinations.bundle
+        activity?.also {
+            it.startActivityForResult(NetworkStatusActivity.newIntent(it, bundle), 0)
+        }
+    }
+
+    /**
      * Navigate to QRCode Scan
      *
      */
