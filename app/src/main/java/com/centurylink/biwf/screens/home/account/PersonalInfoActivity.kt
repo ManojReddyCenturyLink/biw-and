@@ -8,6 +8,7 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.ViewModelProvider
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
@@ -175,7 +176,7 @@ class PersonalInfoActivity : BaseActivity() {
             viewModel.logUpdateEmailPopupClick()
             CustomDialogBlueTheme(
                 getString(R.string.how_do_i_change_my_email),
-                getString(R.string.personal_info_popup_msg),
+                getString(R.string.personal_info_popup_msg, BuildConfig.MOBILE_NUMBER),
                 getString(R.string.ok),
                 false,
                 ::onDialogCallback,

@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import kotlinx.android.synthetic.main.widget_popup.view.popup_cancel_btn
 import kotlinx.android.synthetic.main.widget_popup.view.popup_message
@@ -74,11 +75,11 @@ open class CustomDialogBlueTheme(
         rootView.popup_title.text = title
         if (linkTextToPhone) {
             val string = SpannableString(message)
-            string.setSpan(ForegroundColorSpan(resources.getColor(R.color.purple)), 190, 203, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            string.setSpan(ForegroundColorSpan(resources.getColor(R.color.purple)), 190, 202, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             rootView.popup_message.text = string
             rootView.popup_message.setOnClickListener {
                 val intent = Intent(Intent.ACTION_DIAL)
-                intent.data = Uri.parse("tel:1234567890")
+                intent.data = Uri.parse("tel:${BuildConfig.MOBILE_NUMBER}")
                 startActivity(intent)
             }
         } else {
