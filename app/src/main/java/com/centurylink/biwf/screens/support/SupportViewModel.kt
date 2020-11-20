@@ -18,7 +18,9 @@ import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackAct
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.LiveChatUtil
 import com.centurylink.biwf.utility.preferences.Preferences
+import com.salesforce.android.chat.ui.ChatUIConfiguration
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -312,6 +314,10 @@ class SupportViewModel @Inject constructor(
 //    fun logVisitWebsite() {
 //        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_VISIT_WEBSITE_SUPPORT)
 //    }
+
+    fun getLiveChatUIConfiguration(): ChatUIConfiguration {
+        return LiveChatUtil.getLiveChatUIConfiguration(sharedPreferences)
+    }
 
     fun logLiveChatLaunch() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.LIVE_CHAT_SUPPORT)

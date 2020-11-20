@@ -224,6 +224,18 @@ class Preferences(private val store: KeyValueStore) {
         store.remove(appointmentNumber)
     }
 
+    fun saveBillingState(state: String) {
+        store.put(BILLING_STATE, state)
+    }
+
+    fun getBillingState(): String {
+        return store.get(BILLING_STATE) ?: ""
+    }
+
+    private fun removeBillingState() {
+        store.remove(BILLING_STATE)
+    }
+
     // Should only be used for logout, currently
     fun clearUserSettings() {
         saveBioMetrics(false)
@@ -232,6 +244,7 @@ class Preferences(private val store: KeyValueStore) {
         removeContactId()
         removeLineId()
         removeAssiaId()
+        removeBillingState()
     }
 
     companion object {
@@ -243,6 +256,7 @@ class Preferences(private val store: KeyValueStore) {
         const val HAS_SEEN_PROMPT = "HAS_SEEN_PROMPT"
         const val EXISTING_USER = "EXISTING_USER"
         const val LINE_ID = "LINE_ID"
+        const val BILLING_STATE = "BILLING_STATE"
         const val ASSIA_ID = "ASSIA_ID"
         const val SPEED_TEST_IS_RUNNING = "SPEED_TEST_IS_RUNNING"
         const val SPEED_TEST_UPLOAD_SPEED = "UPLOAD_SPEED"

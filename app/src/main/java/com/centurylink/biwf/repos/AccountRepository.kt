@@ -46,6 +46,15 @@ class AccountRepository @Inject constructor(
     }
 
     /**
+     * This method stores the Billint State in the Preferences. Billing State is used
+     * to route the chat to sales force AMBASSADOR chat agent
+     * @param state
+     */
+    private fun saveBillingState(state: String) {
+        preferences.saveBillingState(state)
+    }
+
+    /**
      * The Suspend function used for the purpose of fetching the AccountDetails from the Salesforce
      * backend
      *
@@ -59,8 +68,11 @@ class AccountRepository @Inject constructor(
             ifLeft = { },
             ifRight = {
                 val lineId = it.lineId
+                val billingState = it.billingAddress?.state
                 Timber.i("lineId from server: $lineId")
+                Timber.i("state from server: $billingState")
                 saveLineId(lineId ?: "")
+                saveBillingState(billingState ?: "")
             }
         )
         return result.mapLeft { it.message?.message.toString() }

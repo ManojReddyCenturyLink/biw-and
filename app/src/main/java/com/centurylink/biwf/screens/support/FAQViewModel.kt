@@ -12,12 +12,16 @@ import com.centurylink.biwf.screens.support.schedulecallback.ScheduleCallbackAct
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.EventFlow
+import com.centurylink.biwf.utility.LiveChatUtil
+import com.centurylink.biwf.utility.preferences.Preferences
+import com.salesforce.android.chat.ui.ChatUIConfiguration
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FAQViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
+    private val sharedPreferences: Preferences,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
@@ -102,6 +106,10 @@ class FAQViewModel @Inject constructor(
 
     fun logItemCollapsed() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.COLLAPSE_LIST_FAQ_DETAILS)
+    }
+
+    fun getLiveChatUIConfiguration(): ChatUIConfiguration {
+        return LiveChatUtil.getLiveChatUIConfiguration(sharedPreferences)
     }
 
     data class UiFAQQuestionsDetails(
