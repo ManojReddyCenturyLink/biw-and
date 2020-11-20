@@ -213,6 +213,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 }
             }
         }
+        dashboardViewModel.isExistingUser.observe {
+            binding.feedbackButton.visibility = if (it) View.VISIBLE else View.GONE
+        }
         initButtonStates()
         initOnClicks()
         observeEnableDisableDialogs()

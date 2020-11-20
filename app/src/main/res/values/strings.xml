@@ -58,6 +58,7 @@
     <string name="biometric_dialog_message">Do you want to enable biometrics for login as blazing fast as your WiFi?</string>
     <string name="dont_allow">Don\'t Allow</string>
     <string name="ok">OK</string>
+    <string name="feedback_button_text">How are we doing? Leave us feedback</string>
 
     <!--Support / FAQ Screen -->
     <string name="faq_subsection_helpful_videos">Helpful videos</string>
