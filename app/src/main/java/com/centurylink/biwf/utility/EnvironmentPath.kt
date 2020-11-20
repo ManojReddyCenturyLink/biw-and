@@ -165,5 +165,13 @@ class EnvironmentPath {
             "SELECT Modem_Number__c FROM WorkOrder WHERE AccountId='%s' AND Job_Type__c='Fiber Install - For Installations'"
 
         const val APIGEE_MOBILE_HEADER = "From: mobile"
+
+        fun getMasterKey(): String {
+            return BuildConfig.MASTER_KEY
+        }
+
+        fun getAuthTokenKey(): String {
+            return BuildConfig.AUTH_TOKEN_KEY
+        }
     }
 }

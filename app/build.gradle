@@ -38,6 +38,8 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "MOBILE_NUMBER", "\"$parsedJson.MOBILE_NUMBER\""
+        buildConfigField "String", "AUTH_TOKEN_KEY", "\"$parsedJson.encryptionKeys.AUTH_TOKEN_KEY\""
+        buildConfigField "String", "MASTER_KEY", "\"$parsedJson.encryptionKeys.MASTER_KEY\""
         // Google Maps
         manifestPlaceholders = [mapsApiKey: parsedJson.MAP_API_KEY]
     }
