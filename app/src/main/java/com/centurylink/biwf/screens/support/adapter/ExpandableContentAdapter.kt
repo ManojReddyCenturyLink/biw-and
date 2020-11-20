@@ -1,17 +1,17 @@
 package com.centurylink.biwf.screens.support.adapter
 
 import android.content.Context
-import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.BaseExpandableListAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import com.centurylink.biwf.R
-import com.sysdata.htmlspanner.HtmlSpanner
+import com.centurylink.biwf.utility.WebLinkUtil
 
 class ExpandableContentAdapter(private val answerList: HashMap<String, String>) :
     BaseExpandableListAdapter() {
@@ -39,18 +39,15 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
         parent: ViewGroup
     ): View {
         var convertView = convertView
-        var expandedListText = getChild(listPosition, expandedListPosition) as String
+        val expandedListText = getChild(listPosition, expandedListPosition) as String
         if (convertView == null) {
             val layoutInflater =
                 parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             convertView = layoutInflater.inflate(R.layout.faq_item_answers, null)
         }
-        val expandedListTextView = convertView!!.findViewById<TextView>(R.id.faq_answers)
-        val htmlSpanner =
-            HtmlSpanner(expandedListTextView.currentTextColor, expandedListTextView.textSize)
-        expandedListText = expandedListText.replace("\n", "").replace("\t", "")
-        expandedListTextView.text = htmlSpanner.fromHtml(expandedListText)
-        expandedListTextView.movementMethod = LinkMovementMethod.getInstance()
+        val expandedListWebView = convertView!!.findViewById<WebView>(R.id.faq_answers)
+        WebLinkUtil.setupWebView(false, expandedListWebView, true)
+        expandedListWebView.loadDataWithBaseURL(null, expandedListText, "text/html", "UTF-8", null)
         return convertView
     }
 
@@ -82,10 +79,8 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
             questionIcon.setImageResource(R.drawable.ic_icon_right)
             dividerView.visibility = View.VISIBLE
         }
-        DrawableCompat.setTint(
-            questionIcon.drawable,
-            ContextCompat.getColor(parent?.context!!, R.color.purple)
-        )
+        DrawableCompat.setTint(questionIcon.drawable,
+            ContextCompat.getColor(parent?.context!!, R.color.purple))
         return convertView
     }
 

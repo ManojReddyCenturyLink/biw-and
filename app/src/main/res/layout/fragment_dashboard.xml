@@ -281,7 +281,7 @@
                 style="@style/common_border_divider_style"
                 android:layout_margin="@dimen/margin_spacing_small"
                 app:layout_constraintTop_toBottomOf="@+id/network_status" />
-
+            
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/wifi_scan_list"
                 android:layout_width="match_parent"
@@ -290,6 +290,27 @@
                 android:background="@color/light_lavender"
                 app:layout_constraintTop_toBottomOf="@+id/view_divider" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/feedbackButton"
+            style="@style/style_info_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_spacing_really_small"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            android:layout_marginEnd="@dimen/margin_spacing_really_small"
+            android:background="@drawable/background_round_med_grey_border"
+            android:gravity="center"
+            android:paddingStart="@dimen/height_30"
+            android:paddingTop="@dimen/margin_spacing_small"
+            android:paddingEnd="@dimen/height_30"
+            android:paddingBottom="@dimen/margin_spacing_small"
+            android:text="@string/feedback_button_text"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/layout_network_list" />
+        
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

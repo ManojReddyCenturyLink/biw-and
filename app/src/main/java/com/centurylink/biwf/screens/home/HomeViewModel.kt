@@ -370,6 +370,7 @@ class HomeViewModel @Inject constructor(
      */
     // show 2 tabs
     private fun invokeNewUserDashboard() {
+        sharedPreferences.saveUserType(false)
         activeUserTabBarVisibility.latestValue = false
         progressViewFlow.latestValue = false
     }
@@ -380,6 +381,7 @@ class HomeViewModel @Inject constructor(
      */
     // show 3 tabs
     private fun invokeStandardUserDashboard() {
+        sharedPreferences.saveUserType(true)
         activeUserTabBarVisibility.latestValue = true
         progressViewFlow.latestValue = false
         modemStatusRefresh()

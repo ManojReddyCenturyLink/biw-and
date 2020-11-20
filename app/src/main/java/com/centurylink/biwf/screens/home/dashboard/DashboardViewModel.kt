@@ -122,8 +122,10 @@ class DashboardViewModel @Inject constructor(
     var dialogEnableDisableError = EventFlow<Boolean>()
     private var isEnableDisableError: Boolean = false
     var networkCurrentRunningProcess: NetworkEnableDisableEventType = NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS
+    val isExistingUser = BehaviorStateFlow<Boolean>()
     init {
         progressViewFlow.latestValue = true
+        isExistingUser.value = sharedPreferences.getUserType() ?: false
         initAccountDetails()
         initModemStatusRefresh()
     }
