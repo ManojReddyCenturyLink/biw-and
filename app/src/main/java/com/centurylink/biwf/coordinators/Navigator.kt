@@ -1,5 +1,6 @@
 package com.centurylink.biwf.coordinators
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
@@ -54,7 +55,7 @@ class Navigator @Inject constructor() : LifecycleObserver {
      */
     fun navigateToHomeScreen() {
         activity?.also {
-            it.startActivity(HomeActivity.newIntent(it))
+            it.startActivity(HomeActivity.newIntent(it).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
             it.finishAffinity()
         }
     }
