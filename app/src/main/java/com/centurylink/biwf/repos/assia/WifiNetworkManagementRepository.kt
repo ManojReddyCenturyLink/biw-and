@@ -60,7 +60,7 @@ class WifiNetworkManagementRepository @Inject constructor(
             )
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
-            if (it.code == "1000" || it.code == "10356") {
+            if (it.code == "1000") {
                 return Either.Right(it)
             }
             return Either.Left(it.message)
@@ -103,7 +103,7 @@ class WifiNetworkManagementRepository @Inject constructor(
             updateNWPassword
         )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
-            if (it.code == "1000" || it.code == "10356") {
+            if (it.code == "1000") {
                 return Either.Right(it)
             }
             return Either.Left(it.message)

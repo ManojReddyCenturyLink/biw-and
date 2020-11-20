@@ -3,6 +3,7 @@ package com.centurylink.biwf.service.auth
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.security.crypto.EncryptedSharedPreferences
+import com.centurylink.biwf.utility.EnvironmentPath
 
 /**
  * This class contains the encryption and decryption details
@@ -18,8 +19,6 @@ class EncryptionServices(context: Context) {
      */
     companion object {
         val DEFAULT_KEY_STORE_NAME = "default_keystore"
-        val authTokenKey = "authorizationKey"
-        val MASTER_KEY = "MASTER_KEY"
     }
 
     private val preferences: SharedPreferences by lazy {
@@ -55,7 +54,7 @@ class EncryptionServices(context: Context) {
             encryptWithDefaultSymmetricKey(data, keyPassword ?: "")
         }
         preferences.edit()
-            .putString(authTokenKey, encryptedValue)
+            .putString(EnvironmentPath.getAuthTokenKey(), encryptedValue)
             .apply()
     }
 
@@ -63,7 +62,7 @@ class EncryptionServices(context: Context) {
      * Decrypt data and Secrets with created master key.
      */
     fun decrypt(keyPassword: String? = null): String? {
-        var encryptedData = preferences.getString(authTokenKey, null)
+        var encryptedData = preferences.getString(EnvironmentPath.getAuthTokenKey(), null)
         if (encryptedData.isNullOrEmpty()) {
             return null
         }
@@ -75,16 +74,16 @@ class EncryptionServices(context: Context) {
     }
 
     private fun createAndroidSymmetricKey() {
-        keyStoreWrapper.createAndroidKeyStoreSymmetricKey(MASTER_KEY)
+        keyStoreWrapper.createAndroidKeyStoreSymmetricKey(EnvironmentPath.getMasterKey())
     }
 
     private fun encryptWithAndroidSymmetricKey(data: String): String {
-        val masterKey = keyStoreWrapper.getAndroidKeyStoreSymmetricKey(MASTER_KEY)
+        val masterKey = keyStoreWrapper.getAndroidKeyStoreSymmetricKey(EnvironmentPath.getMasterKey())
         return CipherWrapper(CipherWrapper.TRANSFORMATION_SYMMETRIC).encrypt(data, masterKey, true)
     }
 
     private fun decryptWithAndroidSymmetricKey(data: String): String? {
-        val masterKey = keyStoreWrapper.getAndroidKeyStoreSymmetricKey(MASTER_KEY)
+        val masterKey = keyStoreWrapper.getAndroidKeyStoreSymmetricKey(EnvironmentPath.getMasterKey())
         if (data != null && !data.isNullOrEmpty()) {
             return CipherWrapper(CipherWrapper.TRANSFORMATION_SYMMETRIC).decrypt(
                 data,
@@ -96,20 +95,20 @@ class EncryptionServices(context: Context) {
     }
 
     private fun createDefaultSymmetricKey(password: String) {
-        keyStoreWrapper.createDefaultKeyStoreSymmetricKey(MASTER_KEY, password)
+        keyStoreWrapper.createDefaultKeyStoreSymmetricKey(EnvironmentPath.getMasterKey(), password)
     }
 
     private fun encryptWithDefaultSymmetricKey(data: String, keyPassword: String): String {
-        val masterKey = keyStoreWrapper.getDefaultKeyStoreSymmetricKey(MASTER_KEY, keyPassword)
+        val masterKey = keyStoreWrapper.getDefaultKeyStoreSymmetricKey(EnvironmentPath.getMasterKey(), keyPassword)
         return CipherWrapper(CipherWrapper.TRANSFORMATION_SYMMETRIC).encrypt(data, masterKey, true)
     }
 
     fun cleanUp() {
-        preferences.edit().remove(authTokenKey).commit()
+        preferences.edit().remove(EnvironmentPath.getAuthTokenKey()).commit()
     }
 
     private fun decryptWithDefaultSymmetricKey(data: String, keyPassword: String): String {
-        val masterKey = keyStoreWrapper.getDefaultKeyStoreSymmetricKey(MASTER_KEY, keyPassword)
+        val masterKey = keyStoreWrapper.getDefaultKeyStoreSymmetricKey(EnvironmentPath.getMasterKey(), keyPassword)
         return masterKey?.let {
             CipherWrapper(CipherWrapper.TRANSFORMATION_SYMMETRIC).decrypt(
                 data,
