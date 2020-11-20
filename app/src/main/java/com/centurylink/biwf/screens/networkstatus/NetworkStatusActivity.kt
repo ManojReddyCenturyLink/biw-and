@@ -154,7 +154,6 @@ class NetworkStatusActivity : BaseActivity() {
                     getString(it.networkStatusSubText)
                 bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
-                bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.setText(it.netWorkName)
                 bindings.networkStatusWifiPasswordInput.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiPasswordInput.setText(it.networkPassword)
