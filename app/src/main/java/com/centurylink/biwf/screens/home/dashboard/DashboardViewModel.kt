@@ -585,11 +585,11 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             val connectedList = deviceList.filter { !it.blocked }.distinct()
             connectedDevicesNumber.latestValue = connectedList.size.toString()
-            progressViewFlow.latestValue =false
+            progressViewFlow.latestValue = false
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
-            progressViewFlow.latestValue =false
+            progressViewFlow.latestValue = false
         })
     }
 
