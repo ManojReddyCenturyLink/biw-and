@@ -26,6 +26,7 @@ import com.centurylink.biwf.screens.home.devices.DevicesFragment
 import com.centurylink.biwf.screens.networkstatus.NetworkStatusActivity
 import com.centurylink.biwf.screens.subscription.EditPaymentDetailsActivity
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import com.centurylink.biwf.utility.EventFlow
 import com.centurylink.biwf.utility.PendoUtil
 import com.centurylink.biwf.widgets.ChoiceDialogFragment
 import com.google.android.material.tabs.TabLayout
@@ -58,6 +59,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
     private lateinit var binding: ActivityHomeBinding
 
     private lateinit var onTabSelectedListener: TabLayout.OnTabSelectedListener
+
+    var isOnlineStatus = EventFlow<Boolean>()
 
     /**
      * On create - Called when the activity is first created
@@ -255,7 +258,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
             setupTabsViewPager(it)
             setSupportButtonOnClick(it)
         }
-        viewModel.networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it) }
+        viewModel.networkStatus.observe { binding.homeOnlineStatusBar.setOnlineStatus(it)
+            isOnlineStatus.postValue(it)
+        }
     }
 
     /**

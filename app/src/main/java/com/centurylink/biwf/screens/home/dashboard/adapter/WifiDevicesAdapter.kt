@@ -25,11 +25,12 @@ import net.glxn.qrgen.android.QRCode
 
 class WifiDevicesAdapter(
     var wifiListItems: MutableList<WifiInfo>,
-    private val wifiDeviceClickListener: WifiDeviceClickListener
+    private val wifiDeviceClickListener: WifiDeviceClickListener,
+    var onlineStatus: Boolean
 ) : RecyclerView.Adapter<WifiDevicesAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        if (SpeedTestUtils.isSpeedTestAvailable()) {
+        if (viewType == 0) {
             val itemBinding =
                 LayoutScancodeItemBinding.inflate(
                     LayoutInflater.from(parent.context),
@@ -55,6 +56,10 @@ class WifiDevicesAdapter(
         return 0
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (onlineStatus) { if (SpeedTestUtils.isSpeedTestAvailable()) 0 else 1 } else 1
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val wifiDetails: WifiInfo = wifiListItems[position]
         holder.bindItems(wifiDetails, wifiDeviceClickListener, position)
@@ -67,11 +72,11 @@ class WifiDevicesAdapter(
             wifiDeviceClickListener: WifiDeviceClickListener,
             pos: Int
         ) {
-            if (SpeedTestUtils.isSpeedTestAvailable()) {
+            if (onlineStatus) if (SpeedTestUtils.isSpeedTestAvailable()) {
                 displayQRSpeedTestView(wifiDetails, pos, wifiDeviceClickListener)
             } else {
                 displayNoQRSpeedTestView(wifiDetails, pos, wifiDeviceClickListener)
-            }
+            } else displayNoQRSpeedTestView(wifiDetails, pos, wifiDeviceClickListener)
         }
 
         private fun displayQRSpeedTestView(
@@ -181,6 +186,11 @@ class WifiDevicesAdapter(
     fun QRCode.withColor(onColor: Long, offColor: Long): QRCode =
         this.withColor(onColor.toInt(), offColor.toInt())
 
+    fun updateList(b: Boolean) {
+        wifiListItems.forEach { it.enabled = b }
+        onlineStatus = b
+        notifyDataSetChanged()
+    }
     interface WifiDeviceClickListener {
         fun onWifiQRScanImageClicked(wifidetails: WifiInfo)
         fun onWifiNameClicked(NetworkName: String)

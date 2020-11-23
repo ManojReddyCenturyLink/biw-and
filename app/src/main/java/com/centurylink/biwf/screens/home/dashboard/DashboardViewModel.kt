@@ -143,7 +143,6 @@ class DashboardViewModel @Inject constructor(
             fetchPasswordApi()
             requestDevices()
         }
-        progressViewFlow.latestValue = false
     }
 
     /**
@@ -237,7 +236,6 @@ class DashboardViewModel @Inject constructor(
                 isAccountActive = false
                 isAccountStatus.latestValue = isAccountActive
                 requestAppointmentDetails()
-                progressViewFlow.latestValue = false
                 if (installationStatus) {
                     initDevicesApis(false)
                 }
@@ -391,6 +389,7 @@ class DashboardViewModel @Inject constructor(
      * Request appointment details
      */
     private suspend fun requestAppointmentDetails() {
+        progressViewFlow.latestValue = true
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
             progressViewFlow.latestValue = false
@@ -451,6 +450,7 @@ class DashboardViewModel @Inject constructor(
      * Recurring appointment call
      */
     private suspend fun recurringAppointmentCall() {
+        progressViewFlow.latestValue = true
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
             Timber.i("Error in Appointments")
@@ -503,7 +503,6 @@ class DashboardViewModel @Inject constructor(
      * Request wifi details
      */
     private suspend fun requestWifiDetails() {
-        progressViewFlow.latestValue = true
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         modemResponse.fold(ifRight =
         {
@@ -515,7 +514,6 @@ class DashboardViewModel @Inject constructor(
                 ssidMap = modemInfo.ssidMap
                 bssidMap = modemInfo.bssidMap
             }
-            progressViewFlow.latestValue = false
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
             errorMessageFlow.latestValue = "Error WifiInfo"
@@ -587,9 +585,11 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             val connectedList = deviceList.filter { !it.blocked }.distinct()
             connectedDevicesNumber.latestValue = connectedList.size.toString()
+            progressViewFlow.latestValue = false
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
+            progressViewFlow.latestValue = false
         })
     }
 
