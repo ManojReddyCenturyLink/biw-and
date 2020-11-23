@@ -50,7 +50,8 @@ class FAQViewModelTest : ViewModelBaseTest() {
         recordID = fromJson(recordIdString)
         coEvery { faqRepository.getKnowledgeRecordTypeId() } returns Either.Right("12345")
         coEvery { faqRepository.getFAQQuestionDetails(any()) } returns Either.Right(faq)
-        viewModel = FAQViewModel(faqRepository, mockModemRebootMonitorService, analyticsManagerInterface)
+
+        viewModel = FAQViewModel(faqRepository, mockPreferences, mockModemRebootMonitorService, analyticsManagerInterface)
         viewModel.setFilteredSelection("Manage my account")
     }
 
@@ -117,5 +118,10 @@ class FAQViewModelTest : ViewModelBaseTest() {
     @Test
     fun testLogItemCollapsed() {
         Assert.assertNotNull(viewModel.logItemCollapsed())
+    }
+
+    @Test
+    fun testGetLiveiveChatUIConfiguration() {
+        Assert.assertNotNull(viewModel.getLiveChatUIConfiguration())
     }
 }
