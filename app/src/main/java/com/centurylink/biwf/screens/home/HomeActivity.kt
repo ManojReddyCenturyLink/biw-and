@@ -415,7 +415,7 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
      */
     companion object {
         fun newIntent(context: Context): Intent {
-            return Intent(context, HomeActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+            return Intent(context, HomeActivity::class.java)
         }
     }
 }

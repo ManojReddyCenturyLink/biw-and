@@ -203,4 +203,9 @@ class SupportViewModelTest : ViewModelBaseTest() {
             }
         }
     }
+
+    @Test
+    fun testGetLiveiveChatUIConfiguration() {
+        Assert.assertNotNull(viewModel.getLiveChatUIConfiguration())
+    }
 }

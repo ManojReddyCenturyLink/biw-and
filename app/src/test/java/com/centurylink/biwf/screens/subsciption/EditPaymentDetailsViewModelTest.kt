@@ -2,6 +2,7 @@ package com.centurylink.biwf.screens.subsciption
 
 import android.app.Activity
 import android.content.Context
+import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.ViewModelBaseTest
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.screens.subscription.EditPaymentDetailsViewModel
@@ -77,7 +78,7 @@ class EditPaymentDetailsViewModelTest : ViewModelBaseTest() {
         viewModel.onRetryClicked()
         Assert.assertEquals(
             viewModel.subscriptionUrlFlow.first(),
-            "https://qa-qa101.cs16.force.com/phish/apex/vf_fiberBuyFlowPaymentMobile?userId=MockAccountId"
+            "https://" + BuildConfig.SALESFORCE_URL + "/" + BuildConfig.COMMUNITY_NAME + "/apex/vf_fiberBuyFlowPaymentMobile?userId=MockAccountId"
         )
     }
 

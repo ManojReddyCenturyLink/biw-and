@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
@@ -27,10 +26,8 @@ import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.centurylink.biwf.widgets.NoNetworkErrorPopup.Companion.showNoInternetDialog
-import com.salesforce.android.chat.core.ChatConfiguration
 import com.salesforce.android.chat.ui.ChatUI
 import com.salesforce.android.chat.ui.ChatUIClient
-import com.salesforce.android.chat.ui.ChatUIConfiguration
 import javax.inject.Inject
 
 class SupportActivity : BaseActivity(), SupportItemClickListener {
@@ -379,18 +376,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun initLiveChat() {
-        val chatConfiguration =
-            ChatConfiguration.Builder(
-                BuildConfig.ORG_ID,
-                BuildConfig.BUTTON_ID,
-                BuildConfig.DEPLOYMENT_ID,
-                BuildConfig.AGENT_POD
-            ).build()
-        val uiConfig = ChatUIConfiguration.Builder()
-            .chatConfiguration(chatConfiguration)
-            .defaultToMinimized(false)
-            .build()
-        ChatUI.configure(uiConfig).createClient(this)
+        ChatUI.configure(viewModel.getLiveChatUIConfiguration()).createClient(this)
             .onResult { _, uiClient ->
                 chatUIClient = uiClient
             }

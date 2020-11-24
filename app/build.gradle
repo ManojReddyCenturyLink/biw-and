@@ -70,6 +70,7 @@ android {
             buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.dev.CTL_APP_NAME\"")
             buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.dev.CTL_APP_BUNDLE\"")
             buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.dev.APIGEE_URL\"")
+            buildConfigField("String", "REDIRECT_URI", "\"$parsedJson.productFlavors.dev.REDIRECT_URI\"")
             buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.dev.SALESFORCE_URL\"")
             buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.dev.COMMUNITY_NAME\"")
             buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.dev.CLIENT_ID\"")
@@ -79,6 +80,7 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.dev.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.dev.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.dev.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "AMBASSADOR_BUTTON_ID", "\"$parsedJson.productFlavors.dev.live_chat.AMBASSADOR_BUTTON_ID\"")
             buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.dev.pendo.APP_KEY\"")
             buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.dev.devTestVars.MODEM_ID\"")
             buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.dev.devTestVars.LINE_ID\"")
@@ -91,6 +93,7 @@ android {
 //            buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.qa.CTL_APP_NAME\"")
 //            buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.qa.CTL_APP_BUNDLE\"")
 //            buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.qa.APIGEE_URL\"")
+//            buildConfigField("String", "REDIRECT_URI", "\"$parsedJson.productFlavors.qa.REDIRECT_URI\"")
 //            buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.qa.SALESFORCE_URL\"")
 //            buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.qa.COMMUNITY_NAME\"")
 //            buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.qa.CLIENT_ID\"")
@@ -100,6 +103,7 @@ android {
 //            buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.qa.live_chat.ORG_ID\"")
 //            buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.qa.live_chat.DEPLOYMENT_ID\"")
 //            buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.qa.live_chat.BUTTON_ID\"")
+//            buildConfigField("String", "AMBASSADOR_BUTTON_ID", "\"$parsedJson.productFlavors.qa.live_chat.AMBASSADOR_BUTTON_ID\"")
 //            buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.qa.pendo.APP_KEY\"")
 //        buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.qa.devTestVars.MODEM_ID\"")
 //        buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.qa.devTestVars.LINE_ID\"")
@@ -112,6 +116,7 @@ android {
             buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.sit.CTL_APP_NAME\"")
             buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.sit.CTL_APP_BUNDLE\"")
             buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.sit.APIGEE_URL\"")
+            buildConfigField("String", "REDIRECT_URI", "\"$parsedJson.productFlavors.sit.REDIRECT_URI\"")
             buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.sit.SALESFORCE_URL\"")
             buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.sit.COMMUNITY_NAME\"")
             buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.sit.CLIENT_ID\"")
@@ -121,6 +126,7 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.sit.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.sit.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.sit.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "AMBASSADOR_BUTTON_ID", "\"$parsedJson.productFlavors.sit.live_chat.AMBASSADOR_BUTTON_ID\"")
             buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.sit.pendo.APP_KEY\"")
             buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.sit.devTestVars.MODEM_ID\"")
             buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.sit.devTestVars.LINE_ID\"")
@@ -132,6 +138,7 @@ android {
             buildConfigField("String", "CTL_APP_NAME", "\"$parsedJson.productFlavors.prod.CTL_APP_NAME\"")
             buildConfigField("String", "CTL_APP_BUNDLE", "\"$parsedJson.productFlavors.prod.CTL_APP_BUNDLE\"")
             buildConfigField("String", "APIGEE_URL", "\"$parsedJson.productFlavors.prod.APIGEE_URL\"")
+            buildConfigField("String", "REDIRECT_URI", "\"$parsedJson.productFlavors.prod.REDIRECT_URI\"")
             buildConfigField("String", "SALESFORCE_URL", "\"$parsedJson.productFlavors.prod.SALESFORCE_URL\"")
             buildConfigField("String", "COMMUNITY_NAME", "\"$parsedJson.productFlavors.prod.COMMUNITY_NAME\"")
             buildConfigField("String", "CLIENT_ID", "\"$parsedJson.productFlavors.prod.CLIENT_ID\"")
@@ -141,6 +148,7 @@ android {
             buildConfigField("String", "ORG_ID", "\"$parsedJson.productFlavors.prod.live_chat.ORG_ID\"")
             buildConfigField("String", "DEPLOYMENT_ID", "\"$parsedJson.productFlavors.prod.live_chat.DEPLOYMENT_ID\"")
             buildConfigField("String", "BUTTON_ID", "\"$parsedJson.productFlavors.prod.live_chat.BUTTON_ID\"")
+            buildConfigField("String", "AMBASSADOR_BUTTON_ID", "\"$parsedJson.productFlavors.prod.live_chat.AMBASSADOR_BUTTON_ID\"")
             buildConfigField("String", "APP_KEY", "\"$parsedJson.productFlavors.prod.pendo.APP_KEY\"")
             buildConfigField("String", "MODEM_ID", "\"$parsedJson.productFlavors.prod.devTestVars.MODEM_ID\"")
             buildConfigField("String", "LINE_ID", "\"$parsedJson.productFlavors.prod.devTestVars.LINE_ID\"")
@@ -290,7 +298,6 @@ dependencies {
 
     implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
-
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
