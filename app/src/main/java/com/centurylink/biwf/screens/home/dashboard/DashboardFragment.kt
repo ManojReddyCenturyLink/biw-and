@@ -262,7 +262,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
-        setupMap()
+        setupEnrouteMap()
+        setupWorkBegunMap()
         initWifiScanViews()
         listenForRebootDialog()
     }
@@ -413,13 +414,18 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.tapToEditNetwork.setOnClickListener { dashboardViewModel.navigateToNetworkInformation() }
     }
 
-    private fun setupMap() {
+    private fun setupEnrouteMap() {
         val fm = childFragmentManager
         enrouteMapFragment = fm.findFragmentById(R.id.map_enroute_status) as SupportMapFragment
-        workBegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
         enrouteMapFragment?.getMapAsync(enrouteOnMapReadyCallback)
+    }
+
+    private fun setupWorkBegunMap() {
+        val fm = childFragmentManager
+        workBegunMapFragment = fm.findFragmentById(R.id.map_work_begun) as SupportMapFragment
         workBegunMapFragment?.getMapAsync(mOnMapReadyCallback)
     }
+
 
     /**
      * Enroute on map ready callback - It will handle the enroute state map call back listeners
@@ -518,6 +524,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(1)
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
+                originLatLng =
+                    LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
+                setupEnrouteMap()
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incEnroute.enroute_appointment_status_title.text =
                         resources.getString(R.string.fiber_installation_status)
@@ -556,6 +565,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 incCanceled.visibility = View.GONE
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
+                originLatLng =
+                    LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
+                setupWorkBegunMap()
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incWorkBegun.work_begun_appointment_status_title.text =
                         resources.getString(R.string.fiber_installation_status)
@@ -638,7 +650,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.logAppointmentStatusState(4)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
-                binding.incCanceled.youAreAllSetMsg.text = getString(R.string.cancellation_query_contact_details, BuildConfig.MOBILE_NUMBER)
+                binding.incCanceled.youAreAllSetMsg.text = getString(
+                    R.string.cancellation_query_contact_details,
+                    BuildConfig.MOBILE_NUMBER
+                )
                 dashboardViewModel.clearNotificationStatus(ServiceStatus.CANCELED.name)
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incCanceled.visibility = View.VISIBLE
@@ -689,6 +704,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
         }
     }
+
     /**
      * Add notification stack - It will help to add notification into stack
      *
@@ -871,12 +887,14 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             displayNoSpeedTest()
         } else displayNoSpeedTest()
     }
+
     /**
      * Update view - It will call the update devices api from viewmodel
      */
     fun updateView() {
         dashboardViewModel.initDevicesApis(false)
     }
+
     /**
      * On wifi q r scan image clicked -  it will help to navigate to qrscan screen
      *
