@@ -83,7 +83,7 @@ class NetworkStatusActivity : BaseActivity() {
                         validateNameAndPassword(true)
                     }
                 } else if (viewModel.offlineNetworkinfo) {
-                    validateNameAndPassword(false)
+                   showBlueThemePopUp()
                 } else {
                     finish()
                 }
@@ -335,10 +335,29 @@ class NetworkStatusActivity : BaseActivity() {
      *
      */
     private fun validateNameAndPassword(internetState: Boolean) {
-        val errors = viewModel.validateInput()
-        if (!errors.hasErrors()) {
+        if (isFieldsUpdated()) {
+            setResult(Activity.RESULT_OK)
+            finish()
+        } else {
+            val errors = viewModel.validateInput()
+            if (!errors.hasErrors()) {
             showAlertDialog(internetState)
+            }
         }
+    }
+
+    /**
+     * Checks for any changes in the input fields
+     */
+    private fun isFieldsUpdated(): Boolean {
+        val changedWifiName = bindings.networkStatusWifiNameInput.text.toString()
+        val changedWifiPassword = bindings.networkStatusWifiPasswordInput.text.toString()
+        val changedGuestName = bindings.networkStatusGuestNameInput.text.toString()
+        val changedGuestPassword = bindings.networkStatusGuestPasswordInput.text.toString()
+        return ((intent.getStringExtra(REGULAR_WIFI_NAME) == changedWifiName) && (intent.getStringExtra(
+            REGULAR_WIFI_PASSWORD) == changedWifiPassword) && (intent.getStringExtra(
+            GUEST_WIFI_NAME) == changedGuestName) &&
+                (intent.getStringExtra(GUEST_WIFI_PASSWORD) == changedGuestPassword))
     }
 
     /**
@@ -528,7 +547,12 @@ class NetworkStatusActivity : BaseActivity() {
      *
      */
     override fun onBackPressed() {
-        showGreyThemePopUp()
+        if (isFieldsUpdated()) {
+            setResult(Activity.RESULT_OK)
+            finish()
+        } else {
+            showGreyThemePopUp()
+        }
     }
 
     /**

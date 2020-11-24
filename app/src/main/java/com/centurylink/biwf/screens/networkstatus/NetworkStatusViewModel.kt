@@ -97,7 +97,6 @@ class NetworkStatusViewModel @Inject constructor(
         viewModelScope.launch {
             requestModemInfo()
             fetchPasswordApi()
-            progressViewFlow.latestValue = false
         }
         modemStatusRefresh()
     }
@@ -555,6 +554,7 @@ class NetworkStatusViewModel @Inject constructor(
             setGuestWifiInfo(existingGuestName, existingGuestPwd, guestNetworkEnabled)
         regularNetworkStatusFlow.latestValue = regularNetworkInstance
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
+        progressViewFlow.latestValue = false
         networkInfoComplete = true
     }
 
