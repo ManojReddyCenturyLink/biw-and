@@ -83,7 +83,7 @@ class NetworkStatusActivity : BaseActivity() {
                         validateNameAndPassword(true)
                     }
                 } else if (viewModel.offlineNetworkinfo) {
-                   showBlueThemePopUp()
+                    showBlueThemePopUp()
                 } else {
                     finish()
                 }
@@ -341,7 +341,7 @@ class NetworkStatusActivity : BaseActivity() {
         } else {
             val errors = viewModel.validateInput()
             if (!errors.hasErrors()) {
-            showAlertDialog(internetState)
+                showAlertDialog(internetState)
             }
         }
     }
@@ -355,8 +355,10 @@ class NetworkStatusActivity : BaseActivity() {
         val changedGuestName = bindings.networkStatusGuestNameInput.text.toString()
         val changedGuestPassword = bindings.networkStatusGuestPasswordInput.text.toString()
         return ((intent.getStringExtra(REGULAR_WIFI_NAME) == changedWifiName) && (intent.getStringExtra(
-            REGULAR_WIFI_PASSWORD) == changedWifiPassword) && (intent.getStringExtra(
-            GUEST_WIFI_NAME) == changedGuestName) &&
+            REGULAR_WIFI_PASSWORD
+        ) == changedWifiPassword) && (intent.getStringExtra(
+            GUEST_WIFI_NAME
+        ) == changedGuestName) &&
                 (intent.getStringExtra(GUEST_WIFI_PASSWORD) == changedGuestPassword))
     }
 
