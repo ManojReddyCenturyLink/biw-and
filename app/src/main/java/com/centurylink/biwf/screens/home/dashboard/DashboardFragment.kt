@@ -426,7 +426,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         workBegunMapFragment?.getMapAsync(mOnMapReadyCallback)
     }
 
-
     /**
      * Enroute on map ready callback - It will handle the enroute state map call back listeners
      */
