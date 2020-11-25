@@ -26,7 +26,6 @@ import com.centurylink.biwf.databinding.NetworkEnablingDisablingPopupBinding
 import com.centurylink.biwf.model.appointment.ServiceStatus
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.model.wifi.WifiInfo
-import com.centurylink.biwf.screens.home.HomeActivity
 import com.centurylink.biwf.screens.home.HomeViewModel
 import com.centurylink.biwf.screens.home.SpeedTestUtils
 import com.centurylink.biwf.screens.home.dashboard.adapter.WifiDevicesAdapter
@@ -685,22 +684,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      *
      */
     private fun observeWifiDetailsViews() {
-        dashboardViewModel.wifiListDetails.observe { scanStatus ->
-            val wifiList = scanStatus.wifiListDetails
-            (activity as HomeActivity).isOnlineStatus.observe { it ->
-                updateSpeedTestUI(it)
-                wifiList.forEach { t: WifiInfo? -> t?.enabled = it }
-                prepareRecyclerView(wifiList, it)
-            }
+        dashboardViewModel.wifiListDetails.observe {
+            prepareRecyclerView(it.wifiListDetails)
         }
 
-        dashboardViewModel.wifiListDetailsUpdated.observe { scanStatus ->
-            val wifiList = scanStatus.wifiListDetails
-            (activity as HomeActivity).isOnlineStatus.observe { it ->
-                updateSpeedTestUI(it)
-                wifiList.forEach { t: WifiInfo? -> t?.enabled = it }
-                prepareRecyclerView(wifiList, it)
-            }
+        dashboardViewModel.wifiListDetailsUpdated.observe {
+            prepareRecyclerView(it.wifiListDetails)
         }
     }
 
@@ -856,35 +845,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      *
      * @param wifiList - wifilist to display
      */
-    private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>, it: Boolean) {
-        wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this, it)
+    private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
+        wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
         binding.wifiScanList.adapter = wifiDevicesAdapter
-        onlineStatusUpdateAdapter()
-    }
-
-    /**
-     * update recycler view - it will update the recyclerview item
-     *
-     * @param wifiList - wifilist to update
-     */
-
-    private fun onlineStatusUpdateAdapter() {
-        (activity as HomeActivity).isOnlineStatus.observe {
-            if (this::wifiDevicesAdapter.isInitialized) {
-                wifiDevicesAdapter.apply {
-                    updateList(it)
-                }
-                updateSpeedTestUI(it)
-            }
-        }
-    }
-
-    private fun updateSpeedTestUI(it: Boolean) {
-        if (it) if (SpeedTestUtils.isSpeedTestAvailable()) {
-            displaySpeedTest()
-        } else {
-            displayNoSpeedTest()
-        } else displayNoSpeedTest()
     }
 
     /**

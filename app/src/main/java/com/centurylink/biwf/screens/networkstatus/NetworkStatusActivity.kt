@@ -47,8 +47,6 @@ class NetworkStatusActivity : BaseActivity() {
     private lateinit var mDialogEnableView: View
     private lateinit var networkEventType: NetworkEventType
 
-    var onlineStatus = false
-
     /**
      * On create - Called when the activity is first created
      *
@@ -78,10 +76,8 @@ class NetworkStatusActivity : BaseActivity() {
             subheaderCenterTitle.text = screenTitle
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                if (onlineStatus) {
-                    if (viewModel.networkInfoComplete) {
-                        validateNameAndPassword(true)
-                    }
+                if (viewModel.networkInfoComplete) {
+                    validateNameAndPassword(true)
                 } else if (viewModel.offlineNetworkinfo) {
                     showBlueThemePopUp()
                 } else {
@@ -148,7 +144,6 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusInternetStatusText.text = getString(it.subText)
                 bindings.networkStatusModemImageview.setImageDrawable(getDrawable(it.drawableId))
                 bindings.networkStatusModemStatus.text = getString(it.onlineStatus)
-                onlineStatus = it.isActive
             }
             regularNetworkStatusFlow.observe {
                 bindings.networkStatusWifiButton.isActivated = it.isNetworkEnabled
@@ -345,7 +340,6 @@ class NetworkStatusActivity : BaseActivity() {
             }
         }
     }
-
     /**
      * Checks for any changes in the input fields
      */
@@ -581,7 +575,6 @@ class NetworkStatusActivity : BaseActivity() {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 viewModel.logDiscardChangesAndCloseClick()
-                setResult(Activity.RESULT_OK)
                 finish()
             }
         }
