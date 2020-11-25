@@ -141,7 +141,7 @@ class DashboardViewModel @Inject constructor(
             if (callAccountDetails) {
                 initAccountDetails()
                 initModemStatusRefresh()
-            }else {
+            } else {
                 requestWifiDetails()
                 fetchPasswordApi()
                 requestDevices()
@@ -539,7 +539,7 @@ class DashboardViewModel @Inject constructor(
                     }
                 }
             }
-            progressViewFlow.latestValue =false
+            progressViewFlow.latestValue = false
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
