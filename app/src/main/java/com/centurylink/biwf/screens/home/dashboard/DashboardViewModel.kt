@@ -140,12 +140,13 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             if (callAccountDetails) {
                 initAccountDetails()
+                initModemStatusRefresh()
+            }else {
+                requestWifiDetails()
+                fetchPasswordApi()
+                requestDevices()
             }
-            requestWifiDetails()
-            fetchPasswordApi()
-            requestDevices()
         }
-        progressViewFlow.latestValue = false
     }
 
     /**
@@ -239,7 +240,6 @@ class DashboardViewModel @Inject constructor(
                 isAccountActive = false
                 isAccountStatus.latestValue = isAccountActive
                 requestAppointmentDetails()
-                progressViewFlow.latestValue = false
                 if (installationStatus) {
                     initDevicesApis(false)
                 }
@@ -501,7 +501,6 @@ class DashboardViewModel @Inject constructor(
      * Request wifi details
      */
     private suspend fun requestWifiDetails() {
-        progressViewFlow.latestValue = true
         val modemResponse = oAuthAssiaRepository.getModemInfo()
         modemResponse.fold(ifRight =
         {
@@ -513,7 +512,6 @@ class DashboardViewModel @Inject constructor(
                 ssidMap = modemInfo.ssidMap
                 bssidMap = modemInfo.bssidMap
             }
-            progressViewFlow.latestValue = false
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_WIFI_LIST_AND_CREDENTIALS_FAILURE)
             errorMessageFlow.latestValue = "Error WifiInfo"
@@ -541,6 +539,7 @@ class DashboardViewModel @Inject constructor(
                     }
                 }
             }
+            progressViewFlow.latestValue =false
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
