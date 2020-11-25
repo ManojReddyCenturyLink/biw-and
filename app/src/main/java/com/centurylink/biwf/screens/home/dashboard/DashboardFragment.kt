@@ -214,14 +214,17 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 }
             }
         }
-        dashboardViewModel.isExistingUser.observe {
-            binding.feedbackButton.visibility = if (it) View.VISIBLE else View.GONE
-        }
         initButtonStates()
         initOnClicks()
         observeEnableDisableDialogs()
         dashboardViewModel.myState.observeWith(dashboardCoordinator)
         return binding.root
+    }
+
+    private fun setFeedbackButtonVisibility() {
+        dashboardViewModel.isExistingUser.observe {
+            binding.feedbackButton.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     private fun observeEnableDisableDialogs() {
@@ -343,6 +346,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
             }
         }
+        setFeedbackButtonVisibility()
     }
 
     /**
@@ -354,6 +358,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         binding.layoutNetworkList.rootView.network_status.visibility = View.GONE
         binding.layoutNetworkList.rootView.tap_to_edit_network.visibility = View.GONE
         binding.layoutNetworkList.rootView.view_divider.visibility = View.GONE
+        setFeedbackButtonVisibility()
     }
 
     /**
