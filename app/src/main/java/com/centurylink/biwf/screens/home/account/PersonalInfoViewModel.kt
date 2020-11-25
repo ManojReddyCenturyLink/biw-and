@@ -165,6 +165,10 @@ class PersonalInfoViewModel @Inject constructor(
             errors["mobileNumberError"] = "mobileNumberError"
             errors["fieldMandatory"] = "fieldMandatory"
         }
+        if (phoneNumberValue.length <12 ) {
+            errors["mobileNumberError"] = "mobileNumberError"
+            errors["mobileNumberLength"] = "mobileNumberLength"
+        }
         if (passwordValue.isEmpty()) {
             errors["passwordError"] = "passwordError"
             errors["fieldMandatory"] = "fieldMandatory"
