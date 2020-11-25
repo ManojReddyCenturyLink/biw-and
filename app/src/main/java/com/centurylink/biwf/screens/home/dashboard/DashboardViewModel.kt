@@ -143,8 +143,8 @@ class DashboardViewModel @Inject constructor(
                 initModemStatusRefresh()
             } else {
                 requestWifiDetails()
-                fetchPasswordApi()
                 requestDevices()
+                fetchPasswordApi()
             }
         }
     }
@@ -170,8 +170,8 @@ class DashboardViewModel @Inject constructor(
     /**
      * Fetch password api
      */
-    private fun fetchPasswordApi() {
-        viewModelScope.launch {
+    private suspend fun fetchPasswordApi() {
+
             // Fetching Password for Regular Network
             if (ssidMap.containsKey(NetWorkBand.Band2G.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band2G)
@@ -184,7 +184,6 @@ class DashboardViewModel @Inject constructor(
             } else if (ssidMap.containsKey(NetWorkBand.Band2G_Guest4.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band2G_Guest4)
             }
-        }
     }
 
     /**
