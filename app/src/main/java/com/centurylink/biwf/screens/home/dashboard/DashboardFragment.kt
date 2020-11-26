@@ -36,6 +36,7 @@ import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.centurylink.biwf.widgets.CustomNetworkInfoDialogGreyTheme
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
@@ -136,10 +137,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     ): View? {
         binding = FragmentDashboardBinding.inflate(inflater)
         setApiProgressViews(
-                binding.dashboardViews,
-                binding.progressOverlay.root,
-                binding.retryOverlay.retryViewLayout,
-                binding.retryOverlay.root
+            binding.dashboardViews,
+            binding.progressOverlay.root,
+            binding.retryOverlay.retryViewLayout,
+            binding.retryOverlay.root
         )
 
         dashboardViewModel.apply {
@@ -151,11 +152,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             cancelAppointmentError.observe {
                 CustomDialogBlueTheme(
-                        getString(R.string.error_title),
-                        it,
-                        getString(R.string.ok),
-                        true,
-                        ::onErrorDialogCallback
+                    getString(R.string.error_title),
+                    it,
+                    getString(R.string.ok),
+                    true,
+                    ::onErrorDialogCallback
                 ).show(fragManager!!, DashboardFragment::class.simpleName)
             }
             downloadSpeed.observe {
@@ -171,28 +172,31 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 binding.connectedDevicesCard.devicesConnectedNo.text = it
             }
             progressVisibility.observe {
-                binding.incSpeedTest.uploadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
-                binding.incSpeedTest.downloadSpeed.visibility = if (it) View.INVISIBLE else View.VISIBLE
+                binding.incSpeedTest.uploadSpeed.visibility =
+                    if (it) View.INVISIBLE else View.VISIBLE
+                binding.incSpeedTest.downloadSpeed.visibility =
+                    if (it) View.INVISIBLE else View.VISIBLE
                 binding.incSpeedTest.downloadProgressIcon.visibility =
-                        if (it) View.VISIBLE else View.INVISIBLE
+                    if (it) View.VISIBLE else View.INVISIBLE
                 binding.incSpeedTest.uploadProgressIcon.visibility =
-                        if (it) View.VISIBLE else View.INVISIBLE
+                    if (it) View.VISIBLE else View.INVISIBLE
             }
             speedTestError.observe {
                 if (it) {
                     CustomDialogBlueTheme(
-                            title = getString(R.string.speed_test_error_title),
-                            message = getString(R.string.speed_test_error_message),
-                            buttonText = getString(R.string.ok),
-                            isErrorPopup = true,
-                            callback = ::onErrorDialogCallback
+                        title = getString(R.string.speed_test_error_title),
+                        message = getString(R.string.speed_test_error_message),
+                        buttonText = getString(R.string.ok),
+                        isErrorPopup = true,
+                        callback = ::onErrorDialogCallback
                     ).show(fragManager!!, DashboardFragment::class.simpleName)
                 }
             }
             speedTestButtonState.observe { speedTestButtonState ->
                 dashboardViewModel.networkStatus.observe { networkStatusOnline ->
                     if (networkStatusOnline) {
-                        binding.incSpeedTest.runSpeedTestDashboard.isActivated = speedTestButtonState
+                        binding.incSpeedTest.runSpeedTestDashboard.isActivated =
+                            speedTestButtonState
                         binding.incSpeedTest.runSpeedTestDashboard.isEnabled = speedTestButtonState
                     } else {
                         binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
@@ -382,7 +386,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun initOnClicks() {
         binding.incSpeedTest.runSpeedTestDashboard.setOnClickListener {
             dashboardViewModel.startSpeedTest(
-                    true
+                true
             )
         }
         binding.incScheduled.appointmentChangeBtn.setOnClickListener { dashboardViewModel.getChangeAppointment() }
@@ -432,37 +436,39 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * Enroute on map ready callback - It will handle the enroute state map call back listeners
      */
     private var enrouteOnMapReadyCallback: OnMapReadyCallback =
-            OnMapReadyCallback { googleMap ->
-                googleMap ?: return@OnMapReadyCallback
-                with(googleMap) {
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
-                    addMarker(
-                            MarkerOptions().position(originLatLng)
-                                    .icon(bitMapFromVector(R.drawable.purple_marker))
-                    )
-                    /*We’re not going to be getting technician values until after MVP, so commenting for now
-                    addMarker(
-                        MarkerOptions().position(destinationLatLng)
-                            .icon(bitMapFromVector(R.drawable.light_blue_marker))
-                    )*/
-                    animateCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 10f))
-                }
+        OnMapReadyCallback { googleMap ->
+            googleMap ?: return@OnMapReadyCallback
+            with(googleMap) {
+                setupMapControls(this)
+                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
+                addMarker(
+                    MarkerOptions().position(originLatLng)
+                        .icon(bitMapFromVector(R.drawable.purple_marker))
+                )
             }
+        }
+
+    private fun setupMapControls(map: GoogleMap) {
+        map.uiSettings.isZoomControlsEnabled = true
+        map.uiSettings.isZoomGesturesEnabled = true
+        map.uiSettings.isCompassEnabled = true
+    }
 
     /**
      * Map ready callback It will handle the map call back listeners
      */
     private var mOnMapReadyCallback: OnMapReadyCallback =
-            OnMapReadyCallback { googleMap ->
-                googleMap ?: return@OnMapReadyCallback
-                with(googleMap) {
-                    moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
-                    addMarker(
-                            MarkerOptions().position(originLatLng)
-                                    .icon(bitMapFromVector(R.drawable.light_blue_marker))
-                    )
-                }
+        OnMapReadyCallback { googleMap ->
+            googleMap ?: return@OnMapReadyCallback
+            with(googleMap) {
+                setupMapControls(this)
+                moveCamera(CameraUpdateFactory.newLatLngZoom(originLatLng, 16.0f))
+                addMarker(
+                    MarkerOptions().position(originLatLng)
+                        .icon(bitMapFromVector(R.drawable.light_blue_marker))
+                )
             }
+        }
 
     /**
      * Get appointment status - It will get appointment status info
@@ -490,9 +496,9 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     incScheduled.visibility = View.VISIBLE
                     if (it.jobType.contains(HomeViewModel.intsall)) {
                         incScheduled.schedule_appointment_status_title.text =
-                                resources.getString(R.string.fiber_installation_status)
+                            resources.getString(R.string.fiber_installation_status)
                         incScheduled.schedule_appointment_status_progress_state.text =
-                                resources.getString(R.string.installation_scheduled)
+                            resources.getString(R.string.installation_scheduled)
                         binding.connectedDevicesCard.root.visibility = View.GONE
                         dashboardViewModel.clearNotificationStatus(ServiceStatus.SCHEDULED.name)
                         if (dashboardViewModel.readNotificationStatus(ServiceStatus.SCHEDULED.name)) {
@@ -503,21 +509,21 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                         binding.layoutNetworkList.visibility = View.GONE
                     } else {
                         incScheduled.schedule_appointment_status_title.text =
-                                resources.getString(R.string.service_appointment_status)
+                            resources.getString(R.string.service_appointment_status)
                         incScheduled.schedule_appointment_status_progress_state.text =
-                                resources.getString(R.string.service_appointment_scheduled)
+                            resources.getString(R.string.service_appointment_scheduled)
                         incScheduled.incWelcomeCard.visibility = View.GONE
                         displayDashboardUI()
                     }
                 }
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_date.text =
-                        it.serviceAppointmentDate
+                    it.serviceAppointmentDate
                 incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text =
-                        getString(
-                                R.string.text_time_details,
-                                it.serviceAppointmentStartTime,
-                                it.serviceAppointmentEndTime
-                        )
+                    getString(
+                        R.string.text_time_details,
+                        it.serviceAppointmentStartTime,
+                        it.serviceAppointmentEndTime
+                    )
                 incScheduled.incWelcomeCard.msg_dismiss_button.setOnClickListener {
                     dashboardViewModel.logDismissNotification(ServiceStatus.SCHEDULED.name)
                     incScheduled.incWelcomeCard.visibility = View.GONE
@@ -526,26 +532,26 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
                 originLatLng =
-                        LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
+                    LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
                 setupEnrouteMap()
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incEnroute.enroute_appointment_status_title.text =
-                            resources.getString(R.string.fiber_installation_status)
+                        resources.getString(R.string.fiber_installation_status)
                     incEnroute.incEnrouteCard.msg.text =
-                            resources.getString(R.string.enroute_notification_message)
+                        resources.getString(R.string.enroute_notification_message)
                     binding.connectedDevicesCard.root.visibility = View.GONE
                     binding.layoutNetworkList.visibility = View.GONE
                 } else {
                     incEnroute.enroute_appointment_status_title.text =
-                            resources.getString(R.string.service_appointment_status)
+                        resources.getString(R.string.service_appointment_status)
                     incEnroute.incEnrouteCard.msg.text =
-                            resources.getString(R.string.service_appointment_enroute_notification_message)
+                        resources.getString(R.string.service_appointment_enroute_notification_message)
                     displayDashboardUI()
                 }
                 incEnroute.enroute_technician_name.text = it.serviceEngineerName
                 incEnroute.enroute_appointment_time.text = it.serviceAppointmentTime
                 incEnroute.incEnrouteCard.title.text =
-                        resources.getString(R.string.technician_on_the_way)
+                    resources.getString(R.string.technician_on_the_way)
                 dashboardViewModel.clearNotificationStatus(ServiceStatus.EN_ROUTE.name)
                 if (dashboardViewModel.readNotificationStatus(ServiceStatus.EN_ROUTE.name)) {
                     incEnroute.incEnrouteCard.visibility = View.GONE
@@ -567,33 +573,33 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
                 originLatLng =
-                        LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
+                    LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
                 setupWorkBegunMap()
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incWorkBegun.work_begun_appointment_status_title.text =
-                            resources.getString(R.string.fiber_installation_status)
+                        resources.getString(R.string.fiber_installation_status)
                     incWorkBegun.work_begun_appointment_status_progress_state.text =
-                            resources.getString(R.string.installation_underway)
+                        resources.getString(R.string.installation_underway)
                     incWorkBegun.incWipCard.msg.text =
-                            resources.getString(R.string.work_begun_message)
+                        resources.getString(R.string.work_begun_message)
                     incWorkBegun.work_begun_appointment_text.text =
-                            resources.getString(R.string.is_setting_up_your_network_now)
+                        resources.getString(R.string.is_setting_up_your_network_now)
                     binding.connectedDevicesCard.root.visibility = View.GONE
                     binding.layoutNetworkList.visibility = View.GONE
                 } else {
                     incWorkBegun.work_begun_appointment_status_title.text =
-                            resources.getString(R.string.service_appointment_status)
+                        resources.getString(R.string.service_appointment_status)
                     incWorkBegun.work_begun_appointment_status_progress_state.text =
-                            resources.getString(R.string.service_underway)
+                        resources.getString(R.string.service_underway)
                     incWorkBegun.incWipCard.msg.text =
-                            resources.getString(R.string.service_appointment_work_begun_message)
+                        resources.getString(R.string.service_appointment_work_begun_message)
                     incWorkBegun.work_begun_appointment_text.text =
-                            resources.getString(R.string.is_working_now)
+                        resources.getString(R.string.is_working_now)
                     displayDashboardUI()
                 }
                 incWorkBegun.work_begun_technician_name.text = it.serviceEngineerName
                 incWorkBegun.incWipCard.title.text =
-                        resources.getString(R.string.work_in_progress)
+                    resources.getString(R.string.work_in_progress)
                 dashboardViewModel.clearNotificationStatus(ServiceStatus.WORK_BEGUN.name)
                 if (dashboardViewModel.readNotificationStatus(ServiceStatus.WORK_BEGUN.name)) {
                     incWorkBegun.incWipCard.visibility = View.GONE
@@ -617,11 +623,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 val appointmentNumber = it.appointmentNumber
                 if (it.jobType.contains(HomeViewModel.intsall)) {
                     incCompleted.installation_complete_title.text =
-                            resources.getString(R.string.installation_complete)
+                        resources.getString(R.string.installation_complete)
                     incCompleted.you_are_all_set_msg.text =
-                            resources.getString(R.string.the_network_is_ready_for_you_to_connect_and_start_enjoying_your_blazing_fast_internet)
+                        resources.getString(R.string.the_network_is_ready_for_you_to_connect_and_start_enjoying_your_blazing_fast_internet)
                     incCompleted.get_started_btn.text =
-                            resources.getString(R.string.get_started)
+                        resources.getString(R.string.get_started)
                     binding.incCompleted.getStartedBtn.setOnClickListener {
                         incCompleted.visibility = View.GONE
                         dashboardViewModel.getStartedClicked(appointmentNumber)
@@ -631,11 +637,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                     binding.layoutNetworkList.visibility = View.GONE
                 } else {
                     incCompleted.installation_complete_title.text =
-                            resources.getString(R.string.service_appointment_status_complete)
+                        resources.getString(R.string.service_appointment_status_complete)
                     incCompleted.you_are_all_set_msg.text =
-                            resources.getString(R.string.service_appointment_all_set_status)
+                        resources.getString(R.string.service_appointment_all_set_status)
                     incCompleted.get_started_btn.text =
-                            resources.getString(R.string.dismiss)
+                        resources.getString(R.string.dismiss)
                     binding.incCompleted.getStartedBtn.setOnClickListener {
                         incCompleted.visibility = View.GONE
                         dashboardViewModel.getStartedClicked(appointmentNumber)
@@ -652,8 +658,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
                 binding.incCanceled.youAreAllSetMsg.text = getString(
-                        R.string.cancellation_query_contact_details,
-                        BuildConfig.MOBILE_NUMBER
+                    R.string.cancellation_query_contact_details,
+                    BuildConfig.MOBILE_NUMBER
                 )
                 dashboardViewModel.clearNotificationStatus(ServiceStatus.CANCELED.name)
                 if (it.jobType.contains(HomeViewModel.intsall)) {
@@ -732,15 +738,15 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private fun bitMapFromVector(vectorResID: Int): BitmapDescriptor {
         val vectorDrawable = ContextCompat.getDrawable(context!!, vectorResID)
         vectorDrawable!!.setBounds(
-                0,
-                0,
-                vectorDrawable.intrinsicWidth,
-                vectorDrawable.intrinsicHeight
+            0,
+            0,
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight
         )
         val bitmap = Bitmap.createBitmap(
-                vectorDrawable.intrinsicWidth,
-                vectorDrawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
+            vectorDrawable.intrinsicWidth,
+            vectorDrawable.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
         )
         val canvas = Canvas(bitmap)
         vectorDrawable.draw(canvas)
@@ -761,7 +767,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     private fun initWifiScanViews() {
         binding.wifiScanList.layoutManager =
-                LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
     }
 
     /**
@@ -769,11 +775,11 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     private fun showCancellationConfirmationDialog(msg: String) {
         CustomDialogGreyTheme(
-                getString(R.string.installation_cancellation_confirmation_title),
-                msg,
-                getString(R.string.cancel_it),
-                getString(R.string.keep_it),
-                ::onDialogCallback
+            getString(R.string.installation_cancellation_confirmation_title),
+            msg,
+            getString(R.string.cancel_it),
+            getString(R.string.keep_it),
+            ::onDialogCallback
         ).show(fragManager!!, DashboardFragment::class.simpleName)
     }
 
@@ -926,28 +932,28 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
                 dialogViewbinding.popupTitle.text = getString(R.string.enabling_wifi_network)
                 dialogViewbinding.popupMessage.text =
-                        getString(R.string.the_network_will_be_fully_enabled)
+                    getString(R.string.the_network_will_be_fully_enabled)
             }
             DashboardViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_DISABLE_IN_PROGRESS -> {
                 dialogViewbinding.popupTitle.text = getString(R.string.disabling_wifi_network)
                 dialogViewbinding.popupMessage.text =
-                        getString(R.string.the_network_will_be_fully_disabled)
+                    getString(R.string.the_network_will_be_fully_disabled)
             }
             DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_ENABLE_IN_PROGRESS -> {
                 dialogViewbinding.popupTitle.text = getString(R.string.enabling_guest_network)
                 dialogViewbinding.popupMessage.text =
-                        getString(R.string.the_network_will_be_fully_enabled)
+                    getString(R.string.the_network_will_be_fully_enabled)
             }
             DashboardViewModel.Companion.NetworkEnableDisableEventType.GUEST_WIFI_DISABLE_IN_PROGRESS -> {
                 dialogViewbinding.popupTitle.text = getString(R.string.disabling_guest_network)
                 dialogViewbinding.popupMessage.text =
-                        getString(R.string.the_network_will_be_fully_disabled)
+                    getString(R.string.the_network_will_be_fully_disabled)
             }
         }
         enableDisableProgressDialog = AlertDialog.Builder(context!!)
-                .setView(dialogViewbinding.root)
-                .setCancelable(false)
-                .create()
+            .setView(dialogViewbinding.root)
+            .setCancelable(false)
+            .create()
         enableDisableProgressDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     }
 
@@ -971,13 +977,13 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
         }
         CustomNetworkInfoDialogGreyTheme(
-                message,
-                getString(R.string.try_again_later),
-                getString(R.string.modem_reboot_error_button_positive),
-                getString(R.string.cancel),
-                ::onEnableDisableCallback
+            message,
+            getString(R.string.try_again_later),
+            getString(R.string.modem_reboot_error_button_positive),
+            getString(R.string.cancel),
+            ::onEnableDisableCallback
         )
-                .show(fragManager!!, NetworkStatusActivity::class.simpleName)
+            .show(fragManager!!, NetworkStatusActivity::class.simpleName)
     }
 
     /**

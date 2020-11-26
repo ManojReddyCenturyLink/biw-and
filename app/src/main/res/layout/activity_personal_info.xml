@@ -294,4 +294,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/barrierPhoneNumberField"
         tools:ignore="LabelFor" />
+
+    <TextView
+        android:id="@+id/personal_info_phone_number_invalid_error"
+        style="@style/ErrorFields"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/phone_number_invalid"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_marginTop="@dimen/spacing_4"
+        app:layout_constraintTop_toBottomOf="@id/personal_info_phone_number_input"
+        app:layout_constraintStart_toStartOf="@id/personal_info_confirm_password_input"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -131,9 +131,11 @@ class PersonalInfoActivity : BaseActivity() {
                     R.drawable.background_thin_border
                 )
             binding.personalInfoPhoneNumberInput.background =
-                if (it.containsKey("mobileNumberError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                if ((it.containsKey("mobileNumberError")) || (it.containsKey("mobileNumberLengthError"))) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
                     R.drawable.background_thin_border
                 )
+            binding.personalInfoPhoneNumberInvalidError.visibility =
+                if (it.containsKey("mobileNumberLengthError")) View.VISIBLE else View.GONE
         }
         viewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
