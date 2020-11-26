@@ -134,14 +134,18 @@ class DashboardViewModel @Inject constructor(
      * Init devices apis
      */
     fun initDevicesApis(callAccountDetails: Boolean) {
-        progressViewFlow.latestValue = true
+        if (callAccountDetails) {
+            progressViewFlow.latestValue = true
+        }
         viewModelScope.launch {
             if (callAccountDetails) {
                 initAccountDetails()
+                initModemStatusRefresh()
+            } else {
+                requestWifiDetails()
+                requestDevices()
+                fetchPasswordApi()
             }
-            requestWifiDetails()
-            fetchPasswordApi()
-            requestDevices()
         }
     }
 
@@ -166,8 +170,8 @@ class DashboardViewModel @Inject constructor(
     /**
      * Fetch password api
      */
-    private fun fetchPasswordApi() {
-        viewModelScope.launch {
+    private suspend fun fetchPasswordApi() {
+
             // Fetching Password for Regular Network
             if (ssidMap.containsKey(NetWorkBand.Band2G.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band2G)
@@ -180,7 +184,6 @@ class DashboardViewModel @Inject constructor(
             } else if (ssidMap.containsKey(NetWorkBand.Band2G_Guest4.name)) {
                 requestToGetNetworkPassword(NetWorkBand.Band2G_Guest4)
             }
-        }
     }
 
     /**
@@ -242,7 +245,6 @@ class DashboardViewModel @Inject constructor(
             } else {
                 isAccountActive = true
                 requestAppointmentDetails()
-                progressViewFlow.latestValue = false
             }
         }
     }
@@ -389,10 +391,8 @@ class DashboardViewModel @Inject constructor(
      * Request appointment details
      */
     private suspend fun requestAppointmentDetails() {
-        progressViewFlow.latestValue = true
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
-            progressViewFlow.latestValue = false
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_FAILURE)
             if (it.equals("No Appointment Records", ignoreCase = true)) {
                 refresh = false
@@ -402,7 +402,6 @@ class DashboardViewModel @Inject constructor(
         }) {
             sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_APPOINTMENT_INFO_SUCCESS)
-            progressViewFlow.latestValue = false
             cancellationDetails = mockInstanceforCancellation(it)
             resetAppointment()
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
@@ -450,12 +449,10 @@ class DashboardViewModel @Inject constructor(
      * Recurring appointment call
      */
     private suspend fun recurringAppointmentCall() {
-        progressViewFlow.latestValue = true
         val appointmentDetails = appointmentRepository.getAppointmentInfo()
         appointmentDetails.fold(ifLeft = {
             Timber.i("Error in Appointments")
         }) {
-            progressViewFlow.latestValue = false
             sharedPreferences.saveAppointmentNumber(it.appointmentNumber)
             cancellationDetails = mockInstanceforCancellation(it)
             refresh = !(it.serviceStatus?.name.equals(ServiceStatus.CANCELED.name) ||
@@ -541,6 +538,7 @@ class DashboardViewModel @Inject constructor(
                     }
                 }
             }
+            progressViewFlow.latestValue = false
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
@@ -585,11 +583,9 @@ class DashboardViewModel @Inject constructor(
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_SUCCESS)
             val connectedList = deviceList.filter { !it.blocked }.distinct()
             connectedDevicesNumber.latestValue = connectedList.size.toString()
-            progressViewFlow.latestValue = false
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
             errorMessageFlow.latestValue = "Error DeviceInfo"
-            progressViewFlow.latestValue = false
         })
     }
 
