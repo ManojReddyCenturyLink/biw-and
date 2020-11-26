@@ -39,6 +39,7 @@ class DevicesViewModel @Inject constructor(
     private var devicesDataList: MutableList<DevicesData> = mutableListOf()
     private var isModemAlive: Boolean = false
     var updateDevicesListFlow: EventFlow<UIDevicesTypeDetails> = EventFlow()
+    val errorMsg = "Error DeviceInfo"
 
     init {
         initApis()
@@ -90,7 +91,7 @@ class DevicesViewModel @Inject constructor(
             devicesDataList = it as MutableList<DevicesData>
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DEVICES_DETAILS_FAILURE)
-            errorMessageFlow.latestValue = "Error DeviceInfo"
+            errorMessageFlow.latestValue = errorMsg
         })
     }
 
@@ -245,10 +246,6 @@ class DevicesViewModel @Inject constructor(
 //        if (!removedList.isNullOrEmpty()) {
 //            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
 //        }
-// TODO: Commenting code for future reference, currently remove devices api is not working.
-//        if (!removedList.isNullOrEmpty()) {
-//            deviceMap[DeviceStatus.BLOCKED] = removedList as MutableList<DevicesData>
-//        }
         uiDevicesTypeDetails = uiDevicesTypeDetails.copy(deviceSortMap = deviceMap)
         devicesListFlow.latestValue = uiDevicesTypeDetails
     }
@@ -269,7 +266,7 @@ class DevicesViewModel @Inject constructor(
             }
         }, ifLeft = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_MODEM_INFO_FAILURE)
-            errorMessageFlow.latestValue = "Error DeviceInfo"
+            errorMessageFlow.latestValue = errorMsg
         })
     }
 
@@ -282,7 +279,7 @@ class DevicesViewModel @Inject constructor(
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.UNBLOCK_DEVICE_FAILURE)
-                errorMessageFlow.latestValue = "Error DeviceInfo"
+                errorMessageFlow.latestValue = errorMsg
             })
         progressViewFlow.latestValue = false
     }

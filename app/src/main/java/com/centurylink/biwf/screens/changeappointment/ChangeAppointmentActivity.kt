@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.widget.Button
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -368,20 +367,6 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         }
         calendarFragment.setDisableDates(date)
         calendarFragment.refreshView()
-    }
-
-    /**
-     * Disable navigation arrow - It is used to disable month arrow for which slots are not
-     * available
-     *
-     * @param arrowButton - It returns button pressed to not Clickable
-     */
-    /*Function to disable month arrow for which slots are not available*/
-    private fun disableNavigationArrow(
-        arrowButton: Button?
-    ) {
-        arrowButton?.background = getDrawable(R.drawable.ic_blue_back_navigation)
-        arrowButton?.isClickable = false
     }
 
     /**
