@@ -40,6 +40,10 @@ android {
         buildConfigField "String", "MOBILE_NUMBER", "\"$parsedJson.MOBILE_NUMBER\""
         buildConfigField "String", "AUTH_TOKEN_KEY", "\"$parsedJson.encryptionKeys.AUTH_TOKEN_KEY\""
         buildConfigField "String", "MASTER_KEY", "\"$parsedJson.encryptionKeys.MASTER_KEY\""
+        buildConfigField "String", "ANDROID_KEY_STORE", "\"$parsedJson.encryptionKeys.ANDROID_KEY_STORE\""
+        buildConfigField "String", "KEY_ALIAS", "\"$parsedJson.encryptionKeys.KEY_ALIAS\""
+        buildConfigField "String", "KEY_STORE_FILE_NAME", "\"$parsedJson.encryptionKeys.KEY_STORE_FILE_NAME\""
+        buildConfigField "String", "KEY_STORE_PASSWORD", "\"$parsedJson.encryptionKeys.KEY_STORE_PASSWORD\""
         // Google Maps
         manifestPlaceholders = [mapsApiKey: parsedJson.MAP_API_KEY]
     }
