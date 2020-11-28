@@ -205,10 +205,8 @@ class PersonalInfoActivity : BaseActivity() {
      *
      */
     private fun validateInfoAndUpdatePassword() {
-        val errors = viewModel.validateInput()
-        if (!errors.hasErrors()) {
-            viewModel.callUpdatePasswordApi()
-        }
+        viewModel.validateInput()
+        viewModel.callUpdatePasswordApi()
     }
 
     /**
