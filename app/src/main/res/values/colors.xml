@@ -27,4 +27,12 @@
     <color name="background_purple">#40503296</color>
     <color name="mango">#ffb464</color>
     <color name="error_red">#d54848</color>
+
+     <!--Salesforce Brand Color-->
+    <color name="salesforce_brand_primary">@color/purple</color>
+    <color name="salesforce_brand_secondary">@color/purple</color>
+    <color name="salesforce_contrast_inverted">@android:color/white</color>
+    <color name="salesforce_contrast_primary">@color/purple</color>
+    <color name="salesforce_brand_contrast">@android:color/white</color>
+    <color name="salesforce_toolbar_inverted">@color/purple</color>
 </resources>
