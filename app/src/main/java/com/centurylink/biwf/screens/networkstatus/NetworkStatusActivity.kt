@@ -152,7 +152,8 @@ class NetworkStatusActivity : BaseActivity() {
                 bindings.networkStatusWifiImage.setImageDrawable(getDrawable(it.statusIcon))
                 bindings.networkStatusWifiButtonActionText.text =
                     getString(it.networkStatusSubText)
-                bindings.networkStatusGuestButtonText.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusWifiButtonText.isEnabled = it.isNetworkEnabled
+                bindings.networkStatusWifiImage.isActivated = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.isEnabled = it.isNetworkEnabled
                 bindings.networkStatusWifiNameInput.setText(it.netWorkName)
                 bindings.networkStatusWifiPasswordInput.isEnabled = it.isNetworkEnabled
