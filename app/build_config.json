@@ -3,7 +3,11 @@
   "MOBILE_NUMBER": "833-250-6306",
   "encryptionKeys": {
     "AUTH_TOKEN_KEY": "authorizationKey",
-    "MASTER_KEY": "MASTER_KEY"
+    "MASTER_KEY": "MASTER_KEY",
+    "ANDROID_KEY_STORE": "AndroidKeyStore",
+    "KEY_ALIAS": "KEY_ALIAS",
+    "KEY_STORE_FILE_NAME": "KEY_STORE",
+    "KEY_STORE_PASSWORD": "KEY_STORE_PASSWORD"
   },
   "productFlavors": {
     "dev": {

@@ -50,8 +50,10 @@ class PersonalInfoViewModel @Inject constructor(
     fun callUpdatePasswordApi() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_PERSONAL_INFO)
         viewModelScope.launch {
-            val res = userRepository.resetPassWord(passwordValue)
-            userPasswordFlow.latestValue = res
+            if (passwordValue.isNotEmpty()) {
+                val res = userRepository.resetPassWord(passwordValue)
+                userPasswordFlow.latestValue = res
+            }
         }
     }
 

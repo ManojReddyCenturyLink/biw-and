@@ -135,117 +135,16 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDashboardBinding.inflate(inflater)
-        setApiProgressViews(
-            binding.dashboardViews,
-            binding.progressOverlay.root,
-            binding.retryOverlay.retryViewLayout,
-            binding.retryOverlay.root
-        )
-
-        dashboardViewModel.apply {
-            progressViewFlow.observe {
-                showProgress(it)
-            }
-            errorMessageFlow.observe {
-                showRetry(it.isNotEmpty())
-            }
-            cancelAppointmentError.observe {
-                CustomDialogBlueTheme(
-                    getString(R.string.error_title),
-                    it,
-                    getString(R.string.ok),
-                    true,
-                    ::onErrorDialogCallback
-                ).show(fragManager!!, DashboardFragment::class.simpleName)
-            }
-            downloadSpeed.observe {
-                binding.incSpeedTest.downloadSpeed.text = it
-            }
-            uploadSpeed.observe {
-                binding.incSpeedTest.uploadSpeed.text = it
-            }
-            latestSpeedTest.observe {
-                binding.incSpeedTest.lastSpeedTestTime.text = it
-            }
-            connectedDevicesNumber.observe {
-                binding.connectedDevicesCard.devicesConnectedNo.text = it
-            }
-            progressVisibility.observe {
-                binding.incSpeedTest.uploadSpeed.visibility =
-                    if (it) View.INVISIBLE else View.VISIBLE
-                binding.incSpeedTest.downloadSpeed.visibility =
-                    if (it) View.INVISIBLE else View.VISIBLE
-                binding.incSpeedTest.downloadProgressIcon.visibility =
-                    if (it) View.VISIBLE else View.INVISIBLE
-                binding.incSpeedTest.uploadProgressIcon.visibility =
-                    if (it) View.VISIBLE else View.INVISIBLE
-            }
-            speedTestError.observe {
-                if (it) {
-                    CustomDialogBlueTheme(
-                        title = getString(R.string.speed_test_error_title),
-                        message = getString(R.string.speed_test_error_message),
-                        buttonText = getString(R.string.ok),
-                        isErrorPopup = true,
-                        callback = ::onErrorDialogCallback
-                    ).show(fragManager!!, DashboardFragment::class.simpleName)
-                }
-            }
-            speedTestButtonState.observe { speedTestButtonState ->
-                dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-                    if (networkStatusOnline) {
-                        binding.incSpeedTest.runSpeedTestDashboard.isActivated =
-                            speedTestButtonState
-                        binding.incSpeedTest.runSpeedTestDashboard.isEnabled = speedTestButtonState
-                    } else {
-                        binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
-                        binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                    }
-                }
-            }
-            detailedRebootStatusFlow.observe { rebootState ->
-                if (rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
-                            binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
-                            binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                }
-            }
-            myState.observeWith(dashboardCoordinator)
-        }
+        setupAndObserveProgressView()
+        observeErrorMessages()
+        observeSpeedTestViews()
+        observeModemRebootState()
+        observeConnectedDevicesNumber()
+        dashboardViewModel.myState.observeWith(dashboardCoordinator)
         initButtonStates()
         initOnClicks()
         observeEnableDisableDialogs()
         return binding.root
-    }
-
-    private fun setFeedbackButtonVisibility() {
-        dashboardViewModel.isExistingUser.observe {
-            binding.feedbackButton.visibility = if (it) View.VISIBLE else View.GONE
-        }
-    }
-
-    private fun observeEnableDisableDialogs() {
-        dashboardViewModel.apply {
-            dialogEnableDisableError.observe {
-                if (it) {
-                    if (enableDisableProgressDialog.isShowing) {
-                        enableDisableProgressDialog.dismiss()
-                    }
-                    showEnablingDisablingErrorPopUp()
-                }
-            }
-            dialogEnableDisableProgress.observe {
-                if (it) {
-                    showEnablingDisablingPopUp()
-                    if (!enableDisableProgressDialog.isShowing) {
-                        enableDisableProgressDialog.show()
-                    }
-                } else {
-                    if (enableDisableProgressDialog.isShowing) {
-                        enableDisableProgressDialog.dismiss()
-                    }
-                }
-            }
-        }
     }
 
     /**
@@ -283,6 +182,159 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         observeAccountStatusViews()
         observeWifiDetailsViews()
         getAppointmentStatus()
+    }
+
+    /**
+     * Observe connected devices number - It will observe the connected devices number
+     */
+    private fun observeConnectedDevicesNumber() {
+        dashboardViewModel.connectedDevicesNumber.observe {
+            binding.connectedDevicesCard.devicesConnectedNo.text = it
+        }
+    }
+
+    /**
+     * Observe Modem reboot state - It will observe Modem reboot state
+     */
+    private fun observeModemRebootState() {
+        dashboardViewModel.apply {
+            detailedRebootStatusFlow.observe { rebootState ->
+                if (rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
+                    dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+                        if (networkStatusOnline) {
+                            binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                            binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                        } else {
+                            binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                            binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Observe Speed test views - It will observe the speed test views, speed test progress views and speed test button
+     */
+    private fun observeSpeedTestViews() {
+        dashboardViewModel.apply {
+            downloadSpeed.observe {
+                binding.incSpeedTest.downloadSpeed.text = it
+            }
+            uploadSpeed.observe {
+                binding.incSpeedTest.uploadSpeed.text = it
+            }
+            latestSpeedTest.observe {
+                binding.incSpeedTest.lastSpeedTestTime.text = it
+            }
+            progressVisibility.observe {
+                binding.incSpeedTest.uploadSpeed.visibility =
+                        if (it) View.INVISIBLE else View.VISIBLE
+                binding.incSpeedTest.downloadSpeed.visibility =
+                        if (it) View.INVISIBLE else View.VISIBLE
+                binding.incSpeedTest.downloadProgressIcon.visibility =
+                        if (it) View.VISIBLE else View.INVISIBLE
+                binding.incSpeedTest.uploadProgressIcon.visibility =
+                        if (it) View.VISIBLE else View.INVISIBLE
+            }
+            speedTestButtonState.observe { speedTestButtonState ->
+                dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+                    if (networkStatusOnline) {
+                        binding.incSpeedTest.runSpeedTestDashboard.isActivated =
+                                speedTestButtonState
+                        binding.incSpeedTest.runSpeedTestDashboard.isEnabled = speedTestButtonState
+                    } else {
+                        binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                        binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Observe Error messages - It will observe the error messages
+     */
+    private fun observeErrorMessages() {
+        dashboardViewModel.apply {
+            errorMessageFlow.observe {
+                showRetry(it.isNotEmpty())
+            }
+            cancelAppointmentError.observe {
+                CustomDialogBlueTheme(
+                        getString(R.string.error_title),
+                        it,
+                        getString(R.string.ok),
+                        true,
+                        ::onErrorDialogCallback
+                ).show(fragManager!!, DashboardFragment::class.simpleName)
+            }
+            speedTestError.observe {
+                if (it) {
+                    CustomDialogBlueTheme(
+                            title = getString(R.string.speed_test_error_title),
+                            message = getString(R.string.speed_test_error_message),
+                            buttonText = getString(R.string.ok),
+                            isErrorPopup = true,
+                            callback = ::onErrorDialogCallback
+                    ).show(fragManager!!, DashboardFragment::class.simpleName)
+                }
+            }
+        }
+    }
+
+    /**
+     * Setup and Observe Progress view - It will setup and observe progress view
+     */
+    private fun setupAndObserveProgressView() {
+        setApiProgressViews(
+                binding.dashboardViews,
+                binding.progressOverlay.root,
+                binding.retryOverlay.retryViewLayout,
+                binding.retryOverlay.root
+        )
+
+        dashboardViewModel.progressViewFlow.observe {
+            showProgress(it)
+        }
+    }
+
+    /**
+     * Observe Enable Disable dialogs - It will observe enable disable dialogs
+     */
+    private fun observeEnableDisableDialogs() {
+        dashboardViewModel.apply {
+            dialogEnableDisableError.observe {
+                if (it) {
+                    if (enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.dismiss()
+                    }
+                    showEnablingDisablingErrorPopUp()
+                }
+            }
+            dialogEnableDisableProgress.observe {
+                if (it) {
+                    showEnablingDisablingPopUp()
+                    if (!enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.show()
+                    }
+                } else {
+                    if (enableDisableProgressDialog.isShowing) {
+                        enableDisableProgressDialog.dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Set Feedback button visibility - It will observe is existing user and setup feedback button visibility
+     */
+    private fun setFeedbackButtonVisibility() {
+        dashboardViewModel.isExistingUser.observe {
+            binding.feedbackButton.visibility = if (it) View.VISIBLE else View.GONE
+        }
     }
 
     /**
