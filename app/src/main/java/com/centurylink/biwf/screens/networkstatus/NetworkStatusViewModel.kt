@@ -271,12 +271,12 @@ class NetworkStatusViewModel @Inject constructor(
                     val onlineStatus = OnlineStatus(modemInfo.isAlive)
                     regularNetworkInstance = setRegularWifiInfo(
                         name = existingWifiNwName,
-                        pwd = existingWifiPwd,
+                        pwd = existingWifiPassKey,
                         wifiNetworkEnabled = regularNetworkEnabled
                     )
                     guestNetworkInstance = setGuestWifiInfo(
                         name = existingGuestName,
-                        pwd = existingWifiPwd,
+                        pwd = existingWifiPassKey,
                         guestNetworkEnabled = guestNetworkEnabled
                     )
                     internetStatusFlow.latestValue = onlineStatus
