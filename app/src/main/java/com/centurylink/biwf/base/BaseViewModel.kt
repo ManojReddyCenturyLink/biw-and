@@ -7,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
-import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.EventFlow
-import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.LiveEvent
+import com.centurylink.biwf.utility.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -31,6 +28,16 @@ abstract class BaseViewModel(
      * A emission of true represents "success" and a false represents "error"
      */
     val rebootDialogFlow = EventFlow<Boolean>()
+
+    /**
+     * A emission of true represents "success" and a false represents "error"
+     */
+    val rebootDialogStatusFlow = EventFlow<Boolean>()
+
+    /**
+     * A emission of reboot ongoing flow
+     */
+    val rebootOngoingFlow = EventFlow<Boolean>()
 
     /**
      * Emits more detailed modem reboot status updates. Can be used for informing UI elements
@@ -55,13 +62,22 @@ abstract class BaseViewModel(
 
         if (status == ModemRebootMonitorService.RebootState.SUCCESS) {
             rebootDialogFlow.latestValue = true
+            sendModemRebootStatus(true)
         } else if (status == ModemRebootMonitorService.RebootState.ERROR) {
             rebootDialogFlow.latestValue = false
+            sendModemRebootStatus(false)
         }
+    }
+
+    private fun sendModemRebootStatus(status: Boolean) {
+        val modemRebootMessage: Events.ModemRebootMessage =
+            Events.ModemRebootMessage(status)
+        GlobalBus.bus!!.post(modemRebootMessage)
     }
 
     fun rebootModem() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESTART_MODEM_SUPPORT)
+        rebootOngoingFlow.latestValue = true
         viewModelScope.launch {
             modemRebootMonitorService.sendRebootModemRequest()
         }
@@ -142,6 +158,14 @@ abstract class BaseViewModel(
 
     fun logModemRebootErrorDialog() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.ALERT_RESTART_MODEM_FAILURE)
+    }
+
+    /**
+     * functions shows trhe reboot progress happen opr not
+     *
+     */
+    fun clearRebootProgress() {
+        rebootDialogStatusFlow.latestValue = true
     }
 
     companion object {

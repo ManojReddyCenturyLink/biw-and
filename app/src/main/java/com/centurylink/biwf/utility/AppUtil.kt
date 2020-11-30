@@ -6,6 +6,7 @@ import android.net.ConnectivityManager
 class AppUtil {
 
     companion object {
+        var rebootStatus: Boolean = false
         /**
          * Check internet connection
          */

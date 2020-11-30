@@ -15,6 +15,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.centurylink.biwf.BuildConfig
 import com.centurylink.biwf.R
+import com.centurylink.biwf.utility.AppUtil
 import kotlinx.android.synthetic.main.widget_popup.view.popup_cancel_btn
 import kotlinx.android.synthetic.main.widget_popup.view.popup_message
 import kotlinx.android.synthetic.main.widget_popup.view.popup_neutral_button
@@ -86,6 +87,7 @@ open class CustomDialogBlueTheme(
             rootView.popup_message.text = message
         }
         rootView.popup_cancel_btn.setOnClickListener {
+            AppUtil.rebootStatus = false
             dismiss()
             callback(AlertDialog.BUTTON_NEGATIVE)
         }
@@ -93,6 +95,7 @@ open class CustomDialogBlueTheme(
             rootView.popup_positive_button.text = buttonText
             rootView.popup_neutral_button.visibility = View.GONE
             rootView.popup_positive_button.setOnClickListener {
+                AppUtil.rebootStatus = false
                 dismiss()
                 callback(AlertDialog.BUTTON_POSITIVE)
             }
@@ -100,6 +103,7 @@ open class CustomDialogBlueTheme(
             rootView.popup_neutral_button.text = buttonText
             rootView.popup_positive_button.visibility = View.GONE
             rootView.popup_neutral_button.setOnClickListener {
+                AppUtil.rebootStatus = false
                 dismiss()
             }
         }
