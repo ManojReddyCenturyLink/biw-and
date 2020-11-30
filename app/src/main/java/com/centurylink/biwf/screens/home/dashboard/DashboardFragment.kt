@@ -491,6 +491,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         map.uiSettings.isZoomControlsEnabled = true
         map.uiSettings.isZoomGesturesEnabled = true
         map.uiSettings.isCompassEnabled = true
+        map.setPadding(
+            0,
+            0,
+            0,
+            resources.getDimension(R.dimen.map_controller_padding_bottom).toInt()
+        )
     }
 
     /**
