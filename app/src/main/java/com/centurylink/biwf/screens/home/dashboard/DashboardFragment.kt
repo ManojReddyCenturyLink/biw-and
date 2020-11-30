@@ -43,13 +43,20 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.android.synthetic.main.fragment_dashboard.incCanceled
+import kotlinx.android.synthetic.main.fragment_dashboard.incCompleted
+import kotlinx.android.synthetic.main.fragment_dashboard.incEnroute
+import kotlinx.android.synthetic.main.fragment_dashboard.incScheduled
+import kotlinx.android.synthetic.main.fragment_dashboard.incSpeedTest
+import kotlinx.android.synthetic.main.fragment_dashboard.incWorkBegun
 import kotlinx.android.synthetic.main.fragment_dashboard.view.*
 import kotlinx.android.synthetic.main.widget_appointment_scheduled.view.*
 import kotlinx.android.synthetic.main.widget_installation_completed.view.*
 import kotlinx.android.synthetic.main.widget_status_enroute.view.*
 import kotlinx.android.synthetic.main.widget_status_work_begun.view.*
-import kotlinx.android.synthetic.main.widget_welcome_card.view.*
+import kotlinx.android.synthetic.main.widget_welcome_card.view.msg
+import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_button
+import kotlinx.android.synthetic.main.widget_welcome_card.view.title
 import javax.inject.Inject
 
 /**
@@ -224,19 +231,19 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             progressVisibility.observe {
                 binding.incSpeedTest.uploadSpeed.visibility =
-                    if (it) View.INVISIBLE else View.VISIBLE
+                        if (it) View.INVISIBLE else View.VISIBLE
                 binding.incSpeedTest.downloadSpeed.visibility =
-                    if (it) View.INVISIBLE else View.VISIBLE
+                        if (it) View.INVISIBLE else View.VISIBLE
                 binding.incSpeedTest.downloadProgressIcon.visibility =
-                    if (it) View.VISIBLE else View.INVISIBLE
+                        if (it) View.VISIBLE else View.INVISIBLE
                 binding.incSpeedTest.uploadProgressIcon.visibility =
-                    if (it) View.VISIBLE else View.INVISIBLE
+                        if (it) View.VISIBLE else View.INVISIBLE
             }
             speedTestButtonState.observe { speedTestButtonState ->
                 dashboardViewModel.networkStatus.observe { networkStatusOnline ->
                     if (networkStatusOnline) {
                         binding.incSpeedTest.runSpeedTestDashboard.isActivated =
-                            speedTestButtonState
+                                speedTestButtonState
                         binding.incSpeedTest.runSpeedTestDashboard.isEnabled = speedTestButtonState
                     } else {
                         binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
@@ -257,21 +264,21 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             cancelAppointmentError.observe {
                 CustomDialogBlueTheme(
-                    getString(R.string.error_title),
-                    it,
-                    getString(R.string.ok),
-                    true,
-                    ::onErrorDialogCallback
+                        getString(R.string.error_title),
+                        it,
+                        getString(R.string.ok),
+                        true,
+                        ::onErrorDialogCallback
                 ).show(fragManager!!, DashboardFragment::class.simpleName)
             }
             speedTestError.observe {
                 if (it) {
                     CustomDialogBlueTheme(
-                        title = getString(R.string.speed_test_error_title),
-                        message = getString(R.string.speed_test_error_message),
-                        buttonText = getString(R.string.ok),
-                        isErrorPopup = true,
-                        callback = ::onErrorDialogCallback
+                            title = getString(R.string.speed_test_error_title),
+                            message = getString(R.string.speed_test_error_message),
+                            buttonText = getString(R.string.ok),
+                            isErrorPopup = true,
+                            callback = ::onErrorDialogCallback
                     ).show(fragManager!!, DashboardFragment::class.simpleName)
                 }
             }
@@ -283,10 +290,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     private fun setupAndObserveProgressView() {
         setApiProgressViews(
-            binding.dashboardViews,
-            binding.progressOverlay.root,
-            binding.retryOverlay.retryViewLayout,
-            binding.retryOverlay.root
+                binding.dashboardViews,
+                binding.progressOverlay.root,
+                binding.retryOverlay.retryViewLayout,
+                binding.retryOverlay.root
         )
 
         dashboardViewModel.progressViewFlow.observe {
