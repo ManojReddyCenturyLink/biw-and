@@ -303,6 +303,9 @@ dependencies {
     implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
 
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
+
     implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
     implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
 

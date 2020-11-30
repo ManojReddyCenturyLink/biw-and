@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.centurylink.biwf.R
+import com.centurylink.biwf.utility.AppUtil
 import kotlinx.android.synthetic.main.widget_dialog_default.view.dialog_message
 import kotlinx.android.synthetic.main.widget_dialog_default.view.dialog_title
 import kotlinx.android.synthetic.main.widget_dialog_default.view.negative_cta
@@ -71,10 +72,12 @@ open class CustomDialogGreyTheme(
         rootView.positive_cta.text = positiveText
         rootView.negative_cta.text = negativeText
         rootView.positive_cta.setOnClickListener {
+            AppUtil.rebootStatus = false
             dismiss()
             callback(AlertDialog.BUTTON_POSITIVE)
         }
         rootView.negative_cta.setOnClickListener {
+            AppUtil.rebootStatus = false
             dismiss()
             callback(AlertDialog.BUTTON_NEGATIVE)
         }
