@@ -40,6 +40,10 @@ android {
         buildConfigField "String", "MOBILE_NUMBER", "\"$parsedJson.MOBILE_NUMBER\""
         buildConfigField "String", "AUTH_TOKEN_KEY", "\"$parsedJson.encryptionKeys.AUTH_TOKEN_KEY\""
         buildConfigField "String", "MASTER_KEY", "\"$parsedJson.encryptionKeys.MASTER_KEY\""
+        buildConfigField "String", "ANDROID_KEY_STORE", "\"$parsedJson.encryptionKeys.ANDROID_KEY_STORE\""
+        buildConfigField "String", "KEY_ALIAS", "\"$parsedJson.encryptionKeys.KEY_ALIAS\""
+        buildConfigField "String", "KEY_STORE_FILE_NAME", "\"$parsedJson.encryptionKeys.KEY_STORE_FILE_NAME\""
+        buildConfigField "String", "KEY_STORE_PASSWORD", "\"$parsedJson.encryptionKeys.KEY_STORE_PASSWORD\""
         // Google Maps
         manifestPlaceholders = [mapsApiKey: parsedJson.MAP_API_KEY]
     }
@@ -298,6 +302,9 @@ dependencies {
 
     implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
     implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
+
+    implementation 'org.greenrobot:eventbus:3.0.0'
+
 
     implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
     implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'

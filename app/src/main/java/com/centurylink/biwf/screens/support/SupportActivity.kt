@@ -161,6 +161,23 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
             faqSectionInfo.observe {
                 prepareRecyclerView(it.questionMap)
             }
+
+            viewModel.rebootDialogStatusFlow.observe {
+                if (it) {
+                    setRebootButtonVisibilityWithoutSpeedTest(false)
+                }
+            }
+
+            viewModel.rebootOngoingFlow.observe {
+                if (it) {
+                    binding.incTroubleshootingNoSpeedTest.rebootModemButton.visibility =
+                        View.GONE
+                    binding.incTroubleshooting.rebootModemButton.isActivated = true
+                    binding.incTroubleshooting.rebootModemButton.isEnabled = true
+                    binding.incTroubleshootingNoSpeedTest.rebootingModemButton.root.visibility =
+                        View.VISIBLE
+                }
+            }
         }
     }
 
@@ -348,6 +365,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun onScreenExitConfirmationDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                setRebootButtonVisibilityWithoutSpeedTest(true)
                 viewModel.rebootModem()
             }
             AlertDialog.BUTTON_NEGATIVE -> {
@@ -371,7 +389,9 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
 
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
-            AlertDialog.BUTTON_POSITIVE -> { /** no op **/ }
+            AlertDialog.BUTTON_POSITIVE -> {
+                /** no op **/
+            }
         }
     }
 
