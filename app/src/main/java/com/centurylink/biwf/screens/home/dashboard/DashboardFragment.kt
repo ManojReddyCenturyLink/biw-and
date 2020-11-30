@@ -88,7 +88,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var workBegunMapFragment: SupportMapFragment? = null
     private var originLatLng = LatLng(0.0, 0.0)
     private var speedTestCount: Int = 0
-    // private var destinationLatLng = LatLng(0.0, 0.0)
 
     /**
      * On create - The onCreate method is called when Fragment should create its View
@@ -202,13 +201,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             detailedRebootStatusFlow.observe { rebootState ->
                 if (rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
                     dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-                        if (networkStatusOnline) {
                             binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
                             binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                        } else {
-                            binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
-                            binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                        }
                     }
                 }
             }

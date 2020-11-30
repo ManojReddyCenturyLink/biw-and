@@ -298,22 +298,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     /**
-     * Disable swipe to refresh
-     *
-     */
-    private fun disableSwipeToRefresh() {
-        binding.pullToRefresh.isEnabled = false
-    }
-
-    /**
-     * Enable swipe to refresh
-     *
-     */
-    private fun enableSwipeToRefresh() {
-        binding.pullToRefresh.isEnabled = true
-    }
-
-    /**
      * On resume - Called when the fragment is visible to the user and actively running
      *
      */

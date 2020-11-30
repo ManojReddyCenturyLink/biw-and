@@ -43,12 +43,12 @@ class NetworkStatusViewModel @Inject constructor(
     private var existingWifiNwName: String = ""
 
     private var newWifiName: String = ""
-    private var existingWifiPwd: String = ""
+    private var existingWifiPassKey: String = ""
     private var newWifiPwd: String = ""
 
     private var newGuestName: String = ""
     private var existingGuestName: String = ""
-    private var existingGuestPwd: String = ""
+    private var existingGuestPassKey: String = ""
     private var newGuestPwd: String = ""
     private var submitFlow: Boolean = false
 
@@ -229,12 +229,12 @@ class NetworkStatusViewModel @Inject constructor(
                     val onlineStatus = OnlineStatus(modemInfo.isAlive)
                     regularNetworkInstance = setRegularWifiInfo(
                         name = existingWifiNwName,
-                        pwd = existingWifiPwd,
+                        pwd = existingWifiPassKey,
                         wifiNetworkEnabled = regularNetworkEnabled
                     )
                     guestNetworkInstance = setGuestWifiInfo(
                         name = existingGuestName,
-                        pwd = existingWifiPwd,
+                        pwd = existingWifiPassKey,
                         guestNetworkEnabled = guestNetworkEnabled
                     )
                     internetStatusFlow.latestValue = onlineStatus
@@ -307,9 +307,9 @@ class NetworkStatusViewModel @Inject constructor(
         regularNetworkEnabled = false
         guestNetworkEnabled = false
         regularNetworkInstance =
-            setRegularWifiInfo(existingWifiNwName, existingWifiPwd, regularNetworkEnabled)
+            setRegularWifiInfo(existingWifiNwName, existingWifiPassKey, regularNetworkEnabled)
         guestNetworkInstance =
-            setGuestWifiInfo(existingGuestName, existingGuestPwd, guestNetworkEnabled)
+            setGuestWifiInfo(existingGuestName, existingGuestPassKey, guestNetworkEnabled)
         regularNetworkStatusFlow.latestValue = regularNetworkInstance
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
         modemDeviceID.latestValue = true
@@ -538,10 +538,10 @@ class NetworkStatusViewModel @Inject constructor(
             password?.let {
                 when (netWorkBand) {
                     NetWorkBand.Band2G, NetWorkBand.Band5G -> {
-                        existingWifiPwd = password
+                        existingWifiPassKey = password
                     }
                     NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
-                        existingGuestPwd = password
+                        existingGuestPassKey = password
                     }
                 }
             }
@@ -550,8 +550,8 @@ class NetworkStatusViewModel @Inject constructor(
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
                 // TODO Currently API is returning Error -Temp Hack for displaying password
-                existingWifiPwd = "test123wifi"
-                existingGuestPwd = "test123Guest"
+                existingWifiPassKey = "test123wifi"
+                existingGuestPassKey = "test123Guest"
             })
     }
 
@@ -561,9 +561,9 @@ class NetworkStatusViewModel @Inject constructor(
      */
     private fun updatePasswords() {
         regularNetworkInstance =
-            setRegularWifiInfo(existingWifiNwName, existingWifiPwd, regularNetworkEnabled)
+            setRegularWifiInfo(existingWifiNwName, existingWifiPassKey, regularNetworkEnabled)
         guestNetworkInstance =
-            setGuestWifiInfo(existingGuestName, existingGuestPwd, guestNetworkEnabled)
+            setGuestWifiInfo(existingGuestName, existingGuestPassKey, guestNetworkEnabled)
         regularNetworkStatusFlow.latestValue = regularNetworkInstance
         guestNetworkStatusFlow.latestValue = guestNetworkInstance
         progressViewFlow.latestValue = false
@@ -652,28 +652,6 @@ class NetworkStatusViewModel @Inject constructor(
     }
 
     /**
-     * Update enable disable network
-     *
-     * @param netWorkBand -  Network Band types of the server to update network enablement and
-     * disablement
-     * @param isEnable - The boolean value to update network enablement and disablement
-     */
-    private fun updateEnableDisableNetwork(netWorkBand: NetWorkBand, isEnable: Boolean) {
-        if (netWorkBand == NetWorkBand.Band5G || netWorkBand == NetWorkBand.Band2G) {
-            regularNetworkEnabled = isEnable
-            regularNetworkInstance =
-                setRegularWifiInfo(existingWifiNwName, existingWifiPwd, isEnable)
-            regularNetworkStatusFlow.latestValue = regularNetworkInstance
-        }
-        if (netWorkBand == NetWorkBand.Band2G_Guest4 || netWorkBand == NetWorkBand.Band5G_Guest4) {
-            guestNetworkEnabled = isEnable
-            guestNetworkInstance =
-                setGuestWifiInfo(existingGuestName, existingGuestPwd, isEnable)
-            guestNetworkStatusFlow.latestValue = guestNetworkInstance
-        }
-    }
-
-    /**
      * Request to update wifi network info
      *
      * @param netWorkBand - Network Band types of the server to update wifi network information
@@ -717,7 +695,7 @@ class NetworkStatusViewModel @Inject constructor(
                 }
             }
             // Update Regular Network Password
-            if (existingWifiPwd != newWifiPwd && regularNetworkInstance.isNetworkEnabled) {
+            if (existingWifiPassKey != newWifiPwd && regularNetworkInstance.isNetworkEnabled) {
                 if (!newWifiPwd.isNullOrEmpty() && newWifiPwd.length > 8) {
                     if (ssidMap.containsKey(NetWorkBand.Band5G.name)) {
                         requestToUpdateNetWorkPassword(NetWorkBand.Band5G, newWifiPwd)
@@ -743,7 +721,7 @@ class NetworkStatusViewModel @Inject constructor(
                 }
             }
 
-            if (existingWifiPwd != newGuestPwd && guestNetworkInstance.isNetworkEnabled) {
+            if (existingWifiPassKey != newGuestPwd && guestNetworkInstance.isNetworkEnabled) {
                 if (!newGuestPwd.isNullOrEmpty() && newGuestPwd.length > 8) {
                     if (ssidMap.containsKey(NetWorkBand.Band2G_Guest4.name)) {
                         requestToUpdateNetWorkPassword(NetWorkBand.Band2G_Guest4, newGuestPwd)

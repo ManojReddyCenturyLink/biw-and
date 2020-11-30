@@ -139,8 +139,6 @@ class AnalyticsKeys {
         const val CARD_PERSONAL_INFO = "Personal Info"
         const val CARD_NETWORK_INFO = "Network Info Card"
         const val QR_IMAGE = "QR Image Dashboard"
-        // const val CARD_NOTIFICATION_DETAILS = "Notification Details Card"
-        // const val CARD_NOTIFICATION_CLOSE = "Notification Close"
 
         /***Toggle***/
         const val TOGGLE_BIOMETRIC = "Biometric"
