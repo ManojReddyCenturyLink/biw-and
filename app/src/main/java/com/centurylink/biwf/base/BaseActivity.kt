@@ -7,15 +7,20 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import com.centurylink.biwf.utility.AppUtil
+import com.centurylink.biwf.utility.Events
+import com.centurylink.biwf.utility.GlobalBus
 import com.centurylink.biwf.utility.LiveDataObserver
 import com.centurylink.biwf.widgets.ModemRebootFailureDialog
 import com.centurylink.biwf.widgets.ModemRebootSuccessDialog
 import dagger.android.AndroidInjection
+import org.greenrobot.eventbus.Subscribe
 
 /**
  * Base class for holding common functionality that will be used across Activities. All the Activities
  */
-abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemRebootFailureDialog.Callback {
+abstract class BaseActivity : AppCompatActivity(), LiveDataObserver,
+    ModemRebootFailureDialog.Callback {
 
     override val lifecycleOwner: LifecycleOwner get() = this
     private var progressView: View? = null
@@ -28,7 +33,6 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidInjection.inject(this)
-        listenForRebootDialog()
     }
 
     /**
@@ -97,32 +101,19 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
     }
 
     /**
-     * Dialog shown when the dialog gets rebooted in the UI.
-     *
-     */
-    private fun listenForRebootDialog() {
-        viewModel.rebootDialogFlow.observe { success ->
-            if (success) {
-                viewModel.logModemRebootSuccessDialog()
-                showModemRebootSuccessDialog()
-            } else {
-                viewModel.logModemRebootErrorDialog()
-                showModemRebootErrorDialog()
-            }
-        }
-    }
-
-    /**
      * functions shows  the modem reboot success dialog
      *
      */
     fun showModemRebootSuccessDialog() {
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-            viewModel.onRebootDialogShown()
-            ModemRebootSuccessDialog().show(
-                supportFragmentManager,
-                callingActivity?.className
-            )
+            if (!AppUtil.rebootStatus) {
+                AppUtil.rebootStatus = true
+                viewModel.onRebootDialogShown()
+                ModemRebootSuccessDialog().show(
+                    supportFragmentManager,
+                    callingActivity?.className
+                )
+            }
         }
     }
 
@@ -132,11 +123,14 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
      */
     fun showModemRebootErrorDialog() {
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
-            viewModel.onRebootDialogShown()
-            ModemRebootFailureDialog(this).show(
-                supportFragmentManager,
-                callingActivity?.className
-            )
+            if (!AppUtil.rebootStatus) {
+                AppUtil.rebootStatus = true
+                viewModel.onRebootDialogShown()
+                ModemRebootFailureDialog(this).show(
+                    supportFragmentManager,
+                    callingActivity?.className
+                )
+            }
         }
     }
 
@@ -145,4 +139,31 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver, ModemReboot
     }
 
     open fun retryClicked() {}
+
+    override fun onStart() {
+        super.onStart()
+        // Register this fragment to listen to event.
+        GlobalBus.bus!!.register(this)
+    }
+
+    /**
+     * Dialog shown when the dialog gets rebooted in the UI.
+     *
+     */
+    @Subscribe
+    open fun getMessage(modemRebootMessage: Events.ModemRebootMessage) {
+        if (modemRebootMessage.status) {
+            viewModel.logModemRebootSuccessDialog()
+            showModemRebootSuccessDialog()
+        } else {
+            viewModel.logModemRebootErrorDialog()
+            viewModel.clearRebootProgress()
+            showModemRebootErrorDialog()
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        GlobalBus.bus!!.unregister(this)
+    }
 }

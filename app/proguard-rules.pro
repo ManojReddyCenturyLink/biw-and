@@ -450,3 +450,8 @@ public static final *** NULL;
 -keepnames public class * extends android.support.v4.app.Fragment
 -keepnames public class * extends android.app.Fragment
 -keepnames public class * extends androidx.fragment.**
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
