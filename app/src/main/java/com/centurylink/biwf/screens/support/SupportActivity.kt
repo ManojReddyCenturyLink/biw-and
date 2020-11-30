@@ -299,6 +299,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun modemRebootObserverWithSpeedTest() {
+        binding.incTroubleshooting.root.visibility = View.VISIBLE
+        binding.incTroubleshootingNoSpeedTest.root.visibility = View.GONE
         viewModel.apply {
             modemResetButtonState.observe {
                 viewModel.networkStatus.observe { networkStatus ->
@@ -312,6 +314,8 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     }
 
     private fun modemRebootObserverWithoutSpeedTest() {
+        binding.incTroubleshooting.root.visibility = View.GONE
+        binding.incTroubleshootingNoSpeedTest.root.visibility = View.VISIBLE
         viewModel.apply {
             modemResetButtonState.observe {
                 viewModel.networkStatus.observe { networkStatus ->
