@@ -174,7 +174,7 @@
     <string name="mobile_phone">Mobile phone</string>
     <string name="mobile_phone_mandatory">Mobile phone*</string>
     <string name="phone_number">Phone number</string>
-    <string name="phone_number_invalid">Please enter a valid 10 digit phone number</string>
+    <string name="phone_number_invalid">please enter a valid 10 digit phone number</string>
     <string name="login_information">Login information</string>
     <string name="email_address">Email address</string>
     <string name="passwords_do_not_match">Passwords do not match</string>
@@ -222,7 +222,7 @@
     <string name="error_loading_information_ntap_to_retry">Error loading information.\nTap to retry.</string>
     <string name="error_invalid_password">Your password must include letters, numbers and at least one of these special characters:</string>
     <string name="error_repeated_password">invalid repeated password</string>
-    <string name="error_password_length">Your password must be at least 8 characters long.</string>
+    <string name="error_password_length">your password must be at least 8 characters long.</string>
     <string name="error_title">An error has occurred.</string>
     <string name="error_nickname_field"><![CDATA[Special characters [!@#\/$%&*()_+=|<>?{}[]~.] are not allowed.]]></string>
     <string name="loading">Loading</string>
