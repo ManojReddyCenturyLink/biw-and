@@ -1,6 +1,7 @@
 package com.centurylink.biwf.coordinators
 
 import android.os.Bundle
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -10,7 +11,9 @@ import javax.inject.Inject
  * @constructor Create  Statement coordinator
  */
 class StatementCoordinator @Inject constructor() : Coordinator<StatementCoordinatorDestinations> {
-    override fun navigateTo(destination: StatementCoordinatorDestinations) { }
+    override fun navigateTo(destination: StatementCoordinatorDestinations) {
+        Timber.e("navigate to destination")
+    }
 }
 
 /**

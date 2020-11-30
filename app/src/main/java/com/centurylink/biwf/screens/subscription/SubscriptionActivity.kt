@@ -93,10 +93,7 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
                 }
             }
             CancelSubscriptionActivity.REQUEST_TO_SUBSCRIPTION -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
-                    finish()
-                } else if (resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
+                if (resultCode == Activity.RESULT_OK || resultCode == CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT) {
                     setResult(CancelSubscriptionDetailsActivity.REQUEST_TO_ACCOUNT)
                     finish()
                 }

@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import com.centurylink.biwf.utility.LiveDataObserver
 import dagger.android.support.AndroidSupportInjection
+import timber.log.Timber
 
 /**
  * Base class for Fragments all the Fragments class must derive this Base Class.
@@ -72,5 +73,7 @@ abstract class BaseFragment : Fragment(), LiveDataObserver {
         this.layoutView?.visibility = if (showReload) View.GONE else View.VISIBLE
     }
 
-    open fun retryClicked() {}
+    open fun retryClicked() {
+        Timber.e("retry clicked")
+    }
 }

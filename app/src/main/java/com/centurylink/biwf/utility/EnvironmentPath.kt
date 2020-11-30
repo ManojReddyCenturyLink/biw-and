@@ -4,13 +4,13 @@ import com.centurylink.biwf.BuildConfig
 
 class EnvironmentPath {
     companion object {
-
+        const val URL_PREFIX = "https://"
         fun getSalesForceBaseURl(): String {
-            return "https://" + BuildConfig.SALESFORCE_URL
+            return URL_PREFIX + BuildConfig.SALESFORCE_URL
         }
 
         fun getBaseSubscriptionUrl(): String {
-            return "https://" + BuildConfig.SALESFORCE_URL + "/" + getCommunityName() + "/apex/vf_fiberBuyFlowPaymentMobile?userId="
+            return URL_PREFIX + BuildConfig.SALESFORCE_URL + "/" + getCommunityName() + "/apex/vf_fiberBuyFlowPaymentMobile?userId="
         }
 
         private fun getCommunityName(): String {
@@ -26,11 +26,11 @@ class EnvironmentPath {
         }
 
         private fun getApigeeBaseUrl(): String {
-            return "https://" + BuildConfig.APIGEE_URL
+            return URL_PREFIX + BuildConfig.APIGEE_URL
         }
 
         fun getApigeeVersionUrl(): String {
-            return "https://" + BuildConfig.APIGEE_URL + "/" + "v1/"
+            return URL_PREFIX + BuildConfig.APIGEE_URL + "/" + "v1/"
         }
 
         fun geApigeeCloudCheckURl(): String {

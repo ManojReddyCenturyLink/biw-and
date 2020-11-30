@@ -57,6 +57,7 @@ import kotlinx.android.synthetic.main.widget_status_work_begun.view.*
 import kotlinx.android.synthetic.main.widget_welcome_card.view.msg
 import kotlinx.android.synthetic.main.widget_welcome_card.view.msg_dismiss_button
 import kotlinx.android.synthetic.main.widget_welcome_card.view.title
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -1041,8 +1042,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         when (buttonType) {
             // TODO - This has to be replaced with API calls
             AlertDialog.BUTTON_POSITIVE -> {
+                Timber.e("positive button pressed")
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                Timber.e("negative button pressed")
             }
         }
     }
@@ -1072,6 +1075,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
                 dashboardViewModel.wifiNetworkEnablement(networkEventType)
             }
             AlertDialog.BUTTON_NEGATIVE -> {
+                Timber.e("negative button pressed")
             }
         }
     }
