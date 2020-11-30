@@ -201,13 +201,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             detailedRebootStatusFlow.observe { rebootState ->
                 if (rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
                     dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-                        if (networkStatusOnline) {
                             binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
                             binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                        } else {
-                            binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
-                            binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                        }
                     }
                 }
             }
