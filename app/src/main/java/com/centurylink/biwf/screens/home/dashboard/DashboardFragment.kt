@@ -522,205 +522,240 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
 
         dashboardViewModel.dashBoardDetailsInfo.observe {
             if (it is DashboardViewModel.AppointmentScheduleState) {
-                incEnroute.visibility = View.GONE
-                incWorkBegun.visibility = View.GONE
-                incCompleted.visibility = View.GONE
-                if (dashboardViewModel.readCancellationAppointmentStatus()) {
-                    if (it.jobType.contains(HomeViewModel.intsall)) {
-                        incCanceled.visibility = View.VISIBLE
-                        incScheduled.visibility = View.GONE
-                        binding.layoutNetworkList.visibility = View.GONE
-                        binding.connectedDevicesCard.root.visibility = View.GONE
-                    } else {
-                        incCanceled.visibility = View.GONE
-                        incScheduled.visibility = View.GONE
-                        displayDashboardUI()
-                    }
-                } else {
-                    dashboardViewModel.clearAppointmentCancellationStatus()
-                    incScheduled.visibility = View.VISIBLE
-                    if (it.jobType.contains(HomeViewModel.intsall)) {
-                        incScheduled.schedule_appointment_status_title.text =
-                            resources.getString(R.string.fiber_installation_status)
-                        incScheduled.schedule_appointment_status_progress_state.text =
-                            resources.getString(R.string.installation_scheduled)
-                        binding.connectedDevicesCard.root.visibility = View.GONE
-                        dashboardViewModel.clearNotificationStatus(ServiceStatus.SCHEDULED.name)
-                        if (dashboardViewModel.readNotificationStatus(ServiceStatus.SCHEDULED.name)) {
-                            incScheduled.incWelcomeCard.visibility = View.GONE
-                        } else {
-                            incScheduled.incWelcomeCard.visibility = View.VISIBLE
-                        }
-                        binding.layoutNetworkList.visibility = View.GONE
-                    } else {
-                        incScheduled.schedule_appointment_status_title.text =
-                            resources.getString(R.string.service_appointment_status)
-                        incScheduled.schedule_appointment_status_progress_state.text =
-                            resources.getString(R.string.service_appointment_scheduled)
-                        incScheduled.incWelcomeCard.visibility = View.GONE
-                        displayDashboardUI()
-                    }
-                }
-                incScheduled.schedule_appointment_date_time_card.schedule_appointment_date.text =
-                    it.serviceAppointmentDate
-                incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text =
-                    getString(
-                        R.string.text_time_details,
-                        it.serviceAppointmentStartTime,
-                        it.serviceAppointmentEndTime
-                    )
-                incScheduled.incWelcomeCard.msg_dismiss_button.setOnClickListener {
-                    dashboardViewModel.logDismissNotification(ServiceStatus.SCHEDULED.name)
-                    incScheduled.incWelcomeCard.visibility = View.GONE
-                }
-                dashboardViewModel.logAppointmentStatusState(1)
+                updateUIAppointmentScheduled(it)
             }
             if (it is DashboardViewModel.AppointmentEngineerStatus) {
-                originLatLng =
-                    LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
-                setupEnrouteMap()
-                if (it.jobType.contains(HomeViewModel.intsall)) {
-                    incEnroute.enroute_appointment_status_title.text =
-                        resources.getString(R.string.fiber_installation_status)
-                    incEnroute.incEnrouteCard.msg.text =
-                        resources.getString(R.string.enroute_notification_message)
-                    binding.connectedDevicesCard.root.visibility = View.GONE
-                    binding.layoutNetworkList.visibility = View.GONE
-                } else {
-                    incEnroute.enroute_appointment_status_title.text =
-                        resources.getString(R.string.service_appointment_status)
-                    incEnroute.incEnrouteCard.msg.text =
-                        resources.getString(R.string.service_appointment_enroute_notification_message)
-                    displayDashboardUI()
-                }
-                incEnroute.enroute_technician_name.text = it.serviceEngineerName
-                incEnroute.enroute_appointment_time.text = it.serviceAppointmentTime
-                incEnroute.incEnrouteCard.title.text =
-                    resources.getString(R.string.technician_on_the_way)
-                dashboardViewModel.clearNotificationStatus(ServiceStatus.EN_ROUTE.name)
-                if (dashboardViewModel.readNotificationStatus(ServiceStatus.EN_ROUTE.name)) {
-                    incEnroute.incEnrouteCard.visibility = View.GONE
-                } else {
-                    incEnroute.incEnrouteCard.visibility = View.VISIBLE
-                }
-                incEnroute.incEnrouteCard.msg_dismiss_button.setOnClickListener {
-                    dashboardViewModel.logDismissNotification(ServiceStatus.EN_ROUTE.name)
-                    incEnroute.incEnrouteCard.visibility = View.GONE
-                }
-                originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
-                dashboardViewModel.logAppointmentStatusState(2)
-
-                incScheduled.visibility = View.GONE
-                incEnroute.visibility = View.VISIBLE
-                incWorkBegun.visibility = View.GONE
-                incCompleted.visibility = View.GONE
-                incCanceled.visibility = View.GONE
+                updateUIAppointmentEnroute(it)
             }
             if (it is DashboardViewModel.AppointmentEngineerWIP) {
-                originLatLng =
-                    LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
-                setupWorkBegunMap()
-                if (it.jobType.contains(HomeViewModel.intsall)) {
-                    incWorkBegun.work_begun_appointment_status_title.text =
-                        resources.getString(R.string.fiber_installation_status)
-                    incWorkBegun.work_begun_appointment_status_progress_state.text =
-                        resources.getString(R.string.installation_underway)
-                    incWorkBegun.incWipCard.msg.text =
-                        resources.getString(R.string.work_begun_message)
-                    incWorkBegun.work_begun_appointment_text.text =
-                        resources.getString(R.string.is_setting_up_your_network_now)
-                    binding.connectedDevicesCard.root.visibility = View.GONE
-                    binding.layoutNetworkList.visibility = View.GONE
-                } else {
-                    incWorkBegun.work_begun_appointment_status_title.text =
-                        resources.getString(R.string.service_appointment_status)
-                    incWorkBegun.work_begun_appointment_status_progress_state.text =
-                        resources.getString(R.string.service_underway)
-                    incWorkBegun.incWipCard.msg.text =
-                        resources.getString(R.string.service_appointment_work_begun_message)
-                    incWorkBegun.work_begun_appointment_text.text =
-                        resources.getString(R.string.is_working_now)
-                    displayDashboardUI()
-                }
-                incWorkBegun.work_begun_technician_name.text = it.serviceEngineerName
-                incWorkBegun.incWipCard.title.text =
-                    resources.getString(R.string.work_in_progress)
-                dashboardViewModel.clearNotificationStatus(ServiceStatus.WORK_BEGUN.name)
-                if (dashboardViewModel.readNotificationStatus(ServiceStatus.WORK_BEGUN.name)) {
-                    incWorkBegun.incWipCard.visibility = View.GONE
-                } else {
-                    incWorkBegun.incWipCard.visibility = View.VISIBLE
-                }
-                incWorkBegun.incWipCard.msg_dismiss_button.setOnClickListener {
-                    dashboardViewModel.logDismissNotification(ServiceStatus.WORK_BEGUN.name)
-                    incWorkBegun.incWipCard.visibility = View.GONE
-                }
-                originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
-                dashboardViewModel.logAppointmentStatusState(3)
-
-                incScheduled.visibility = View.GONE
-                incEnroute.visibility = View.GONE
-                incWorkBegun.visibility = View.VISIBLE
-                incCompleted.visibility = View.GONE
-                incCanceled.visibility = View.GONE
+                updateUIAppointmentWIP(it)
             }
             if (it is DashboardViewModel.AppointmentComplete) {
-                val appointmentNumber = it.appointmentNumber
-                if (it.jobType.contains(HomeViewModel.intsall)) {
-                    incCompleted.installation_complete_title.text =
-                        resources.getString(R.string.installation_complete)
-                    incCompleted.you_are_all_set_msg.text =
-                        resources.getString(R.string.the_network_is_ready_for_you_to_connect_and_start_enjoying_your_blazing_fast_internet)
-                    incCompleted.get_started_btn.text =
-                        resources.getString(R.string.get_started)
-                    binding.incCompleted.getStartedBtn.setOnClickListener {
-                        incCompleted.visibility = View.GONE
-                        dashboardViewModel.getStartedClicked(appointmentNumber)
-                        viewClickListener.onGetStartedClick(false)
-                    }
-                    binding.connectedDevicesCard.root.visibility = View.GONE
-                    binding.layoutNetworkList.visibility = View.GONE
-                } else {
-                    incCompleted.installation_complete_title.text =
-                        resources.getString(R.string.service_appointment_status_complete)
-                    incCompleted.you_are_all_set_msg.text =
-                        resources.getString(R.string.service_appointment_all_set_status)
-                    incCompleted.get_started_btn.text =
-                        resources.getString(R.string.dismiss)
-                    binding.incCompleted.getStartedBtn.setOnClickListener {
-                        incCompleted.visibility = View.GONE
-                        dashboardViewModel.getStartedClicked(appointmentNumber)
-                        viewClickListener.onGetStartedClick(false)
-                    }
-                    displayDashboardUI()
-                }
-                incWorkBegun.visibility = View.GONE
-                incScheduled.visibility = View.GONE
-                incEnroute.visibility = View.GONE
-                incCompleted.visibility = View.VISIBLE
-                dashboardViewModel.clearNotificationStatus(ServiceStatus.COMPLETED.name)
-                dashboardViewModel.logAppointmentStatusState(4)
+                updateUIAppointmentComplete(it)
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
-                binding.incCanceled.youAreAllSetMsg.text = getString(
-                    R.string.cancellation_query_contact_details,
-                    BuildConfig.MOBILE_NUMBER
-                )
-                dashboardViewModel.clearNotificationStatus(ServiceStatus.CANCELED.name)
-                if (it.jobType.contains(HomeViewModel.intsall)) {
-                    incCanceled.visibility = View.VISIBLE
-                } else {
-                    incCanceled.visibility = View.GONE
-                    displayDashboardUI()
-                }
-                incScheduled.visibility = View.GONE
-                incEnroute.visibility = View.GONE
-                incWorkBegun.visibility = View.GONE
-                incCompleted.visibility = View.GONE
-                dashboardViewModel.clearNotificationStatus(ServiceStatus.COMPLETED.name)
-                dashboardViewModel.logAppointmentStatusState(5)
+                updateUIAppointmentCancelled(it)
             }
         }
+    }
+
+    /**
+     * Update UI Appointment Cancelled - It will update UI with status Appointment cancelled
+     */
+    private fun updateUIAppointmentCancelled(it: DashboardViewModel.AppointmentCanceled) {
+        binding.incCanceled.youAreAllSetMsg.text = getString(
+            R.string.cancellation_query_contact_details,
+            BuildConfig.MOBILE_NUMBER
+        )
+        dashboardViewModel.clearNotificationStatus(ServiceStatus.CANCELED.name)
+        if (it.jobType.contains(HomeViewModel.intsall)) {
+            incCanceled.visibility = View.VISIBLE
+        } else {
+            incCanceled.visibility = View.GONE
+            displayDashboardUI()
+        }
+        incScheduled.visibility = View.GONE
+        incEnroute.visibility = View.GONE
+        incWorkBegun.visibility = View.GONE
+        incCompleted.visibility = View.GONE
+        dashboardViewModel.clearNotificationStatus(ServiceStatus.COMPLETED.name)
+        dashboardViewModel.logAppointmentStatusState(5)
+    }
+
+    /**
+     * Update UI Appointment Complete - It will update UI with status Appointment Complete
+     */
+    private fun updateUIAppointmentComplete(it: DashboardViewModel.AppointmentComplete) {
+        val appointmentNumber = it.appointmentNumber
+        if (it.jobType.contains(HomeViewModel.intsall)) {
+            incCompleted.installation_complete_title.text =
+                resources.getString(R.string.installation_complete)
+            incCompleted.you_are_all_set_msg.text =
+                resources.getString(R.string.the_network_is_ready_for_you_to_connect_and_start_enjoying_your_blazing_fast_internet)
+            incCompleted.get_started_btn.text =
+                resources.getString(R.string.get_started)
+            binding.incCompleted.getStartedBtn.setOnClickListener {
+                incCompleted.visibility = View.GONE
+                dashboardViewModel.getStartedClicked(appointmentNumber)
+                viewClickListener.onGetStartedClick(false)
+            }
+            binding.connectedDevicesCard.root.visibility = View.GONE
+            binding.layoutNetworkList.visibility = View.GONE
+        } else {
+            incCompleted.installation_complete_title.text =
+                resources.getString(R.string.service_appointment_status_complete)
+            incCompleted.you_are_all_set_msg.text =
+                resources.getString(R.string.service_appointment_all_set_status)
+            incCompleted.get_started_btn.text =
+                resources.getString(R.string.dismiss)
+            binding.incCompleted.getStartedBtn.setOnClickListener {
+                incCompleted.visibility = View.GONE
+                dashboardViewModel.getStartedClicked(appointmentNumber)
+                viewClickListener.onGetStartedClick(false)
+            }
+            displayDashboardUI()
+        }
+        incWorkBegun.visibility = View.GONE
+        incScheduled.visibility = View.GONE
+        incEnroute.visibility = View.GONE
+        incCompleted.visibility = View.VISIBLE
+        dashboardViewModel.clearNotificationStatus(ServiceStatus.COMPLETED.name)
+        dashboardViewModel.logAppointmentStatusState(4)
+    }
+
+    /**
+     * Update UI Appointment WIP - It will update UI with status Appointment Work in progress
+     */
+    private fun updateUIAppointmentWIP(it: DashboardViewModel.AppointmentEngineerWIP) {
+        originLatLng =
+            LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
+        setupWorkBegunMap()
+        if (it.jobType.contains(HomeViewModel.intsall)) {
+            incWorkBegun.work_begun_appointment_status_title.text =
+                resources.getString(R.string.fiber_installation_status)
+            incWorkBegun.work_begun_appointment_status_progress_state.text =
+                resources.getString(R.string.installation_underway)
+            incWorkBegun.incWipCard.msg.text =
+                resources.getString(R.string.work_begun_message)
+            incWorkBegun.work_begun_appointment_text.text =
+                resources.getString(R.string.is_setting_up_your_network_now)
+            binding.connectedDevicesCard.root.visibility = View.GONE
+            binding.layoutNetworkList.visibility = View.GONE
+        } else {
+            incWorkBegun.work_begun_appointment_status_title.text =
+                resources.getString(R.string.service_appointment_status)
+            incWorkBegun.work_begun_appointment_status_progress_state.text =
+                resources.getString(R.string.service_underway)
+            incWorkBegun.incWipCard.msg.text =
+                resources.getString(R.string.service_appointment_work_begun_message)
+            incWorkBegun.work_begun_appointment_text.text =
+                resources.getString(R.string.is_working_now)
+            displayDashboardUI()
+        }
+        incWorkBegun.work_begun_technician_name.text = it.serviceEngineerName
+        incWorkBegun.incWipCard.title.text =
+            resources.getString(R.string.work_in_progress)
+        dashboardViewModel.clearNotificationStatus(ServiceStatus.WORK_BEGUN.name)
+        if (dashboardViewModel.readNotificationStatus(ServiceStatus.WORK_BEGUN.name)) {
+            incWorkBegun.incWipCard.visibility = View.GONE
+        } else {
+            incWorkBegun.incWipCard.visibility = View.VISIBLE
+        }
+        incWorkBegun.incWipCard.msg_dismiss_button.setOnClickListener {
+            dashboardViewModel.logDismissNotification(ServiceStatus.WORK_BEGUN.name)
+            incWorkBegun.incWipCard.visibility = View.GONE
+        }
+        originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
+        dashboardViewModel.logAppointmentStatusState(3)
+
+        incScheduled.visibility = View.GONE
+        incEnroute.visibility = View.GONE
+        incWorkBegun.visibility = View.VISIBLE
+        incCompleted.visibility = View.GONE
+        incCanceled.visibility = View.GONE
+    }
+
+    /**
+     * Update UI Appointment Enroute - It will update UI with status Appointment enroute
+     */
+    private fun updateUIAppointmentEnroute(it: DashboardViewModel.AppointmentEngineerStatus) {
+        originLatLng =
+            LatLng(it.serviceLatitude?.toDouble(), it.serviceLongitude?.toDouble())
+        setupEnrouteMap()
+        if (it.jobType.contains(HomeViewModel.intsall)) {
+            incEnroute.enroute_appointment_status_title.text =
+                resources.getString(R.string.fiber_installation_status)
+            incEnroute.incEnrouteCard.msg.text =
+                resources.getString(R.string.enroute_notification_message)
+            binding.connectedDevicesCard.root.visibility = View.GONE
+            binding.layoutNetworkList.visibility = View.GONE
+        } else {
+            incEnroute.enroute_appointment_status_title.text =
+                resources.getString(R.string.service_appointment_status)
+            incEnroute.incEnrouteCard.msg.text =
+                resources.getString(R.string.service_appointment_enroute_notification_message)
+            displayDashboardUI()
+        }
+        incEnroute.enroute_technician_name.text = it.serviceEngineerName
+        incEnroute.enroute_appointment_time.text = it.serviceAppointmentTime
+        incEnroute.incEnrouteCard.title.text =
+            resources.getString(R.string.technician_on_the_way)
+        dashboardViewModel.clearNotificationStatus(ServiceStatus.EN_ROUTE.name)
+        if (dashboardViewModel.readNotificationStatus(ServiceStatus.EN_ROUTE.name)) {
+            incEnroute.incEnrouteCard.visibility = View.GONE
+        } else {
+            incEnroute.incEnrouteCard.visibility = View.VISIBLE
+        }
+        incEnroute.incEnrouteCard.msg_dismiss_button.setOnClickListener {
+            dashboardViewModel.logDismissNotification(ServiceStatus.EN_ROUTE.name)
+            incEnroute.incEnrouteCard.visibility = View.GONE
+        }
+        originLatLng = LatLng(it.serviceLatitude.toDouble(), it.serviceLongitude.toDouble())
+        dashboardViewModel.logAppointmentStatusState(2)
+
+        incScheduled.visibility = View.GONE
+        incEnroute.visibility = View.VISIBLE
+        incWorkBegun.visibility = View.GONE
+        incCompleted.visibility = View.GONE
+        incCanceled.visibility = View.GONE
+    }
+
+    /**
+     * Update UI Appointment Scheduled - It will update UI with status Appointment scheduled
+     */
+    private fun updateUIAppointmentScheduled(it: DashboardViewModel.AppointmentScheduleState) {
+        incEnroute.visibility = View.GONE
+        incWorkBegun.visibility = View.GONE
+        incCompleted.visibility = View.GONE
+        if (dashboardViewModel.readCancellationAppointmentStatus()) {
+            if (it.jobType.contains(HomeViewModel.intsall)) {
+                incCanceled.visibility = View.VISIBLE
+                incScheduled.visibility = View.GONE
+                binding.layoutNetworkList.visibility = View.GONE
+                binding.connectedDevicesCard.root.visibility = View.GONE
+            } else {
+                incCanceled.visibility = View.GONE
+                incScheduled.visibility = View.GONE
+                displayDashboardUI()
+            }
+        } else {
+            dashboardViewModel.clearAppointmentCancellationStatus()
+            incScheduled.visibility = View.VISIBLE
+            if (it.jobType.contains(HomeViewModel.intsall)) {
+                incScheduled.schedule_appointment_status_title.text =
+                    resources.getString(R.string.fiber_installation_status)
+                incScheduled.schedule_appointment_status_progress_state.text =
+                    resources.getString(R.string.installation_scheduled)
+                binding.connectedDevicesCard.root.visibility = View.GONE
+                dashboardViewModel.clearNotificationStatus(ServiceStatus.SCHEDULED.name)
+                if (dashboardViewModel.readNotificationStatus(ServiceStatus.SCHEDULED.name)) {
+                    incScheduled.incWelcomeCard.visibility = View.GONE
+                } else {
+                    incScheduled.incWelcomeCard.visibility = View.VISIBLE
+                }
+                binding.layoutNetworkList.visibility = View.GONE
+            } else {
+                incScheduled.schedule_appointment_status_title.text =
+                    resources.getString(R.string.service_appointment_status)
+                incScheduled.schedule_appointment_status_progress_state.text =
+                    resources.getString(R.string.service_appointment_scheduled)
+                incScheduled.incWelcomeCard.visibility = View.GONE
+                displayDashboardUI()
+            }
+        }
+        incScheduled.schedule_appointment_date_time_card.schedule_appointment_date.text =
+            it.serviceAppointmentDate
+        incScheduled.schedule_appointment_date_time_card.schedule_appointment_time.text =
+            getString(
+                R.string.text_time_details,
+                it.serviceAppointmentStartTime,
+                it.serviceAppointmentEndTime
+            )
+        incScheduled.incWelcomeCard.msg_dismiss_button.setOnClickListener {
+            dashboardViewModel.logDismissNotification(ServiceStatus.SCHEDULED.name)
+            incScheduled.incWelcomeCard.visibility = View.GONE
+        }
+        dashboardViewModel.logAppointmentStatusState(1)
     }
 
     // TODO right now this feature is not in active so commenting for now
