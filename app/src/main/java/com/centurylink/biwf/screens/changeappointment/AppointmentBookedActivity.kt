@@ -51,10 +51,10 @@ class AppointmentBookedActivity : BaseActivity() {
         binding = ActivityAppointmentBookedBinding.inflate(layoutInflater)
         setContentView(binding.root)
         appointmentDate =
-            intent.getStringExtra(APPOINTMENT_STATEMENT_DATE)
+            intent.getStringExtra(APPOINTMENT_STATEMENT_DATE)!!
         appointmentSlots =
-            intent.getStringExtra(APPOINTMENT_STATEMENT_SLOTS)
-        appointmentId = intent.getStringExtra(APPOINTMENT_STATEMENT_ID)
+            intent.getStringExtra(APPOINTMENT_STATEMENT_SLOTS)!!
+        appointmentId = intent.getStringExtra(APPOINTMENT_STATEMENT_ID)!!
         initViews()
     }
 
