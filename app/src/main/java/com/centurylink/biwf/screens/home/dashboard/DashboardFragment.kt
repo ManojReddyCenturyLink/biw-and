@@ -867,7 +867,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         ).show(fragManager!!, DashboardFragment::class.simpleName)
     }
 
-    fun View.clickWithDebounce(debounceTime: Long = 600L, action: () -> Unit) {
+    private fun View.clickWithDebounce(debounceTime: Long = 600L, action: () -> Unit) {
         this.setOnClickListener(object : View.OnClickListener {
             private var lastClickTime: Long = 0
 
@@ -1121,22 +1121,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             ::onEnableDisableCallback
         )
             .show(fragManager!!, NetworkStatusActivity::class.simpleName)
-    }
-
-    /**
-     * On screen exit confirmation dialog callback- It will handle the on screen exit confirmation
-     * dialog callback listeners
-     *
-     * @param buttonType - its return the which button is pressed negative or positive
-     */
-    private fun onScreenExitConfirmationDialogCallback(buttonType: Int) {
-        when (buttonType) {
-            // TODO - This has to be replaced with API calls
-            AlertDialog.BUTTON_POSITIVE -> {
-            }
-            AlertDialog.BUTTON_NEGATIVE -> {
-            }
-        }
     }
 
     /**
