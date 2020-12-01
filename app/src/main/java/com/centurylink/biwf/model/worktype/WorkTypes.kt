@@ -9,7 +9,7 @@ import java.util.*
 data class WorkTypes(
     @SerializedName("Id") var id: String? = null,
     @SerializedName("OwnerId") var ownerId: String? = null,
-    @SerializedName("IsDeleted") var IsDeleted: Boolean? = null,
+    @SerializedName("IsDeleted") var isDeleted: Boolean? = null,
     @SerializedName("Name") var name: String? = null,
     @SerializedName("CreatedDate") var createdDate: Date? = null,
     @SerializedName("CreatedById") var createdById: String? = null,

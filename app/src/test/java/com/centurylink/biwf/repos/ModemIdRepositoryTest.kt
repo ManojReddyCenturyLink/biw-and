@@ -71,7 +71,7 @@ class ModemIdRepositoryTest : BaseRepositoryTest() {
             launch {
 
                 val attributes = Attributes(type = "", url = "")
-                val records = Records(attributes, modem_Number__c = "")
+                val records = Records(attributes, modemNumberC = "")
                 modemIdResponse = ModemIdResponse(totalSize = 1, done = true, records = listOf())
                 coEvery { modemIdService.getModemId(any()) } returns Either.Right(modemIdResponse)
 

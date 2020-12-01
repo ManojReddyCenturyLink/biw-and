@@ -55,7 +55,7 @@ class McafeeRepositoryTest : BaseRepositoryTest() {
                 )
                 val deviceList = listOf("AA.BG.FA.CC", "AA.BG.FA.11")
                 val accountInfo = mcafeeRepository.getMcafeeDeviceIds(deviceList)
-                Assert.assertEquals(accountInfo.map { it[0].mac_address }, Either.Right("E0-C7-67-8C-BE-28"))
+                Assert.assertEquals(accountInfo.map { it[0].macAddress }, Either.Right("E0-C7-67-8C-BE-28"))
             }
         }
     }

@@ -128,7 +128,7 @@ class CaseRepositoryTest : BaseRepositoryTest() {
                 )
                 val submitInfo =
                     caseRepository.createDeactivationRequest(Date(), "", "", 4.0f, "", "")
-                Assert.assertEquals(submitInfo.map { it.Id }, Either.Right("500f0000009AHOiAAO"))
+                Assert.assertEquals(submitInfo.map { it.id }, Either.Right("500f0000009AHOiAAO"))
                 Assert.assertEquals(submitInfo.map { it.success }, Either.Right(true))
             }
         }
@@ -150,7 +150,7 @@ class CaseRepositoryTest : BaseRepositoryTest() {
                     emptyString,
                     ""
                 )
-                Assert.assertEquals(submitInfo.map { it.Id }, Either.Right("500f0000009AHOiAAO"))
+                Assert.assertEquals(submitInfo.map { it.id }, Either.Right("500f0000009AHOiAAO"))
                 Assert.assertEquals(submitInfo.map { it.success }, Either.Right(true))
             }
         }
@@ -173,7 +173,7 @@ class CaseRepositoryTest : BaseRepositoryTest() {
                     emptyString,
                     ""
                 )
-                Assert.assertEquals(submitInfo.map { it.Id }, Either.Right("500f0000009AHOiAAO"))
+                Assert.assertEquals(submitInfo.map { it.id }, Either.Right("500f0000009AHOiAAO"))
                 Assert.assertEquals(submitInfo.map { it.success }, Either.Right(true))
             }
         }
@@ -197,7 +197,7 @@ class CaseRepositoryTest : BaseRepositoryTest() {
                     emptyString,
                     ""
                 )
-                Assert.assertEquals(submitInfo.map { it.Id }, Either.Right("500f0000009AHOiAAO"))
+                Assert.assertEquals(submitInfo.map { it.id }, Either.Right("500f0000009AHOiAAO"))
                 Assert.assertEquals(submitInfo.map { it.success }, Either.Right(true))
             }
         }
@@ -210,7 +210,7 @@ class CaseRepositoryTest : BaseRepositoryTest() {
                 coEvery { caseApiService.getCaseNumber() } returns Either.Right(case)
                 val casedetailsInfo = caseRepository.getCaseId()
                 Assert.assertEquals(
-                    casedetailsInfo.map { it.caseRecentItems[0].Id },
+                    casedetailsInfo.map { it.caseRecentItems[0].id },
                     Either.Right("500f0000009ZtpSAAS")
                 )
                 Assert.assertEquals(

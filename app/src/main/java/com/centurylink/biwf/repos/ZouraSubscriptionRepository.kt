@@ -45,7 +45,7 @@ class ZouraSubscriptionRepository @Inject constructor(
             zuoraSubscriptionApiService.getSubscriptionDate(finalQuery)
         return result.mapLeft { it.message?.message.toString() }
             .flatMap {
-                val date = it.records.elementAtOrElse(0) { null }?.ZuoraSubscriptionEndDate
+                val date = it.records.elementAtOrElse(0) { null }?.zuoraSubscriptionEndDate
                 date?.let {
                     Either.Right(it)
                 } ?: Either.Left("Date is not available")

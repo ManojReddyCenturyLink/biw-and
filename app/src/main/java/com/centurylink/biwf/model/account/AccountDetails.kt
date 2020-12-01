@@ -8,7 +8,7 @@ import java.io.Serializable
  */
 data class AccountDetails(
     @SerializedName("Id")
-    val Id: String = "",
+    val accountId: String = "",
     @SerializedName("Name")
     val name: String = "",
     @SerializedName("LastName__c")

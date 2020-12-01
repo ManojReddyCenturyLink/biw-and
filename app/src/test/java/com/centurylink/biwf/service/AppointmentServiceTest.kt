@@ -28,7 +28,7 @@ class AppointmentServiceTest : BaseServiceTest() {
             appointmentService.getAppointmentDetails("sss")
         Assert.assertEquals(posts.map { it.records[0].id }, Either.Right("08pf00000008gvRAAQ"))
         Assert.assertEquals(
-            posts.map { it.records[0].WorkTypeId },
+            posts.map { it.records[0].workTypeId },
             Either.Right("08qf00000008QgoAAE")
         )
     }
@@ -45,7 +45,7 @@ class AppointmentServiceTest : BaseServiceTest() {
         enqueueResponse("serviceappointments.json")
         val posts: FiberServiceResult<ServiceAppointments> =
             appointmentService.getServiceAppointments("sss")
-        Assert.assertEquals(posts.map { it.Id }, Either.Right("08pf00000008gvRAAQ"))
+        Assert.assertEquals(posts.map { it.id }, Either.Right("08pf00000008gvRAAQ"))
         Assert.assertEquals(posts.map { it.ownerId }, Either.Right("005f0000003lAdxAAE"))
     }
 

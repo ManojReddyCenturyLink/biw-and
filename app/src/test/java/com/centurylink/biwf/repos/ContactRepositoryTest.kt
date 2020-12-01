@@ -45,7 +45,7 @@ class ContactRepositoryTest : BaseRepositoryTest() {
                 )
                 val contactIfo = contactRepository.getContactDetails()
                 Assert.assertEquals(contactIfo.map { it.name }, Either.Right("Pravin Kumar"))
-                Assert.assertEquals(contactIfo.map { it.Id }, Either.Right("003f000001Q5bRAAAZ"))
+                Assert.assertEquals(contactIfo.map { it.id }, Either.Right("003f000001Q5bRAAAZ"))
             }
         }
     }

@@ -60,14 +60,14 @@ class CaseRepository @Inject constructor(
     ): Either<String, CaseResponse> {
         val caseCreate = CaseCreate(
             contactId = getContactId() ?: "",
-            cancellation_Reason__c = cancellationReason ?: "",
-            cancelReason_Comments__c = cancellationReasonExpln ?: "",
-            cancellation_Date_Holder__c = DateUtils.toSimpleString(
+            cancellationReasonC = cancellationReason ?: "",
+            cancelreasonCommentsC = cancellationReasonExpln ?: "",
+            cancellationDateHolderC = DateUtils.toSimpleString(
                 cancellationDate,
                 DateUtils.STANDARD_FORMAT
             ),
-            notes__c = comments ?: "",
-            experience__c = String.format("%.0f", rating),
+            notesC = comments ?: "",
+            experienceC = String.format("%.0f", rating),
             recordTypeId = recordTypeId
         )
         val result: FiberServiceResult<CaseResponse> =
@@ -94,7 +94,7 @@ class CaseRepository @Inject constructor(
         val result: FiberServiceResult<RecordId> =
             caseApiService.getRecordTpeId(EnvironmentPath.RECORD_TYPE_ID_QUERY)
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            val id = it.records.elementAtOrElse(0) { null }?.Id
+            val id = it.records.elementAtOrElse(0) { null }?.id
             if (id.isNullOrEmpty()) {
                 Either.Left("Record Id  Records is Empty")
             } else {

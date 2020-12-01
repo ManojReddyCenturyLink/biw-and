@@ -90,14 +90,14 @@ class SelectTimeViewModel @Inject constructor(
      * Support service - initiates call to schedule callback request
      *
      * @param phoneNumber - phone number input
-     * @param ASAP - boolean value corresponding to next available time slot
+     * @param aSAP - boolean value corresponding to next available time slot
      * @param customerCareOption - customer care option
      * @param fullDateAndTime - date and time slot
      * @param additionalInfo - additional info related to callback
      */
     fun supportService(
         phoneNumber: String,
-        ASAP: String,
+        aSAP: String,
         customerCareOption: String,
         fullDateAndTime: String,
         additionalInfo: String
@@ -107,9 +107,9 @@ class SelectTimeViewModel @Inject constructor(
             supportServiceInfo(SupportServicesReq(
                 preferences.getValueByID(Preferences.USER_ID),
                 phoneNumber,
-                ASAP,
+                aSAP,
                 customerCareOption,
-                ASAP,
+                aSAP,
                 fullDateAndTime,
                 additionalInfo
             )
