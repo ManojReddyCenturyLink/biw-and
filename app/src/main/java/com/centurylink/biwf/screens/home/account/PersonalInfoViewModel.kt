@@ -50,10 +50,8 @@ class PersonalInfoViewModel @Inject constructor(
     fun callUpdatePasswordApi() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_PERSONAL_INFO)
         viewModelScope.launch {
-            if (passwordValue.isNotEmpty()) {
-                val res = userRepository.resetPassWord(passwordValue)
-                userPasswordFlow.latestValue = res
-            }
+            val res = userRepository.resetPassWord(passwordValue)
+            userPasswordFlow.latestValue = res
         }
     }
 
@@ -178,6 +176,11 @@ class PersonalInfoViewModel @Inject constructor(
         if (confirmPasswordValue.isEmpty()) {
             errors["confirmPasswordError"] = "confirmPasswordError"
             errors["fieldMandatory"] = "fieldMandatory"
+        }
+        if (confirmPasswordValue.length < 8 && confirmPasswordValue.isNotEmpty()) {
+            errors["passwordLengthError"] = "passwordLengthError"
+            errors["passwordError"] = "passwordError"
+            errors["confirmPasswordError"] = "confirmPasswordError"
         }
         if (confirmPasswordValue != passwordValue && confirmPasswordValue.isNotEmpty() && passwordValue.isNotEmpty()) {
             errors["passwordMismatchError"] = "passwordMismatchError"
