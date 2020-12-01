@@ -168,9 +168,9 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         val day = c.get(Calendar.DAY_OF_MONTH)
         val datePicker = DatePickerDialog(
             this,
-            DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            DatePickerDialog.OnDateSetListener { _, year1, monthOfYear, dayOfMonth ->
                 val newDate: Calendar = Calendar.getInstance()
-                newDate.set(year, monthOfYear, dayOfMonth)
+                newDate.set(year1, monthOfYear, dayOfMonth)
                 binding.cancelSubscriptionDetailsError.visibility = View.GONE
                 viewModel.onCancellationDateSelected(newDate.time)
             },
@@ -184,7 +184,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
 
     private fun initRatingView() {
         binding.cancellationDateSelection.setOnClickListener { viewModel.onDateChange() }
-        binding.cancellationServiceRatingBar.setOnRatingChangeListener { baseRatingBar: BaseRatingBar, rating: Float, b: Boolean ->
+        binding.cancellationServiceRatingBar.setOnRatingChangeListener { baseRatingBar: BaseRatingBar, rating: Float, _: Boolean ->
             baseRatingBar.rating = rating
             viewModel.onRatingChanged(rating)
         }

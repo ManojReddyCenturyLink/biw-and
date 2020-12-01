@@ -128,7 +128,7 @@ class NotificationActivity : BaseActivity(), NotificationItemClickListener {
      *
      */
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.notification_details)
+        val screenTitle: String = getString(R.string.notification_details)
         binding.incHeader.apply {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderCenterTitle.text = screenTitle
