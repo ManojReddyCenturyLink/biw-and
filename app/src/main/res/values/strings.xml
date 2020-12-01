@@ -177,7 +177,7 @@
     <string name="phone_number_invalid">please enter a valid 10 digit phone number</string>
     <string name="login_information">Login information</string>
     <string name="email_address">Email address</string>
-    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="passwords_do_not_match">passwords do not match</string>
     <string name="how_do_i_change_my_email">How do I change my email?</string>
 
     <!-- Subscription Statement Screen-->

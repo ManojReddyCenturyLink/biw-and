@@ -119,9 +119,9 @@ class PersonalInfoActivity : BaseActivity() {
             binding.errorConfirmPasswordDifferent.visibility =
                 if (it.containsKey("passwordMismatchError")) View.VISIBLE else View.GONE
             binding.phoneNumberText.visibility =
-                if (it.containsKey("mobileNumberError")) View.GONE else View.VISIBLE
+                if (it.containsKey("mobileNumberError") || it.containsKey("mobileNumberLengthError")) View.GONE else View.VISIBLE
             binding.phoneNumberErrorText.visibility =
-                if (it.containsKey("mobileNumberError")) View.VISIBLE else View.GONE
+                if (it.containsKey("mobileNumberError") || it.containsKey("mobileNumberLengthError")) View.VISIBLE else View.GONE
             binding.personalInfoPasswordInput.background =
                 if (it.containsKey("passwordError") || it.containsKey("passwordLengthError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
                     R.drawable.background_thin_border
