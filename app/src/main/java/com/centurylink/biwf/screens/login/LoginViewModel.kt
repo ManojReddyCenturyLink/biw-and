@@ -69,13 +69,6 @@ class LoginViewModel internal constructor(
     )
 
     /**
-     * This block is executed first, when the class is instantiated.
-     */
-    init {
-        handleSignInFlow()
-    }
-
-    /**
      * Show login screen - It will handle authentication of login screen
      *
      */

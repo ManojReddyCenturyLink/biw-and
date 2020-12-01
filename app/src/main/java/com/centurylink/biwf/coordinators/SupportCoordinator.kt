@@ -1,6 +1,7 @@
 package com.centurylink.biwf.coordinators
 
 import android.os.Bundle
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,7 +25,6 @@ class SupportCoordinator @Inject constructor() : Coordinator<SupportCoordinatorD
     override fun navigateTo(destination: SupportCoordinatorDestinations) {
         when (destination) {
             SupportCoordinatorDestinations.FAQ -> navigateToFaq()
-            SupportCoordinatorDestinations.NAVIGATE_TO_WEBSITE -> { }
             SupportCoordinatorDestinations.SCHEDULE_CALLBACK -> navigateToScheduleCallback()
             SupportCoordinatorDestinations.LIVE_CHAT -> navigateToLiveChat()
         }
@@ -46,7 +46,9 @@ class SupportCoordinator @Inject constructor() : Coordinator<SupportCoordinatorD
         navigator.navigateToScheduleCallbackFromSupport()
     }
 
-    private fun navigateToLiveChat() {}
+    private fun navigateToLiveChat() {
+        Timber.e("Navigate to live chat ")
+    }
 }
 
 /**

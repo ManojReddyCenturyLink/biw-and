@@ -1,6 +1,7 @@
 package com.centurylink.biwf.coordinators
 
 import android.os.Bundle
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -23,7 +24,9 @@ class UsageDetailsCoordinator @Inject constructor(
      */
     override fun navigateTo(destination: UsageDetailsCoordinatorDestinations) {
         when (destination) {
-            UsageDetailsCoordinatorDestinations.DEVICES_CONNECTED -> {}
+            UsageDetailsCoordinatorDestinations.DEVICES_CONNECTED -> {
+                Timber.e("usage details coordinator destinations")
+            }
         }
     }
 }

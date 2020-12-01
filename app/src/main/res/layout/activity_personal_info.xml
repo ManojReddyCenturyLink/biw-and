@@ -34,16 +34,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/incHeader" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/mandatory_error_guideline"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5"/>
+
     <TextView
         android:id="@+id/mandatory_fields_label"
         style="@style/ErrorFields"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_spacing_small"
         android:text="@string/cancel_subscription_error_info"
         android:visibility="gone"
+        android:gravity="right"
+        tools:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/login_label"
-        app:layout_constraintEnd_toEndOf="@+id/personal_info_email_input"
+        app:layout_constraintEnd_toEndOf="@id/personal_info_email_input"
+        app:layout_constraintStart_toStartOf="@id/mandatory_error_guideline"
         app:layout_constraintTop_toTopOf="@+id/login_label" />
 
     <TextView
@@ -127,6 +137,22 @@
         app:layout_constraintBottom_toBottomOf="@+id/personal_info_password_error_label"
         app:layout_constraintEnd_toEndOf="@id/personal_info_password_input"
         app:layout_constraintTop_toTopOf="@+id/personal_info_password_error_label" />
+
+    <TextView
+        android:id="@+id/error_password_length"
+        android:textAppearance="@style/ErrorFields"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/error_password_length"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/medium_margin_spacing"
+        tools:visibility="visible"
+        android:gravity="right"
+        android:layout_marginBottom="@dimen/spacing_4"
+        app:layout_constraintBottom_toTopOf="@id/personal_info_password_input"
+        app:layout_constraintStart_toEndOf="@id/personal_info_password_error_label"
+        app:layout_constraintEnd_toEndOf="@id/personal_info_password_input"
+        />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrierPasswordField"
@@ -295,16 +321,26 @@
         app:layout_constraintTop_toBottomOf="@id/barrierPhoneNumberField"
         tools:ignore="LabelFor" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/phoneErrorGuideline"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3"/>
+
     <TextView
         android:id="@+id/personal_info_phone_number_invalid_error"
         style="@style/ErrorFields"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="@string/phone_number_invalid"
         android:visibility="gone"
         tools:visibility="visible"
-        android:layout_marginTop="@dimen/spacing_4"
-        app:layout_constraintTop_toBottomOf="@id/personal_info_phone_number_input"
-        app:layout_constraintStart_toStartOf="@id/personal_info_confirm_password_input"/>
+        android:gravity="right"
+        android:layout_marginRight="@dimen/spacing_4"
+        android:layout_marginBottom="@dimen/spacing_4"
+        app:layout_constraintBottom_toTopOf="@id/personal_info_phone_number_input"
+        app:layout_constraintStart_toEndOf="@id/phone_number_error_text"
+        app:layout_constraintEnd_toEndOf="@id/personal_info_phone_number_input"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

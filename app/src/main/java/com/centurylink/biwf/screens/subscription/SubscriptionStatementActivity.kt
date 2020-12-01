@@ -9,15 +9,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.centurylink.biwf.R
 import com.centurylink.biwf.base.BaseActivity
 import com.centurylink.biwf.coordinators.Navigator
-import com.centurylink.biwf.coordinators.StatementCoordinator
 import com.centurylink.biwf.databinding.ActivitySubscriptionStatementBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import javax.inject.Inject
 
 class SubscriptionStatementActivity : BaseActivity() {
-
-    @Inject
-    lateinit var statementCoordinator: StatementCoordinator
 
     @Inject
     lateinit var factory: DaggerViewModelFactory

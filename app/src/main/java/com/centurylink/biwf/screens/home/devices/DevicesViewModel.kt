@@ -279,7 +279,6 @@ class DevicesViewModel @Inject constructor(
     }
 
     private fun sortAndDisplayDeviceInfo() {
-//        val removedList = devicesDataList.filter { it.blocked }.distinct()
         val connectedList = devicesDataList.filter { !it.blocked }.distinct()
         val deviceMap: HashMap<DeviceStatus, MutableList<DevicesData>> = HashMap()
         if (!connectedList.isNullOrEmpty()) {

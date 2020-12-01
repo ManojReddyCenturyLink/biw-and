@@ -23,6 +23,7 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemConstant
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableSwipeableItemViewHolder
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter
+import timber.log.Timber
 
 internal class DeviceListAdapter(
     var deviceList: HashMap<DeviceStatus, MutableList<DevicesData>>,
@@ -322,6 +323,7 @@ internal class DeviceListAdapter(
     }
 
     override fun onMoveGroupItem(fromGroupPosition: Int, toGroupPosition: Int) {
+        Timber.e("on move group item function")
     }
 
     override fun onMoveChildItem(
@@ -330,6 +332,7 @@ internal class DeviceListAdapter(
         toGroupPosition: Int,
         toChildPosition: Int
     ) {
+        Timber.e("on move child item function")
     }
 
     override fun onGroupDragStarted(groupPosition: Int) {
@@ -401,6 +404,7 @@ internal class DeviceListAdapter(
         groupPosition: Int,
         type: Int
     ) {
+        Timber.e("on set group item swipe background function")
     }
 
     override fun onSetChildItemSwipeBackground(
@@ -409,6 +413,7 @@ internal class DeviceListAdapter(
         childPosition: Int,
         type: Int
     ) {
+        Timber.e("on set child item swipe background function")
     }
 
     override fun onSwipeGroupItem(
