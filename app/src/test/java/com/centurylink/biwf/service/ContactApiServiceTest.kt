@@ -27,7 +27,7 @@ class ContactApiServiceTest : BaseServiceTest() {
         enqueueResponse("contact.json")
         val posts: FiberServiceResult<ContactDetails> = contactApiService.getContactDetails("12233")
         Assert.assertEquals(posts.map { it.name }, Either.Right("Pravin Kumar"))
-        Assert.assertEquals(posts.map { it.Id }, Either.Right("003f000001Q5bRAAAZ"))
+        Assert.assertEquals(posts.map { it.id }, Either.Right("003f000001Q5bRAAAZ"))
     }
 
     @Test

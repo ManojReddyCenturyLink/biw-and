@@ -103,7 +103,7 @@ class DevicesViewModel @Inject constructor(
                     deviceData.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
                 }
                 deviceData.mcafeeDeviceId = mcafeeDeviceIds.firstOrNull {
-                    deviceData.stationMac?.replace(":", "-") == it.mac_address
+                    deviceData.stationMac?.replace(":", "-") == it.macAddress
                 }?.devices?.get(0)?.id ?: ""
             }
         })

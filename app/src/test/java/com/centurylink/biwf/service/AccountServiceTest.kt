@@ -26,7 +26,7 @@ class AccountServiceTest : BaseServiceTest() {
         enqueueResponse("account.json")
         val posts: FiberServiceResult<AccountDetails> = accountApiService.getAccountDetails("12233")
         Assert.assertEquals(posts.map { it.name }, Either.Right("James Cameroon"))
-        Assert.assertEquals(posts.map { it.Id }, Either.Right("001q000001GZ900AAD"))
+        Assert.assertEquals(posts.map { it.accountId }, Either.Right("001q000001GZ900AAD"))
     }
 
     @Test

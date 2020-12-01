@@ -27,7 +27,7 @@ class CaseApiServiceTest : BaseServiceTest() {
     fun testGetCaseNumberSuccess() = runBlocking {
         enqueueResponse("case.json")
         val posts: FiberServiceResult<Cases> = caseApiService.getCaseNumber()
-        Assert.assertEquals(posts.map { it.caseRecentItems[0].Id }, Either.Right("500f0000009ZtpSAAS"))
+        Assert.assertEquals(posts.map { it.caseRecentItems[0].id }, Either.Right("500f0000009ZtpSAAS"))
         Assert.assertEquals(posts.map { it.caseRecentItems[0].caseNumber }, Either.Right("00011023"))
     }
 
@@ -41,7 +41,7 @@ class CaseApiServiceTest : BaseServiceTest() {
     fun testPostsubmitCaseForSubscriptionSuccess() = runBlocking {
         enqueueResponse("cancelsubscription.json")
         val posts: FiberServiceResult<CaseResponse> = caseApiService.submitCaseForSubscription(CaseCreate())
-        Assert.assertEquals(posts.map { it.Id }, Either.Right("500f0000009AHOiAAO"))
+        Assert.assertEquals(posts.map { it.id }, Either.Right("500f0000009AHOiAAO"))
         Assert.assertEquals(posts.map { it.success }, Either.Right(true))
     }
 
@@ -55,7 +55,7 @@ class CaseApiServiceTest : BaseServiceTest() {
     fun testGetRecordIdSuccess() = runBlocking {
         enqueueResponse("caseid.json")
         val posts: FiberServiceResult<RecordId> = caseApiService.getRecordTpeId("")
-        Assert.assertEquals(posts.map { it.records[0].Id }, Either.Right("a1Qf0000000aRQjEAM"))
+        Assert.assertEquals(posts.map { it.records[0].id }, Either.Right("a1Qf0000000aRQjEAM"))
     }
 
     @Test

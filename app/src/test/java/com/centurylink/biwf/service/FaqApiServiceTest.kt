@@ -25,7 +25,7 @@ class FaqApiServiceTest : BaseServiceTest() {
         enqueueResponse("faqnosection.json")
         val posts: FiberServiceResult<Faq> = faqApiService.getFaqDetails("")
         Assert.assertEquals(posts.map { it.records[0].sectionC }, Either.Right("Manage my account"))
-        Assert.assertEquals(posts.map { it.records[0].Id }, Either.Right("ka0f00000009Z9nAAE"))
+        Assert.assertEquals(posts.map { it.records[0].id }, Either.Right("ka0f00000009Z9nAAE"))
     }
 
     @Test

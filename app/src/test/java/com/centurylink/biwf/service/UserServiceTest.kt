@@ -27,7 +27,7 @@ class UserServiceTest : BaseServiceTest() {
         enqueueResponse("user.json")
         val posts: FiberServiceResult<UserInfo> = userService.qetUserInfo()
         Assert.assertEquals(
-            posts.map { it.recentItems.get(0).Id },
+            posts.map { it.recentItems.get(0).id },
             Either.Right("005f0000004654oAAA")
         )
         Assert.assertEquals(

@@ -193,7 +193,7 @@ class WifiDevicesAdapter(
     }
     interface WifiDeviceClickListener {
         fun onWifiQRScanImageClicked(wifidetails: WifiInfo)
-        fun onWifiNameClicked(NetworkName: String)
+        fun onWifiNameClicked(networkName: String)
         fun onWifiNetworkStatusImageClicked(wifidetails: WifiInfo)
         fun onNavigateToNetworkInfo()
     }

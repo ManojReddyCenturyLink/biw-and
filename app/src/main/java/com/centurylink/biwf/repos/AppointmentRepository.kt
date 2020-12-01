@@ -64,7 +64,7 @@ class AppointmentRepository @Inject constructor(
                 }
                 if (it.id.isNullOrEmpty()) {
                     Either.Left("Appointment id is Empty")
-                } else if (it.JobType.isNullOrEmpty() || it.appointmentNumber == null || it.appointmentStatus == null) {
+                } else if (it.jobType.isNullOrEmpty() || it.appointmentNumber == null || it.appointmentStatus == null) {
                     Either.Left("Mandatory Records  is Empty")
                 } else {
 
@@ -75,7 +75,7 @@ class AppointmentRepository @Inject constructor(
                         serviceEngineerName = engineerName,
                         serviceStatus = it.appointmentStatus,
                         serviceEngineerProfilePic = "",
-                        jobType = it.JobType,
+                        jobType = it.jobType,
                         serviceLatitude = it.latitude ?: "0.0",
                         serviceLongitude = it.longitude ?: "0.0",
                         appointmentId = it.id,

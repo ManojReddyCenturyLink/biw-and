@@ -49,7 +49,7 @@ class FAQRepositoryTest : BaseRepositoryTest() {
                 coEvery { faqService.getFaqDetails(any()) } returns Either.Right(faq)
                 val faqDetails = faqRepository.getFAQQuestionDetails("12345")
                 Assert.assertEquals(faqDetails.map { it.records[0].sectionC }, Either.Right("Manage my account"))
-                Assert.assertEquals(faqDetails.map { it.records[0].Id }, Either.Right("ka0f00000009Z9nAAE"))
+                Assert.assertEquals(faqDetails.map { it.records[0].id }, Either.Right("ka0f00000009Z9nAAE"))
                 Assert.assertEquals(faqDetails.map { it.records[0].articleNumber }, Either.Right("000001063"))
             }
         }

@@ -50,7 +50,7 @@ class UserRepositoryTest : BaseRepositoryTest() {
                 coEvery { userService.qetUserInfo() } returns Either.Right(userInfo)
                 val userInformation = userRepository.getUserInfo()
                 Assert.assertEquals(
-                    userInformation.map { it.recentItems.get(0).Id },
+                    userInformation.map { it.recentItems.get(0).id },
                     Either.Right("005f0000004654oAAA")
                 )
                 Assert.assertEquals(

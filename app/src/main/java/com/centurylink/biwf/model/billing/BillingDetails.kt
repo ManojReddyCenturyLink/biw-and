@@ -34,19 +34,19 @@ class BillingDetails(
     val zuoraPaymentMethod: String = "",
 
     @SerializedName("ZAmountWithoutTax__c")
-    val ZAmountWithoutTax: String = "",
+    val zAmountWithoutTax: String = "",
 
     @SerializedName("Zuora__Invoice__c")
-    val ZuoraInvoicec: String = "",
+    val zuoraInvoicec: String = "",
 
     @SerializedName("Zuora__Amount__c")
-    val ZuoraAmountc: String = "",
+    val zuoraAmountc: String = "",
 
     @SerializedName("ZTaxAmount__c")
-    val ZtaxAmount: String = "",
+    val zTaxAmount: String = "",
 
     @SerializedName("Zuora__CreatedDate__c")
-    val ZuoraCreatedDate: String = "",
+    val zuoraCreatedDate: String = "",
 
     @SerializedName("BillingAddress")
     val billingAddress: BillingAddress
