@@ -25,7 +25,6 @@ class SupportCoordinator @Inject constructor() : Coordinator<SupportCoordinatorD
     override fun navigateTo(destination: SupportCoordinatorDestinations) {
         when (destination) {
             SupportCoordinatorDestinations.FAQ -> navigateToFaq()
-            SupportCoordinatorDestinations.NAVIGATE_TO_WEBSITE -> { Timber.e("Navigates to website") }
             SupportCoordinatorDestinations.SCHEDULE_CALLBACK -> navigateToScheduleCallback()
             SupportCoordinatorDestinations.LIVE_CHAT -> navigateToLiveChat()
         }
