@@ -145,6 +145,7 @@ class UsageDetailsViewModel constructor(
                 if (!macAfeeDeviceId.isNullOrEmpty()) {
                     updatePauseResumeStatus()
                 } else {
+                    progressViewFlow.latestValue = true
                     viewModelScope.launch {
                         requestMcafeeDeviceSingleMapping(
                             listOf(
@@ -169,6 +170,7 @@ class UsageDetailsViewModel constructor(
     private suspend fun requestMcafeeDeviceSingleMapping(deviceList: List<String>) {
         val mcafeeMapping = mcafeeRepository.getMcafeeDeviceIds(deviceList)
         mcafeeMapping.fold(ifLeft = {
+            progressViewFlow.latestValue = false
             deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
             pauseUnpauseConnection.latestValue = deviceData
         }, ifRight = { mcafeeDeviceIds ->
