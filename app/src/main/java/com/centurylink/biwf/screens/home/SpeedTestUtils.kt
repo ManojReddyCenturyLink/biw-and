@@ -8,7 +8,7 @@ class SpeedTestUtils {
         var speedTestEnable = false
 
         fun isSpeedTestAvailable(): Boolean {
-            return true
+            return speedTestEnable
         }
 
         fun setSpeedTestStatus(modemInfo: ModemInfo) {
