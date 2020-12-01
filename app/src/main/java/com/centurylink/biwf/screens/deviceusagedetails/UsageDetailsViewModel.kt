@@ -144,12 +144,40 @@ class UsageDetailsViewModel constructor(
             DeviceConnectionStatus.FAILURE -> {
                 if (!macAfeeDeviceId.isNullOrEmpty()) {
                     updatePauseResumeStatus()
+                } else {
+                    viewModelScope.launch {
+                        requestMcafeeDeviceSingleMapping(
+                            listOf(
+                                deviceData.stationMac!!.replace(
+                                    ":",
+                                    "-"
+                                )
+                            )
+                        )
+                    }
                 }
             }
             DeviceConnectionStatus.MODEM_OFF -> {
                 Timber.e("Cant Perform any Action")
             }
         }
+    }
+
+    /**
+     * Get devices info from Mcafee API
+     */
+    private suspend fun requestMcafeeDeviceSingleMapping(deviceList: List<String>) {
+        val mcafeeMapping = mcafeeRepository.getMcafeeDeviceIds(deviceList)
+        mcafeeMapping.fold(ifLeft = {
+            deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
+            pauseUnpauseConnection.latestValue = deviceData
+        }, ifRight = { mcafeeDeviceIds ->
+
+            deviceData.mcafeeDeviceId = mcafeeDeviceIds.firstOrNull {
+                deviceData.stationMac?.replace(":", "-") == it.mac_address
+            }?.devices?.get(0)?.id ?: ""
+            updatePauseResumeStatus()
+        })
     }
 
     /**

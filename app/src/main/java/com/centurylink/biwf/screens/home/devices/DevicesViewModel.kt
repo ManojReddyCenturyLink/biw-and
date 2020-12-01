@@ -66,6 +66,33 @@ class DevicesViewModel @Inject constructor(
     /**
      * Get devices info from Mcafee API
      */
+    private suspend fun requestMcafeeDeviceSingleMapping(
+        stattionMac: String,
+        deviceList: List<String>
+    ) {
+        val mcafeeMapping = mcafeeRepository.getMcafeeDeviceIds(deviceList)
+        mcafeeMapping.fold(ifLeft = {
+            updateDeviceListWithLoadingStatus(
+                stattionMac!!,
+                DeviceConnectionStatus.FAILURE
+            )
+            upDateDevicesListInUI()
+        }, ifRight = { mcafeeDeviceIds ->
+            devicesDataList.forEach { deviceData ->
+                if (!isModemAlive) {
+                    deviceData.deviceConnectionStatus = DeviceConnectionStatus.MODEM_OFF
+                }
+                deviceData.mcafeeDeviceId = mcafeeDeviceIds.firstOrNull {
+                    deviceData.stationMac?.replace(":", "-") == it.mac_address
+                }?.devices?.get(0)?.id ?: ""
+                requestStateForDevices(deviceId = deviceData.mcafeeDeviceId)
+            }
+        })
+    }
+
+    /**
+     * Get devices info from Mcafee API
+     */
     private suspend fun requestMcafeeDeviceMapping(deviceList: List<String>) {
         val mcafeeMapping = mcafeeRepository.getMcafeeDeviceIds(deviceList)
         mcafeeMapping.fold(ifLeft = {
@@ -235,6 +262,22 @@ class DevicesViewModel @Inject constructor(
         }
     }
 
+    private fun updateDeviceListWithLoadingStatus(
+        stationMac: String,
+        deviceConnectionStatus: DeviceConnectionStatus
+    ) {
+        if (!devicesDataList.isNullOrEmpty()) {
+            for (counter in devicesDataList.indices) {
+                if (devicesDataList[counter].stationMac.equals(stationMac, true)) {
+                    var deviceData = devicesDataList[counter]
+                    deviceData.deviceConnectionStatus = deviceConnectionStatus
+                    devicesDataList.removeAt(counter)
+                    devicesDataList.add(counter, deviceData)
+                }
+            }
+        }
+    }
+
     private fun sortAndDisplayDeviceInfo() {
 //        val removedList = devicesDataList.filter { it.blocked }.distinct()
         val connectedList = devicesDataList.filter { !it.blocked }.distinct()
@@ -342,15 +385,35 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun updatePauseResumeStatus(deviceData: DevicesData) {
+
         viewModelScope.launch {
             when (deviceData.deviceConnectionStatus) {
                 DeviceConnectionStatus.FAILURE, DeviceConnectionStatus.DEVICE_CONNECTED, DeviceConnectionStatus.PAUSED -> {
                     var deviceId = deviceData.mcafeeDeviceId
-                    updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.LOADING)
+                    var stattionMac = deviceData.stationMac
+
                     if (deviceId.isNotEmpty()) {
+                        updateDeviceListWithLoadingErrorStatus(
+                            deviceId,
+                            DeviceConnectionStatus.LOADING
+                        )
                         requestStateForDevices(deviceId = deviceId)
                     } else {
-                        updateDeviceListWithLoadingErrorStatus(deviceId, DeviceConnectionStatus.FAILURE)
+                        updateDeviceListWithLoadingStatus(
+                            stattionMac!!,
+                            DeviceConnectionStatus.LOADING
+                        )
+                        if (!deviceData.stationMac.isNullOrEmpty()) {
+                            requestMcafeeDeviceSingleMapping(
+                                deviceData.stationMac,
+                                listOf(
+                                    deviceData.stationMac.replace(
+                                        ":",
+                                        "-"
+                                    )
+                                )
+                            )
+                        }
                     }
                 }
             }
