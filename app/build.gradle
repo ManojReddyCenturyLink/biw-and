@@ -234,7 +234,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //salesforce
-    implementation "com.salesforce.service:chat-ui:4.1.1"
+    implementation "com.salesforce.service:chat-ui:4.1.2"
 
     /* Dagger2 - We are going to use dagger.android which includes
    * support for Activity and fragment injection so we need to include
