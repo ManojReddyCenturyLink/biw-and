@@ -97,7 +97,9 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
                 }
             }
 
-            override fun onTabReselected(tab: TabLayout.Tab) {}
+            override fun onTabReselected(tab: TabLayout.Tab) {
+                Timber.e("On tab reselected function")
+            }
         }
         initViews()
         initOnClicks()
@@ -325,10 +327,13 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
                 openBioMetricDialog(list)
             }
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                Timber.e("Biometric no hardware error")
             }
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                Timber.e("Biometric hardware unavailable error")
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                Timber.e("Biometric none enrolled error")
             }
         }
     }

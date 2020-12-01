@@ -26,6 +26,7 @@ import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropM
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager
 import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager
+import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -324,5 +325,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     }
 
     override fun onGroupCollapse(groupPosition: Int, fromUser: Boolean, payload: Any?) {
+        Timber.e("on group collapse function")
     }
 }

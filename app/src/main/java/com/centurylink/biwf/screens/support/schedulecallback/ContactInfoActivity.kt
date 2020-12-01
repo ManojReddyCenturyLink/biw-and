@@ -17,6 +17,7 @@ import com.centurylink.biwf.databinding.ActivityContactInfoBinding
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.utility.afterTextChanged
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -279,6 +280,7 @@ class ContactInfoActivity : BaseActivity() {
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                Timber.e("positive button pressed")
             }
         }
     }

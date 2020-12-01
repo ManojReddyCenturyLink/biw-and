@@ -2,6 +2,7 @@ package com.centurylink.biwf.widgets
 
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.FragmentManager
+import timber.log.Timber
 
 /**
  * It will handle callback events in case of no network device
@@ -42,6 +43,7 @@ class NoNetworkErrorPopup {
         private fun onDialogCallback(buttonType: Int) {
             when (buttonType) {
                 AlertDialog.BUTTON_POSITIVE -> {
+                    Timber.e("positive button is pressed")
                 }
             }
         }

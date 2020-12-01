@@ -22,6 +22,7 @@ import com.centurylink.biwf.screens.cancelsubscription.adapter.CancellationReaso
 import com.centurylink.biwf.utility.DaggerViewModelFactory
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.willy.ratingbar.BaseRatingBar
+import timber.log.Timber
 import java.text.DateFormat
 import java.util.*
 import javax.inject.Inject
@@ -144,6 +145,7 @@ class CancelSubscriptionDetailsActivity : BaseActivity() {
         binding.cancellationReasonDropdown.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onNothingSelected(parent: AdapterView<*>?) {
+                    Timber.e("On nothing selected")
                 }
 
                 override fun onItemSelected(

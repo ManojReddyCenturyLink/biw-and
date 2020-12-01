@@ -17,6 +17,7 @@ import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.screens.home.account.AccountFragment
 import com.centurylink.biwf.screens.home.dashboard.DashboardFragment
 import com.centurylink.biwf.screens.home.devices.DevicesFragment
+import timber.log.Timber
 
 @Suppress("UNCHECKED_CAST")
 class TabsPagerRecyclerAdapter(
@@ -40,15 +41,6 @@ class TabsPagerRecyclerAdapter(
                     )
                 DevicesViewHolder(binding)
             }
-            TabsBaseItem.DASHBOARD -> {
-                val binding =
-                    LayoutDashboardBinding.inflate(
-                        LayoutInflater.from(parent.context),
-                        parent,
-                        false
-                    )
-                DashboardViewHolder(binding)
-            }
             TabsBaseItem.ACCOUNT -> {
                 val binding =
                     LayoutAccountBinding.inflate(
@@ -58,7 +50,6 @@ class TabsPagerRecyclerAdapter(
                     )
                 AccountViewHolder(binding)
             }
-
             else -> {
                 val binding =
                     LayoutDashboardBinding.inflate(
@@ -108,6 +99,7 @@ class TabsPagerRecyclerAdapter(
         BaseViewHolder(binding.root),
         View.OnClickListener {
         override fun onClick(v: View?) {
+            Timber.e("onclick function for device view holder")
         }
 
         fun setupFragment() {
@@ -121,6 +113,7 @@ class TabsPagerRecyclerAdapter(
     inner class DashboardViewHolder(private val binding: LayoutDashboardBinding) :
         BaseViewHolder(binding.root), View.OnClickListener {
         override fun onClick(v: View?) {
+            Timber.e("onclick function for dashboard view holder")
         }
 
         fun setupFragment() {
@@ -136,6 +129,7 @@ class TabsPagerRecyclerAdapter(
     inner class AccountViewHolder(private val binding: LayoutAccountBinding) :
         BaseViewHolder(binding.root), View.OnClickListener {
         override fun onClick(v: View?) {
+            Timber.e("onclick function for account view holder")
         }
 
         fun setupFragment() {

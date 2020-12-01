@@ -23,6 +23,7 @@ import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.centurylink.biwf.widgets.CustomDialogGreyTheme
 import com.centurylink.biwf.widgets.CustomNetworkInfoDialogGreyTheme
 import com.centurylink.biwf.widgets.GeneralErrorPopUp
+import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -633,6 +634,7 @@ class NetworkStatusActivity : BaseActivity() {
     private fun onEnableDisableCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_NEGATIVE -> {
+                Timber.e("Negative button pressed")
             }
             AlertDialog.BUTTON_POSITIVE -> {
                 onRetryEvent()

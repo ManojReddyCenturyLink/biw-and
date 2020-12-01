@@ -15,6 +15,7 @@ import com.centurylink.biwf.widgets.ModemRebootFailureDialog
 import com.centurylink.biwf.widgets.ModemRebootSuccessDialog
 import dagger.android.AndroidInjection
 import org.greenrobot.eventbus.Subscribe
+import timber.log.Timber
 
 /**
  * Base class for holding common functionality that will be used across Activities. All the Activities
@@ -138,7 +139,9 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver,
         viewModel.rebootModem()
     }
 
-    open fun retryClicked() {}
+    open fun retryClicked() {
+        Timber.e("retry clicked")
+    }
 
     override fun onStart() {
         super.onStart()
