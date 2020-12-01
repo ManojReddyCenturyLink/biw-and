@@ -94,10 +94,13 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
                 showBioDialog(biometricPrompt)
             }
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {
+                Timber.e("Biometric no hardware error")
             }
             BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {
+                Timber.e("Biometric hardware unavailable error")
             }
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                Timber.e("Biometric none enrolled error")
             }
         }
     }

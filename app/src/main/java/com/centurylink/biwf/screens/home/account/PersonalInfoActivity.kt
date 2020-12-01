@@ -119,15 +119,15 @@ class PersonalInfoActivity : BaseActivity() {
             binding.errorConfirmPasswordDifferent.visibility =
                 if (it.containsKey("passwordMismatchError")) View.VISIBLE else View.GONE
             binding.phoneNumberText.visibility =
-                if (it.containsKey("mobileNumberError")) View.GONE else View.VISIBLE
+                if (it.containsKey("mobileNumberError") || it.containsKey("mobileNumberLengthError")) View.GONE else View.VISIBLE
             binding.phoneNumberErrorText.visibility =
-                if (it.containsKey("mobileNumberError")) View.VISIBLE else View.GONE
+                if (it.containsKey("mobileNumberError") || it.containsKey("mobileNumberLengthError")) View.VISIBLE else View.GONE
             binding.personalInfoPasswordInput.background =
-                if (it.containsKey("passwordError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                if (it.containsKey("passwordError") || it.containsKey("passwordLengthError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
                     R.drawable.background_thin_border
                 )
             binding.personalInfoConfirmPasswordInput.background =
-                if (it.containsKey("confirmPasswordError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
+                if (it.containsKey("confirmPasswordError") || it.containsKey("passwordLengthError")) getDrawable(R.drawable.background_thin_border_red) else getDrawable(
                     R.drawable.background_thin_border
                 )
             binding.personalInfoPhoneNumberInput.background =
@@ -136,6 +136,8 @@ class PersonalInfoActivity : BaseActivity() {
                 )
             binding.personalInfoPhoneNumberInvalidError.visibility =
                 if (it.containsKey("mobileNumberLengthError")) View.VISIBLE else View.GONE
+            binding.errorPasswordLength.visibility =
+                if ((it.containsKey("passwordLengthError")) && !(it.containsKey("passwordMismatchError"))) View.VISIBLE else View.GONE
         }
         viewModel.userPasswordFlow.observe {
             if (it.isEmpty()) {
@@ -151,7 +153,7 @@ class PersonalInfoActivity : BaseActivity() {
                     CustomDialogBlueTheme(
                         getString(R.string.error_title),
                         it,
-                        getString(R.string.discard_changes_and_close),
+                        getString(R.string.ok),
                         true,
                         ::onDialogCallback
                     ).show(
@@ -166,7 +168,7 @@ class PersonalInfoActivity : BaseActivity() {
                             R.string.discard_changes_and_close
                         ),
                         true,
-                        ::onDialogCallback
+                        ::onDialogCallbackError
                     ).show(
                         fragmentManager,
                         callingActivity?.className
@@ -205,8 +207,10 @@ class PersonalInfoActivity : BaseActivity() {
      *
      */
     private fun validateInfoAndUpdatePassword() {
-        viewModel.validateInput()
-        viewModel.callUpdatePasswordApi()
+        val errors = viewModel.validateInput()
+        if (!errors.hasErrors()) {
+            viewModel.callUpdatePasswordApi()
+        }
     }
 
     /**
@@ -281,6 +285,19 @@ class PersonalInfoActivity : BaseActivity() {
      * @param buttonType - It returns the which button type pressed positive or negative
      */
     private fun onDialogCallback(buttonType: Int) {
+        when (buttonType) {
+            AlertDialog.BUTTON_POSITIVE -> {
+                /** no-op **/
+            }
+        }
+    }
+
+    /**
+     * On dialog callback - It will handle the dialog callback listeners
+     *
+     * @param buttonType - It returns the which button type pressed positive or negative
+     */
+    private fun onDialogCallbackError(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
                 finish()

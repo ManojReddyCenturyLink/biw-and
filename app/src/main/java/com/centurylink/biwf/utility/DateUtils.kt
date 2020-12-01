@@ -10,6 +10,7 @@ class DateUtils {
     companion object {
         const val STANDARD_FORMAT = "yyyy-MM-dd"
         const val CANCEL_APPOINTMENT_DATE_FORMAT = "MMMM dd, yyyy"
+        const val APPOINTMENT_TIME_VALUES_WITH_TIME_ZONE_FORMAT = "yyyy-MM-dd'T'HH:mm"
         fun formatInvoiceDate(dateInput: String): String {
             var formattedDate: String = ""
             val input = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US)
@@ -28,7 +29,7 @@ class DateUtils {
             if (dateInput.equals(LocalDateTime.MAX.toString())) {
                 return ""
             }
-            var format = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            var format = SimpleDateFormat(STANDARD_FORMAT, Locale.US)
             val d: Date? = format.parse(dateInput)
             val date = format.format(d)
             format =
@@ -55,7 +56,7 @@ class DateUtils {
         }
 
         fun fromStringtoDate(date: String): Date {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val inputFormat = SimpleDateFormat(STANDARD_FORMAT, Locale.US)
             return inputFormat.parse(date)
         }
 
@@ -80,7 +81,7 @@ class DateUtils {
         }
 
         fun formatAppointmentBookedDate(dateInput: String): String {
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val inputFormat = SimpleDateFormat(STANDARD_FORMAT, Locale.US)
             val outputFormat = SimpleDateFormat("MM/dd/yy", Locale.US)
             var formattedDate = ""
             var d: Date? = null
@@ -97,12 +98,12 @@ class DateUtils {
             if (dateInput.equals(LocalDateTime.MAX.toString())) {
                 return ""
             }
-            val gmtDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
+            val gmtDateFormat: DateFormat = SimpleDateFormat(APPOINTMENT_TIME_VALUES_WITH_TIME_ZONE_FORMAT, Locale.US)
             gmtDateFormat.timeZone = TimeZone.getTimeZone("GMT")
-            val returnTypeDateFormat: DateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
+            val returnTypeDateFormat: DateFormat = SimpleDateFormat(APPOINTMENT_TIME_VALUES_WITH_TIME_ZONE_FORMAT, Locale.US)
             returnTypeDateFormat.timeZone = TimeZone.getTimeZone(timezone)
             val formattedDate = returnTypeDateFormat.format(gmtDateFormat.parse(dateInput))
-            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm", Locale.US)
+            val inputFormat = SimpleDateFormat(APPOINTMENT_TIME_VALUES_WITH_TIME_ZONE_FORMAT, Locale.US)
             val d: Date? = inputFormat.parse(formattedDate)
             val outputFormat = SimpleDateFormat("h:mmaa", Locale.US)
             return outputFormat.format(d)

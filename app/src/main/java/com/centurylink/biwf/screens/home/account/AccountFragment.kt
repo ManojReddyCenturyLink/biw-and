@@ -263,6 +263,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
     private fun onErrorDialogCallback(buttonType: Int) {
         when (buttonType) {
             AlertDialog.BUTTON_POSITIVE -> {
+                Timber.e("positive button pressed")
             }
         }
     }

@@ -41,11 +41,11 @@ class NetworkUsageRepository @Inject constructor(
         val startDate: String
         val endDate: String
         if (dailyData) {
-            startDate = LocalDate.now().toString().plus("T00:00:00-0000")
+            startDate = LocalDate.now().toString().plus(TIMESTAMP_EXPRESSION_VALUE)
             endDate = ""
         } else {
-            startDate = LocalDate.now().minusDays(15).toString().plus("T00:00:00-0000")
-            endDate = LocalDate.now().minusDays(1).toString().plus("T00:00:00-0000")
+            startDate = LocalDate.now().minusDays(15).toString().plus(TIMESTAMP_EXPRESSION_VALUE)
+            endDate = LocalDate.now().minusDays(1).toString().plus(TIMESTAMP_EXPRESSION_VALUE)
         }
         val headerMap = mutableMapOf<String, String>()
         headerMap["From"] = "mobile"
@@ -112,7 +112,7 @@ class NetworkUsageRepository @Inject constructor(
         )
     }
 
-    /*  *//*Mock Request if api is not working, for dev/testing purpose*//*
+    /*Mock Request if api is not working, for dev/testing purpose*//*
     suspend fun getMockUsageDetails(dailyData: Boolean): Either<String, UsageDetails> {
         val result: FiberServiceResult<TrafficUsageResponse> =
             integrationRestServices.getUsageDetails()
@@ -121,4 +121,8 @@ class NetworkUsageRepository @Inject constructor(
             Either.Right(formatTrafficUsageResponse(it))
         }
     }*/
+
+    companion object {
+        const val TIMESTAMP_EXPRESSION_VALUE = "T00:00:00-0000"
+    }
 }

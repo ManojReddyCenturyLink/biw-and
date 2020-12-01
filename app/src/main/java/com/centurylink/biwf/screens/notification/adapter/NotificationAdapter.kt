@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.centurylink.biwf.R
 import com.centurylink.biwf.model.notification.Notification
 import com.centurylink.biwf.screens.notification.NotificationActivity
+import timber.log.Timber
 
 /**
  * Notification Adapter used for the purpose of displaying the Notification  List items in the UI
@@ -93,6 +94,7 @@ class ReadHeaderViewHolder(view: View) : CustomViewHolder(view) {
         notificationItemClickListener: NotificationItemClickListener,
         unreadItemCount: Int
     ) {
+        Timber.e("Bind function")
     } }
 
 /**
@@ -196,7 +198,9 @@ enum class ItemType(val code: Int) {
     };
 
     companion object {
-        // return the enum that matches the Int code
+        /**
+         * return the enum that matches the Int code
+          */
         fun fromCode(code: Int): ItemType = values().first { code == it.code }
     }
 
