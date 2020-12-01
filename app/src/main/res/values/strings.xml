@@ -222,7 +222,7 @@
     <string name="error_loading_information_ntap_to_retry">Error loading information.\nTap to retry.</string>
     <string name="error_invalid_password">Your password must include letters, numbers and at least one of these special characters:</string>
     <string name="error_repeated_password">invalid repeated password</string>
-    <string name="error_password_length">your password must be at least 8 characters long.</string>
+    <string name="error_password_length">your password must be at least 8 characters long</string>
     <string name="error_title">An error has occurred.</string>
     <string name="error_nickname_field"><![CDATA[Special characters [!@#\/$%&*()_+=|<>?{}[]~.] are not allowed.]]></string>
     <string name="loading">Loading</string>
