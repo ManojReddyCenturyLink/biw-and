@@ -88,7 +88,6 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var workBegunMapFragment: SupportMapFragment? = null
     private var originLatLng = LatLng(0.0, 0.0)
     private var speedTestCount: Int = 0
-    // private var destinationLatLng = LatLng(0.0, 0.0)
 
     /**
      * On create - The onCreate method is called when Fragment should create its View
@@ -202,13 +201,8 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             detailedRebootStatusFlow.observe { rebootState ->
                 if (rebootState == ModemRebootMonitorService.RebootState.ONGOING) {
                     dashboardViewModel.networkStatus.observe { networkStatusOnline ->
-                        if (networkStatusOnline) {
                             binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
                             binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                        } else {
-                            binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
-                            binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
-                        }
                     }
                 }
             }
@@ -497,6 +491,12 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
         map.uiSettings.isZoomControlsEnabled = true
         map.uiSettings.isZoomGesturesEnabled = true
         map.uiSettings.isCompassEnabled = true
+        map.setPadding(
+            0,
+            0,
+            0,
+            resources.getDimension(R.dimen.map_controller_padding_bottom).toInt()
+        )
     }
 
     /**
@@ -738,12 +738,16 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      *
      */
     private fun observeWifiDetailsViews() {
-        dashboardViewModel.wifiListDetails.observe {
-            prepareRecyclerView(it.wifiListDetails)
+        dashboardViewModel.wifiListDetails.observe { list ->
+            dashboardViewModel.networkStatus.observe {
+                prepareRecyclerView(list.wifiListDetails, it)
+            }
         }
 
-        dashboardViewModel.wifiListDetailsUpdated.observe {
-            prepareRecyclerView(it.wifiListDetails)
+        dashboardViewModel.wifiListDetailsUpdated.observe { list ->
+            dashboardViewModel.networkStatus.observe {
+                prepareRecyclerView(list.wifiListDetails, it)
+            }
         }
     }
 
@@ -899,11 +903,64 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      *
      * @param wifiList - wifilist to display
      */
-    private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>) {
-        wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this)
+    private fun prepareRecyclerView(wifiList: MutableList<WifiInfo>, it: Boolean) {
+        wifiDevicesAdapter = WifiDevicesAdapter(wifiList, this, it)
         binding.wifiScanList.adapter = wifiDevicesAdapter
         // Adding Feedback Button Visibility logic here because we need to display network card first than Feedback UI
         setFeedbackButtonVisibility()
+        onlineStatusUpdateAdapter()
+    }
+    /**
+     * update recycler view - it will update the recyclerview item
+     *
+     * @param wifiList - wifilist to update
+     */
+
+    private fun onlineStatusUpdateAdapter() {
+        dashboardViewModel.networkStatus.observe {
+            if (this::wifiDevicesAdapter.isInitialized) {
+                wifiDevicesAdapter.apply {
+                    updateList(it)
+                }
+                updateSpeedTestUI(it)
+            }
+        }
+    }
+
+    private fun updateSpeedTestUI(it: Boolean) {
+        if (it) if (SpeedTestUtils.isSpeedTestAvailable()) {
+            displaySpeedTestIncCompleted()
+        } else {
+            displayNoSpeedTestIncCompleted()
+        } else displayNoSpeedTestIncCompleted()
+    }
+
+    private fun displayNoSpeedTestIncCompleted() {
+        incSpeedTest.visibility = View.GONE
+        displayDashboardUI()
+        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+            if (networkStatusOnline && speedTestCount < 1) {
+                dashboardViewModel.startSpeedTest(false)
+                speedTestCount++
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+            }
+        }
+    }
+
+    private fun displaySpeedTestIncCompleted() {
+        incSpeedTest.visibility = View.VISIBLE
+        binding.connectedDevicesCard.root.visibility = View.VISIBLE
+        binding.layoutNetworkList.visibility = View.VISIBLE
+        binding.layoutNetworkList.setBackgroundResource(R.drawable.round_background_no_border)
+        dashboardViewModel.networkStatus.observe { networkStatusOnline ->
+            if (networkStatusOnline && speedTestCount < 1) {
+                dashboardViewModel.startSpeedTest(false)
+                speedTestCount++
+                binding.incSpeedTest.runSpeedTestDashboard.isActivated = false
+                binding.incSpeedTest.runSpeedTestDashboard.isEnabled = false
+            }
+        }
     }
 
     /**

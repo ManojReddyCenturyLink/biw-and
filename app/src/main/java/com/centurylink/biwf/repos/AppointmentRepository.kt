@@ -53,8 +53,6 @@ class AppointmentRepository @Inject constructor(
         val finalQuery = String.format(EnvironmentPath.APPOINTMENT_INFO_QUERY, accountId)
         val result: FiberServiceResult<Appointments> =
             appointmentService.getAppointmentDetails(finalQuery)
-        // val result: FiberServiceResult<Appointments> =
-        // integrationRestServices.getAppointmentDetails("appointmentDetails")
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
             val appointmentRecords = it.records?.elementAtOrElse(0) { null }
             appointmentRecords?.let { it ->
@@ -101,8 +99,6 @@ class AppointmentRepository @Inject constructor(
         serviceAppointmentId: String,
         expectedMinimalDate: String
     ): Either<String, AppointmentSlots> {
-        // val result: FiberServiceResult<AppointmentSlots> =
-        //   integrationRestServices.getAppointmentSlots("appointmentDetails")
         val result: FiberServiceResult<AppointmentSlots> =
             appointmentService.getAppointmentSlots(serviceAppointmentId, expectedMinimalDate)
         return result.mapLeft { it.message?.message.toString() }
@@ -115,8 +111,6 @@ class AppointmentRepository @Inject constructor(
      * Error in String format in case of API failure.
      */
     suspend fun modifyAppointmentInfo(rescheduleInfo: RescheduleInfo): Either<String, AppointmentResponse> {
-        // val result: FiberServiceResult<AppointmentResponse> =
-        //  integrationRestServices.submitAppointments(rescheduleInfo)
         val result: FiberServiceResult<AppointmentResponse> =
             appointmentService.reScheduleAppointment(rescheduleInfo)
         return result.mapLeft { it.message?.message.toString() }
@@ -130,8 +124,6 @@ class AppointmentRepository @Inject constructor(
      * Error in String format in case of API failure.
      */
     suspend fun cancelAppointment(cancelAppointmentInfo: CancelAppointmentInfo): Either<String?, CancelResponse> {
-        // val result: FiberServiceResult<AppointmentResponse> =
-        //  integrationRestServices.submitAppointments(rescheduleInfo)
         val result: FiberServiceResult<CancelResponse> =
             appointmentService.cancelAppointment(cancelAppointmentInfo)
 

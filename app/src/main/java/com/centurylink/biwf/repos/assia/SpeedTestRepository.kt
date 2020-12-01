@@ -24,6 +24,7 @@ class SpeedTestRepository @Inject constructor(
     private val speedTestService: SpeedTestService
 ) {
 
+    val errorMsg = "Request not found"
     suspend fun startSpeedTest(): Either<String, SpeedTestRequestResult> {
         val result =
             speedTestService.getSpeedTestDetails(
@@ -35,7 +36,7 @@ class SpeedTestRepository @Inject constructor(
             )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.requestId.isNullOrEmpty()) {
-                return Either.Left("Request not found")
+                return Either.Left(errorMsg)
             }
             val speedTestRequestResult = SpeedTestRequestResult(1000, "", it.requestId, it.success)
             return Either.Right(speedTestRequestResult)
@@ -53,10 +54,10 @@ class SpeedTestRepository @Inject constructor(
             )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.status == "ERROR") {
-                return Either.Left("Request not found")
+                return Either.Left(errorMsg)
             }
             if (it.statusResponse.code != 1000) {
-                return Either.Left("Request not found")
+                return Either.Left(errorMsg)
             }
             return Either.Right(it.statusResponse)
         }
@@ -73,10 +74,10 @@ class SpeedTestRepository @Inject constructor(
             )
         return result.mapLeft { it.message?.message.toString() }.flatMap {
             if (it.status == "ERROR") {
-                return Either.Left("Request not found")
+                return Either.Left(errorMsg)
             }
             if (it.statusResponse.code != 1000) {
-                return Either.Left("Request not found")
+                return Either.Left(errorMsg)
             }
             return Either.Right(it)
         }

@@ -46,4 +46,6 @@
     <dimen name="text_size_36">36sp</dimen>
     <dimen name="text_size_48">48sp</dimen>
 
+    <dimen name="map_controller_padding_bottom">30dp</dimen>
+
 </resources>
