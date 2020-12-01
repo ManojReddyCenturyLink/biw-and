@@ -163,7 +163,6 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
             AuthResponseType.AUTHORIZED -> {
                 viewModel.onLoginSuccess()
-                finish()
             }
             AuthResponseType.CANCELLED -> {
                 Timber.d("User cancelled login attempt")
@@ -196,8 +195,8 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
         fun reportLoginResult(context: Context, result: AuthResponseType) {
             val intent = Intent(context, LoginActivity::class.java).apply {
                 putExtra(AUTH_RESPONSE_TYPE, result)
-                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             }
             context.startActivity(intent)
         }
