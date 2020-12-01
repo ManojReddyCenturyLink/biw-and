@@ -225,7 +225,7 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
         binding.incContactUs.liveChatTextview.setOnClickListener {
             viewModel.logLiveChatLaunch()
             if (AppUtil.isOnline(this)) {
-                chatUIClient?.startChatSession(this)
+                chatUIClient.startChatSession(this)
             } else {
                 showNoInternetDialog(fragmentManager, callingActivity?.className)
             }

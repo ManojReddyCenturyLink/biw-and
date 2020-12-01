@@ -82,7 +82,7 @@ class QRScanViewModel constructor(
      * @param onColor - returns on color
      * @param offColor - returns off color
      */
-    fun QRCode.withColor(onColor: Long, offColor: Long) =
+    private fun QRCode.withColor(onColor: Long, offColor: Long) =
         this.withColor(onColor.toInt(), offColor.toInt())
 
     data class QrScanInfo(var wifiQrCode: Bitmap, var name: String)
