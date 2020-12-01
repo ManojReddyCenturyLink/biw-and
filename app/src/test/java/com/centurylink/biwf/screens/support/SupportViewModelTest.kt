@@ -103,7 +103,7 @@ class SupportViewModelTest : ViewModelBaseTest() {
         viewModel = SupportViewModel(
             faqRepository = mockFAQRepository,
             modemRebootMonitorService = mockModemRebootMonitorService,
-            assiaRepository = mockAssiaRepository,
+            // assiaRepository = mockAssiaRepository,
             oAuthAssiaRepository = oAuthAssiaRepository,
             sharedPreferences = mocksharedPreferences,
             analyticsManagerInterface = analyticsManagerInterface,
