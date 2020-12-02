@@ -298,12 +298,12 @@ dependencies {
     //Google Firebase SDK for Google Analytics
     implementation "com.google.firebase:firebase-analytics-ktx:$googleAnalyticsVersion"
 
-    implementation "androidx.security:security-crypto:1.0.0-alpha02"
+    implementation "androidx.security:security-crypto:$androidxSecurityVersion"
 
     implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
-    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
+    implementation "com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:$advrecyclerviewVersion"
 
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation "org.greenrobot:eventbus:$eventbusVersion"
 
 
     implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
