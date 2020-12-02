@@ -60,14 +60,14 @@ class CaseRepository @Inject constructor(
     ): Either<String, CaseResponse> {
         val caseCreate = CaseCreate(
             contactId = getContactId() ?: "",
-            cancellationReasonC = cancellationReason ?: "",
-            cancelreasonCommentsC = cancellationReasonExpln ?: "",
-            cancellationDateHolderC = DateUtils.toSimpleString(
+            cancellation_Reason__c = cancellationReason ?: "",
+            cancelReason_Comments__c = cancellationReasonExpln ?: "",
+            cancellation_Date_Holder__c = DateUtils.toSimpleString(
                 cancellationDate,
                 DateUtils.STANDARD_FORMAT
             ),
-            notesC = comments ?: "",
-            experienceC = String.format("%.0f", rating),
+            notes__c = comments ?: "",
+            experience__c = String.format("%.0f", rating),
             recordTypeId = recordTypeId
         )
         val result: FiberServiceResult<CaseResponse> =

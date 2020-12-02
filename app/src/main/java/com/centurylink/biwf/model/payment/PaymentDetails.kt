@@ -43,7 +43,7 @@ class PaymentDetails(
     val taxAmount: String? = null,
 
     @SerializedName("ZTaxAmount__c")
-    val zTaxAmount: String? = null,
+    val ZtaxAmount: String? = null,
 
     @SerializedName("Amount_Without_Tax_Formula__c")
     val amountWithoutTaxFormula: String? = null,
@@ -52,13 +52,13 @@ class PaymentDetails(
     val taxAmountFormula: String? = null,
 
     @SerializedName("Zuora__Invoice__c")
-    val zuoraInvoicec: String? = null,
+    val ZuoraInvoicec: String? = null,
 
     @SerializedName("Zuora__Amount__c")
-    val zuoraAmountc: String? = null,
+    val ZuoraAmountc: String? = null,
 
     @SerializedName("Zuora__CreatedDate__c")
-    val zuoraCreatedDate: String? = null,
+    val ZuoraCreatedDate: String? = null,
 
     @SerializedName("Zuora__RefundedAmount__c")
     val zuoraRefundAmount: String? = null,

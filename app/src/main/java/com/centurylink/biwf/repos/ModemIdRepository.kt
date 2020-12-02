@@ -37,7 +37,7 @@ class ModemIdRepository @Inject constructor(
         val result: FiberServiceResult<ModemIdResponse> =
             modemIdService.getModemId(finalQuery)
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            val id = it.records.elementAtOrElse(0) { null }?.modemNumberC
+            val id = it.records.elementAtOrElse(0) { null }?.modem_Number__c
             if (id.isNullOrEmpty()) {
                 Either.Left("Modem Id is Empty")
             } else {

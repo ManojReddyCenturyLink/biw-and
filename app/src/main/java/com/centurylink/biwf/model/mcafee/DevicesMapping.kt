@@ -17,7 +17,7 @@ data class DevicesMapping(
 
 data class MacDeviceList(
     @SerializedName("devices") val devices: List<Devices>,
-    @SerializedName("mac_address") val macAddress: String
+    @SerializedName("mac_address") val mac_address: String
 ) : Serializable
 
 data class Devices(
