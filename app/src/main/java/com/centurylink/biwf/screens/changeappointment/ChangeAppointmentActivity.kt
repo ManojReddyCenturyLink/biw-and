@@ -197,7 +197,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             subheaderRightActionTitle.isEnabled = true
             subheaderRightActionTitle.isClickable = true
             subheaderRightActionTitle.setOnClickListener {
-                if (!selectedDate.isNullOrEmpty()) {
+                if (selectedDate.isNotEmpty()) {
                     if (AppUtil.isOnline(this@ChangeAppointmentActivity)) {
                         viewModel.onNextClicked(
                             selectedDate,
@@ -210,7 +210,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
                         )
                     }
                 }
-                if (!selectedSlot.isNullOrEmpty()) {
+                if (selectedSlot.isNotEmpty()) {
                     subheaderRightActionTitle.isEnabled = true
                     subheaderRightActionTitle.isClickable = true
                 }
@@ -243,7 +243,8 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
                     available_appointments_on_date,
                     DateUtils.formatAppointmentBookedDate(it.serviceDate.toString())
                 )
-            val firstSlotDate = SimpleDateFormat(DateUtils.STANDARD_FORMAT).parse(it.serviceDate)
+            val firstSlotDate = SimpleDateFormat(DateUtils.STANDARD_FORMAT,
+                Locale.getDefault(Locale.Category.FORMAT)).parse(it.serviceDate!!)
             selectedDate = it.serviceDate!!
             selectedSlot = ""
             setCustomResourceForSelectedDate(calendarFragment, firstSlotDate)
@@ -266,7 +267,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
         calendarFragment = CalendarFragment()
         val args = Bundle()
         val cal = Calendar.getInstance()
-        var previousDate = cal.time
+        // var previousDate = cal.time
         args.putInt(CaldroidFragment.MONTH, cal.get(Calendar.MONTH) + 1)
         args.putInt(CaldroidFragment.YEAR, cal.get(Calendar.YEAR))
         args.putBoolean(CaldroidFragment.SQUARE_TEXT_VIEW_CELL, true)
@@ -290,8 +291,8 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
 
             override fun onChangeMonth(month: Int, year: Int) {
                 super.onChangeMonth(month, year)
-                val cal = Calendar.getInstance()
-                val currentMonth = cal[Calendar.MONTH] + 1
+                val calendar = Calendar.getInstance()
+                val currentMonth = calendar[Calendar.MONTH] + 1
                 if (currentMonth == month) {
                     calendarFragment.leftArrowButton!!.visibility = View.GONE
                 } else {
@@ -312,20 +313,21 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
             }
 
             override fun onSelectDate(date: Date?, view: View?) {
-                if (finalSlotMap != null && finalSlotMap.containsKey(
+                if (finalSlotMap.containsKey(
                         DateUtils.toSimpleString(
                             date!!, DateUtils.STANDARD_FORMAT
                         )
                     )
                 ) {
                     val oldselectedDate =
-                        SimpleDateFormat(DateUtils.STANDARD_FORMAT).parse(selectedDate)
+                        SimpleDateFormat(DateUtils.STANDARD_FORMAT,
+                            Locale.getDefault(Locale.Category.FORMAT)).parse(selectedDate)
                     calendarFragment.clearBackgroundDrawableForDate(oldselectedDate)
                     calendarFragment.setTextColorForDate(R.color.purple, oldselectedDate)
                     calendarFragment.clearSelectedDates()
                     calendarFragment.setSelectedDate(date)
                     setCustomResourceForSelectedDate(calendarFragment, date)
-                    previousDate = date
+                    // previousDate = date
                     selectedSlot = ""
                     selectedDate = DateUtils.toSimpleString(date, DateUtils.STANDARD_FORMAT)
                     calendarFragment.refreshView()
@@ -378,7 +380,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
      */
     private fun iterateBetweenDates(start: Date, end: Date, sortedMap: Map<String, List<String>>) {
         var current = DateUtils.addDays(start, -10)
-        var finalEndDate = DateUtils.addDays(end, 15)
+        val finalEndDate = DateUtils.addDays(end, 15)
         while (current!!.before(finalEndDate)) {
             updateCalendarView(sortedMap, current)
             val calendar = Calendar.getInstance()
@@ -417,7 +419,7 @@ class ChangeAppointmentActivity : BaseActivity(), AppointmentSlotsAdapter.SlotCl
      * @constructor Create empty Companion
      */
     companion object {
-        val REQUEST_TO_DASHBOARD = 1100
+        const val REQUEST_TO_DASHBOARD = 1100
         fun newIntent(context: Context) = Intent(context, ChangeAppointmentActivity::class.java)
     }
 }
