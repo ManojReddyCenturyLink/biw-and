@@ -96,20 +96,19 @@ class UsageDetailsActivity : BaseActivity() {
      */
     private fun initViews() {
         deviceData = intent.getSerializableExtra(DEVICE_INFO) as DevicesData
-        var nickName = if (!deviceData.mcAfeeName.isNullOrEmpty()) {
+        val nickName = if (deviceData.mcAfeeName.isNotEmpty()) {
             deviceData.mcAfeeName
         } else {
             deviceData.hostName ?: ""
         }
-        val screenTitle = nickName
         binding.activityHeaderView.apply {
-            subheaderCenterTitle.text = screenTitle
+            subheaderCenterTitle.text = nickName
             subHeaderLeftIcon.visibility = View.GONE
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
                 val nickname = if (binding.nicknameDeviceNameInput.text.toString()
                         .isNotEmpty()
-                ) binding.nicknameDeviceNameInput.text.toString() else screenTitle
+                ) binding.nicknameDeviceNameInput.text.toString() else nickName
                 validateNickName(nickname)
             }
         }
@@ -186,6 +185,7 @@ class UsageDetailsActivity : BaseActivity() {
                             binding.tapToRetryText.text =
                                 getString(R.string.error_loading_device_status)
                         }
+                        else -> {}
                     }
                 }
                 binding.connectionStatusIcon.setImageDrawable(
@@ -197,7 +197,7 @@ class UsageDetailsActivity : BaseActivity() {
                 )
             }
         }
-        binding.nicknameDeviceNameInput.hint = screenTitle
+        binding.nicknameDeviceNameInput.hint = nickName
         binding.deviceConnectedBtn.setOnClickListener {
         viewModel.retryStatus = !AppUtil.isOnline(this@UsageDetailsActivity)
         viewModel.onDevicesConnectedClicked()
@@ -206,7 +206,7 @@ class UsageDetailsActivity : BaseActivity() {
             viewModel.onRemoveDevicesClicked()
             showAlertDialog(false)
         }
-        binding.nicknameDeviceNameInput.onFocusChangeListener = OnFocusChangeListener { v, hasFocus ->
+        binding.nicknameDeviceNameInput.onFocusChangeListener = OnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 hideKeyboard()
             }
