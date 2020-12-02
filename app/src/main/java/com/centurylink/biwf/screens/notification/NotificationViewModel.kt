@@ -30,11 +30,11 @@ class NotificationViewModel @Inject constructor(
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
     var errorMessageFlow = EventFlow<String>()
-    val errorEvents: EventFlow<String> = EventFlow()
+    // val errorEvents: EventFlow<String> = EventFlow()
     val displayClearAllEvent: EventFlow<Unit> = EventFlow()
     val myState = EventFlow<NotificationCoordinatorDestinations>()
     val notifications: Flow<MutableList<Notification>> = BehaviorStateFlow()
-    val notificationListDetails: Flow<NotificationSource> = BehaviorStateFlow<NotificationSource>()
+    val notificationListDetails: Flow<NotificationSource> = BehaviorStateFlow()
     private val unreadItem: Notification =
         Notification(
             NotificationActivity.KEY_UNREAD_HEADER, "",
@@ -179,9 +179,9 @@ class NotificationViewModel @Inject constructor(
      * Display error dialog - It shows error dialog pop-up
      *
      */
-    fun displayErrorDialog() {
-        viewModelScope.launch {
-            errorEvents.postValue("Server error!Try again later")
-        }
-    }
+//    fun displayErrorDialog() {
+//        viewModelScope.launch {
+//            errorEvents.postValue("Server error!Try again later")
+//        }
+//    }
 }
