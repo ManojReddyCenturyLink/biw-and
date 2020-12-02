@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.common
 
+import android.annotation.SuppressLint
 import android.net.http.SslError
 import android.os.Bundle
 import android.text.TextUtils
@@ -24,7 +25,7 @@ import com.centurylink.biwf.databinding.FragmentWebviewBinding
  *
  * @constructor Create empty Custom web fragment
  */
-
+@SuppressLint("SetJavaScriptEnabled")
 class CustomWebFragment : BaseFragment() {
 
     companion object {

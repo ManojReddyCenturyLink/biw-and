@@ -99,8 +99,8 @@ class UsageDetailsViewModel constructor(
     var macAfeeDeviceId: String = ""
     var deviceData: DevicesData = DevicesData()
     var pauseUnpauseConnection = EventFlow<DevicesData>()
-    var mcAfeedeviceList: List<DevicesItem> = emptyList()
-    var mcAfeedeviceNames: ArrayList<String> = ArrayList()
+    private var mcAfeedeviceList: List<DevicesItem> = emptyList()
+    private var mcAfeedeviceNames: ArrayList<String> = ArrayList()
     var retryStatus = true
 
     /**
@@ -132,7 +132,7 @@ class UsageDetailsViewModel constructor(
      *
      */
     fun onDevicesConnectedClicked() {
-        if (deviceData?.isPaused) {
+        if (deviceData.isPaused) {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_PAUSE_CONNECTION_DEVICE_DETAILS)
         } else {
             analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESUME_CONNECTION_DEVICE_DETAILS)
@@ -142,14 +142,44 @@ class UsageDetailsViewModel constructor(
             DeviceConnectionStatus.DEVICE_CONNECTED,
             DeviceConnectionStatus.LOADING,
             DeviceConnectionStatus.FAILURE -> {
-                if (!macAfeeDeviceId.isNullOrEmpty()) {
+                if (macAfeeDeviceId.isNotEmpty()) {
                     updatePauseResumeStatus()
+                } else {
+                    progressViewFlow.latestValue = true
+                    viewModelScope.launch {
+                        requestMcafeeDeviceSingleMapping(
+                            listOf(
+                                deviceData.stationMac!!.replace(
+                                    ":",
+                                    "-"
+                                )
+                            )
+                        )
+                    }
                 }
             }
             DeviceConnectionStatus.MODEM_OFF -> {
                 Timber.e("Cant Perform any Action")
             }
         }
+    }
+
+    /**
+     * Get devices info from Mcafee API
+     */
+    private suspend fun requestMcafeeDeviceSingleMapping(deviceList: List<String>) {
+        val mcafeeMapping = mcafeeRepository.getMcafeeDeviceIds(deviceList)
+        mcafeeMapping.fold(ifLeft = {
+            progressViewFlow.latestValue = false
+            deviceData.deviceConnectionStatus = DeviceConnectionStatus.FAILURE
+            pauseUnpauseConnection.latestValue = deviceData
+        }, ifRight = { mcafeeDeviceIds ->
+
+            deviceData.mcafeeDeviceId = mcafeeDeviceIds.firstOrNull {
+                deviceData.stationMac?.replace(":", "-") == it.mac_address
+            }?.devices?.get(0)?.id ?: ""
+            updatePauseResumeStatus()
+        })
     }
 
     /**
@@ -245,17 +275,17 @@ class UsageDetailsViewModel constructor(
     }
 
     private fun formattedTraffic(trafficVal: Double, unit: NetworkTrafficUnits): String {
-        if (trafficVal.roundToInt() > 0 && (unit == NetworkTrafficUnits.MB_DOWNLOAD)) {
-            return trafficVal.roundToInt().toString()
+        return if (trafficVal.roundToInt() > 0 && (unit == NetworkTrafficUnits.MB_DOWNLOAD)) {
+            trafficVal.roundToInt().toString()
         } else if (trafficVal.roundToInt() > 0 && (unit == NetworkTrafficUnits.MB_UPLOAD)) {
-            return trafficVal.roundToInt().toString()
+            trafficVal.roundToInt().toString()
         } else if (trafficVal.roundToInt() > 0) {
             if ((trafficVal % 1) > 0.5)
-                return BigDecimal(trafficVal).setScale(1, RoundingMode.UP).toString()
+                BigDecimal(trafficVal).setScale(1, RoundingMode.UP).toString()
             else
-                return BigDecimal(trafficVal).setScale(1, RoundingMode.DOWN).toString()
+                BigDecimal(trafficVal).setScale(1, RoundingMode.DOWN).toString()
         } else {
-            return app.getString(R.string.empty_string)
+            app.getString(R.string.empty_string)
         }
     }
 

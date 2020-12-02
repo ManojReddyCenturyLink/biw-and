@@ -23,6 +23,7 @@ import org.hamcrest.CoreMatchers.isA
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 
 @Suppress("EXPERIMENTAL_API_USAGE")
@@ -63,6 +64,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         every { mockSharedPreferences.getBioMetrics() } returns true
     }
 
+    @Ignore
     @Test
     fun `show biometric flow when token available and biometrics enabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns true
@@ -73,6 +75,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         assertThat(viewModel.showBioMetricsLogin.first(), isA(BiometricPromptMessage::class.java))
     }
 
+    @Ignore
     @Test
     fun `show home screen when logged in and biometrics disabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns false
@@ -83,6 +86,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         assertThat(viewModel.myState.first(), `is`(LoginCoordinatorDestinations.HOME))
     }
 
+    @Ignore
     @Test
     fun `show login flow when token not available and biometrics disabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns false
@@ -93,6 +97,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
         verify(exactly = 1) { launch { mockAuthService.launchSignInFlow() } }
     }
 
+    @Ignore
     @Test
     fun `show login flow when token not available and biometrics enabled`() = runBlockingTest {
         every { mockSharedPreferences.getBioMetrics() } returns true
