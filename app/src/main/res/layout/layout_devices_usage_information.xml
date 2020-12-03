@@ -3,13 +3,78 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/activity_curved_bg">
 
-    <include
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/activity_header_view"
-        layout="@layout/widget_subheader_with_back"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="@dimen/margin_spacing_large">
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/barrier"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:barrierDirection="start"
+            app:constraint_referenced_ids="subheader_right_action_title" />
+
+        <ImageView
+            android:id="@+id/sub_header_leftIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/padding_0"
+            style="@style/style_screen_header_backbutton"
+            android:layout_marginStart="16dp"
+            android:contentDescription="@string/content_description_holder"
+            android:gravity="center"
+            android:padding="1dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/subheader_center_title"
+            android:layout_width="@dimen/padding_0"
+            android:layout_height="wrap_content"
+            style="@style/style_screen_header_text"
+            android:paddingTop="3dp"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="@id/barrier"
+            app:layout_constraintStart_toEndOf="@+id/sub_header_leftIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/support" />
+
+        <TextView
+            android:id="@+id/subheader_right_action_title"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/padding_0"
+            android:layout_marginEnd="@dimen/height_20"
+            android:fontFamily="@font/arial_bold_mt"
+            android:gravity="center"
+            android:textColor="@color/purple"
+            android:textSize="@dimen/text_size_14"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/subheader_center_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/barrier"
+            app:layout_constraintTop_toTopOf="@+id/subheader_center_title"
+            tools:ignore="RtlSymmetry"
+            tools:text="@string/done"/>
+
+        <View
+            android:id="@+id/header_seprator_view"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/medium_margin_spacing"
+            style="@style/common_border_divider_style"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/subheader_right_action_title" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     <include
         android:id="@+id/progress_overlay"
