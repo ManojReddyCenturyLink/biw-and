@@ -234,7 +234,7 @@ dependencies {
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
 
     //salesforce
-    implementation "com.salesforce.service:chat-ui:4.1.2"
+    implementation "com.salesforce.service:chat-ui:$salesforcechatVersion"
 
     /* Dagger2 - We are going to use dagger.android which includes
    * support for Activity and fragment injection so we need to include
@@ -267,7 +267,7 @@ dependencies {
     implementation "com.github.ome450901:SimpleRatingBar:$ratingVersion"
 
     // AppAuth
-    implementation "net.openid:appauth:0.7.1"
+    implementation "net.openid:appauth:$appauthVersion"
 
     //biometrics
     implementation "androidx.biometric:biometric:$biometricVersion"
@@ -281,13 +281,13 @@ dependencies {
     //WorkManager
     implementation "androidx.work:work-runtime-ktx:$workManagerVersion"
 
-    implementation "com.github.kenglxn.QRGen:android:2.6.0"
+    implementation "com.github.kenglxn.QRGen:android:$QRGenVersion"
 
     //SwipeRefreshLayout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayout"
 
     //Custom Time Picker Dialog
-    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
+    implementation "com.wdullaer:materialdatetimepicker:$materialdatetimepickerVersion"
 
     // Google Analytics Tag Manager
     implementation "com.google.android.gms:play-services-tagmanager:$googleTagManagerVersion"
@@ -298,16 +298,16 @@ dependencies {
     //Google Firebase SDK for Google Analytics
     implementation "com.google.firebase:firebase-analytics-ktx:$googleAnalyticsVersion"
 
-    implementation "androidx.security:security-crypto:1.0.0-alpha02"
+    implementation "androidx.security:security-crypto:$androidxSecurityVersion"
 
     implementation group:'sdk.pendo.io' , name:'pendoIO', version:'2.5.+', changing:true
-    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
+    implementation "com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:$advrecyclerviewVersion"
 
-    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation "org.greenrobot:eventbus:$eventbusVersion"
 
 
-    implementation 'it.sysdata.mobile:htmlspanner:1.0.2'
-    implementation 'net.sourceforge.htmlcleaner:htmlcleaner:2.16'
+    implementation "it.sysdata.mobile:htmlspanner:$htmlspannerVersion"
+    implementation "net.sourceforge.htmlcleaner:htmlcleaner:$htmlcleanerVersion"
 
     //TEST IMPLEMENTATION
     testImplementation "junit:junit:$jUnitVersion"
@@ -317,8 +317,8 @@ dependencies {
     testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutineVersion"
     androidTestImplementation "androidx.test.ext:junit:$testRunnerVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espressoCoreVersion"
-    testImplementation "com.squareup.okhttp3:mockwebserver:4.4.0"
-    testImplementation "org.threeten:threetenbp:1.4.4"
+    testImplementation "com.squareup.okhttp3:mockwebserver:$mockwebserverVersion"
+    testImplementation "org.threeten:threetenbp:$threetenbpVersion"
 }
 
 dokka {
