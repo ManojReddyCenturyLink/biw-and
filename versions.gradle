@@ -86,6 +86,30 @@ ext {
     //eventbus
     eventbusVersion = "3.0.0"
 
+    //htmlspanner
+    htmlspannerVersion = "1.0.2"
+
+    //htmlcleaner
+    htmlcleanerVersion = "2.16"
+
+    //mockwebserver
+    mockwebserverVersion = "4.4.0"
+
+    //threetenbp
+    threetenbpVersion = "1.4.4"
+
+    //materialdatetimepicker
+    materialdatetimepickerVersion = "4.2.3"
+
+    //QRGen
+    QRGenVersion = "2.6.0"
+
+    //appauth
+    appauthVersion = "0.7.1"
+
+    //salesforce chat ui
+    salesforcechatVersion = "4.1.2"
+
     //Test Dependencies
     jUnitVersion = '4.12'
     testRunnerVersion = '1.1.2'
