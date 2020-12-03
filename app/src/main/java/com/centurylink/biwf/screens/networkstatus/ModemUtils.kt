@@ -18,7 +18,7 @@ class ModemUtils {
             "(.*?)" +
                     "(?:\\-(\\d+)\\-)?(\\.[^.]*)?"
         )
-        private val MAX_NICKNAMELENGTH = 17
+        private const val MAX_NICKNAMELENGTH = 17
 
         fun getGuestNetworkName(apiInfo: ApInfo): String {
             var guestNetworkName = ""
@@ -151,14 +151,14 @@ class ModemUtils {
                     do {
                         count++
                         newNickname = "$prefix-$count$suffix"
-                        if (prefix.length == MAX_NICKNAMELENGTH) {
+                        if (prefix!!.length == MAX_NICKNAMELENGTH) {
                             newNickname = if (count > 9) {
                                 prefix.substring(0, prefix.length - 3) + "-" + count
                             } else {
                                 prefix.substring(0, prefix.length - 2) + "-" + count
                             }
                         }
-                    } while (fileExists(newNickname!!, devicesList))
+                    } while (fileExists(newNickname, devicesList))
                 }
             }
             return newNickname
