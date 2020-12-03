@@ -27,7 +27,7 @@ class SubscriptionStatementViewModel @Inject constructor(
     val statementDetailsInfo: Flow<UiStatementDetails> = BehaviorStateFlow()
     var errorMessageFlow = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
-    var uiStatementDetails = UiStatementDetails()
+    private var uiStatementDetails = UiStatementDetails()
     var invoicedId: String? = null
     var processedDate: String? = null
     private var promoDiscountText: String? = null

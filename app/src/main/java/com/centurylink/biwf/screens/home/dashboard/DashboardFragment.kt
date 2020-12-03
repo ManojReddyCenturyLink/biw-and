@@ -966,7 +966,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      * Update view - It will call the update devices api from viewmodel
      */
     fun updateView() {
-        dashboardViewModel.initDevicesApis(false)
+        dashboardViewModel.initDevicesApis(true)
     }
 
     /**

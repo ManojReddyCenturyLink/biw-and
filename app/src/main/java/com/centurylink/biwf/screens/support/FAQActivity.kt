@@ -128,7 +128,7 @@ class FAQActivity : BaseActivity() {
             liveChatTextview.setOnClickListener {
                 viewModel.logLiveChatLaunch()
                 if (AppUtil.isOnline(this@FAQActivity)) {
-                    chatUIClient?.startChatSession(
+                    chatUIClient.startChatSession(
                         this@FAQActivity
                     )
                 } else {
@@ -145,7 +145,7 @@ class FAQActivity : BaseActivity() {
         myDivider.setDrawable(ContextCompat.getDrawable(this, R.drawable.divider_notification)!!)
         binding.faqVideoList.isNestedScrollingEnabled = false
         binding.questionsAnswersListView.isNestedScrollingEnabled = false
-        binding.questionsAnswersListView.setOnGroupClickListener { expandableListView, view, i, l ->
+        binding.questionsAnswersListView.setOnGroupClickListener { expandableListView, _, i, _ ->
             if (expandableListView.isGroupExpanded(i)) {
                 viewModel.logItemCollapsed()
             } else {
