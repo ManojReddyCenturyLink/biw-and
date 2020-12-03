@@ -140,6 +140,7 @@ class PersonalInfoActivity : BaseActivity() {
                 if ((it.containsKey("passwordLengthError")) && !(it.containsKey("passwordMismatchError"))) View.VISIBLE else View.GONE
         }
         viewModel.userPasswordFlow.observe {
+            binding.incHeader.subheaderRightActionTitle.isEnabled = true
             if (it.isEmpty()) {
                 viewModel.logResetPasswordSuccess()
                 setResultToAccountFragment()
@@ -209,6 +210,7 @@ class PersonalInfoActivity : BaseActivity() {
     private fun validateInfoAndUpdatePassword() {
         val errors = viewModel.validateInput()
         if (!errors.hasErrors()) {
+            binding.incHeader.subheaderRightActionTitle.isEnabled = false
             viewModel.callUpdatePasswordApi()
         }
     }
