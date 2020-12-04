@@ -8,7 +8,6 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.base.BaseViewModel
 import com.centurylink.biwf.coordinators.SupportCoordinatorDestinations
 import com.centurylink.biwf.model.faq.Faq
-import com.centurylink.biwf.repos.AssiaRepository
 import com.centurylink.biwf.repos.FAQRepository
 import com.centurylink.biwf.repos.OAuthAssiaRepository
 import com.centurylink.biwf.repos.assia.SpeedTestRepository
@@ -29,7 +28,7 @@ import javax.inject.Inject
 class SupportViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-    private val assiaRepository: AssiaRepository,
+   // private val assiaRepository: AssiaRepository,
     private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val speedTestRepository: SpeedTestRepository,
     private val sharedPreferences: Preferences,
@@ -44,7 +43,7 @@ class SupportViewModel @Inject constructor(
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val progressVisibility: Flow<Boolean> = BehaviorStateFlow(false)
     val latestSpeedTest: Flow<String> = BehaviorStateFlow()
-    val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
+    private val speedTestButtonState: Flow<Boolean> = BehaviorStateFlow()
     val modemResetButtonState: Flow<Boolean> = BehaviorStateFlow()
     private var recordTypeId: String = ""
     var progressViewFlow = EventFlow<Boolean>()
@@ -90,9 +89,10 @@ class SupportViewModel @Inject constructor(
             requestFaqDetailsInfo()
             if (SpeedTestUtils.isSpeedTestAvailable()) {
                 checkForRunningSpeedTest()
-            } else {
-                // todo
             }
+//            else {
+//                // todo
+//            }
         }
     }
 
@@ -100,10 +100,10 @@ class SupportViewModel @Inject constructor(
         super.handleRebootStatus(status)
         rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
         if (rebootOngoing) {
-            speedTestButtonState?.latestValue = false
+            speedTestButtonState.latestValue = false
         } else {
             if (status == ModemRebootMonitorService.RebootState.SUCCESS)
-                speedTestButtonState?.latestValue = true
+                speedTestButtonState.latestValue = true
         }
     }
 
@@ -123,7 +123,7 @@ class SupportViewModel @Inject constructor(
     private suspend fun requestModemInfo() {
         val modemInfo = oAuthAssiaRepository.getModemInfo()
         modemInfo.fold(ifRight = {
-            val apiInfo = it?.apInfoList
+            val apiInfo = it.apInfoList
             if (!apiInfo.isNullOrEmpty() && apiInfo[0].isRootAp) {
                 networkStatus.latestValue = apiInfo[0].isAlive
             } else {
@@ -199,9 +199,7 @@ class SupportViewModel @Inject constructor(
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.GET_DOWNSTREAM_RESULT_SUCCESS)
                 val uploadStreamData = it.uploadSpeedSummary.speedTestNestedResults
                 val downloadStreamData = it.downloadSpeedSummary.speedTestNestedResults
-                if (uploadStreamData.list!!.isNotEmpty() && !uploadStreamData.list.equals(
-                        DashboardViewModel.EMPTY_RESPONSE
-                    )
+                if (uploadStreamData.list!!.isNotEmpty() && uploadStreamData.list.toString() != DashboardViewModel.EMPTY_RESPONSE
                 ) {
                     val uploadMb = uploadStreamData.list[0].average / 1000
                     uploadSpeed.latestValue = uploadMb.toString()
@@ -210,9 +208,7 @@ class SupportViewModel @Inject constructor(
                     uploadSpeed.latestValue = DashboardViewModel.EMPTY_RESPONSE
                     uploadSpeedError = true
                 }
-                if (downloadStreamData.list!!.isNotEmpty() && !downloadStreamData.equals(
-                        DashboardViewModel.EMPTY_RESPONSE
-                    )
+                if (downloadStreamData.list!!.isNotEmpty() && downloadStreamData.toString() != DashboardViewModel.EMPTY_RESPONSE
                 ) {
                     val downloadMb = downloadStreamData.list[0].average / 1000
                     downloadSpeed.latestValue = downloadMb.toString()

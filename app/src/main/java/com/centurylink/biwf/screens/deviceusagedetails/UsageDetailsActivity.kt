@@ -101,16 +101,13 @@ class UsageDetailsActivity : BaseActivity() {
         } else {
             deviceData.hostName ?: ""
         }
-        binding.activityHeaderView.apply {
-            subheaderCenterTitle.text = nickName
-            subHeaderLeftIcon.visibility = View.GONE
-            subheaderRightActionTitle.text = getText(R.string.done)
-            subheaderRightActionTitle.setOnClickListener {
-                val nickname = if (binding.nicknameDeviceNameInput.text.toString()
-                        .isNotEmpty()
-                ) binding.nicknameDeviceNameInput.text.toString() else nickName
-                validateNickName(nickname)
-            }
+        binding.subheaderCenterTitle.text = nickName
+        binding.subheaderRightActionTitle.text = getText(R.string.done)
+        binding.subheaderRightActionTitle.setOnClickListener {
+            val nickname = if (binding.nicknameDeviceNameInput.text.toString()
+                    .isNotEmpty()
+            ) binding.nicknameDeviceNameInput.text.toString() else nickName
+            validateNickName(nickname)
         }
         setApiProgressViews(
             binding.progressOverlay.root,

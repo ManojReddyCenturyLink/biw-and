@@ -2,14 +2,14 @@ ext {
     // Kotlin versions
     kotlinVersion = '1.3.72'
     coroutineVersion = "1.3.6"
-    androidxCoreVersion = '1.3.0'
+    androidxCoreVersion = '1.3.2'
 
     threeThenABPVersion = "1.2.4"
 
     //Build and App component dependencies
-    androidxAppCompatVersion = '1.1.0'
+    androidxAppCompatVersion = '1.2.0'
     androidxMultidexVersion = '2.0.1'
-    androidxConstraintLayoutVersion = '1.1.3'
+    androidxConstraintLayoutVersion = '2.0.4'
     androidxLifecycleVersion = '2.2.0'
     androidKtxVersion = '2.2.0'
 
@@ -35,10 +35,10 @@ ext {
     lifecycleextversion='2.0.0'
 
     //androidx Version
-    androidxSecurityVersion = '1.1.0-alpha01'
+    androidxSecurityVersion = '1.1.0-alpha02'
 
     //Google Material components version
-    materialComponentsVersion = '1.3.0-alpha01'
+    materialComponentsVersion = '1.3.0-alpha04'
     materialVersion = '1.1.0'
 
     //Gson version
@@ -54,13 +54,13 @@ ext {
     googleMapVersion = '17.0.0'
 
     //Google Firebase SDK for Google Analytics
-    googleAnalyticsVersion = '17.4.4'
+    googleAnalyticsVersion = '18.0.0'
 
     //Google Tag Manager SDK
     googleTagManagerVersion = '17.0.0'
 
     //Firebase Crashlytics
-    crashlyticsVersion = '17.2.2'
+    crashlyticsVersion = '17.3.0'
 
     //timber
     timberVersion = "4.7.1"
@@ -69,7 +69,7 @@ ext {
     ratingVersion="1.5.0"
 
     //WorkManager version
-    workManagerVersion = "2.3.4"
+    workManagerVersion = "2.4.0"
 
     //biometrics
     biometricVersion = "1.0.1"
@@ -80,10 +80,40 @@ ext {
     //swiperefreshlayout
     swiperefreshlayout = "1.2.0-alpha01"
 
+    //advrecyclerview
+    advrecyclerviewVersion = "1.0.0"
+
+    //eventbus
+    eventbusVersion = "3.0.0"
+
+    //htmlspanner
+    htmlspannerVersion = "1.0.2"
+
+    //htmlcleaner
+    htmlcleanerVersion = "2.16"
+
+    //mockwebserver
+    mockwebserverVersion = "4.4.0"
+
+    //threetenbp
+    threetenbpVersion = "1.4.4"
+
+    //materialdatetimepicker
+    materialdatetimepickerVersion = "4.2.3"
+
+    //QRGen
+    QRGenVersion = "2.6.0"
+
+    //appauth
+    appauthVersion = "0.7.1"
+
+    //salesforce chat ui
+    salesforcechatVersion = "4.1.2"
+
     //Test Dependencies
     jUnitVersion = '4.12'
-    testRunnerVersion = '1.1.1'
-    espressoCoreVersion = '3.2.0'
+    testRunnerVersion = '1.1.2'
+    espressoCoreVersion = '3.3.0'
     kluentVersion = '1.56'
     archCoreTestingVersion = '2.1.0'
     mockKVersion = '1.9.3'

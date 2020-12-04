@@ -685,7 +685,7 @@ class NetworkStatusViewModel @Inject constructor(
             progressViewFlow.latestValue = true
             // Update Regular Network NAme
             if (existingWifiNwName != newWifiName) {
-                if (!newWifiName.isNullOrEmpty() && regularNetworkInstance.isNetworkEnabled) {
+                if (newWifiName.isNotEmpty() && regularNetworkInstance.isNetworkEnabled) {
                     if (ssidMap.containsKey(NetWorkBand.Band5G.name)) {
                         requestToUpdateWifiNetworkInfo(NetWorkBand.Band5G.toString(), newWifiName)
                     }
@@ -696,7 +696,7 @@ class NetworkStatusViewModel @Inject constructor(
             }
             // Update Regular Network Password
             if (existingWifiPassKey != newWifiPwd && regularNetworkInstance.isNetworkEnabled) {
-                if (!newWifiPwd.isNullOrEmpty() && newWifiPwd.length > 8) {
+                if (newWifiPwd.isNotEmpty() && newWifiPwd.length > 8) {
                     if (ssidMap.containsKey(NetWorkBand.Band5G.name)) {
                         requestToUpdateNetWorkPassword(NetWorkBand.Band5G, newWifiPwd)
                     }
@@ -722,7 +722,7 @@ class NetworkStatusViewModel @Inject constructor(
             }
 
             if (existingWifiPassKey != newGuestPwd && guestNetworkInstance.isNetworkEnabled) {
-                if (!newGuestPwd.isNullOrEmpty() && newGuestPwd.length > 8) {
+                if (newGuestPwd.isNotEmpty() && newGuestPwd.length > 8) {
                     if (ssidMap.containsKey(NetWorkBand.Band2G_Guest4.name)) {
                         requestToUpdateNetWorkPassword(NetWorkBand.Band2G_Guest4, newGuestPwd)
                     }

@@ -44,8 +44,8 @@ class NetworkStatusActivity : BaseActivity() {
     }
 
     private lateinit var enableDisableProgressDialog: AlertDialog
-    private lateinit var mDialogDisableView: View
-    private lateinit var mDialogEnableView: View
+    // private lateinit var mDialogDisableView: View
+    // private lateinit var mDialogEnableView: View
     private lateinit var networkEventType: NetworkEventType
 
     /**
@@ -71,18 +71,22 @@ class NetworkStatusActivity : BaseActivity() {
      *
      */
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.network_status)
+        val screenTitle: String = getString(R.string.network_status)
         bindings.incHeader.apply {
             subHeaderLeftIcon.visibility = View.GONE
             subheaderCenterTitle.text = screenTitle
             subheaderRightActionTitle.text = getText(R.string.done)
             subheaderRightActionTitle.setOnClickListener {
-                if (viewModel.networkInfoComplete) {
-                    validateNameAndPassword(true)
-                } else if (viewModel.offlineNetworkinfo) {
-                    showBlueThemePopUp()
-                } else {
-                    finish()
+                when {
+                    viewModel.networkInfoComplete -> {
+                        validateNameAndPassword()
+                    }
+                    viewModel.offlineNetworkinfo -> {
+                        showBlueThemePopUp()
+                    }
+                    else -> {
+                        finish()
+                    }
                 }
             }
         }
@@ -331,14 +335,14 @@ class NetworkStatusActivity : BaseActivity() {
      * Validate name and password - It is used to validate the network name and network password
      *
      */
-    private fun validateNameAndPassword(internetState: Boolean) {
+    private fun validateNameAndPassword() {
         if (isFieldsUpdated()) {
             setResult(Activity.RESULT_OK)
             finish()
         } else {
             val errors = viewModel.validateInput()
             if (!errors.hasErrors()) {
-                showAlertDialog(internetState)
+                showAlertDialog()
             }
         }
     }
@@ -516,7 +520,7 @@ class NetworkStatusActivity : BaseActivity() {
      *
      */
     private fun showEnablingDisablingErrorPopUp() {
-        var message = when (viewModel.networkCurrentRunningProcess) {
+        val message = when (viewModel.networkCurrentRunningProcess) {
             NetworkStatusViewModel.Companion.NetworkEnableDisableEventType.REGULAR_WIFI_ENABLE_IN_PROGRESS -> {
                 getString(R.string.error_enabling_wifi_network)
             }
@@ -586,21 +590,17 @@ class NetworkStatusActivity : BaseActivity() {
      * Show alert dialog - It shows alert dialog
      *
      */
-    private fun showAlertDialog(internetState: Boolean) {
-        if (internetState) {
-            CustomDialogGreyTheme(
-                getString(R.string.save_changes_msg),
-                "",
-                getString(R.string.save),
-                getString(R.string.discard),
-                ::onScreenExitConfirmationDialogCallback
-            ).show(
-                supportFragmentManager,
-                callingActivity?.className
-            )
-        } else {
-            showBlueThemePopUp()
-        }
+    private fun showAlertDialog() {
+        CustomDialogGreyTheme(
+            getString(R.string.save_changes_msg),
+            "",
+            getString(R.string.save),
+            getString(R.string.discard),
+            ::onScreenExitConfirmationDialogCallback
+        ).show(
+            supportFragmentManager,
+            callingActivity?.className
+        )
     }
 
     /**

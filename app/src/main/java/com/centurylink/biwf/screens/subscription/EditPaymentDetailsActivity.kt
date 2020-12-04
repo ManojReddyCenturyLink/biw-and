@@ -57,7 +57,7 @@ class EditPaymentDetailsActivity : BaseActivity() {
     }
 
     private fun initHeaders() {
-        var screenTitle: String = getString(R.string.edit_billing_information)
+        val screenTitle: String = getString(R.string.edit_billing_information)
         binding.incHeader.apply {
             subheaderCenterTitle.text = screenTitle
             subHeaderLeftIcon.setOnClickListener {
