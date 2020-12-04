@@ -12,7 +12,6 @@ import retrofit2.http.*
 
 interface OAuthAssiaService {
 
-    // TODO - Work with Derek to ensure forcePing actually works
     @GET(EnvironmentPath.API_LINE_INFO_PATH)
     @Headers(EnvironmentPath.APIGEE_MOBILE_HEADER)
     suspend fun getLineInfo(
