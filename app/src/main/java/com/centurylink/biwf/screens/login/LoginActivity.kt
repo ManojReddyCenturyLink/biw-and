@@ -56,7 +56,9 @@ class LoginActivity : BaseActivity(), AuthServiceHost {
 
         viewModel.apply {
             showBioMetricsLogin.observe {
-                biometricCheck(it)
+                if (it) {
+                    biometricCheck(biometricPromptMessage)
+                }
             }
         }
 

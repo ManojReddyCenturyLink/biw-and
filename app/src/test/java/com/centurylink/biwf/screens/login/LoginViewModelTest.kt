@@ -15,11 +15,11 @@ import io.mockk.impl.annotations.MockK
 import io.mockk.just
 import io.mockk.runs
 import io.mockk.verify
+import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.`is`
-import org.hamcrest.CoreMatchers.isA
 import org.hamcrest.MatcherAssert.assertThat
 import org.junit.Assert
 import org.junit.Before
@@ -72,7 +72,7 @@ class LoginViewModelTest : ViewModelBaseTest() {
 
         initViewModel()
 
-        assertThat(viewModel.showBioMetricsLogin.first(), isA(BiometricPromptMessage::class.java))
+        assertTrue(viewModel.showBioMetricsLogin.first())
     }
 
     @Ignore
