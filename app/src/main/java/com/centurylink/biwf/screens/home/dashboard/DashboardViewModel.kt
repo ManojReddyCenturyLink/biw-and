@@ -528,13 +528,16 @@ class DashboardViewModel @Inject constructor(
         netWorkInfo.fold(ifRight = {
             analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_SUCCESS)
             val password = it?.networkName[netWorkBand.name]
-            password.let {
-                when (netWorkBand) {
-                    NetWorkBand.Band2G, NetWorkBand.Band5G -> {
-                        regularNetworkWifiPwd = password!!
-                    }
-                    NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
-                        guestNetworkWifiPwd = password!!
+            if (!it?.networkName[netWorkBand.name].isNullOrEmpty()) {
+                val password = it?.networkName[netWorkBand.name]
+                password.let {
+                    when (netWorkBand) {
+                        NetWorkBand.Band2G, NetWorkBand.Band5G -> {
+                            regularNetworkWifiPwd = password!!
+                        }
+                        NetWorkBand.Band2G_Guest4, NetWorkBand.Band5G_Guest4 -> {
+                            guestNetworkWifiPwd = password!!
+                        }
                     }
                 }
             }
