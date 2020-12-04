@@ -1,5 +1,6 @@
 package com.centurylink.biwf.screens.cancelsubscription.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -18,13 +19,14 @@ class CancellationReasonAdapter(
         var cancellationItem: TextView? = null
     }
 
+    @SuppressLint("InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
         val mViewHolder: ViewHolder?
         var viewItem = convertView
         if (convertView == null) {
             mViewHolder = ViewHolder()
 
-            viewItem = LayoutInflater.from(convertView?.context).inflate(R.layout.cancellation_reason_item, parent)
+            viewItem = LayoutInflater.from(convertView?.context).inflate(R.layout.cancellation_reason_item, null)
             mViewHolder.cancellationItem = viewItem.findViewById(R.id.cancellation_reason_item)
             viewItem.tag = mViewHolder
         } else {
