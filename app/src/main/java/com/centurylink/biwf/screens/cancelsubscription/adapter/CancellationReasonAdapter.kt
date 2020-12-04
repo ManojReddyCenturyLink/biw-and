@@ -18,6 +18,7 @@ class CancellationReasonAdapter(
     internal class ViewHolder {
         var cancellationItem: TextView? = null
     }
+    var inflater:LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     @SuppressLint("InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View? {
@@ -26,7 +27,7 @@ class CancellationReasonAdapter(
         if (convertView == null) {
             mViewHolder = ViewHolder()
 
-            viewItem = LayoutInflater.from(convertView?.context).inflate(R.layout.cancellation_reason_item, null)
+            viewItem = inflater.inflate(R.layout.cancellation_reason_item, null)
             mViewHolder.cancellationItem = viewItem.findViewById(R.id.cancellation_reason_item)
             viewItem.tag = mViewHolder
         } else {
