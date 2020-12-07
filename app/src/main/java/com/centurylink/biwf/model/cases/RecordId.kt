@@ -24,5 +24,5 @@ data class RecordIdData(
 
     @SerializedName("Id")
     @Expose
-    val Id: String? = null
+    val id: String? = null
 )

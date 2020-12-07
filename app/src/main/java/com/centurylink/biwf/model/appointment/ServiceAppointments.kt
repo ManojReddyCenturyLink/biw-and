@@ -9,7 +9,7 @@ import java.util.*
 data class ServiceAppointments(
 
     @SerializedName("Id")
-    val Id: String? = null,
+    val id: String? = null,
     @SerializedName("OwnerId")
     val ownerId: String? = null,
     @SerializedName("IsDeleted")
@@ -129,9 +129,9 @@ data class ServiceAppointments(
     @SerializedName("FSL__Related_Service__c")
     val relatedervice: String? = null,
     @SerializedName("FSL__Same_Day__c")
-    val SameDay: Boolean? = null,
+    val sameDay: Boolean? = null,
     @SerializedName("FSL__Same_Resource__c")
-    val SameResource: Boolean? = null,
+    val sameResource: Boolean? = null,
 
     @SerializedName("FSL__Schedule_Mode__c")
     val scheduleMode: String? = null,
@@ -152,7 +152,7 @@ data class ServiceAppointments(
     val expectedCompletionTime: Date? = null,
 
     @SerializedName("WorkTypeName__c")
-    val WorkTypeName: String? = null,
+    val workTypeName: String? = null,
     @SerializedName("Arrival_Start_Time__c")
     val arrivalStartTime: String? = null,
     @SerializedName("Successful_Payment__c")

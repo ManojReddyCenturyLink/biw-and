@@ -549,9 +549,6 @@ class NetworkStatusViewModel @Inject constructor(
         },
             ifLeft = {
                 analyticsManagerInterface.logApiCall(AnalyticsKeys.REQUEST_TO_GET_NETWORK_FAILURE)
-                // TODO Currently API is returning Error -Temp Hack for displaying password
-                existingWifiPassKey = "test123wifi"
-                existingGuestPassKey = "test123Guest"
             })
     }
 

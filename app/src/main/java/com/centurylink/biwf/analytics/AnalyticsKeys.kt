@@ -115,11 +115,6 @@ class AnalyticsKeys {
         const val DATE_TAP_CHANGE_APPOINTMENT = "Date Selected Modify Appointment"
         const val SLOT_TAP_CHANGE_APPOINTMENT = "Slot Selected Modify Appointment"
 
-        /*TODO: For later use
-        const val BUTTON_NOTIFICATION_ICON_DASHBOARD = "Notification Icon Dashboard"
-        const val BUTTON_RESTART_MODEM_DASHBOARD = "Restart Modem Button Dashboard"
-        const val BUTTON_VISIT_WEBSITE_DASHBOARD = "Visit Website Modem Button Dashboard"*/
-
         /***Alert Dialog***/
         const val ALERT_UPDATE_EMAIL_INFO = "Change Email Info Popup"
         const val ALERT_REMOVED_DEVICES_RESTORE_ACCESS = "Restore-Access Removed Devices Confirmation"

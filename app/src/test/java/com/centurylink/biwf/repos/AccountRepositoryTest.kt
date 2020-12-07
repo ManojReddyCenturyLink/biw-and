@@ -51,7 +51,7 @@ class AccountRepositoryTest : BaseRepositoryTest() {
                 )
                 val accountInfo = accountRepository.getAccountDetails()
                 Assert.assertEquals(accountInfo.map { it.name }, Either.Right(Constants.ACCOUNT_NAME))
-                Assert.assertEquals(accountInfo.map { it.Id }, Either.Right(Constants.ACCOUNT_ID))
+                Assert.assertEquals(accountInfo.map { it.accountId }, Either.Right(Constants.ACCOUNT_ID))
             }
         }
     }

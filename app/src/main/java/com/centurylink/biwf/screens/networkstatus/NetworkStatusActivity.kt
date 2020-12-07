@@ -611,7 +611,6 @@ class NetworkStatusActivity : BaseActivity() {
      */
     private fun onScreenExitConfirmationDialogCallback(buttonType: Int) {
         when (buttonType) {
-            // TODO - This has to be replaced with API calls
             AlertDialog.BUTTON_POSITIVE -> {
                 val errors = viewModel.validateInput()
                 if (!errors.hasErrors()) {

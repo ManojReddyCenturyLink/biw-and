@@ -148,7 +148,6 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
      */
     private fun observeViews() {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
-        // Todo: Remove Harding of values once API returns
         viewModel.apply {
             progressViewFlow.observe {
                 showProgress(it)
