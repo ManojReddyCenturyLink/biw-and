@@ -90,9 +90,6 @@ class SupportViewModel @Inject constructor(
             if (SpeedTestUtils.isSpeedTestAvailable()) {
                 checkForRunningSpeedTest()
             }
-//            else {
-//                // todo
-//            }
         }
     }
 
@@ -306,10 +303,6 @@ class SupportViewModel @Inject constructor(
     fun logDoneButtonClick() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_DONE_SUPPORT)
     }
-
-//    fun logVisitWebsite() {
-//        analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_VISIT_WEBSITE_SUPPORT)
-//    }
 
     fun getLiveChatUIConfiguration(): ChatUIConfiguration {
         return LiveChatUtil.getLiveChatUIConfiguration(sharedPreferences)
