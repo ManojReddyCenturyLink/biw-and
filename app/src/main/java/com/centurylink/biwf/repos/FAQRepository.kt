@@ -47,7 +47,7 @@ class FAQRepository @Inject constructor(
         val result: FiberServiceResult<RecordId> =
             faqService.getRecordTypeId(EnvironmentPath.KNOWLEDGE_RECORD_TYPE_ID_QUERY)
         return result.mapLeft { it.message?.message.toString() }.flatMap { it ->
-            val id = it.records.elementAtOrElse(0) { null }?.Id
+            val id = it.records.elementAtOrElse(0) { null }?.id
             if (id.isNullOrEmpty()) {
                 Either.Left("Record Id  Records is Empty")
             } else {

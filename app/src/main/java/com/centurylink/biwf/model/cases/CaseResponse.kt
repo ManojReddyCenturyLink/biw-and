@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  */
 class CaseResponse(
     @SerializedName("id")
-    val Id: String = "",
+    val id: String = "",
     @SerializedName("success")
     val success: Boolean
 )

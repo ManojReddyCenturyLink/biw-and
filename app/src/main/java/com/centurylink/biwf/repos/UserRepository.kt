@@ -98,7 +98,7 @@ class UserRepository @Inject constructor(
             ifLeft = { },
             ifRight = {
                 if (it.recentItems.isNotEmpty())
-                    storeUserId(it.recentItems[0].Id!!)
+                    storeUserId(it.recentItems[0].id!!)
             }
         )
         return result.mapLeft { it.message?.message.toString() }

@@ -25,13 +25,13 @@ data class AppointmentRecords(
     @SerializedName("Status")
     val appointmentStatus: ServiceStatus? = null,
     @SerializedName("Job_Type__c")
-    val JobType: String? = null,
+    val jobType: String? = null,
     @SerializedName("Latitude")
     val latitude: String? = null,
     @SerializedName("Longitude")
     val longitude: String? = null,
     @SerializedName("WorkTypeId")
-    val WorkTypeId: String? = null,
+    val workTypeId: String? = null,
     @SerializedName("Appointment_Number_Text__c")
     val appointmentNumber: String? = null,
     @SerializedName("ServiceResources")
@@ -53,12 +53,12 @@ data class OperatingHours(
 
 data class ServiceResources(
     @SerializedName("records")
-    val records: List<serviceRecords> = emptyList(),
+    val records: List<ServiceRecords> = emptyList(),
     @SerializedName("totalSize")
     val totalSize: Int = 0
 )
 
-data class serviceRecords(
+data class ServiceRecords(
     @SerializedName("ServiceResource")
     val serviceResource: ServiceResource? = null
 )

@@ -12,7 +12,7 @@ data class Cases(
 
 data class CaseRecentItems(
     @SerializedName("Id")
-    val Id: String? = null,
+    val id: String? = null,
 
     @SerializedName("CaseNumber")
     val caseNumber: String? = null

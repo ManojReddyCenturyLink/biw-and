@@ -12,7 +12,7 @@ data class UserInfo(
 
 data class RecentItems(
     @SerializedName("Id")
-    val Id: String? = null,
+    val id: String? = null,
 
     @SerializedName("Name")
     val name: String? = null
