@@ -293,7 +293,11 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
     private fun rebootModemButtonObserver(rebootStatus: ModemRebootMonitorService.RebootState) {
         when (rebootStatus) {
             ModemRebootMonitorService.RebootState.READY -> {
-                setRebootButtonVisibilityWithoutSpeedTest(false)
+                if (!AppUtil.rebootOnGoingStatus) {
+                    setRebootButtonVisibilityWithoutSpeedTest(false)
+                } else {
+                    setRebootButtonVisibilityWithoutSpeedTest(true)
+                }
             }
             ModemRebootMonitorService.RebootState.ONGOING -> {
                 setRebootButtonVisibilityWithoutSpeedTest(true)

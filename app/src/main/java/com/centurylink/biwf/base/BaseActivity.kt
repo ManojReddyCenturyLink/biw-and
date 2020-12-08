@@ -109,6 +109,7 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver,
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
             if (!AppUtil.rebootStatus) {
                 AppUtil.rebootStatus = true
+                AppUtil.rebootOnGoingStatus = false
                 viewModel.onRebootDialogShown()
                 ModemRebootSuccessDialog().show(
                     supportFragmentManager,
@@ -126,6 +127,7 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver,
         if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) {
             if (!AppUtil.rebootStatus) {
                 AppUtil.rebootStatus = true
+                AppUtil.rebootOnGoingStatus = false
                 viewModel.onRebootDialogShown()
                 ModemRebootFailureDialog(this).show(
                     supportFragmentManager,
@@ -136,10 +138,12 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver,
     }
 
     override fun onRetryModemRebootClicked() {
+        AppUtil.rebootOnGoingStatus = false
         viewModel.rebootModem()
     }
 
     override fun onRetryModemRebootCanceled() {
+        AppUtil.rebootOnGoingStatus = false
         viewModel.rebootCanceled()
     }
 

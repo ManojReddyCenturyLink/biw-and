@@ -7,6 +7,8 @@ class AppUtil {
 
     companion object {
         var rebootStatus: Boolean = false
+        var rebootOnGoingStatus: Boolean = false
+
         /**
          * Check internet connection
          */

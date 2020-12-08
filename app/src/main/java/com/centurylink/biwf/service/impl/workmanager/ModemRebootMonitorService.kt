@@ -6,6 +6,7 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.centurylink.biwf.repos.ModemRebootRepository
+import com.centurylink.biwf.utility.AppUtil
 import com.centurylink.biwf.utility.EventFlow
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -34,7 +35,8 @@ class ModemRebootMonitorService @Inject constructor(
 
     init {
         modemRebootStateFlow = merge(
-            workManager.getWorkInfosForUniqueWorkLiveData(ModemRebootMonitorWorker.UNIQUE_NAME).asFlow()
+            workManager.getWorkInfosForUniqueWorkLiveData(ModemRebootMonitorWorker.UNIQUE_NAME)
+                .asFlow()
                 .map { workInfos ->
                     return@map if (workInfos.isEmpty()) {
                         RebootState.READY
@@ -61,12 +63,15 @@ class ModemRebootMonitorService @Inject constructor(
      * Call this method to attempt a modem reboot.
      */
     suspend fun sendRebootModemRequest() {
+        AppUtil.rebootOnGoingStatus = true
         val result = modemRebootRepository.rebootModem()
         result.fold(ifLeft = {
+            AppUtil.rebootOnGoingStatus = true
             manualEventFlow.postValue(RebootState.ERROR)
             enqueueModemRebootWork()
             Timber.e("Error requesting modem reboot %s", it.message)
         }, ifRight = {
+            AppUtil.rebootOnGoingStatus = true
             if (it.code == ModemRebootRepository.REBOOT_STARTED_SUCCESSFULLY) {
                 manualEventFlow.postValue(RebootState.ONGOING)
                 enqueueModemRebootWork()
@@ -79,6 +84,7 @@ class ModemRebootMonitorService @Inject constructor(
     }
 
     private fun enqueueModemRebootWork() {
+        AppUtil.rebootOnGoingStatus = true
         workManager.enqueueUniqueWork(
             ModemRebootMonitorWorker.UNIQUE_NAME,
             ExistingWorkPolicy.REPLACE,

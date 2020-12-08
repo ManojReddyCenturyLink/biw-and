@@ -7,6 +7,7 @@ import androidx.work.ListenableWorker.Result.success
 import androidx.work.WorkerParameters
 
 import com.centurylink.biwf.repos.OAuthAssiaRepository
+import com.centurylink.biwf.utility.AppUtil
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -21,7 +22,7 @@ class ModemRebootMonitorWorker constructor(
 
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         var timeBeforeFailure = MAX_TIMEOUT_MILLIS
-
+        AppUtil.rebootOnGoingStatus = true
         while (timeBeforeFailure > 0) {
             delay(RETRY_MILLIS)
 
