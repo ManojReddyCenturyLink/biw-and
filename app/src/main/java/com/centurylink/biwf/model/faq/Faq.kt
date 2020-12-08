@@ -40,5 +40,5 @@ data class FaqRecord(
     val sectionC: String? = null,
 
     @SerializedName("Id")
-    val Id: String? = null
+    val id: String? = null
 )

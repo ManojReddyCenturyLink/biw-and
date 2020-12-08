@@ -12,11 +12,11 @@ class Records(
     @SerializedName("Name")
     val name: String = "",
     @SerializedName("Zuora__SubscriptionStartDate__c")
-    val ZuoraSubscriptionStartDate: Date? = null,
+    val zuoraSubscriptionStartDate: Date? = null,
     @SerializedName("Zuora__SubscriptionEndDate__c")
-    val ZuoraSubscriptionEndDate: Date? = null,
+    val zuoraSubscriptionEndDate: Date? = null,
     @SerializedName("Zuora__NextRenewalDate__c")
-    val ZuoraNextRenewalDate: Date? = null,
+    val zuoraNextRenewalDate: Date? = null,
     @SerializedName("Zuora__NextChargeDate__c")
-    val ZuoraNextChargeDate: Date? = null
+    val zuoraNextChargeDate: Date? = null
 )

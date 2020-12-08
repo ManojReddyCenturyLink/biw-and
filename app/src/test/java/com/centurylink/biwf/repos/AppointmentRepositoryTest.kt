@@ -134,14 +134,14 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
     fun testGetAppointmentSuccess() {
         runBlocking {
             launch {
-                val serviceRecord = serviceRecords(ServiceResource(id = "12345", name = "Pravin"))
+                val serviceRecord = ServiceRecords(ServiceResource(id = "12345", name = "Pravin"))
                 val serviceResources = ServiceResources(records = listOf(serviceRecord))
                 val tempRecords = AppointmentRecords(
                     id = "08pf00000008dTjAAI",
                     arrivalWindowEndTime = LocalDateTime.now(),
                     arrivalWindowStarTime = LocalDateTime.now(),
                     appointmentStatus = ServiceStatus.SCHEDULED,
-                    JobType = "Installation",
+                    jobType = "Installation",
                     appointmentNumber = "1111",
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
@@ -165,14 +165,14 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 val emptyString: String? = null
-                val serviceRecord = serviceRecords(ServiceResource(id = "12345", name = "Pravin"))
+                val serviceRecord = ServiceRecords(ServiceResource(id = "12345", name = "Pravin"))
                 val serviceResources = ServiceResources(records = listOf(serviceRecord))
                 val emptyJobtype = AppointmentRecords(
                     id = "08pf00000008dTjAAI",
                     arrivalWindowEndTime = LocalDateTime.now(),
                     arrivalWindowStarTime = LocalDateTime.now(),
                     appointmentStatus = ServiceStatus.SCHEDULED,
-                    JobType = emptyString,
+                    jobType = emptyString,
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
@@ -195,14 +195,14 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 val emptyDate: LocalDateTime? = null
-                val serviceRecord = serviceRecords(ServiceResource(id = "12345", name = "Pravin"))
+                val serviceRecord = ServiceRecords(ServiceResource(id = "12345", name = "Pravin"))
                 val serviceResources = ServiceResources(records = listOf(serviceRecord))
                 val emptyStartTime = AppointmentRecords(
                     id = "08pf00000008dTjAAI",
                     arrivalWindowEndTime = emptyDate,
                     arrivalWindowStarTime = LocalDateTime.now(),
                     appointmentStatus = ServiceStatus.SCHEDULED,
-                    JobType = "Installation",
+                    jobType = "Installation",
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
@@ -225,14 +225,14 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
         runBlocking {
             launch {
                 val emptyDate: LocalDateTime? = null
-                val serviceRecord = serviceRecords(ServiceResource(id = "12345", name = "Pravin"))
+                val serviceRecord = ServiceRecords(ServiceResource(id = "12345", name = "Pravin"))
                 val serviceResources = ServiceResources(records = listOf(serviceRecord))
                 val emptyendTime = AppointmentRecords(
                     id = "08pf00000008dTjAAI",
                     arrivalWindowEndTime = LocalDateTime.now(),
                     arrivalWindowStarTime = emptyDate,
                     appointmentStatus = ServiceStatus.SCHEDULED,
-                    JobType = "Installation",
+                    jobType = "Installation",
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = serviceResources
                 )
@@ -259,7 +259,7 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
                     arrivalWindowEndTime = LocalDateTime.now(),
                     arrivalWindowStarTime = LocalDateTime.now(),
                     appointmentStatus = ServiceStatus.SCHEDULED,
-                    JobType = "Installation",
+                    jobType = "Installation",
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = ServiceResources()
                 )
@@ -283,14 +283,14 @@ class AppointmentRepositoryTest : BaseRepositoryTest() {
             launch {
                 val emptyString: String? = null
                 val emptyserviceResources =
-                    ServiceResources(records = listOf(serviceRecords(ServiceResource())))
+                    ServiceResources(records = listOf(ServiceRecords(ServiceResource())))
 
                 val emptyJobtype = AppointmentRecords(
                     id = "08pf00000008dTjAAI",
                     arrivalWindowEndTime = LocalDateTime.now(),
                     arrivalWindowStarTime = LocalDateTime.now(),
                     appointmentStatus = ServiceStatus.SCHEDULED,
-                    JobType = emptyString,
+                    jobType = emptyString,
                     latitude = "39.852448",
                     longitude = "39.852448", serviceResources = emptyserviceResources
                 )

@@ -88,7 +88,7 @@ class DashboardViewModel @Inject constructor(
     var cancelAppointmentError = EventFlow<String>()
     var progressViewFlow = EventFlow<Boolean>()
     var isAccountStatus = EventFlow<Boolean>()
-    val wifiListDetails = BehaviorStateFlow<wifiScanStatus>()
+    val wifiListDetails = BehaviorStateFlow<WifiScanStatus>()
     val networkStatus: BehaviorStateFlow<Boolean> = BehaviorStateFlow()
     val regularNetworkInstance = WifiInfo()
     val guestNetworkInstance = WifiInfo()
@@ -99,7 +99,7 @@ class DashboardViewModel @Inject constructor(
     private var guestNetworkWifiPwd: String = ""
     private var isEnable: Boolean = true
     private var isAccountActive: Boolean = true
-    val wifiListDetailsUpdated = BehaviorStateFlow<wifiScanStatus>()
+    val wifiListDetailsUpdated = BehaviorStateFlow<WifiScanStatus>()
     private var ssidMap: HashMap<String, String> = HashMap()
     private var bssidMap: HashMap<String, String> = HashMap()
     private lateinit var cancellationDetails: AppointmentRecordsInfo
@@ -565,7 +565,7 @@ class DashboardViewModel @Inject constructor(
             password = guestNetworkWifiPwd,
             enabled = guestNetworkEnabled
         )
-        wifiListDetails.latestValue = wifiScanStatus(
+        wifiListDetails.latestValue = WifiScanStatus(
             ArrayList(
                 (WifiDetails(
                     listOf(
@@ -734,7 +734,7 @@ class DashboardViewModel @Inject constructor(
                     name = wifiInfo.name, password = guestNetworkWifiPwd, enabled = isEnable
                 )
         }
-        wifiListDetailsUpdated.latestValue = wifiScanStatus(
+        wifiListDetailsUpdated.latestValue = WifiScanStatus(
             ArrayList((WifiDetails(listOf(regularNetworkInfo, guestNetworkInfo))).wifiList)
         )
     }
@@ -1176,7 +1176,7 @@ class DashboardViewModel @Inject constructor(
     /**
      * model calss for wifi scan status
      */
-    data class wifiScanStatus(
+    data class WifiScanStatus(
         var wifiListDetails: ArrayList<WifiInfo> = arrayListOf()
     )
 

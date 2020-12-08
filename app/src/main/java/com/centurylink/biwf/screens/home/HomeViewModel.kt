@@ -3,7 +3,6 @@ package com.centurylink.biwf.screens.home
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.lifecycle.viewModelScope
-import com.centurylink.biwf.Either
 import com.centurylink.biwf.R
 import com.centurylink.biwf.analytics.AnalyticsKeys
 import com.centurylink.biwf.analytics.AnalyticsManager
@@ -13,7 +12,6 @@ import com.centurylink.biwf.model.TabsBaseItem
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.appointment.AppointmentRecordsInfo
 import com.centurylink.biwf.model.appointment.ServiceStatus
-import com.centurylink.biwf.model.sumup.SumUpInput
 import com.centurylink.biwf.repos.*
 import com.centurylink.biwf.screens.subscription.SubscriptionActivity
 import com.centurylink.biwf.screens.support.SupportActivity
@@ -63,8 +61,6 @@ class HomeViewModel @Inject constructor(
     val refreshBioMetrics = EventFlow<Unit>()
     var errorMessageFlow = EventFlow<String>()
 
-    // Example: Expose data through Flow properties.
-    // TODO Remove later when example is no longer needed.
     val testRestFlow: Flow<String> = BehaviorStateFlow()
     val testRestErrorFlow: Flow<String> = BehaviorStateFlow()
     val activeUserTabBarVisibility = BehaviorStateFlow<Boolean>()
@@ -164,22 +160,6 @@ class HomeViewModel @Inject constructor(
         myState.latestValue = HomeCoordinatorDestinations.SUBSCRIPTION_ACTIVITY
     }
 
-    // Example: Use Coroutines to get data asynchronously and emit the results through Flows
-    // TODO Remove later when example is no longer needed.
-    private fun requestTestRestFlow() {
-        viewModelScope.launch {
-            val sumUpResult = integrationServices.calculateSum(12, 25, SumUpInput(10))
-            val response = integrationServices.getNotificationDetails("notifications")
-            testRestServices.query("SELECT Name FROM Contact LIMIT 10").also {
-                when (it) {
-                    is Either.Left -> testRestErrorFlow.latestValue =
-                        "Encountered error ${it.error}"
-                    is Either.Right -> testRestFlow.latestValue = it.value.toString()
-                }
-            }
-        }
-    }
-
     /**
      * Request modem id -It will  get the modem id from api
      *
@@ -187,7 +167,7 @@ class HomeViewModel @Inject constructor(
     private suspend fun requestModemId() {
         val modemIdInfo = modemIdRepository.getModemTypeId()
         modemIdInfo.fold(ifLeft = {
-            // TODO: We are getting modem id as null for some accounts, so commenting for now.
+            // We are getting modem id as null for some accounts, so commenting for now.
             // errorMessageFlow.latestValue = it
         }) {
             sharedPreferences.saveAssiaId(it)

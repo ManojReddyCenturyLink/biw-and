@@ -108,7 +108,6 @@ class UsageDetailsViewModel constructor(
      *
      */
     fun initApis() {
-        // TODO: Temporarily using boolean variable to test pause/un-pause connection analytics
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICE_DETAILS)
         viewModelScope.launch {
             progressViewFlow.latestValue = true

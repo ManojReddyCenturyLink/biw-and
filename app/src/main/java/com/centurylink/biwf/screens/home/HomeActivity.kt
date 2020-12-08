@@ -104,8 +104,6 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
         initViews()
         initOnClicks()
 
-        // Example: Listen to data emitted from Flow properties.
-        // TODO Remove this example when we get some actual code here using this setup.
         viewModel.apply {
             testRestFlow.observe { Timber.d(it) }
             testRestErrorFlow.observe { Timber.e(it) }

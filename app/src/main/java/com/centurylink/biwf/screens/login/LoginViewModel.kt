@@ -60,9 +60,9 @@ class LoginViewModel internal constructor(
     }
 
     val myState = EventFlow<LoginCoordinatorDestinations>()
-    val showBioMetricsLogin: Flow<BiometricPromptMessage> = BehaviorStateFlow()
+    val showBioMetricsLogin: Flow<Boolean> = BehaviorStateFlow()
 
-    private val biometricPromptMessage = BiometricPromptMessage(
+    val biometricPromptMessage = BiometricPromptMessage(
         title = R.string.biometric_prompt_title,
         subTitle = R.string.biometric_prompt_message,
         negativeText = R.string.cancel
@@ -90,8 +90,9 @@ class LoginViewModel internal constructor(
         val showBiometrics = sharedPreferences.getBioMetrics() ?: false
         val hasToken = !(authService.tokenStorage as AppAuthTokenStorage).state?.accessToken.isNullOrEmpty()
 
+        showBioMetricsLogin.latestValue = false
         if (hasToken && showBiometrics) {
-            showBioMetricsLogin.latestValue = biometricPromptMessage
+            showBioMetricsLogin.latestValue = true
         } else if (hasToken) {
             onLoginSuccess()
         } else {
