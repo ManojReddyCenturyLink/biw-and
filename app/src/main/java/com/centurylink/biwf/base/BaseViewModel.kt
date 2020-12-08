@@ -9,6 +9,7 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.isActive
@@ -40,6 +41,11 @@ abstract class BaseViewModel(
     val rebootOngoingFlow = EventFlow<Boolean>()
 
     /**
+     * A emission of reboot ongoing flow
+     */
+    val rebootCanceledFlow = EventFlow<Boolean>()
+
+    /**
      * Emits more detailed modem reboot status updates. Can be used for informing UI elements
      * which change depending on the state (e.g. "Restart modem" button -> "Restarting" button)
      */
@@ -59,7 +65,6 @@ abstract class BaseViewModel(
 
     internal open suspend fun handleRebootStatus(status: ModemRebootMonitorService.RebootState) {
         detailedRebootStatusFlow.latestValue = status
-
         if (status == ModemRebootMonitorService.RebootState.SUCCESS) {
             rebootDialogFlow.latestValue = true
             sendModemRebootStatus(true)
@@ -78,9 +83,15 @@ abstract class BaseViewModel(
     fun rebootModem() {
         analyticsManagerInterface.logButtonClickEvent(AnalyticsKeys.BUTTON_RESTART_MODEM_SUPPORT)
         rebootOngoingFlow.latestValue = true
-        viewModelScope.launch {
+        GlobalScope.launch {
             modemRebootMonitorService.sendRebootModemRequest()
         }
+    }
+
+    fun rebootCanceled() {
+        modemRebootMonitorService.cancelWork()
+        onRebootDialogShown()
+        rebootCanceledFlow.latestValue = true
     }
 
     fun onRebootDialogShown() {
@@ -161,7 +172,7 @@ abstract class BaseViewModel(
     }
 
     /**
-     * functions shows trhe reboot progress happen opr not
+     * functions shows the reboot progress happen opr not
      *
      */
     fun clearRebootProgress() {

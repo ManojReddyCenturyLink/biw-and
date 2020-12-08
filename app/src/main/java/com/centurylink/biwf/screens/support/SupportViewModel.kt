@@ -28,7 +28,7 @@ import javax.inject.Inject
 class SupportViewModel @Inject constructor(
     private val faqRepository: FAQRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
-   // private val assiaRepository: AssiaRepository,
+    // private val assiaRepository: AssiaRepository,
     private val oAuthAssiaRepository: OAuthAssiaRepository,
     private val speedTestRepository: SpeedTestRepository,
     private val sharedPreferences: Preferences,
@@ -100,10 +100,10 @@ class SupportViewModel @Inject constructor(
         super.handleRebootStatus(status)
         rebootOngoing = status == ModemRebootMonitorService.RebootState.ONGOING
         if (rebootOngoing) {
-            speedTestButtonState.latestValue = false
+            speedTestButtonState?.latestValue = false
         } else {
             if (status == ModemRebootMonitorService.RebootState.SUCCESS)
-                speedTestButtonState.latestValue = true
+                speedTestButtonState?.latestValue = true
         }
     }
 

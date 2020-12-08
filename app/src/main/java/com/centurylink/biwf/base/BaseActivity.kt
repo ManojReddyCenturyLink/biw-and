@@ -139,6 +139,10 @@ abstract class BaseActivity : AppCompatActivity(), LiveDataObserver,
         viewModel.rebootModem()
     }
 
+    override fun onRetryModemRebootCanceled() {
+        viewModel.rebootCanceled()
+    }
+
     open fun retryClicked() {
         Timber.e("retry clicked")
     }
