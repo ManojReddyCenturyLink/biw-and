@@ -48,7 +48,7 @@ class ExpandableContentAdapter(private val answerList: HashMap<String, String>) 
         val expandedListTextView = convertView!!.findViewById<TextView>(R.id.faq_answers)
         val htmlSpanner =
             HtmlSpanner(expandedListTextView.currentTextColor, expandedListTextView.textSize)
-        expandedListText = expandedListText.replace("\n", "").replace("\t", "").replace("\\","")
+        expandedListText = expandedListText.replace("\n", "").replace("\t", "").replace("\\", "")
         expandedListTextView.text = htmlSpanner.fromHtml(expandedListText)
         expandedListTextView.movementMethod = LinkMovementMethod.getInstance()
         return convertView
