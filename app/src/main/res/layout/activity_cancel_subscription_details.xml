@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -42,6 +43,7 @@
             android:id="@+id/cancel_subscription_details_contents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:layout_marginStart="@dimen/medium_margin_spacing"
             android:layout_marginTop="@dimen/margin_spacing_large"
             android:layout_marginEnd="@dimen/medium_margin_spacing"
@@ -52,19 +54,20 @@
                 android:textAppearance="@style/SubHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="@dimen/margin_spacing_small"
                 android:layout_marginBottom="@dimen/margin_spacing_small"
                 android:gravity="start"
                 android:text="@string/cancel_subscription_details_sub_header"
-                app:layout_constraintBottom_toTopOf="@+id/cancel_subscription_details_error"
-                app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_details_contents" />
+                app:layout_constraintTop_toTopOf="@+id/cancel_subscription_details_contents"
+                app:layout_constraintBottom_toTopOf="@+id/cancel_subscription_details_contents" />
 
             <TextView
                 android:id="@+id/cancel_subscription_details_error"
                 android:textAppearance="@style/ErrorFields"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_spacing_small"
                 android:gravity="start"
+                android:layout_marginTop="@dimen/margin_spacing_small"
                 android:text="@string/cancel_subscription_error_info"
                 android:visibility="gone"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_date_label"
@@ -76,6 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
+                android:layout_marginTop="@dimen/medium_margin_spacing"
                 android:gravity="start"
                 android:text="@string/cancel_subscription_details_cancellation_date"
                 app:layout_constraintBottom_toTopOf="@+id/cancellation_date_selection"

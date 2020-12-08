@@ -15,6 +15,8 @@ class ModemRebootFailureDialog(
 ) : CustomDialogGreyTheme({ buttonType ->
     if (buttonType == AlertDialog.BUTTON_POSITIVE) {
         rebootCallback.onRetryModemRebootClicked()
+    } else if (buttonType == AlertDialog.BUTTON_NEGATIVE) {
+        rebootCallback.onRetryModemRebootCanceled()
     }
 }) {
 
@@ -39,5 +41,6 @@ class ModemRebootFailureDialog(
      */
     interface Callback {
         fun onRetryModemRebootClicked()
+        fun onRetryModemRebootCanceled()
     }
 }
