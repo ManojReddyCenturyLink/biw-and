@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent">
 
     <include
@@ -72,35 +73,43 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_content" />
 
-        <TextView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cancel_subscription"
-            style="@style/single_line_text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="18dp"
-            android:gravity="start"
-            android:text="@string/continue_cancellation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_top_divider" />
+            android:layout_marginTop="@dimen/spacing_14"
+            app:layout_constraintTop_toBottomOf="@+id/cancel_subscription_top_divider">
 
-        <ImageView
-            android:id="@+id/cancel_subscription_navigate"
-            style="@style/style_chevron_next_view"
-            android:layout_width="@dimen/close_icon_size"
-            android:layout_height="@dimen/close_icon_size"
-            android:layout_marginEnd="@dimen/margin_spacing_tiny"
-            android:contentDescription="@string/content_description_holder"
-            android:padding="@dimen/margin_spacing_tiny"
-            app:layout_constraintBottom_toBottomOf="@+id/cancel_subscription_top_divider"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/cancel_subscription_callback_divider" />
+            <TextView
+                android:id="@+id/cancel_subscription_tv"
+                style="@style/single_line_text_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:gravity="start"
+                android:text="@string/continue_cancellation"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/cancel_subscription_navigate"
+                style="@style/style_chevron_next_view"
+                android:layout_width="@dimen/close_icon_size"
+                android:layout_height="@dimen/close_icon_size"
+                android:layout_marginEnd="@dimen/margin_spacing_tiny"
+                android:contentDescription="@string/content_description_holder"
+                android:padding="@dimen/margin_spacing_tiny"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/cancel_subscription_callback_divider"
             android:layout_width="match_parent"
             style="@style/common_border_divider_style"
-            android:layout_marginTop="@dimen/margin_spacing_small"
+            android:layout_marginTop="@dimen/spacing_14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cancel_subscription" />
