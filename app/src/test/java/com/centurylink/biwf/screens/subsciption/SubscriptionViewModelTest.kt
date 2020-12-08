@@ -99,11 +99,12 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
     fun testrequestSubscriptionDetailsFailure() {
         runBlockingTest {
             launch {
-                coEvery { zouraSubscriptionRepository.getSubscriptionDetails() } returns Either.Left("Error in SubscriptionDetails")
+                coEvery { accountRepository.getLiveCardDetails() } returns Either.Left("Error Response")
+                coEvery { zouraSubscriptionRepository.getSubscriptionDetails() } returns Either.Left("Error Response")
                 viewModel.initApis()
                 Assert.assertEquals(
                     viewModel.errorMessageFlow.first(),
-                    "Error in SubscriptionDetails"
+                    "Error Response"
                 )
             }
         }
