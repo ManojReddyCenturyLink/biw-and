@@ -357,4 +357,6 @@
     <string name="enabling_guest_network">Enabling Guest network</string>
     <string name="the_network_will_be_fully_disabled">The network will be fully disabled in 1-2 minutes. You can leave the app while you wait.</string>
     <string name="the_network_will_be_fully_enabled">The network will be fully enabled in 1-2 minutes. You can leave the app while you wait.</string>
+    <string name="your_card">your card will be charged $%1$s </string>
+    <string name="taxes_"> + taxes and fees on the %1$s</string>
 </resources>

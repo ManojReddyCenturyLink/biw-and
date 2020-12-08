@@ -68,6 +68,8 @@ class EnvironmentPath {
             " SELECT Id, Zuora__Invoice__c, CreatedDate FROM Zuora__Payment__c WHERE Zuora__Account__c ='%s'"
         const val SUBSCRIPTION_DATES_QUERY =
             "SELECT Id, Name, Zuora__SubscriptionStartDate__c, Zuora__SubscriptionEndDate__c, Zuora__NextRenewalDate__c, Zuora__NextChargeDate__c FROM Zuora__Subscription__c WHERE Zuora__Account__c='%s'"
+        const val SUBSCRIPTION_DETAILS_QUERY =
+            "SELECT Id,Zuora__ProductName__c,InternetSpeed__c,Zuora__Price__c,Zuora__ExtendedAmount__c,Zuora__BillingPeriodStartDay__c FROM Zuora__SubscriptionProductCharge__c WHERE (Zuora__Account__c='%s' AND Zuora__ProductName__c='Fiber Internet') AND (Zuora__BillingPeriod__c='Month' AND Zuora__Type__c='Recurring')"
         const val RECORD_TYPE_ID_QUERY =
             "SELECT Id FROM RecordType WHERE SobjectType = 'Case' AND DeveloperName ='Fiber'"
         const val KNOWLEDGE_RECORD_TYPE_ID_QUERY =

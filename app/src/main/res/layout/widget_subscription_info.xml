@@ -28,6 +28,7 @@
         tools:text="Speeds up to 940Mbps" />
 
     <TextView
+        android:id="@+id/tvSubscriptionDetails"
         android:layout_height="wrap_content"
         style="@style/style_description_small"
         android:layout_marginTop="@dimen/margin_spacing_small"

@@ -52,11 +52,11 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             progressViewFlow.observe { showProgress(it) }
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             myState.observeWith(subscriptionCoordinator)
-            planName.observe {
-                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it
-            }
-            planDetails.observe {
-                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it
+            subscriptionDetailsRecord.observe {
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it.zuora__ProductName__c
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it.internetSpeed__c
+                val value = resources.getString(R.string.your_card, it.zuora__Price__c.toString()) + resources.getString(R.string.taxes_, it.zuora__BillingPeriodStartDay__c ?: "")
+                binding.subscriptionInfoWidget.tvSubscriptionDetails.text = value
             }
             paymentmethod.observe {
                 binding.currentPaymentMethod.text = it
