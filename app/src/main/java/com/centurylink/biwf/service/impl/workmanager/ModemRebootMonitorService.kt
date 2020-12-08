@@ -28,7 +28,7 @@ class ModemRebootMonitorService @Inject constructor(
     /**
      * Observe this Flow to get updates representing the status of a modem reboot operation.
      */
-    val modemRebootStateFlow: Flow<RebootState>
+    var modemRebootStateFlow: Flow<RebootState>
 
     private val manualEventFlow = EventFlow<RebootState>()
 
@@ -36,10 +36,11 @@ class ModemRebootMonitorService @Inject constructor(
         modemRebootStateFlow = merge(
             workManager.getWorkInfosForUniqueWorkLiveData(ModemRebootMonitorWorker.UNIQUE_NAME).asFlow()
                 .map { workInfos ->
-                    return@map if (workInfos.isEmpty())
+                    return@map if (workInfos.isEmpty()) {
                         RebootState.READY
-                    else
+                    } else {
                         getRebootStateFromWorkerInfo(workerState = workInfos.first().state)
+                    }
                 },
             manualEventFlow
         )
@@ -63,6 +64,7 @@ class ModemRebootMonitorService @Inject constructor(
         val result = modemRebootRepository.rebootModem()
         result.fold(ifLeft = {
             manualEventFlow.postValue(RebootState.ERROR)
+            enqueueModemRebootWork()
             Timber.e("Error requesting modem reboot %s", it.message)
         }, ifRight = {
             if (it.code == ModemRebootRepository.REBOOT_STARTED_SUCCESSFULLY) {
@@ -70,6 +72,7 @@ class ModemRebootMonitorService @Inject constructor(
                 enqueueModemRebootWork()
             } else {
                 manualEventFlow.postValue(RebootState.ERROR)
+                enqueueModemRebootWork()
                 Timber.e("Error requesting modem reboot %s", it.message)
             }
         })

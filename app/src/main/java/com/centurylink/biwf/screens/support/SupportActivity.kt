@@ -178,6 +178,17 @@ class SupportActivity : BaseActivity(), SupportItemClickListener {
                         View.VISIBLE
                 }
             }
+
+            viewModel.rebootCanceledFlow.observe {
+                if (it) {
+                    binding.incTroubleshootingNoSpeedTest.rebootModemButton.visibility =
+                        View.VISIBLE
+                    binding.incTroubleshooting.rebootModemButton.isActivated = true
+                    binding.incTroubleshooting.rebootModemButton.isEnabled = true
+                    binding.incTroubleshootingNoSpeedTest.rebootingModemButton.root.visibility =
+                        View.GONE
+                }
+            }
         }
     }
 

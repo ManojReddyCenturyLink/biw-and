@@ -28,6 +28,8 @@ class ModemRebootMonitorWorker constructor(
             if (isRebootComplete()) {
                 Timber.d("ModemRebootWorker - COMPLETE")
                 return@withContext success()
+            } else {
+                return@withContext failure()
             }
             timeBeforeFailure -= RETRY_MILLIS
             Timber.d("ModemRebootWorker - not complete - time remaining - $timeBeforeFailure")
