@@ -184,14 +184,13 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                     if (uiAccountDetails.formattedServiceAddressLine2.isEmpty()) View.GONE else View.VISIBLE
 
                 // planInfo
-                binding.accountSubscriptionCard.accountCardPlanName.text =
-                    uiAccountDetails.planName ?: " "
-                binding.accountSubscriptionCard.accountCardPlanDetails.text =
-                    uiAccountDetails.planSpeed ?: ""
+                binding.accountSubscriptionCard.accountCardPlanName.text = uiAccountDetails.planName ?: resources.getString(R.string.placeholder_text)
+                binding.accountSubscriptionCard.accountCardPlanDetails.text = getString(R.string.speeds,
+                    uiAccountDetails.planSpeed?.decapitalize() ?: resources.getString(R.string.placeholder_text))
                 binding.accountSubscriptionCard.accountCardNextPaymentDate.text =
                     uiAccountDetails.paymentDate
                 binding.accountSubscriptionCard.accountCardCardNumbers.text =
-                    uiAccountDetails.paymentMethod ?: ""
+                    uiAccountDetails.paymentMethod ?: resources.getString(R.string.placeholder_text)
 
                 // Personal Info
                 binding.accountPersonalInfoCard.personalInfoEmail.text = uiAccountDetails.email
