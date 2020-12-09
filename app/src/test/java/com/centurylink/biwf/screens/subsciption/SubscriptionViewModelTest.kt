@@ -8,7 +8,9 @@ import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.Attributes
 import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.account.RecordsItem
+import com.centurylink.biwf.model.subscriptionDetails.SubscriptionDetails
 import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.ZouraSubscriptionRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.screens.subscription.SubscriptionViewModel
 import io.mockk.MockKAnnotations
@@ -29,6 +31,9 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
     @MockK(relaxed = true)
     private lateinit var accountRepository: AccountRepository
 
+    @MockK(relaxed = true)
+    private lateinit var zouraSubscriptionRepository: ZouraSubscriptionRepository
+
     @MockK
     private lateinit var analyticsManagerInterface: AnalyticsManager
 
@@ -38,6 +43,8 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
 
     private lateinit var paymentList: PaymentList
 
+    private lateinit var subscriptionDetails: SubscriptionDetails
+
     @Before
     fun setup() {
         MockKAnnotations.init(this, relaxed = true)
@@ -45,14 +52,18 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
         accountDetails = fromJson(accountString)
         val jsonPaymentListString = readJson("zuorapayment.json")
         paymentList = fromJson(jsonPaymentListString)
+        val jsonSubscriptionDetails = readJson("zuorasubscriptiondetails.json")
+        subscriptionDetails = fromJson(jsonSubscriptionDetails)
         run { analyticsManagerInterface }
         coEvery { zuoraPaymentRepository.getInvoicesList() } returns Either.Right(paymentList)
         coEvery { accountRepository.getAccountDetails() } returns Either.Right(accountDetails)
+        coEvery { zouraSubscriptionRepository.getSubscriptionDetails() } returns Either.Right(subscriptionDetails)
         viewModel = SubscriptionViewModel(
             zuoraPaymentRepository = zuoraPaymentRepository,
             accountRepository = accountRepository,
             modemRebootMonitorService = mockModemRebootMonitorService,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            zouraSubscriptionRepository = zouraSubscriptionRepository
         )
     }
 
@@ -79,6 +90,21 @@ class SubscriptionViewModelTest : ViewModelBaseTest() {
                 Assert.assertEquals(
                     viewModel.errorMessageFlow.first(),
                     "Error in Payments"
+                )
+            }
+        }
+    }
+
+    @Test
+    fun testrequestSubscriptionDetailsFailure() {
+        runBlockingTest {
+            launch {
+                coEvery { accountRepository.getLiveCardDetails() } returns Either.Left("Error Response")
+                coEvery { zouraSubscriptionRepository.getSubscriptionDetails() } returns Either.Left("Error Response")
+                viewModel.initApis()
+                Assert.assertEquals(
+                    viewModel.errorMessageFlow.first(),
+                    "Error Response"
                 )
             }
         }

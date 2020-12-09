@@ -6,11 +6,13 @@ import com.centurylink.biwf.analytics.AnalyticsManager
 import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.PaymentInfoResponse
 import com.centurylink.biwf.model.contact.ContactDetails
+import com.centurylink.biwf.model.subscriptionDetails.SubscriptionDetails
 import com.centurylink.biwf.model.user.UserDetails
 import com.centurylink.biwf.model.user.UserInfo
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.repos.ZouraSubscriptionRepository
 import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.utility.BehaviorStateFlow
 import com.centurylink.biwf.utility.Constants
@@ -40,6 +42,9 @@ class AccountViewModelTest : ViewModelBaseTest() {
     private lateinit var mockContactRepository: ContactRepository
 
     @MockK
+    private lateinit var mockZouraSubscriptionRepository: ZouraSubscriptionRepository
+
+    @MockK
     private lateinit var mockSharedPreferences: Preferences
 
     @MockK
@@ -51,6 +56,7 @@ class AccountViewModelTest : ViewModelBaseTest() {
     private lateinit var uiAccountDetails: AccountViewModel.UiAccountDetails
     private var accountDetailsInfo: Flow<AccountViewModel.UiAccountDetails> = BehaviorStateFlow()
     private lateinit var accountDetails: AccountDetails
+    private lateinit var subscriptionDetails: SubscriptionDetails
 
     @Before
     fun setup() {
@@ -70,6 +76,11 @@ class AccountViewModelTest : ViewModelBaseTest() {
         val accountString = readJson("account.json")
         accountDetails = fromJson(accountString)
         coEvery { mockAccountRepository.getAccountDetails() } returns Either.Right(accountDetails)
+
+        val jsonSubscriptionDetails = readJson("zuorasubscriptiondetails.json")
+        subscriptionDetails = fromJson(jsonSubscriptionDetails)
+        coEvery { mockZouraSubscriptionRepository.getSubscriptionDetails() } returns Either.Right(subscriptionDetails)
+
         run { analyticsManagerInterface }
         viewModel = AccountViewModel(
             accountRepository = mockAccountRepository,
@@ -78,7 +89,8 @@ class AccountViewModelTest : ViewModelBaseTest() {
             userRepository = mockUserRepository,
             authService = mockAuthService,
             modemRebootMonitorService = mockModemRebootMonitorService,
-            analyticsManagerInterface = analyticsManagerInterface
+            analyticsManagerInterface = analyticsManagerInterface,
+            zouraSubscriptionRepository = mockZouraSubscriptionRepository
         )
         uiAccountDetails = AccountViewModel.UiAccountDetails(
             name = null,
@@ -148,6 +160,16 @@ class AccountViewModelTest : ViewModelBaseTest() {
     }
 
     @Test
+    fun getSubscriptionDetailsApiFailureTest() = runBlockingTest {
+        launch {
+            coEvery { mockZouraSubscriptionRepository.getSubscriptionDetails() } returns Either.Left(
+                ""
+            )
+            viewModel.initApiCalls()
+        }
+    }
+
+    @Test
     fun initAccountAndContactApiCallsTest() = runBlockingTest {
         launch {
             viewModel.initAccountAndContactApiCalls()
@@ -163,6 +185,7 @@ class AccountViewModelTest : ViewModelBaseTest() {
             coEvery { mockUserRepository.getUserInfo() } returns Either.Left("")
             coEvery { mockUserRepository.getUserDetails() } returns Either.Left("")
             coEvery { mockAccountRepository.getAccountDetails() } returns Either.Left("")
+            coEvery { mockZouraSubscriptionRepository.getSubscriptionDetails() } returns Either.Left("")
             viewModel.initAccountAndContactApiCalls()
         }
     }

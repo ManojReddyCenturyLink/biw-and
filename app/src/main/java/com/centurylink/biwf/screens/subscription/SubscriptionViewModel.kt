@@ -10,7 +10,10 @@ import com.centurylink.biwf.model.account.AccountDetails
 import com.centurylink.biwf.model.account.BillingAddress
 import com.centurylink.biwf.model.account.PaymentList
 import com.centurylink.biwf.model.account.RecordsItem
+import com.centurylink.biwf.model.subscriptionDetails.Records
+import com.centurylink.biwf.model.subscriptionDetails.SubscriptionDetails
 import com.centurylink.biwf.repos.AccountRepository
+import com.centurylink.biwf.repos.ZouraSubscriptionRepository
 import com.centurylink.biwf.repos.ZuoraPaymentRepository
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
 import com.centurylink.biwf.utility.BehaviorStateFlow
@@ -22,12 +25,14 @@ import javax.inject.Inject
 class SubscriptionViewModel @Inject constructor(
     private val zuoraPaymentRepository: ZuoraPaymentRepository,
     private val accountRepository: AccountRepository,
+    private val zouraSubscriptionRepository: ZouraSubscriptionRepository,
     modemRebootMonitorService: ModemRebootMonitorService,
     analyticsManagerInterface: AnalyticsManager
 ) : BaseViewModel(modemRebootMonitorService, analyticsManagerInterface) {
 
     val myState = EventFlow<SubscriptionCoordinatorDestinations>()
     private lateinit var userAccount: AccountDetails
+    private lateinit var subscriptionDetails: SubscriptionDetails
 
     private var serviceAddressData: BillingAddress = BillingAddress()
     private var billingAddress: BillingAddress = BillingAddress()
@@ -38,6 +43,8 @@ class SubscriptionViewModel @Inject constructor(
     var progressViewFlow = EventFlow<Boolean>()
     var errorMessageFlow = EventFlow<String>()
     var paymentmethod: Flow<String> = BehaviorStateFlow()
+    var subscriptionDetailsRecord: Flow<Records> = BehaviorStateFlow()
+
     init {
         analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_SUBSCRIPTION)
         initApis()
@@ -49,6 +56,24 @@ class SubscriptionViewModel @Inject constructor(
             requestAccountDetails()
             requestInvoiceList()
             requestCardInfo()
+            requestSubscriptionDetails()
+        }
+    }
+
+    private suspend fun requestSubscriptionDetails() {
+        val userAccountDetails = zouraSubscriptionRepository.getSubscriptionDetails()
+        userAccountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            progressViewFlow.latestValue = false
+            subscriptionDetails = it
+            processSubscriptionData()
+        }
+    }
+
+    private fun processSubscriptionData() {
+        if (subscriptionDetails.records.isNotEmpty()) {
+            subscriptionDetailsRecord.latestValue = subscriptionDetails.records[0]
         }
     }
 
@@ -133,7 +158,6 @@ class SubscriptionViewModel @Inject constructor(
                     paymentmethod.latestValue = creditCardInfo
                 }
             }
-            progressViewFlow.latestValue = false
         }
     }
 }

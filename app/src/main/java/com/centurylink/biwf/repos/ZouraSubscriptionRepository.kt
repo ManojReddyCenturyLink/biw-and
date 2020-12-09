@@ -4,6 +4,7 @@ import com.centurylink.biwf.Either
 import com.centurylink.biwf.flatMap
 import com.centurylink.biwf.model.FiberServiceResult
 import com.centurylink.biwf.model.subscription.SubscriptionDates
+import com.centurylink.biwf.model.subscriptionDetails.SubscriptionDetails
 import com.centurylink.biwf.service.network.ZuoraSubscriptionApiService
 import com.centurylink.biwf.utility.EnvironmentPath
 import com.centurylink.biwf.utility.preferences.Preferences
@@ -50,5 +51,17 @@ class ZouraSubscriptionRepository @Inject constructor(
                     Either.Right(it)
                 } ?: Either.Left("Date is not available")
             }
+    }
+
+    /**
+     * This method is used to get the Subscription Details for the user
+     *
+     * @return Subscription Details in case of Success and Error Message in case of Error
+     */
+    suspend fun getSubscriptionDetails(): Either<String, SubscriptionDetails> {
+        val finalQuery = String.format(EnvironmentPath.SUBSCRIPTION_DETAILS_QUERY, getAccountId()!!)
+        val result: FiberServiceResult<SubscriptionDetails> =
+            zuoraSubscriptionApiService.getSubscriptionDetails(finalQuery)
+        return result.mapLeft { it.message?.message.toString() }
     }
 }

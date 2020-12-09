@@ -15,20 +15,13 @@ import com.centurylink.biwf.model.contact.ContactDetails
 import com.centurylink.biwf.repos.AccountRepository
 import com.centurylink.biwf.repos.ContactRepository
 import com.centurylink.biwf.repos.UserRepository
+import com.centurylink.biwf.repos.ZouraSubscriptionRepository
 import com.centurylink.biwf.service.auth.AuthService
 import com.centurylink.biwf.service.auth.AuthServiceFactory
 import com.centurylink.biwf.service.auth.AuthServiceHost
 import com.centurylink.biwf.service.impl.workmanager.ModemRebootMonitorService
-import com.centurylink.biwf.utility.AppUtil
-import com.centurylink.biwf.utility.BehaviorStateFlow
-import com.centurylink.biwf.utility.DateUtils
-import com.centurylink.biwf.utility.EventFlow
-import com.centurylink.biwf.utility.EventLiveData
-import com.centurylink.biwf.utility.NumberUtil
-import com.centurylink.biwf.utility.PhoneNumber
-import com.centurylink.biwf.utility.ViewModelFactoryWithInput
+import com.centurylink.biwf.utility.*
 import com.centurylink.biwf.utility.preferences.Preferences
-import com.centurylink.biwf.utility.viewModelFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -51,6 +44,7 @@ class AccountViewModel internal constructor(
     private val accountRepository: AccountRepository,
     private val contactRepository: ContactRepository,
     private val userRepository: UserRepository,
+    private val zouraSubscriptionRepository: ZouraSubscriptionRepository,
     private val sharedPreferences: Preferences,
     private val authService: AuthService<*>,
     private val modemRebootMonitorService: ModemRebootMonitorService,
@@ -61,6 +55,7 @@ class AccountViewModel internal constructor(
         private val accountRepository: AccountRepository,
         private val contactRepository: ContactRepository,
         private val userRepository: UserRepository,
+        private val zouraSubscriptionRepository: ZouraSubscriptionRepository,
         private val sharedPreferences: Preferences,
         private val authServiceFactory: AuthServiceFactory<*>,
         private val modemRebootMonitorService: ModemRebootMonitorService,
@@ -73,6 +68,7 @@ class AccountViewModel internal constructor(
                     accountRepository,
                     contactRepository,
                     userRepository,
+                    zouraSubscriptionRepository,
                     sharedPreferences,
                     authServiceFactory.create(input),
                     modemRebootMonitorService,
@@ -112,6 +108,7 @@ class AccountViewModel internal constructor(
             requestAccountDetails()
             requestContactInfo()
             requestCardInfo()
+            requestSubscriptionDetails()
         }
     }
 
@@ -311,7 +308,6 @@ class AccountViewModel internal constructor(
                 if (!creditCardInfo.isNullOrEmpty()) {
                     updateUIAccountDetailsFromLivePaymentInfo(creditCardInfo)
                 }
-                progressViewFlow.latestValue = false
             }
         }
     }
@@ -338,8 +334,6 @@ class AccountViewModel internal constructor(
                 accountDetails.servicePostalCode ?: ""
             ),
             email = accountDetails.emailAddress ?: "",
-            planName = accountDetails.productNameC ?: "",
-            planSpeed = accountDetails.productPlanNameC ?: "",
             password = "******",
             cellPhone = PhoneNumber(accountDetails.phone ?: "").toString(),
             homePhone = accountDetails.phone,
@@ -406,6 +400,32 @@ class AccountViewModel internal constructor(
      *
      */
     private fun updateAccountFlow() {
+        accountDetailsInfo.latestValue = uiAccountDetails
+    }
+
+    /**
+     * Request Subscription Details - It is used to request Subscription details through API call
+     *
+     */
+
+    private suspend fun requestSubscriptionDetails() {
+        val userAccountDetails = zouraSubscriptionRepository.getSubscriptionDetails()
+        userAccountDetails.fold(ifLeft = {
+            errorMessageFlow.latestValue = it
+        }) {
+            progressViewFlow.latestValue = false
+            uiAccountDetails = uiAccountDetails.copy(
+                planName = it.records[0].zuora__ProductName__c ?: "",
+                planSpeed = it.records[0].internetSpeed__c ?: ""
+            )
+            updatePlanDetails()
+        }
+    }
+    /**
+     * Update Subscription flow - This will update subscription view flow with latest details
+     *
+     */
+    private fun updatePlanDetails() {
         accountDetailsInfo.latestValue = uiAccountDetails
     }
 

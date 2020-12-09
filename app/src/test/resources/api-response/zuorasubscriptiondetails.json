@@ -1,0 +1,18 @@
+{
+    "totalSize": 1,
+    "done": true,
+    "records": [
+        {
+            "attributes": {
+                "type": "Zuora__SubscriptionProductCharge__c",
+                "url": "/services/data/v46.0/sobjects/Zuora__SubscriptionProductCharge__c/a1Yf00000013dZNEAY"
+            },
+            "Id": "a1Yf00000013dZNEAY",
+            "Zuora__ProductName__c": "Fiber Internet",
+            "InternetSpeed__c": "Up to 940 Mbps",
+            "Zuora__Price__c": 65.0,
+            "Zuora__ExtendedAmount__c": 65.0,
+            "Zuora__BillingPeriodStartDay__c": "1st day of month"
+        }
+    ]
+}
