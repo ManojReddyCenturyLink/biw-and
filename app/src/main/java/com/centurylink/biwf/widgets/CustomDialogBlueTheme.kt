@@ -76,7 +76,12 @@ open class CustomDialogBlueTheme(
         rootView.popup_title.text = title
         if (linkTextToPhone) {
             val string = SpannableString(message)
-            string.setSpan(ForegroundColorSpan(resources.getColor(R.color.purple)), 190, 202, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            string.setSpan(
+                ForegroundColorSpan(resources.getColor(R.color.purple)),
+                190,
+                202,
+                Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
             rootView.popup_message.text = string
             rootView.popup_message.setOnClickListener {
                 val intent = Intent(Intent.ACTION_DIAL)
@@ -88,6 +93,7 @@ open class CustomDialogBlueTheme(
         }
         rootView.popup_cancel_btn.setOnClickListener {
             AppUtil.rebootStatus = false
+            AppUtil.rebootOnGoingStatus = false
             dismiss()
             callback(AlertDialog.BUTTON_NEGATIVE)
         }
@@ -96,6 +102,7 @@ open class CustomDialogBlueTheme(
             rootView.popup_neutral_button.visibility = View.GONE
             rootView.popup_positive_button.setOnClickListener {
                 AppUtil.rebootStatus = false
+                AppUtil.rebootOnGoingStatus = false
                 dismiss()
                 callback(AlertDialog.BUTTON_POSITIVE)
             }
@@ -104,10 +111,12 @@ open class CustomDialogBlueTheme(
             rootView.popup_positive_button.visibility = View.GONE
             rootView.popup_neutral_button.setOnClickListener {
                 AppUtil.rebootStatus = false
+                AppUtil.rebootOnGoingStatus = false
                 dismiss()
             }
         }
         dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.setCanceledOnTouchOutside(false)
         return rootView
     }
 
