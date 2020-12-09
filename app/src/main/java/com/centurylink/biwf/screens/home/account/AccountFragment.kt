@@ -21,6 +21,7 @@ import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.google.android.material.switchmaterial.SwitchMaterial
 import timber.log.Timber
+import java.util.*
 import javax.inject.Inject
 
 /**
@@ -78,6 +79,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
      * @param savedInstanceState - Bundle: If non-null, this fragment is being re-constructed
      * @return - Return the View for the fragment's UI, or null.
      */
+    @ExperimentalStdlibApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -146,6 +148,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
      * Observe views - It is used to observe views
      *
      */
+    @ExperimentalStdlibApi
     private fun observeViews() {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
         viewModel.apply {
@@ -186,7 +189,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
                 // planInfo
                 binding.accountSubscriptionCard.accountCardPlanName.text = uiAccountDetails.planName ?: resources.getString(R.string.placeholder_text)
                 binding.accountSubscriptionCard.accountCardPlanDetails.text = getString(R.string.speeds,
-                    uiAccountDetails.planSpeed?.decapitalize() ?: resources.getString(R.string.placeholder_text))
+                    uiAccountDetails.planSpeed?.decapitalize(Locale.ROOT) ?: resources.getString(R.string.placeholder_text))
                 binding.accountSubscriptionCard.accountCardNextPaymentDate.text =
                     uiAccountDetails.paymentDate
                 binding.accountSubscriptionCard.accountCardCardNumbers.text =
