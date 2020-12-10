@@ -55,10 +55,10 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             myState.observeWith(subscriptionCoordinator)
             subscriptionDetailsRecord.observe {
-                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it.zuora__ProductName__c ?: resources.getString(R.string.placeholder_text)
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it.zuora__ProductName__c ?: ""
                 binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = getString(R.string.speeds, it.internetSpeed__c?.decapitalize(
-                    Locale.ROOT) ?: resources.getString(R.string.placeholder_text))
-                val value = resources.getString(R.string.your_card, it.zuora__Price__c.toString()) + resources.getString(R.string.taxes_, it.zuora__BillingPeriodStartDay__c ?: resources.getString(R.string.placeholder_text))
+                    Locale.ROOT) ?: "")
+                val value = resources.getString(R.string.your_card, it.zuora__Price__c.toString()) + resources.getString(R.string.taxes_, it.zuora__BillingPeriodStartDay__c ?: "")
                 binding.subscriptionInfoWidget.tvSubscriptionDetails.text = value
             }
             paymentmethod.observe {
