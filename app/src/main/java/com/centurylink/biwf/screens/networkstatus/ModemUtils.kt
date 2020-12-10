@@ -126,7 +126,7 @@ class ModemUtils {
                                 R.drawable.ic_weak_signal
                             }
                             else -> {
-                                R.drawable.ic_weak_signal
+                                R.drawable.ic_cta_wi_fi_disconnected
                             }
                         }
                     }
