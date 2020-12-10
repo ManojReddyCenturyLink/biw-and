@@ -230,7 +230,6 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         mRecyclerViewTouchActionGuardManager?.isEnabled = true
         mRecyclerViewDragDropManager = RecyclerViewDragDropManager()
         mRecyclerViewSwipeManager = RecyclerViewSwipeManager()
-        println("Benz" + deviceStatus.deviceSortMap)
         deviceListAdapter = DeviceListAdapter(
             deviceList = deviceStatus.deviceSortMap,
             deviceListItemClickListener = this
