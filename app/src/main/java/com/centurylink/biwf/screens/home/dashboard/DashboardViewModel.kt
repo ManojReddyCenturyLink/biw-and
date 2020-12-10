@@ -596,7 +596,9 @@ class DashboardViewModel @Inject constructor(
      * Log screen launch- track the analytics for dashboard launch
      */
     fun logScreenLaunch() {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
+        viewModelScope.launch {
+            analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DASHBOARD)
+        }
     }
 
     /**

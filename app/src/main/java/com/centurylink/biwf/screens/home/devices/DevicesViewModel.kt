@@ -380,7 +380,9 @@ class DevicesViewModel @Inject constructor(
     }
 
     fun logScreenLaunch() {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
+        viewModelScope.launch {
+            analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_DEVICES)
+        }
     }
 
     fun updatePauseResumeStatus(deviceData: DevicesData) {

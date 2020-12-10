@@ -231,7 +231,9 @@ class AccountViewModel internal constructor(
      *
      */
     fun logScreenLaunch() {
-        analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
+        viewModelScope.launch {
+            analyticsManagerInterface.logScreenEvent(AnalyticsKeys.SCREEN_ACCOUNTS)
+        }
     }
 
     /**
@@ -242,6 +244,7 @@ class AccountViewModel internal constructor(
     fun onLogOutClick(context: Context) {
         if (AppUtil.isOnline(context)) {
             viewModelScope.launch {
+                progressViewFlow.latestValue = true
                 val result = authService.revokeToken()
                 if (result) {
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_SUCCESS)
@@ -250,6 +253,7 @@ class AccountViewModel internal constructor(
                     myState.latestValue = AccountCoordinatorDestinations.LOG_IN
                 } else {
                     analyticsManagerInterface.logApiCall(AnalyticsKeys.LOG_OUT_FAILURE)
+                    progressViewFlow.latestValue = false
                     Timber.e("Auth Token Revoke Failed")
                 }
             }
