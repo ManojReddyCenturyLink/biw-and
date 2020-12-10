@@ -29,6 +29,7 @@ import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchAct
 import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
+import kotlin.collections.HashMap
 
 /**
  * Devices fragment - This class handle common methods related to devices screen
@@ -39,7 +40,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
     RecyclerViewExpandableItemManager.OnGroupCollapseListener,
     RecyclerViewExpandableItemManager.OnGroupExpandListener {
     private var eimSavedState: Parcelable? = null
-    private lateinit var deviceListAdapter: DeviceListAdapter
+    private var deviceListAdapter = DeviceListAdapter(HashMap(), this)
     override val lifecycleOwner: LifecycleOwner = this
 
     @Inject
@@ -229,6 +230,7 @@ class DevicesFragment : BaseFragment(), DeviceListAdapter.DeviceItemClickListene
         mRecyclerViewTouchActionGuardManager?.isEnabled = true
         mRecyclerViewDragDropManager = RecyclerViewDragDropManager()
         mRecyclerViewSwipeManager = RecyclerViewSwipeManager()
+        println("Benz" + deviceStatus.deviceSortMap)
         deviceListAdapter = DeviceListAdapter(
             deviceList = deviceStatus.deviceSortMap,
             deviceListItemClickListener = this
