@@ -265,7 +265,8 @@ class HomeActivity : BaseActivity(), DashboardFragment.ViewClickListener,
      * returns false value for non existing user
      */
     private fun setSupportButtonOnClick(isExistingUser: Boolean) {
-        binding.supportButton.setOnClickListener { viewModel.onSupportClicked(isExistingUser) }
+        binding.supportButton.setOnClickListener {
+            viewModel.onSupportClicked(isExistingUser) }
     }
 
     /**
