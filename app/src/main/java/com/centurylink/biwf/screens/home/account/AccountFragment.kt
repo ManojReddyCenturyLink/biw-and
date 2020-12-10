@@ -63,7 +63,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = false
+        retainInstance = true
     }
 
     /**
