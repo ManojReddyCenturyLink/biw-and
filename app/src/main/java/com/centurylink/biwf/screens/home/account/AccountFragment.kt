@@ -187,6 +187,7 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
 
                 // planInfo
                 binding.accountSubscriptionCard.accountCardPlanName.text = uiAccountDetails.planName ?: ""
+                // decapitalize() used to to lowercase first letter
                 binding.accountSubscriptionCard.accountCardPlanDetails.text = getString(R.string.speeds,
                     uiAccountDetails.planSpeed?.decapitalize() ?: "")
                 binding.accountSubscriptionCard.accountCardNextPaymentDate.text =
