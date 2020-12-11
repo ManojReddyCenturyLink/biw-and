@@ -20,6 +20,7 @@ import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetails
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import java.util.*
 import javax.inject.Inject
 
 class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
@@ -53,8 +54,9 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             errorMessageFlow.observe { showRetry(it.isNotEmpty()) }
             myState.observeWith(subscriptionCoordinator)
             subscriptionDetailsRecord.observe {
-                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it.zuora__ProductName__c
-                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = it.internetSpeed__c
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it.zuora__ProductName__c ?: ""
+                // decapitalize() used to to lowercase first letter
+                binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = getString(R.string.speeds, it.internetSpeed__c?.decapitalize() ?: "")
                 val value = resources.getString(R.string.your_card, it.zuora__Price__c.toString()) + resources.getString(R.string.taxes_, it.zuora__BillingPeriodStartDay__c ?: "")
                 binding.subscriptionInfoWidget.tvSubscriptionDetails.text = value
             }
