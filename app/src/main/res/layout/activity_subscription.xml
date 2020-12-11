@@ -51,7 +51,8 @@
             <include
                 android:id="@+id/subscription_info_widget"
                 layout="@layout/widget_subscription_info"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/medium_margin_spacing"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
