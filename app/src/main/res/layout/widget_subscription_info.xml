@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="@dimen/margin_spacing_large"
     android:paddingEnd="24dp"
-    android:paddingStart="@dimen/medium_margin_spacing"
     android:paddingTop="24dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -32,7 +31,7 @@
         android:layout_height="wrap_content"
         style="@style/style_description_small"
         android:layout_marginTop="@dimen/margin_spacing_small"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:text="@string/card_payment_fine_print"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
