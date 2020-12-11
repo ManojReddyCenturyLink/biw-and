@@ -103,12 +103,6 @@ class Preferences(private val store: KeyValueStore) {
      */
     fun getAssiaId(): String {
         var asiaID = store.get(ASSIA_ID)
-        // TODO this is only for development will remove before launch
-        if (!asiaID.equals("C4000XG1948000023") || !asiaID.equals("C4000XG1950000308") || asiaID.isNullOrEmpty()) {
-            if (BuildConfig.DEBUG) {
-                asiaID = BuildConfig.MODEM_ID
-            }
-        }
         return asiaID ?: ""
     }
 

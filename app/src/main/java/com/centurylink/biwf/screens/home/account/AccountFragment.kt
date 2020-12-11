@@ -21,7 +21,6 @@ import com.centurylink.biwf.utility.getViewModel
 import com.centurylink.biwf.widgets.CustomDialogBlueTheme
 import com.google.android.material.switchmaterial.SwitchMaterial
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -147,7 +146,6 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
      * Observe views - It is used to observe views
      *
      */
-
     private fun observeViews() {
         // Few API Parameters are null but tapping it needs to take to Other Screens SpHardcoding
         viewModel.apply {
@@ -187,7 +185,6 @@ class AccountFragment : BaseFragment(), AuthServiceHost {
 
                 // planInfo
                 binding.accountSubscriptionCard.accountCardPlanName.text = uiAccountDetails.planName ?: ""
-                // decapitalize() used to to lowercase first letter
                 binding.accountSubscriptionCard.accountCardPlanDetails.text = getString(R.string.speeds,
                     uiAccountDetails.planSpeed?.decapitalize() ?: "")
                 binding.accountSubscriptionCard.accountCardNextPaymentDate.text =
