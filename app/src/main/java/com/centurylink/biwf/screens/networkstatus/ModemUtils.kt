@@ -74,18 +74,22 @@ class ModemUtils {
                     ) {
                         return R.drawable.ic_network_3_bars
                     } else {
-                        return when (signalStrength) {
-                            in -50..-1 -> {
-                                R.drawable.ic_network_3_bars
-                            }
-                            in -51 downTo -75 -> {
-                                R.drawable.ic_network_2_bars
-                            }
-                            in -76 downTo -90 -> {
-                                R.drawable.ic_network_1_bar
-                            }
-                            else -> {
-                                R.drawable.ic_network_1_bar
+                        if (signalStrength!! >= 0) {
+                            return R.drawable.ic_network_no_internet
+                        } else {
+                            return when (signalStrength) {
+                                in -50..-1 -> {
+                                    R.drawable.ic_network_3_bars
+                                }
+                                in -51 downTo -75 -> {
+                                    R.drawable.ic_network_2_bars
+                                }
+                                in -76 downTo -90 -> {
+                                    R.drawable.ic_network_1_bar
+                                }
+                                else -> {
+                                    R.drawable.ic_network_1_bar
+                                }
                             }
                         }
                     }
@@ -115,18 +119,22 @@ class ModemUtils {
                     ) {
                         return R.drawable.ic_ethernet
                     } else {
-                        return when (signalStrength) {
-                            in -50..-1 -> {
-                                R.drawable.ic_strong_signal
-                            }
-                            in -51 downTo -75 -> {
-                                R.drawable.ic_medium_signal
-                            }
-                            in -76 downTo -90 -> {
-                                R.drawable.ic_weak_signal
-                            }
-                            else -> {
-                                R.drawable.ic_cta_wi_fi_disconnected
+                        if (signalStrength!! >= 0) {
+                            return R.drawable.ic_network_no_internet
+                        } else {
+                            return when (signalStrength) {
+                                in -50..-1 -> {
+                                    R.drawable.ic_strong_signal
+                                }
+                                in -51 downTo -75 -> {
+                                    R.drawable.ic_medium_signal
+                                }
+                                in -76 downTo -90 -> {
+                                    R.drawable.ic_weak_signal
+                                }
+                                else -> {
+                                    R.drawable.ic_weak_signal
+                                }
                             }
                         }
                     }
