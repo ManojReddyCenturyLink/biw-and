@@ -20,6 +20,7 @@ import com.centurylink.biwf.screens.cancelsubscription.CancelSubscriptionDetails
 import com.centurylink.biwf.screens.home.account.subscription.adapter.InvoiceClickListener
 import com.centurylink.biwf.screens.home.account.subscription.adapter.PaymentInvoicesAdapter
 import com.centurylink.biwf.utility.DaggerViewModelFactory
+import java.text.DecimalFormat
 import javax.inject.Inject
 
 class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
@@ -55,7 +56,8 @@ class SubscriptionActivity : BaseActivity(), InvoiceClickListener {
             subscriptionDetailsRecord.observe {
                 binding.subscriptionInfoWidget.subscriptionInfoSubscriptionName.text = it.zuora__ProductName__c ?: ""
                 binding.subscriptionInfoWidget.subscriptionInfoSubscriptionDetails.text = getString(R.string.speeds, it.internetSpeed__c?.decapitalize() ?: "")
-                val value = resources.getString(R.string.your_card, it.zuora__Price__c.toString()) + resources.getString(R.string.taxes_, it.zuora__BillingPeriodStartDay__c ?: "")
+                val decim = DecimalFormat("0.00")
+                val value = resources.getString(R.string.your_card, decim.format(it.zuora__Price__c).toString()) + resources.getString(R.string.taxes_, it.zuora__BillingPeriodStartDay__c ?: "")
                 binding.subscriptionInfoWidget.tvSubscriptionDetails.text = value
             }
             paymentmethod.observe {

@@ -70,7 +70,7 @@ pipeline {
                 success {
                     publishHTML([
                         allowMissing: true, 
-                        alwaysLinkToLastBuild: true, 
+                        alwaysLinkToLastBuild: true,
                         keepAll: false,
                         reportDir: 'app/build/dokka',
                         reportFiles: 'app/index.html',
