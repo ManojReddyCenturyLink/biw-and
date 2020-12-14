@@ -88,7 +88,7 @@ class ModemUtils {
                                     R.drawable.ic_network_1_bar
                                 }
                                 else -> {
-                                    R.drawable.ic_network_no_internet
+                                    R.drawable.ic_network_1_bar
                                 }
                             }
                         }
@@ -133,7 +133,7 @@ class ModemUtils {
                                     R.drawable.ic_weak_signal
                                 }
                                 else -> {
-                                    R.drawable.ic_network_no_internet
+                                    R.drawable.ic_weak_signal
                                 }
                             }
                         }
