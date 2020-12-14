@@ -89,6 +89,7 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
     private var workBegunMapFragment: SupportMapFragment? = null
     private var originLatLng = LatLng(0.0, 0.0)
     private var speedTestCount: Int = 0
+    private var showFeedbackButton: Boolean = true
 
     /**
      * On create - The onCreate method is called when Fragment should create its View
@@ -329,7 +330,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
      */
     private fun setFeedbackButtonVisibility() {
         dashboardViewModel.isExistingUser.observe {
-            binding.feedbackButton.visibility = if (it) View.VISIBLE else View.GONE
+            if (it && showFeedbackButton)
+                binding.feedbackButton.visibility = View.VISIBLE
+            else
+                binding.feedbackButton.visibility = View.GONE
         }
     }
 
@@ -536,6 +540,10 @@ class DashboardFragment : BaseFragment(), WifiDevicesAdapter.WifiDeviceClickList
             }
             if (it is DashboardViewModel.AppointmentCanceled) {
                 updateUIAppointmentCancelled(it)
+            }
+
+            if (dashboardViewModel.readAppointmentType().contains(HomeViewModel.intsall)) {
+                showFeedbackButton = false
             }
         }
     }
