@@ -88,7 +88,7 @@ class ModemUtils {
                                     R.drawable.ic_network_1_bar
                                 }
                                 else -> {
-                                    R.drawable.ic_network_1_bar
+                                    R.drawable.ic_network_no_internet
                                 }
                             }
                         }
