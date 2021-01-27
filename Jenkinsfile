@@ -26,7 +26,7 @@ pipeline {
         stage('Run Sonar Scanner') {
                     steps {
                         withSonarQubeEnv('') {
-                            sh "gradle sonar -sonar.projectKey=SFC-BIWF-mobile_scan -sonar.projectName=SFC-BIWF-mobile -sonar.host.url=https://sonar.foss.corp.intranet "
+                            sh "gradle sonar -Dsonar.projectKey=SFC-BIWF-mobile_scan -Dsonar.projectName=SFC-BIWF-mobile -Dsonar.host.url=https://sonar.foss.corp.intranet "
                         }
                     }
                 }
