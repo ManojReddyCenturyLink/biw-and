@@ -1,42 +1,40 @@
-def NAME = "Centurylink-android"
-def SLACK_ALWAYS_CHANNEL = "#centurylink-alerts"
-def SLACK_FAIL_CHANNEL = "#centurylink-dev"
+def NAME = "BIWF-android"
+
 
 pipeline {
-    agent { label 'android' }
+    agent any
+     tools {
+            gradle "gradle-6.5"
+        }
     options {
         timeout(time: 1, unit: 'HOURS')
     }
     stages {
         stage ('StaticCodeAnalyzer-KTLint') {
             steps {
-                gradlew(args: ['clean', 'ktlintCheck'])
+               sh 'gradle clean ktlintCheck'
             }
             post {
                 failure {
                     archiveArtifacts artifacts: 'app/build/reports/ktlint/*.*', fingerprint: true
                 }
             }
-
-        }
-
-        stage ('StaticCodeAnalyzer-Lint/Sonar') {
-            steps {
-                gradlew(args: ['lintVitalDevRelease'])
-                androidLint(canComputeNew: false, defaultEncoding: '', healthy: '', pattern: 'app/build/reports/lint-results*.xml', unHealthy: '')
             }
-            post {
-                always {
-                    danger()
-                    sonar(projectVersion: env.BUILD_NUMBER)
+
+
+
+        stage('Run Sonar Scanner') {
+                    steps {
+                        withSonarQubeEnv('') {
+                            sh "gradle sonar -Dsonar.projectKey=SFC-BIWF-mobile_scan -Dsonar.projectName=SFC-BIWF-mobile -Dsonar.host.url=https://sonar.foss.corp.intranet "
+                        }
+                    }
                 }
-            }
 
-        }
 
         stage('Test') {
             steps {
-                gradlew(args: ['test'])
+                sh 'gradle  test'
                 junit(allowEmptyResults: true, testResults: 'app/build/test-results/**/*.xml')
             }
         }
@@ -46,50 +44,22 @@ pipeline {
                 not { changeRequest() }
             }
             steps {
-                gradlew(args: ['clean', 'assemble'],
-                        localProperties: "9273c873-f51f-492a-b902-8e775375a56b",
-                        keystore: "54fa0f17-1c30-450b-b9fc-f3856241f596",
-                        keystoreName: "release.keystore",
-                        name: NAME)
+                sh 'gradle clean assemble'
             }
-            post {
-                success {
-                    script { ota.publishAPK(name: NAME) }
-                }
             }
-        }
-
-        stage('Documentation') {
-            when {
-                not { changeRequest() }
-            }
-            steps {
-                gradlew(args: ['dokka'])
-            }
-            post {
-                success {
-                    publishHTML([
-                        allowMissing: true, 
-                        alwaysLinkToLastBuild: true,
-                        keepAll: false,
-                        reportDir: 'app/build/dokka',
-                        reportFiles: 'app/index.html',
-                        reportName: 'Documentation'
-                    ])
-                }
-            }
+         stage("Archive Artifacts") {
+                              steps {
+                                script {
+                                  archiveArtifacts allowEmptyArchive: true,
+                                      artifacts: '**/*.apk'
+                                  cleanWs()
+                                }
+                              }
+                               post {
+                                      success {
+                                                sh "java -jar $DIM_JAR UpdateFile /dbname=IT3000 /host=ne1itcprhas50.ne1.savvis.net /dsn=PCMS /user=$DIM_UID /pass=$DIM_PASSWD /directory=. /USER_DIRECTORY=$WORKSPACE /filename=$APK_PATH/apk-debug.apk /project=BIWFMOBILE:RELEASE /request=$DIM_SMR"
+                                              }
+                                          }
+                            }
         }
     }
-    post {
-        always {
-            script {
-                def slackMessage = slack.defaultMessage()
-                slackMessage += " - <${env.JENKINS_URL}/job/Centurylink/job/centurylink-android/job/master/Documentation|Documentation>"
-                slack(channels: [SLACK_ALWAYS_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: true, message: slackMessage)
-            }
-        }
-        failure {
-            slack(channels: [SLACK_FAIL_CHANNEL], alertPullRequests: true, alertFailures: true, includeChanges: false)
-        }
-    }
-}
