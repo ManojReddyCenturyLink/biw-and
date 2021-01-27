@@ -45,9 +45,9 @@ pipeline {
             }
             steps {
                 sh 'gradle clean assemble
-                    localProperties: "9273c873-f51f-492a-b902-8e775375a56b",
-                    keystore: "54fa0f17-1c30-450b-b9fc-f3856241f596",
-                    keystoreName: "release.keystore"'
+                    localProperties= 9273c873-f51f-492a-b902-8e775375a56b,
+                    keystore= 54fa0f17-1c30-450b-b9fc-f3856241f596,
+                    keystoreName= release.keystore'
             }
             }
          stage("Archive Artifacts") {
